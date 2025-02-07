@@ -1,0 +1,22 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=SEGMENTATION
+Name=SEGMENTATION
+AppType=DataEntry
+ShowEndCaseDialog=No
+CAPI=Yes
+[External Dictionaries]
+File=..\Dicts\HHListing.dcf
+[AppCode]
+File=.\Segmentation.apc
+[Message]
+File=.\SampList.mgf
+[Help]
+File=.\SampList.qsf
+[Forms]
+File=.\Cnull.fmf
+File=.\Segment.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\Cnull.dcf,Input,.\Cnull.fmf
+Dict-Type=..\Dicts\Segment.dcf,External,.\Segment.fmf
+Dict-Type=..\Dicts\HHListing.dcf,External

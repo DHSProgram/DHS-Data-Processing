@@ -1,0 +1,54 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=Weight for length
+Name=WFLLMS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=Weight for length
+Name=WFLLMS_QUEST
+
+[IdItems]
+
+[Item]
+Label=Sex
+Name=SEXWH1
+Start=1
+Len=2
+
+[Item]
+Label=Length in centimeters (1 decimal implicit)
+Name=LENWH1
+Start=3
+Len=7
+
+[Record]
+Label=Variables L, M, S
+Name=HAZLMS_REC
+RecordTypeValue=''
+RecordLen=45
+
+[Item]
+Label=Variable l
+Name=LWH1
+Start=10
+Len=12
+Decimal=5
+
+[Item]
+Label=Variable m
+Name=MWH1
+Start=22
+Len=12
+Decimal=5
+
+[Item]
+Label=Variable s
+Name=SWH1
+Start=34
+Len=12
+Decimal=5

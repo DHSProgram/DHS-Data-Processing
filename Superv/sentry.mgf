@@ -1,0 +1,16 @@
+﻿language = EN
+010 Enter a valid number of households
+
+language = ES
+{ common strings used by the application }
+  ES ( "Number of households" ) Numero de hogares
+  ES ( "Correct?" ) Correcto?
+  ES ( "Yes" ) Si
+  ES ( "No" ) No
+  ES ( "HH#" ) Viv
+  ES ( "Int" ) Ent
+  ES ( "HH" ) Hogar
+  ES ( "Indv" ) Indv
+  ES ( "H&W" ) P/T
+
+010 Entre un numero valido de hogares

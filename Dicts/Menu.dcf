@@ -1,0 +1,200 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=Menu
+Name=MENU_DICT
+RecordTypeStart=6
+RecordTypeLen=1
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=25A467935B94FBFED8DAAECC603536BC4DF25E48BCA7DB388B81F5D2D8353AF3
+
+[Languages]
+EN=English
+ES=Español
+
+[Level]
+Label=Menu level|Nivel de menu
+Name=MENU_LEVEL
+
+[IdItems]
+
+[Item]
+Label=Identification|Identificacion
+Name=LEVEL1ID
+Start=1
+Len=5
+DataType=Alpha
+
+[Record]
+Label=Household variables|Variables de hogar
+Name=WSEC01
+RecordTypeValue='1'
+RecordLen=201
+
+[Item]
+Label=Introduction|Introduccion
+Name=WINTRO
+Start=7
+Len=1
+DataType=Alpha
+
+[Item]
+Label=Supervisor code|Codigo de supervisor
+Name=WSUPER
+Start=8
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Interviewer code|Codigo de entrevistadora(a)
+Name=WINTNUM
+Start=12
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Cluster number|Numero de segmento
+Name=WCLUSTER
+Start=16
+Len=4
+DataType=Numeric
+ZeroFill=Yes
+
+[Item]
+Label=Select an option|Seleccionar una opcion
+Name=WFINAL
+Start=20
+Len=1
+DataType=Alpha
+
+[Item]
+Label=Urban/rural|Urbano/rural
+Name=WURBRUR
+Start=21
+Len=6
+DataType=Alpha
+
+[Item]
+Label=Region code|Codigo de region
+Name=WREGION
+Start=27
+Len=5
+DataType=Numeric
+
+[Item]
+Label=Region name|Nombre de la region
+Name=WREGIONN
+Start=32
+Len=25
+DataType=Alpha
+
+[Item]
+Label=State code|Codigo de departamento
+Name=WSTATE
+Start=57
+Len=5
+DataType=Numeric
+
+[Item]
+Label=State name|Nombre del departamento
+Name=WSTATEN
+Start=62
+Len=25
+DataType=Alpha
+
+[Item]
+Label=District code|Codigo de distrito
+Name=WDISTRICT
+Start=87
+Len=5
+DataType=Numeric
+
+[Item]
+Label=District name|Nombre del distrito
+Name=WDISTRICTN
+Start=92
+Len=25
+DataType=Alpha
+
+[Item]
+Label=City/municipality code|Codigo de municipio
+Name=WCITY
+Start=117
+Len=5
+DataType=Numeric
+
+[Item]
+Label=City/municipality name|Nombre del municipio
+Name=WCITYN
+Start=122
+Len=25
+DataType=Alpha
+
+[Item]
+Label=Household number|Numero de hogar
+Name=WNUMBER
+Start=147
+Len=4
+DataType=Numeric
+ZeroFill=Yes
+
+[Item]
+Label=Household address|Direccion del hogar
+Name=WADDRESS
+Start=151
+Len=50
+DataType=Alpha
+
+[Item]
+Label=Is the correct household|Es el hogar correcto
+Name=WCORRECT
+Start=201
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Is the correct household|Es el hogar correcto
+Name=WCORRECT_VS1
+Value=1;Yes|Si
+Value=2;No|No
+
+[Record]
+Label=Individual variables|Variables de individual
+Name=WSEC02
+RecordTypeValue='2'
+RecordLen=46
+
+[Item]
+Label=Select an option|Seleccionar opcion
+Name=WFINAL2
+Start=7
+Len=1
+DataType=Alpha
+
+[Item]
+Label=Individual line number|Numero de linea del individuo
+Name=WINDIV
+Start=8
+Len=2
+DataType=Numeric
+
+[Item]
+Label=Individual's name|Nombre del individuo
+Name=WNAME
+Start=10
+Len=36
+DataType=Alpha
+
+[Item]
+Label=Is the correct individual|Es el individuo correcto
+Name=WCORRECT2
+Start=46
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Is the correct individual|Es el individuo correcto
+Name=WCORRECT2_VS1
+Value=1;Yes|Si
+Value=2;No|No

@@ -1,0 +1,117 @@
+﻿PROC GLOBAL
+
+  numeric i,xreceiv, xgps, xhtotal, xhcensus, xfinal, xcluster, variation;
+
+  string gpscollect;
+  string fieldclosed;
+
+PROC CONTROL_FF
+preproc
+  { get language from calling menu }
+  SetLanguage( GetLanguage() );
+
+  { set the name for the HTML file }
+  HTML_InitAlign();
+  HTMLname = "ListStatus.HTML";
+  if FileExist( HTMLname ) then
+    FileDelete( HTMLname )
+  endif;
+  setfile( HTMLFile, HTMLname, create );
+  
+  { initialize the report headings }
+  zstring1 = tr("Hosehold Listing Status Report, DHS Country: XXXX");  { !!!! }
+  zstring2 = MakeText( tr("Report Date: %s (dd/mm/yyyy)"), edit("99/99/9999",sysdate("DDMMYYYY")) );
+  CellValues(1)  = tr("Cluster");
+  CellValues(2)  = tr("Date Arrived");
+  CellValues(3)  = tr("Enumerator");
+  CellValues(4)  = tr("HH List");
+  CellValues(5)  = tr("HH Expect");
+  CellValues(6)  = tr("% Diff.");
+  CellValues(7)  = tr("GPS");
+  CellValues(8)  = tr("Segments");
+  CellValues(9)  = tr("C-Field");
+  CellValues(10) = tr("C-Office");
+  { specify columns that are left aligned, strings are left aligned }
+  CellAlign(1) = 3;  // column 3 Enumerator 
+  HTML_Header( CellAlign, zstring1 );  // generates a general HTML header
+  HTML_BeginTable( CellValues, zstring2, 10 );  // generates the HTML table script with the column headers
+  
+  xreceiv  = 0;
+  xfinal   = 0;
+  xcluster = 0;
+
+postproc
+  CellValues(1)  = tr("Totals");
+  do i = 2 while i <= 10
+    CellValues(i)  = "BLANK";
+  enddo;
+  HTML_OneRow( CellValues, 10 );   // generates the HTML script for a row with relevant household data
+  { summary of counts }
+  CellValues(1)  = edit("ZZZ9",xcluster);
+  CellValues(2)  = edit("ZZZ9",xreceiv);
+  CellValues(3)  = "BLANK";
+  CellValues(4)  = edit("ZZZZ9",xhtotal);
+  CellValues(5)  = edit("ZZZZ9",xhcensus);
+  CellValues(6)  = "BLANK";
+  CellValues(7)  = edit("ZZZZ9",xgps);
+  CellValues(8)  = "BLANK";
+  CellValues(9)  = "BLANK";
+  CellValues(10) = edit("ZZZ9",xfinal);
+  HTML_OneRow( CellValues, 10 );   // generates the HTML script for a row with relevant household data
+  { percentages }
+  xreceiv   = 100 * xreceiv  / xcluster;
+  variation = (xhcensus-xhtotal) * 100 / xhcensus;
+  xgps      = 100 * xgps     / xcluster;
+  xfinal    = 100 * xfinal   / xcluster;
+  CellValues(1)  = "%";
+  CellValues(2)  = edit("ZZ.9",xreceiv);
+  CellValues(3)  = "BLANK";
+  CellValues(4)  = "BLANK";
+  CellValues(5)  = "BLANK";
+  CellValues(6)  = edit("Z9.9",variation);
+  CellValues(7)  = edit("Z9.9",xgps);
+  CellValues(8)  = "BLANK";
+  CellValues(9)  = "BLANK";
+  CellValues(10) = edit("Z9.9",xfinal);
+  HTML_OneRow( CellValues, 10 );   // generates the HTML script for a row with relevant household data
+  HTML_EndTable();
+  HTML_End();
+  view( "file://" + pathname(application) +  HTMLName );
+
+PROC LEVEL_1
+preproc
+  xcluster = xcluster + 1;
+  xreceiv  = xreceiv  + ( CDATEBEG <> 0 );
+  xfinal   = xfinal   + ( CFINDATE <> 0 );
+  xgps     = xgps     + ( CGPSAVAIL = 1 );
+  xhtotal  = xhtotal  + CHTOTAL;
+  xhcensus = xhcensus + CHEXPECT;
+  if CDATEBEG then
+    INAME = " ";
+    loadcase( INTERV, CSUPERV );
+    variation = (CHEXPECT-CHTOTAL) * 100 / CHEXPECT;
+    gpscollect = " ";
+    if CGPSAVAIL = 1 then gpscollect = "Y" endif;
+    fieldclosed = " ";
+    if CFINENUM <> 0 then fieldclosed = "Y" endif;
+    { populates the elements of a row based on household information }
+    CellValues(1) = edit("9999", CSAMPLE);
+    CellValues(2) = edit("9999/99/99", CDATEBEG);
+    CellValues(3) = strip(INAME);
+    CellValues(4) = edit("ZZZ9", CHTOTAL);
+    CellValues(5) = edit("ZZZ9", CHEXPECT);
+    CellValues(6) = edit("Z9.9",variation);
+    CellValues(7) = gpscollect;
+	if CSEGMENT then
+      CellValues(8) = edit("ZZ9", CSEGMENT);
+	else
+      CellValues(8) = "BLANK";
+	endif;
+    CellValues(9) = fieldclosed;
+	if CFINDATE then
+      CellValues(10) = edit("9999/99/99", CFINDATE);
+	else
+      CellValues(10) = "BLANK";
+	endif;
+    HTML_OneRow( CellValues, 10 );   // generates the HTML script for a row with relevant household data
+  endif;

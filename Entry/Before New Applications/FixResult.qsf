@@ -1,0 +1,40 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 6.3
+
+[LANGUAGES]
+ENG=English
+SPA=Spanish
+
+[QUESTION]
+Field=CNULL.CNULSAMP
+SPA={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+SPA={\colortbl ;\red255\green0\blue0;}
+SPA=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el numero de hogar que desea cambiar
+SPA=\par }
+
+[QUESTION]
+Field=HHFORINT.VINTCODE
+ENG={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ENG={\colortbl ;\red255\green0\blue0;}
+ENG=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter interviewer code that you wish to change for household %VNUMBER%
+ENG=\par
+ENG=\par }
+SPA={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+SPA={\colortbl ;\red255\green0\blue0;}
+SPA={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el codigo de entrevistador(a) al que desea cambiar para el hogar %VNUMBER%\par
+SPA=\par
+SPA=}
+
+[QUESTION]
+Field=HHFORINT.VRESULT
+ENG={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ENG={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+ENG={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter code you wish to change to in household %VNUMBER%\par
+ENG=\cf2\par
+ENG=}
+SPA={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+SPA={\colortbl ;\red255\green0\blue0;}
+SPA=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el codigo que desea cambiar para el hogar %VNUMBER%
+SPA=\par
+SPA=\par }
+

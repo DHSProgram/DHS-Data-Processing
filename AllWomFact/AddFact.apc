@@ -1,0 +1,111 @@
+﻿PROC GLOBAL
+
+  numeric i, j, nagew, nagem, educ1, educ2, agehh, rowi, uppagem;
+  { the following line should be removed.  It is there to properly compile the application }
+  { because for the most part we don't have ever married factors for men and it is also    }
+  { possilbe that education follows the standard.  If this variables are required it is    }
+  { necessary to declare them in the survey dictionary                                     }
+  numeric  AWFEDUC1, AMFEDUC1, AMFEDUC, AMFTYPE, AMFREG, AMFTOTAL, AMFWLTH;
+
+
+  { All woman factors arrays }
+  array awft(50, 60);            { array with factor for women }
+  array amft(50, 60);            { array with factor for men }
+
+  string xline;
+
+PROC CCIQ81_FF
+PreProc
+
+  uppagem  = 59;
+  nagew    = 34;          { !!! adjust number of age groups for women 49-15 = 34 }
+  nagem    = uppagem-15;  { !!! adjust number of age groups for men   59-15 = 44 }
+                          { not necessary to add 1 because loop starts in zero   }
+
+  open( AWFACTOR );
+  do i = 0 while i <= nagew+nagem+1
+    if i <= nagew then
+      awage = 100 + i + 15;  { 0-34 = Women 15-49 }
+    else
+      awage = 200 + i - 20;  { 35-79 = Men 15-59 }
+    endif;
+    loadcase( AWFACTOR, awage );
+    do j = 1 while j <= noccurs( AWF )
+      if i <= nagew then
+        awft(i+1,j) = awf(j);
+      else
+        amft(i-nagew,j) = awf(j);
+      endif;
+    enddo;
+  enddo;
+  close( AWFACTOR );
+  { print factors to make sure that they are correctly loaded into the arrays }
+  write ( "Women variables (Education for report, Education standard, Urban/Rural, Region, Wealth Index, total" );
+  write ( "Age" );
+  write( " " );
+  do i = 0 while i <= nagew
+    xline = edit("ZZ9", i+15 );
+    do j = 1 while j <= noccurs( AWF )
+      xline = xline + edit("ZZZZZZ9", awft(i+1,j));
+    enddo;
+    write( "%s", xline )
+  enddo;
+  write( " " );
+  write( " " );
+  write ( "Men variables (Education for report, Education standard, Urban/Rural, Region, Wealth Index, total" );
+  write ( "Age" );
+  write( " " );
+  do i = 0 while i <= nagem
+    xline = edit("ZZ9", i+15 );
+    do j = 1 while j <= noccurs( AWF )
+      xline = xline + edit("ZZZZZZ9", amft(i+1,j));
+    enddo;
+    write( "%s", xline )
+  enddo;
+
+PROC INDIVIDUAL
+preproc
+
+  if ARESULT = 1 then
+    educ1    = AH17A( ALINE );        { education to be used in the report }
+    if educ1 = missing then educ1 = 5 endif;
+    educ2    = AH17A( ALINE );        { education for DHS standard categories }
+    if educ2 = missing then educ2 = 4 endif;
+    agehh = AH07( ALINE );
+    rowi  = agehh - 15 + 1;           { row in array based on age }
+    { all women factors }
+    if AQTYPE = 2 then
+      AWFEDUC1 = 0;
+      AWFEDUC  = 0;
+      AWFTYPE  = 0;
+      AWFREG   = 0;
+      AWFWLTH  = 0;
+      AWFTOTAL = 0;
+      { for de-facto women }
+      if AH06(ALINE) = 1 then
+        AWFEDUC1 = awft(rowi,educ1+1);          {  1-6  - Education for report }
+        AWFEDUC  = awft(rowi,educ2+7);          {  7-11 - Education for DHS standard }
+        AWFTYPE  = awft(rowi,ATYPE+11);         { 12-13 - Urban/rural }
+        AWFREG   = awft(rowi,AREGION+13);       { 14-19 - Regions/Provinces }
+        AWFWLTH  = awft(rowi,AHWLTHI+19);       { 20-24 - Wealth Index }
+        AWFTOTAL = awft(rowi,25);               {    25 - Total }
+      endif;
+    { all men factors }
+    elseif AQTYPE = 1 then
+      AMFEDUC1 = 0;
+      AMFEDUC  = 0;
+      AMFTYPE  = 0;
+      AMFREG   = 0;
+      AMFTOTAL = 0;
+      AMFWLTH  = 0;
+      { for de-facto men }
+      if AH06(ALINE) = 1 then
+        AMFEDUC1 = amft(rowi,educ1+1);          {  1-6  - Education for report }
+        AMFEDUC  = amft(rowi,educ2+7);          {  7-11 - Education for DHS standard }
+        AMFTYPE  = amft(rowi,ATYPE+11);         { 12-13 - Urban/rural }
+        AMFREG   = amft(rowi,AREGION+13);       { 14-19 - Regions/Provinces }
+        AMFWLTH  = amft(rowi,AHWLTHI+19);       { 20-24 - Wealth Index }
+        AMFTOTAL = amft(rowi,25);               {    25 - Total }
+      endif;
+    endif;
+  endif;

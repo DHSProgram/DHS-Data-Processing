@@ -1,0 +1,401 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines July 7, 2021         -       Version 1.0.0 of 12/07/2022    +}
+{+                                                                          +}
+{+   CHAPTER SBCC.  MALARIA SOCIAL AND BEHAVIOR CHANGE COMMUNICATION        +}
+{+                                                                          +}
+{+   Table SB5.1  Media exposure to malaria messages                        +}
+{+   Table SB5.2  Knowledge of ways to avoid malaria                        +}
+{+   Table SB5.3  Malaria susceptibility, severity, and self-efficacy       +}
+{+   Table SB5.4  Attitudes toward malaria-related behaviors and            +}
+{+                perceptions of community norms                            +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, j, jmin, jmax, jtot, jtot1, jtot2;
+  numeric rweight;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter Malaria Social and Behavior Change Communication, Country Survey 2020" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) tsb501 v013w1+v102w+v101w+v106w+v190w+total malknow+malsourc+malwom1
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 5.1 Media exposure to malaria messages","",
+		   "Percentage of women age 15-49 who have seen or heard a malaria message in the", 
+		   "last 6 months; and among those who have seen or heard a malaria message in the", 
+		   "last 6 months, percentage who cite specific sources for malaria messages,", 
+		   "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(1) tsb501u v013w1+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 5.1 Media exposure to malaria messages (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tsb502 v013w1+v102w+v101w+v106w+v190w+total malget+malavoid+malwom2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 5.2  Knowledge of ways to avoid malaria","",
+		   "Percentage of women age 15-49 who state there are ways to avoid getting malaria;", 
+		   "and among women who state there are ways to avoid getting malaria, percentage", 
+		   "reporting specific ways to avoid getting malaria,",
+		   "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(1) tsb502u v013w1+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 5.2  Knowledge of ways to avoid malaria (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tsb503 v013w1+livch5+v102w+v101w+v106w+v190w+total suscepti+severity+efficacy+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 5.3  Malaria susceptibility, severity, and self-efficacy","",
+		   "Percentage of women age 15-49 who express specific perceptions about malaria", 
+		   "susceptibility, percentage who express specific perceptions about the severity", 
+		   "of malaria, and percentage who express specific perceptions about self-efficacy,", 
+		   "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(1) tsb503u v013w1+livch5+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 5.3  Malaria susceptibility, severity, and self-efficacy (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tsb504 v013w1+livch5+v102w+v101w+v106w+v190w+total malbehav+malnorm+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 5.4  Attitudes toward malaria-related behaviors and perceptions of community norms","",
+		   "Percentage of women age 15-49 who express specific attitudes regarding malaria-related", 
+		   "behaviors, and percentage of women with favorable attitudes toward specific", 
+		   "malaria-related behaviors; percentage who express specific perceptions regarding", 
+		   "community norms, and percentage who believe the majority of their community currently", 
+		   "practice specific malaria-related behaviors,", 
+		   "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(1) tsb504u v013w1+livch5+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 5.4  Attitudes toward malaria-related behaviors and perceptions of community norms (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+  numwom   = 1;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table SB5.1 processing }
+  jtot1 = tblcol( tsb501, malknow );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tsb501[*,j] = tsb501[*,j] * 100 / tsb501[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tsb501 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tsb501[*,j] = tsb501[*,j] * 100 / tsb501[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tsb501", tsb501, 0,       jtot1-1, tsb501u, 0 );
+  Col2Dim( "tsb501", tsb501, jtot1+1, jtot2-1, tsb501u, 1 );
+
+  { Table SB5.2 processing }
+  jtot1 = tblcol( tsb502, malget );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tsb502[*,j] = tsb502[*,j] * 100 / tsb502[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tsb502 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tsb502[*,j] = tsb502[*,j] * 100 / tsb502[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tsb502", tsb502, 0,       jtot1-1, tsb502u, 0 );
+  Col2Dim( "tsb502", tsb502, jtot1+1, jtot2-1, tsb502u, 1 );
+
+  { Table SB5.3 processing }
+  jtot  = tblcol( tsb503 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    tsb503[*,j] = tsb503[*,j] * 100 / tsb503[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tsb503", tsb503, 0,       jtot-1, tsb503u, 0 );
+
+  { Table SB5.4 processing }
+  jtot  = tblcol( tsb504 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    tsb504[*,j] = tsb504[*,j] * 100 / tsb504[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tsb504", tsb504, 0,       jtot-1, tsb504u, 0 );
+  
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+ 
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+ endif;
+
+  { general variables }
+  v101w  = V101;
+  v102w  = V102;
+  v013w1 = V013;               { with var label for printing purposes }
+  v106w  = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w = V190;
+  livch5 = 2;
+  if count(REC21 where B5 = 1 & B19 < 60) then
+    livch5 = 1;
+  endif;	
+
+{ -------------------------------------------------------------------- }
+{ tables SB5.1 }
+
+  malsourc = notappl;
+  malwom1  = notappl;
+  malknow  = 2; 
+  xtab( tsb501, rweight );
+  coltotu = 1;  
+  xtab( tsb501u );	
+  if ML501 = 1 then   // seen-heard of malaria
+    malknow  = 1; 
+	malwom1  = 1;
+    xtab( tsb501, rweight );
+    coltotu = 2;  
+    xtab( tsb501u );
+    malknow  = notappl; 
+	malwom1  = notappl;
+    if ML501A = 1 then     { radio }
+      malsourc = 1;	
+      xtab( tsb501, rweight );
+    endif;	  
+    if ML501B = 1 then     { television }     
+      malsourc = 2;	
+      xtab( tsb501, rweight );
+    endif;	  
+    if ML501C = 1 then     { poster/billboard }     
+      malsourc = 3;	
+      xtab( tsb501, rweight );
+    endif;	  
+    if ML501D = 1 then     { newspaper/magazine }     
+      malsourc = 4;	
+      xtab( tsb501, rweight );
+    endif;	  
+    if ML501E = 1 then     { leaflet/brochure }   
+      malsourc = 5;	
+      xtab( tsb501, rweight );
+    endif;	  
+    if ML501F = 1 then     { healthcare provider }     
+      malsourc = 6;	
+      xtab( tsb501, rweight );
+    endif;	  
+    if ML501G = 1 then     { community health worker }  
+      malsourc = 7;	
+      xtab( tsb501, rweight );
+    endif;	  
+    if ML501H = 1 then     { social media }     
+      malsourc = 8;	
+      xtab( tsb501, rweight );
+    endif;	  
+    if ML501X = 1 then     { other }     
+      malsourc = 96;	
+      xtab( tsb501, rweight );
+    endif;	  
+    if ML501Z = 1 then     { don't remember }        
+      malsourc = 98;	
+      xtab( tsb501, rweight );
+    endif;	  
+  endif;	
+
+{ -------------------------------------------------------------------- }
+{ tables SB5.2 }
+
+  malavoid = notappl;
+  malwom2  = notappl;
+  malget   = 2; 
+  xtab( tsb502, rweight );
+  coltotu = 1;  
+  xtab( tsb502u );	
+  if ML503 = 1 then   // know ways to avoid malaria
+    malget   = 1; 
+	malwom2  = 1;
+    xtab( tsb502, rweight );
+    coltotu = 2;  
+    xtab( tsb502u );
+    malget   = notappl; 
+	malwom2  = notappl;
+    if ML503A = 1 | ML503B = 1 then      { Sleep under mosquito net or ITN }
+      malavoid = 1;	
+      xtab( tsb502, rweight );
+    endif;	  
+    if ML503C = 1 then                   { Use mosquito repellent }     
+      malavoid = 2;	
+      xtab( tsb502, rweight );
+    endif;	  
+    if ML503D = 1 then                   { Take preventive medication }     
+      malavoid = 3;	
+      xtab( tsb502, rweight );
+    endif;	  
+    if ML503E = 1 then                   { Spray house with insecticide }     
+      malavoid = 4;	
+      xtab( tsb502, rweight );
+    endif;	  
+    if ML503F = 1 then                   { Fill in stagnant waters (puddles) }   
+      malavoid = 5;	
+      xtab( tsb502, rweight );
+    endif;	  
+    if ML503G = 1 then                   { Keep surroundings clean }     
+      malavoid = 6;	
+      xtab( tsb502, rweight );
+    endif;	  
+    if ML503H = 1 then                   { Put mosquito screen on windows }  
+      malavoid = 7;	
+      xtab( tsb502, rweight );
+    endif;	  
+    if ML503X = 1 then                   { other }     
+      malavoid = 96;	
+      xtab( tsb502, rweight );
+    endif;	  
+    if ML503Z = 1 then                   { don't remember }        
+      malavoid = 98;	
+      xtab( tsb502, rweight );
+    endif;	  
+  endif;	
+
+{ -------------------------------------------------------------------- }
+{ tables SB5.3 }
+
+  suscepti = notappl;
+  severity = notappl;
+  efficacy = notappl;
+  numwom   = 1;  
+  xtab( tsb503, rweight );
+  xtab( tsb503u );	
+  numwom   = notappl;  
+  if ML505 = 0 then               // disagree that people only get malaria during the rainy season
+    suscepti = 1; 
+    xtab( tsb503, rweight );
+  endif;
+  if ML506 = 1 then               // agree when a child has a fever worry it might be malaria
+      suscepti = 2; 
+    xtab( tsb503, rweight );
+  endif;
+  if ML505 = 0 | ML506 = 1 then   // perceive families and communities are at risk from malaria
+      suscepti = 3; 
+    xtab( tsb503, rweight );
+  endif;  
+  suscepti = notappl;
+  if ML507 = 0 then               // disagree getting malaria is not problem because can treated
+    severity = 1; 
+    xtab( tsb503, rweight );
+  endif;
+  if ML508 = 0 then               // disagree only weak children can die from malaria
+      severity = 2; 
+    xtab( tsb503, rweight );
+  endif;
+  if ML507 = 0 | ML508 = 0 then   // feel that the consequences of malaria are serious
+      severity = 3; 
+    xtab( tsb503, rweight );
+  endif;  
+  severity = notappl;
+  if ML509 = 1 then               // agree they sleep under net entire night when lots of mosquitoes
+    efficacy = 1; 
+    xtab( tsb503, rweight );
+  endif;
+  if ML510 = 1 then               // agree they sleep under a net entire night when few mosquitoes
+      efficacy = 2; 
+    xtab( tsb503, rweight );
+  endif;
+  if ML509 = 1 | ML510 = 1 then   // confident in ability to perform specific malaria-related behaviors
+      efficacy = 3; 
+    xtab( tsb503, rweight );
+  endif;  
+  efficacy = notappl;
+
+{ -------------------------------------------------------------------- }
+{ tables SB5.4 }
+
+  malbehav = notappl;
+  malnorm  = notappl;
+  numwom   = 1;  
+  xtab( tsb504, rweight );
+  xtab( tsb504u );	
+  numwom   = notappl;  
+  if ML511 = 0 then               // disagree don't like sleeping under a net when weather is too warm 
+    malbehav = 1; 
+    xtab( tsb504, rweight );
+  endif;
+  if ML512 = 0 then               // disagree when child has fever start giving medicine at home
+      malbehav = 2; 
+    xtab( tsb504, rweight );
+  endif;
+  if ML511 = 0 | ML512 = 0 then   // favorable attitude toward specific malaria-behaviors
+      malbehav = 3; 
+    xtab( tsb504, rweight );
+  endif;  
+  malbehav = notappl;
+  if ML513 = 1 then               // agree take children to a healthcare when develop fever
+    malnorm = 1; 
+    xtab( tsb504, rweight );
+  endif;
+  if ML514 = 1 then               // agree people who have a net usually sleep under it every night
+      malnorm = 2; 
+    xtab( tsb504, rweight );
+  endif;
+  if ML513 = 1 | ML514 = 1 then   // believe the majority practice malaria-related behaviors
+      malnorm = 3; 
+    xtab( tsb504, rweight );
+  endif;  
+  malnorm  = notappl;

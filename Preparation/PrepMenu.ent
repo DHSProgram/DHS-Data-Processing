@@ -1,0 +1,18 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=PrepMenu
+Name=PrepMenu
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[AppCode]
+File=.\PrepMenu.apc
+[Message]
+File=.\PrepMenu.mgf
+[Help]
+File=.\PrepMenu.qsf
+[Forms]
+File=.\PrepMenu.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Menu.dcf,Input,.\PrepMenu.fmf

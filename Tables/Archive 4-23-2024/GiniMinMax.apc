@@ -1,0 +1,85 @@
+﻿PROC GLOBAL
+{+---------------------------------------------------------------------------+}
+{+   Application used to generate minimums and maximums scores in order to   +}
+{+   properly calculate the Gini index.  The application has to be run       +}
+{+   before the table with the Gini index is generated.  The results of      +}
+{+   this application need to be pasted to the application where the Gini    +}
+{+   coefficient is calculated                                               +}
+{+                                                                           +}
+{+---------------------------------------------------------------------------+}
+
+  numeric i, idx;
+
+  alpha(40) substring;
+
+  array ScoreMin(100);       { stores the minimum score for ecah background category for which the Gini coefficient is calculated }
+  array ScoreMax(100);       { stores the maximum score for ecah background category for which the Gini coefficient is calculated }
+
+PROC RECODE8_FF
+preproc
+
+  { initialize the arrays  }
+  do i = 1 while i <= 100
+    ScoreMin(i) = 0;
+    ScoreMax(i) = 0;
+  enddo;
+
+postproc
+
+  { print results }
+  write( " " );
+  write( "Minimum                  Maximum                    Category                       " );
+  write( "-----------------------------------------------------------------------------------" );
+  write( " " );
+  do i = 1 while i <= 100
+    substring = "";
+    if i = 1 then
+      substring = "Total"
+    elseif i in 2:3 then
+      substring = concat( "Residence: ", GetLabel( HV025, i-1 ) );
+    else
+      substring = concat( "Region   : ", GetLabel( HV024, i-3 ) );
+    endif;
+    if ScoreMin(i) <> 0 | ScoreMax(i) <> 0 then
+      write( "ScoreMin(%2d) = %8d; ScoreMax(%2d) = %8d;   { %s }", i, ScoreMin(i), i, ScoreMax(i), substring );
+    endif;
+  enddo;
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case endif;
+
+postproc
+
+  { set minimums and maximums for total }
+  { idx : 1-total }
+  idx = 1;
+  if HV271 < ScoreMin(idx) then
+    ScoreMin(idx) = HV271
+  endif;
+  if HV271 > ScoreMax(idx) then
+    ScoreMax(idx) = HV271
+  endif;
+
+  { set minimums and maximums for urban rural }
+  { idx : 2-urban, 3-rural }
+  idx = 1 + HV025;
+  if HV271 < ScoreMin(idx) then
+    ScoreMin(idx) = HV271
+  endif;
+  if HV271 > ScoreMax(idx) then
+    ScoreMax(idx) = HV271
+  endif;
+
+
+  { set minimums and maximums for region }
+  { idx : 4-region 1, 5-region 2, 6-region 3, .... }
+  { region codes don't need to be consecutive but they should have values between 1 and 97 }
+  idx = 3 + HV024;
+  if HV271 < ScoreMin(idx) then
+    ScoreMin(idx) = HV271
+  endif;
+  if HV271 > ScoreMax(idx) then
+    ScoreMax(idx) = HV271
+  endif;

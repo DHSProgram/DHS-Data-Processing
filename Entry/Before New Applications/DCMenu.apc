@@ -1,0 +1,1307 @@
+﻿PROC GLOBAL
+
+  FILE   filedups;
+  FILE   piffile;                        { data entry PFF file for the application }
+
+  string  TheCommand;
+  string  CSPro;                         { CSPro executables directory }
+  string  AppName;                       { application name }
+  string  wrkprj, wrkpii, data, superv, xdir, pictures;      { directories }
+  string  backup;                        { SD card for backup }
+  string  temp;                          { directory where data collected by supervisor (acting as interviewer) is transferred to his/her machine }
+  string  btsup, btwork, btsamp;         { directories used by the client/server applications to send/receive data via bluetooth }
+  string  fpath, fname, work, dicts, entry, utility, wrkref, upgrades, SampData, SampApps;
+  string  chkfile;
+  string  heading;
+  string  xparaux;
+  string  xparamet;                      { parameter to be passed to the data collection applications }
+
+  alpha(4)   xintnum;                    { Interviewer }
+  alpha(4)   xsuperv;                    { Supervisor }
+  alpha(8)   xfilenum;                   { Number corresponding to data file names }
+  alpha(4)   xcluster;                   { Cluster number }
+  string     xcase;                      { Case: Cluster number, household number, line woman/man number }
+  string     upgrname;                   { names for the upgrades coming from supervisor machine }
+  string     IntName, SupName;           { interviewer and supervisor names }
+  string     xlang;                      { to check if there is another session running }
+
+  numeric i, x, ifok, action, option, partial, IntCode, IntSex, setalready;
+  numeric j, xlen, totintvw, steam, n, SameSession;
+  numeric MoreThanOne;                   { to control no concurrent sessions are running }
+
+  array interview(20);                   { to store interviewers assigned to a supervisor }
+  array interrole(20);                   { role of interviewers assigned to a supervisor }
+  array string intername(20);            { interviewer's name assigned to supervisor }
+  valueset fieldworkers;
+
+  array intvwcode(400);                  { to store interviewers - code }
+  array intvwrole(400);                  {                       - role }
+  array intvwteam(400);                  {                       - team }
+  array intvwsex(400);                   {                       - sex  }
+  array string intvwname(400);           {                       - name }
+
+  list string PictureList;
+
+  { setup basic user bar }
+  function userbase();
+    userbar( clear );
+    userbar( add button, "<",    do("PreviousField") );
+    userbar( add button, ">",    do("NextField") );
+    userbar( add button, ">>|",  do("AdvanceToEnd") );
+    userbar( add button, "Lang", do("ChangeLanguage") );
+  end;
+
+  { set value sets based on language }
+  function OnChangeLanguage()
+    SetLanguage( getlanguage() );
+    savesetting("Language", getlanguage());
+  end;
+
+  { launches CSEntry stopping DCMenu }
+  function runpffS();
+    ExecPff( AppName + ".pff", maximized, stop );
+  end;
+
+  { launches CSEntry with DCMenu waiting in the background }
+  function runpffW();
+    ExecPff( AppName + ".pff", maximized, wait );
+  end;
+
+  { function used to launch CSIndex }
+  function RunIndex();
+    { Using single quotes instead of double quotes as double quotes are needed in the string generated }
+    TheCommand = '"' + cspro + '\CSIndex.exe" ' + entry + "\" + AppName + '.pff';
+    ExecSystem( TheCommand, maximized, wait );
+  end;
+
+
+  { check if a file exist and deletes it }
+  function fdel( string thisfile )
+    if FileExist( thisfile ) then
+      FileDelete( thisfile )
+    endif;
+  end;
+
+  { check if a directory is presnet in project }
+  function ChkDir( string thisfile )
+    if !DirExist( thisfile ) then
+      errmsg( 008, thisfile );
+	  stop(1);
+    endif;
+  end;
+
+  { since all applications are of data entry type the first lines are the same for all of them }
+  function InitPFF()
+    setfile( piffile, entry + "\" + AppName + ".pff", create );
+    FileWrite( piffile, "[Run Information]" );
+    FileWrite( piffile, "Version=CSPro 7.4" );
+    FileWrite( piffile, "AppType=Entry" );
+    FileWrite( piffile, "[DataEntryInit]" );
+    FileWrite( piffile, "OperatorID=" + xintnum );
+  end;
+
+  { prepares PIF file for households or individual data collection }
+  function genpff( addmode, questype, savpart, revisit, change, hghtwght )
+    InitPff();
+
+    if addmode then
+      FileWrite( piffile, "StartMode=ADD;" + xcase );
+      FileWrite( piffile, "Lock=MODIFY,VERIFY" );
+    else
+      if savpart = 1 then
+        FileWrite( piffile, "StartMode=ADD;" + xcase );
+        FileWrite( piffile, "Lock=MODIFY,VERIFY" );
+      else
+        FileWrite( piffile, "StartMode=MODIFY;" + xcase );
+        FileWrite( piffile, "Lock=ADD,VERIFY" );
+      endif;
+    endif;
+    FileWrite( piffile, "Fullscreen=YES" );
+    FileWrite( piffile, "NoFileOpen=NO" );
+    FileWrite( piffile, "Interactive=OFF" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+    FileWrite( piffile, "CommonStore=.\" + AppName + ".db" );
+    if questype = 1 then
+      FileWrite( piffile, "InputData=" + data + "\H" + xfilenum + ".dat" );
+      FileWrite( piffile, "Paradata="  + data + "\H" + xfilenum + ".cslog" );
+      FileWrite( piffile, "Listing="   + data + "\H" + xfilenum + ".lst" );
+    else
+      FileWrite( piffile, "InputData=" + data + "\I" + xfilenum + ".dat" );
+      FileWrite( piffile, "Paradata="  + data + "\I" + xfilenum + ".cslog" );
+      FileWrite( piffile, "Listing="   + data + "\I" + xfilenum + ".lst" );
+    endif;
+
+    FileWrite( piffile, "[ExternalFiles]" );
+    if questype = 1 then
+      FileWrite( piffile, "ccIN80="   + data   + "\I" + xfilenum + ".dat" );
+      FileWrite( piffile, "HHFORINT=" + work   + "\S" + xcluster + ".dat" );
+      FileWrite( piffile, "FIELDWKQ=" + wrkref + "\Fieldworker.dat" );
+    elseif questype = 2 then
+      FileWrite( piffile, "ccHH80="   + work   + "\AllHH.dat" );
+    endif;
+    FileWrite( piffile, "CLUSTERS=" + wrkref   + "\Clusters.dat" );
+    FileWrite( piffile, "OTHERS="   + data     + "\O" + xfilenum + ".dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    { customize parameters for different types of data entry modes }
+    xparamet[10:1] = edit( "9", revisit );   { if this is a revisit }
+    xparamet[11:1] = edit( "9", change );    { to run modify mode }
+    xparamet[12:1] = edit( "9", savpart );   { case saved partially }
+    xparamet[13:1] = edit( "9", hghtwght );  { to enter height and weight }
+    FileWrite( piffile, "Parameter=" + xparamet + xcluster + edit("99",steam) );
+    FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+    close( piffile );
+  end;
+
+  { check a version available for the next bac-up.  It is a Round-robin system made of up to 10 versions  }
+  function backupn()
+    do n = 0 while n <= 9 & FileExist( backup + "\C" + xcluster + "_" + edit("9",n) + ".zip" )
+    enddo;
+    { open space for next back-up }
+    x = n + 1;
+    if n = 9 then x = 0 endif;
+    fname = backup + "\C" + xcluster + "_" + edit("9",x) + ".zip";
+    if FileExist(fname) then
+      FileDelete( fname );
+    endif;
+    backupn = n;
+  end;
+
+  { finds the drive letter where the flash memory is located }
+  function searchdrive()
+    numeric found = 0;
+    do i = 1 while i <= 5 & !found
+      backup = "DEFGH"[i:1] + ":\Data";
+      if DirExist( backup ) then
+        found = 1;
+      endif;
+    enddo;
+    searchdrive = found;
+  end;
+
+  { makes a backup as soon after leaving the data collection application }
+  { copies households, individual and others }
+  function backupf()
+    numeric nextbkp;
+    { eliminates files not required }
+    FileDelete( data + "\?" + xfilenum + ".dat.lst" );
+    FileDelete( data + "\?" + xfilenum + ".dat.log" );
+
+    if !searchdrive() | !DirExist( backup ) then
+      errmsg( 070, backup );
+      searchdrive();
+    endif;
+    if DirExist( backup ) then
+      { handle round robin back-up number }
+      nextbkp = backupn();
+      TheCommand = Utility + "\UpgradePc\7za.exe a -w" + work + " -i!" + data +  "\*" + xfilenum + ".dat -pDHS" + xintnum  + " " +
+                   backup  + "\C" + xcluster + "_" + edit("9",nextbkp) + ".zip";
+      ExecSystem( TheCommand, maximized, wait );
+	  errmsg( 072, backup );
+    else
+      errmsg( 071, backup );
+    endif;
+  end;
+
+  { function used to run and execute the data entry applications }
+  function csrun( addmode, questype, savpart, revisit, change, hghtwght )
+  {
+    Parameters - addmode,  the start mode of a data entry program
+                 questype, 1-Household, 2-Individual (women/men)
+                 savpart,  if the case was partially saved (1-partial add, 2-partial modify)
+                 revisit,  if it is a revisit to an incomplete interview (result code <> 1)
+                 change,   advance to the first field after the control of visits
+                 hghtwght, instructs to advance to height/weight section for the household
+  }
+    genpff( addmode, questype, savpart, revisit, change, hghtwght );
+    SaveSetting( "DCSession", "2" );
+    runpffS();
+  end;
+
+  { generates the PIF file for the application used to display }
+  { individuals available to be interviewed in a household     }
+  function WrkElig( type )
+    { type   1-households, 2-individual }
+    InitPff();
+
+    FileWrite( piffile, "StartMode=ADD" );
+    FileWrite( piffile, "Fullscreen=Yes" );
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    { Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+    FileWrite( piffile, "Listing="     + entry + "\" + AppName + ".lst" );
+
+    { External Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "ccHH80="   + work + "\AllHH.dat" );
+    FileWrite( piffile, "ELIGINDV=" + work + "\Eligibles.dat" );
+    if type = 1 then
+      FileWrite( piffile, "ccIN80=" + work + "\Indiv.dat" );  { for households the actual women's file is not needed }
+    else
+      FileWrite( piffile, "ccIN80=" + data + "\I" + xfilenum + ".dat" );
+    endif;
+
+    { Parameters section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    { parameters passed are: household number, household or individual questionnaire and interviewer sex }
+    FileWrite( piffile, "Parameter=" + edit("9999",WNUMBER) + edit("9",type) + edit("9",IntSex) );
+    FileWrite( piffile, "ViewListing=Never" );
+    FileWrite( piffile, "ViewResults=No" );
+    close( piffile );
+  end;
+
+  { generates the PIF file for the application used to display }
+  { fix the result of the households assigned to interviewers  }
+  function FixResult()
+    InitPff();
+    FileWrite( piffile, "StartMode=ADD" );
+    FileWrite( piffile, "Lock=Modify, Verify" );
+    FileWrite( piffile, "Fullscreen=Yes" );
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    { Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+    FileWrite( piffile, "Listing="     + entry + "\" + AppName + ".lst" );
+
+    { External Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "HHFORINT=" + work + "\S" + edit("9999",WCLUSTER) + ".dat" );
+
+    { Parameters section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    { parameters are household number, whether household or individual questionnaire and interviewer sex }
+    FileWrite( piffile, "Parameter=" + edit("9999",IntCode) + edit("9999",VNUMBER) );
+    FileWrite( piffile, "ViewListing=Never" );     { Do not show .lst -- will be shown manually }
+    FileWrite( piffile, "ViewResults=No" );        { Do not show .wrt -- will be shown manually }
+    FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+    close( piffile );
+  end;
+
+  { generates a list of eligible individuals for individual questionnaire and eligible  }
+  { individuals for height and weight                                                   }
+  function ListElig()
+    InitPff();
+    FileWrite( piffile, "StartMode=ADD" );
+    FileWrite( piffile, "Fullscreen=Yes" );
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    { Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+    FileWrite( piffile, "Listing="     + entry + "\" + AppName + ".lst" );
+    FileWrite( piffile, "WriteData=.\" + AppName + ".wrt" );
+
+    { External Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "ccHH80=" + data + "\H" + xfilenum + ".dat" );
+    FileWrite( piffile, "ccIN80=" + data + "\I" + xfilenum + ".dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    { parameters are: cluster and household number (may include others for sub-samples) }
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "Parameter=" + xcase );
+    FileWrite( piffile, "ViewListing=Never" );
+    FileWrite( piffile, "ViewResults=No" );
+    FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+    close( piffile );
+  end;
+
+  { generates a list of all questionnaires collected by an interviewer }
+  function lstquest()
+    InitPff();
+    FileWrite( piffile, "StartMode=ADD" );
+    FileWrite( piffile, "Fullscreen=Yes" );
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    { Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+    FileWrite( piffile, "Listing="     + entry + "\" + AppName + ".lst" );
+    FileWrite( piffile, "WriteData=.\" + AppName + ".wrt" );
+
+    { External Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "ccHH80=" + data + "\H" + xfilenum + ".dat" );
+    FileWrite( piffile, "ccIN80=" + data + "\I" + xfilenum + ".dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "Parameter=" + xcluster );
+    FileWrite( piffile, "ViewListing=Never" );
+    FileWrite( piffile, "ViewResults=No" );
+    FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+    close( piffile );
+  end;
+
+  { generates a list of nottes taken by interviewer in cluster }
+  function ListNotes()
+    InitPff();
+    FileWrite( piffile, "StartMode=ADD" );
+    FileWrite( piffile, "Fullscreen=Yes" );
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    { Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+
+    { External Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[UserFiles]" );
+    FileWrite( piffile, "FILENOTE=" + work + "\AllNotes.dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    { parameters are: cluster and household number (may include others for sub-samples) }
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "Parameter=" + xcluster + "0" );
+    FileWrite( piffile, "ViewListing=Never" );
+    FileWrite( piffile, "ViewResults=No" );
+    FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+    close( piffile );
+  end;
+
+  { prepares PIF file for households or individual data collection }
+  function SampList()
+    InitPff();
+
+    FileWrite( piffile, "StartMode=ADD;" + xfilenum );
+    FileWrite( piffile, "Lock=Modify, Verify" );
+    FileWrite( piffile, "Fullscreen=Yes" );
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + SampApps + "\"  + AppName  + ".ent" );
+    FileWrite( piffile, "InputData="   + SampData + "\L" + xfilenum + ".dat" );
+    FileWrite( piffile, "Listing="     + SampData + "\L" + xfilenum + ".lst" );
+
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "CLUSTERS=" + wrkref   + "\Clusters.dat" );
+    FileWrite( piffile, "GPS_DCT="  + sampData + "\G" + xfilenum + ".dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    { customize parameters for different types of data entry modes }
+    FileWrite( piffile, "Parameter=" + xfilenum );
+    close( piffile );
+  end;
+
+  { function to generate the source and destination of files to transfer }
+  function GenFileXML( string sourcedir, alpha(1) prefix, string suffix, string destdir )
+    fname = sourcedir + "\" + prefix + xfilenum + suffix;
+    FileWrite( piffile, '<file source="' + fname + '" destdir="' + destdir + '" />' );        { actual file name }
+  end;
+  
+  { include vaccination pictures to be sent to supervisor }
+  function IncludePictures()
+	PictureList.clear();
+	DirList( PictureList, pictures, "\P" + xcluster + "????????_??.jpg" );
+    do i = 1 while i <= PictureList.length()
+      FileWrite( piffile, '<file source="' + PictureList(i) + '" destdir="' + btsup + '" />' );        { actual file name }
+    enddo;	  
+  end;
+
+  { transfer data from interviewer to supervisor using bluetooth }
+  function transfer()
+    fpath = utility + "\btclientPC";
+    setfile( piffile, fpath + "\transfer.xml", create );
+    { XML construction for transferring data }
+    FileWrite( piffile, '<?xml version="1.0" encoding="utf-8" ?>' );
+    FileWrite( piffile, "<transfer>" );
+    FileWrite( piffile, "<caption>" + IntName + " " + tr("Sending data to supervisor") + "</caption>" );
+    { restrict the client machine to the supervisor machine (WSUPER) }
+    FileWrite( piffile, '<to name="' + SupName + '" id="' + edit("9999",WSUPER) + '" />' );
+    { encryption key, auto send parameter and timeout in seconds after which polling for devices is terminated }
+    FileWrite( piffile, "<key>1111111111111111</key>" );
+    FileWrite( piffile, "<autosend>true</autosend>" );
+    FileWrite( piffile, "<timeout>120</timeout>" );
+    GenFileXML( data, "H", ".dat",       btsup );    { households data file }
+    GenFileXML( data, "H", ".cslog",     btsup );    { households paradata }
+    GenFileXML( data, "H", ".dat.sts",   btsup );    { households partial save file }
+    GenFileXML( data, "H", ".dat.csnot", btsup );    { households notes file }
+    GenFileXML( data, "I", ".dat",       btsup );    { individual data file }
+    GenFileXML( data, "I", ".cslog",     btsup );    { individual paradata }
+    GenFileXML( data, "I", ".dat.sts",   btsup );    { individual partial save file }
+    GenFileXML( data, "I", ".dat.csnot", btsup );    { individual notes file }
+    GenFileXML( data, "O", ".dat",       btsup );    { others file }
+	IncludePictures();
+    { close XML definition }
+    FileWrite( piffile, "</transfer>" );
+    close( piffile );
+    TheCommand = fpath + "\btclientPC.exe ";
+    ExecSystem( TheCommand, normal, wait );
+  end;
+
+  { transfer household listing for sampling from interviewer to supervisor using bluetooth }
+  function transamp()
+    fpath = utility + "\btclientPC";
+    setfile( piffile, fpath + "\transfer.xml", create );
+    { XML construction for transferring data }
+    FileWrite( piffile, '<?xml version="1.0" encoding="utf-8" ?>' );
+    FileWrite( piffile, "<transfer>" );
+    FileWrite( piffile, "<caption>" + IntName + " " + tr("Transferring HH listing Data to supervisor") + "</caption>" );
+    { restrict the client machine to the supervisor machine (WSUPER) }
+    FileWrite( piffile, '<to name="' + SupName + '" id="' + edit("9999",WSUPER) + '" />' );
+    { encryption key, auto send parameter and timeout in seconds after which polling for devices is terminated }
+    FileWrite( piffile, "<key>1111111111111111</key>" );
+    FileWrite( piffile, "<autosend>true</autosend>" );
+    FileWrite( piffile, "<timeout>120</timeout>" );
+    GenFileXML( SampData, "L", ".dat",     btsamp );    { data with households listed by interviewer }
+    { close XML definition }
+    FileWrite( piffile, "</transfer>" );
+    close( piffile );
+    TheCommand = fpath + "\btclientPC.exe ";
+    ExecSystem( TheCommand, normal, wait );
+  end;
+
+  { share household data with another interviewer in the same team using bluetooth }
+  function sendhhdat()
+    fpath = utility + "\btclientPC";
+    setfile( piffile, fpath + "\transfer.xml", create );
+    { XML construction for transferring data }
+    FileWrite( piffile, '<?xml version="1.0" encoding="utf-8" ?>' );
+    FileWrite( piffile, "<transfer>" );
+    FileWrite( piffile, "<caption>" + IntName + " " + tr("Sharing HH Data with other interviewers") + "</caption>" );
+    { restrict sharing the household data to interviewers in the same team }
+    { including the supervisor but excluding him/herself                   }
+    do i = 1 while interview(i)
+      if IntCode <> interview(i) then
+        FileWrite( piffile, '<to name="' + intername(i) + '" id="' + edit("9999",interview(i)) + '" />' );
+      endif;
+    enddo;
+    { encryption key, auto send parameter and timeout in seconds after which polling for devices is terminated }
+    FileWrite( piffile, "<key>1111111111111111</key>" );
+    FileWrite( piffile, "<autosend>true</autosend>" );
+    FileWrite( piffile, "<timeout>120</timeout>" );
+    GenFileXML( data, "H", ".dat",     btwork );      { households data file }
+    GenFileXML( data, "H", ".dat.sts", btwork );      { households partial save file }
+    FileWrite( piffile, "</transfer>" );
+    close( piffile );
+    TheCommand = fpath + "\btclientPC.exe ";
+    ExecSystem( TheCommand, normal, wait );
+  end;
+
+  { send cluster's data from interviewer to health specialist biomarker specialist }
+  function SendBioDat()
+    fpath = utility + "\btclientPC";
+    setfile( piffile, fpath + "\transfer.xml", create );
+    { XML construction for transferring data }
+    FileWrite( piffile, '<?xml version="1.0" encoding="utf-8" ?>' );
+    FileWrite( piffile, "<transfer>" );
+    FileWrite( piffile, "<caption>" + IntName + " " + tr("Sending data to Biomarker specialist") + "</caption>" );
+    { restrict sending cluster data just to biomarker specialists }
+    do i = 1 while interview(i)
+      if interrole(i) = 3 then
+        FileWrite( piffile, '<to name="' + intername(i) + '" id="' + edit("9999",interview(i)) + '" />' );
+      endif;
+    enddo;
+    { encryption key, auto send parameter and timeout in seconds after which polling for devices is terminated }
+    FileWrite( piffile, "<key>1111111111111111</key>" );
+    FileWrite( piffile, "<autosend>true</autosend>" );
+    FileWrite( piffile, "<timeout>120</timeout>" );
+    GenFileXML( data, "H", ".dat", btwork );        { household data file }
+    GenFileXML( data, "I", ".dat", btwork );        { individual data file }
+    FileWrite( piffile, "</transfer>" );
+    close( piffile );
+    TheCommand = fpath + "\btclientPC.exe ";
+    ExecSystem( TheCommand, normal, wait );
+  end;
+
+  { receiving household data from other interviewers }
+  function receivehh()
+    fpath = utility + "\btserverPC";
+    TheCommand = fpath + "\btserverPC.exe " + '"id=' + edit("9999",IntCode) + '" "name=' + IntName + '" "rootdir=' + wrkprj + '" "encrkey=1111111111111111"';
+    ExecSystem( TheCommand, normal, wait );
+  end;
+
+  { receiving upgrades form supervisor }
+  function receiveupgr()
+    fpath = utility + "\btserverPC";
+    TheCommand = fpath + "\btserverPC.exe " + '"id=' + edit("9999",IntCode) + '" "name=' + IntName + '" "rootdir=' + wrkprj + '" "encrkey=1111111111111111"';
+    ExecSystem( TheCommand, normal, wait );
+  end;
+
+  { receiving household assignment form supervisor }
+  function rcvhhassign()
+    fpath = utility + "\btserverPC";
+    TheCommand = fpath + "\btserverPC.exe " + '"id=' + edit("9999",IntCode) + '" "name=' + IntName + '" "rootdir=' + wrkprj + '" "encrkey=1111111111111111"';
+    ExecSystem( TheCommand, normal, wait );
+  end;
+
+  { applying updates after receiving them from supervisor, using bluetooth }
+  function ApplyUpgr()
+    { generates the path.txt file used by upgradepda.exe to know the source of the upgrade }
+    fpath = utility + "\upgradePC";
+    setfile( piffile, fpath + "\path.txt", create );
+    { root directory to start unzip }
+    FileWrite( piffile, "PROJPATH:C:\" );
+    { directory where upgrades are located in an SD card, in case that it is needed }
+    FileWrite( piffile, "SDUPGRDDIR:\SD Card\upgrade\" );
+    { directory where ZIP file is going to be copied from the supervisor machine }
+    FileWrite( piffile, "BTUPGRDDIR:" + upgrades + "\" );
+    close( piffile );
+    TheCommand = fpath + "\upgradePC.exe bluetooth filemask=" + upgrname + " hidden";
+    ExecSystem( TheCommand, minimized, wait );
+    { delete upgrade files after applying them to the machine }
+    FileDelete( upgrades + "\" + upgrname + "*.zip" );
+    { exit the system so that updates will be in effect }
+    errmsg( 090 );
+    stop(1);
+  end;
+
+  { gets one household from file provided by supervisor with households assigned to interviewers }
+  function getonehh( task )
+    numeric cancelled, y = 1, newHH;
+    fname = work + "\S" + xcluster + ".dat";
+    if !FileExist( fname ) then
+      errmsg( 095, fname, WCLUSTER );
+      ifok = 0;
+    else
+      if task in 1,2 then   { new households, incomplete/partial, eligible individuals }
+        { find if household assigned or not to interviewer by supervisor }
+        x = accept( tr("Household initially assigned to you or is a new one"),
+                    tr("Assigned to me"),
+                    tr("Assigned to someone else"),
+                    tr("A new household not in original sample"),
+                    tr("Cancel") );
+      elseif task in 8 then   { new households, incomplete/partial, eligible individuals }
+        { find if household assigned or not to interviewer by supervisor }
+        x = accept( tr("Household initially assigned to you or is a new one"),
+                    tr("Assigned to me"),
+                    tr("Assigned to someone else"),
+                    tr("Cancel") );
+      else                    { other options use households assigned to interviewer }
+        x = 1;
+      endif;
+      cancelled = ( task in 1,2 & x in 0,4 | task = 8 & x in 0,3 );
+      ifok = 0;
+      if x = 1 then	  
+        ifok = selcase( tr("Select a household from the list displayed"), HHFORINT, "", 15 ) 
+		       include( VNUMBER, VSTRUCT, VNAME, VADDRESS, VINTCODE, VRESULT, VMALE ) where VINTCODE =  IntCode;
+      elseif x = 2 then
+        ifok = selcase( tr("Select a household from the list displayed"), HHFORINT, "", 5 ) 
+		       include( VNUMBER, VSTRUCT, VNAME, VADDRESS, VINTCODE, VRESULT, VMALE ) where VINTCODE <> IntCode;
+      elseif !cancelled then    { New household not in original sample }
+        y = accept( tr("Select the household that the new one belongs to and press continue. Otherwise press cancel to return to main menu"), 
+                    tr("Continue"), 
+		            tr("Cancel") );
+        if y = 1 then
+          ifok = selcase( tr("Select a household from the list displayed"), HHFORINT, "", 5 ) 
+		         include( VNUMBER, VSTRUCT, VNAME, VADDRESS, VINTCODE, VRESULT, VMALE );
+          if ifok then
+            { Generate a new household number based on the interviewer's code, and ensure it does not clash with another }
+            newHH = 1000 + VNUMBER;     { !!! make sure to generate a HH number that doesn't exist in the sample }
+            do i = 2 while find( HHFORINT, =, edit("9999",newHH) )
+              if newHH < 10000 then
+                newHH = i * 1000 + VNUMBER;
+              else
+                newHH = 9000 + i;
+              endif;
+            enddo;
+            VNAME   = tr("NEW HOUSEHOLD");
+            VNUMBER = newHH;
+            VRESULT = 0;
+            VINTCODE = IntCode;
+            writecase( HHFORINT );
+            errmsg( 045, VNUMBER, VINTCODE );
+          endif;
+        endif
+      endif;
+      if y = 1 & !cancelled & !ifok then
+        errmsg( 096 );
+      endif;
+    endif;
+    getonehh = ifok;
+  end;
+
+  { calls repair program to modify: cluster, hh number, line number or delete cases }
+  function FixIds()
+    fpath = utility + "\DataRepPc";
+    TheCommand = fpath + "\DataRepairPc.exe DHSRepair.xml";
+    ExecSystem( TheCommand, normal, wait );
+  end;
+
+  { prepares PIF file necessary to run CSIndex utility }
+  function FIndexPFF()
+    setfile( piffile, entry + "\" + AppName + ".pff", create );
+    FileWrite( piffile, "[Run Information]" );
+    FileWrite( piffile, "Version=CSPro 7.4" );
+    FileWrite( piffile, "AppType=Index" );
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "InputData=" + data  + "\H" + xfilenum + ".dat" );         { !!!! file from interviewer }
+    FileWrite( piffile, "InputData=" + work  + "\H" + xcluster + "????.dat" );     { !!!! files from other interviewers }
+    FileWrite( piffile, "Listing="   + entry + "\"  + AppName  + ".lst" );         { name of the file to be used by ChkHHDup application, don't change it }
+    FileWrite( piffile, "InputDict=" + dicts + "\ccHH80.dcf" );                    { !!!! change to survey's household dictionary }
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "ViewListing=Never" );
+    FileWrite( piffile, "Silent=Yes" );
+    FileWrite( piffile, "DeletePrompt=Yes" );
+    close( piffile );
+  end;
+
+  { check duplicates for households including files that may belong to other interviewers }
+  function FindHHDups();
+    numeric foundups = 0;
+    AppName = "FIndexHH";
+    FIndexPFF();
+    RunIndex();
+    setfile( filedups, entry + "\" + AppName + ".lst" );
+    while FileRead( filedups, Thecommand ) do
+      if pos( "*** Case [", Thecommand ) = 1 then
+        foundups = 1;
+        break;
+      endif;
+    enddo;
+    close( filedups );
+    FindHHDups = ( foundups <> 0 );
+  end;
+
+  { prepares PIF file for application that parses duplicates identified by utility CSIndex }
+  function ChkHHDup()
+    AppName = "ChkHHDup";
+    InitPFF();
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=.\" + AppName + ".ent" );
+    FileWrite( piffile, "Listing=.\"     + AppName + ".lst" );
+    FileWrite( piffile, "WriteData="     + work    + "\" + AppName + ".wrt" );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "INTERV=" + wrkref + "\Interv.dat" );
+    FileWrite( piffile, "ccHH80=" + wrkref + "\hnull.dat" );           { !!! change to survey's household dictionary }
+    FileWrite( piffile, "[UserFiles]" );
+    FileWrite( piffile, "FILEDUPS=" + entry + "\FIndexHH.lst" );
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "Parameter=" + xcluster );
+    FileWrite( piffile, "ViewListing=Never" );
+    FileWrite( piffile, "ViewResults=No" );
+    FileWrite( piffile, "ListingWidth=120" );
+    FileWrite( piffile, "MessageWrap=No" );
+    FileWrite( piffile, "ErrmsgOverride=No" );
+    FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+    close( piffile );
+  end;
+
+  { concatenates the interviewer's household data with data from other interviewers }
+  function concathh()
+    { concatenate households from all interviewers sharing data but first delete files }
+    fdel( work + "\AllHH.dat" );
+    fdel( work + "\AllHH.dat.csidx" );
+    fdel( work + "\AllHH.dat.sts" );
+    { the HH interviewer file has to be removed as it may exist empty }
+    if FileEmpty( data + "\H" + xfilenum + ".dat" ) then
+      FileDelete( data + "\H" + xfilenum + ".dat" );
+    endif;
+    { concatenate HH data files }
+    FileConcat( work + "\AllHH.dat",                         { resulting file }
+                data + "\H" + xfilenum + ".dat",             { file from interviewer }
+                work + "\H" + xcluster + "????.dat" );       { files from other interviewers }
+    { concatenate partials for all households from all interviewers }
+    FileConcat( work + "\AllHH.dat.sts",                     { result file }
+                data + "\H" + xfilenum + ".dat.sts",         { file from interviewer }
+                work + "\H" + xcluster + "????.dat.sts" );   { files from other interviewers }
+  end;
+
+  { concatenates the interviewer's household and individual notes taken in the cluster }
+  function ConcatNotes()
+    numeric fh, fi, fres;
+    { concatenate households from all interviewers sharing data but first delete files }
+    fdel( work + "\AllNotes.dat" );
+    { concatenate HH data files }
+    fh = FileExist(data + "\H" + xfilenum + ".dat.csnot" );      { notes for HH interviews }
+    fi = FileExist(data + "\I" + xfilenum + ".dat.csnot" );      { notes for individual interviews }
+	recode fh :: fi -> fres;
+            0 ::  0 -> 0;	
+            1 ::  1 -> 1;
+            1 ::    -> 2;
+              ::    -> 3;
+    endrecode;
+	if fres = 0 then
+	  errmsg( 030 )
+    elseif fres = 1 then    { notes in individual interviews }
+      FileConcat( work + "\AllNotes.dat",                      { resulting file }
+                data + "\H" + xfilenum + ".dat.csnot",         { notes in household interviews }
+                data + "\I" + xfilenum + ".dat.csnot" );       { notes in individual interviews }
+    elseif fres = 2 then
+      FileConcat( work + "\AllNotes.dat",                      { resulting file }
+                data + "\H" + xfilenum + ".dat.csnot" );       { notes in household interviews }
+    elseif fres = 3 then
+      FileConcat( work + "\AllNotes.dat",                      { resulting file }
+                data + "\I" + xfilenum + ".dat.csnot" );       { notes in household interviews }
+    endif;	
+	concatnotes = fres;
+  end;
+
+  { change file setting for household assignment for a cluster }
+  function SetEligFile()
+    x = 1;
+    { file name for households assigned to interviewers is only known after the cluster is entered. It is set here }
+    fname = work + "\Eligibles.dat";
+    if !FileExist( fname ) then
+      errmsg( 035, fname );
+      x = 0;
+    else
+      if !setfile( ELIGINDV, fname ) then
+        errmsg( 035, fname );
+        x = 0;
+      endif;
+    endif;
+    SetEligFile = x;
+  end;
+
+  { change file setting for household assignment for a cluster }
+  function SetAssignFile()
+    x = 1;
+    { file name for households assigned to interviewers is only known after the cluster is entered. It is set here }
+    fname = work + "\S" + edit("9999",WCLUSTER) + ".dat";
+    if !FileExist( fname ) then
+      errmsg( 095, fname, WCLUSTER );
+      x = 0;
+    else
+      if !setfile( HHFORINT, fname ) then
+        errmsg( 095, fname, WCLUSTER );
+        x = 0;
+      endif;
+    endif;
+    SetAssignFile = x;
+  end;
+
+PROC FL_MENU
+PreProc
+
+  CSPro  = PathName( CSPro );
+  wrkprj = "C:\CC81";                               { work project in tablet/laptop }
+  wrkpii = wrkprj + "\Pii";                         { subdirecory to store data with PII }
+  backup = "E:\Data";                              { drive and directory to backup data }
+
+  { set font for value sets }
+  setfont( All, "Arial", 18, bold );
+
+  { set up minimal user bar }
+  userbase();
+  userbar( show );
+  { set the language at the start of the program, defaulting to English }
+  setlanguage(loadsetting("Language", "EN"));
+  SameSession = tonumber(loadsetting("DCSession","99"));
+  MoreThanOne = tonumber(loadsetting("Justone","0"));
+  
+  { set main directories }
+  entry    = wrkprj + "\Entry";     { data entry programs }
+  dicts    = wrkprj + "\Dicts";     { dictionaries }
+  utility  = wrkprj + "\Utility";   { all utilities used by the system }
+  upgrades = wrkprj + "\Upgrades";  { upgrades sent by supervisors are stored here }
+  SampApps = wrkprj + "\SampApps";  { household listing applications }
+  wrkref   = wrkpii + "\Ref";       { reference directory for clusters, sample and teams files  }
+  data     = wrkpii + "\Data" ;     { where data is stored }
+  SampData = wrkpii + "\SampData";  { store households when household listing used for sampling selection }
+  temp     = wrkpii + "\Temp" ;     { used for several purposes but specially to store temporary data }
+  work     = wrkpii + "\Work" ;     { working area to store concatenated households }
+  pictures = wrkpii + "\Pictures";  { working area to store pictures taken by applications }
+  { set directories to transfer data using bluetooth }
+  btwork   = "\Pii\Work\";          { last portion of directory where HH data will be transferred to other interviewers when sharing households }
+  btsup    = "\Pii\Temp\";          { last portion of directory where all files will be transferred to supervisors }
+  btsamp   = "\Pii\SampData\";      { last portion of directory where HH listing for sampling selection will be stored in supervisor machines }
+
+  { check presence of mandatory directories }
+  ChkDir( entry );
+  ChkDir( dicts );   
+  ChkDir( temp );    
+  ChkDir( work );    
+  ChkDir( utility );  
+  ChkDir( upgrades ); 
+  ChkDir( SampApps );    // you may want to delete this directory if HH listing not done as part of the survey 
+  ChkDir( wrkref );  
+  ChkDir( data );  
+  ChkDir( pictures );  
+  ChkDir( SampData );    // you may want to delete this directory if HH listing not done as part of the survey 
+
+  { file names for upgrades }
+  upgrname = "UPGDHS";              { upgrade namess coming from supervisor machine }
+
+  { Check that there are not two concurrent sessions of CSPro loaded at the same time }
+  if !SameSession then
+    if MoreThanOne then
+      errmsg( 150 );
+      x = accept( tr("Reset"), tr("Yes"), tr("No") );
+      if x = 2 then stop(1) endif;
+    endif;
+  endif;	
+  SaveSetting( "Justone", "1" );
+
+  { initialize array of interviewers }
+  do i = 1 while i <= 20
+    interview(i) = 0;
+    intername(i) = "";
+  enddo;
+
+PostProc
+  {PostProc of level 0 }
+  stop(1);
+
+PROC MENU_LEVEL
+PreProc
+
+  open( INTERV );
+  do j = 1 while loadcase( INTERV )    { load list of interviewers into memory }
+    intvwcode(j) = ICODE;
+    intvwname(j) = INAME;
+    intvwteam(j) = ITEAM;
+    intvwsex (j) = ISEX;
+    intvwrole(j) = IROLE;
+  enddo;
+  totintvw = j-1;
+  close( INTERV );
+  if samesession <> 99 then
+    advance to WFINAL
+  endif;
+  
+PROC WSUPER
+onfocus
+  fieldworkers.clear();
+  do j = 1 while j <= totintvw
+    if intvwrole(j) = 2 then            { supervisor }
+      fieldworkers.add( intvwname(j), intvwcode(j) );
+    endif;
+  enddo;
+  SetValueSet( $, fieldworkers );
+
+  $ = tonumber( LoadSetting("Supervisor") );
+  
+postproc
+  SaveSetting( "Supervisor", edit("9999",$) );
+  do j = 1 while j <= totintvw & intvwcode(j) <> $ enddo;
+  if j <= totintvw then
+    steam = intvwteam(j);
+  endif;
+
+  { get an array of interviewers that belong to the same team }
+  j = 0;
+  do i = 1 while i <= totintvw
+    if intvwteam(i) = steam then
+      j = j + 1;
+      interview(j) = intvwcode(i);
+      interrole(j) = intvwrole(i);
+      intername(j) = intvwname(i);
+      if intvwrole(i) = 2 then
+        SupName = intvwname(i);     { get supervisor's name }
+      endif;
+    endif;
+  enddo;
+
+PROC WINTNUM
+onfocus
+  fieldworkers.clear();
+  do j = 1 while j <= totintvw
+    if intvwrole(j) in 1,2 & intvwteam(j) = steam then
+      fieldworkers.add( intvwname(j), intvwcode(j) );
+    endif;
+  enddo;
+  SetValueSet( $, fieldworkers );
+  
+  $ = tonumber( loadsetting("Interviewer") );
+
+postproc
+  SaveSetting( "Interviewer", edit("9999",$) );
+  do j = 1 while j <= totintvw & intvwcode(j) <> $ enddo;
+  if j > totintvw then
+    reenter
+  else
+    IntCode = intvwcode(j);
+    IntName = intvwname(j);
+    IntSex  = intvwsex(j);
+  endif;
+
+PROC WCLUSTER
+onfocus
+  $ = tonumber( loadsetting("Cluster") );
+
+postproc
+  if !loadcase( CLUSTERS, $ ) then
+    errmsg( 001, WCLUSTER );
+    reenter;
+  endif;
+  close( CLUSTERS );
+  SaveSetting( "Cluster", edit("9999",$) );
+  
+{  errmsg( "Province=%s, Region=%s, District=%s, Commune=%s, ZD=%s", strip(YPROVINN), strip(YREGIONN), strip(YDISTRICTN), strip(YCOMUNEN), strip(YENUMERN) );}
+  WURBRUR    = GetValueLabel( YURBRUR );
+  WREGIONN   = YREGIONN;
+  WSTATEN    = YSTATEN;
+  WDISTRICTN = YDISTRICTN;
+  WCITYN     = YCITYN;
+  setalready = 0;
+  xcluster = edit( "9999", $ );                              { cluster number }
+  xintnum  = edit( "9999", WINTNUM );                        { Interviewer }
+  xsuperv  = edit( "9999", WSUPER );                         { Supervisor }
+  xparaux  = xintnum + xsuperv + "0" + "0000";
+  xparamet = xparaux;
+  { xparamet postions as received by data collection applications }
+  {  1:4   - interviewer number                            }
+  {  5:4   - supervisor number                             }
+  {  9:1   - central office and supervisors                }
+  { 10:1   - revisit                                       }
+  { 11:1   - modify completed                              }
+  { 12:1   - if case has been saved partially              }
+  { 13:1   - enter biomarker questionnaire                 }
+  { 14:4   - household number                              }
+  { 18:2   - individual line number when calling CollectIN }
+  xfilenum = xcluster + xintnum;       { Number corresponding to data file names }
+  { back-up after returning from executing data collection applications }
+  if SameSession = 2 then
+    backupf();
+  endif;  
+
+PROC WFINAL
+onfocus
+  fdel( work + "\Eligibles.dat" );
+  fdel( work + "\Eligibles.dat.csidx" );
+  WNUMBER  = notappl;
+  WADDRESS = " ";
+  WCORRECT = notappl;
+  SaveSetting( "DCSession", "0" );
+
+postproc
+  if getlanguage() = "EN" then
+    heading = "Interview: Cluster " + xcluster + " Int " + edit("9999", WINTNUM);
+    action = accept( heading,
+               { 1}  "1 Start household data collection",
+               { 2}  "2 Revisit incomplete/partial household",
+               { 3}  "3 Modify/review a complete household",
+               { 4}  "4 List eligible individuals/biomarkers",
+               { 5}  "5 Enter biomarker data",
+               { 6}  "--------------------------------------",
+               { 7}  "7 List cluster notes",
+               { 8}  "8 Menu for eligible individuals",
+               { 9}  "9 List questionnaires in cluster",
+               {10}  "A Data exchange/other utilities",
+               {11}  "C Change cluster number",
+               {12}  "E Exit system (Esc)" );
+  elseif getlanguage() = "ES" then
+    heading = "Entrevista: Segmento " + xcluster + " Ent " + edit("9999", WINTNUM);
+    action = accept( heading,
+               { 1}  "1 Iniciar recoleccion de nuevo hogar",
+               { 2}  "2 Revisitar hogar incompleto/parcial",
+               { 3}  "3 Modificar/revisar hogar finalizado",
+               { 4}  "4 Listar individuos elegibles y biomarcadores",
+               { 5}  "5 Ingresar datos de peso y talla",
+               { 6}  "--------------------------------------",
+               { 7}  "7 Listar notas en segmento",
+               { 8}  "8 Menu para individuales elegibles",
+               { 9}  "9 Listar cuestionarios en segmento",
+               {10}  "A Transferir o recibir datos/otros utilitarios",
+               {11}  "B Cambiar numero de segmento",
+               {12}  "C Salir del sistema (Esc)" );
+  endif;
+  if !action | action = 12 then
+    SaveSetting( "Justone", "0" );
+    SaveSetting( "DCSession", "0" );
+    stop(1)
+  endif;
+  SaveSetting( "DCSession", "1" );
+  { change cluster number }
+  if action = 11 then
+    reenter WCLUSTER
+
+  { all options to deal with households manipulation and where women may be found }
+  elseif action in 1:5,8 then
+    if !setalready & !SetAssignFile() then
+      reenter;
+    else
+      setalready = 1;
+    endif;
+    { get a household from asignment file }
+    if getonehh( action ) then
+      advance to WCORRECT;
+    endif;
+
+  { line separator is treated as a dummy option }
+  elseif action = 6 then
+
+  { lists interviewer's notes in cluster }
+  elseif action = 7 then
+    if ConcatNotes() then
+      AppName = "ListNotes";
+      ListNotes();
+      runpffS();
+	endif;
+
+  { lists questionnaires collected by interviewer }
+  elseif action = 9 then
+    AppName = "LstQuest";
+    lstquest();
+    runpffS();
+
+  { menu to transfer/share and fix data and to obtain updates }
+  elseif action = 10 then
+    if getlanguage() = "EN" then
+      heading = "Transfer and utilities: Cluster " + xcluster + " Interviewer " + edit("9999", WINTNUM);
+      option  = accept( heading,
+                {  1} "1 Transfer cluster data to supervisor",
+                {  2} "2 Share HH data with other interviewers",
+                {  3} "3 Receive HH data form other interviewer",
+                {  4} "4 Modify IDs/delete individuals",
+                {  5} "5 Receive system updates from supervisor",
+                {  6} "6 Receive HH assignment from supervisor",
+                {  7} "7 Fix interviewer code/result in a household",
+                {  8} "8 Transfer data to Biomarker specialist",
+                {  9} "9 Enter households for sampling listing",
+                { 10} "A Transfer households listed to supervisor",
+                { 11} "X Return to main menu" );
+    else
+      heading = "Transferencia y utilitarios: Conglom " + xcluster + " Entrevistador(a) " + edit("9999", WINTNUM);
+      option  = accept( heading,
+                {  1} "1 Transferir datos a supervisora",
+                {  2} "2 Enviar hogar a otra entrevistadora",
+                {  3} "3 Recibir hogar de otra entrevistadora",
+                {  4} "4 Modificar ID/eliminar casos",
+                {  5} "5 Recibir actualizaciones del supervisor",
+                {  6} "6 Recibir asignacion hogares de supervisor",
+                {  7} "7 Arreglar el resultado de hogar asignado",
+                {  8} "8 Transferir datos al especialista en Biomarcadores",
+                {  9} "9 Ingresar hogares para listado de muestra",
+                { 10} "A Transferir hogares listados a supervisora",
+                { 11} "X Regresar al menu principal" );
+    endif;
+    { tranfer data to supervisor }
+    if option = 1 then
+      if IntCode = WSUPER then       { transfer within supervisor machine }
+        errmsg( 0081 );
+      else                           { transfer from other interviewers }
+        transfer();
+      endif;
+
+    { transfer household data to another interviewer }
+    elseif option = 2 then
+      sendhhdat();
+
+    { receive household data from another interviewer }
+    elseif option = 3 then
+      receivehh();
+
+    { fix identifiers (cluster, household, interviewers) or delete women  }
+    elseif option = 4 then
+      FixIds();
+
+    { get and apply system updates from supervisor }
+    elseif option = 5 then
+      receiveupgr();
+      ApplyUpgr();
+
+    { get household assignment for cluster form supervisor }
+    elseif option = 6 then
+      rcvhhassign();
+      SetAssignFile();   // to recreate index file as it may have changed
+	  
+    { fix the result of a household assigned to interviewer }
+    elseif option = 7 then
+      if setalready | SetAssignFile() then
+        AppName = "FIxResult";
+        if selcase(  tr("Select a household from the list displayed"), HHFORINT, "", 5 ) 
+		   include( VNUMBER, VSTRUCT, VNAME, VADDRESS, VINTCODE, VRESULT, VMALE )  where VINTCODE <> notappl then
+          FIxResult();
+          close( HHFORINT );
+          runpffS();
+          SetAssignFile();   // to recreate index file as it may have changed
+        endif;
+      endif;
+
+    { send household data to biomarker specialist }
+    elseif option = 8 then
+      SendBioDat();
+
+    { enter household listing to be included in sampling selection }
+    elseif option = 9 then
+      AppName = "SampList";
+      SampList();
+      runpffS();
+
+    { transfer household listing for sampling selection to supervisor }
+    elseif option = 10 then
+      if IntCode = WSUPER then        { if supervisor collected household listing transferring isn't necessary }
+        errmsg( 0081 );
+      else                            { transfer from interviewer to supervisor }
+        transamp();
+      endif;
+
+    endif;
+  endif;
+
+  reenter;
+
+PROC WNUMBER
+preproc
+  $ = VNUMBER;
+
+PROC WADDRESS
+preproc
+  if length( strip(VNAME) ) & length( strip(VADDRESS) ) then
+    $ = strip(VNAME) + " - " + strip(VADDRESS);
+  elseif length( strip(VNAME) ) then
+    $ = VNAME;
+  else
+    $ = VADDRESS;
+  endif;
+
+PROC WCORRECT
+preproc
+  $ = 1;
+
+postproc
+  if $ <> 1 then
+    reenter WFINAL;
+  endif;
+  xparamet = xparaux  + edit("9999",VNUMBER);
+  xcase    = xcluster + edit("9999",VNUMBER);
+  partial  = partialcs( 1, WCLUSTER, WNUMBER, 0, data + "\H" + xfilenum + ".dat" );
+  AppName = "CollectHH";
+  { start data collection for a new household }
+  if action = 1 then
+    if partial | VRESULT <> 0 then
+      errmsg( 009, VNUMBER, partial, VRESULT );
+      reenter WFINAL;
+    endif;
+    { add, hh, !partial, !revisit, !change, !height/weight }
+    csrun( 1, 1, 0, 0, 0, 0 );
+  { revisit a household if previous visit was incomplete or if it was partially collected }
+  elseif action = 2 then
+    if VRESULT in 0,1 & !partial then
+      errmsg( 010, VRESULT, partial );
+      reenter WFINAL;
+    { hh incomplete are partially saved to allow to comeback in add mode }
+    elseif VRESULT <> 1 then
+      { modify, hh, partial, revisit, !change, !height/weight }
+      csrun( 0, 1, 1, 1, 0, 0 );
+    else
+      { modify, hh, partial, revisit, !change, !height/weight }
+      csrun( 0, 1, partial, 1, 0, 0 );
+    endif;
+  { modify a complete household }
+  elseif action = 3 then
+    if VRESULT <> 1 then
+      errmsg( 011, VRESULT );
+      reenter WFINAL;
+    endif;
+    { modify, hh, !partial, !revisit, change, !height/weight }
+    csrun( 0, 1, 0, 0, 1, 0 );
+  { lists eligible women/men and all individuals eligible for biomarkers }
+  elseif action = 4 then
+    AppName = "ListElig";
+    ListElig();
+    runpffS();
+  { enter height and weight }
+  elseif action = 5 then
+    if VRESULT <> 1 then
+      errmsg( 012, VRESULT );
+      reenter WFINAL;
+    endif;
+    { add, hh, !partial, !revisit, !change, height/weight }
+    csrun( 1, 1, 0, 0, 0, 1 );
+  { household where eligible individuals will be selected }
+  elseif action = 8 then
+    if VINTCODE = IntCode & VRESULT <> 1 then
+      errmsg( 080, VRESULT );
+      reenter WFINAL;
+    endif;
+    advance to WFINAL2;
+  endif;
+  reenter WFINAL;
+
+PROC WFINAL2
+preproc
+  WINDIV    = notappl;
+  WCORRECT2 = notappl;
+  WNAME     = "";
+  if !FindHHDups() then
+    concathh();
+    AppName = "WrkElig";
+    WrkElig( 2 );           { generates file with HH from all interviewers and others }
+    close( ELIGINDV );
+    runpffW();
+  else
+    ChkHHDup();
+    runpffS();
+  endif;
+
+postproc
+  heading = tr("Individual: Cluster") + " " + xcluster + " " + tr("Interviewer") + " " + edit("9999", WINTNUM);
+  action = accept( heading,
+                   tr("Start a new individual"),
+                   tr("Revisit incomplete/partial individual"),
+                   tr("Modify complete individual interview"),
+                   tr("Return to main menu") );
+  { return to main Menu }
+  if !action | action = 4 then reenter WFINAL endif;
+
+PROC WINDIV
+preproc
+  SetEligFile();
+  if selcase( tr("Select an individual from the list displayed"), ELIGINDV, "", 10 ) 
+     include( ZOWNER, ZNUMBER, ZLINE, ZNAME, ZQTYPEA, ZSTATUS ) where ZQUEST = 2 & ZNUMBER = WNUMBER then
+    $       = ZLINE;
+  else
+    errmsg( 020 );
+    reenter WFINAL
+  endif;
+  WNAME = ZNAME;
+
+PROC WCORRECT2
+preproc
+  $ = 1;
+
+postproc
+  if $ <> 1 then
+    reenter WFINAL;
+  endif;
+  xparamet = xparaux  + edit("9999",WNUMBER) + edit("99",WINDIV);
+  xcase    = xcluster + edit("9999",WNUMBER) + edit("99",WINDIV);
+  AppName = "CollectIN";
+
+  { begin data collection for a woman }
+  if action = 1 then
+    if !ZSTATUSC in 0 then              { Not Visited }
+      errmsg( 025, strip(ZSTATUS) );
+      reenter WFINAL2
+    endif;
+    { add, individual, !partial, !revisit, !change, !height/weight }
+    csrun( 1, 2, 0, 0, 0, 0 );
+
+  { revisit an individual if previous visit was incomplete or it was partially collected }
+  elseif action = 2 then
+    if ZSTATUSC in 0,1 then             { Not visited or complete }
+      errmsg( 025, strip(ZSTATUS) );
+      reenter WFINAL2
+    elseif ZSTATUSC in 2 then           { Incomplete }
+      { modify, individual, !partial, revisit, !change, !height/weight }
+      csrun( 0, 2, 1, 1, 0, 0 );
+    else                                { partial }
+      partial = partialcs( 2, WCLUSTER, WNUMBER, WINDIV, data + "\I" + xfilenum + ".dat" );
+      { modify, individual, partial, revisit, !change, !height/weight }
+      csrun( 0, 2, partial, 1, 0, 0 );
+    endif;
+
+  { modify an individual with a complete interview }
+  elseif action = 3 then
+    if !ZSTATUSC in 1 then              { Not Complete }
+      errmsg( 026, strip(ZSTATUS) );
+      reenter WFINAL2
+    endif;
+    { modify, individual, !partial, !revisit, change, !height/weight }
+    csrun( 0, 2, 0, 0, 1, 0 );
+  endif;
+  reenter WFINAL;

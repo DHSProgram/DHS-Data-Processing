@@ -1,0 +1,98 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.5
+
+[LANGUAGES]
+EN=English
+ES=Español
+FR=French
+
+[QUESTION]
+Field=MENU_DICT.WCLUSTER
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red255\green0\blue128;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs24 Enter the CLUSTER number on which you will be working\cf2\b\f1
+EN=\par \cf1\b0\f0\fs17
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\f0\fs24 Entre el numero del SEGMENTO en el cual va a trabajar
+ES=\par \fs17
+ES=\par }
+FR={\rtf1\fbidis\ansi\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue255;}
+FR=\viewkind4\uc1\pard\ltrpar\cf1\lang1033\f0\fs24 Introduire la GRAPPE avec laquelle vous allez travailler
+FR=\par }
+
+[QUESTION]
+Field=MENU_DICT.WFINAL
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red255\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\qc\cf1\f0\fs22\lang1033 MENU FOR HH LISTING SYSTEM\par
+EN=Cluster: %WCLUSTER%, Enumerator %WINTNUM%-%IntName%\par
+EN=\cf2 Press the Enter key and Select an option from the list to be displayed\par
+EN=
+EN=\pard\cf3\f1\fs24\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;\red255\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\qc\cf1\f0\fs22\lang1033 MENU PARA EL SISTEMA DE LISTADO DE HOGARES\par
+ES=Segmento: %WCLUSTER%, Enumerador %WINTNUM%-%INAME%\par
+ES=\cf2 Presione la tecla Enter para desplegar el menu principal y seleccione una opcion\par
+ES=
+ES=\pard\cf1\f1\fs16\par
+ES=}
+FR={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue255;\red255\green0\blue255;}
+FR={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\qc\cf1\lang1033\f0\fs22 MENU FOR HH LISITING SYSTEM\par
+FR=Cluster: %WCLUSTER%, Enumerator %WINTNUM%-%INAME%\par
+FR=\cf2\fs24 Appuyez sur une touche pour afficher le menu et en s\'e9lectionnez une option\par
+FR=}
+
+[QUESTION]
+Field=MENU_DICT.WINTNUM
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\f0\fs24 Select your name from the list of enumerators displayed.\f1\par
+EN=\f0\fs17\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\f0\fs24 Seleccione su nombre de la lista desplegada.\par
+ES=\fs17\par
+ES=}
+FR={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue255;\red255\green0\blue255;}
+FR={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\f0\fs24 Selectionner votre nom \'e0 partir de la liste ci-dessous.\cf2\fs32\par
+FR=}
+
+[QUESTION]
+Field=MENU_DICT.WINTRO
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue255;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\qc\cf1\f0\fs32\lang1033 Welcome to the\par
+EN=\cf2 Demographic & Health Survey\fs24  \cf1\par
+EN=\fs28 Enumerator Household Listing Menu\cf3\par
+EN=\fs24 Press the Enter key to continue\par
+EN=
+EN=\pard\f1\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;\red255\green0\blue255;\red0\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\qc\cf1\f0\fs32\lang1033 Encuesta de Demografia y Salud \cf2\par
+ES=\fs28 Menu para Enumeradores del Listado de Hogares\cf3\par
+ES=\fs24 Presione la tecla Enter para continuar\par
+ES=
+ES=\pard\f1\par
+ES=}
+FR={\rtf1\fbidis\ansi\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+FR={\colortbl ;\red255\green0\blue255;\red0\green0\blue255;\red64\green0\blue64;}
+FR=\viewkind4\uc1\pard\ltrpar\qc\cf1\lang1033\f0\fs32 Bienvenue \'e0
+FR=\par \cf2 l'Enqu\'eate D\'e9mographique et de Sant\'e9\cf1
+FR=\par Menu du Compteur de la Liste de M\'e9nages
+FR=\par \cf3\fs24 Appuyer sur une touche pour continuer\cf1\fs32
+FR=\par }
+

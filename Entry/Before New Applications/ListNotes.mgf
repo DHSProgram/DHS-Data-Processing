@@ -1,0 +1,15 @@
+﻿Language = EN
+99999 Dummy message until a CSPro bug is fixed to properly handle languages
+
+Language = ES
+{ common strings used by the application }  
+  ES ( "Listing Notes for Cluster: %04d" ) Listando Notas para Segmento: %04d
+  ES ( "Household" ) Hogar
+  ES ( "Line" ) Linea
+  ES ( "Field" ) Campo
+  ES ( "Date (dd/mm/yyyy)" ) Fecha (dd/mm/aaaa)
+  ES ( "Time (hh:mm)" ) Time (hh:mm)
+  ES ( "Note/Observation" ) Nota/Obserbacion
+  ES ( "Households" ) Hogares
+  ES ( "Individuals" ) Individuales
+  ES ( "No notes found in this cluster" ) No se encontraron notas en este segmento

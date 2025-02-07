@@ -1,0 +1,103 @@
+﻿[Dictionary]
+Version=CSPro 7.4
+Label=Dict to Add Weath Index
+Name=WEALTHINDEX
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=D5A439C2DAD66F6E003828BA9D1985F2606C6EB96EEF700BB75384783079552E
+
+[Level]
+Label=WEALTH INDEX
+Name=WEALTH_INDEX
+
+[IdItems]
+
+[Item]
+Label=Cluster number
+Name=WHCLUST
+Start=1
+Len=4
+
+[Item]
+Label=Household number
+Name=WHNUMBER
+Start=5
+Len=4
+
+[Record]
+Label=Wealth index record
+Name=SEC1
+RecordTypeValue=''
+RecordLen=50
+
+[Item]
+Label=Wealth Index from factor scores combined
+Name=WLTHINDF
+Start=9
+Len=11
+Decimal=5
+DecimalChar=Yes
+
+[Item]
+Label=Quintiles of wealth index combined
+Name=WLTHIND5
+Start=20
+Len=3
+
+[ValueSet]
+Label=Quintiles of wealth index combined
+Name=WLTHIND5_VS1
+Value=1;Lowest quintile
+Value=2;Second quintile
+Value=3;Middle quintile
+Value=4;Fourth quintile
+Value=5;Highest quintile
+
+[Item]
+Label=Wealth Index from factor scores (Urban)
+Name=WLTHINDFU
+Start=23
+Len=11
+Decimal=5
+DecimalChar=Yes
+
+[Item]
+Label=Quintiles of wealth index (Urban)
+Name=WLTHIND5U
+Start=34
+Len=3
+
+[ValueSet]
+Label=Quintiles of wealth index (Urban)
+Name=WLTHIND5U_VS1
+Value=1;Lowest quintile
+Value=2;Second quintile
+Value=3;Middle quintile
+Value=4;Fourth quintile
+Value=5;Highest quintile
+
+[Item]
+Label=Wealth Index from factor scores (Rural)
+Name=WLTHINDFR
+Start=37
+Len=11
+Decimal=5
+DecimalChar=Yes
+
+[Item]
+Label=Quintiles of wealth index (Rural)
+Name=WLTHIND5R
+Start=48
+Len=3
+
+[ValueSet]
+Label=Quintiles of wealth index (Rural)
+Name=WLTHIND5R_VS1
+Value=1;Lowest quintile
+Value=2;Second quintile
+Value=3;Middle quintile
+Value=4;Fourth quintile
+Value=5;Highest quintile

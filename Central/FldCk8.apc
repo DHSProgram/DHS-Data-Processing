@@ -1,0 +1,1911 @@
+﻿PROC GLOBAL
+  { DHS-V chapter 14, section test tables  version 1.0.0 of 05/09/07 }
+
+  numeric byteam, x, i, itot, j, jtot, jtot1, jtot2, jtot3, jmax, jmin, k;
+  numeric j15, j14, unitx, number, hwage, hwvalue, hwsex, hwerr;
+  numeric yearint, cutoff, ismonth, isyear, isage, valdate, agechild, dateflag;
+  numeric f1u_tar, f1r_tar, f2w_urb, f2w_rur, f3w_urb, f3w_rur, f3m_urb, f3m_rur;
+  numeric f2m_urb, f2m_rur, f4m_tar;
+  numeric f4w_tar, f6_tar,f7l_tar, f7d_tar, f8_tar, f5_tar, f10_tar;
+  numeric f11_tar1, f11_tarm1, f11_tar2, f11_tar3, f11_tar4, f12_tar1, f12_tar2, f12_tar3, f13_tar;
+  numeric f14_t1, f14_t2, f14_t3, f15_tar;
+  numeric weightch, lengthch, lystand;
+  numeric asterisk = 999999999;     // constant to be used by tables editor to put an * in a cell
+
+  array interview(100);       { determine if an individual was successfully interviewed to be used for DBS collection }
+
+  crosstab float(1) f1u Fteams+{fintnum+}ftotal AHRESULT+ftotaln+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-1: Household completion rate (urban)", " ",
+           "Percent distribution of sampled households by results of household",
+           "interview, according to interviewer team, Country, 2015" )
+
+  crosstab float(1) f1r Fteams+{fintnum+}ftotal AHRESULT+ftotaln+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-1: Household completion rate (rural)", " ",
+           "Percent distribution of sampled households by results of household",
+           "interview, according to interviewer team, Country, 2015" )
+
+  crosstab float(2) f2w Fteams+{fintnum+}ftotal URBRUR*Fhhmean
+    exclude( percents, totals, specval )
+    title( "FC-2W: Eligible women per household","",
+           "Mean number of de facto eligible women per household,",
+           "according to interviewer team.",
+           "Country 2015" );
+
+  crosstab float(2) f2m Fteams+{fintnum+}ftotal URBRUR*Fhhmeanm
+    exclude( percents, totals, specval )
+    title( "FC-2M: Eligible men per household","",
+           "Mean number of de facto eligible men per household,",
+           "according to interviewer team.",
+           "Country 2015" );
+
+  crosstab float(1) f3wu Fteams+{fintnum+}ftotal ARESULT+ftotaln+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-3W: Eligible woman completion rate (urban)","",
+           "Percent distribution of de facto eligible women by result",
+           "of individual interview, according to interviewer team.",
+           "Country 2015" );
+
+  crosstab float(1) f3wr Fteams+{fintnum+}ftotal ARESULT+ftotaln+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-3W: Eligible woman completion rate (rural)","",
+           "Percent distribution of de facto eligible women by result",
+           "of individual interview, according to interviewer team.",
+           "Country 2015" );
+
+  crosstab float(1) f3mu Fteams+{fintnum+}ftotal ARESULT+ftotaln+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-3M: Eligible man completion rate (urban)","",
+           "Percent distribution of de facto eligible men by result",
+           "of individual interview, according to interviewer team.",
+           "Country 2015" );
+
+  crosstab float(1) f3mr Fteams+{fintnum+}ftotal ARESULT+ftotaln+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-3M: Eligible man completion rate (rural)","",
+           "Percent distribution of de facto eligible men by result",
+           "of individual interview, according to interviewer team.",
+           "Country 2015" );
+
+  crosstab float(2) f4w Fteams+{fintnum+}ftotal Fage+ftotalw+Fratio+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-4W: Age displacement: women","",
+           "Number of all women age 12-18 years listed in the household",
+           "schedule by single year of age and age ratio 15/14,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(2) f4m Fteams+{fintnum+}ftotal Fagem+ftotalm+Fratiom+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-4M: Age displacement: men","",
+           "Number of all men age 12-18 years listed in the household",
+           "schedule by single year of age and age ratio 15/14,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(1) f5 Fteams+{fintnum+}ftotal Fceb+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-5:  Children ever born","",
+           "Number of all women with a completed interview, total number",
+           "of children ever born (CEB), and mean number of CEB,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(2) f6 Fteams+{fintnum+}ftotal Fyearb+ftotalb+Fratiob+ftarget
+    exclude( percents, totals, specval)
+    title( "FC-6: Birth displacement","",
+           "Number of births since [2006] by year of birth and birth year",
+           "ratio [2010/2009], according to interviewer team (based on",
+           "all births of all women), Country 2015" );
+
+  crosstab float(1) f7l Fteams+{fintnum+}ftotal Fcompl+ftotaln+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-7L: Birth date reporting: living children","",
+           "Percent distribution of births by completeness of date of",
+           "birth/age information, according to interviewer team (based",
+           "on births of all women), Country 2015" );
+
+  crosstab float(1) f7d Fteams+{fintnum+}ftotal Fcompd+ftotaln+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-7D: Birth date reporting: dead children","",
+           "Percent distribution of births by completeness of date of",
+           "birth information, according to interviewer team (based",
+           "on births of all women), Country 2015" );
+
+  crosstab float(1) f8  Fteams+{fintnum+}ftotal Faged+ftotald+Fratiod+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-8: Age at death heaping","",
+           "Number of deaths in the 15 years preceding the survey",
+           "occurring at 8-16 months of age by reported months of age",
+           "at death (including age at death reported as 'one year') and",
+           "12 months ratio, according to interviewer team. (Includes",
+           "deaths for which a calendar period of death could not be assigned",
+           "because of missing date of birth information.  Deaths lacking",
+           "age at death are not included. Based on births of all women)",
+           "Country 2015" );
+
+  crosstab float(2) f9  Fteams+{fintnum+}ftotal Faged9+Falive+ftotalb9+Fratio9
+    exclude( percents, totals, specval )
+    title( "FC-9:  Child mortality","",
+           "Number of births in the 15 years before the survey by survival",
+           "status and age at death (for those who died), the ratio of",
+           "neonatal deaths (<1 month) to all infant deaths (<12 months),",
+           "and the ratio of infant deaths to all births,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(1) f10 Fteams+{fintnum+}ftotal Fcardr+Fcardp+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-10: Vaccination cards","",
+           "Percentage of living children born since January [2002] who",
+           "currently have a health card and of children whose health card",
+           "was seen by the interviewer and proportion of cards seen,",
+           "according to interviewer team, Country 2015" );
+
+   crosstab float(1) f11cw1 Fteams+{fintnum+}ftotal fwc11+ftotalc2+Fhwc+ftarget2
+    exclude( percents, totals, specval )
+    title( "FC-11CW: Children's weight","",
+           "Percent distribution of  children under 5 eligible for height and weight",
+           "by result of weight measurement, percentage of children measured who have out of range",
+           "weight values or incomplete date of birth, and percentage of children measured who",
+           "have out of range weight-for-height Z-score, according to interviewer team, Country 2015" );
+
+   crosstab float(1) f11cw2 Fteams+{fintnum+}ftotal fdec1+ftotpc1+ftotalc3+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-11C wt 1dec: Accuracy of children's weight, 1st decimal","",
+           "Percent distribution of children <5 weighed and with valid data by 1st decimal of the",
+           "recorded weight, according to interviewer team, Country 2015" );
+
+   crosstab float(1) f11cw3 Fteams+{fintnum+}ftotal fdec2+ftotpc2+ftotalc3+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-11C wt 2dec: Accuracy of children's weight, 2nd decimal","",
+           "Percent distribution of children <5 weighed and with valid data, by 2nd decimal of the",
+           "reported weight, according to interviewer team, Country 2015" );
+
+   crosstab float(1) f11ch Fteams+{fintnum+}ftotal fhc11+ftotalc2+Fhwc+ftarget3
+    exclude( percents, totals, specval )
+    title( "FC-11CH: Height: children","",
+           "Percent distribution of children under 5 eligible for height ",
+           "by result of height measurement, and percentage of",
+           "children measured who have out of range values or incomplete date",
+           "of birth, according to interviewer team, Country 2015" );
+
+  crosstab float(1) f11ww1 Fteams+{fintnum+}ftotal fww11+ftotalw2+Fhww+ftarget4
+    exclude( percents, totals, specval )
+    title( "FC-11W wt: Women's weight","",
+           "Percent distribution of women eligible for height and weight ",
+           "by result of weight measurement,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(1) f11ww2 Fteams+{fintnum+}ftotal fdec1+ftotpc1+ftotalw3+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-11W wt 1dec: Accuracy of women's weight, 1st decimal","",
+           "Percent distribution of women weighed and with valid data, by 1st decimal of the",
+           "reported weight, according to interviewer team, Country 2015" );
+
+  crosstab float(1) f11ww3 Fteams+{fintnum+}ftotal fdec2+ftotpc2+ftotalw3+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-11W wt 2dec: Accuracy of women's weight, 2nd decimal","",
+           "Percent distribution of women weighed and with valid data, by 2nd decimal of the",
+           "reported weight, according to interviewer team, Country 2015" );
+
+  crosstab float(1) f11wh Fteams+{fintnum+}ftotal fhw11+ftotalw2+Fhww+ftarget4
+    exclude( percents, totals, specval )
+    title( "FC-11W ht: Women's height","",
+           "Percent distribution of women eligible for height and weight",
+           "by result of height measurement, according to interviewer team, Country 2015" );
+
+  crosstab float(1) f11mw1 Fteams+{fintnum+}ftotal Fwm11+ftotalm2+Fhwm+ftarget5
+    exclude( percents, totals, specval )
+    title( "FC-11M wt: Men's weight","",
+           "Percent distribution of men eligible for height and weight ",
+           "by result of weight measurement, according to interviewer team, Country 2015" );
+
+  crosstab float(1) f11mw2 Fteams+{fintnum+}ftotal fdec1+ftotpc1+ftotalm3+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-11M wt 1dec: Accuracy of men's weight, 1st decimal","",
+           "Percent distribution of men weighed and with valid data, by 1st decimal of the",
+           "reported weight, according to interviewer team, Country 2015" );
+
+  crosstab float(1) f11mw3 Fteams+{fintnum+}ftotal fdec2+ftotpc2+ftotalm3+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-11M wt 2dec: Accuracy of men's weight, 2nd decimal","",
+           "Percent distribution of men weighed and with valid data, by 2nd decimal of the",
+           "reported weight, according to interviewer team, Country 2015" );
+
+  crosstab float(1) f11mh Fteams+{fintnum+}ftotal Fhm11+ftotalm2+Fhwm+ftarget5
+    exclude( percents, totals, specval )
+    title( "FC-11MH: Height: men","",
+           "Percent distribution of men eligible for height ",
+           "by result of height measurement, and",
+           "percentage of men measured who have out of range values,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(1) f12c1 Fteams+{fintnum+}ftotal Fac12+ftotalc5+fanc+ftarget6
+    exclude( percents, totals, specval )
+    title( "FC-12C hb: Anemia testing: children","",
+           "Percent distribution of children 6-59 months eligible for",
+           "anemia testing by result of anemia testing,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(1) f12c2 Fteams+{fintnum+}ftotal fdec1+ftotpc1+ftotalc4+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-12C hb 1dec: Accuracy of children's hemoglobin level, 1st decimal","",
+           "Percent distribution of children 6-59 months tested for hemoglobin and with",
+           "valid data, by1st decimal of reported hemoglobin level,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(1) f12w1 Fteams+{fintnum+}ftotal Faw12+ftotalw2+fanw+ftarget4
+    exclude( percents, totals, specval )
+    title( "FC-12W hb: Anemia testing: women","",
+           "Percent distribution of women eligible for",
+           "anemia testing by result of anemia testing,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(1) f12w2 Fteams+{fintnum+}ftotal fdec1+ftotpc1+ftotalw3+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-12W hb 1dec: Accuracy of women's hemoglobin level, 1st decimal","",
+           "Percent distribution of women tested for hemoglobin and with valid data,",
+           "by 1st decimal of reported hemoglobin level,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(1) f12m1 Fteams+{fintnum+}ftotal Fam12+ftotalm2+fanm+ftarget5
+    exclude( percents, totals, specval )
+    title( "FC-12M hb: Anemia testing: men","",
+           "Percent distribution of men eligible for anemia testing by result of anemia testing,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(1) f12m2 Fteams+{fintnum+}ftotal fdec1+ftotpc1+ftotalm3+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-12M hb 1dec: Accuracy of men's hemoglobin level, 1st decimal","",
+           "Percent distribution of men tested for hemoglobin and with valid data,",
+           "by 1st decimal of reported hemoglobin level,",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(1) f13w Fteams+{fintnum+}ftotal fdbs*findint+ftotalw2+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-13W: HIV blood collection: women","",
+           "Percent distribution of women eligible for HIV testing by",
+           "result of HIV blood collection, according to interviewer team,",
+           "Country 2015" );
+
+  crosstab float(1) f13m Fteams+{fintnum+}ftotal fdbs*findint+ftotalm2+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-13M: HIV blood collection: men","",
+           "Percent distribution of men eligible for HIV testing by",
+           "result of HIV blood collection, according to interviewer team,",
+           "Country 2015" );
+
+  crosstab float(1) f14 Fteams+{fintnum+}ftotal
+                      fcol14a+ftarget+fcol14b+ftarget+fcol14c+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-14:  Adult and Maternal Mortality Module","",
+           "Number of deceased sisters and number and percentage for whom",
+           "age at death is missing; number of sisters who died",
+           "at age 12 years and above and number and percentage for whom",
+           "information on death during pregnancy, during delivery or",
+           "after delivery is missing, and for whom information on timing",
+           "of death ('years ago') is missing, according to interviewer team ",
+           "(all women) Country 2015" );
+
+  crosstab float(1) f15 Fteams+{fintnum+}ftotal resdv+ftarget
+    exclude( percents, totals, specval )
+    title( "FC-15:  Domestic violence","",
+           "Women eligible for domestic violence and interviewed",
+           "(privacy obtained), according to interviewer team,",
+           "Country 2015" );
+
+  crosstab float(0) f20 Fteams+{fintnum+}ftotal fsumm1
+    exclude( percents, totals, specval )
+    title( "Global evaluation tables 1 to 10, 14 and 15","",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(0) f21 Fteams+{fintnum+}ftotal fsumm2
+    exclude( percents, totals, specval )
+    title( "Global evaluation biomarker tables 11 and 12 ","",
+           "according to interviewer team, Country 2015" );
+
+  crosstab float(0) f22 Fteams+{fintnum+}ftotal fsumm3
+    exclude( percents, totals, specval )
+    title( "Global evaluation all targets","",
+           "according to interviewer team, Country 2015" );
+
+  { obtain measurement result for children's weight }
+  function measure1( xvar )
+    recode xvar  -> x;
+          99.94  -> 2;
+          99.95  -> 3;
+          99.96  -> 6;
+         missing -> 9;
+                -> 1;
+    endrecode;
+    measure1 = x;
+  end;
+
+  { obtain measurement result for women and men }
+  function measure2( xvar )
+    recode xvar  -> x;
+         999.94  -> 2;
+         999.95  -> 3;
+         999.96  -> 6;
+         missing -> 9;
+                -> 1;
+    endrecode;
+    measure2 = x;
+  end;
+
+  { obtain measurement result for hemoglobin }
+  function measure3( xvar )
+    recode xvar  -> x;
+          99.4  -> 2;
+        notappl -> 2;        { in DHS7, not present skips for children }
+          99.5  -> 3;
+          99.6  -> 6;
+        missing -> 9;
+               -> 1;
+    endbox;
+    measure3 = x;
+  end;
+
+  { obtain measurement result for HIV testing }
+  function measure4( alpha(5) yvar );
+    x = 1;
+    if     yvar = "99995" then x = 2;
+    elseif yvar = "99994" then x = 3;
+    elseif yvar = "99996" then x = 6;
+    elseif pos("?",yvar)  then x = 9;
+    endif;
+    measure4 = x;
+  end;
+
+  { obtain measurement result for children's height }
+  function measure5( xvar )
+    recode  xvar  -> x;
+          999.4  -> 2;
+          999.5  -> 3;
+          999.6  -> 6;
+         missing -> 9;
+                -> 1;
+    endrecode;
+    measure5 = x;
+  end;
+
+PROC CCHH80_FF
+preproc
+  { get language from calling menu }
+  SetLanguage( GetLanguage() );
+
+  ftotal   = 1;
+  ftotalb  = 1;
+  ftotald  = 1;
+  ftotalb9 = 1;
+  ftotaln  = 1;
+  ftotalw  = 1;
+  ftotalm  = 1;
+  ftotalc2 = 1;
+  ftotalc3 = 1;
+  ftotalc4 = 1;
+  ftotalc5 = 1;
+  ftotalw2 = 1;
+  ftotalm2 = 1;
+  ftotalw3 = 1;
+  ftotalm3 = 1;
+  ftarget  = notappl;
+  fratio   = notappl;
+  fratiob  = notappl;
+  fratiom  = notappl;
+  fratiod  = notappl;
+  fratio9  = notappl;
+
+  byteam = ( sysparm()[1:1] = "T" );
+
+  yearint = 2015;                      { Year of interview (Last year)    }
+  cutoff  = 2010;                      { Cutoff year/health section       }
+
+  { Targets }
+  f1u_tar   = 96;       { !! request target from CM }
+  f1r_tar   = 94;       { !! request target from CM }
+  f2w_urb   = 0.90;     { !! request target from CM }
+  f2w_rur   = 0.88;     { !! request target from CM }
+  f2m_urb   = 0.84;     { !! request target from CM }
+  f2m_rur   = 0.86;     { !! request target from CM }
+  f3w_urb   = 90;       { !! request target from CM }
+  f3w_rur   = 88;       { !! request target from CM }
+  f3m_urb   = 84;       { !! request target from CM }
+  f3m_rur   = 86;       { !! request target from CM }
+  f4w_tar   = 0.8;
+  f4m_tar   = 0.8;
+  f5_tar    = 2.2;      { !! request target from CM }
+  f6_tar    = 0.85;
+  f7l_tar   = 98;
+  f7d_tar   = 97;
+  f8_tar    = 1.5;
+  f10_tar   = 90;
+  f11_tar1  = 95;
+  f11_tarm1 = 90;
+  f11_tar2  = 4;
+  f11_tar3  = 30;
+  f11_tar4  = 95;
+  f12_tar1  = 95;
+  f12_tar2  = 30;
+  f12_tar3  = 90;
+  f13_tar   = 90;      { !! request target from CM }
+  f14_t1    = 2;
+  f14_t2    = 0;
+  f14_t3    = 0;
+  f15_tar   = 5;
+
+postproc
+
+  { initialize global evaluation tables to make sure that they are displayed }
+  f20  = 0.001;
+  f21  = 0.001;
+  f22  = 0.001;
+
+  { Table f1u }
+  jtot    = tblcol( f1u, ftotaln );
+  jmax    = jtot - 2;
+  { Percents }
+  do j = 0 while j <= jmax
+    f1u[*,j] = f1u[*,j] * 100 / f1u[*,jtot];
+  enddo;
+  { Total }
+  f1u[*,jtot-1] = tblsum( column f1u[*,0:jmax] );
+  { Targets }
+  fsumm1 = 0;
+  itot = tblrow( f1u );
+  do i = 0 while i <= itot
+    f1u(i,jtot+1) = Default;
+    if f1u(i,0) < f1u_tar then
+      f1u(i,jtot+1) = f1u(i,0);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f1r }
+  jtot    = tblcol( f1r, ftotaln );
+  jmax    = jtot - 2;
+  { Percents }
+  do j = 0 while j <= jmax
+    f1r[*,j] = f1r[*,j] * 100 / f1r[*,jtot];
+  enddo;
+  { Total }
+  f1r[*,jtot-1] = tblsum( column f1r[*,0:jmax] );
+  { Targets }
+  fsumm1 = 1;
+  itot = tblrow( f1r );
+  do i = 0 while i <= itot
+    f1r(i,jtot+1) = Default;
+    if f1r(i,0) < f1r_tar then
+      f1r(i,jtot+1) = f1r(i,0);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f2w }
+  jtot1 = tblcol( f2w, URBRUR = 1 FHHMEAN = 2 );   { mean for urban }
+  jtot2 = tblcol( f2w, URBRUR = 2 FHHMEAN = 2 );   { mean for rural }
+  itot = tblrow(  f2w );
+  { Means }
+  f2w[*,jtot1] = f2w[*,jtot1-1] / f2w[*,jtot1-2];
+  f2w[*,jtot2] = f2w[*,jtot2-1] / f2w[*,jtot2-2];
+  { Targets }
+  fsumm1 = 2;
+  do i = 0 while i <= itot
+    { Urban }
+    f2w(i,jtot1+1) = Default;
+    if f2w(i,jtot1) < f2w_urb then
+      f2w(i,jtot1+1) = f2w(i,jtot1);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+    { Rural }
+    f2w(i,jtot2+1) = Default;
+    if f2w(i,jtot2) < f2w_rur then
+      f2w(i,jtot2+1) = f2w(i,jtot2);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f2m }
+  jtot1 = tblcol( f2m, URBRUR = 1 FHHMEANM = 2 );   { mean for urban }
+  jtot2 = tblcol( f2m, URBRUR = 2 FHHMEANM = 2 );   { mean for rural }
+  itot = tblrow(  f2m );
+  { Means }
+  f2m[*,jtot1] = f2m[*,jtot1-1] / f2m[*,jtot1-2];
+  f2m[*,jtot2] = f2m[*,jtot2-1] / f2m[*,jtot2-2];
+  { Targets }
+  fsumm1 = 3;
+  do i = 0 while i <= itot
+    { Urban }
+    f2m(i,jtot1+1) = Default;
+    if f2m(i,jtot1) < f2m_urb then
+      f2m(i,jtot1+1) = f2m(i,jtot1);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+    { Rural }
+    f2m(i,jtot2+1) = Default;
+    if f2m(i,jtot2) < f2m_rur then
+      f2m(i,jtot2+1) = f2m(i,jtot2);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f3wu }
+  jtot = tblcol( f3wu, ftotaln );
+  jmax = jtot - 2;
+  { Percents }
+  do j = 0 while j <= jmax
+    f3wu[*,j] = f3wu[*,j] * 100 / f3wu[*,jtot];
+  enddo;
+  { Total }
+  f3wu[*,jtot-1] = tblsum( column f3wu[*,0:jmax] );
+  { Targets }
+  fsumm1 = 4;
+  itot = tblrow( f3wu );
+  do i = 0 while i <= itot
+    f3wu(i,jtot+1) = Default;
+    if f3wu(i,0) < f3w_urb then
+      f3wu(i,jtot+1) = f3wu(i,0);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f3wr }
+  jtot = tblcol( f3wr, ftotaln );
+  jmax = jtot - 2;
+  { Percents }
+  do j = 0 while j <= jmax
+    f3wr[*,j] = f3wr[*,j] * 100 / f3wr[*,jtot];
+  enddo;
+  { Total }
+  f3wr[*,jtot-1] = tblsum( column f3wr[*,0:jmax] );
+  { Targets }
+  fsumm1 = 5;
+  itot = tblrow( f3wr );
+  do i = 0 while i <= itot
+    f3wr(i,jtot+1) = Default;
+    if f3wr(i,0) < f3w_rur then
+      f3wr(i,jtot+1) = f3wr(i,0);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f3mu }
+  jtot = tblcol( f3mu, ftotaln );
+  jmax = jtot - 2;
+  { Percents }
+  do j = 0 while j <= jmax
+    f3mu[*,j] = f3mu[*,j] * 100 / f3mu[*,jtot];
+  enddo;
+  { Total }
+  f3mu[*,jtot-1] = tblsum( column f3mu[*,0:jmax] );
+  { Targets }
+  fsumm1 = 6;
+  itot = tblrow( f3mu );
+  do i = 0 while i <= itot
+    f3mu(i,jtot+1) = Default;
+    if f3mu(i,0) < f3m_urb then
+      f3mu(i,jtot+1) = f3mu(i,0);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f3mr }
+  jtot = tblcol( f3mr, ftotaln );
+  jmax = jtot - 2;
+  { Percents }
+  do j = 0 while j <= jmax
+    f3mr[*,j] = f3mr[*,j] * 100 / f3mr[*,jtot];
+  enddo;
+  { Total }
+  f3mr[*,jtot-1] = tblsum( column f3mr[*,0:jmax] );
+  { Targets }
+  fsumm1 = 7;
+  itot = tblrow( f3mr );
+  do i = 0 while i <= itot
+    f3mr(i,jtot+1) = Default;
+    if f3mr(i,0) < f3m_rur then
+      f3mr(i,jtot+1) = f3mr(i,0);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f4w }
+  j15  = tblcol( f4w, Fage = 15 );
+  j14  = tblcol( f4w, Fage = 14 );
+  jtot = tblcol( f4w );
+  { Ratios }
+  f4w[*,jtot-1] = f4w[*,j15] / f4w[*,j14];
+  { Target }
+  fsumm1 = 8;
+  itot = tblrow( f4w );
+  do i = 0 while i <= itot
+    f4w(i,jtot) = Default;
+    if f4w(i,jtot-1) <= f4w_tar then
+      f4w(i,jtot) = f4w(i,jtot-1);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f4m }
+  j15  = tblcol( f4m, Fagem = 15 );
+  j14  = tblcol( f4m, Fagem = 14 );
+  jtot = tblcol( f4m );
+  { Ratios }
+  f4m[*,jtot-1] = f4m[*,j15] / f4m[*,j14];
+  { Target }
+  fsumm1 = 9;
+  itot = tblrow( f4m );
+  do i = 0 while i <= itot
+    f4m(i,jtot) = Default;
+    if f4m(i,jtot-1) <= f4m_tar then
+      f4m(i,jtot) = f4m(i,jtot-1);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f5 }
+  jtot = tblcol( f5 );
+  itot = tblrow( f5 );
+  { Means }
+  f5[*,jtot-1] = f5[*,1] / f5[*,0];
+  { Target }
+  fsumm1 = 10;
+  do i = 0 while i <= itot
+    f5(i,jtot) = Default;
+    if f5(i,jtot-1) <= f5_tar then
+      f5(i,jtot) = f5(i,jtot-1);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f6 }
+  jtot  = tblcol( f6 );
+  jtot1 = tblcol( f6, Fyearb = cutoff );
+  itot  = tblrow( f6 );
+  { Ratios }
+  f6[*,jtot-1] = f6[*,jtot1] / f6[*,jtot1-1];
+  { Target }
+  fsumm1 = 11;
+  do i = 0 while i <= itot
+    f6(i,jtot) = Default;
+    if f6(i,jtot-1) < f6_tar then
+      f6(i,jtot) = f6(i,jtot-1);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f7l }
+  jtot = tblcol( f7l, ftotaln );
+  jmax = jtot - 2;
+  itot = tblrow( f7l );
+  { Percents }
+  do j = 0 while j <= jmax
+    f7l[*,j] = f7l[*,j] * 100 / f7l[*,jtot];
+  enddo;
+  { Total }
+  f7l[*,jtot-1] = tblsum( column f7l[*,0:jmax] );
+  { Target }
+  fsumm1 = 12;
+  do i = 0 while i <= itot
+    f7l(i,jtot+1) = Default;
+    if f7l(i,0) <= f7l_tar then
+      f7l(i,jtot+1) = f7l(i,0);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f7d }
+  jtot = tblcol( f7d, ftotaln );
+  jmax = jtot - 2;
+  itot = tblrow( f7d );
+  { Percents }
+  do j = 0 while j <= jmax
+    f7d[*,j] = f7d[*,j] * 100 / f7d[*,jtot];
+  enddo;
+  { Total }
+  f7d[*,jtot-1] = tblsum( column f7d[*,0:jmax] );
+  { Target }
+  fsumm1 = 13;
+  do i = 0 while i <= itot
+    f7d(i,jtot+1) = Default;
+    if f7d(i,0) <= f7d_tar then
+      f7d(i,jtot+1) = f7d(i,0);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f8 }
+  jtot  = tblcol( f8, ftotald );
+  jtot1 = tblcol( f8, faged = 4 );                { deaths at 12 months }
+  itot  = tblrow( f8 );
+  { Ratios }
+  f8[*,jtot+1] = ( f8[*,jtot1] + f8[*,jtot1+1] ) * 9 / f8[*,jtot];
+  { Target }
+  fsumm1 = 14;
+  do i = 0 while i <= itot
+    f8(i,jtot+2) = Default;
+    if f8(i,jtot+1) >= f8_tar then
+      f8(i,jtot+2) = f8(i,jtot+1);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f9 }
+  jtot    = tblcol( f9, Faged9 );                   { all deaths }
+  itot = tblrow(  f9 );
+  { total deaths }
+  f9[*,jtot] = tblsum( column f9[*,0:jtot-1] );
+  { total births }
+  f9[*,jtot+2] = f9[*,jtot] + f9[*,jtot+1];
+  { ratio neonatal to infant }
+  f9[*,jtot+3] = f9[*,0] / ( f9[*,0] + f9[*,1] );
+  { infant deaths to births }
+  f9[*,jtot+4] = ( f9[*,0] + f9[*,1] ) * 1000 / f9[*,jtot+2];
+
+  { Table f10 }
+  jtot  = tblcol( f10, Fcardr );
+  jmax  = jtot - 1;
+  itot  = tblrow( f10 );
+  { Proportion }
+  f10[*,jtot+1] = f10[*,1] * 100 / f10[*,0];
+  { Percents }
+  do j = 0 while j <= jmax
+    f10[*,j] = f10[*,j] * 100 / f10[*,jtot];
+  enddo;
+  { Target }
+  fsumm1 = 15;
+  do i = 0 while i <= itot
+    f10(i,jtot+2) = Default;
+    if f10(i,jtot+1) < f10_tar then
+      f10(i,jtot+2) = f10(i,jtot+1);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11cw1 }
+  jtot1 = tblcol( f11cw1, ftotalc2 );
+  jmax = jtot1 - 2;
+  { % of flagged cases for children measured with valid date of birth }
+  jtot2 = tblcol( f11cw1, ftarget2 = 3 );
+  f11cw1[*,jtot2] = f11cw1[*,jtot2] * 100 / ( f11cw1[*,0] - f11cw1[*,jtot1+2] );
+  { % with weight out of range }
+  f11cw1[*,jtot1+1] = f11cw1[*,jtot1+1] * 100 / f11cw1[*,0];
+  { % date of birth incomplete }
+  f11cw1[*,jtot1+2] = f11cw1[*,jtot1+2] * 100 / f11cw1[*,0];
+  { Percents }
+  do j = 0 while j <= jmax
+    f11cw1[*,j] = f11cw1[*,j] * 100 / f11cw1[*,jtot1];
+  enddo;
+  f11cw1[*,jtot1-1] = tblsum( column f11cw1[*,0:jmax] );
+  { % children with valid data }
+  jtot3 = tblcol( f11cw1, ftarget2 = 1);
+  f11cw1[*,jtot3] = f11cw1[*,0] - f11cw1[*,0]*f11cw1[*,jtot1+1]/100 - f11cw1[*,0]*f11cw1[*,jtot1+2]/100;
+  { target 1 }
+  fsumm2 = 0;
+  itot = tblrow( f11cw1 );
+  do i = 0 while i <= itot
+    f11cw1(i,jtot3+1) = Default;
+    if f11cw1(i,jtot3) < f11_tar1 then
+      f11cw1(i,jtot3+1) = f11cw1(i,jtot3);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+  { target 2 }
+  fsumm2 = 1;
+  itot = tblrow( f11cw1 );
+  do i = 0 while i <= itot
+    f11cw1(i,jtot2+1) = Default;
+    if f11cw1(i,jtot2) >= f11_tar2 then
+      f11cw1(i,jtot2+1) = f11cw1(i,jtot2);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11cw2 }
+  jtot1 = tblcol( f11cw2, ftotalc3 );
+  jmax = jtot1 - 3;
+  { Percents }
+  do j = 0 while j <= jmax
+    f11cw2[*,j] = f11cw2[*,j] * 100 / f11cw2[*,jtot1];
+  enddo;
+  f11cw2[*,jmax+1] = tblsum( column f11cw2[*,0:jmax] );
+  { % with 1st decimal o or 5 }
+  jmax  = tblcol( f11cw2, fdec1 = 5 );
+  f11cw2[*,jtot1-1] = f11cw2[*,0] + f11cw2[*,jmax];
+  { target  }
+  fsumm2 = 2;
+  jtot2 = tblcol( f11cw2 );
+  itot  = tblrow( f11cw2 );
+  do i = 0 while i <= itot
+    f11cw2(i,jtot2) = Default;
+    if f11cw2(i,jtot1-1) >= f11_tar3 then
+      f11cw2(i,jtot2) = f11cw2(i,jtot1-1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11cw3 }
+  jtot1 = tblcol( f11cw3, ftotalc3 );
+  jmax = jtot1 - 3;
+  { Percents }
+  do j = 0 while j <= jmax
+    f11cw3[*,j] = f11cw3[*,j] * 100 / f11cw3[*,jtot1];
+  enddo;
+  f11cw3[*,jmax+1] = tblsum( column f11cw3[*,0:jmax] );
+  { % with 1st decimal o or 5 }
+  jmax  = tblcol( f11cw3, fdec2 = 5 );
+  f11cw3[*,jtot1-1] = f11cw3[*,0] + f11cw3[*,jmax];
+  { target  }
+  fsumm2 = 2;
+  jtot2 = tblcol( f11cw3 );
+  itot  = tblrow( f11cw3 );
+  do i = 0 while i <= itot
+    f11cw3(i,jtot2) = Default;
+    if f11cw3(i,jtot1-1) <= f11_tar4 then
+      f11cw3(i,jtot2) = f11cw3(i,jtot1-1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11ch }
+  jtot1 = tblcol( f11ch, ftotalc2 );
+  jmax = jtot1 - 2;
+  { % of flagged cases for children measured with valid date of birth }
+  jtot2 = tblcol( f11ch, ftarget3 = 3 );
+  f11ch[*,jtot2] = f11ch[*,jtot2] * 100 / ( f11ch[*,0] - f11ch[*,jtot1+2] );
+  { % with height out of range }
+  f11ch[*,jtot1+1] = f11ch[*,jtot1+1] * 100 / f11ch[*,0];
+  { % date of birth incomplete }
+  f11ch[*,jtot1+2] = f11ch[*,jtot1+2] * 100 / f11ch[*,0];
+  { Percents }
+  do j = 0 while j <= jmax
+    f11ch[*,j] = f11ch[*,j] * 100 / f11ch[*,jtot1];
+  enddo;
+  f11ch[*,jtot1-1] = tblsum( column f11ch[*,0:jmax] );
+  { % children with valid data }
+  jtot3 = tblcol( f11ch, ftarget3 = 1);
+  f11ch[*,jtot3] = f11ch[*,0] - f11ch[*,0]*f11ch[*,jtot1+1]/100 - f11ch[*,0]*f11ch[*,jtot1+2]/100;
+  { target 1 }
+  fsumm2 = 3;
+  itot = tblrow( f11ch );
+  do i = 0 while i <= itot
+    f11ch(i,jtot3+1) = Default;
+    if f11ch(i,jtot3) < f11_tar1 then
+      f11ch(i,jtot3+1) = f11ch(i,jtot3);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+  { target 2 }
+  fsumm2 = 4;
+  itot = tblrow( f11ch );
+  do i = 0 while i <= itot
+    f11ch(i,jtot2+1) = Default;
+    if f11ch(i,jtot2) >= f11_tar2 then
+      f11ch(i,jtot2+1) = f11ch(i,jtot2);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11ww1 }
+  jtot = tblcol( f11ww1, ftotalw2 );
+  jmax = jtot - 2;
+  { % with weight out of range }
+  f11ww1[*,jtot+1] = f11ww1[*,jtot+1] * 100 / f11ww1[*,0];
+  { Percents }
+  do j = 0 while j <= jmax
+    f11ww1[*,j] = f11ww1[*,j] * 100 / f11ww1[*,jtot];
+  enddo;
+  f11ww1[*,jtot-1] = tblsum( column f11ww1[*,0:jmax] );
+  { % of women with valid data }
+  jtot3 = tblcol( f11ww1, ftarget4 = 1);
+  f11ww1[*,jtot3] = f11ww1[*,0] - f11ww1[*,0]*f11ww1[*,jtot+1]/100;
+  { target 1 }
+  fsumm2 = 5;
+  itot = tblrow( f11ww1 );
+  do i = 0 while i <= itot
+    f11ww1(i,jtot3+1) = Default;
+    if f11ww1(i,jtot3) < f11_tar1 then
+      f11ww1(i,jtot3+1) = f11ww1(i,jtot3);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11ww2 }
+  jtot1 = tblcol( f11ww2, ftotalw3 );
+  jmax = jtot1 - 3;
+  { Percents }
+  do j = 0 while j <= jmax
+    f11ww2[*,j] = f11ww2[*,j] * 100 / f11ww2[*,jtot1];
+  enddo;
+  f11ww2[*,jmax+1] = tblsum( column f11ww2[*,0:jmax] );
+  { % with 1st decimal o or 5 }
+  jmax  = tblcol( f11ww2, fdec1 = 5 );
+  f11ww2[*,jtot1-1] = f11ww2[*,0] + f11ww2[*,jmax];
+  { target  }
+  fsumm2 = 6;
+  jtot2 = tblcol( f11ww2 );
+  itot  = tblrow( f11ww2 );
+  do i = 0 while i <= itot
+    f11ww2(i,jtot2) = Default;
+    if f11ww2(i,jtot1-1) >= f11_tar3 then
+      f11ww2(i,jtot2) = f11ww2(i,jtot1-1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11ww3 }
+  jtot1 = tblcol( f11ww3, ftotalw3 );
+  jmax = jtot1 - 3;
+  { Percents }
+  do j = 0 while j <= jmax
+    f11ww3[*,j] = f11ww3[*,j] * 100 / f11ww3[*,jtot1];
+  enddo;
+  f11ww3[*,jmax+1] = tblsum( column f11ww3[*,0:jmax] );
+  { % with 1st decimal o or 5 }
+  jmax  = tblcol( f11ww3, fdec2 = 5 );
+  f11ww3[*,jtot1-1] = f11ww3[*,0] + f11ww3[*,jmax];
+  { target  }
+  fsumm2 = 6;
+  jtot2 = tblcol( f11ww3 );
+  itot  = tblrow( f11ww3 );
+  do i = 0 while i <= itot
+    f11ww3(i,jtot2) = Default;
+    if f11ww3(i,jtot1-1) <= f11_tar4 then
+      f11ww3(i,jtot2) = f11ww3(i,jtot1-1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11wh }
+  jtot = tblcol( f11wh, ftotalw2 );
+  jmax = jtot - 2;
+  { % with height out of range }
+  f11wh[*,jtot+1] = f11wh[*,jtot+1] * 100 / f11wh[*,0];
+  { Percents }
+  do j = 0 while j <= jmax
+    f11wh[*,j] = f11wh[*,j] * 100 / f11wh[*,jtot];
+  enddo;
+  f11wh[*,jtot-1] = tblsum( column f11wh[*,0:jmax] );
+  { % of women with valid data }
+  jtot1 = tblcol( f11wh, ftarget4 = 1);
+  f11wh[*,jtot1] = f11wh[*,0] - f11wh[*,0]*f11wh[*,jtot+1]/100;
+  { target 1 }
+  fsumm2 = 7;
+  itot = tblrow( f11wh );
+  do i = 0 while i <= itot
+    f11wh(i,jtot1+1) = Default;
+    if f11wh(i,jtot1) < f11_tar1 then
+      f11wh(i,jtot1+1) = f11wh(i,jtot1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11mw1 }
+  jtot = tblcol( f11mw1, ftotalm2 );
+  jmax = jtot - 2;
+  { % with weight out of range }
+  f11mw1[*,jtot+1] = f11mw1[*,jtot+1] * 100 / f11mw1[*,0];
+  { Percents }
+  do j = 0 while j <= jmax
+    f11mw1[*,j] = f11mw1[*,j] * 100 / f11mw1[*,jtot];
+  enddo;
+  f11mw1[*,jtot-1] = tblsum( column f11mw1[*,0:jmax] );
+  { % of women with valid data }
+  jtot1 = tblcol( f11mw1, ftarget5 = 1);
+  f11mw1[*,jtot1] = f11mw1[*,0] - f11mw1[*,0]*f11mw1[*,jtot+1]/100;
+  { target 1 }
+  fsumm2 = 8;
+  itot = tblrow( f11mw1 );
+  do i = 0 while i <= itot
+    f11mw1(i,jtot1+1) = Default;
+    if f11mw1(i,jtot1) < f11_tarm1 then
+      f11mw1(i,jtot1+1) = f11mw1(i,jtot1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11mw2 }
+  jtot1 = tblcol( f11mw2, ftotalm3 );
+  jmax = jtot1 - 3;
+  { Percents }
+  do j = 0 while j <= jmax
+    f11mw2[*,j] = f11mw2[*,j] * 100 / f11mw2[*,jtot1];
+  enddo;
+  f11mw2[*,jmax+1] = tblsum( column f11mw2[*,0:jmax] );
+  { % with 1st decimal o or 5 }
+  jmax  = tblcol( f11mw2, fdec1 = 5 );
+  f11mw2[*,jtot1-1] = f11mw2[*,0] + f11mw2[*,jmax];
+  { target  }
+  fsumm2 = 9;
+  jtot2 = tblcol( f11mw2 );
+  itot  = tblrow( f11mw2 );
+  do i = 0 while i <= itot
+    f11mw2(i,jtot2) = Default;
+    if f11mw2(i,jtot1-1) >= f11_tar3 then
+      f11mw2(i,jtot2) = f11mw2(i,jtot1-1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11mw3 }
+  jtot1 = tblcol( f11mw3, ftotalm3 );
+  jmax = jtot1 - 3;
+  { Percents }
+  do j = 0 while j <= jmax
+    f11mw3[*,j] = f11mw3[*,j] * 100 / f11mw3[*,jtot1];
+  enddo;
+  f11mw3[*,jmax+1] = tblsum( column f11mw3[*,0:jmax] );
+  { % with 1st decimal o or 5 }
+  jmax  = tblcol( f11mw3, fdec2 = 5 );
+  f11mw3[*,jtot1-1] = f11mw3[*,0] + f11mw3[*,jmax];
+  { target  }
+  fsumm2 = 9;
+  jtot2 = tblcol( f11mw3 );
+  itot  = tblrow( f11mw3 );
+  do i = 0 while i <= itot
+    f11mw3(i,jtot2) = Default;
+    if f11mw3(i,jtot1-1) <= f11_tar4 then
+      f11mw3(i,jtot2) = f11mw3(i,jtot1-1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f11mh }
+  jtot = tblcol( f11mh, ftotalm2 );
+  jmax = jtot - 2;
+  { % with height out of range }
+  f11mh[*,jtot+1] = f11mh[*,jtot+1] * 100 / f11mh[*,0];
+  { Percents }
+  do j = 0 while j <= jmax
+    f11mh[*,j] = f11mh[*,j] * 100 / f11mh[*,jtot];
+  enddo;
+  f11mh[*,jtot-1] = tblsum( column f11mh[*,0:jmax] );
+  { % of men with valid data }
+  jtot1 = tblcol( f11mh, ftarget5 = 1);
+  f11mh[*,jtot1] = f11mh[*,0] - f11mh[*,0]*f11mh[*,jtot+1]/100;
+  { target 1 }
+  fsumm2 = 10;
+  itot = tblrow( f11mh );
+  do i = 0 while i <= itot
+    f11mh(i,jtot1+1) = Default;
+    if f11mh(i,jtot1) < f11_tar1 then
+      f11mh(i,jtot1+1) = f11mh(i,jtot1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f12c1 }
+  jtot = tblcol( f12c1, ftotalc5 );
+  jmax = jtot - 2;
+  { % with anemia out of range }
+  f12c1[*,jtot+1] = f12c1[*,jtot+1] * 100 / f12c1[*,0];
+  { Percents }
+  do j = 0 while j <= jmax
+    f12c1[*,j] = f12c1[*,j] * 100 / f12c1[*,jtot];
+  enddo;
+  f12c1[*,jtot-1] = tblsum( column f12c1[*,0:jmax] );
+  { % of children with valid data }
+  jtot1 = tblcol( f12c1, ftarget6 = 1);
+  f12c1[*,jtot1] = f12c1[*,0] - f12c1[*,0]*f12c1[*,jtot+1]/100;
+  { target 1 }
+  fsumm2 = 11;
+  itot = tblrow( f12c1 );
+  do i = 0 while i <= itot
+    f12c1(i,jtot1+1) = Default;
+    if f12c1(i,jtot1) <= f12_tar1 then
+      f12c1(i,jtot1+1) = f12c1(i,jtot1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f12c2 }
+  jtot1 = tblcol( f12c2, ftotalc4 );
+  jmax = jtot1 - 3;
+  { Percents }
+  do j = 0 while j <= jmax
+    f12c2[*,j] = f12c2[*,j] * 100 / f12c2[*,jtot1];
+  enddo;
+  f12c2[*,jmax+1] = tblsum( column f12c2[*,0:jmax] );
+  { % with 1st decimal o or 5 }
+  jmax  = tblcol( f12c2, fdec1 = 5 );
+  f12c2[*,jtot1-1] = f12c2[*,0] + f12c2[*,jmax];
+  { target  }
+  fsumm2 = 12;
+  jtot2 = tblcol( f12c2 );
+  itot  = tblrow( f12c2 );
+  do i = 0 while i <= itot
+    f12c2(i,jtot2) = Default;
+    if f12c2(i,jtot1-1) >= f12_tar2 then
+      f12c2(i,jtot2) = f12c2(i,jtot1-1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f12w1 }
+  jtot = tblcol( f12w1, ftotalw2 );
+  jmax = jtot - 2;
+  { % with hemoglobin out of range }
+  f12w1[*,jtot+1] = f12w1[*,jtot+1] * 100 / f12w1[*,0];
+  { Percents }
+  do j = 0 while j <= jmax
+    f12w1[*,j] = f12w1[*,j] * 100 / f12w1[*,jtot];
+  enddo;
+  f12w1[*,jtot-1] = tblsum( column f12w1[*,0:jmax] );
+  { % of women with valid data }
+  jtot1 = tblcol( f12w1, ftarget4 = 1);
+  f12w1[*,jtot1] = f12w1[*,0] - f12w1[*,0]*f12w1[*,jtot+1]/100;
+  { target 1 }
+  fsumm2 = 13;
+  itot = tblrow( f12w1 );
+  do i = 0 while i <= itot
+    f12w1(i,jtot1+1) = Default;
+    if f12w1(i,jtot1) < f12_tar3 then
+      f12w1(i,jtot1+1) = f12w1(i,jtot1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f12w2 }
+  jtot1 = tblcol( f12w2, ftotalw3 );
+  jmax = jtot1 - 3;
+  { Percents }
+  do j = 0 while j <= jmax
+    f12w2[*,j] = f12w2[*,j] * 100 / f12w2[*,jtot1];
+  enddo;
+  f12w2[*,jmax+1] = tblsum( column f12w2[*,0:jmax] );
+  { % with 1st decimal o or 5 }
+  jmax  = tblcol( f12w2, fdec1 = 5 );
+  f12w2[*,jtot1-1] = f12w2[*,0] + f12w2[*,jmax];
+  { target  }
+  fsumm2 = 14;
+  jtot2 = tblcol( f12w2 );
+  itot  = tblrow( f12w2 );
+  do i = 0 while i <= itot
+    f12w2(i,jtot2) = Default;
+    if f12w2(i,jtot1-1) >= f12_tar2 then
+      f12w2(i,jtot2) = f12w2(i,jtot1-1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f12m1 }
+  jtot = tblcol( f12m1, ftotalm2 );
+  jmax = jtot - 2;
+  { % with anemia out of range }
+  f12m1[*,jtot+1] = f12m1[*,jtot+1] * 100 / f12m1[*,0];
+  { Percents }
+  do j = 0 while j <= jmax
+    f12m1[*,j] = f12m1[*,j] * 100 / f12m1[*,jtot];
+  enddo;
+  f12m1[*,jtot-1] = tblsum( column f12m1[*,0:jmax] );
+  { % of men with valid data }
+  jtot1 = tblcol( f12m1, ftarget5 = 1);
+  f12m1[*,jtot1] = f12m1[*,0] - f12m1[*,0]*f12m1[*,jtot+1]/100;
+  { target 1 }
+  fsumm2 = 15;
+  itot = tblrow( f12m1 );
+  do i = 0 while i <= itot
+    f12m1(i,jtot1+1) = Default;
+    if f12m1(i,jtot1) < f12_tar3 then
+      f12m1(i,jtot1+1) = f12m1(i,jtot1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f12m2 }
+  jtot1 = tblcol( f12m2, ftotalm3 );
+  jmax = jtot1 - 3;
+  { Percents }
+  do j = 0 while j <= jmax
+    f12m2[*,j] = f12m2[*,j] * 100 / f12m2[*,jtot1];
+  enddo;
+  f12m2[*,jmax+1] = tblsum( column f12m2[*,0:jmax] );
+  { % with 1st decimal o or 5 }
+  jmax  = tblcol( f12m2, fdec1 = 5 );
+  f12m2[*,jtot1-1] = f12m2[*,0] + f12m2[*,jmax];
+  { target  }
+  fsumm2 = 16;
+  jtot2 = tblcol( f12m2 );
+  itot  = tblrow( f12m2 );
+  do i = 0 while i <= itot
+    f12m2(i,jtot2) = Default;
+    if f12m2(i,jtot1-1) >= f12_tar2 then
+      f12m2(i,jtot2) = f12m2(i,jtot1-1);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f13w }
+  jtot = tblcol( f13w, ftotalw2 );
+  jmax = jtot - 2;
+  { Percents }
+  do j = 0 while j <= jmax
+    f13w[*,j] = f13w[*,j] * 100 / f13w[*,jtot];
+  enddo;
+  f13w[*,jtot-1] = tblsum( column f13w[*,0:jmax] );
+  { target  }
+  fsumm2 = 17;
+  jtot1 = tblcol( f13w );
+  itot  = tblrow( f13w );
+  do i = 0 while i <= itot
+    f13w(i,jtot1) = Default;
+    if f13w(i,0) < f13_tar then
+      f13w(i,jtot1) = f13w(i,0);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f13m }
+  jtot = tblcol( f13m, ftotalm2 );
+  jmax = jtot - 2;
+  { Percents }
+  do j = 0 while j <= jmax
+    f13m[*,j] = f13m[*,j] * 100 / f13m[*,jtot];
+  enddo;
+  f13m[*,jtot-1] = tblsum( column f13m[*,0:jmax] );
+  { target  }
+  fsumm2 = 18;
+  jtot1 = tblcol( f13m );
+  itot  = tblrow( f13m );
+  do i = 0 while i <= itot
+    f13m(i,jtot1) = Default;
+    if f13m(i,0) < f13_tar then
+      f13m(i,jtot1) = f13m(i,0);
+      f21(i,fsumm2) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f14 }
+  jtot1 = tblcol( f14, fcol14a );
+  jtot2 = tblcol( f14, fcol14b );
+  jtot3 = tblcol( f14, fcol14c );
+  itot  = tblrow( f14 );
+  { Percents }
+  f14[*,jtot1] = f14[*,jtot1-1] * 100 / f14[*,jtot1-2];
+  f14[*,jtot2] = f14[*,jtot2-1] * 100 / f14[*,jtot2-2];
+  f14[*,jtot3] = f14[*,jtot3-1] * 100 / f14[*,jtot3-2];
+  { Targets }
+  do i = 0 while i <= itot
+    fsumm1 = 16;
+    f14(i,jtot1+1) = Default;
+    if f14(i,jtot1) >= f14_t1 then
+      f14(i,jtot1+1) = f14(i,jtot1);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+    fsumm1 = 17;
+    f14(i,jtot2+1) = Default;
+    if f14(i,jtot2) >  f14_t2 then
+      f14(i,jtot2+1) = f14(i,jtot2);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+    fsumm1 = 18;
+    f14(i,jtot3+1) = Default;
+    if f14(i,jtot3) >  f14_t3 then
+      f14(i,jtot3+1) = f14(i,jtot3);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f15 }
+  jtot = tblcol( f15 );
+  itot = tblrow( f15 );
+  { Percents }
+  f15[*,jtot-1] = f15[*,jtot-1] * 100 / f15[*,jtot-2];
+  { Targets }
+  fsumm1 = 19;
+  do i = 0 while i <= itot
+    f15(i,jtot) = Default;
+    if f15(i,jtot-1) >= f15_tar then
+      f15(i,jtot) = f15(i,jtot-1);
+      f20(i,fsumm1) = asterisk;             { summary table }
+    endif;
+  enddo;
+
+  { Table f20 & f22 }
+  itot = tblrow( f20 );
+  jtot = tblcol( f20 );
+  jmax = jtot - 2;
+  { count targets not met }
+  do i = 0 while i <= itot
+    do j = 0 while j <= jmax
+      f22(i,1) = f22(i,1) + 1;             { count number of targets }
+      if f20(i,j) = asterisk then
+        f20(i,jmax+1) = f20(i,jmax+1) + 1;
+        f22(i,0) = f22(i,0) + 1;
+      endif;
+    enddo;
+  enddo;
+  { f20 percents }
+  f20[*,jtot] = f20[*,jmax+1] * 100 / (jmax+1);
+
+  { Table f21 & f22 }
+  itot = tblrow( f21 );
+  jtot = tblcol( f21 );
+  jmax = jtot - 2;
+  { count targets not met }
+  do i = 0 while i <= itot
+    do j = 0 while j <= jmax
+      f22(i,1) = f22(i,1) + 1;             { count number of targets }
+      if f21(i,j) = asterisk then
+        f21(i,jmax+1) = f21(i,jmax+1) + 1;
+        f22(i,0) = f22(i,0) + 1;
+      endif;
+    enddo;
+  enddo;
+  { f21 percents }
+  f21[*,jtot] = f21[*,jmax+1] * 100 / (jmax+1);
+
+  { f22 percents }
+  f22[*,1] = f22[*,0] * 100 / f22[*,1];
+
+PROC HOUSEHOLD
+preproc
+
+  { initialize array to identify individuals interviewed }
+  do i = 1 while i <= 100
+    interview(i) = 0;
+  enddo;
+
+  URBRUR  = AHTYPE;
+  fintnum = AHINTNUM;  { !!!! make sure to adjust the value sets based on the actual interviewer codes for the survey }
+  Fteams = notappl;
+  if byteam then
+    { !! recode teams as necessary }
+    Fteams = int( fintnum/100 );               {!!}
+    fintnum = notappl;
+  endif;
+
+  { Table f1u & f1r }
+  if AHTYPE = 1 then
+    xtab( f1u );
+  else
+    xtab( f1r );
+  endif;
+
+  { skip incomplete households }
+  if AHRESULT <> 1 then skip case endif;
+
+  { array interview is used by tables f13w and f13m and therefore needs to be poulated here }
+  do k = 1 while k <= soccurs( AHSEC01 )
+    if AH09(k) | AH10(k) then               { if mmember is eligible }
+      ALINE = AH09(k);
+      if AH10(k) then ALINE = AH10(k) endif;
+      if loadcase( ccIN80, AHCLUST, AHNUMBER, ALINE ) then   { if member found in individual questionnaire }
+        { update array of individuals interviewed }
+        if ARESULT = 1 then
+          interview(ALINE) = 1;
+        endif;
+      endif;
+    endif;
+  enddo;
+
+postproc
+
+  { Table f2w }
+  Fhhmean  = 0;        { number of complete households }
+  xtab( f2w );
+  Fhhmean = 1;        { to count number of de facto women }
+  for i in AHSEC01_EDT do
+    if AH04 = 2 & AH06 = 1 & AH09 <> 0 then   { DE FACTO eligible women }
+      xtab( f2w );
+    endif;
+  enddo;
+
+  { Table f2m }
+  if AHELIGM = 1 then
+    Fhhmeanm = 0;        { number of completed households }
+    xtab( f2m );
+    Fhhmeanm = 1;                       { to count number of de facto men }
+    for i in AHSEC01_EDT do
+      if AH04 = 1 & AH06 = 1 & AH10 <> 0 then    { DE FACTO eligible men }
+        xtab( f2m );
+      endif;
+    enddo;
+  endif;
+
+  { Table f4w, f4m }
+  for i in AHSEC01_EDT do
+    if AH04 = 2 & AH07 in 12:18 then                  { women age 12:18 }
+      Fage = AH07(i);
+      xtab( f4w );
+    endif;
+    if AHELIGM = 1 & AH04 = 1 & AH07 in 12:18 then    { men age 12:18 }
+        Fagem = AH07(i);
+        xtab( f4m );
+    endif;
+  enddo;
+
+  { Tables f11cw1, f11cw2, fc11cw3 }
+  for i in ABSEC01_EDT do
+    Fhwc     = notappl;
+    ftarget2 = notappl;
+    if AH07(AB102) in 0:4 & AB104 in 0:4 then            { children under 5 }
+      weightch = AB106;
+      lengthch = AB108;
+      lystand  = AB109;
+      { !!!! change weight and height according to type of remeasurement when present }
+      if ABRTYPE in 2,3 & !ABWEIGHT in 99.90:99.98,missing,notappl & !ABHEIGHT in 999.0:999.8,missing,notappl then
+        weightch = ABWEIGHT;
+        lengthch = ABHEIGHT;
+        lystand  = ABLYNSTN;
+      endif;
+      { result of measurement based on weight }
+      fwc11 = measure1( weightch );
+      valdate  = ( valid(AB103M) & validyr(AB103Y) );
+      dateflag = 0;
+      if valdate then
+        { Age of child in days }
+        if !AB103D in 1:31 then AB103D = 15 endif;
+        agechild = CDCode( ABINTY, ABINTM, ABINTD ) - CDCode( AB103Y, AB103M, AB103D );
+        dateflag = 1;
+      else
+        agechild = 9999;
+      endif;
+
+      { Calculate anthropometric Z-scores }
+             // weightch,   lengthch, lyingstanding,sexchild,agechild,dateflag
+      WHO_anthro( weightch, lengthch, lystand, AH04(AB102), agechild, dateflag, AB102 );
+
+      { determine if weight for height z-score out of range }
+      if fwc11 = 1 & valdate & zwhz in missing,notappl,9996:9998 then ftarget2 = 3 endif;
+      if fwc11 = 1 & valdate then                     { weighted & with a valid date of birth }
+        hwage   = cmcode(ABINTM,ABINTY) - cmcode(AB103M(i),AB103Y(i));
+        hwsex   = AH04(AB102);
+        if hwsex = 1 then
+          recode hwage :: weightch -> hwerr;
+                 0: 2 :: 0.5:10.0 -> 0;
+                 3: 5 :: 1.0:13.0 -> 0;
+                 6: 8 :: 2.0:15.0 -> 0;
+                 9:11 :: 3.0:16.5 -> 0;
+                12:14 :: 4.0:17.5 -> 0;
+                15:17 :: 4.0:18.5 -> 0;
+                18:20 :: 4.0:19.5 -> 0;
+                21:23 :: 4.5:20.5 -> 0;
+                24:26 :: 4.5:23.0 -> 0;
+                27:29 :: 5.0:24.0 -> 0;
+                30:32 :: 5.0:24.5 -> 0;
+                33:35 :: 5.0:25.5 -> 0;
+                36:38 :: 5.0:26.0 -> 0;
+                39:41 :: 5.0:27.0 -> 0;
+                42:44 :: 5.0:29.0 -> 0;
+                45:47 :: 5.0:29.0 -> 0;
+                48:50 :: 5.0:30.0 -> 0;
+                51:53 :: 5.0:31.0 -> 0;
+                54:56 :: 5.5:32.0 -> 0;
+                57:60 :: 5.5:33.0 -> 0;
+                61:72 :: 5.5:34.0 -> 0;
+                      ::          -> 1;
+          endrecode
+        else
+          recode hwage :: weightch -> hwerr;
+                 0: 2 :: 0.5: 9.0 -> 0;
+                 3: 5 :: 1.0:12.0 -> 0;
+                 6: 8 :: 2.0:14.0 -> 0;
+                 9:11 :: 2.5:15.5 -> 0;
+                12:14 :: 3.0:16.5 -> 0;
+                15:17 :: 3.5:17.5 -> 0;
+                18:20 :: 3.5:18.5 -> 0;
+                21:23 :: 4.0:19.5 -> 0;
+                24:26 :: 4.5:21.5 -> 0;
+                27:29 :: 5.0:23.0 -> 0;
+                30:32 :: 5.0:24.5 -> 0;
+                33:35 :: 5.0:25.5 -> 0;
+                36:38 :: 5.0:27.0 -> 0;
+                39:41 :: 5.0:29.0 -> 0;
+                42:44 :: 5.5:29.0 -> 0;
+                45:47 :: 5.5:30.0 -> 0;
+                48:50 :: 5.5:31.0 -> 0;
+                51:53 :: 5.5:32.0 -> 0;
+                54:56 :: 6.0:33.0 -> 0;
+                57:60 :: 6.0:34.5 -> 0;
+                61:72 :: 6.0:36.0 -> 0;
+                      ::         -> 1;
+          endrecode
+        endif;
+        if hwerr then Fhwc = 1 endif;
+      endif;
+      if fwc11 = 1 & !valdate then fhwc = 2 endif;   { incomplete date }
+      xtab( f11cw1 );
+
+      { f11cw2, f11cw3 }
+      if fwc11 = 1 then                        { for children measured }
+        fdec1 = GetDecimal( AB106, 1 );
+        xtab( f11cw2 );
+        fdec2 = GetDecimal( AB106, 2 );
+        xtab( f11cw3 );
+      endif;
+
+    endif;                           { end children under 5 }
+  enddo;
+
+  { Tables f11ch }
+  for i in ABSEC01_EDT do
+    Fhwc  = notappl;
+    ftarget3 = notappl;
+    if AH07(AB102) in 0:4 & AB104 in 0:4 then            { children under 5 }
+      weightch = AB106;
+      lengthch = AB108;
+      lystand  = AB109;
+      { change weight and height according to type of remeasurement when present }
+      if ABRTYPE in 2,3 & !ABWEIGHT in 99.90:99.98,missing,notappl & !ABHEIGHT in 999.0:999.8,missing,notappl then
+        weightch = ABWEIGHT;
+        lengthch = ABHEIGHT;
+        lystand  = ABLYNSTN;
+      endif;
+      { result of measurement based on height }
+      fhc11 = measure5( lengthch );
+      valdate  = ( valid(AB103M) & validyr(AB103Y) );
+      dateflag = 0;
+      if valdate then
+        { Age of child in days }
+        if !AB103D in 1:31 then AB103D = 15 endif;
+        agechild = CDCode( ABINTY, ABINTM, ABINTD ) - CDCode( AB103Y, AB103M, AB103D );
+        dateflag = 1;
+      else
+        agechild = 9999;
+      endif;
+
+      { Calculate anthropometric Z-scores }
+             // weightch,   lengthch, lyingstanding,sexchild,agechild,dateflag
+      WHO_anthro( weightch, lengthch, lystand, AH04(AB102), agechild, dateflag, AB102 );
+
+      { determine if height for age z-score out of range }
+      if fhc11 = 1 & valdate & zhaz in missing,notappl,9996:9998 then ftarget3 = 3 endif;
+      if fhc11 = 1 & valdate then                     { measured & with a valid date of birth }
+        hwage   = cmcode(AHINTM,AHINTY) - cmcode(AB103M(i),AB103Y(i));
+        hwsex   = AH04(AB102);
+        if hwsex = 1 then
+          recode hwage ::  lengthch  -> hwerr;
+                 0: 2 :: 36.0: 74.0 -> 0;
+                 3: 5 :: 45.0: 83.0 -> 0;
+                 6: 8 :: 51.0: 87.0 -> 0;
+                 9:11 :: 56.0: 91.0 -> 0;
+                12:14 :: 59.0: 96.0 -> 0;
+                15:17 :: 62.0:100.0 -> 0;
+                18:20 :: 64.0:104.0 -> 0;
+                21:23 :: 65.0:107.0 -> 0;
+                24:26 :: 67.0:108.0 -> 0;
+                27:29 :: 68.0:112.0 -> 0;
+                30:32 :: 70.0:115.0 -> 0;
+                33:35 :: 71.0:118.0 -> 0;
+                36:38 :: 73.0:121.0 -> 0;
+                39:41 :: 74.0:124.0 -> 0;
+                42:44 :: 75.0:127.0 -> 0;
+                45:47 :: 77.0:129.9 -> 0;
+                48:50 :: 79.0:132.0 -> 0;
+                51:53 :: 79.0:134.0 -> 0;
+                54:56 :: 80.0:136.0 -> 0;
+                57:60 :: 82.0:139.0 -> 0;
+                61:72 :: 82.0:140.0 -> 0;
+                     ::            -> 1;
+          endrecode
+        else
+          recode hwage ::  lengthch  -> hwerr;
+                 0: 2 :: 36.0: 72.0 -> 0;
+                 3: 5 :: 44.0: 80.0 -> 0;
+                 6: 8 :: 50.0: 86.0 -> 0;
+                 9:11 :: 54.0: 90.0 -> 0;
+                12:14 :: 57.0: 95.0 -> 0;
+                15:17 :: 60.0: 99.0 -> 0;
+                18:20 :: 62.0:102.0 -> 0;
+                21:23 :: 64.0:106.0 -> 0;
+                24:26 :: 66.0:107.0 -> 0;
+                27:29 :: 68.0:111.0 -> 0;
+                30:32 :: 69.0:114.0 -> 0;
+                33:35 :: 71.0:117.0 -> 0;
+                36:38 :: 72.0:120.0 -> 0;
+                39:41 :: 74.0:122.0 -> 0;
+                42:44 :: 75.0:124.0 -> 0;
+                45:47 :: 77.0:126.0 -> 0;
+                48:50 :: 78.0:129.0 -> 0;
+                51:53 :: 79.0:131.0 -> 0;
+                54:56 :: 81.0:133.0 -> 0;
+                57:60 :: 81.0:136.0 -> 0;
+                61:72 :: 81.0:137.0 -> 0;
+                    ::            -> 1;
+          endrecode
+        endif;
+        if hwerr then Fhwc = 1 endif;
+      endif;                                  { end children measured with valid date of birth }
+      if fhc11 = 1 & !valdate then fhwc = 2 endif;   { incomplete date }
+      xtab( f11ch );
+    endif;                           { end children under 5 }
+  enddo;
+
+  { Tables f11ww1, f11ww2, f11ww3 }
+  for i in ABSEC02_EDT do
+    Fhww = notappl;
+    fww11 = measure2( AB205 );
+    if fww11 = 1 then
+      if !AB205 in 20:150,missing then { weight out of range }
+        Fhww = 1;
+      endif;
+    endif;
+    xtab( f11ww1 );
+    { f11ww2, f11ww3 }
+    if fww11 = 1 then                        { for women measured }
+      fdec1 = GetDecimal( AB205, 1 );
+      xtab( f11ww2 );
+      fdec2 = GetDecimal( AB205, 2 );
+      xtab( f11ww3 );
+    endif;
+  enddo;
+
+  { Tables f11wh }
+  for i in ABSEC02_EDT do
+    Fhww = notappl;
+    fhw11 = measure5( AB207 );
+    if fhw11 = 1 then
+      if !AB207 in 100:200,missing then { height out of range }
+        Fhww = 1;
+      endif;
+    endif;
+    xtab( f11wh );
+  enddo;
+
+  { Tables f11mw1, f11mw2, f11mw3 }
+  for i in ABSEC03_EDT do
+    Fhwm = notappl;
+    fwm11 = measure2( AB305 );
+    if fwm11 = 1 then
+      if !AB305 in 20:150,missing then { weight out of range }
+        Fhwm = 1;
+      endif;
+    endif;
+    xtab( f11mw1 );
+    { f11mw2, f11mw3 }
+    if fwm11 = 1 then                        { for men measured }
+      fdec1 = GetDecimal( AB305, 1 );
+      xtab( f11mw2 );
+      fdec2 = GetDecimal( AB305, 2 );
+      xtab( f11mw3 );
+    endif;
+  enddo;
+
+  { Tables f11mh }
+  for i in ABSEC03_EDT do
+    fhwm = notappl;
+    fhm11 = measure5( AB307 );
+    if fhm11 = 1 then
+      if !AB307 in 100:200,missing then { height out of range }
+        Fhwm = 1;
+      endif;
+    endif;
+    xtab( f11mh );
+  enddo;
+
+  { Tables f12c1, f12c2 }
+  for i in ABSEC01_EDT do
+    fanc = notappl;
+    if ACAGEM > 5 then
+      fac12 = measure3( AB122 );
+      if AB122 in 0.0:3.9,26.1:99.0 then
+        fanc = 1;
+      endif;
+      xtab( f12c1 );
+      if fac12 = 1 then
+        fdec1 = GetDecimal( AB122, 1 );
+        xtab( f12c2 );
+      endif;
+    endif;
+  enddo;
+
+  { Tables f12w1, f12w2 }
+  for i in ABSEC02_EDT do
+    fanw = notappl;
+    faw12 = measure3( AB225 );
+    if AB225 in 0.0:3.9,26.1:99.0 then
+      fanw = 1;
+    endif;
+    xtab( f12w1 );
+    if faw12 = 1 then
+      fdec1 = GetDecimal( AB225, 1 );
+      xtab( f12w2 );
+    endif;
+  enddo;
+
+  { Tables f12m1, f12m2 }
+  for i in ABSEC03_EDT do
+    fanm = notappl;
+    fam12 = measure3( AB325 );
+    if AB325 in 0.0:3.9,26.1:99.0 then
+      fanm = 1;
+    endif;
+    xtab( f12m1 );
+    if fam12 = 1 then
+      fdec1 = GetDecimal( AB325, 1 );
+      xtab( f12m2 );
+    endif;
+  enddo;
+
+  { Tables f13w }
+  for i in ABSEC02_EDT do
+    fdbs = measure4( ABWHIV9 );
+    findint = 2;
+    if interview(AB202) then findint = 1 endif;
+    xtab( f13w );
+  enddo;
+
+  { Tables f13m }
+  for i in ABSEC03_EDT do
+    fdbs = measure4( ABMHIV9 );
+    findint = 2;
+    if interview(AB302) then findint = 1 endif;
+    xtab( f13m );
+  enddo;
+
+  { tables for Individual Questionnaire }
+  do k = 1 while k <= soccurs( AHSEC01 )
+    if AH09(k) | AH10(k) then               { if mmember is eligible }
+      ALINE = AH09(k);
+      if AH10(k) then ALINE = AH10(k) endif;
+      if loadcase( ccIN80, AHCLUST, AHNUMBER, ALINE ) then   { if member found in individual questionnaire }
+
+        Fteams  = notappl;
+        fintnum = AINTNUM;  { !!!! make sure to adjust the value sets based on the actual interviewer codes for the survey }
+        if byteam then
+          { !! recode teams as necessary }
+          Fteams = int( fintnum/100 );               {!!}
+          fintnum = notappl;
+        endif;
+
+        { Table f3wu, f3mu, f3wr, f3mr }
+        if AHTYPE = 1 then
+          if AQTYPE = 2 & AH06(ALINE) = 1 then  { DE FACTO women }
+            xtab( f3wu );
+          elseif AQTYPE = 1 & AH06(ALINE) = 1 then  { DE FACTO men }
+            xtab( f3mu );
+          endif;
+        else
+          if AQTYPE = 2 & AH06(ALINE) = 1 then  { DE FACTO women }
+            xtab( f3wr );
+          elseif AQTYPE = 1 & AH06(ALINE) = 1 then  { DE FACTO men }
+            xtab( f3mr );
+          endif;
+        endif;
+
+        { skip incomplete individual interviews }
+        if ARESULT <> 1 then next endif;
+
+        if AQTYPE = 2 & AH06(ALINE) = 1 then        { DE FACTO women }
+
+          { Tables f5 }
+          Fceb     = 1;       { All completed women }
+          xtab( f5 );
+          Fceb = 2;   { Children ever born }
+          xtab( f5, A208 );
+
+          { Table f6 }
+          for i in ccIN80.AWSEC2B do
+            if A220Y = missing | A220Y >= cutoff - 4 then
+              Fyearb = A220Y;
+              if A220Y in missing,9997:9998 then Fyearb = 9999 endif;
+              xtab( f6 );
+            endif;
+          enddo;
+
+          { Tables f7l & f7d }
+          for i in ccIN80.AWSEC2B do
+            ismonth = valid(A220M);
+            isyear  = validyr(A220Y);
+            if A224 = 1 then
+              isage = valid(A225);
+              recode isyear :: ismonth :: isage -> Fcompl;
+                      1    ::    1    ::      -> 1;
+                      1    ::         ::  1   -> 2;
+                      1    ::    0    ::  0   -> 3;
+                      0    ::    0    ::  1   -> 4;
+                           ::         ::      -> 5;
+              endrecode;
+              xtab( f7l );
+            else
+              recode isyear :: ismonth  -> Fcompd;
+                      1    ::    1     -> 1;
+                      1    ::    0     -> 2;
+                      0    ::    1     -> 3;
+                           ::          -> 4;
+              endrecode;
+              xtab( f7d );
+            endif;
+          enddo;
+
+          { Tables f8 }
+          for i in ccIN80.AWSEC2B do
+            if A224 = 2 & ( !validyr(A220Y) | A220Y >= AINTY-15 ) then   { deaths in the last 15 years }
+              unitx  = A228U;
+              number = A228N;
+              recode unitx :: number -> Faged;
+                      2   :: 8:12   -> number-8;  { codes 0::4 }
+                      3   ::   1    -> 5;
+                      2   :: 13:16  -> number-7;  { codes 6::9 }
+                          ::        -> notappl;
+              endrecode;
+              if Faged <> notappl then
+                xtab( f8 );
+              endif;
+            endif;
+          enddo;
+
+          { Table f9 }
+          for i in ccIN80.AWSEC2B do
+            if !validyr(A220Y) | A220Y >= AINTY-15 then       { births last 15 years }
+              Falive = notappl;
+              Faged9 = notappl;
+              if A224 = 2 then
+                unitx  = A228U(i);
+                number = A228N(i);
+                recode unitx :: number -> Faged9;
+                        1   ::  0:30  -> 1;
+                        1   :: 31:96  -> 2;
+                        2   ::   0    -> 1;
+                        2   ::  1:11  -> 2;
+                        2   :: 12:96  -> 3;
+                        3   ::        -> 3;
+                            ::        -> 4;
+                endrecode;
+              else
+                Falive = 1;
+              endif;
+              xtab( f9 );
+            endif;
+          enddo;
+
+          { Table f10 }
+          for i in ccIN80.AWSEC05 do
+            if A224(A503) = 1 then { Living children }
+              if A504 in 1:3  then   { with a vacination card or other document }
+                fcardr = 1;
+                xtab( f10 );
+              endif;
+              if A507 in 1:3 then       { vaccination card or other document seen }
+                fcardr = 2;
+                xtab( f10 );
+              endif;
+              fcardr = 3;             { all children }
+              xtab( f10 );
+            endif;
+          enddo;
+
+          { table f14 }
+          Fcol14b = notappl;
+          Fcol14c = notappl;
+          for i in ccIN80.AWSECM3 do
+            if AMM14 = 2 & AMM15 = 2 then       { Deceased sister }
+              fcol14a = 1;
+              xtab( f14 );
+              if !valid(AMM18) then
+                fcol14a = 2;
+                xtab( f14 );
+              endif;
+              Fcol14a = notappl;
+              if AMM18 in 12:96 then
+                fcol14b = 1;
+                xtab( f14 );
+                if AMM19 = missing & AMM20 = missing & AMM21 = missing then
+                  fcol14b = 2;
+                  xtab( f14 );
+                endif;
+                fcol14b = notappl;
+                fcol14c = 1;
+                xtab( f14 );
+                if !valid(AMM17) then
+                  fcol14c = 2;
+                  xtab( f14 );
+                endif;
+                fcol14c = notappl;
+              endif;
+            endif;
+          enddo;
+
+          { f15 }
+          if AHNUMDV = ALINE then               { woman eligible for doemstic violence }
+            resdv = 1;
+            xtab( f15 );
+            if DV01 <> 1 then                   { privacy not obtined }
+              resdv = 2;
+              xtab( f15 );
+            endif;
+          endif;
+        endif;                                  { end DE FACTO women }
+      endif;                                 { end found individual member }
+    endif;                               { end found individual member }
+  enddo;
+

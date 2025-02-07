@@ -1,0 +1,31 @@
+﻿[CSPro Application]
+Version=CSPro 7.5
+Label=SupMenu
+Name=SupMenu
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+CAPIFont1=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont2=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont1Color=0
+CAPIFont2Color=16711680
+[External Dictionaries]
+File=..\Dicts\Clusters.dcf
+File=..\Dicts\Interv.dcf
+File=..\Dicts\EligIndv.dcf
+File=..\Dicts\Remeasure.dcf
+[AppCode]
+File=.\SupMenu.apc
+[Message]
+File=.\SupMenu.mgf
+[Help]
+File=.\SupMenu.qsf
+[Forms]
+File=..\Entry\Menu.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Menu.dcf,Input,..\Entry\Menu.fmf
+Dict-Type=..\Dicts\Clusters.dcf,External
+Dict-Type=..\Dicts\Interv.dcf,External
+Dict-Type=..\Dicts\EligIndv.dcf,External
+Dict-Type=..\Dicts\Remeasure.dcf,External

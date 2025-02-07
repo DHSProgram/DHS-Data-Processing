@@ -1,0 +1,2276 @@
+﻿[Dictionary]
+Version=CSPro 7.7
+Label=prelim
+Name=PRELIM
+RecordTypeStart=2
+RecordTypeLen=2
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=FD09E9F5FC7B053ACFDE7E7D855FDF96
+
+[Languages]
+EN=English
+FR=French
+
+[Level]
+Label=LEVEL1
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=Level1 Identification
+Name=LEVEL1ID
+Start=1
+Len=1
+DataType=Alpha
+
+[Record]
+Label=WPRELIM
+Name=GENERAL
+RecordTypeValue='AA'
+RecordLen=63
+
+[Item]
+Label=.
+Name=TOTAL
+Start=4
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOTAL_VS1
+Value=0;Total
+
+[Item]
+Label=.
+Name=TOTAL1
+Start=5
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOTAL1_VS1
+Value=0;Total
+
+[Item]
+Label=.
+Name=NUMMEN
+Start=6
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=NUMMEN_VS1
+Value=1;Number of men
+
+[Item]
+Label=.
+Name=NUMWOM
+Start=7
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=NUMWOM_VS1
+Value=1;Number of women
+
+[Item]
+Label=.
+Name=NUMCHI1
+Start=8
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=NUMCHI1_VS1
+Value=1;Number of children
+
+[Item]
+Label=.
+Name=NUMCHI2
+Start=9
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=NUMCHI2_VS1
+Value=1;Number of children age 6-59 months
+
+[Item]
+Label=.
+Name=TOTALNUM
+Start=10
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOTALNUM_VS1
+Value=0;Total
+Value=1;Number of women
+
+[Item]
+Label=.
+Name=TOTHHPOP
+Start=11
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOTHHPOP_VS1
+Value=1;De facto population
+
+[Item]
+Label=.
+Name=TOTNUM1
+Start=12
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOTNUM1_VS1
+Value=0;Total
+Value=1;Number of children
+
+[Item]
+Label=.
+Name=TOTNUM2
+Start=13
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOTNUM2_VS1
+Value=0;Total
+Value=1;Number
+
+[Item]
+Label=.
+Name=TOT15491
+Start=14
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOT15491_VS1
+Value=1;Total 15-49
+
+[Item]
+Label=.
+Name=TOT1549
+Start=15
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOT1549_VS1
+Value=1;Total 15-49
+
+[Item]
+Label=.
+Name=TOTMEN
+Start=16
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOTMEN_VS1
+Value=1;Total 15-54[59]
+
+[Item]
+Label=.
+Name=MEN5059
+Start=17
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=MEN5059_VS1
+Value=1;50-54[59]
+
+[Item]
+Label=Residence
+Name=URBRUR
+Start=18
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Residence
+Name=URBRUR_VS1
+Value=1;Urban
+Value=2;Rural
+
+[Item]
+Label=Region
+Name=REGION
+Start=19
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Region
+Name=REGION_VS1
+Value=1;Region 1
+Value=2;Region 2
+Value=3;Region 3
+Value=4;Region 4
+Value=5;Region 5
+
+[Item]
+Label=Education
+Name=EDUC
+Start=21
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Education
+Name=EDUC_VS1
+Value=0;No education
+Value=1;Primary
+Value=2;Secondary
+Value=3;More than secondary
+Value=9;Missing
+
+[Item]
+Label=Wealth quintile
+Name=WEALTHQ
+Start=22
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wealth quintile
+Name=WEALTHQ_VS1
+Value=1;Lowest
+Value=2;Second
+Value=3;Middle
+Value=4;Fourth
+Value=5;Highest
+
+[Item]
+Label=Age
+Name=AGE5
+Start=23
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age
+Name=AGE5_VS1
+Value=1;15-19
+Value=2;20-24
+Value=3;25-29
+Value=4;30-34
+Value=5;35-39
+Value=6;40-44
+Value=7;45-49
+Value=8;50-54
+Value=9;55-59
+Value=10;60-64
+
+[Item]
+Label=Religion
+Name=RELIG
+Start=25
+Len=2
+DataType=Numeric
+
+[Item]
+Label=Ethnic group
+Name=ETHNIC
+Start=27
+Len=2
+DataType=Numeric
+
+[Item]
+Label=Sex
+Name=SEX
+Start=29
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sex
+Name=SEX_VS1
+Value=1;Male
+Value=2;Female
+
+[Item]
+Label=.
+Name=ISEX
+Start=30
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ISEX_VS1
+Value=1;Women
+Value=2;Men
+
+[Item]
+Label=.
+Name=ISEX1
+Start=31
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ISEX1_VS1
+Value=1;Women age 15-24
+Value=2;Men age 15-24
+
+[Item]
+Label=.
+Name=COLPUNW
+Start=32
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=COLPUNW_VS1
+Value=1;First panel
+Value=2;Second panel
+Value=3;Third panel
+Value=4;Fourth panel
+
+[Item]
+Label=.
+Name=ROWPUNW
+Start=33
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ROWPUNW_VS1
+Value=1;First panel
+Value=2;Second panel
+Value=3;Third panel
+Value=4;Fourth panel
+Value=5;FIfth panel
+
+[Item]
+Label=Age
+Name=AGE10
+Start=34
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age
+Name=AGE10_VS1
+Value=0;15-24
+Value=1;..15-19
+Value=2;..20-24
+Value=3;25-29
+Value=4;30-39
+Value=5;40-49
+Value=6;50-59
+
+[Item]
+Label=Age
+Name=AGE20
+Start=36
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age
+Name=AGE20_VS1
+Value=1;5-19
+Value=2;20-29
+Value=3;30-39
+Value=4;40-49
+
+[Item]
+Label=.
+Name=AGEGROUP
+Start=38
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=AGEGROUP_VS1
+Value=0;10-14
+Value=1;15-19
+Value=2;20-24
+Value=3;25-29
+Value=4;30-34
+Value=5;35-39
+Value=6;40-44
+Value=7;45-49
+
+[Item]
+Label=.
+Name=AGEYOUNG
+Start=39
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=AGEYOUNG_VS1
+Value=14;14
+Value=13;13
+Value=12;12
+Value=11;11
+Value=10;10
+Value=99;Total
+
+[Item]
+Label=Mother's education
+Name=EDUCMOTH
+Start=41
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Mother's education
+Name=EDUCMOTH_VS1
+Value=0;No education
+Value=1;Primary
+Value=2;Secondary
+Value=3;More than secondary
+Value=9;Missing
+
+[Item]
+Label=.
+Name=FERT1
+Start=42
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=FERT1_VS1
+Value=1;TFR (15-49)
+Value=2;GFR
+Value=3;CBR
+
+[Item]
+Label=Mother's age at birth
+Name=GAGE
+Start=43
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Mother's age at birth
+Name=GAGE_VS1
+Value=0;<20
+Value=1;20-34
+Value=2;35-49
+
+[Item]
+Label=Number of living children
+Name=LCHILD
+Start=44
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of living children
+Name=LCHILD_VS1
+Value=0;0
+Value=1;1-2
+Value=2;3-4
+Value=3;5+
+Value=99;Missing
+
+[Item]
+Label=Number of living children{\super 1}
+Name=LCHILD1
+Start=46
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of living children{\super 1}
+Name=LCHILD1_VS1
+Value=0:5
+Value=6;6+
+Value=99;Missing
+
+[Item]
+Label=Number of living children
+Name=LCHILD2
+Start=48
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of living children
+Name=LCHILD2_VS1
+Value=0;0
+Value=1;1
+Value=2;2-3
+Value=3;4-5
+Value=4;6+
+Value=99;Missing
+
+[Item]
+Label=Mother's interview status
+Name=MOTHSTAT
+Start=50
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Mother's interview status
+Name=MOTHSTAT_VS1
+Value=1;Interviewed
+Value=2;Not interviewed, but in household
+Value=3;Not interviewed, not in household{\super 3}
+Value=9;Missing
+
+[Item]
+Label=Marital status
+Name=MSTAT
+Start=51
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Marital status
+Name=MSTAT_VS1
+Value=0;Never married
+Value=1;Married
+Value=2;Living together
+Value=3;Divorced/separated
+Value=4;Widowed
+Value=9;Missing
+
+[Item]
+Label=Marital status
+Name=MSTAT1
+Start=52
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Marital status
+Name=MSTAT1_VS1
+Value=0;Never married
+Value=1;..Ever had sex
+Value=2;..Never had sex
+Value=3;Married or living together
+Value=4;Divorced/separated/widowed
+Value=9;Missing
+
+[Item]
+Label=Marital status
+Name=MSTAT2
+Start=53
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Marital status
+Name=MSTAT2_VS1
+Value=0;Never married
+Value=1;Married/living together
+Value=2;Divorced/separated/widowed
+Value=9;Missing
+
+[Item]
+Label=Marital status
+Name=MSTAT3
+Start=54
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Marital status
+Name=MSTAT3_VS1
+Value=0;Never married
+Value=1;..Ever had sex
+Value=2;..Never had sex
+Value=3;Ever married
+
+[Item]
+Label=.
+Name=RUNDAY
+Start=55
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=RUNDAY_VS1
+Value=0;Day
+
+[Item]
+Label=.
+Name=RUNMONTH
+Start=57
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=RUNMONTH_VS1
+Value=0;Month
+
+[Item]
+Label=.
+Name=RUNYEAR
+Start=59
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=RUNYEAR_VS1
+Value=0;Year
+
+[Item]
+Label=.
+Name=UNWEIGHT
+Start=63
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=UNWEIGHT_VS1
+Value=0;WEIGHTED
+Value=1;UNWEIGHTED
+
+[Record]
+Label=Preliminary
+Name=PRELIM1
+RecordTypeValue='BB'
+RecordLen=101
+
+[Item]
+Label=Household interviews
+Name=HHRESULT
+Start=4
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Household interviews
+Name=HHRESULT_VS1
+Value=1;Households selected
+Value=2;Households occupied
+Value=3;Households interviewed
+
+[Item]
+Label=.
+Name=HHRATE
+Start=5
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=HHRATE_VS1
+Value=1;Household response rate{\super 1}
+
+[Item]
+Label=Interviews with women age 15-49
+Name=WRESULT
+Start=6
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Interviews with women age 15-49
+Name=WRESULT_VS1
+Value=1;Number of eligible women
+Value=2;Number of eligible women interviewed
+
+[Item]
+Label=.
+Name=WRATE
+Start=7
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=WRATE_VS1
+Value=1;Eligible women response rate{\super 2}
+
+[Item]
+Label=Household interviews in subsample
+Name=SUBRESUL
+Start=8
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Household interviews in subsample
+Name=SUBRESUL_VS1
+Value=1;Households selected
+Value=2;Households occupied
+Value=3;Households interviewed
+
+[Item]
+Label=.
+Name=SUBRATE
+Start=9
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=SUBRATE_VS1
+Value=1;Household response rate in subsample{\super 1}
+
+[Item]
+Label=Interviews with men age 15-54[59]
+Name=MRESULT
+Start=10
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Interviews with men age 15-54[59]
+Name=MRESULT_VS1
+Value=1;Number of eligible men
+Value=2;Number of eligible men interviewed
+
+[Item]
+Label=.
+Name=MRATE
+Start=11
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=MRATE_VS1
+Value=1;Eligible men response rate{\super 2}
+
+[Item]
+Label=.
+Name=ALLINDIV
+Start=12
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ALLINDIV_VS1
+Value=0;Weighted percent
+Value=1;Weighted number
+Value=2;Unweighted number
+
+[Item]
+Label=Self-reported health status
+Name=HEALTHST
+Start=13
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Self-reported health status
+Name=HEALTHST_VS1
+Value=1;Very good
+Value=2;Good
+Value=3;Moderate
+Value=4;Bad
+Value=5;Very bad
+
+[Item]
+Label=Age
+Name=AGETEEN
+Start=14
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age
+Name=AGETEEN_VS1
+Value=15:19
+
+[Item]
+Label=Percentage of women age 15-19 who:
+Name=PREGTEEN
+Start=16
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Percentage of women age 15-19 who:
+Name=PREGTEEN_VS1
+Value=1;Have ever had a live birth
+Value=2;Have ever had a pregnancy loss{\super 1}
+Value=3;Are currently pregnant
+Value=4;Have ever been pregnant
+
+[Item]
+Label=.
+Name=DESIRE
+Start=17
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=DESIRE_VS1
+Value=1;Have another soon{\super 2}
+Value=2;Have another later{\super 3}
+Value=3;Have another, undecided when
+Value=4;Undecided
+Value=5;Want no more
+Value=6;Sterilized{\super 4}
+Value=7;Declared infecund
+Value=9;Missing
+
+[Item]
+Label=.
+Name=NOUSING
+Start=18
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=NOUSING_VS1
+Value=1;Not currently using
+
+[Item]
+Label=Modern method
+Name=MODMETH
+Start=19
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Modern method
+Name=MODMETH_VS1
+Value=1;Female sterili- zation
+Value=2;Male sterili- zation
+Value=3;IUD
+Value=4;Inject- ables
+Value=5;Implants
+Value=6;Pill
+Value=7;Male condom
+Value=8;Female condom
+Value=9;Emer- gency contra- ception
+Value=10;SDM
+Value=11;LAM
+Value=12;Other
+
+[Item]
+Label=Traditional method
+Name=TRADMETH
+Start=21
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Traditional method
+Name=TRADMETH_VS1
+Value=21;Rhythm
+Value=22;With- drawal
+Value=23;Other
+
+[Item]
+Label=.
+Name=USEANY
+Start=23
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=USEANY_VS1
+Value=1;Any method
+
+[Item]
+Label=.
+Name=USEMOD
+Start=24
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=USEMOD_VS1
+Value=1;Any modern method
+
+[Item]
+Label=.
+Name=USETRAD
+Start=25
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=USETRAD_VS1
+Value=1;Any tradi- tional method
+
+[Item]
+Label=.
+Name=UMETNEED
+Start=26
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=UMETNEED_VS1
+Value=1;Unmet need for family planning
+
+[Item]
+Label=Met need for family planning (currently using)
+Name=METNEED
+Start=27
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Met need for family planning (currently using)
+Name=METNEED_VS1
+Value=1;All methods
+Value=2;Modern methods{\super 2}
+
+[Item]
+Label=.
+Name=DEMANDFP
+Start=28
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=DEMANDFP_VS1
+Value=1;Total demand for family planning{\super 3}
+
+[Item]
+Label=Percentage of demand satisfied{\super 1}
+Name=DEMSATIS
+Start=29
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Percentage of demand satisfied{\super 1}
+Name=DEMSATIS_VS1
+Value=1;All methods
+Value=2;Modern methods{\super 2}
+
+[Item]
+Label=Years preceding the survey
+Name=COLPER
+Start=30
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Years preceding the survey
+Name=COLPER_VS1
+Value=0;0-4
+Value=1;5-9
+Value=2;10-14
+
+[Item]
+Label=.
+Name=MORTRATE
+Start=31
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=MORTRATE_VS1
+Value=0;Neonatal mortality (NN)
+Value=1;Post-neonatal mortality (PNN){\super 1}
+Value=2;Infant mortality (1q0)
+Value=3;Child mortality (4q1)
+Value=4;Under-5 mortality (5q0)
+
+[Item]
+Label=Age at death in months
+Name=AGEDTH
+Start=32
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Age at death in months
+Name=AGEDTH_VS1
+Value=0;0
+Value=1;1-2
+Value=2;3-5
+Value=3;6-11
+Value=4;12-23
+Value=5;24-35
+Value=6;36-47
+Value=7;48-59
+
+[Item]
+Label=Exposure in months
+Name=AGEEXP
+Start=33
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Exposure in months
+Name=AGEEXP_VS1
+Value=0;0
+Value=1;1-2
+Value=2;3-5
+Value=3;6-11
+Value=4;12-23
+Value=5;24-35
+Value=6;36-47
+Value=7;48-59
+
+[Item]
+Label=Probability of death
+Name=AGEPRB
+Start=34
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Probability of death
+Name=AGEPRB_VS1
+Value=0;0
+Value=1;1-2
+Value=2;3-5
+Value=3;6-11
+Value=4;12-23
+Value=5;24-35
+Value=6;36-47
+Value=7;48-59
+
+[Item]
+Label=Women who had a live birth and/or a stillbirth in the 2 years preceding the survey
+Name=MATCARE1
+Start=35
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Women who had a live birth and/or a stillbirth in the 2 years preceding the survey
+Name=MATCARE1_VS1
+Value=1;Percent- age receiving antenatal care from a skilled provider{\super 1}
+Value=2;Percent- age with 4+ ANC visits
+Value=3;Percent- age who took any iron- containing supple- ments during pregnancy{\super 2}
+Value=4;Percent- age whose most recent live birth was protected against neonatal tetanus{\super 3}
+Value=5;Number of women
+
+[Item]
+Label=Live births and stillbirths in the 2 years preceding the survey
+Name=MATCARE2
+Start=37
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Live births and stillbirths in the 2 years preceding the survey
+Name=MATCARE2_VS1
+Value=1;Percent- age delivered by a skilled provider{\super 1}
+Value=2;Percent- age delivered in a health facility
+Value=3;Number of births
+
+[Item]
+Label=Women who had a live birth and/or a stillbirth in the 2 years preceding the survey
+Name=MATCARE3
+Start=39
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Women who had a live birth and/or a stillbirth in the 2 years preceding the survey
+Name=MATCARE3_VS1
+Value=1;Percent- age of women with a postnatal check during the first 2 days after birth{\super 4}
+Value=2;Number of women
+
+[Item]
+Label=.
+Name=LIVBIRTH
+Start=41
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=LIVBIRTH_VS1
+Value=1;Live births
+
+[Item]
+Label=.
+Name=STLBIRTH
+Start=42
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=STLBIRTH_VS1
+Value=1;Stillbirths
+
+[Item]
+Label=.
+Name=LIVSTILL
+Start=43
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=LIVSTILL_VS1
+Value=1;Live births and stillbirths{\super 5}
+
+[Item]
+Label=Birth order
+Name=BORDER2
+Start=44
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Birth order
+Name=BORDER2_VS1
+Value=0;1
+Value=1;2-3
+Value=2;4-5
+Value=3;6+
+
+[Item]
+Label=Vaccination card{\super 6}
+Name=CARDSEEN
+Start=45
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Vaccination card{\super 6}
+Name=CARDSEEN_VS1
+Value=1;Seen
+Value=2;Not seen or no longer has
+Value=3;Never had
+Value=9;Missing
+
+[Item]
+Label=.
+Name=GRPCHILD
+Start=46
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=GRPCHILD_VS1
+Value=1;Children age 12-23 months
+Value=2;Children age 24-35 months
+
+[Item]
+Label=.
+Name=BCG
+Start=47
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=BCG_VS1
+Value=0;BCG
+
+[Item]
+Label=.
+Name=HEPB0
+Start=48
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=HEPB0_VS1
+Value=0;HepB (birth dose){\super 1}
+
+[Item]
+Label=DPT-HepB-Hib
+Name=PENTA
+Start=49
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=DPT-HepB-Hib
+Name=PENTA_VS1
+Value=1;1
+Value=2;2
+Value=3;3
+
+[Item]
+Label=.
+Name=IPV
+Start=50
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=IPV_VS1
+Value=0;IPV
+
+[Item]
+Label=OPV{\super 2}
+Name=POLIO
+Start=51
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=OPV{\super 2}
+Name=POLIO_VS1
+Value=0;0 (birth dose)
+Value=1;1
+Value=2;2
+Value=3;3
+
+[Item]
+Label=Pneumococcal
+Name=PNEUMO
+Start=52
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Pneumococcal
+Name=PNEUMO_VS1
+Value=1;1
+Value=2;2
+Value=3;3
+
+[Item]
+Label=Rotavirus
+Name=ROTA
+Start=53
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Rotavirus
+Name=ROTA_VS1
+Value=1;1
+Value=2;2
+Value=3;3
+
+[Item]
+Label=.
+Name=MCV1
+Start=54
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=MCV1_VS1
+Value=1;[MCV] 1
+
+[Item]
+Label=.
+Name=ALLVACC
+Start=55
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ALLVACC_VS1
+Value=1;{\b Fully vaccinated (basic antigens){\super 3}}
+Value=2;{\b Fully vaccinated (according to national schedule){\super 4}}
+Value=3;{\b No vaccinations}
+Value=4;Number of children
+
+[Item]
+Label=Children age 24-35 months:
+Name=VACC2
+Start=56
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children age 24-35 months:
+Name=VACC2_VS1
+Value=1;[MCV] 2
+Value=2;DPT-HepB-Hib 4/booster
+Value=3;Fully vaccinated (according to national schedule){\super 5}
+Value=4;Number of children
+
+[Item]
+Label=.
+Name=WITHCARD
+Start=57
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=WITHCARD_VS1
+Value=1;Percentage who ever had a vaccination card{\super 1}
+Value=2;Percentage with a vaccination card seen{\super 1}
+Value=3;Number of children
+
+[Item]
+Label=.
+Name=ILLNESS
+Start=58
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ILLNESS_VS1
+Value=1;ARI symptoms
+Value=2;Fever
+Value=3;Diarrhea
+Value=4;Number of children
+
+[Item]
+Label=.
+Name=PERCNTAG
+Start=59
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=PERCNTAG_VS1
+Value=0;Percentage
+
+[Item]
+Label=Children with symptoms of ARI{\super 1}
+Name=ARISYMPT
+Start=60
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children with symptoms of ARI{\super 1}
+Name=ARISYMPT_VS1
+Value=1;Percent- age for whom advice or treatment was sought{\super 2}
+Value=2;Number of children
+
+[Item]
+Label=Children with fever
+Name=CHFEVER1
+Start=61
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children with fever
+Name=CHFEVER1_VS1
+Value=1;Percent- age for whom advice or treatment was sought{\super 2}
+Value=2;Number of children
+
+[Item]
+Label=Children with diarrhea
+Name=CHDIARRH
+Start=62
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children with diarrhea
+Name=CHDIARRH_VS1
+Value=1;Percent- age for whom advice or treatment was sought{\super 2}
+Value=2;Percent- age given fluid from ORS packet or pre- packaged
+Value=3;Percent- age given zinc
+Value=4;Percent- age given ORS and zinc
+Value=5;Percentage given ORS, zinc, and continued feeding{\super 3}
+Value=6;Number of children
+
+[Item]
+Label=Age in months
+Name=AGEMNTH0
+Start=63
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Age in months
+Name=AGEMNTH0_VS1
+Value=1;<6
+Value=2;6-11
+Value=3;12-23
+Value=4;24-35
+Value=5;36-47
+Value=6;48-59
+
+[Item]
+Label=Measurer
+Name=MEASURER
+Start=64
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Measurer
+Name=MEASURER_VS1
+Value=1;Measurer 1
+Value=2;Measurer 2
+Value=3;Measurer 3
+Value=4;Measurer 4
+Value=5;Measurer 5
+Value=6;Measurer 6
+Value=7;Measurer 7
+Value=8;Measurer 8
+Value=9;Measurer 9
+Value=10;Measurer 10
+Value=11;Measurer 11
+Value=12;Measurer 12
+Value=13;Measurer 13
+Value=14;Measurer 14
+Value=15;Measurer 15
+
+[Item]
+Label=Height-for-age{\super 1}
+Name=HGHTAGE
+Start=66
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Height-for-age{\super 1}
+Name=HGHTAGE_VS1
+Value=1;Percentage below -3 SD
+Value=2;Percentage below -2 SD{\super 2}
+Value=3;Mean Z-score (SD)
+Value=4;Number of children
+
+[Item]
+Label=Weight-for-height
+Name=WGHTHGHT
+Start=67
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Weight-for-height
+Name=WGHTHGHT_VS1
+Value=1;Percentage below -3 SD
+Value=2;Percentage below -2 SD{\super 2}
+Value=3;Percentage above +2 SD
+Value=4;Mean Z-score (SD)
+Value=5;Number of children
+
+[Item]
+Label=Weight-for-age
+Name=WGHTAGE
+Start=68
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Weight-for-age
+Name=WGHTAGE_VS1
+Value=1;Percentage below -3 SD
+Value=2;Percentage below -2 SD{\super 2}
+Value=3;Mean Z-Score (SD)
+Value=4;Number of children
+
+[Item]
+Label=Percentage with data incomplete or missing for:
+Name=MISSDAT
+Start=69
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Percentage with data incomplete or missing for:
+Name=MISSDAT_VS1
+Value=1;Height{\super 1}
+Value=2;Weight{\super 2}
+Value=3;Month or year of birth{\super 3}
+Value=4;Number of children
+
+[Item]
+Label=Percentage with implausible data for:
+Name=OUTRDAT
+Start=70
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Percentage with implausible data for:
+Name=OUTRDAT_VS1
+Value=1;Height-for-age{\super 4}
+Value=2;Number of children with complete height and age{\super 5}
+Value=3;Weight-for-height{\super 6}
+Value=4;Number of children with complete weight and height
+Value=5;Weight-for-age{\super 7}
+Value=6;Number of children with complete weight and age{\super 5}
+
+[Item]
+Label=Percentage with valid data for{\super 8}:
+Name=VALIDAT
+Start=71
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Percentage with valid data for{\super 8}:
+Name=VALIDAT_VS1
+Value=1;Height-for-age
+Value=2;Weight-for-height
+Value=3;Weight-for-age
+Value=4;Number of children
+
+[Item]
+Label=Age in months
+Name=CHAGE1
+Start=72
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Age in months
+Name=CHAGE1_VS1
+Value=1;<6
+Value=2;6-11
+Value=3;12-23
+Value=4;24-35
+Value=5;36-47
+Value=6;48-59
+
+[Item]
+Label=.
+Name=CHAGE2
+Start=73
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=CHAGE2_VS1
+Value=1;0-23
+Value=2;24-59
+
+[Item]
+Label=Age in months
+Name=CHAGE3
+Start=74
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Age in months
+Name=CHAGE3_VS1
+Value=1;6-11
+Value=2;12-23
+Value=3;24-35
+Value=4;36-47
+Value=5;48-59
+
+[Item]
+Label=.
+Name=CHAGE4
+Start=75
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=CHAGE4_VS1
+Value=1;6-23
+Value=2;24-59
+
+[Item]
+Label=Indicator numerator and denominator
+Name=IYCFIND
+Start=76
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Indicator numerator and denominator
+Name=IYCFIND_VS1
+Value=1;Percentage of children born in the last 2 years who were put to the breast within 1 hour of birth
+Value=2;Number of children born in the last 2 years
+Value=3;Percentage of children age 0-5 months who were fed exclusively with breast milk during the previous day
+Value=4;Number of youngest children age 0-5 months living with the mother
+Value=5;Percentage of children age 6-23 months who were fed foods and beverages from at least 5 out of 8 defined food groups during the previous day
+Value=6;Number of youngest children age 6-23 months living with the mother
+Value=7;Percentage of children age 6-23 months who were given a sweet beverage during the previous day
+Value=8;Number of youngest children age 6-23 months living with the mother
+Value=9;Percentage of children age 6-23 months fed unhealthy foods during the previous day
+Value=10;Number of youngest children age 6-23 months living with the mother
+
+[Item]
+Label=.
+Name=IYCFTOT
+Start=78
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=IYCFTOT_VS1
+Value=0;Value
+
+[Item]
+Label=Anemia status by hemoglobin level
+Name=ANEMIAC
+Start=79
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Anemia status by hemoglobin level
+Name=ANEMIAC_VS1
+Value=1;Any (<11.0 g/dl)
+Value=2;Mild (10.0-10.9 g/dl)
+Value=3;Moderate (7.0-9.9 g/dl)
+Value=4;Severe (<7.0 g/dl)
+
+[Item]
+Label=.
+Name=CHANEMIA
+Start=80
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=CHANEMIA_VS1
+Value=1;Percentage tested for anemia
+Value=2;Number of children age 6-59 months
+
+[Item]
+Label=Anemia status by hemoglobin level
+Name=ANEMIAW
+Start=81
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Anemia status by hemoglobin level
+Name=ANEMIAW_VS1
+Value=1;Any (NP <12.0 g/dl / P <11.0 g/dl)
+Value=2;Mild (NP 11.0-11.9 g/dl / P 10.0-10.9 g/dl)
+Value=3;Moderate (NP 8.0-10.9 g/dl / P 7.0-9.9 g/dl)
+Value=4;Severe (NP < 8.0 g/dl / P < 7.0 g/dl)
+
+[Item]
+Label=Maternity status
+Name=PREGSTAT
+Start=82
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Maternity status
+Name=PREGSTAT_VS1
+Value=1;Pregnant
+Value=2;Not pregnant{\super 1}
+
+[Item]
+Label=.
+Name=WMANEMIA
+Start=83
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=WMANEMIA_VS1
+Value=1;Percentage tested for anemia
+Value=2;Number of women
+
+[Item]
+Label=Percentage who say HIV can be prevented by:
+Name=HIVPREV
+Start=84
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Percentage who say HIV can be prevented by:
+Name=HIVPREV_VS1
+Value=1;Percentage with knowledge about HIV prevention{\super 1}
+
+[Item]
+Label=Age
+Name=AGE1524
+Start=85
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age
+Name=AGE1524_VS1
+Value=1;15-19
+Value=2;..15-17
+Value=3;..18-19
+Value=4;20-24
+Value=5;..20-22
+Value=6;..23-24
+
+[Item]
+Label=.
+Name=TOT1524
+Start=87
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOT1524_VS1
+Value=1;Total 15-24
+
+[Item]
+Label=All women
+Name=WSEX12M
+Start=88
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=All women
+Name=WSEX12M_VS1
+Value=1;Percent- age who had 2+ partners in the last 12 months
+Value=2;Percent- age who had inter- course in the last 12 months with a person who was neither their husband nor lived with them
+Value=3;Number of women
+
+[Item]
+Label=Women who had 2+ partners in the last 12 months
+Name=WPART12M
+Start=89
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Women who had 2+ partners in the last 12 months
+Name=WPART12M_VS1
+Value=1;Percent- age who reported using a condom during last sexual inter- course
+Value=2;Number of women
+
+[Item]
+Label=Women who had intercourse in the last 12 months with a person who was neither their husband nor lived with them
+Name=WSEXOTH
+Start=90
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Women who had intercourse in the last 12 months with a person who was neither their husband nor lived with them
+Name=WSEXOTH_VS1
+Value=1;Percentage who reported using a condom during last sexual intercourse with such a partner
+Value=2;Number of women
+
+[Item]
+Label=Women who ever had sexual intercourse{\super 1}
+Name=WSEXEVER
+Start=91
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Women who ever had sexual intercourse{\super 1}
+Name=WSEXEVER_VS1
+Value=1;Mean number of sexual partners in lifetime
+Value=2;Number of women
+
+[Item]
+Label=Type of union
+Name=TUNION
+Start=92
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Type of union
+Name=TUNION_VS1
+Value=1;In polygynous union
+Value=2;Not in polygynous union
+Value=3;Not currently in union
+
+[Item]
+Label=All men
+Name=MSEX12M
+Start=93
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=All men
+Name=MSEX12M_VS1
+Value=1;Percent- age who had 2+ partners in the last 12 months
+Value=2;Percent- age who had inter- course in the last 12 months with a person who was neither their wife nor lived with them
+Value=3;Number of men
+
+[Item]
+Label=Men who had 2+ partners in the last 12 months
+Name=MPART12M
+Start=94
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Men who had 2+ partners in the last 12 months
+Name=MPART12M_VS1
+Value=1;Percent- age who reported using a condom during last sexual inter- course
+Value=2;Number of men
+
+[Item]
+Label=Men who had intercourse in the last 12 months with a person who was neither their wife nor lived with them
+Name=MSEXOTH
+Start=95
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Men who had intercourse in the last 12 months with a person who was neither their wife nor lived with them
+Name=MSEXOTH_VS1
+Value=1;Percentage who reported using a condom during last sexual intercourse with such a partner
+Value=2;Number of men
+
+[Item]
+Label=Men who ever had sexual intercourse{\super 1}
+Name=MSEXEVER
+Start=96
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Men who ever had sexual intercourse{\super 1}
+Name=MSEXEVER_VS1
+Value=1;Mean number of sexual partners in lifetime
+Value=2;Number of men
+
+[Item]
+Label=.
+Name=KNOWTEST
+Start=97
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=KNOWTEST_VS1
+Value=1;Percent- age who know where to get an HIV test
+
+[Item]
+Label=Percent distribution of women by testing status and by whether they received the results of the last test
+Name=WHIVSTAT
+Start=98
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Percent distribution of women by testing status and by whether they received the results of the last test
+Name=WHIVSTAT_VS1
+Value=1;Ever tested and received results
+Value=2;Ever tested, did not receive results
+Value=3;Never tested{\super 1}
+
+[Item]
+Label=.
+Name=EVERTEST
+Start=99
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=EVERTEST_VS1
+Value=1;Percent- age ever tested
+
+[Item]
+Label=.
+Name=TEST12M
+Start=100
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TEST12M_VS1
+Value=1;Percent- age who have been tested for HIV in the last 12 months and received the results of the last test
+
+[Item]
+Label=Percent distribution of men by testing status and by whether they received the results of the last test
+Name=MHIVSTAT
+Start=101
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Percent distribution of men by testing status and by whether they received the results of the last test
+Name=MHIVSTAT_VS1
+Value=1;Ever tested and received results
+Value=2;Ever tested, did not receive results
+Value=3;Never tested{\super 1}
+
+[Record]
+Label=Malaria table
+Name=MALARIA
+RecordTypeValue='CC'
+Required=No
+RecordLen=19
+
+[Item]
+Label=.
+Name=HHITN
+Start=4
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=HHITN_VS1
+Value=1;Percent- age of households with at least one ITN{\super 1}
+Value=2;Average number of ITNs{\super 1} per shousehold
+Value=3;Number of households
+
+[Item]
+Label=.
+Name=PERSITN
+Start=6
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=PERSITN_VS1
+Value=1;Percent- age of households with at least one ITN{\super 1} for every two persons who stayed in the household last night{\super 2}
+Value=2;Number of households with at least one person who stayed in the household last night
+
+[Item]
+Label=.
+Name=TOTHHPO
+Start=8
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOTHHPO_VS1
+Value=1;Number of persons
+
+[Item]
+Label=Children under age 5 in all households
+Name=CHITN1
+Start=9
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children under age 5 in all households
+Name=CHITN1_VS1
+Value=1;Percentage who slept under an ITN{\super 1} last night
+Value=2;Number of children
+
+[Item]
+Label=Children under age 5 in households with at least one ITN{\super 1}
+Name=CHITN2
+Start=10
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children under age 5 in households with at least one ITN{\super 1}
+Name=CHITN2_VS1
+Value=1;Percentage who slept under an ITN{\super 1} last night
+Value=2;Number of children
+
+[Item]
+Label=Pregnant women age 15-49 in all households
+Name=PREGITN1
+Start=11
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Pregnant women age 15-49 in all households
+Name=PREGITN1_VS1
+Value=1;Percentage who slept under an ITN{\super 1} last night
+Value=2;Number of  pregnant women
+
+[Item]
+Label=Pregnant women age 15-49 in households with at least one ITN{\super 1}
+Name=PREGITN2
+Start=12
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Pregnant women age 15-49 in households with at least one ITN{\super 1}
+Name=PREGITN2_VS1
+Value=1;Percentage who slept under an ITN{\super 1} last night
+Value=2;Number of pregnant women
+
+[Item]
+Label=.
+Name=FANSIDAR
+Start=13
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=FANSIDAR_VS1
+Value=1;Percent- age who received one or more doses of SP/Fansidar
+Value=2;Percent- age who received two or more doses of SP/Fansidar
+Value=3;Percent- age who received three or more doses of SP/Fansidar
+Value=4;Number of women with a live birth and/or a stillbirth in the 2 years preceding the survey
+
+[Item]
+Label=Children under age 5
+Name=CHFEVER2
+Start=14
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children under age 5
+Name=CHFEVER2_VS1
+Value=1;Percent- age with fever in the 2 weeks preceding the survey
+Value=2;Number of children
+
+[Item]
+Label=Children under age 5 with fever
+Name=FEVTREAT
+Start=15
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children under age 5 with fever
+Name=FEVTREAT_VS1
+Value=1;Percentage for whom advice or treatment was sought{\super 1}
+Value=2;Percentage who had blood taken from a finger or heel for testing
+Value=5;Number of children
+
+[Item]
+Label=Children under age 5 with fever who took any antimalarial drug
+Name=ANTIMALA
+Start=16
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children under age 5 with fever who took any antimalarial drug
+Name=ANTIMALA_VS1
+Value=1;Percentage who took any ACT
+Value=2;Number of children
+
+[Item]
+Label=Malaria prevalence according to RDT
+Name=RDTMALA
+Start=17
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Malaria prevalence according to RDT
+Name=RDTMALA_VS1
+Value=1;RDT positive
+Value=2;Number of children
+
+[Item]
+Label=Malaria prevalence according to microscopy
+Name=MICRMALA
+Start=18
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Malaria prevalence according to microscopy
+Name=MICRMALA_VS1
+Value=1;Microscopy positive
+Value=2;Number of children
+
+[Item]
+Label=Percentage tested for malaria with:
+Name=RDTMICR
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Percentage tested for malaria with:
+Name=RDTMICR_VS1
+Value=1;RDT
+Value=2;Microscopy
+Value=3;Number of children
+
+[Record]
+Label=HIV tables
+Name=HIVTEST
+RecordTypeValue='DD'
+RecordLen=6
+
+[Item]
+Label=.
+Name=WHIVRES
+Start=4
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=WHIVRES_VS1
+Value=1;DBS Tested and interviewed
+Value=2;DBS tested and not interviewed
+Value=3;Refused to provide blood and interviewed
+Value=4;Refused to provide blood and not interviewed
+Value=5;Absent at the time of blood collection and interviewed
+Value=6;Absent at the time of blood collection and not interviewed
+Value=7;Other interviewed
+Value=8;Other not interviewed
+
+[Item]
+Label=.
+Name=COLTABS
+Start=5
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=COLTABS_VS1
+Value=1;Percentage HIV positive
+Value=2;Number
+
+[Item]
+Label=.
+Name=TSEX
+Start=6
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TSEX_VS1
+Value=1;Women 15-49
+Value=2;Men 15-54[59]
+Value=3;Total
+
+[Record]
+Label=Input to weights spreadsheet
+Name=WEIGHTS
+RecordTypeValue='EE'
+RecordLen=7
+
+[Item]
+Label=Totals for households, women and men
+Name=COLTW
+Start=4
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Totals for households, women and men
+Name=COLTW_VS1
+Value=0;Number of clusters
+Value=1;Households found
+Value=2;Households complete
+Value=3;Women total
+Value=4;Women complete
+Value=5;Households found for male-subsample
+Value=6;Households complete for male sub-sample
+Value=7;Men total
+Value=8;Men complete
+
+[Item]
+Label=Domestic violence
+Name=DOMVIOL
+Start=6
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Domestic violence
+Name=DOMVIOL_VS1
+Value=1;1
+Value=2;2
+Value=3;3
+Value=4;4
+Value=5;5+
+
+[Record]
+Label=Malaria for MIS
+Name=MALARMIS
+RecordTypeValue='FF'
+RecordLen=7
+
+[Item]
+Label=Insecticide-treated nets (ITN){\super 1}
+Name=MALA01
+Start=4
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Insecticide-treated nets (ITN){\super 1}
+Name=MALA01_VS1
+Value=1;Percentage of households with at least one insecticide-treated net ITN
+Value=2;Percentage of households with at least one ITN for every two persons who stayed in the household last night
+Value=3;Percentage of children under age 5 who slept under an  ITN last night
+Value=4;Percentage of pregnant women age 15-49 who slept under an  ITN last night
+Value=5;Percentage of the de facto population with access to an ITN{\super 2}
+Value=6;Percentage of the de facto household population who slept the night before the survey under an ITN in households owning at least one ITN
+
+[Item]
+Label=Intermittent preventive malaria treatment during pregnancy
+Name=MALA02
+Start=5
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Intermittent preventive malaria treatment during pregnancy
+Name=MALA02_VS1
+Value=1;Percentage of women age 15-49 with a live birth in the 2 years preceding the survey who, during the pregnancy preceding the last birth, received two or more doses of SP/Fansidar
+Value=2;Percentage of women age 15-49 with a live birth in the 2 years preceding the survey who, during the pregnancy preceding the last birth, received three or more doses of SP/Fansidar
+
+[Item]
+Label=Prevalence, diagnosis, and prompt treatment of children with fever
+Name=MALA03
+Start=6
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Prevalence, diagnosis, and prompt treatment of children with fever
+Name=MALA03_VS1
+Value=1;Among children under age 5 with fever in the 2 weeks preceding the survey, percentage  for whom advice or treatment was sought{\super 3}
+Value=2;Among children under age 5 with fever in the 2 weeks preceding the survey, percentage  who had blood taken from a finger or heel for testing
+Value=3;Among children under age 5 with fever in the 2 weeks preceding the survey who took any antimalarial medication, percentage who took an ACT{\super 4}
+
+[Item]
+Label=Malaria Parasitemia
+Name=MALA04
+Start=7
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Malaria Parasitemia
+Name=MALA04_VS1
+Value=1;Percentage of children age 6-59 months with a positive Rapid Diagnostic Test (RDT) result

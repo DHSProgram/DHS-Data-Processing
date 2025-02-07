@@ -1,0 +1,54 @@
+﻿PROC GLOBAL
+{ CClear sets all entries in the CONTROL file to their initial values         }
+{ FIle CONTROL.DAT is used by the system at the central office                }
+{ This application should only be used once, prior to the start of processing }
+{ Use CLUSTERS.DAT as input to this application to produce CONTROL.DAT        }
+
+ numeric i;
+   
+PROC CLUSTERS_FF
+preproc
+
+  SetLanguage( GetLanguage() );
+
+PROC CLSTREC_EDT
+postproc
+
+  { Cluster number }
+  CSAMPLE   = YCLUSTER;
+  { date when data coleection for cluster begins }
+  CDATEBEG  = 0;
+  { Expected households }
+  { !!! number of HH selected for cluster based on urban/rural, please adjust accordingly }
+  if YURBRUR = 1 then
+    CHEXPECT  = 25;    { !! for urban clusters }
+  else
+    CHEXPECT  = 30;    { !! for rural clusters }
+  endif;         
+  { Totals }
+  CHTOTAL   = 0;
+  CHCOMP    = 0;
+  CHINCOMP  = 0;
+  { Individual Totals }
+  CITOTAL   = 0;
+  CICOMP    = 0;
+  CIINCOMP  = 0;
+  { Supervisor }
+  CSUPERV  = 0;
+  { Date cluster was accepted }
+  CACCEPT  = 0;
+  { date when cluster was closed }
+  CFINDATE  = 0;
+  { date when cluster was closed }
+  CGPSAVAIL = 0;
+  do i = 1 while i <= 5 by 1
+    CEDIT(i)  = 0;
+  enddo;
+  { for HH listing, date when enumerator closed the cluster in the field }
+  CFINENUM = 0;
+  if writecase( CONTROL ) then
+    errmsg( 100, CSAMPLE )
+  else
+    errmsg( 101, CSAMPLE )
+  endif;
+

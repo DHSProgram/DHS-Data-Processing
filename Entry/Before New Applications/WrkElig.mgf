@@ -1,0 +1,11 @@
+﻿Language = EN
+99999 Dummy message until a CSPro bug is fixed to properly handle languages
+
+Language = ES
+{ strings commonly used by application }
+  ES ( "Incomplete" ) Incompleto
+  ES ( "Partial" ) Parcial
+  ES ( "Complete" ) Completa
+  ES ( "Female" ) Mujer
+  ES ( "Male" ) Hombre
+  ES ( "Not Visited" ) No se ha visitado

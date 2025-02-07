@@ -1,0 +1,157 @@
+﻿[Dictionary]
+Version=CSPro 7.4
+Label=DP Control File
+Name=CONTROL
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=70FD307326AD54CD26E1D5FC224F29BAD9E9D3541734CBE4C492BD7083ABE8E5
+
+[Level]
+Label=LEVEL1
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=Cluster number
+Name=CSAMPLE
+Start=1
+Len=4
+ZeroFill=Yes
+
+[Record]
+Label=Control sheet
+Name=CONTROLS
+RecordTypeValue=''
+RecordLen=105
+
+[Item]
+Label=Date data collection began
+Name=CDATEBEG
+Start=5
+Len=8
+
+[ValueSet]
+Label=Date data collection began
+Name=CDATEBEG_VS1
+Value=0
+Value=20101:31231
+
+[Item]
+Label=Expected households
+Name=CHEXPECT
+Start=13
+Len=5
+
+[Item]
+Label=Total households
+Name=CHTOTAL
+Start=18
+Len=4
+
+[Item]
+Label=Total complete households
+Name=CHCOMP
+Start=22
+Len=2
+
+[Item]
+Label=Total incomplete households
+Name=CHINCOMP
+Start=24
+Len=2
+
+[Item]
+Label=Total individuals
+Name=CITOTAL
+Start=26
+Len=3
+
+[Item]
+Label=Total complete individuals
+Name=CICOMP
+Start=29
+Len=3
+
+[Item]
+Label=Total incomplete individuals
+Name=CIINCOMP
+Start=32
+Len=3
+
+[Item]
+Label=Supervisor
+Name=CSUPERV
+Start=35
+Len=4
+ZeroFill=Yes
+
+[Item]
+Label=Date cluster accepted
+Name=CACCEPT
+Start=39
+Len=8
+
+[ValueSet]
+Label=Date cluster accepted
+Name=CACCEPT_VS1
+Value=0
+Value=20101:31231
+
+[Item]
+Label=Secondary editing dates
+Name=CEDIT
+Start=47
+Len=8
+Occurrences=5
+
+[ValueSet]
+Label=Secondary editing dates
+Name=CEDIT_VS1
+Value=0
+Value=20101:31231
+
+[Item]
+Label=Date cluster was closed by central office
+Name=CFINDATE
+Start=87
+Len=8
+
+[ValueSet]
+Label=Date cluster was closed by central office
+Name=CFINDATE_VS1
+Value=0
+Value=20101:31231
+
+[Item]
+Label=GPS coordinates captured
+Name=CGPSAVAIL
+Start=95
+Len=1
+
+[ValueSet]
+Label=GPS coordinates captured
+Name=CGPSAVAIL_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Segmentation in cluster (number of segments)
+Name=CSEGMENT
+Start=96
+Len=2
+
+[Item]
+Label=Date cluster was closed by enumerator
+Name=CFINENUM
+Start=98
+Len=8
+
+[ValueSet]
+Label=Date cluster was closed by enumerator
+Name=CFINENUM_VS1
+Value=0
+Value=20101:31231

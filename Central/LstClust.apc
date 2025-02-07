@@ -1,0 +1,540 @@
+﻿PROC GLOBAL
+{ Country = COUNTRY }
+
+  FILE      fname;                         { write file with or without errors }
+  FILE      ReadMSG;																							{ file used to read the error messages }
+
+  string yresult;
+  string textsex;                      { textual sex from individual questionnaire }
+  string xstring;                      { to print addresses and names }
+  string alphaMSG;                     { string used to read error messages }
+  
+  list string MessageAvail;            { to load the error messages depending on laguage used }
+  list string ListErrmsg;              { to keep track of error messages }
+
+  numeric ycluster, e, hhe, wme, ene, i, j, x;
+  numeric xht, xhc, xhi, xit, xic, xii, chhw, wmhw, mnhw;
+  numeric hogregis, ors, bioexist;
+  numeric firstcase, firstime, siblings, methuse, calbeg;
+
+  { converts missing and NA to zero }
+  function MisToZero( xvar );
+    if xvar = notappl | xvar = missing then
+      xvar = 0
+    endif;
+    MisToZero = xvar;
+  end;
+
+  { function to create a file to decide if cluster is completed }
+  function FileReturn( errors )
+    setfile( fname, ".\ERRORS.TXT" );  { !!! }
+    open( fname );
+    if FileExist( fname ) then
+      FileDelete( fname );
+    endif;
+    if errors then
+      FileWrite( fname, "WITH ERRORS" )
+    else
+      FileWrite( fname, "NO ERRORS" )
+    endif;
+    close( fname );
+  end;
+
+  { function used to load messages according to the language used by the application }
+  { massages are stored in string list MessageAvail and used later by function       }
+  { GetMessage to retrieve the actual message                                        }
+  function LoadMSG()
+    numeric k, l, langfound = 0, endlang = 0;
+	string ylang;
+    open( ReadMSG );
+    while FileRead( ReadMSG, AlphaMSG ) & !endlang do
+      if length(AlphaMSG) then
+	    if pos("LANGUAGE", toupper(AlphaMSG)) = 1 then
+          do k = 1 while AlphaMSG[k:1] <> "=" enddo;
+          do k = k+1 while AlphaMSG[k:1] = " " enddo;
+          l = length(AlphaMSG);
+		  ylang = AlphaMSG[k:l-k+1];
+          if toupper(ylang) = toupper(getlanguage()) then
+		    langfound = 1;
+            while FileRead( ReadMSG, AlphaMSG ) & !endlang do
+              if length(AlphaMSG) then
+	            if pos("LANGUAGE", toupper(AlphaMSG)) = 1 then
+                  endlang = 1;
+			    else
+			      MessageAvail.add( AlphaMSG )
+			    endif;
+			  endif;
+            enddo;
+          endif;  
+        endif;
+      endif;
+    enddo;
+	LoadMSG = langfound;
+  end;
+
+  { function to go over string list MessageAvail to retrieve errors numbers passed by the application.   }
+  { Once a message is found, ListErrMsg stores all messages identified in the run and display them later }
+  function GetMessage( error )
+    numeric errorno, k, l, n, errfound = 0;
+    do n = 1 while n <= MessageAvail.length() 
+	  AlphaMSG = MessageAvail(n);
+      do k = 1   while AlphaMSG[k:1] =  " " enddo;
+      do l = k+1 while AlphaMSG[l:1] <> " " enddo;
+      errorno = tonumber( AlphaMSG[k:l-k] );
+      if errorno = error then
+        errfound = 1;
+        break;
+      endif;
+    enddo;
+    if !errfound then
+	  e = errmsg( 50001, error );
+    endif;
+    close( ReadMSG );
+  end;
+
+PROC CCHH80_FF
+preproc
+
+  { converts parameter to numbers  }
+  firstime = tonumber( sysparm()[1:1] );   { 1-when using option to receive cluster from supervisor
+                                             0-Listing questionnaires in the cluster }
+  ycluster  = 0;
+  firstcase = 1;
+  { get language from calling menu }
+  SetLanguage( GetLanguage() );
+
+  hhe   = 0;       { household errors }
+  wme   = 0;       { individual errors }
+
+  xht   = 0;       { households }
+  xhc   = 0;
+  xhi   = 0;
+  xit   = 0;       { individuals }
+  xic   = 0;
+  xii   = 0;
+  e     = 0;       { control for errors in all households }
+  calbeg = cmcode(1, 2015);   { !!! modify according to year the calendar begins in survey  }
+
+
+  { set files to read error messages (MGF) and to report errors (ERR) }
+  setfile( ReadMsg,  ".\LstClust.mgf" );
+  MessageAvail.clear();                     { clear list of messages available for the run }
+  if !LoadMSG() then
+    errmsg( 50000 );
+	stop(1);
+  endif;
+  ListErrmsg.clear();                       { clear the array of error messages }
+
+  { set the name for the HTML file }
+  HTML_InitAlign();
+  HTMLname = "LstClust.HTML";
+  if FileExist( HTMLname ) then
+    FileDelete( HTMLname )
+  endif;
+  setfile( HTMLFile, HTMLname, create );
+
+postproc
+  { summary of the run - titles }
+  CellValues(1) = tr("Totals");
+  CellValues(2) = tr("Households");
+  CellValues(3) = tr("Comp-Inc.");
+  CellValues(4) = tr("Individuals");
+  CellValues(5) = tr("Comp-Inc.");
+  HTML_OneRow( CellValues, 5 );   // generates the HTML script for a row with relevant household data
+  { summary of the run - figures }
+  CellValues(1) = "BLANK";
+  CellValues(2) = edit("99", xht);
+  CellValues(3) = edit("99", xhc) + "-" + edit("99",xhi);
+  CellValues(4) = edit("99", xit);
+  CellValues(5) = edit("99", xic) + "-" + edit("99",xii);
+  HTML_OneRow( CellValues, 5 );   // generates the HTML script for a row with relevant household data
+  HTML_EndTable();
+
+  { check totals with supervisor control file only when receiving cluster form supervisors }
+  SSAMPLE = ycluster;
+  CSAMPLE = ycluster;
+  if !loadcase( CONTSUP, SSAMPLE ) then
+    getmessage( 50041 );
+	e = ListErrMsg.add( MakeText(alphaMSG, SSAMPLE) );
+    FileReturn( e );
+  else
+  { check totals with supervisor control file }
+    if SHTOTAL  = xht & SHCOMP = xhc & SHINCOMP = xhi &
+       SITOTAL  = xit & SICOMP = xic & SIINCOMP = xii then
+      { if no errors and receiving file, update control }
+      if !e & firstime then
+        loadcase( CONTROL, CSAMPLE );
+        CDATEBEG = SCRDATE;
+        CHTOTAL  = SHTOTAL;
+        CHCOMP   = SHCOMP;
+        CHINCOMP = SHINCOMP;
+        CITOTAL  = xit;
+        CICOMP   = xic;
+        CIINCOMP = xii;
+        CSUPERV  = ICODE;
+        writecase( CONTROL )
+      endif;
+    else
+      getmessage( 50153 );
+      e = ListErrMsg.add( MakeText(alphaMSG, xht, xhc, xhi, xit, xic, xii, SHTOTAL, SHCOMP, SHINCOMP, SITOTAL, SICOMP, SIINCOMP ) );
+    endif;
+  endif;
+  
+  { add all messages to the report }
+  if ListErrMsg.length() then
+    { heading for report with FileWrite command }
+    HTML_Paragraph( " " );
+    HTML_ParagraphS( tr("SUMMARY OF OUTSTANDING ISSUES THAT NEED TO BE RESOLVED") );
+	do i = 1 while i <= ListErrMsg.length()
+      HTML_Paragraph( ListErrMsg(i) );
+	enddo;
+  endif;
+  HTML_End();
+  view( "file://" + pathname(application) +  HTMLName );
+
+  { instructions to create a file to decide if cluster is completed }
+  FileReturn( e );
+
+PROC HOUSEHOLD
+preproc
+
+  if firstcase then
+    ICODE = AHSUPERV;
+    if !loadcase( INTERV, ICODE ) then
+      getmessage( 50155 );
+      ListErrMsg.add( MakeText(alphaMSG, ICODE) );
+      INAME = tr("Wrong Supervisor");
+    endif;
+
+    { initialize the report headings }
+    zstring1 = MakeText( tr("QUESTIONNAIRES IN CLUSTER: %04d"), AHCLUST );
+    zstring2 = MakeText( tr("Supervisor: %04d-%s"), ICODE, INAME );
+    CellValues(1) = tr("Household");
+    CellValues(2) = tr("Interviewer");
+    CellValues(3) = tr("Address/Name");
+    CellValues(4) = tr("Result");
+    CellValues(5) = tr("Visits");
+    { specify columns that are left aligned, strings are left aligned }
+    CellAlign(1) = 3;  // column 3 is household address/name 
+    CellAlign(2) = 4;  // column 4 is result of the interview
+    HTML_Header( CellAlign, zstring1 );  // generates a general HTML header
+    HTML_BeginTable( CellValues, zstring2, 5 );  // generates the HTML table script with the column headers
+
+    firstcase = 0;
+    ycluster  = AHCLUST;
+    { load sample selection file to check if the household selection for male sample changed in the field }
+  endif;
+
+  hhe  = 0;   { define if there are household structural errors }
+  if AHRESULT <> 1 then
+    yresult = edit("9",AHRESULT) + tr("-Incomplete");
+  else
+    yresult = edit("9",AHRESULT) + tr("-Complete");
+  endif;
+
+  xht      = xht + 1;   { total households }
+
+  if AHRESULT = 1 then
+    xhc    = xhc + 1;             { complete households }
+
+    { number of records for household members }
+    x = soccurs( AHSEC01X );
+    if x <> AHMEMBER then
+      getmessage( 50050 );
+      hhe = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, x, AHMEMBER) )
+    endif;
+    x = soccurs( AHSEC01 );
+    if x <> AHMEMBER then
+      getmessage( 50050 );
+      hhe = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, x, AHMEMBER) )
+    endif;
+
+    { eligible for women questionnaire }
+    x = count( AHSEC01 where AH09 > 0 );
+    if x <> AHWOMEN then
+      getmessage( 50051 );
+      hhe = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, x, AHWOMEN) )
+    endif;
+
+    { eligible for men questionnaire }
+    x = count( AHSEC01 where AH10 > 0 );
+    if x <> AHMEN then
+      getmessage( 50052 );
+      hhe = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, x, AHMEN) )
+    endif;
+
+    { household characteristics record }
+    if soccurs( AHSEC02 ) <> 1 then
+      getmessage( 50100 );
+      hhe = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, GetLabel(AHSEC02)) )
+    endif;
+
+    { mosquito nets }
+    if MisToZero(AH138) <> soccurs(AHSEC03) then
+      getmessage( 50101 );
+      hhe = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, soccurs(AHSEC03), AH138) )
+    endif;
+
+    { household characteristics continuation record }
+    if soccurs( AHSEC04 ) <> 1 then
+      getmessage( 50100 );
+      hhe = ListErrMsg.add( maketext(AlphaMSG, AHNUMBER, GetLabel(AHSEC04)) )
+    endif;
+	  
+	{ !!! if child labor used }
+    numeric chlabor = count( AHSEC01 where AH07 in 5:17 );
+    if chlabor <> 0 <=> soccurs( AHSECCL ) <> 1 then
+	  getmessage( 50100 );
+      hhe = ListErrMsg.add( maketext(AlphaMSG, AHNUMBER, GetLabel(AHSECCL)) )
+    endif;
+	  
+	{ !!! if child disciplined used }
+    numeric chdis = count( AHSEC01 where AH07 in 1:14 );
+    if chdis <> 0 <=> soccurs( AHSECCD ) <> 1 then
+      getmessage( 50100 );
+      hhe = ListErrMsg.add( maketext(AlphaMSG, AHNUMBER, GetLabel(AHSECCD)) )
+    endif;
+
+    { check biomarkers }
+
+    { biomarker front page questionnaire }
+    chhw = count( AHSEC01 where AH11 <> 0 );
+    bioexist = AHWOMEN + AHMEN + chhw;                { !!! review what individuals are eligible for biomarkers }
+    if bioexist <=> soccurs( ABSECOVER ) <> 1 then
+      getmessage( 50100 );
+      hhe = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, GetLabel(AHSECOVER)) );
+    endif;
+
+    { check for height & weight records for children }
+    x = count( AHSEC01 where AH11 > 0 );
+    if soccurs(ABSEC01) <> x then
+      xstring = tr("children");
+      getmessage( 50106 );
+      hhe = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, soccurs(ABSEC01), xstring, x) )
+    endif;
+
+    { check for height & weight records for women }
+    x = count( AHSEC01 where AH09 > 0 );
+    if soccurs(ABSEC02) <> x then
+      xstring = "women";
+      getmessage( 50106 );
+      hhe = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, soccurs(ABSEC02), xstring, x) )
+    endif;
+
+    { check for height & weight records for men }
+    x = count( AHSEC01 where AH10 > 0 );
+    if soccurs(ABSEC03) <> x then
+      xstring = "men";
+      getmessage( 50106 );
+      hhe = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, soccurs(ABSEC03), xstring, x) )
+    endif;
+
+  else
+    xhi = xhi + 1;                 { incomplete households }
+    if soccurs(AHSEC01X)  | soccurs(AHSEC01) | soccurs(AHSEC02) | soccurs(AHSEC03) |
+       soccurs(AHSECCL)   | soccurs(AHSECCD) | soccurs(AHSEC04) |
+       soccurs(ABSECOVER) | soccurs(ABSEC01) | soccurs(ABSEC02) | soccurs(ABSEC03) then
+      getmessage( 50110 );
+      hhe = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, AHRESULT) );
+    endif;
+  endif;
+
+  { print line for the household in the report }
+  if soccurs( AHSEC01X ) then
+    xstring = concat( strip(AHFIRSTN(1)), " ", strip(AHLASTN(1)) );
+  else
+    xstring = AHADDRESS;
+  endif;
+  { populates the elements of a row based on household information }
+  CellValues(1) = edit("9999", AHNUMBER);
+  CellValues(2) = edit("9999", AHINTNUM);
+  CellValues(3) = xstring[1:30];
+  CellValues(4) = yresult;
+  CellValues(5) = edit("9", AHVISITS);
+  HTML_OneRow( CellValues, 5 );   // generates the HTML script for a row with relevant household data
+
+  if hhe then e = 1 endif;
+
+  if AHRESULT = 1 then   { only check women for complete household interviews }
+
+    { check individual questionnaires (women/men) in the household in the loop }
+    wme = 0;    { to make sure that there are no structural errors for women }
+    for i in record AHSEC01 do
+
+      { if eligible women or men }
+      if AH09 | AH10 then
+        xit = xit + 1;
+        if AH09 then
+          ALINE     = AH09;
+          textsex = tr("woman");
+          xstring = tr("W-") + strip(AH02);
+        else
+          ALINE     = AH10;
+          textsex = tr("man");
+          xstring = tr("M-") + strip(AH02);
+        endif;
+        if loadcase( ccIN80, AHCLUST, AHNUMBER, ALINE ) then
+          if ARESULT <> 1 then
+            yresult = edit("9",ARESULT) + tr("-Incomplete")
+          else
+            yresult = edit("9",ARESULT) + tr("-Complete")
+          endif;
+          { populates the elements of a row based on individual information }
+          CellValues(1) = edit("99", ALINE);
+          CellValues(2) = edit("9999", AINTNUM);
+          CellValues(3) = xstring[1:30];
+          CellValues(4) = yresult;
+          CellValues(5) = edit("9", AVISITS);
+          HTML_OneRow( CellValues, 5 );   // generates the HTML script for a row with relevant household data
+
+          { check for complete women }
+          if ARESULT = 1 & AQTYPE = 2 then
+            xic  = xic + 1;             { complete women }
+
+            { mandatory records for complete women }
+            if soccurs(AWSEC01) <> 1 | soccurs(AWSEC2A) <> 1 | soccurs(AWSEC2Y) <> 1 |
+               soccurs(AWSEC2D) <> 1 | soccurs(AWSEC3A) <> 1 |
+               soccurs(AWSEC3B) <> 1 | soccurs(AWSEC6B) <> 1 | soccurs(AWSEC07) <> 1 |
+               soccurs(AWSEC08) <> 1 | soccurs(AWSEC09) <> 1 | soccurs(AWSEC10) <> 1 |
+               soccurs(AWSEC11) <> 1 | soccurs(AWSECM2) <> 1 | soccurs(AWSECG1) <> 1 then
+              getmessage( 50203 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, strip(textsex), ALINE) );
+            endif;
+
+            { pregnancy history }
+            if soccurs(AWSEC2B) <> A212W then
+              getmessage( 50206 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE, soccurs(AWSEC2B), A212W) )
+            endif;
+
+            { !! calendar, column 1 contraceptive use, column 2 discontinuation reasons }
+            if !soccurs(AWSEC2C) in 1,2 then
+              getmessage( 50205 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE, soccurs(AWSEC2C)) )
+            endif;
+
+            { contraceptive use history }
+            methuse = cmcode( A313M, A313Y );
+            if A314Y <> notappl then
+              methuse = cmcode( A314M, A314Y );
+            endif;
+            if A307N <> notappl & methuse <= calbeg <=> soccurs(AWSEC3C) then
+              getmessage( 50204 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE, soccurs(AWSEC3C), A320) )
+            endif;
+
+            { pregnancy and postnatal care }
+            if MisToZero(AESEC4) <> soccurs(AWSEC04) then
+              getmessage( 50207 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE, soccurs(AWSEC04), AESEC4) )
+            endif;
+
+            { immunization }
+            if MisToZero(AESEC5) <> soccurs(AWSEC05) then
+              getmessage( 50208 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE, soccurs(AWSEC05), AESEC5) )
+            endif;
+
+            { child health }
+            if MisToZero(AESEC6) <> soccurs(AWSEC6A) then
+              getmessage( 50209 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE, soccurs(AWSEC6A), AESEC6) )
+            endif;
+
+            { maternal mortality for women }
+            siblings = MisToZero(AMM07);
+            if soccurs(AWSECM1) <> siblings | soccurs(AWSECM3) <> siblings then
+              getmessage( 50216 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE, soccurs(AWSECM1), soccurs(AWSECM3), siblings) )
+            endif;
+
+            { domestic violence record }
+            if AVIOLEN = 1 <=> soccurs(AWSECDV) <> 1 then
+              getmessage( 50217 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE, AHNUMDV, soccurs(AWSECDV)) )
+            endif;
+
+            { female genital cutting in women's questionnaire }
+            if soccurs(AWSECG1) <> 1 then
+              getmessage( 50300 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE) )
+            endif;
+            { female genital cutting daughters roster }
+            if MisToZero(GCDAUGHT) <> soccurs(AWSECG2) then
+              getmessage( 50301 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE, soccurs(AWSECG2), GCDAUGHT) )
+            endif;
+
+            { men's questionnaire records must not exist for women }
+            if soccurs(AMSEC01) | soccurs(AMSEC02) | soccurs(AMSEC3A) | soccurs(AMSEC3B) | 
+			 soccurs(AMSEC04) | soccurs(AMSEC05) | soccurs(AMSEC06) | soccurs(AMSEC07) | 
+			 soccurs(AMSEC08) | soccurs(AMSECGC) then
+              getmessage( 50230 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE) )
+            endif;
+
+          { check for complete questionnaire for men }
+          elseif ARESULT = 1 & AQTYPE = 1 then
+            xic  = xic + 1;             { complete men }
+
+            { mandatory records for complete men }
+            if soccurs(AMSEC01) <> 1 | soccurs(AMSEC02) <> 1 | soccurs(AMSEC3A) <> 1 |
+               soccurs(AMSEC3B) <> 1 | soccurs(AMSEC04) <> 1 | soccurs(AMSEC05) <> 1 |
+               soccurs(AMSEC06) <> 1 | soccurs(AMSEC07) <> 1 | soccurs(AMSEC08) <> 1 |
+               soccurs(AMSECGC) <> 1 then
+              getmessage( 50203 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, strip(textsex), ALINE) );
+            endif;
+
+            { no women records should exist in a men's questionnaires }
+            if soccurs(AWSEC01) | soccurs(AWSEC2A) | soccurs(AWSEC2B) | soccurs(AWSEC2Y) |
+               soccurs(AWSEC2C) | soccurs(AWSEC2D) | soccurs(AWSEC3A) | soccurs(AWSEC3B) | 
+               soccurs(AWSEC3C) | soccurs(AWSEC04) | soccurs(AWSEC05) | soccurs(AWSEC6A) | 
+               soccurs(AWSEC6B) | soccurs(AWSEC07) | soccurs(AWSEC08) | soccurs(AWSEC09) | 
+               soccurs(AWSEC10) | soccurs(AWSEC11) | soccurs(AWSECM1) | soccurs(AWSECM2) | 
+               soccurs(AWSECM3) | soccurs(AWSECDV) | soccurs(AWSECG1) | soccurs(AWSECG2) then
+              getmessage( 50231 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE) );
+            endif;
+
+          { check for incomplete individuals }
+          else
+            xii  = xii + 1;             { incomplete individuals }
+            { no women records should exist in an incomplete questionnaire }
+            if soccurs(AWSEC01) | soccurs(AWSEC2A) | soccurs(AWSEC2B) | soccurs(AWSEC2Y) |
+               soccurs(AWSEC2C) | soccurs(AWSEC2D) | soccurs(AWSEC3A) | soccurs(AWSEC3B) | 
+               soccurs(AWSEC3C) | soccurs(AWSEC04) | soccurs(AWSEC05) | soccurs(AWSEC6A) | 
+               soccurs(AWSEC6B) | soccurs(AWSEC07) | soccurs(AWSEC08) | soccurs(AWSEC09) | 
+               soccurs(AWSEC10) | soccurs(AWSEC11) | soccurs(AWSECM1) | soccurs(AWSECM2) | 
+               soccurs(AWSECM3) | soccurs(AWSECDV) | soccurs(AWSECG1) | soccurs(AWSECG2) then
+              getmessage( 50232 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE, ARESULT, tr("women")) );
+            endif;
+
+            { no men records should exist in an incomplete questionnaire }
+            if soccurs(AMSEC01) | soccurs(AMSEC02) | soccurs(AMSEC3A) | soccurs(AMSEC3B) | 
+               soccurs(AMSEC04) | soccurs(AMSEC05) | soccurs(AMSEC06) | soccurs(AMSEC07) | 
+               soccurs(AMSEC08) | soccurs(AMSECGC) then
+              getmessage( 50232 );
+              wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, ALINE, ARESULT, tr("men")) );
+            endif;
+          endif;
+        else
+          getmessage( 50220 );
+          wme = ListErrMsg.add( MakeText(alphaMSG, AHNUMBER, strip(textsex), ALINE) );
+          xii  = xii + 1;
+          { print line for woman that hasn't been visited }
+          yresult = tr("Not visited");
+          CellValues(1) = edit("99", ALINE);
+          CellValues(2) = "BLANK";
+          CellValues(3) = xstring[1:30];
+          CellValues(4) = yresult;
+          CellValues(5) = "BLANK";
+          HTML_OneRow( CellValues, 5 );   // generates the HTML script for a row with relevant household data
+        endif;
+      endif;
+    enddo;
+
+    if wme then e = 1 endif;
+  
+  endif;       // end of AHRESULT = 1

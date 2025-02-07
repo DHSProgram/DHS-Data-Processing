@@ -1,0 +1,236 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+tbp01w columns numwom = 1 nodec;
+tbp01w footnote
+{+EN}
+@1 Includes only valid measurements.~
+@2 Includes women who do not know if they are pregnant~
+@3 Includes manufactured cigarettes and hand-rolled cigarettes.~
+@4 Nutritional status is defined using body mass index (BMI) for women age 20-49 and using BMI-for-age 
+   for women age 15-19 as presented in [Tables 11.14.1 and 11.14.2]. Excludes pregnant women, and women 
+   with a birth in the two preceding months.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tbp02w columns numman = 1 nodec;
+tbp02w footnote
+{+EN}
+@1 Includes only valid measurements.~
+@2 Includes manufactured cigarettes and hand-rolled cigarettes.~
+@3 Nutritional status is defined using body mass index (BMI) for men age 20-49 and using BMI-for-age 
+   for men age 15-19 as presented in [Tables 11.14.3 and 11.14.4]. 
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tbp11 columns bloodpw1 = 3 nodec
+              bloodpw2 = 4 nodec;
+tbp11 footnote
+{+EN}
+@1 Includes women who do not know if they are pregnant~
+@2 Nutritional status is defined using body mass index (BMI) for women age 20-49 and using BMI-for-age 
+   for women age 15-19 as presented in [Tables 11.14.1 and 11.14.2]. Excludes pregnant women, and women 
+   with a birth in the two preceding months.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tbp12 columns bloodpm1 = 3 nodec
+              bloodpm2 = 4 nodec;
+tbp12 footnote
+{+EN}
+@1 Nutritional status is defined using body mass index (BMI) for men age 20-49 and using BMI-for-age 
+   for men age 15-19 as presented in [Tables 11.14.3 and 11.14.4].
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tbp21 columns numwom = 1 nodec;
+tbp21 footnote
+{+EN}
+Note: When a respondent's SBP and DBP fell into different classifications categories, the respondent 
+      is classified into the higher classification of blood pressure. If blood pressure was measured 3 
+      times, the average of the 2nd and 3rd blood pressure measurements is used to classify individuals 
+      with respect to hypertension. If blood pressure was only measured 2 times, the 2nd reading is considered 
+      the average. If blood pressure was only measured 1 time, the respondent is excluded from the table.~
+na = not applicable~
+SBP = systolic blood pressure, DBP = diastolic blood pressure~
+@1 A person is classified as having hypertension if, at the time of the survey, they had an average 
+   SBP level of 140 mmHg or above, or an average DBP level of 90 mmHg or above, or was ever diagnosed 
+   by a healthcare worker with hypertension and is currently taking antihypertensive medication. 
+   Excludes persons with hypertension who self-medicate in the absence of a diagnosis made by a 
+   healthcare worker. The term hypertension as used in this table is not meant to represent a clinical 
+   diagnosis of the disease; rather, it provides a statistical description of the survey population at 
+   the time of the survey.~
+@2 Includes women who do not know if they are pregnant~
+@3 Includes manufactured cigarettes and hand-rolled cigarettes.~
+@4 Nutritional status is defined using body mass index (BMI) for women age 20-49 and using 
+   BMI-for-age for women age 15-19 as presented in [Tables 11.14.1 and 11.14.2]. 
+   Excludes pregnant women, and women with a birth in the two preceding months.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tbp22 columns numman = 1 nodec;
+tbp22 footnote
+{+EN}
+Note: When a respondent's SBP and DBP fell into different classifications categories, the respondent 
+      is classified into the higher classification of blood pressure. If blood pressure was measured 3 
+      times, the average of the 2nd and 3rd blood pressure measurements is used to classify individuals 
+      with respect to hypertension. If blood pressure was only measured 2 times, the 2nd reading is considered 
+      the average. If blood pressure was only measured 1 time, the respondent is excluded from the table.~
+na = not applicable~
+SBP = systolic blood pressure, DBP = diastolic blood pressure~
+@1 A person is classified as having hypertension if, at the time of the survey, they had an average 
+   SBP level of 140 mmHg or above, or an average DBP level of 90 mmHg or above, or was ever diagnosed 
+   by a healthcare worker with hypertension and is currently taking antihypertensive medication. 
+   Excludes persons with hypertension who self-medicate in the absence of a diagnosis made by a 
+   healthcare worker. The term hypertension as used in this table is not meant to represent a clinical 
+   diagnosis of the disease; rather, it provides a statistical description of the survey population at 
+   the time of the survey.~
+@2 Includes manufactured cigarettes and hand-rolled cigarettes.~
+@3 Nutritional status is defined using body mass index (BMI) for women age 20-49 and using 
+   BMI-for-age for women age 15-19 as presented in [Tables 11.14.3 and 11.14.4]. 
+   Excludes pregnant women.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tbp31 columns hypert1 = 2 nodec;
+tbp31 footnote
+{+EN}
+Note: When a respondent's SBP and DBP fell into different classifications categories, the respondent 
+      is classified into the higher classification of blood pressure. If blood pressure was measured 3 
+      times, the average of the 2nd and 3rd blood pressure measurements is used to classify individuals 
+      with respect to hypertension. If the 3rd blood pressure measurement is missing, the 2nd measurement 
+      is considered the average. If the 3rd and the 2nd blood pressure measurements are missing, the 1st 
+      measurement is considered the average.~
+SBP = systolic blood pressure, DBP = diastolic blood pressure~
+@1 Controlled hypertension is measured among persons with hypertension and is defined as having an 
+   SBP less than 140 and DBP less than 90 mmHg and currently taking antihypertensive medication.~
+@2 A person is classified as having hypertension if, at the time of the survey, they had an average 
+   SBP level of 140 mmHg or above, or an average DBP level of 90 mmHg or above, or was currently 
+   taking antihypertensive medication. The term hypertension as used in this table is not meant 
+   to represent a clinical diagnosis of the disease; rather, it provides a statistical description 
+   of the survey population at the time of the survey.~
+@3 Includes women who do not know if they are pregnant~
+@4 Includes manufactured cigarettes and hand-rolled cigarettes.~
+@5 Nutritional status is defined using body mass index (BMI) for women age 20-49 and using 
+   BMI-for-age for women age 15-19 as presented in [Tables 11.14.1 and 11.14.2]. 
+   Excludes pregnant women.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tbp32 columns hypert2 = 2 nodec;
+tbp32 footnote
+{+EN}
+Note: When a respondent's SBP and DBP fell into different classifications categories, the respondent 
+      is classified into the higher classification of blood pressure. If blood pressure was measured 3 
+      times, the average of the 2nd and 3rd blood pressure measurements is used to classify individuals 
+      with respect to hypertension. If the 3rd blood pressure measurement is missing, the 2nd measurement 
+      is considered the average. If the 3rd and the 2nd blood pressure measurements are missing, the 1st 
+      measurement is considered the average.~
+SBP = systolic blood pressure, DBP = diastolic blood pressure~
+@1 Controlled hypertension is measured among persons with hypertension and is defined as having an 
+   SBP less than 140 and DBP less than 90 mmHg and currently taking antihypertensive medication.~
+@2 A person is classified as having hypertension if, at the time of the survey, they had an average 
+   SBP level of 140 mmHg or above, or an average DBP level of 90 mmHg or above, or was currently 
+   taking antihypertensive medication. The term hypertension as used in this table is not meant 
+   to represent a clinical diagnosis of the disease; rather, it provides a statistical description 
+   of the survey population at the time of the survey.~
+@3 Includes manufactured cigarettes and hand-rolled cigarettes.~
+@4 Nutritional status is defined using body mass index (BMI) for women age 20-49 and using 
+   BMI-for-age for women age 15-19 as presented in [Tables 11.14.3 and 11.14.4]. 
+   Excludes pregnant women.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tbp41 columns numwom5 = 1 nodec;
+tbp41 footnote
+{+EN}
+Note: When a respondent's SBP and DBP fell into different classifications categories, the respondent 
+      is classified into the higher classification of blood pressure. If blood pressure was measured 3 
+      times, the average of the 2nd and 3rd blood pressure measurements is used to classify individuals 
+      with respect to hypertension. If the 3rd blood pressure measurement is missing, the 2nd measurement 
+      is considered the average. If the 3rd and the 2nd blood pressure measurements are missing, the 1st 
+      measurement is considered the average.~
+@1 A person is classified as having hypertension if, at the time of the survey, they had an average 
+   SBP level of 140 mmHg or above, or an average DBP level of 90 mmHg or above, or was ever diagnosed 
+   by a healthcare worker with hypertension and is currently taking antihypertensive medication. 
+   Excludes persons with hypertension who self-medicate in the absence of a diagnosis made by a 
+   healthcare worker. The term hypertension as used in this table is not meant to represent a clinical 
+   diagnosis of the disease; rather, it provides a statistical description of the survey population at 
+   the time of the survey.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tbp42 columns numman5 = 1 nodec;
+tbp42 footnote
+{+EN}
+Note: When a respondent's SBP and DBP fell into different classifications categories, the respondent 
+      is classified into the higher classification of blood pressure. If blood pressure was measured 3 
+      times, the average of the 2nd and 3rd blood pressure measurements is used to classify individuals 
+      with respect to hypertension. If the 3rd blood pressure measurement is missing, the 2nd measurement 
+      is considered the average. If the 3rd and the 2nd blood pressure measurements are missing, the 1st 
+      measurement is considered the average.~
+@1 A person is classified as having hypertension if, at the time of the survey, they had an average 
+   SBP level of 140 mmHg or above, or an average DBP level of 90 mmHg or above, or was ever diagnosed 
+   by a healthcare worker with hypertension and is currently taking antihypertensive medication. 
+   Excludes persons with hypertension who self-medicate in the absence of a diagnosis made by a 
+   healthcare worker. The term hypertension as used in this table is not meant to represent a clinical 
+   diagnosis of the disease; rather, it provides a statistical description of the survey population at 
+   the time of the survey.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;

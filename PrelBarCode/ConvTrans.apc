@@ -1,0 +1,54 @@
+﻿PROC GLOBAL
+{ this application converts the transmittal sheet from a   }
+{ cluster base to a bar code code base in order to be able }
+{ to use the resulting file with applications DHSToLab and }
+{ LabToDHS                                                 }
+
+  numeric i, j, nbars, dupbar;
+
+  FILE  NTransmit;                    { write out the new structure of the transmital sheet }
+
+  array string wbarcode(53000);       { !!! store barcodes to check if they are duplicated }
+  array wcluster(53000);              { !!! cluster where a none duplicated barcode exist  }
+
+PROC TRANSMIT_FF
+preproc
+
+  nbars  = 0;  { keep track of none-duplicate bar codes }
+  dupbar = 0;  { duplicate barcodes }
+
+  { to be used with FileWrite for efficency purposes }
+  SetFile( NTransmit, ".\NewTrans.dat", create );
+
+postproc
+
+  write( " " );
+  write( "Transmittal Conversion Summary" );
+  write( "------------------------------" );
+  write( "Number of valid barcodes     : %5d", nbars );
+  write( "Number of duplicated barcodes: %5d", dupbar );
+  write( " " );
+  write( "Note: Duplicated barcodes were left as part of the first cluster" );
+  write( "      where they were found.  They should be fixed manually by  " );
+  write( "      removing the duplicates from the wrong cluster and after  " );
+  write( "      doing that it is necessary to rerun this process          " );
+
+PROC TRECORD1_EDT
+
+  for i in TRECORD2_EDT do
+    do j = 1 while j <= nbars by 1
+      if wbarcode(j) = TBARCODE then
+        break;
+      endif;
+    enddo;
+    if j > nbars then
+      nbars    = nbars + 1;
+      wbarcode(nbars) = TBARCODE;
+      wcluster(nbars) = TCLUSTER;
+      { make sure that this format agrees with layout for dictionary NewTrans }
+      FileWrite( NTransmit, TBARCODE + edit("ZZZ9",TCLUSTER) + edit("ZZ9",TLINE) );
+    else
+      errmsg( "Barcode %s in cluster %d also found in cluster %d", TBARCODE, TCLUSTER, wcluster(j) );
+      dupbar = dupbar + 1;
+    endif;
+  enddo;

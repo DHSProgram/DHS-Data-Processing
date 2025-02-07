@@ -1,0 +1,1079 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines July 7, 2021         -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                          +}
+{+   CHAPTER 4.  MARRIAGE AND SEXUAL ACTIVITY                               +}
+{+                                                                          +}
+{+   4.1   Current marital status (women & men)                             +}
+{+   4.2   Marriage registration                                            +}
+{+   4.3.1 Number of women's co-wives                                       +}
+{+   4.3.2 Number of men's wives                                            +}
+{+   4.4   Age at first marriage  (women & men)                             +}
+{+   4.5   Median age at first marriage                                     +}
+{+   4.6   Age at first sexual intercourse (women & men )                   +}
+{+   4.7   Median age at first intercourse                                  +}
+{+   4.8.1 Recent sexual activity: women                                    +}
+{+   4.8.2 Recent sexual activity: men                                      +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, j, jmax, jtot, k, kmax, ktot, temp;
+  numeric rweight, emsample;
+  numeric xurbrur, xregion, xeduc, xwealth, xmarit, xagemed, lastsex, singwgt;
+  numeric maxage, maxval;
+  numeric currmarr, durtemp;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 4, Country Survey 2020" ); 
+{EN+}
+{{ES}
+    title( "Cuadros para el capítulo 4, País Encuesta 2020" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 4, Enquête Pays 2020" );
+{FR}}
+
+  crosstab float(1) t401 v013w+tot1549+men5059+totmen v501w3+totnum6 isex
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 4.1 Current marital status"," ",
+           "Percent distribution of women and men age 15-49 by",
+           "current marital status, according to age, Country Survey 2020" )
+     stub( "Age" );
+{EN+}
+{{ES}
+    title( "Cuadro 4.1 Estado conyugal actual"," ",
+           "Distribución porcentual de las mujeres y hombres de 15-49 años ",
+           "por estado conyugal actual, según edad, País Encuesta 2020" )
+     stub( "Edad" );
+{ES}}
+{{FR}
+    title( "Tableau 4.1 État matrimonial actuel"," ",
+           "Répartition (en %) des femmes et des hommes de 15-49 ans",
+           "par état matrimonial actuel, selon l'âge, Enquête Pays 2020" )
+     stub( "Groupe d'âges" );
+{FR}}
+  crosstab float(0) t401u v013w+tot1549+men5059+totmen total isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 4.1 Current marital status (Number of un-weighted cases)" )
+     stub( "Age" );
+
+  crosstab float(1) t402 v013w1+v102w+v501w8+v101w+v190w+total marcert 
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 4.2 Marriage registration"," ",
+           "Percentage of currently married women age 15-49 whose current marriage is", 
+		   "registered with the civil authorities and percentage whose current marriage", 
+		   "is registered with the civil authorities and have a marriage certificate,", 
+		   "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 4.2  Enregistrement du mariage"," ",
+           "Pourcentage de femmes de 15-49 ans actuellement mariées dont le mariage",
+		   "a été enregistré auprès des autorités civiles et pourcentage dont le",
+		   "mariage actuel a été enregistré auprès des autorités civiles et qui",
+		   "disposent d'un cartificat de mariage, selon certaines caractéristiques ",
+		   "sociodémographiques, Enquête Pays 2020 " )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t402u v013w1+v102w+v501w8+v101w+v190w+total total 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 4.2 Marriage registration (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t4031 v013w1+v102w+v101w+v106w+v190w+total v505w+total+cowives+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 4.3.1 Number of women's co-wives"," ",
+           "Percent distribution of currently married women age 15-49 by number of",
+           "co-wives, and percentage of currently married women with one or more",
+           "co-wives, according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 4.3.1 Número de co-esposas"," ",
+           "Distribución porcentual de las mujeres de 15-49 años actualmente casadas/unidas",
+           "por número de co-esposas, según características seleccionadas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 4.3.1 Nombre de coépouses des femmes"," ",
+           "Répartition (en %) des femmes de 15-49 ans actuellement en union par nombre de",
+		   "coépouses et pourcentage de femmes actuellement en union ayant une coépouse",
+		   "ou plus, selon certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t4031u v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 4.3.1 Number of women's co-wives (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t4032 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen v505w3+totnum5
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 4.3.2 Number of men's wives"," ",
+           "Percent distribution of currently married men age 15-49 by",
+           "number of wives, according to background characteristics,",
+           "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 4.3.2 Número de esposas"," ",
+           "Distribución porcentual de los hombres de 15-49 años actualmente casados/unidos",
+           "por número de esposas, según características seleccionadas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 4.3.2 Nombre d'épouses des hommes"," ",
+           "Répartition (en %) des hommes de 15-49 ans actuellement en union par nombre",
+		   "d'épouses, selon certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t4032u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 4.3.2 Number of men's wives (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t404  v013w+age20t+age25t+age20tm+age25tm agemarr+nevmarr+numbmed1 isex
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 4.4 Age at first marriage"," ",
+           "Percentage of women and men age 15-49 who were first married by",
+           "specific exact ages and median age at first marriage,",
+           "according to current age, Country Survey 2020" )
+     stub( "Current age" );
+{EN+}
+{{ES}
+    title( "Cuadro 4.4 Edad a la primera unión"," ",
+           "Porcentaje de mujeres y hombres que se unieron por primera vez antes de cumplir",
+           "edades exactas específicas y mediana de la edad a la primera unión,",
+           "según edad actual, País Encuesta 2020" )
+     stub( "Edad actual" );
+{ES}}
+{{FR}
+    title( "Tableau 4.4 Âge à la première union"," ",
+           "Pourcentage de femmes et d'hommes de 15-49 ans qui étaient en première",
+           "union avant d'atteindre certains âges exacts et âge médian à la",
+           "première union, selon l'âge actuel, Enquête Pays 2020" )
+     stub( "Âge actuel" );
+{FR}}
+  crosstab float(1) t404w v013w+age20t+age25t+age20tm+age25tm agemed isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "T404W - Number of women by age at first marriage" );
+  crosstab float(0) t404u  v013w+age20t+age25t+age20tm+age25tm total isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 4.4 Age at first marriage (Number of un-weighted cases)" )
+     stub( "Current age" );
+
+  crosstab float(1) t405  v102w+v101w+v106w+v190w+total age1w+age1m
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 4.5 Median age at first marriage by background characteristics"," ",
+           "Median age at first marriage among women age 20-49 and age 25-49, and",
+           "median age at first marriage among men age 20-54[59] and 25-54[59], according to background",
+           "characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 4.5 Edad mediana a la primera unión"," ",
+           "Edad mediana a la primera unión entre las mujeres de 20-49 y 25-49 años y",
+           "edad mediana a la primera unión entre los hombres de 20-54[59] y 25-54[59] años, ",
+           "por características seleccionadas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 4.5 Âge médian à la première union selon certaines caractéristiques"," ",
+           "Âge médian à la première union parmi les femmes de 20-49 ans et de 25-49 ans",
+           "et âge médian à la première union parmi les hommes de 20-54[59] ans et de",
+           "25-54[59] ans, selon certaines caractéristiques, Enquête Pays 2020" )
+     stub( "Caractéristique" ); 
+{FR}}
+  crosstab float(1) t405w v102w+v101w+v106w+v190w+total agemed age1w+age1m
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "T405W - Number of women and men by age at first marriage" );
+  crosstab float(0) t405u  v102w+v101w+v106w+v190w+total isex*coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 4.5 Median age at first marriage by background characteristics (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t406  v013w+age20t+age25t+age15+age20tm+age25tm agesex+nevsex1+numbmed2 isex
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 4.6 Age at first sexual intercourse"," ",
+           "Percentage of women and men age 15-49 who had first sexual intercourse by",
+           "specific exact ages, percentage who never had sexual intercourse, and ",
+           "median age at first sexual intercourse, according to current age, Country Survey 2020" )
+     stub( "Current age" );
+{EN+}
+{{ES}
+    title( "Cuadro 4.6 Edad a la primera relación sexual"," ",
+           "Porcentaje de mujeres y hombres de 15-49 años que tuvieron su primera relación sexual ",
+           "antes de edades exactas específicas, porcentaje que nunca han tenido relaciones sexuales ",
+           "y edad mediana a la primera relación, según edad actual, País Encuesta 2020" )
+     stub( "Edad actual" );
+{ES}}
+{{FR}
+    title( "Tableau 4.6 Âge aux premiers rapports sexuels"," ",
+           "Pourcentage de femmes et d'hommes de 15-49 ans ayant eu leurs",
+           "premiers rapports sexuels avant d'atteindre certains âges exacts,",
+           "pourcentage n'ayant jamais eu de rapports sexuels et âge médian",
+           "aux premiers rapports sexuels, selon l'âge actuel, Enquête Pays 2020" )
+     stub( "Âge actuel" );
+{FR}}
+  crosstab float(1) t406w v013w+age20t+age25t+age15+age20tm+age25tm agemed isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "T406W - Number of women by age at first sex" );
+  crosstab float(0) t406u  v013w+age20t+age25t+age15+age20tm+age25tm total isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 4.6 Age at first sexual intercourse (Number of un-weighted cases)" )
+     stub( "Current age" );
+
+  crosstab float(1) t407  v102w+v101w+v106w+v190w+total age1w+age2m
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+     title( "Table 4.7 Median age at first sexual intercourse according to background characteristics"," ",
+            "Median age at first sexual intercourse among women age 20-49 and age 25-49, and",
+            "median age at first sexual intercourse among men age 20-54[59] and age 25-54[59],",
+            "according to background characteristics, Country Survey 2020" )
+      stub( "Background characteristic" );
+{EN+}
+{{ES}
+     title( "Cuadro 4.7 Edad mediana a la primera relación sexual "," ",
+            "Edad mediana a la primera relación sexual entre las mujeres de 20-49 y 25-49 años; y ",
+            "edad mediana a la primera relación sexual entre los hombres de 20-54[59] y 25-54[59] años, ",
+            "por características seleccionadas, País Encuesta 2020" )
+      stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 4.7 Âge médian aux premiers rapports sexuels selon certaines caractéristiques"," ",
+           "Âge médian aux premiers rapports sexuels parmi les femmes de 20-49 ans et de",
+		   "25-49 ans et âge médian aux premiers rapports sexuels parmi les hommes de",
+		   "20-54[59] ans et de 25-54[59] ans, selon certaines caractéristiques,",
+           "Enquête Pays 2020" )
+     stub( "Caractéristique" );
+{FR}}
+  crosstab float(1) t407w v102w+v101w+v106w+v190w+total agemed age1w+age2m
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "T407W - Number of women by age at first sex" );
+  crosstab float(0) t407u  v102w+v101w+v106w+v190w+total isex*coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+     title( "Table 4.7 Median age at first sexual intercourse according to background characteristics (Number of un-weighted cases)" )
+      stub( "Background characteristic" );
+
+  crosstab float(1) t4081 v013w1+v501w2+durmar+v102w+v101w+v106w+v190w+total timesex+nevsex2+totnum2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 4.8.1 Recent sexual activity: Women"," ",
+           "Percent distribution of women age 15-49 by timing of last sexual",
+           "intercourse, according to background characteristics,",
+           "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 4.8.1 Actividad sexual reciente: Mujeres"," ",
+           "Distribución porcentual de las mujeres de 15-49 años por momento de la ",
+           "última relación sexual, según características seleccionadas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 4.8.1 Activité sexuelle récente : Femme"," ",
+           "Répartition (en %) des femmes de 15-49 ans en fonction du moment",
+           "auquel ont eu lieu leurs derniers rapports sexuels, selon certaines",
+           "caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t4081u v013w1+v501w2+durmar+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 4.8.1 Recent sexual activity: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t4082 v013w1+v501w2+v513w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen
+                       timesex+nevsex2+totnum5
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN} 
+    title( "Table 4.8.2 Recent sexual activity: Men"," ",
+           "Percent distribution of men age 15-49 by timing of last sexual",
+           "intercourse, according to background characteristics,",
+           "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 4.8.2 Actividad sexual reciente: Hombres"," ",
+           "Distribución porcentual de los hombres de 15-49 años por momento de la ",
+           "última relación sexual, según características seleccionadas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 4.8.2 Activité sexuelle récente : Homme"," ",
+           "Répartition (en %) des hommes de 15-49 ans en fonction du moment",
+           "auquel ont eu lieu leurs derniers rapports sexuels, selon certaines",
+           "caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t4082u v013w1+v501w2+v513w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 4.8.2 Recent sexual activity: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+  numwom   = 1;
+  numbirth = 1;
+  totnum2  = 1;
+  totnum5  = 1;
+  totnum6  = 2;
+  numbmed1 = 1;
+  numbmed2 = 1;
+  numbmed3 = 1;
+  maxage   = 30;
+  emsample = 0;         { 0 - All woman sample, 1 - Ever married woman sample }
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 4.1 processing }
+  jtot = tblcol( t401 );
+  jmax = jtot - 3;
+  do j = 0 while j <= jmax
+    t401[*,j,*] = t401[*,j,*] * 100 / t401[*,jtot,*];
+  enddo;
+  t401[*,jmax+1,*] = tblsum( column t401[*,0:jmax,*] );
+  { percentage of respondents currently in union }
+  t401[*,jmax+2,*] = t401[*,1,*] + t401[*,2,*];  { married + living together }
+  { check unweighted N's }
+  Col3Dim( "t401", t401, 0,      jtot-3, t401u, 0 );        { percent distribution }
+  Col3Dim( "t401", t401, jtot-1, jtot-1, t401u, 0 );        { currently in union }
+  { set rows not applicable in panel 1 to default }
+  itot = tblrow( t401 );
+  t401[itot-1:itot,*,0] = default;
+
+  { Table 4.2 processing }
+  jtot = tblcol( t402 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t402[*,j] = t402[*,j] * 100 / t402[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t402", t402, 0, jtot-1, t402u, 0 );
+
+  { Table 4.3.1 processing }
+  jtot = tblcol( t4031 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t4031[*,j] = t4031[*,j] * 100 / t4031[*,jtot];
+  enddo;
+  t4031[*,jmax-1] = tblsum( column t4031[*,0:jmax-2] );
+  { check unweighted N's }
+  Col2Dim( "t4031", t4031, 0, jtot-3, t4031u, 0 );
+
+  { Table 4.3.2 processing }
+  jtot = tblcol( t4032 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t4032[*,j] = t4032[*,j] * 100 / t4032[*,jtot];
+  enddo;
+  t4032[*,jmax+1] = tblsum( column t4032[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t4032", t4032, 0, jtot-2, t4032u, 0 );
+
+  { Table 4.4 processing }
+  jtot = tblcol( t404 ) - 1;
+  jmax = jtot - 1;
+  itot = tblrow( t404 );
+  do k = 0 while k <= 1         { for each sex }
+    do j = 0 while j <= jmax
+      t404[*,j,k] = t404[*,j,k] * 100 / t404[*,jtot,k];
+      if j > 0 & j < jmax then                       { to be married by exact age   }
+        t404[*,j,k] = t404[*,j,k] + t404[*,j-1,k];   { it's necessary to accumulate }
+      endif;
+    enddo;
+    t404[0,   1:jmax-1,k] = NAcells;             { default for age 15-19 }
+    t404[1,   3:jmax-1,k] = NAcells;             { default for age 20-24 }
+    temp = tblrow( t404, age20t );
+    t404[temp,3:jmax-1,k] = NAcells;             { default for age 20-49 }
+    temp = tblrow( t404, age20tm );
+    t404[temp,3:jmax-1,k] = NAcells;             { default for age 20-49, for men }
+    t404[*,jtot+1,k] = tblmed( column t404w[*,0:maxage,k] intervals(highest default) );
+    { check censoring }
+    do i = 0 while i <= itot
+      maxval = (i+3) * 5;
+      temp = itot - i;          { last four rows need special treatment }
+      if temp in 0,2 then       { men 25-59 and men/women 25-49 }
+        maxval = 25
+      elseif temp in 1,3 then   { men 20-59 and men/women 20-49 }
+        maxval = 20
+      endif;
+      if t404(i,jtot+1,k) < 0 | t404(i,jtot+1,k) >= maxval | t404(i,jtot+1,k) = default then
+         t404(i,jtot+1,k) = omitted;
+      endif;
+    enddo;
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "t404", t404, 0,      jtot-2, t404u, 0 );    { percentages }
+  Col3Dim( "t404", t404, jtot+1, jtot+1, t404u, 0 );    { medians }
+  { set rows not applicable in panel 1 to default }
+  itot = tblrow( t404 );
+  t404[itot-1:itot,*,0] = default;
+  { write out SDG indicators }
+  itot   = tblrow( t404, v013w = 2 );
+  ktot   = tbllay( t404, isex = 1 );
+  SDGIndicator( "5.3.1", default, default, default );        { to provide a header for the next two indicators }
+  jtot   = tblcol( t404, agemarr = 1 );                      { before age 15 }
+  SDGIndicator( "5.3.1.a", NACells, t404(itot,jtot,ktot), NACells );
+  jtot   = tblcol( t404, agemarr = 2 );                      { before age 18 }
+  SDGIndicator( "5.3.1.b", NACells, t404(itot,jtot,ktot), NACells );
+
+  { Table 4.5 processing }
+  jtot = tblcol( t405 );
+  do j = 0 while j <= jtot
+     t405[*,j] = tblmed( column t405w[*,0:maxage,j] intervals(highest default) );
+  enddo;
+  itot = tblrow( t405 );
+  { loop to assign default to medians above the lower limit of age }
+  do j = 0 while j <= jtot
+    maxval = 20;
+    if j in 1,3 then maxval = 25 endif;
+    do i = 0 while i <= itot
+      if t405(i,j) < 0 | t405(i,j) >= maxval | t405(i,j) = default then
+         t405(i,j) = omitted
+      endif;
+    enddo;
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t405", t405, 0, 0, t405u, 0 );   { women 20-49 isex=1 * coltotu = 1 }
+  Col2Dim( "t405", t405, 1, 1, t405u, 1 );   { women 25-49 isex=1 * coltotu = 2 }
+  Col2Dim( "t405", t405, 2, 2, t405u, 5 );   { men 20-49   isex=2 * coltotu = 1 (5-coltotu has 5 values) }
+  Col2Dim( "t405", t405, 3, 3, t405u, 6 );   { men 25-49   isex=2 * coltotu = 2 (6-coltotu has 5 values) }
+
+  { Table 4.6 processing }
+  jtot = tblcol( t406 ) - 1;
+  jmax = jtot - 1;
+  itot = tblrow( t406 );
+  do k = 0 while k <= 1         { for each sex }
+    do j = 0 while j <= jmax
+      t406[*,j,k] = t406[*,j,k] * 100 / t406[*,jtot,k];
+      if j > 0 & j < jmax then                       { to have sex by exact age   }
+        t406[*,j,k] = t406[*,j,k] + t406[*,j-1,k];   { it's necessary to accumulate }
+      endif;
+    enddo;
+    t406[0,1:jmax-1,k] = NAcells;                { default for age 15-19 }
+    t406[1,3:jmax-1,k] = NAcells;                { default for age 20-24 }
+    temp = tblrow( t406, age15 );
+    t406[temp,  1:jmax-1,k] = NAcells;           { default for age 15-24 }
+    t406[temp-2,3:jmax-1,k] = NAcells;           { default for age 20-49 }
+    t406[itot-1,3:jmax-1,k] = NAcells;           { default for age 20-54(59) for men }
+    t406[*,jtot+1,k] = tblmed( column t406w[*,0:maxage,k] intervals(highest default) );
+    { check censoring }
+    do i = 0 while i <= itot
+      maxval = (i+3) * 5;
+      temp = itot - i;          { last four rows need special treatment }
+      if temp in 0,3 then       { men 25-59 and men/women 25-49 }
+        maxval = 25
+      elseif temp in 2 then     { men/women 15-24 }
+        maxval = 15
+      elseif temp in 1,4 then   { men 20-59 and men/women 20-49 }
+        maxval = 20
+      endif;
+      if t406(i,jtot+1,k) < 0 | t406(i,jtot+1,k) >= maxval | t406(i,jtot+1,k) = default then
+         t406(i,jtot+1,k) = omitted;
+      endif;
+    enddo;
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "t406", t406, 0,      jtot-2, t406u, 0 );     { percentages }
+  Col3Dim( "t406", t406, jtot+1, jtot+1, t406u, 0 );     { medians }
+  { set rows not applicable in panel 1 to default }
+  itot = tblrow( t406 );
+  t406[itot-1:itot,*,0] = default;
+
+  { Table 4.7 processing }
+  jtot = tblcol(t407 );
+  do j = 0 while j <= jtot
+     t407[*,j] = tblmed(column t407w[*,0:maxage,j] intervals(highest default));
+  enddo;
+  itot = tblrow( t407 );
+  { loop to assign default to medians above the lower limit of age }
+  do j = 0 while j <= jtot
+    maxval = 20;
+    if j in 1,3 then maxval = 25 endif;
+    do i = 0 while i <= itot
+      if t407(i,j) < 0 | t407(i,j) >= maxval | t407(i,j) = default then
+         t407(i,j) = omitted
+      endif;
+    enddo;
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t407", t407, 0, 0, t407u, 0 );   { women 20-49 isex=1 * coltotu = 1 }
+  Col2Dim( "t407", t407, 1, 1, t407u, 1 );   { women 25-49 isex=1 * coltotu = 2 }
+  Col2Dim( "t407", t407, 2, 2, t407u, 5 );   { men 20-49   isex=2 * coltotu = 1 (5-coltotu has 5 values) }
+  Col2Dim( "t407", t407, 3, 3, t407u, 6 );   { men 25-49   isex=2 * coltotu = 2 (6-coltotu has 5 values) }
+
+  { Table 4.8.1 processing }
+  jtot = tblcol( t4081 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t4081[*,j] = t4081[*,j] * 100 / t4081[*,jtot];
+  enddo;
+  t4081[*,jmax+1] = tblsum( column t4081[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t4081", t4081, 0, jtot-2, t4081u, 0 );
+
+  { Table 4.8.2 processing }
+  jtot = tblcol( t4082 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t4082[*,j] = t4082[*,j] * 100 / t4082[*,jtot];
+  enddo;
+  t4082[*,jmax+1] = tblsum( column t4082[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t4082", t4082, 0, jtot-2, t4082u, 0 );
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+  { male tables }
+  {-----------------------------------------------------------------------------------------------}
+
+  isex = 2;                            { men }
+  for i in RECH1_EDT do
+    if HV118 = 1 then                  { man eligible for individual interview }
+      { load male questionnaire }
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX(i)) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then  { man found with a complete interview }
+
+        { men's weight }
+        if unweight then
+          rweight = 1;
+        else
+          rweight = MV005/1000000;
+        endif;
+
+        { to tally total for all men regardless of age }
+        totmen   = 0;
+        { to tally total for men 15-49 }
+        tot1549  = 0;
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:59 );
+
+        { general variables }
+        v101w  = MV101;
+        v102w  = MV102;
+        v013w  = MV013;
+        v013w1 = MV013;               { with var label for printing purposes }
+        recode MV013 -> v013w6;
+               1:7  -> MV013;            { 15-49 }
+                    -> 8;                { 50+   }
+        endrecode;
+        v106w  = MV106;
+        if MV106 in 8,missing then v106w = 9 endif;
+        v190w  = MV190;
+
+        { marital status }
+        recode MV501 -> v501w3;
+                0:2  -> MV501;
+                 3   -> 5;
+                 4   -> 3;
+                 5   -> 4;
+                     -> 9;
+        endrecode;
+        { marital status }
+        recode MV501 -> v501w2;
+                 0   -> 0;
+                1:2  -> 1;
+                3:5  -> 2;
+                     -> 9;
+        endrecode;
+        { marital duration }
+        recode MV502 :: MV503 :: MV513 -> v513w;
+                0,2  ::       ::       -> notappl; { not currently married }
+                     ::  2    ::       -> 7;       { married more than once }
+                     ::       ::  1:6  -> MV513;   { years since marriage }
+                     ::       ::   7   -> 6;
+        endrecode;
+		if v513w in 1 & MV512 = 0 then v513w = 0 endif;		  
+
+        currmarr = ( MV502 = 1 );
+
+        { variables shared with women }
+        age20t  = ( MV012 in 20:49 );
+        age20   = ( MV012 in 20:49 );
+        age25t  = ( MV012 in 25:49 );
+        age25   = ( MV012 in 25:49 );
+        age15   = ( MV012 in 15:24 );
+
+        { now age for men }
+        age20tm = ( MV012 >= 20 );
+        age20m  = ( MV012 >= 20 );
+        age25tm = ( MV012 >= 25 );
+        age25m  = ( MV012 >= 25 );
+
+{ -------------------------------------------------------------------- }
+{ table 4.5 }
+
+        { tabulated before assigning NA to background variables because includes all men }
+        age1w  = notappl;
+        agemed = MV511;
+        if MV511 = notappl | MV511 > maxage then agemed = maxage endif;
+        if MV012 >= 20 then
+          age1m = 1;
+          xtab( t405w, rweight );
+          coltotu = 1;
+          xtab( t405u );
+        endif;
+        if MV012 >= 25 then
+          age1m = 2;
+          xtab( t405w, rweight );
+          coltotu = 2;
+          xtab( t405u );
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 4.7 }
+
+        { tabulated before assigning NA to background variables because includes all men }
+        age1w  = notappl;
+        agemed = MV531;
+        if MV531 in 0,missing | MV531 > maxage then agemed = maxage endif;
+        if MV012 >= 20 then
+          age2m = 1;
+          xtab( t407w, rweight );
+          coltotu = 1;
+          xtab( t407u );
+        endif;
+        if MV012 >= 25 then
+          age2m = 2;
+          xtab( t407w, rweight );
+          coltotu = 2;
+          xtab( t407u );
+        endif;
+
+        { the tables' body is only for men 15-49, except for previous two tables }
+        if MV012 > 49 then
+          tot1549 = notappl;
+          v102w   = notappl;
+          v101w   = notappl;
+          v106w   = notappl;
+          v190w   = notappl;
+          v013w   = notappl;
+          v013w1  = notappl;
+          v501w2  = notappl;
+          v513w   = notappl;
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 4.1 }
+
+        xtab( t401, rweight );
+        xtab( t401u );
+
+{ -------------------------------------------------------------------- }
+{ tables 4.3.2 }
+
+        if currmarr then
+          { number of wives }
+          recode  MV505 -> v505w3;
+                   0    -> 0;
+             missing,98 -> 9;
+                   1    -> 1;
+                        -> 2;
+          endrecode;
+          xtab( t4032, rweight );
+          xtab( t4032u );
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 4.4 }
+
+        recode MV511 -> agemarr;
+                 <15 -> 1;
+               15:17 -> 2;
+               18:19 -> 3;
+               20:21 -> 4;
+               22:24 -> 5;
+                     -> notappl;
+        endrecode;
+        if MV501 = missing then agemarr = notappl endif;
+        nevmarr = ( MV501 = 0 );
+        xtab( t404, rweight );
+        xtab( t404u );
+        agemed = MV511;
+        if MV511 = notappl | MV511 > maxage then agemed = maxage endif;
+        xtab( t404w, rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 4.6 }
+
+        recode MV531 -> agesex;
+                   0 -> notappl;
+                 <15 -> 1;
+               15:17 -> 2;
+               18:19 -> 3;
+               20:21 -> 4;
+               22:24 -> 5;
+                     -> notappl;
+        endrecode;
+        nevsex1 = ( MV525 = 0 );
+        xtab( t406, rweight );
+        xtab( t406u );
+        agemed = MV531;
+        if MV531 in 0,missing | MV531 > maxage then agemed = maxage endif;
+        xtab( t406w, rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 4.8.2 }
+
+        recode  MV527  -> lastsex;    { !!! check meaning of codes 197, 198, 995, 996, etc and adjust accordingly }
+               notappl -> notappl;
+               100:198 -> int( (MV527-100)/30 );    { days }
+               200:298 -> int( (MV527-200)/4.3 );   { weeks }
+               300:398 -> MV527-300;                { months }
+               400:450 -> (MV527-400)*12;           { years }
+                       -> missing;
+        endrecode;
+        nevsex2  = ( MV525 = 0 );
+        if MV525 <> 0 then
+          recode  MV528  :: lastsex -> timesex;
+                 0:28,95 ::         -> 1;            { last 4 weeks }
+                         ::  0:11   -> 2;            { last year    }
+                         :: 12:600  -> 3;            { more than a year }
+                         ::         -> 9;            { missing }
+          endrecode;
+        else
+          timesex  = notappl;
+        endif;
+        xtab( t4082, rweight );
+        xtab( t4082u );
+
+      endif;        { end loadcase with a complete interview }
+    endif;        { end man eligible for interview }
+  enddo;
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  { totals for men set NA }
+  totmen   = notappl;
+  men5059  = notappl;
+  { to tally totals for all women, when necessary }
+  tot1549  = 0;
+
+  if emsample then
+     singwgt = AWFACTT / 100 - 1;
+  else
+     singwgt = 0
+  endif;
+
+  isex   = 1;                  { women }
+
+  { general variables }
+  v101w  = V101;
+  v102w  = V102;
+  v013w  = V013;
+  v013w1 = V013;               { with var label for printing purposes }
+  v106w  = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w    = V190;
+
+  { marital status }
+  recode V501 -> v501w3;
+         0:2  -> V501;
+          3   -> 5;
+          4   -> 3;
+          5   -> 4;
+              -> 9;
+  endrecode;
+  { marital status }
+  recode V501 -> v501w2;
+           0  -> 0;
+          1:2 -> 1;
+          3:5 -> 2;
+              -> 9;
+  endrecode;
+  { marital status }
+  recode V501 -> v501w8;
+          1:2 -> V501;
+              -> notappl;
+  endrecode;			  
+
+  currmarr = ( V502 = 1 );
+
+{ -------------------------------------------------------------------- }
+{ table 4.1 }
+
+  xtab( t401, rweight );
+  xtab( t401u );
+  if emsample then
+    xmarit = v501w3;
+    v501w3 = 0;
+    xtab( t401, rweight*singwgt );
+    v501w3 = xmarit;
+    xtab( t401u, singwgt );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 4.2 }
+
+  if V502 = 1 then
+    marcert = 3;
+    xtab( t402, rweight );
+    xtab( t402u );
+	if V542 = 1 | V544 = 1 then
+      marcert = 1;
+      xtab( t402, rweight );
+	endif;
+	if V542 = 1 then
+      marcert = 2;
+      xtab( t402, rweight );
+	endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ tables 4.3.1 }
+
+  if currmarr then
+    { number of co-wives }
+    recode V505 -> v505w;
+             0  -> 0;
+            98  -> 8;
+        missing -> 9;
+             1  -> 1;
+                -> 2;
+    endrecode;
+    cowives = ( V505 in 1:20 );
+    xtab( t4031, rweight );
+    xtab( t4031u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 4.4 }
+
+  { assign notappl to men variables }
+  age20tm = notappl;
+  age20m  = notappl;
+  age25tm = notappl;
+  age25m  = notappl;
+
+  { now age for women }
+  age20t = ( V012 >= 20 );
+  age20  = age20t;
+  age25t = ( V012 >= 25 );
+  age25  = age25t;
+  age15  = ( V012 in 15:24 );
+  recode V511  -> agemarr;
+           <15 -> 1;
+         15:17 -> 2;
+         18:19 -> 3;
+         20:21 -> 4;
+         22:24 -> 5;
+               -> notappl;
+  endrecode;
+  if V501 = missing then agemarr = notappl endif;
+  nevmarr = ( V501 = 0 );
+  xtab( t404, rweight );
+  xtab( t404u );
+  if emsample then
+     agemarr = notappl;
+     nevmarr = 1;
+     xtab( t404, rweight*singwgt );
+     xtab( t404u, singwgt );
+  endif;
+  agemed = V511;
+  if V511 = notappl | V511 > maxage then agemed = maxage endif;
+  xtab( t404w, rweight );
+  if emsample then
+     xagemed = agemed;
+     agemed  = maxage;
+     xtab( t404w, rweight*singwgt );
+     agemed = xagemed;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 4.5 }
+
+  age1m = notappl;
+  do i = 1 while i <= 2            { first for age >= 20 & second for age >= 25 }
+    agemed = V511;
+    if V511 = notappl | V511 > maxage then agemed = maxage endif;
+    if i = 1 & V012 >= 20 | i = 2 & V012 >= 25 then
+      age1w = i;
+      xtab( t405w, rweight );
+      coltotu = i;
+      xtab( t405u );
+      if emsample then
+        xurbrur = v102w;   v102w = notappl;
+        xregion = v101w;   v101w = notappl;
+        xeduc   = v106w;   v106w = notappl;
+        xwealth = v190w;   v190w = notappl;
+        agemed  = maxage;
+        xtab( t405w, rweight*(AWFACTT/100-1) );
+        xtab( t405u, AWFACTT/100-1 );
+        total   = notappl;
+        v102w   = xurbrur;
+        xtab( t405w, rweight*(AWFACTU/100-1) );
+        xtab( t405u, AWFACTU/100-1 );
+        v102w   = notappl;
+        v101w   = xregion;
+        xtab( t405w, rweight*(AWFACTR/100-1) );
+        xtab( t405u, AWFACTR/100-1 );
+        v101w   = notappl;
+        v106w   = xeduc;
+        xtab( t405w, rweight*(AWFACTE/100-1) );
+        xtab( t405u, AWFACTE/100-1 );
+        v106w   = notappl;
+        v190w   = xwealth;
+        xtab( t405w, rweight*(AWFACTW/100-1) );
+        xtab( t405u, AWFACTW/100-1 );
+        v102w   = xurbrur;
+        v101w   = xregion;
+        v106w   = xeduc;
+        v190w   = xwealth;
+        total   = 0
+      endif
+    endif;
+  enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 4.6 }
+
+  recode V531 -> agesex;
+            0 -> notappl;
+          <15 -> 1;
+        15:17 -> 2;
+        18:19 -> 3;
+        20:21 -> 4;
+        22:24 -> 5;
+              -> notappl;
+  endrecode;
+  nevsex1 = ( V525 = 0 );
+  xtab( t406, rweight );
+  xtab( t406u );
+  if emsample then
+    agesex = notappl;
+    nevsex1  = 1;
+    xtab( t406, rweight*singwgt );
+    xtab( t406u, singwgt );
+  endif;
+  agemed = V531;
+  if V531 in 0,missing | V531 > maxage then agemed = maxage endif;
+  xtab( t406w, rweight );
+  if emsample then
+    xagemed = agemed;
+    agemed = maxage;
+    xtab( t406w, rweight*singwgt );
+    agemed = xagemed;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 4.7 }
+
+  age2m = notappl;
+  do i = 1 while i <= 2         { first for age >= 20 & second for age >= 25 }
+    agemed = V531;
+    if V531 in 0,missing | V531 > maxage then agemed = maxage endif;
+    if i = 1 & V012 >= 20 | i = 2 & V012 >= 25 then
+      age1w = i;
+      xtab( t407w, rweight );
+      coltotu = i;
+      xtab( t407u );
+      if emsample then
+        xurbrur = v102w;   v102w = notappl;
+        xregion = v101w;   v101w = notappl;
+        xeduc   = v106w;   v106w = notappl;
+        xwealth = v190w;   v190w = notappl;
+        agemed  = maxage;
+        xtab( t407w, rweight*(AWFACTT/100-1) );
+        xtab( t407u, AWFACTT/100-1 );
+        total   = notappl;
+        v102w   = xurbrur;
+        xtab( t407w, rweight*(AWFACTU/100-1) );
+        xtab( t407u, AWFACTU/100-1 );
+        v102w   = notappl;
+        v101w   = xregion;
+        xtab( t407w, rweight*(AWFACTR/100-1) );
+        xtab( t407u, AWFACTR/100-1 );
+        v101w   = notappl;
+        v106w   = xeduc;
+        xtab( t407w, rweight*(AWFACTE/100-1) );
+        xtab( t407u, AWFACTE/100-1 );
+        v106w   = notappl;
+        v190w   = xwealth;
+        xtab( t407w, rweight*(AWFACTW/100-1) );
+        xtab( t407u, AWFACTW/100-1 );
+        v102w  = xurbrur;
+        v101w  = xregion;
+        v106w  = xeduc;
+        v190w  = xwealth;
+        total  = 0
+      endif
+    endif;
+  enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 4.8.1 }
+
+  recode   V527  -> lastsex;    { !!! check meaning of codes 197, 198, 995, 996, etc and adjust accordingly }
+         notappl -> notappl;
+         100:198 -> int( (V527-100)/30 );    { days }
+         200:298 -> int( (V527-200)/4.3 );   { weeks }
+         300:398 -> V527-300;                { months }
+         400:450 -> (V527-400)*12;           { years }
+                 -> missing;
+  endrecode;
+  durtemp = notappl;
+  if V509A <> notappl then
+    durtemp = int( (V008-V509A)/12 );  
+  elseif V509 <> notappl then
+    durtemp = int( (V008-V509)/12 );  
+  endif;  
+  recode durtemp -> durmar;
+         notappl -> notappl;
+		    0    -> 0;
+           1: 4  -> 1;
+           5: 9  -> 2;
+          10:14  -> 3;
+          15:19  -> 4;
+          20:24  -> 5;
+                 -> 6;
+  endrecode;
+  if V502 in 0,2 then durmar = notappl endif;
+  nevsex2  = ( V525 = 0 );
+  if V525 <> 0 then
+    recode  V528   :: lastsex -> timesex;
+           0:28,95 ::         -> 1;           { last 4 weeks }
+                   ::  0:11   -> 2;           { last year    }
+                   :: 12:600  -> 3;           { more than a year }
+                   ::         -> 9;           { missing }
+    endrecode;
+  else
+    timesex  = notappl;
+  endif;
+  xtab( t4081, rweight );
+  xtab( t4081u );

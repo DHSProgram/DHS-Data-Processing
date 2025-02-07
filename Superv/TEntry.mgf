@@ -1,0 +1,21 @@
+﻿language = EN
+ 0001 Cluster %04d not found in the sample design file
+ 0005 There are no barcodes to delete,  pick another option
+ 0485 Bar Code duplicated with the one found in line number %d
+ 0486 Invalid line number, it is expected %d
+ 0494 For missing put one "?" in first position only (%5s)
+ 0495 Invalid sequence of characters in Bar Code (%5s)
+ 0496 Invalid check field (last character) for Bar Code (%5s)
+ 
+language = ES
+ 0001 Segmento %04d no se encontro en el archivo de la muestra
+ 0005 No hay codigos de barra para borrar,  seleccione otra opcion
+ 0485 Codigo de barra duplicado con el registrado en la linea %d
+ 0486 Numero de linea invalido, se esperaba %d
+ 0494 Para codigos missing ingrese el caracter "?" en la primera posicion (%5s)
+ 0495 Secuencia de caracteres en el codigo de barra es invalido (%5s)
+ 0496 Invalido digito de chequeo (ultimo caracter) en el codigo de barra (%5s)
+ 9994 E Special answers inconsistent
+ 9980 E Please select from the categories within the major groups
+ 
+ 

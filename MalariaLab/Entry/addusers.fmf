@@ -1,0 +1,105 @@
+﻿[FormFile]
+Version=CSPro 7.4
+Name=USERS_FF
+Label=addusers
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+FieldEntryFont=0018 0000 0000 0000 0600 0000 0000 0000 0000 0000 0000 0000 0000 Courier New
+FieldColor=Current,65535
+FieldColor=Skipped,12632256
+Type=OperatorControlled
+  
+[Dictionaries]
+File=..\Dicts\users.dcf
+  
+[Form]
+Name=FORM000
+Label=users questionnaire
+Level=1
+Size=757,167
+  
+Item=UOPID
+Item=UNAME1
+Item=UNAME2
+Item=UPASS
+Item=URIGHTS
+  
+  
+[Text]
+Name=TEXT000
+Position=35,50,261,74
+Text=Country Lab Test Users
+Form=1
+Font=-020 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+[EndForm]
+  
+[Level]
+Name=USERS_QUEST
+Label=users questionnaire
+  
+[Group]
+Required=Yes
+Name=USERS_QUEST_FORM
+Label=users questionnaire
+Form=1
+LogicControl=No
+Max=1
+  
+[Field]
+Name=UNAME1
+Position=33,122,244,142
+Item=UNAME1,USERS_DICT
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=35,92,103,108
+Text=First Name
+ 
+  
+[Field]
+Name=UNAME2
+Position=252,122,463,142
+Item=UNAME2,USERS_DICT
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=256,92,323,108
+Text=Last Name
+ 
+  
+[Field]
+Name=UOPID
+Position=482,122,511,142
+Item=UOPID,USERS_DICT
+Form=1
+  
+[Text]
+Position=474,92,519,108
+Text=User ID
+ 
+  
+[Field]
+Name=URIGHTS
+Position=569,122,584,142
+Item=URIGHTS,USERS_DICT
+Form=1
+  
+[Text]
+Position=556,92,595,108
+Text=Rights
+ 
+  
+[Field]
+Name=UPASS
+Position=619,122,732,142
+Item=UPASS,USERS_DICT
+Form=1
+  
+[Text]
+Position=643,92,704,108
+Text=Password
+ 
+[EndGroup]
+  

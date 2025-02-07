@@ -1,0 +1,454 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+t701  rows totmean3 = 1 nodec
+           totmean6 = 1 nodec;
+t701 footnote
+{+EN}
+na = Not applicable~
+@1 Had last sexual intercourse within 30 days preceding the survey~
+{EN+}
+{{ES}
+na = No aplicable~
+@1 Tuvo relaciones sexuales en los 30 déas anteriores a la encuesta
+{ES}}
+{{FR}
+na = Non applicable~
+@1 Sexuellement actif signifie que la personne a eu ses derniers rapports sexuels dans les 30 jours qui ont précédé l'enquête.~
+{FR}}
+endfootnote;
+{t701w noprint;}
+
+t702  columns isex = 1 knowmeth = 3 nodec
+              isex = 2 knowmeth = 3 nodec;
+t702 footnote
+{+EN}
+na = Not applicable~
+@1 Female sterilization, male sterilization, IUD, injectables, implants, pill, male condom,
+   female condom, emergency contraception, standard days method (SDM),
+   lactational amenorrhea method (LAM), and other modern methods
+{EN+}
+{{ES}
+na = No aplicable~
+@1 Esterilizacién femenina, esterilizacién masculina, DIU, inyecciones, implantes, példora, condén masculino,
+  condén femenino, método de la amenorrea por lactancia (MELA), anticoncepcién de emergencia y otros métodos modernos
+{ES}}
+{{FR}
+na = Non applicable~
+@1 Stérilisation féminine, stérilisation masculine, DIU, injectables, implants, pilule, condom masculin,
+   condom féminin, contraception d'urgence, méthode des jours fixes (MJF), Méthode de l'Allaitement
+   Maternel et de l'Aménorrhée (MAMA) et d'autres méthodes modernes
+{FR}}
+endfootnote;
+
+t703 columns totnum2 = 1 nodec;
+t703 footnote
+{+EN}
+Note:  If more than one method is used, only the most effective method is considered in this tabulation.~
+SDM = Standard days method~
+LAM = Lactational amenorrhea method~
+@1 Women who had last sexual intercourse within 30 days preceding the survey
+{EN+}
+{{ES}
+Nota:  Si usa més de un método, sélo se considera el més efectivo para este cuadro.~
+SDM = Standard days method~
+MELA = Método de la amenorrea por lactancia~
+@1 Mujeres que tuvieron la ultima relacion sexual en los 30 déas anteriores a la encuesta
+{ES}}
+{{FR}
+Note : Si plus d'une méthode est utilisée, seule la plus efficace est prise en compte dans ce tableau.~
+MJF = Méthode des Jours Fixes~
+MAMA = Méthode de l'Allaitement Maternel et de l'Aménorrhée~
+@1 Femmes qui a eu leur dernier rapports sexuels dans les 30 jours précédant l'enquête
+{FR}}
+endfootnote;
+
+t7042 columns totnum2 = 1 nodec;
+t7042 footnote
+{+EN}
+Note:  If more than one method is used, only the most effective method is considered in this tabulation.~
+SDM = Standard days method~
+LAM = Lactational amenorrhea method~
+@1 Women who have had sexual intercourse within 30 days preceding the survey
+{EN+}
+{{ES}
+Nota:  Si usa més de un método, sélo se considera el més efectivo para este cuadro.~
+SDM = Standard days method~
+LAM = Lactational amenorrhea method~
+@1 Women who have had sexual intercourse within 30 days preceding the survey
+{ES}}
+{{FR}
+Note : Si plus d'une méthode a été utilisée, seule la plus efficace est prise en compte dans ce tableau.~
+MJF = Méthode des Jours Fixes~
+MAMA = Méthode de l'Allaitement Maternel et de l'Aménorrhée~
+@1 Femmes qui a eu leur dernier rapports sexuels dans les 30 jours précédant l'enquête
+{FR}}
+endfootnote;
+
+t705 columns totnmed3 = 1 nodec;
+t705 footnote
+{+EN}
+@1 Median age at sterilization is calculated only for
+   women sterilized before age 40 to avoid problems of censoring.~
+@a = Not calculated due to censoring
+{EN+}
+{{ES}
+@1 La edad mediana a la esterilizacién se calculé énicamente para mujeres esterilizadas antes de los 40 aéos
+   para evitar problemas de truncamiento de informacién.~
+@a = No se calculé por tratarse de informacién truncada
+{ES}}
+{{FR}
+@1 L'âge médian au moment de la stérilisation est calculé seulement pour les femmes ayant été
+   stérilisées avant l'âge de 40 ans pour éviter des problèmes de troncature.~
+@a = Non calculée pour cause de troncature
+{FR}}
+endfootnote;
+{t705u noprint;}
+
+t706 columns sayana1 = 2 nodec
+             sayana2 = 5 nodec;
+t706 footnote
+{+EN}
+Note: Subcutaneous (SC) depot medroxyprogesterone acetate (DMPA) is a self-injectable contraceptive;
+      its brand name is Sayana Press.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Subcutaneous (SC) depot medroxyprogesterone acetate (DMPA) ou Acétate de médroxyprogestérone par voie sous-cutanée
+      ou Depo-Provera est un contraceptif autoinjectable ; il est commercialisée sous la marque Sayana Press.
+{FR}}
+endfootnote;
+
+t707 columns emergen = 2 nodec;
+
+t708 rows totnum2  = 1 nodec;
+t708 footnote
+{+EN}
+SDM = Standard days method
+{EN+}
+{{FR}
+MJF = Méthode des Jours Fixes
+{FR}}
+endfootnote;
+
+t709 columns numwom = 1 nodec;
+t709 footnote
+{+EN}
+Note: Correct knowledge of the fertile period is defined as "halfway between two menstrual periods."
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note : Une connaissance correcte de la période de fertilité est définie ainsi : "Au milieu de deux cycles menstruels."
+{FR}}
+endfootnote;
+
+t710 rows totnum2 = 1 nodec;
+t710 footnote
+{+EN}
+Note: Total includes other modern methods but excludes lactational amenorrhea method (LAM).~
+SDM = Standard days method~
+NGO = Non-governmental organization
+{EN+}
+{{ES}
+Nota: El total incluye otros métodos modernos pero excluye el método de la amenorrea por lactancia (MELA).
+SDM = Standard days method~
+NGO = Non-governmental organization
+{ES}}
+{{FR}
+Note : L'ensemble inclut d'autres méthodes modernes mais exclut la Méthode de
+   l'Allaitement Maternel et de l'Aménorrhée(MAMA).~
+MJF = Méthode des Jours Fixes~
+ONG = Organisation non gouvernementale
+{FR}}
+endfootnote;
+
+t711 columns usepill = 2 nodec
+             usecond = 2 nodec;
+t711 footnote
+{+EN}
+Note: Table excludes pill and condom users who do not know the brand name. Condom use is
+      based on women's reports.~
+@1 Among condom users not also using the pill
+{EN+}
+{{ES}
+Nota: El cuadro excluye usuarias de pastillas y condones que no conocen la marca.  El uso del
+      condén esté basado en la declaracién de la mujer.~
+@1 Entre usuarias que no usan al mismo tiempo la pildora
+{ES}}
+{{FR}
+Note : Dans ce tableau, sont exclues les utilisatrices de pilules et de condoms qui n'en connaissent
+       pas la marque. L'utilisation du condom est basée sur la déclaration de la femme.~
+@1 Parmi les utilisatrices de condom qui n'utilisent pas aussi la pilule
+{FR}}
+endfootnote;
+
+t712 columns infometh = 5 nodec
+             infometh = 7 nodec;
+t712 footnote
+{+EN}
+Note: Table includes users of only the methods listed individually.~
+na = Not applicable~
+NGO = Non-governmental organization~
+@1 The Method Information Index is the percentage who were informed: 1) about side effects or problems
+   of method used, 2) about what to do if side effects experienced, and
+   3) were informed of other methods that could be used.~
+@2 Excludes women who are sterilized~
+@3 Source at start of current episode of use
+{EN+}
+{{ES}
+Nota: El cuadro incluye solamente las usuarias de métodos anticonceptivos listados individualmente.~
+na = Not applicable~
+NGO = Non-governmental organization~
+@1 The Method Information Index is the percentage who were informed: 1) about side effects or problems
+   of method used, 2) about what to do if side effects experienced, and
+   3) were informed of other methods that could be used.~
+@2 Excluye mujeres esterilizadas~
+@2 Fuente al comienzo del actual episodio de uso
+{ES}}
+{{FR}
+Note : Le tableau n'inclut que les méthodes figurant sur la liste.~
+na = Non applicable~
+ONG = Organisation non gouvernementale~
+@1 L'indice d'information sur la méthode est le pourcentage de femmes qui ont été informées :
+   1) sur les effets secondaires ou problèmes liés à la méthode utilisée,
+   2) sur ce qu'il fallait faire si des effets secondaires étaient ressentis, et
+   3) sur d'autres méthodes qui pourraient être utilisées.~
+@2 Non compris les femmes qui sont stérilisées~
+@3 Source au moment où a commencé l'épisode d'utilisation de la méthode actuelle
+{FR}}
+endfootnote;
+
+t713 columns disconr = 11 suppress
+             episode =  1 nodec;
+t713 footnote
+{+EN}
+Note: Figures are based on life table calculations using information on episodes of use
+      that occurred 3-62 months preceding the survey.~
+@1 Includes infrequent sex/husband away, difficult to get pregnant/menopausal, and
+   marital dissolution/separation~
+@2 Includes lack of access/too far, costs too much, and inconvenient to use~
+@3 Includes up to God/fatalistic and other reasons~
+@4 Reasons for discontinuation are mutually exclusive and add to the total given
+   in this column.~
+@5 A woman is considered to have switched to another method if she used a different
+   method in the month following discontinuation or if she gave "wanted a more
+   effective method" as the reason for discontinuation and started another
+   method within two months of discontinuation.~
+@6 All episodes of use that occur within the 5 years preceding the survey are included. Episodes
+   of use include episodes that were discontinued during the period of observation and episodes
+   of use that were not discontinued during the period of observation.~
+@7 Includes LAM and [LIST OTHER METHODS NOT SHOWN SEPARATELY]
+{EN+}
+{{ES}
+Nota: Las cifras se basan en célculos de tablas de mortalidad utilizando informacién sobre episodios de uso
+que empezaron en los 3-62 meses que precedieron la encuesta.~
+@1 Incluye sexo infrecuente/esposo ausente; dificultad para quedar embarazada; menopéusica;
+   y disolucién/separacién marital.~
+@2 Incluye falta de acceso/demasiado lejos; cuesta demasiado; e incoveniente para usar~
+@3 Includes up to God/fatalistic and other reasons~
+@4 Las razones para discontinuar son mutuamente excluyentes y suman el total dado en esta columna.~
+@5 Se considera que una mujer se ha cambiado a otro método
+   si ella usé un método en el mes siguiente a la discontinuacién o si ella dio "deseaba método més efectivo"
+   como la razén para la discontinuacién y empezé otro método en los dos meses siguientes.~
+@6 El némero de episodios de uso incluye tanto los episodios de uso que fueron discontinuados durante
+   el peréodo de observacién como los episodios de uso que no fueron discontinuados durante ese peréodo.~
+@7 Incluye MELA y [LISTAR OTROS METODOS QUE NO SE MUESTRAN POR SEPARADO]
+{ES}}
+{{FR}
+Note : Les valeurs sont basées sur des calculs de table de survie en utilisant les informations
+       sur les épisodes d'utilisation qui ont eu lieu 3-62 mois avant l'enquête.~
+@1 Comprend rapports sexuels peu fréquents/mari absent, difficulté à tomber enceinte/ménopause et
+   dissolution de l'union/séparation~
+@2 Comprend difficultés d'accès /trop éloigné, coût trop élevé et utilisation peu pratique~
+@3 Comprend ce que Dieu veut/fataliste et autres raisons~
+@4 Les raisons de la discontinuation sont mutuellement exclusives et leur somme correspond
+   au total figurant dans cette colonne.~
+@5 On considère qu'une femme a changé de méthode si elle a utilisé une méthode différente dans le
+   mois qui a suivi la discontinuation ou si elle a donné comme raison de discontinuation
+   qu'elle "souhaitait une méthode plus efficace" et qu'elle a commencé à utiliser une autre
+   méthode dans les deux mois qui ont suivi la discontinuation.~
+@6 Tous les épisodes d'utilisation qui ont eu lieu dans les 5 ans ayant précédé l'enquête sont
+   inclus. Les épisodes d'utilisation incluent les épisodes qui ont été discontinués pendant la
+   période d'observation ainsi que les épisodes d'utilisation qui n'ont pas été discontinués
+   durant la période d'observation.~
+@7 Y compris la Méthode de l'Allaitement Maternel et de l'Aménorrhée (MAMA) et [LISTE DES
+   AUTRES MÉTHODES NON PRÉSENTÉES SÉPARÉMENT]
+{FR}}
+endfootnote;
+
+t714 rows totdisc  = 1 nodec;
+t714 footnote
+{+EN}
+SDM = Standard days method~
+@1 [LIST OTHER METHODS NOT SHOWN SEPARATELY]
+{EN+}
+{{ES}
+SDM = Standard days method~
+@1 [LIST OTHER METHODS NOT SHOWN SEPARATELY]
+{ES}}
+{{FR}
+MJF = Méthode des Jours Fixes~
+@1 [LISTE DES AUTRES MÉTHODES NON PRÉSENTÉES SÉPARÉMENT]
+{FR}}
+endfootnote;
+
+t7151 columns numwom = 1 nodec;
+t7151 footnote
+{+EN}
+Note: Numbers in this table correspond to the revised definition of unmet
+      need described in Bradley et al., 2012.~
+@1 Total demand is the sum of unmet need and met need.~
+@2 Percentage of demand satisfied is met need divided by total demand.~
+@3 Modern methods include female sterilization, male sterilization, IUD,
+   injectables, implants, pill, male condom, female condom, emergency contraception,
+   standard days method (SDM), lactational amenorrhea method (LAM), and
+   other modern methods.
+{EN+}
+{{ES}
+Nota: Las cifras en este cuadro corresponden a la definicion revisada de la necesidad
+      de planificacion familiar como se describe en Bradley y otros, 2012.~
+@1 La demanda total es la suma de la necesidad insatisfecha y la necesidad
+   satisfecha de planificacion familiar.~
+@2 El porcentaje de demanda satisfecha se calcula como la necesidad satisfecha
+   dividida por la demanda total.~
+@3 Metodos modernos incluyen esterilizacaion masculina y femenina, DIU,
+   inyectables, implantes, pilldora, condom masculino y femenino, y amenorrea por lactancia (MELA).
+{ES}}
+{{FR}
+Note : Les valeurs figurant dans ce tableau sont basées sur la définition révisée des besoins
+       non satisfaits en matière de planification familiale, décrite dans Bradley et al.,2012.~
+@1 La demande totale équivaut à la somme des besoins non satisfaits et des besoins satisfaits.~
+@2 Le pourcentage de demande satisfaite équivaut aux besoins satisfaits divisés par la demande totale.~
+@3 Les méthodes modernes incluent la stérilisation féminine, la stérilisation masculine, le DIU,
+   les injectables, les implants, la pilule, le condom masculin, le condom féminin, la contraception
+   d'urgence, la Méthode des Jours Fixes (MJF), la Méthode de l'Allaitement Maternel et de l'Aménorrhée
+   (MAMA) et d'autres méthodes modernes.
+{FR}}
+endfootnote;
+
+t7152 columns numwom = 1 nodec;
+t7152 footnote
+{+EN}
+Note: Numbers in this table correspond to the revised definition of unmet
+      need described in Bradley et al., 2012.~
+@1 Total demand is the sum of unmet need and met need.~
+@2 Percentage of demand satisfied is met need divided by total demand.~
+@3 Modern methods include female sterilization, male sterilization, IUD,
+   injectables, implants, pill, male condom, female condom, emergency contraception,
+   standard days method (SDM), and lactational amenorrhea method (LAM), and
+   other modern methods.~
+@4 Women who have had sexual intercourse within 30 days preceding the survey
+{EN+}
+{{ES}
+Nota: Las cifras en este cuadro corresponden a la definicion revisada de la necesidad
+      de planificacion familiar como se describe en Bradley y otros, 2012.~
+@1 La demanda total es la suma de la necesidad insatisfecha y la necesidad
+   satisfecha de planificacion familiar.~
+@2 El porcentaje de demanda satisfecha se calcula como la necesidad satisfecha
+   dividida por la demanda total.~
+@3 Metodos modernos incluyen esterilizacaion masculina y femenina, DIU,
+   inyectables, implantes, pilldora, condom masculino y femenino, y amenorrea por lactancia (MELA).~
+@4 Mujeres que han tenido relaciones sexuales en los ultimos 30 dias antes de la encuesta
+{ES}}
+{{FR}
+Note : Les valeurs figurant dans ce tableau sont basées sur la définition révisée des besoins
+       non satisfaits en matière de planification familiale, décrite dans Bradley et al., 2012.~
+@1 La demande totale équivaut à la somme des besoins non satisfaits et des besoins satisfaits.~
+@2 Le pourcentage de demande satisfaite équivaut aux besoins satisfaits divisés par la demande totale.~
+@3 Les méthodes modernes incluent la stérilisation féminine, la stérilisation masculine, le DIU,
+   les injectables, les implants, la pilule, le condom masculin, le condom féminin, la contraception
+   d'urgence, la Méthode des Jours Fixes (MJF), la Méthode de l'Allaitement Maternel et de
+   l'Aménorrhée (MAMA) et d'autres méthodes modernes.~
+@4 Femmes qui ont eu des rapports sexuels dans les 30 jours qui ont précédé l'enquête
+{FR}}
+endfootnote;
+
+t716 rows totnum12 = 1 nodec;
+
+t717 columns numwom = 1 nodec;
+t717 footnote
+{+EN}
+@1 Non-users include pregnant women.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Les non-utilisatrices incluent les femmes enceintes.
+{FR}}
+endfootnote;
+
+t718 columns pregpres = 2 nodec;
+t718 footnote
+{+EN}
+@1 Non-users include pregnant women.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Les non-utilisatrices incluent les femmes enceintes.
+{FR}}
+endfootnote;
+
+t719 rows totnum2  = 1 nodec;
+t719 footnote
+{+EN}
+@1 Includes current pregnancy
+{EN+}
+{{ES}
+@1 Incluye el embarazo actual
+{ES}}
+{{FR}
+@1 Y compris la grossesse actuelle
+{FR}}
+endfootnote;
+
+t7201 columns numwom = 1 nodec;
+t7201 footnote
+{+EN}
+@1 Social media includes platforms such as Facebook, X (formerly Twitter), or Instagram.
+{EN+}
+{{ES}
+@1 Social media includes platforms such as Facebook, X (formerly Twitter),or Instagram.
+{ES}}
+{{FR}
+@1 Les médias sociaux incluent les plateformes comme Facebook, X (précédemment connu sous le nom de Twitter), ou Instagram.
+{FR}}
+endfootnote;
+
+t7202 columns numman = 1 nodec;
+t7202 footnote
+{+EN}
+@1 Social media includes platforms such as Facebook, X (formerly Twitter), or Instagram.
+{EN+}
+{{ES}
+@1 Social media includes platforms such as Facebook, X (formerly Twitter), or Instagram.
+{ES}}
+{{FR}
+@1 Les médias sociaux incluent les plateformes comme Facebook, X (précédemment connu sous le nom de Twitter), ou Instagram.
+{FR}}
+endfootnote;
+
+t721 columns discfpc = 2 nodec;
+
+

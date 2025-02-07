@@ -1,0 +1,242 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=HIV dictionary for preliminary report tables
+Name=HIVANONYM
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Absolute
+ZeroFill=No
+DecimalChar=No
+
+[Level]
+Label=LEVEL1
+Name=LEVEL1
+
+[IdItems]
+
+[Item]
+Label=Sequential number (ID)
+Name=HIVSEQNO
+Start=1
+Len=6
+
+[Record]
+Label=Record with data from DHS/AIS questionnaires
+Name=HIVRECORD
+RecordTypeValue=''
+RecordLen=36
+
+[Item]
+Label=Sex of household member
+Name=HIVSEX
+Start=7
+Len=1
+
+[ValueSet]
+Label=Sex of household member
+Name=HIVSEX_VS1
+Value=1;Male
+Value=2;Female
+
+[Item]
+Label=Age of household members
+Name=HIVAGE
+Start=8
+Len=2
+
+[ValueSet]
+Label=Age of household members
+Name=HIVAGE_VS1
+Value=15:59
+
+[Item]
+Label=Age 15-17, 18+
+Name=HIVAGE18
+Start=10
+Len=1
+
+[ValueSet]
+Label=Age 15-17, 18+
+Name=HIVAGE18_VS1
+Value=1;15-17
+Value=2;18+
+
+[Item]
+Label=Line number of parent/responsible
+Name=HIVLINEP
+Start=11
+Len=2
+
+[ValueSet]
+Label=Line number of parent/responsible
+Name=HIVLINEP_VS1
+Value=0:50
+Value=99;Missing
+Name=MISSING,Special
+Value='  ';NotAppl
+Name=NOTAPPL,Special
+
+[Item]
+Label=Pregnancy
+Name=HIVPREG
+Start=13
+Len=1
+
+[ValueSet]
+Label=Pregnancy
+Name=HIVPREG_VS1
+Value=1;Yes
+Value=2;No
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+Value=' ';NotAppl
+Name=NOTAPPL,Special
+
+[Item]
+Label=Consent statement from respondent/parent/caretaker
+Name=HIVCONS
+Start=14
+Len=1
+
+[ValueSet]
+Label=Consent statement from respondent/parent/caretaker
+Name=HIVCONS_VS1
+Value=1;Granted
+Value=2;Parent/other responsible adult resfused
+Value=3;Respondent refused
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sample result
+Name=HIVRES
+Start=15
+Len=1
+
+[ValueSet]
+Label=Sample result
+Name=HIVRES_VS1
+Value=1;Blood taken
+Value=2;Not present
+Value=3;Refused
+Value=6;Other
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Region
+Name=HIVREG
+Start=16
+Len=1
+
+[ValueSet]
+Label=Region
+Name=HIVREG_VS1
+Value=1;Region 1
+Value=2;Region 2
+Value=3;Region 3
+Value=4;Region 4
+Value=5;Region 5
+
+[Item]
+Label=Urban/rural
+Name=HIVTYPE
+Start=17
+Len=1
+
+[ValueSet]
+Label=Urban/rural
+Name=HIVTYPE_VS1
+Value=1;Urban
+Value=2;Rural
+
+[Item]
+Label=Slept last night
+Name=HIVFACTO
+Start=18
+Len=1
+
+[ValueSet]
+Label=Slept last night
+Name=HIVFACTO_VS1
+Value=1;Yes
+Value=2;No
+Value=9;Missing
+Name=MISSING,Special
+Value=' ';NotAppl
+Name=NOTAPPL,Special
+
+[Item]
+Label=Level of education attending
+Name=HIVEDUC
+Start=19
+Len=1
+
+[ValueSet]
+Label=Level of education attending
+Name=HIVEDUC_VS1
+Value=0;No education
+Value=1;Primary
+Value=2;Secondary
+Value=3;Higher
+Value=8;DK
+Value=9;Missing
+Name=MISSING,Special
+Value=' ';NotAppl
+Name=NOTAPPL,Special
+
+[Item]
+Label=Sample bar code
+Name=HIVBARC
+Start=22
+Len=5
+DataType=Alpha
+
+[Item]
+Label=Result of individual interview
+Name=HIVINDR
+Start=27
+Len=1
+
+[ValueSet]
+Label=Result of individual interview
+Name=HIVINDR_VS1
+Value=1;Completed
+Value=2;Not at home
+Value=3;Postponed
+Value=4;Refused
+Value=5;Partly completed
+Value=6;Incapacitated
+Value=7;Other
+Value=9;Missing
+Name=MISSING,Special
+Value=' ';NotAppl
+Name=NOTAPPL,Special
+
+[Item]
+Label=HIV weight
+Name=HIVWEIGH
+Start=28
+Len=8
+
+[Item]
+Label=HIV test result
+Name=HIVTESTR
+Start=36
+Len=1
+
+[ValueSet]
+Label=HIV test result
+Name=HIVTESTR_VS1
+Value=0;HIV negative
+Value=1;HIV  positive
+Value=2;HIV2 positive
+Value=3;HIV1 & HIV2 positive
+Value=4;ERROR : V-, W+, M+
+Value=5;ERROR : V-, W+, M-
+Value=6;ERROR : V-, W-, M+
+Value=7;Indeterminant
+Value=9;No records in the lab
+Value=' '
+Name=NOTAPPL,Special

@@ -1,0 +1,64 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+db01 columns numpers = 1 nodec;
+db01 footnote
+{+EN}
+@1 If a person was reported to have difficulty in more than one domain,
+ only the highest level of difficulty is shown.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Si une personne a été déclarée à avoir des difficultés dans plus d'un domaine, 
+   seul le niveau de difficulté le plus élevé est présenté dans ce tableau.
+{FR}}
+endfootnote;
+  
+db021 columns numpers = 1 nodec;
+db021 footnote
+{+EN}
+@1 If a person was reported to have difficulty in more than one domain,
+ only the highest level of difficulty is shown.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Si une personne a été déclarée à avoir des difficultés dans plus d'un domaine,
+   seul le niveau de difficulté le plus élevé est présenté dans ce tableau.
+{FR}}
+endfootnote;
+
+db022 columns numpers = 1 nodec;
+db022 footnote
+{+EN}
+@1 If a person was reported to have difficulty in more than one domain,
+ only the highest level of difficulty is shown.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Si une personne a été déclarée à avoir des difficultés dans plus d'un domaine,
+   seul le niveau de difficulté le plus élevé est présenté dans ce tableau.
+{FR}}
+endfootnote;
+

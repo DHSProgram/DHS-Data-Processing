@@ -1,0 +1,2290 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines July 7, 2021         -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                          +}
+{+   CHAPTER 3.  WOMEN'S CHARACTERISTICS AND STATUS                         +}
+{+                                                                          +}
+{+   3.1    Background characteristics of respondents             (MALARIA) +}
+{+   3.2.1  Educational attainment: women                         (MALARIA) +}
+{+   3.2.2  Educational attainment: men                                     +}
+{+   3.3.1  Literacy: women                                       (MALARIA) +}
+{+   3.3.2  Literacy: men                                                   +}
+{+   3.4.1  Exposure to mass media: women                         (MALARIA) +}
+{+   3.4.2  Exposure to mass media: men                                     +}
+{+   3.5.1  Internet usage: Women                                 (MALARIA) +}
+{+   3.5.2  Internet usage: Men                                             +}
+{+   3.6.1  Employment status: women                                        +}
+{+   3.6.2  Employment status: men                                          +}
+{+   3.7.1  Occupation: women                                               +}
+{+   3.7.2  Occupation: men                                                 +}
+{+   3.8    Type of employment                                              +}
+{+   3.9.1  Health insurance coverage: women                                +}
+{+   3.9.2  Health insurance coverage: men                                  +}
+{+   3.10w  Average number of cigarettes smoked daily: women (WORKING)      +}
+{+   3.10.1 Use of tobacco: women                                           +}
+{+   3.10.2 Use of tobacco: men                                             +}
+{+   3.11   Average number of cigarettes smoked daily: Men                  +}
+{+   3.12   Smokeless tobacco use                                           +}
+{+   3.13   Any tobacco use by background characteristics                   +}
+{+   3.14.1 Alcohol consumption: Women                                      +}
+{+   3.14.2 Alcohol consumption: Men                                        +}
+{+   3.15.1 Usual number of alcoholic drinks consumed: Women                +}
+{+   3.15.2 Usual number of alcoholic drinks consumed: Men                  +}
+{+   3.16.1 Residence at birth and recent migration: Women                  +}
+{+   3.16.2 Residence at birth and recent migration: Men                    +}
+{+   3.17  Type of migration                                                +}
+{+   3.18.1 Reason for migration: Women                                     +}
+{+   3.18.2 Reason for migration: Men                                       +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, imin, imax, itot, itot1, itot2;
+  numeric j, jmax, jmin, jtot, jtot1, jtot2, jmax1, jmax2;
+  numeric rweight, maxeduc, jmed, jpct, imax1, imax2, media;
+  numeric insuran, x, k;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 3, [Country Survey Year]" );
+{EN+}
+{{ES}
+    title( "Cuadros para el Capítulo 3, [País Encuesta Año]" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 3, [Pays, Enquête, Année]" );
+{FR}}
+
+  crosstab float(1) t301  v013w1+v176w+v130w+v131w+v501w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen
+                         isex*allindiv
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.11 }
+{+EN}
+    title( "Table 3.1  Background characteristics of respondents"," ",
+           "Percent distribution of women and men age 15-49 by selected background",
+           "characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.1  Características de las personas entrevistadas"," ",
+           "Distribución porcentual de las mujeres y de los hombres de 15-49 años",
+           "por características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.1  Caractéristiques sociodémographiques des enquêtés"," ",
+           "Répartition (en %) des femmes et des hommes enquêtés de 15-49 ans",
+           "par certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+
+  crosstab float(1) t3021 v013w0+v102w+v101w+v190w+total v149w+totnmed2
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.12 }
+{+EN}
+    title( "Table 3.2.1  Educational attainment: Women"," ",
+           "Percent distribution of women age 15-49 by highest level of schooling",
+           "attended or completed, and median years completed, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.2.1  Educación alcanzada: Mujeres"," ",
+           "Distribución porcentual de las mujeres de 15-49 años por nivel educativo más",
+           "alto asistido o alcanzado y mediana del número de años completados,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.2.1  Niveau d'instruction: Femme"," ",
+           "Répartition (en %) des femmes de 15-49 ans en fonction du plus haut niveau",
+           "d'instruction atteint ou achevé et nombre médian d'années d'instruction achevées,",
+           "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(1) t3021w v013w0+v102w+v101w+v190w+total educmed
+    exclude(rowzero,colzero,percents,totals,specval);
+  crosstab float(0) t3021u v013w0+v102w+v101w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.2.1  Educational attainment: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3022 v013w0+v102w+v101w+v190w+tot1549+men5059+totmen v149w+totnmed4
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.2.2  Educational attainment: Men"," ",
+           "Percent distribution of men age 15-49 by highest level of schooling",
+           "attended or completed, and median years completed, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.2.2  Educación alcanzada: Hombres"," ",
+           "Distribución porcentual de los hombres de 15-49 años por nivel educativo más",
+           "alto asistido o alcanzado y mediana del número de años completados,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.2.2  Niveau d'instruction: Homme"," ",
+           "Répartition (en %) des hommes de 15-49 ans en fonction du plus haut niveau",
+           "d'instruction atteint ou achevé et nombre médian d'années d'instruction achevées,",
+           "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(1) t3022w v013w0+v102w+v101w+v190w+tot1549+men5059+totmen educmed
+    exclude(rowzero,colzero,percents,totals,specval);
+  crosstab float(0) t3022u v013w0+v102w+v101w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.2.2  Educational attainment: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3031 v013w0+v102w+v101w+v190w+total second+v155w+totnump1
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.13 }
+{+EN}
+    title( "Table 3.3.1  Literacy: Women"," ",
+           "Percent distribution of women age 15-49 by level of schooling attended",
+           "and level of literacy, and percentage literate, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.3.1  Alfabetismo: Mujeres"," ",
+           "Distribución porcentual de las mujeres de 15-49 años por nivel educativo",
+           "alcanzado y por nivel de alfabetismo; y porcentaje de alfabetismo",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.3.1  Alphabétisation : Femme"," ",
+           "Répartition (en %) des femmes de 15-49 ans par niveau d'instruction atteint",
+           "et niveau d'alphabétisation et pourcentage de femmes alphabétisées",
+           "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3031u v013w0+v102w+v101w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.3.1  Literacy: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3032 v013w0+v102w+v101w+v190w+tot1549+men5059+totmen second+v155w+totnump2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.3.2  Literacy: Men"," ",
+           "Percent distribution of men age 15-49 by level of schooling attended",
+           "and level of literacy, and percentage literate, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.3.2  Alfabetismo: Hombres"," ",
+           "Distribución porcentual de los hombres de 15-49 años por nivel educativo",
+           "alcanzado y por nivel de alfabetismo; y porcentaje de alfabetismo",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.3.2  Alphabétisation : Homme"," ",
+           "Répartition (en %) des hommes de 15-49 ans par niveau d'instruction atteint",
+           "et niveau d'alphabétisation et pourcentage d'hommes alphabétisés",
+           "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3032u v013w0+v102w+v101w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.3.2  Literacy: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3041  v013w1+v102w+v101w+v106w+v190w+total mediaa
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.14 }
+{+EN}
+    title( "Table 3.4.1  Exposure to mass media: Women"," ",
+           "Percentage of women age 15-49 who are exposed to specific media on a weekly basis,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.4.1  Exposición a medios de comunicación: Mujeres"," ",
+           "Porcentaje de mujeres de 15-49 años que están expuestas a medios de comunicación específicos",
+           "sobre una base semanal, por características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.4.1  Exposition aux médias : Femme"," ",
+           "Pourcentage de femmes de 15-49 ans qui sont exposées à certains médias, au moins,",
+		   "une fois par semaine, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3041u  v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.4.1  Exposure to mass media: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3042  v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen mediab
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.4.2  Exposure to mass media: Men"," ",
+           "Percentage of men age 15-49 who are exposed to specific media on a weekly basis,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.4.2  Exposición a medios de comunicación: Hombres"," ",
+           "Porcentaje de hombres de 15-49 años que están expuestos a medios de comunicación específicos",
+           "sobre una base semanal, por características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.4.2  Exposition aux médias : Homme"," ",
+           "Pourcentage d'hommes de 15-49 ans qui sont exposés à certains",
+           "médias, au moins, une fois par semaine,",
+           "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3042u  v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.4.2  Exposure to mass media: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3051  v013w1+v102w+v101w+v106w+v190w+total interna+internb
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.15 }
+{+EN}
+    title( "Table 3.5.1  Internet usage: Women"," ",
+           "Percentage of women age 15-49 who have ever used the Internet, and percentage",
+           "who have used the Internet in the last 12 months; and among women who have used",
+           "the Internet in the last 12 months, percent distribution by frequency of Internet",
+           "use in the last month, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 3.5.1  Utilisation d'Internet : Femme"," ",
+           "Pourcentage de femmes de 15-49 ans qui ont déjà utilisé Internet et pourcentage qui ont utilisé Internet au cours des 12 derniers mois ;",
+		   "parmi les femmes ayant utilisé Internet au cours des 12 derniers mois, répartition (en %) par fréquence d'utilisation d'Internet au cours du mois dernier,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3051u  v013w1+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.5.1  Internet usage: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3052  v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen interna+internb
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.5.2  Internet usage: Men"," ",
+           "Percentage of men age 15-49 who have ever used the Internet ever, and percentage",
+           "who have used the Internet in the last 12 months; and among men who have used",
+           "the Internet in the last 12 months, percent distribution by frequency of Internet",
+           "use in the last month, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 3.5.2  Utilisation d'Internet : Homme"," ",
+           "Pourcentage d'hommes de 15-49 ans qui ont déjà utilisé Internet et pourcentage qui ont utilisé Internet au cours des 12 derniers mois ;",
+		   "parmi les hommes ayant utilisé Internet au cours des 12 derniers mois, répartition (en %) par fréquence d'utilisation d'Internet au cours du mois dernier,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3052u  v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.5.2  Internet usage: men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3061 v013w1+v501w2+v218w+v102w+v101w+v106w+v190w+total
+                       v731w1+v731w2+totnum2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.6.1  Employment status: Women"," ",
+           "Percent distribution of women age 15-49 by employment status, according",
+           "to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.6.1  Condición laboral: Mujeres"," ",
+           "Distribución porcentual de las mujeres de 15-49 años por condición laboral,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.6.1  Emploi : Femme"," ",
+           "Répartition (en %) des femmes de 15-49 ans en fonction du fait",
+           "qu'elles travaillent ou non, selon certaines caractéristiques",
+           "sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3061u v013w1+v501w2+v218w+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.6.1  Employment status: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3062 v013w1+v501w2+v218w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen
+                       v731w1+v731w2+totnum5
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.6.2  Employment status: Men"," ",
+           "Percent distribution of men age 15-49 by employment status, according",
+           "to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.6.2  Condición laboral: Hombres"," ",
+           "Distribución porcentual de los hombres de 15-49 años por condición laboral,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.6.2  Emploi : Homme"," ",
+           "Répartition (en %) des hommes de 15-49 ans en fonction du fait",
+           "qu'ils travaillent ou non, selon certaines caractéristiques",
+		   "sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3062u v013w1+v501w2+v218w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.6.2  Employment status: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3071 v013w1+v501w2+v218w+v102w+v101w+v106w+v190w+total v717w+totnum2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.7.1  Occupation: Women"," ",
+           "Percent distribution of women age 15-49 employed in the 12 months",
+           "preceding the survey by occupation, according to background",
+           "characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.7.1  Ocupación: Mujeres"," ",
+           "Distribución porcentual de las mujeres de 15-49 años que trabajaron en los",
+           "12 meses anteriores a la encuesta por ocupación,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.7.1  Occupation : Femme"," ",
+           "Répartition (en %) des femmes de 15-49 ans qui travaillaient au cours des 12",
+           "mois ayant précédé l'enquête par type d'occupation, selon certaines caractéristiques",
+           "sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3071u v013w1+v501w2+v218w+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.7.1  Occupation: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3072 v013w1+v501w2+v218w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen  v717w+totnum5
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.7.2  Occupation: Men"," ",
+           "Percent distribution of men age 15-49 employed in the 12 months",
+           "preceding the survey by occupation, according to background",
+           "characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.7.2  Ocupación: Hombres"," ",
+           "Distribución porcentual de los hombres de 15-49 años que trabajaron en los",
+           "12 meses anteriores a la encuesta por ocupación,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.7.2  Occupation : Homme"," ",
+           "Répartition (en %) des hommes de 15-49 ans qui travaillaient au cours des 12",
+           "mois ayant précédé l'enquête par type d'occupation, selon certaines caractéristiques",
+           "sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3072u v013w1+v501w2+v218w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen  total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.7.2  Occupation: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t308  v741w+totalt+v719w+totalt+v732w+totnum4 v717w1+total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.8  Type of employment: Women"," ",
+           "Percent distribution of women age 15-49 employed in the 12 months",
+           "preceding the survey by type of earnings, type of employer,",
+           "and continuity of employment, according to type of employment",
+           "(agricultural or nonagricultural), [Country Survey Year]" )
+     stub( "Employment characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.8  Tipo de empleo: Mujeres"," ",
+           "Distribución porcentual de las mujeres de 15-49 años que trabajaron durante los",
+           "12 meses anteriores a la encuesta por tipo de remuneración,",
+           "tipo de empleador y continuidad en el trabajo, según tipo de empleo",
+           "(agrícola o no agrícola), [País Encuesta Año]" )
+     stub( "Característica del trabajo" );
+{ES}}
+{{FR}
+    title( "Tableau 3.8  Type d'emploi : Femme"," ",
+           "Répartition (en %) des femmes de 15-49 ans qui travaillaient au cours des 12",
+           "mois ayant précédé l'enquête en fonction du type de rémunération, du type",
+		   "d'employeur et de la régularité de l'emploi, selon le secteur d'activité",
+		   "(agricole ou non-agricole), [Pays, Enquête, Année]" )
+     stub( "Caractéristique de l'emploi" );
+{FR}}
+  crosstab float(0) t308u  total v717w1+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.8  Type of employment: Women (Number of un-weighted cases)" )
+     stub( "Employment characteristic" );
+
+  crosstab float(1) t3091 v013w1+v102w+v101w+v106w+v190w+total hlthins+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.9.1  Health insurance coverage: Women","",
+           "Percentage of women age 15-49 with specific types of health",
+           "insurance coverage, and percentage with any health insurance,",
+           "according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.9.1  Cobertura de seguro de salud: Mujeres"," ",
+           "Porcentaje de mujeres de 15-49 años que están afiliadas a tipos específicos de",
+           "seguros de salud, y porcentaje con cualquier seguro de salud,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.9.1  Couverture médicale : Femme","",
+           "Pourcentage de femmes de 15-49 ans ayant certains types spécifiques d'assurance",
+           "médicale et pourcentage ayant n'importe quel type d'assurance médicale, selon",
+		   "certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3091u v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.9.1  Health insurance coverage: Women (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t3092 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen hlthins+numman
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.9.2  Health insurance coverage: Men","",
+           "Percentage of men age 15-49 with specific types of health",
+           "insurance coverage,  and percentage with any health insurance,",
+           "according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.9.2  Cobertura de seguro de salud: Hombres"," ",
+           "Porcentaje de hombres de 15-49 años que están afiliados a tipos específicos de",
+           "seguros de salud,  y porcentaje con cualquier seguro de salud,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.9.2  Couverture médicale : Homme","",
+           "Pourcentage d'hommes de 15-49 ans ayant certains types spécifiques d'assurance",
+		   "médicale et pourcentage ayant n'importe quel type d'assurance médicale, selon",
+		   "certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3092u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.9.2  Health insurance coverage: Men (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t310w total v464w+totnum8
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Average number of cigarettes smoked daily: women (WORKING TABLE ONLY )","",
+           "Among women age 15-49 who smoke cigarettes daily, percent distribution by",
+           "average number of cigarettes smoked per day, [Country Survey Year]" )
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Nombre moyen de cigarettes fumées par jour : Femme (TABLEAU DE TRAVAIL SEULEMENT)","",
+           "Parmi les femmes de 15-49 ans qui fument des cigarettes tous les jours",
+           "répartition (en %) par nombre moyen de cigarettes fumées par jour, [Pays, Enquête, Année]" )
+    stub ( "" )
+{FR}}
+
+  crosstab float(1) t3101 v013w1+v102w+v101w+v106w+v190w+total tobacco+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.10.1  Tobacco smoking: Women","",
+           "Percentage of women age 15-49 who smoke various",
+           "tobacco products, according to background characteristics and",
+           "maternity status, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 3.10.1  Uso de tabaco: Mujeres"," ",
+           "Porcentaje de mujeres de 15-49 años que fuman varios tipos ",
+           "tabaco, según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.10.1  Consommation de tabac à fumer : Femme","",
+           "Pourcentage de femmes de 15-49 ans qui fument du tabac sous",
+           "differentes formes, selon certaines caractéristiques",
+           "sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3101u v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.10.1  Tobacco smoking: Women (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t3102 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen tobacco+v463aw+totnum5
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.10.2  Tobacco smoking: Men","",
+           "Percentage of men age 15-49 who smoke various tobacco products, and  percent",
+           "distribution of men by smoking frequency, according to",
+           "background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 3.10.2  Consommation de tabac à fumer : Homme","",
+           "Pourcentage d'hommes de 15-49 ans qui fument du tabac sous différentes formes"
+
+		   "et répartition (en %) des hommes en fonction de la fréquence de consommation de",
+		   "tabac, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3102u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.10.2  Tobacco smoking: Men (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t311 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen v464w+totnum8
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.11  Average number of cigarettes smoked daily: Men","",
+           "Among men age 15-49 who smoke cigarettes daily, percent distribution by average",
+           "number of cigarettes smoked per day, according to background characteristics,",
+           "[Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Table 3.11  Nombre moyen de cigarettes fumées par jour : Homme","",
+           "Parmi les hommes de 15-49 ans qui fument des cigarettes tous les jours, répartition (en %) par nombre moyen de cigarettes fumées par jour,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t311u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.11  Average number of cigarettes smoked daily: Men (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t312 tobprod+tnumber isex
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.12  Smokeless tobacco use and any tobacco use","",
+           "Percentage of women and men age 15-49 who currently use smokeless tobacco, according to type",
+           "of tobacco product, and percentage who use any type of tobacco, [Country Survey Year]" )
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 3.12  Consommation de tabac non fumé et de tabac sous n'importe quelle forme","",
+           "Pourcentage de femmes et d'hommes de 15-49 ans qui consomment actuellement du tabac non fumé,",
+		   "par type de tabac et pourcentage qui consomme du tabac sous n'importe quelle forme,",
+		   "[Pays, Enquête, Année]" )
+    stub ( "Type de tabac" );
+{FR}}
+
+  crosstab float(1) t313 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex*tobacpct
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.13  Any tobacco use according to background characteristics","",
+           "Percentage of women and men age 15-49 who are currently using any type of tobacco,",
+		   "according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 3.13  Consommation de tabac sous n'importe quelle forme, selon certaines caractéristiques sociodémographiques"," ",
+	       "Pourcentage de femmes et d'hommes de 15-49 ans qui consomment actuellement",
+	       "n'importe quel type de tabac, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]")
+    stub ( "Caractéristique sociodémographique ");
+{FR}}
+  crosstab float(0) t313u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.13  Any tobacco use according to background characteristics (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t3141 v013w1+v102w+v101w+v106w+v190w+total alcohol1+alcohol2+alcoholw
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.14.1 Alcohol consumption: Women"," ",
+           "Percentage of women age 15-49 who have consumed any alcohol in the last 1 month;",
+		   "and among women who have consumed any alcohol in the last 1 month, percent distribution",
+		   "by frequency of drinking (number of days alcohol was consumed),",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 3.14.1  Consommation d'alcool : Femme"," ",
+           "Pourcentage de femmes de 15-49 ans qui ont consommé",
+           "de l'alcool au cours du mois dernier; et parmi les femmes",
+           "ayant consommé de l'alcool au cours du mois dernier,",
+		   "répartition (en %) par fréquence de consommation",
+		   "de l'alcool (nombre de jours où de l'alcool a été consommé),",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Cractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3141u v013w1+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.14.1 Alcohol consumption: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3142 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen alcohol3+alcohol4+alcoholm
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.14.2 Alcohol consumption: Men"," ",
+           "Percentage of men age 15-49 who have consumed any alcohol in the last 1 month;",
+		   "and among men who have consumed any alcohol in the last 1 month, percent distribution",
+		   "by frequency of drinking (number of days alcohol was consumed),",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 3.14.2  Consommation d'alcool : Homme"," ",
+           "Pourcentage d'hommes de 15-49 ans qui ont consommé de l'alcool",
+           "au cours du mois dernier; et parmi les hommes ayant consommé de","
+           "l'alcool au cours du mois dernier, répartition (en %) par",
+           "fréquence de consommation de l'alcool (nombre de jours où de",
+           "l'alcool a été consommé), selon certaines",
+           "caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Cractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3142u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.14.2 Alcohol consumption: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3151 v013w1+alcohol5+v102w+v101w+v106w+v190w+total alcohol6+alcoholw
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.15.1 Usual number of alcoholic drinks consumed: Women"," ",
+           "Among women age 15-49 who have consumed any alcohol in the last 1 month, percent",
+		   "distribution of usual number of drinks consumed on days when alcohol was consumed,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 3.15.1  Nombre habituel de verres d'alcool consommés : Femme"," ",
+           "Parmi les femmes de 15-49 ans qui ont consommé de l'alcool au cours du",
+           "mois dernier, répartition (en %) du nombre habituel de verres consommés",
+           "les jours où de l'alcool a été consommé, selon certaines caractéristiques",
+           "sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3151u v013w1+alcohol5+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.15.1 Usual number of alcoholic drinks consumed: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3152 v013w1+alcohol5+v102w+v101w+v106w+v190w+tot1549+men5059+totmen alcohol6+alcoholm
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.15.2 Usual number of alcoholic drinks consumed: Men"," ",
+           "Among men age 15-49 who have consumed any alcohol in the last 1 month, percent",
+		   "distribution of usual number of drinks consumed on days when alcohol was consumed,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 3.15.2  Nombre habituel de verres d'alcool consommés : Homme"," ",
+           "Parmi les hommes de 15-49 ans qui ont consommé de l'alcool au cours du mois dernier,",
+           "répartition (en %) du nombre habituel de verres consommés",
+           "les jours où de l'alcool a été consommé, selon certaines caractéristiques",
+		   "sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3152u v013w1+alcohol5+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.15.2 Usual number of alcoholic drinks consumed: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3161 v013w1+v102w+v101w+{v106w+}v190w+total plcbirt1+numwom+plcbirt2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.16.1 Place of birth and recent migration: Women"," ",
+           "Percent distribution of women age 15-49 who have always lived in their current place of residence,",
+		   "who were born in [COUNTRY] but outside of current place of residence, and who were born in",
+		   "another country, and among women who were born outside of current place of residence,",
+		   "percentage who moved to current place of residence in the last 5 years,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 3.16.1  Lieu de naissance et migration récente : Femme"," ",
+           "Répartition (en %) des femmes de 15-49 ans qui ont toujours vécu dans leur lieu de résidence actuel,",
+		   "de celles qui sont nées dans [PAYS] mais hors de leur lieu de résidence actuel, et de celles qui sont nées dans un autre pays,",
+		   "et parmi les femmes qui sont nées hors de leur lieu de résidence actuel, pourcentage qui ont emménagé dans leur lieu de résidence actuel au cours des 5 dernières années,",
+		   "selon certaines caractéristiques sociodémographiques [Pays, Enquête, Année ]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3161u v013w1+v102w+v101w+{v106w+}v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.16.1 Place of birth and recent migration: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3162 v013w1+v102w+v101w+{v106w+}v190w+tot1549+men5059+totmen plcbirt1+numman+plcbirt3
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.16.2 Place of birth and recent migration: Men"," ",
+           "Percent distribution of men age 15-49 who have always lived in their current place of residence,",
+		   "who were born in [COUNTRY] but outside of current place of residence, and who were born in",
+		   "another country, and among men who were born outside of current place of residence,",
+		   "percentage who moved to current place of residence in the last 5 years,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 3.16.2  Lieu de naissance et migration récente : Homme"," ",
+           "Répartition (en %) des hommes de 15-49 ans qui ont toujours vécu dans leur lieu de résidence actuel,",
+		   "de ceux qui sont nés dans [PAYS] mais hors de leur lieu actuel de résidence, et de ceux qui sont nés dans un autre pays,",
+		   "et parmi les hommes qui sont nés hors de leur lieu de résidence actuel, pourcentage qui ont emménagé dans leur lieu actuel de résidence au cours des 5 dernières années,",
+		   "selon certaines caractéristiques sociodémographiques [Pays, Enquête, Année ]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3162u v013w1+v102w+v101w+{v106w+}v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.16.2 Place of birth and recent migration: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t317 v013w+tot1549+men5059+totmen migtype+numresp wom1549+man1549
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.17  Type of migration"," ",
+           "Percent distribution of women and men age 15-49 who have moved to their current place of",
+		   "residence in the last 5 years by type of migration, according to age,",
+		   "[Country Survey Year]" )
+     stub( "Age" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 3.17  Type de migration"," ",
+	       "Répartition (en %) des femmes et des hommes de 15-49 ans qui ont emménagé dans leur",
+	       "lieu de résidence actuelle au cours des 5 dernières années par type de migration,",
+		   "selon l'âge [Pays, Enquête, Année]" )
+     stub( "Âge" );
+{FR}}
+  crosstab float(0) t317u v013w+tot1549+men5059+totmen total wom1549+man1549
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.17  Type of migration (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3181 v013w1+v104w+migtype1+v102w+v101w+v190w+total v175w+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.18.1 Reason for migration: Women"," ",
+           "Percent distribution of women age 15-49 who have moved to their current",
+		   "place of residence by the reason for migration,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 3.18.1  Raison de la migration : Femme"," ",
+           "Répartition (en %) des femmes de 15-49 ans qui ont emménagé dans leur lieu de",
+		   "résidence actuelle par raison de la migration, selon certaines caractéristiques",
+		   "sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3181u v013w1+v104w+migtype1+v102w+v101w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.18.1 Reason for migration: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t3182 v013w1+v104w+migtype1+v102w+v101w+v190w+tot1549+men5059+totmen v175w+numman
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3.18.2 Reason for migration: Men"," ",
+           "Percent distribution of men age 15-49 who have moved to their current",
+		   "place of residence by the reason for migration,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 3.18.2  Raison de la migration : Homme"," ",
+           "Répartition (en %) des hommes de 15-49 ans qui ont emménagé dans leur lieu de",
+		   "résidence actuelle par raison de la migration, selon certaines caractéristiques",
+		   "sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t3182u v013w1+v104w+migtype1+v102w+v101w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 3.18.2 Reason for migration: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  { to define if a type of tobacco was used }
+  function tobaccouse( xvar )
+    numeric numsmoke = 0;
+    if xvar in 1:888 then
+      numsmoke = xvar;
+    endif;
+    tobaccouse = numsmoke;
+  end;
+
+  { number of cigarretes smoked daily }
+  function cigaretdaily( xvar )
+    numeric numsmoke = 0;
+    if xvar in 1:800 then
+      numsmoke = xvar;
+    endif;
+    cigaretdaily = numsmoke;
+  end;
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+  totalt   = 0;
+  totnum2  = 1;
+  totnum4  = 1;
+  totnum5  = 1;
+  totnum8  = 1;
+  numwom   = 1;
+  numman   = 1;
+  wom1549  = 1;
+  man1549  = 1;
+  totnump1 = 2;
+  totnump2 = 2;
+  totnmed2 = 2;
+  totnmed4 = 2;
+  maxeduc  = 15;
+  numresp  = 1;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 3.1 processing }
+  itot1 = tblrow( t301, tot1549 );
+  jmax1 = tblcol( t301, isex = 1 allindiv = 1 );
+  jmax2 = tblcol( t301, isex = 2 allindiv = 1 );
+  do i = 0 while i <= itot1
+    t301[i,jmax1] = t301[i,jmax1+1] * 100 / t301[itot1,jmax1+1];
+    t301[i,jmax2] = t301[i,jmax2+1] * 100 / t301[itot1,jmax2+1];
+  enddo;
+  { assign defaults/NA }
+  itot = tblrow( t301 );
+  t301[itot,  0:jmax2] = NAcells;  { for row total 15-54[59] }
+  t301[itot-1,0:jmax2] = NAcells;  { for row 50-54[59]       }
+
+  { Table 3.2.1  processing }
+  { add up age 15-24 }
+  t3021[0,*]  = t3021[1,*]  + t3021[2,*];
+  t3021w[0,*] = t3021w[1,*] + t3021w[2,*];
+  t3021u[0,*] = t3021u[1,*] + t3021u[2,*];
+  jtot = tblcol( t3021 );
+  jmax = jtot - 3;
+  do j = 0 while j <= jmax
+    t3021 [*,j] = t3021 [*,j] * 100 / t3021 [*,jtot];
+  enddo;
+  t3021 [*,jmax+1] = tblsum( column t3021 [*,0:jmax] );
+  { calculates median }
+  jmed = tblcol( t3021, totnmed2 = 1 );
+  t3021[*,jmed] = tblmed( discrete column t3021w[*,0:maxeduc] intervals(highest default) );
+  { check unweighted N's }
+  t3021u[0,*]  = t3021u[1,*]  + t3021u[2,*];
+  Col2Dim( "t3021", t3021, 0,    jmax, t3021u, 0 );      { percent distribution }
+  Col2Dim( "t3021", t3021, jmed, jmed, t3021u, 1 );      { median }
+
+  { Table 3.2.2  processing }
+  { add up age 15-24 }
+  t3022[0,*]  = t3022[1,*]  + t3022[2,*];
+  t3022w[0,*] = t3022w[1,*] + t3022w[2,*];
+  t3022u[0,*] = t3022u[1,*] + t3022u[2,*];
+  jtot = tblcol( t3022 );
+  jmax = jtot - 3;
+  do j = 0 while j <= jmax
+    t3022 [*,j] = t3022 [*,j] * 100 / t3022 [*,jtot];
+  enddo;
+  t3022 [*,jmax+1] = tblsum( column t3022 [*,0:jmax] );
+  { calculates median }
+  jmed = tblcol( t3022, totnmed4 = 1 );
+  t3022[*,jmed] = tblmed( discrete column t3022w[*,0:maxeduc] intervals(highest default) );
+  { check unweighted N's }
+  t3022u[0,*]  = t3022u[1,*]  + t3022u[2,*];
+  Col2Dim( "t3022", t3022, 0,    jmax, t3022u, 0 );      { percent distribution }
+  Col2Dim( "t3022", t3022, jmed, jmed, t3022u, 1 );      { median }
+
+  { Table 3.3.1 processing }
+  { add up age 15-24 }
+  t3031[0,*]   = t3031[1,*]   + t3031[2,*];
+  t3031u[0,*]  = t3031u[1,*]  + t3031u[2,*];
+  jtot = tblcol( t3031 );
+  jmax = jtot - 3;
+  do j = 0 while j <= jmax
+    t3031[*,j] = t3031[*,j] * 100 / t3031[*,jtot];
+  enddo;
+  t3031[*,jmax+1] = tblsum( column t3031[*,0:jmax] );
+  { pct literate = higher than secondary + read whole sentence + read part of a sentence }
+  jpct = tblcol( t3031, totnump1 = 1 );
+  t3031[*,jpct] = t3031[*,0] + t3031[*,1] + t3031[*,2];
+  { check unweighted N's }
+  Col2Dim( "t3031", t3031, 0,      jtot-3, t3031u, 0 );  { percent distribution }
+  Col2Dim( "t3031", t3031, jtot-1, jtot-1, t3031u, 0 );  { percentage literate }
+
+  { Table 3.3.2 processing }
+  { add up age 15-24 }
+  t3032[0,*]   = t3032[1,*]   + t3032[2,*];
+  t3032u[0,*]  = t3032u[1,*]  + t3032u[2,*];
+  jtot = tblcol( t3032 );
+  jmax = jtot - 3;
+  do j = 0 while j <= jmax
+    t3032[*,j] = t3032[*,j] * 100 / t3032[*,jtot];
+  enddo;
+  t3032[*,jmax+1] = tblsum( column t3032[*,0:jmax] );
+  { pct literate = higher than secondary + read whole sentence + read part of a sentence }
+  jpct = tblcol( t3032, totnump2 = 1 );
+  t3032[*,jpct] = t3032[*,0] + t3032[*,1] + t3032[*,2];
+  { check unweighted N's }
+  Col2Dim( "t3032", t3032, 0,      jtot-3, t3032u, 0 );  { percent distribution }
+  Col2Dim( "t3032", t3032, jtot-1, jtot-1, t3032u, 0 );  { percentage literate }
+
+  { Table 3.4.1 processing }
+  jtot = tblcol( t3041 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t3041[*,j] = t3041[*,j] * 100 / t3041[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t3041", t3041, 0, jtot-1, t3041u, 0 );
+
+  { Table 3.4.2 processing }
+  jtot = tblcol( t3042 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t3042[*,j] = t3042[*,j] * 100 / t3042[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t3042", t3042, 0, jtot-1, t3042u, 0 );
+
+  { Table 3.5.1 processing }
+  jtot1 = tblcol( t3051, interna );
+  jmax = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t3051[*,j] = t3051[*,j] * 100 / t3051[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t3051, internb );
+  jmax = jtot2 - 2;
+  do j = jtot1 + 1 while j <= jmax
+    t3051[*,j] = t3051[*,j] * 100 / t3051[*,jtot2];
+  enddo;
+  t3051[*,jmax+1] = tblsUm( column t3051[*,jtot1+1:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3051", t3051,       0, jtot1-1, t3051u, 0 );
+  Col2Dim( "t3051", t3051, jtot1+1, jtot2-2, t3051u, 1 );
+
+  { Table 3.5.2 processing }
+  jtot1 = tblcol( t3052, interna );
+  jmax = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t3052[*,j] = t3052[*,j] * 100 / t3052[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t3052, internb );
+  jmax = jtot2 - 2;
+  do j = jtot1 + 1 while j <= jmax
+    t3052[*,j] = t3052[*,j] * 100 / t3052[*,jtot2];
+  enddo;
+  t3052[*,jmax+1] = tblsum( column t3052[*,jtot1+1:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3052", t3052,       0, jtot1-1, t3052u, 0 );
+  Col2Dim( "t3052", t3052, jtot1+1, jtot2-2, t3052u, 1 );
+  { write out SDG indicators }
+  { note that these SDGs come from tables 3.5.1 & 3.5.2 }
+  itot   = tblrow( t3051 );
+  jtot   = tblcol( t3051, interna = 2 );
+  x      = (t3051(itot,jtot)+t3052(itot,jtot))/2;
+  SDGIndicator( "17.8.1", t3052(itot,jtot), t3051(itot,jtot), x );
+
+  { Table 3.6.1 processing }
+  jtot = tblcol( t3061 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t3061[*,j] = t3061[*,j] * 100 / t3061[*,jtot];
+  enddo;
+  t3061[*,jmax+1] = tblsum( column t3061[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3061", t3061, 0, jtot-2, t3061u, 0 );
+
+  { Table 3.6.2 processing }
+  jtot = tblcol( t3062 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t3062[*,j] = t3062[*,j] * 100 / t3062[*,jtot];
+  enddo;
+  t3062[*,jmax+1] = tblsum( column t3062[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3062", t3062, 0, jtot-2, t3062u, 0 );
+
+  { Table 3.7.1 processing }
+  jtot = tblcol( t3071 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t3071[*,j] = t3071[*,j] * 100 / t3071[*,jtot];
+  enddo;
+  t3071[*,jmax+1] = tblsum( column t3071[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3071", t3071, 0, jtot-2, t3071u, 0 );
+
+  { Table 3.7.2 processing }
+  jtot = tblcol( t3072 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t3072[*,j] = t3072[*,j] * 100 / t3072[*,jtot];
+  enddo;
+  t3072[*,jmax+1] = tblsum( column t3072[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3072", t3072, 0, jtot-2, t3072u, 0 );
+
+  { Table 3.8 processing }
+  itot = tblrow( t308 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t308[i,*] = t308[i,*] * 100 / t308[itot,*];
+  enddo;
+  imax1 = tblrow( t308, totalt(1) );              { total/type of earnings }
+  t308[imax1,*] = tblsum( row t308[0:imax1-1,*] );
+  imax2 = tblrow( t308, totalt(2) );              { total/type of employer }
+  t308[imax2,*] = tblsum( row t308[imax1+1:imax2-1,*] );
+                                                 { total/continuity employment }
+  t308[imax+1,*] = tblsum( row t308[imax2+1:imax,*] );
+  { check unweighted N's }
+  Row2Dim( "t308", t308, 0,       imax1-1, t308u, 0 );        { type of earnings }
+  Row2Dim( "t308", t308, imax1+1, imax2-1, t308u, 0 );        { type of employer }
+  Row2Dim( "t308", t308, imax2+1, itot-2,  t308u, 0 );        { continuity of employment }
+
+  { Table 3.9.1 processing }
+  jtot = tblcol( t3091 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t3091[*,j] = t3091[*,j] * 100 / t3091[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t3091", t3091, 0, jtot-1, t3091u, 0 );
+
+  { Table 3.9.2 processing }
+  jtot = tblcol( t3092 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t3092[*,j] = t3092[*,j] * 100 / t3092[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t3092", t3092, 0, jtot-1, t3092u, 0 );
+
+  { Table 3.10.w processing }
+  jtot = tblcol( t310w );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t310w[*,j] = t310w[*,j] * 100 / t310w[*,jtot];
+  enddo;
+  t310w[*,jmax+1] = tblsum( column t310w[*,0:jmax] );
+
+  { Table 3.10.1 processing }
+  jtot = tblcol( t3101 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t3101[*,j] = t3101[*,j] * 100 / t3101[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t3101", t3101, 0, jtot-1, t3101u, 0 );
+
+  { Table 3.10.2 processing }
+  jtot = tblcol( t3102 );
+  jmax  = jtot - 2;
+  do j = 0 while j <= jmax
+    t3102[*,j] = t3102[*,j] * 100 / t3102[*,jtot];
+  enddo;
+  jtot1 = tblcol( t3102, tobacco );
+  t3102[*,jmax+1] = tblsum( column t3102[*,jtot1+1:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3102", t3102, 0, jtot-2, t3102u, 0 );
+
+  { Table 3.11 processing }
+  jtot = tblcol( t311 );
+  jmax  = jtot - 2;
+  do j = 0 while j <= jmax
+    t311[*,j] = t311[*,j] * 100 / t311[*,jtot];
+  enddo;
+  t311[*,jmax+1] = tblsum( column t311[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t311", t311, 0, jtot-2, t311u, 0 );
+
+  { Table 3.12 processing }
+  itot = tblrow( t312 );
+  imax  = itot - 1;
+  do i = 0 while i <= imax
+    t312[i,*] = t312[i,*] * 100 / t312[itot,*];
+  enddo;
+  { write out SDG indicators }
+  itot   = tblrow( t312, tobprod = 7 );
+  x      = (t312(itot,0)+t312(itot,1))/2;
+  SDGIndicator( "3.a.1", t312(itot,1), t312(itot,0), x );
+
+  { Table 3.13 processing }
+  jtot1 = tblcol( t313, isex = 1 tobacpct = 2 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t313[*,j] = t313[*,j] * 100 / t313[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t313 );
+  jmax  = jtot2 - 1;
+  jmin  = jtot1 + 1;
+  do j = jmin while j <= jmax
+    t313[*,j] = t313[*,j] * 100 / t313[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t313", t313, 0,       jtot1-1, t313u, 0 );
+  Col2Dim( "t313", t313, jtot1+1, jtot2-1, t313u, 1 );
+  { assign NA to cells }
+  itot = tblrow( t313 );
+  t313[itot-1:itot, 0:1] = NACells;
+
+  { Table 3.14.1 processing }
+  jtot1 = tblcol( t3141, alcohol1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t3141[*,j] = t3141[*,j] * 100 / t3141[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t3141 );
+  jmax  = jtot2 - 2;
+  jmin  = jtot1 + 1;
+  do j = jmin while j <= jmax
+    t3141[*,j] = t3141[*,j] * 100 / t3141[*,jtot2];
+  enddo;
+  t3141[*,jmax+1] = tblsum( column t3141[*,jmin:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3141", t3141, 0,       jtot1-1, t3141u, 0 );
+  Col2Dim( "t3141", t3141, jtot1+1, jtot2-2, t3141u, 1 );
+
+  { Table 3.14.2 processing }
+  jtot1 = tblcol( t3142, alcohol3 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t3142[*,j] = t3142[*,j] * 100 / t3142[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t3142 );
+  jmax  = jtot2 - 2;
+  jmin  = jtot1 + 1;
+  do j = jmin while j <= jmax
+    t3142[*,j] = t3142[*,j] * 100 / t3142[*,jtot2];
+  enddo;
+  t3142[*,jmax+1] = tblsum( column t3142[*,jmin:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3142", t3142, 0,       jtot1-1, t3142u, 0 );
+  Col2Dim( "t3142", t3142, jtot1+1, jtot2-2, t3142u, 1 );
+
+  { Table 3.15.1 processing }
+  jtot = tblcol( t3151 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t3151[*,j] = t3151[*,j] * 100 / t3151[*,jtot];
+  enddo;
+  t3151[*,jmax+1] = tblsum( column t3151[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3151", t3151, 0, jtot-2, t3151u, 0 );
+
+  { Table 3.15.2 processing }
+  jtot = tblcol( t3152 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t3152[*,j] = t3152[*,j] * 100 / t3152[*,jtot];
+  enddo;
+  t3152[*,jmax+1] = tblsum( column t3152[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3152", t3152, 0, jtot-2, t3152u, 0 );
+
+  { Table 3.16.1 processing }
+  jtot1 = tblcol( t3161, numwom );
+  jmax  = jtot1 - 2;
+  do j = 0 while j <= jmax
+    t3161[*,j] = t3161[*,j] * 100 / t3161[*,jtot1];
+  enddo;
+  t3161[*,jmax+1] = tblsum( column t3161[*,0:jmax] );
+  jtot2 = tblcol( t3161 );
+  jmax  = jtot2 - 1;
+  jmin  = jtot1 + 1;
+  do j = jmin while j <= jmax
+    t3161[*,j] = t3161[*,j] * 100 / t3161[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t3161", t3161, 0,       jtot1-2, t3161u, 0 );
+  Col2Dim( "t3161", t3161, jtot1+1, jtot2-1, t3161u, 1 );
+
+  { Table 3.16.2 processing }
+  jtot1 = tblcol( t3162, numman );
+  jmax  = jtot1 - 2;
+  do j = 0 while j <= jmax
+    t3162[*,j] = t3162[*,j] * 100 / t3162[*,jtot1];
+  enddo;
+  t3162[*,jmax+1] = tblsum( column t3162[*,0:jmax] );
+  jtot2 = tblcol( t3162 );
+  jmax  = jtot2 - 1;
+  jmin  = jtot1 + 1;
+  do j = jmin while j <= jmax
+    t3162[*,j] = t3162[*,j] * 100 / t3162[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t3162", t3162, 0,       jtot1-2, t3162u, 0 );
+  Col2Dim( "t3162", t3162, jtot1+1, jtot2-1, t3162u, 1 );
+
+  { Table 3.17 processing }
+  jtot = tblcol( t317 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t317[*,j,*] = t317[*,j,*] * 100 / t317[*,jtot,*];
+  enddo;
+  t317[*,jmax+1,*] = tblsum( column t317[*,0:jmax,*] );
+  { check unweighted N's }
+  Col3Dim( "t317", t317, 0, jtot-2, t317u, 0 );
+  { assign defualts }
+  itot = tblrow( t317 );
+  t317[itot-1:itot,*,0] = default;
+
+  { Table 3.18.1 processing }
+  jtot = tblcol( t3181 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t3181[*,j] = t3181[*,j] * 100 / t3181[*,jtot];
+  enddo;
+  t3181[*,jmax+1] = tblsum( column t3181[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3181", t3181, 0, jtot-2, t3181u, 0 );
+
+  { Table 3.18.2 processing }
+  jtot = tblcol( t3182 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t3182[*,j] = t3182[*,j] * 100 / t3182[*,jtot];
+  enddo;
+  t3182[*,jmax+1] = tblsum( column t3182[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t3182", t3182, 0, jtot-2, t3182u, 0 );
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+postproc
+
+{-----------------------------------------------------------------------------------------------}
+{ male tables }
+
+  isex = 2;                                    { men }
+  for i in RECH1_EDT do
+    if HV118 = 1 then                                   { if eligible for male interview }
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then { found & complete questionnaire }
+
+        if unweight then
+          rweight = 1;
+        else
+          rweight = MV005/1000000;
+        endif;
+
+        { to tally total for all men regardless of age }
+        totmen   = 0;
+        { to tally total for men 15-49 }
+        tot1549  = 0;
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:59 );
+		{ totals women/men for table 3.16 }
+		wom1549  = notappl;
+		man1549  = 1;
+
+        { general variables }
+        v102w  = MV102;
+        v101w  = MV101;
+        v106w  = MV106;
+        if MV106 in 8,missing then v106w = 9 endif;
+        v190w  = MV190;
+        v013w1 = MV013;        { with var labels for printing purposes }
+        v013w0 = MV013;
+        v013w  = MV013;
+
+        { ethnicity }
+        v131w   = MV131;
+        if MV131 = missing then v131w = 99 endif;
+
+        { religion }
+        v130w   = MV130;
+        if MV130 = missing then v130w =  9 endif;
+
+        { marital status }
+        recode  MV501 -> v501w;
+                 0:2  -> MV501;
+                 4:5  -> 3;
+                  3   -> 4;
+                      -> 9;
+        endrecode;
+        recode  MV501 -> v501w2;
+                   0  -> 0;
+                 1:2  -> 1;
+                 3:5  -> 2;
+                      -> 9;
+        endrecode;
+
+        { number of living children }
+        recode MV218 -> v218w;
+                 0   -> 0;
+               1,2   -> 1;
+               3,4   -> 2;
+                     -> 3;
+        endrecode;
+
+        { health status }
+		v176w = MV176;
+
+        { migration type }
+        recode MV105 :: MV102 -> migtype1;
+                0:2  ::   1   -> 1;
+                0:2  ::       -> 2;
+                 3   ::   1   -> 3;
+                 3   ::       -> 4;
+                     ::       -> default;
+        endrecode;
+        migtype = migtype1;                              // for table 3.17
+		if !MV104 in 0:4 then migtype1 = notappl endif;  // for table 3.18.2
+
+        { time in current place of residence }
+        recode MV104 -> v104w;
+                0:4  -> 1;
+                5:9  -> 2;
+               10:90 -> 3;
+                     -> default;
+        endrecode;
+
+		{ frequency of drinking last month }
+        recode MV485A -> alcohol5;
+                 1:5  -> 1;
+                 6:10 -> 2;
+                11:24 -> 3;
+             95,25:31 -> 4;
+                      -> default;
+        endrecode;
+
+        { to properly tabulate men, variables for men 50 and above are set to NotAppl }
+        if MV012 > 49 then
+          tot1549  = notappl;
+          v102w    = notappl;
+          v101w    = notappl;
+          v106w    = notappl;
+          v190w    = notappl;
+          v013w    = notappl;
+          v013w1   = notappl;
+          v013w0   = notappl;
+          v130w    = notappl;
+          v131w    = notappl;
+          v218w    = notappl;
+          v501w    = notappl;
+          v501w2   = notappl;
+          v176w    = notappl;
+		  migtype1 = notappl;
+		  v104w    = notappl;
+          alcohol5 = notappl;
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 3.1 }
+
+        allindiv = 2;
+        xtab( t301, rweight );
+        allindiv = 3;
+        xtab( t301 );
+
+{ -------------------------------------------------------------------- }
+{ table 3.2.2 }
+
+        { years of education }
+        v149w = MV149;
+        if special( MV149 ) then v149w = 9 endif;
+        xtab( t3022, rweight );
+        coltotu = 1;
+        xtab( t3022u );
+        if !special( MV133 ) & MV133 < 97 then
+          educmed = MV133;
+          if MV133 > maxeduc then educmed = maxeduc endif;
+          xtab( t3022w, rweight );
+          coltotu = 2;
+          xtab( t3022u );
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 3.3.2 }
+
+        v155w  = notappl;
+        second = notappl;
+        if MV106 = 3 then
+          second = 1;
+        else
+          recode MV155 -> v155w;
+                   2   -> 1;
+                   1   -> 2;
+                   0   -> 3;
+                   3   -> 4;
+                   4   -> 5;
+                       -> 9;
+          endrecode;
+        endif;
+        xtab( t3032, rweight );
+        xtab( t3032u );
+
+{ -------------------------------------------------------------------- }
+{ table 3.4.2 }
+
+        media = 0;
+        if MV157 in 2,3 then       { read newspaper }
+          mediab = 1;
+          media   = media + 1;
+          xtab( t3042, rweight );
+        endif;
+        if MV159 in 2,3 then       { watch TV }
+          mediab = 2;
+          media   = media + 1;
+          xtab( t3042, rweight );
+        endif;
+        if MV158 in 2,3 then       { listen to the radio }
+          mediab = 3;
+          media   = media + 1;
+          xtab( t3042, rweight );
+        endif;
+        if media = 0 then          { no media }
+          mediab = 5;
+          xtab( t3042, rweight );
+        elseif media = 3 then     { all three media }
+          mediab = 4;
+          xtab( t3042, rweight );
+        endif;
+        mediab = 6;
+        xtab( t3042, rweight );
+        xtab( t3042u );
+
+{ -------------------------------------------------------------------- }
+{ table 3.5.2 }
+
+        internb = notappl;
+        interna = 3;
+        xtab( t3052, rweight );
+        coltotu = 1;
+        xtab( t3052u );
+        if MV171A in 1:3 then
+          interna = 1;
+          xtab( t3052, rweight );
+          if MV171A = 1 then
+            interna = 2;
+            xtab( t3052, rweight );
+            interna = notappl;
+            recode MV171B -> internb;
+                        0 -> 4;       { not at all }
+                        1 -> 3;       { less than once a week }
+                        2 -> 2;       { at least once a week  }
+                        3 -> 1;       { almost every day      }
+                  missing -> 9;
+            endrecode;
+            xtab( t3052, rweight );
+            internb = 11;
+            xtab( t3052, rweight );
+            coltotu = 2;
+            xtab( t3052u );
+          endif;
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 3.6.2 }
+
+        recode MV731 -> v731w1;
+               3,2   ->   1;                 { currently employed }
+                1    ->   2;                 { not currently employed }
+                     -> notappl;
+        endrecode;
+        recode MV731 -> v731w2;
+                0    ->   1;                 { not employed last 12 months }
+           missing,8 ->   9;                 { missing/DK }
+                     -> notappl;
+        endrecode;
+        xtab( t3062, rweight );
+        xtab( t3062u );
+
+{ -------------------------------------------------------------------- }
+{ table 3.7.2 }
+
+        if MV731 in 1,2,3 then           { worked in the last 12 months }
+          recode MV717 -> v717w;
+                 1,2   -> MV717;               { professional/technical, clerical }
+                 3,7   -> 3;                   { sales and services }
+                  8    -> 4;                   { skilled manual }
+                  9    -> 5;                   { unskilled manual }
+                  6    -> 6;                   { domestic service }
+                 4,5   -> 7;                   { agriculture }
+                       -> 99;                  { DK/missing }
+          endrecode;
+          xtab( t3072, rweight );
+          xtab( t3072u );
+        endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.9.2 }
+
+        insuran = 0;
+        numman = notappl;
+        { social security }
+        if MV481C = 1 then
+          hlthins = 1;
+          xtab( t3092, rweight );
+          insuran = insuran + 1;
+        endif;
+        { health insurance through employer }
+        if MV481B = 1 then
+          hlthins = 2;
+          xtab( t3092, rweight );
+          insuran = insuran + 1;
+        endif;
+        { mutual health organization }
+        if MV481A = 1 then
+          hlthins = 3;
+          xtab( t3092, rweight );
+          insuran = insuran + 1;
+        endif;
+        { privately purchased }
+        if MV481D = 1 then
+          hlthins = 4;
+          xtab( t3092, rweight );
+          insuran = insuran + 1;
+        endif;
+        { other }
+        if MV481E = 1 | MV481F = 1 | MV481G = 1 | MV481H = 1 | MV481X = 1 then
+          hlthins = 5;
+          xtab( t3092, rweight );
+          insuran = insuran + 1;
+        endif;
+        { none/any }
+        if insuran = 0 then
+          hlthins = 6;
+          xtab( t3092, rweight );
+        else
+          hlthins = 7;
+          xtab( t3092, rweight );
+        endif;
+        { number of men }
+        hlthins = notappl;
+        numman  = 1;
+        xtab( t3092, rweight );
+        xtab( t3092u );
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.10.2 }
+
+        tobacco  = notappl;
+        totnum5  = notappl;
+        v463aw   = notappl;
+        { cigarettes }
+        if tobaccouse( MV464A ) | tobaccouse( MV464B ) | tobaccouse( MV464C ) |
+           tobaccouse( MV484A ) | tobaccouse( MV484B ) | tobaccouse( MV484C ) then
+          tobacco = 1;
+          xtab( t3102, rweight );
+        endif;
+        { other type of tobacco }
+        if tobaccouse( MV464D ) | tobaccouse( MV464E ) | tobaccouse( MV464F ) | tobaccouse( MV464G ) |
+           tobaccouse( MV484D ) | tobaccouse( MV484E ) | tobaccouse( MV484F ) | tobaccouse( MV484G ) then
+          tobacco = 2;
+          xtab( t3102, rweight );
+        endif;
+        { any tobacco }
+        if tobacco in 1,2 then
+          tobacco = 3;
+          xtab( t3102, rweight );
+        endif;
+        tobacco = notappl;
+        recode MV463AA -> v463aw;
+                 1:2   -> MV463AA;
+                  0    -> 3;
+               missing -> 9;
+        endrecode;
+        totnum5 = 1;
+        xtab( t3102, rweight );
+        xtab( t3102u );
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.11 }
+
+        { smokes cigarettes }
+        x = cigaretdaily( MV464A ) + cigaretdaily( MV464B ) + cigaretdaily( MV464C );
+        if x then
+          recode  x    -> v464w;
+                 0:4   -> 0;
+                 5:9   -> 1;
+                10:14  -> 2;
+                15:24  -> 3;
+                25:800 -> 4;
+                       -> 9;
+          endrecode;
+          xtab( t311, rweight );
+          xtab( t311u );
+        endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.12 }
+
+        if MV012 in 15:49 then
+          tobprod = notappl;
+          { total number }
+          tnumber = 1;
+          xtab( t312, rweight );
+          tnumber = notappl;
+          { snuff, by mouth }
+          if tobaccouse( MV464H ) | tobaccouse( MV484H ) then
+            tobprod = 1;
+            xtab( t312, rweight );
+          endif;
+          { snuff, by nose }
+          if tobaccouse( MV464I ) | tobaccouse( MV484I ) then
+            tobprod = 2;
+            xtab( t312, rweight );
+          endif;
+          { Chewing tobacco }
+          if tobaccouse( MV464J ) | tobaccouse( MV484J ) then
+            tobprod = 3;
+            xtab( t312, rweight );
+          endif;
+          { Betel quid with tobacco }
+          if tobaccouse( MV464K ) | tobaccouse( MV484K ) then
+            tobprod = 4;
+            xtab( t312, rweight );
+          endif;
+          { other type of smokeless tobacco }
+          if tobaccouse( MV464L ) | tobaccouse( MV484L ) then
+            tobprod = 5;
+            xtab( t312, rweight );
+          endif;
+          { any type of smokeless tobacco }
+          if tobprod in 1:5 then
+            tobprod = 6;
+            xtab( t312, rweight );
+          endif;
+          { any type of tobacco }
+          if MV463AA in 1,2 | MV463AB in 1,2 then
+            tobprod = 7;
+            xtab( t312, rweight );
+          endif;
+        endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.13 }
+
+        tobacpct = 3;
+        xtab( t313, rweight );
+        xtab( t313u );
+        if MV463AA in 1:2 | MV463AB in 1,2 then
+          tobacpct = 1;
+          xtab( t313, rweight );
+        endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.14.2 }
+
+        alcohol4 = notappl;
+        alcoholm = notappl;
+        alcohol3 = 2;
+        xtab( t3142, rweight );
+        coltotu  = 1;
+        xtab( t3142u );
+        if MV485A in 1:31,95 then
+          alcohol3 = 1;
+          recode MV485A -> alcohol4;
+                  1:5  -> 1;
+                  6:10 -> 2;
+                 11:24 -> 3;
+              95,25:31 -> 4;
+                      -> default;
+          endrecode;
+          alcoholm = 1;
+          xtab( t3142, rweight );
+          coltotu  = 2;
+          xtab( t3142u );
+        endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.15.2 }
+
+        if MV485A in 1:31,95 then
+          alcohol6 = MV485B;
+          if MV485B >= 6 then alcohol6 = 6 endif;
+          alcoholm = 1;
+          xtab( t3152, rweight );
+          xtab( t3152u );
+        endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.16.2 }
+
+        if MV104 <> 96 then                 // exclude visitors
+          Plcbirt3 = notappl;
+          recode MV172 :: MV104 -> plcbirt1;
+                 <>96  ::   95  -> 1;
+                 <>96  ::  0:64 -> 2;
+                   96  ::       -> 3;
+                       ::       -> default;
+          endrecode;
+          numman = 1;
+          xtab( t3162, rweight );
+          coltotu = 1;
+          xtab( t3162u );
+          if plcbirt1 in 2:3 then
+            numman   = notappl;
+            plcbirt1 = notappl;
+            plcbirt3 = 2;
+            xtab( t3162, rweight );
+            coltotu = 2;
+            xtab( t3162u );
+            if MV104 in 0:4 then
+              plcbirt3 = 1;
+              xtab( t3162, rweight );
+            endif;
+          endif;
+        endif;
+        numman = 1;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.17 }
+
+        if MV104 in 0:4 & MV105 in 0:3 then    // moved in the past 5 years
+          xtab( t317, rweight );
+          xtab( t317u );
+        endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.18.2 }
+
+        if !MV104 in 95,96 then               // exclude non-migrants and visitors
+          v175w = MV175;
+          xtab( t3182, rweight );
+          xtab( t3182u );
+        endif;
+
+      endif        { end loadcase & complete interview }
+    endif;      { end eligible for men interview }
+  enddo;
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  isex = 1;
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  { totals for all men and men 50-54[59] set to NA }
+  totmen   = notappl;
+  men5059  = notappl;
+  { to tally totals for all women, when necessary }
+  tot1549  = 0;
+  { totals women/men for table 3.16 }
+  wom1549  = 1;
+  man1549  = notappl;
+
+  { general variables }
+  v013w    = V013;
+  v013w1   = V013;
+  v013w0   = V013;       { with var labels for printing purposes }
+  v102w    = V102;
+  v101w    = V101;
+  v106w    = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w    = V190;
+
+  { ethnicity }
+  v131w   = V131;
+  if V131 = missing then v131w = 99 endif;
+
+  { religion }
+  v130w   = V130;
+  if V130 = missing then v130w =  9 endif;
+
+  { marital status }
+  recode  V501  -> v501w;
+           0:2  -> V501;
+           4:5  -> 3;
+            3   -> 4;
+                -> 9;
+  endrecode;
+  recode  V501  -> v501w2;
+             0  -> 0;
+           1:2  -> 1;
+           3:5  -> 2;
+                -> 9;
+  endrecode;
+
+  { number of living children }
+  recode V218 -> v218w;
+           0  -> 0;
+         1,2  -> 1;
+         3,4  -> 2;
+              -> 3;
+  endrecode;
+
+  { health status }
+  v176w = V176;
+
+  { migration type }
+  recode V105 :: V102 -> migtype1;
+         0:2  ::  1   -> 1;
+         0:2  ::      -> 2;
+          3   ::  1   -> 3;
+          3   ::      -> 4;
+              ::      -> default;
+  endrecode;
+  migtype = migtype1;                             // for table 3.17
+  if !V104 in 0:4 then migtype1 = notappl endif;  // for table 3.18.1
+
+  { time in current place of residence }
+  recode V104  -> v104w;
+          0:4  -> 1;
+          5:9  -> 2;
+         10:90 -> 3;
+               -> default;
+  endrecode;
+
+{ -------------------------------------------------------------------- }
+{ table 3.1 }
+
+  allindiv = 2;
+  xtab( t301, rweight );
+  allindiv = 3;
+  xtab( t301 );
+
+{ -------------------------------------------------------------------- }
+{ table 3.2.1 }
+
+  { years of education }
+  v149w = V149;
+  if special( V149 ) then v149w = 9 endif;
+  xtab( t3021, rweight );
+  coltotu = 1;
+  xtab( t3021u );
+  if !special( V133 ) & V133 < 97 then
+    educmed = V133;
+    if V133 > maxeduc then educmed = maxeduc endif;
+    xtab( t3021w, rweight );
+    coltotu = 2;
+    xtab( t3021u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 3.3.1 }
+
+  v155w  = notappl;
+  second = notappl;
+  if V106 = 3 then
+    second = 1;
+  else
+    recode V155 -> v155w;
+             2  -> 1;
+             1  -> 2;
+             0  -> 3;
+             3  -> 4;
+             4  -> 5;
+                -> 9;
+    endrecode;
+  endif;
+  xtab( t3031, rweight );
+  xtab( t3031u );
+
+{ -------------------------------------------------------------------- }
+{ table 3.4.1 }
+
+  media = 0;
+  if V157 in 2,3 then       { read newspaper }
+    mediaa = 1;
+    media   = media + 1;
+    xtab( t3041, rweight );
+  endif;
+  if V159 in 2,3 then       { watch TV }
+    mediaa = 2;
+    media   = media + 1;
+    xtab( t3041, rweight );
+  endif;
+  if V158 in 2,3 then       { listen to the radio }
+    mediaa = 3;
+    media   = media + 1;
+    xtab( t3041, rweight );
+  endif;
+  if media = 0 then         { no media }
+    mediaa = 5;
+    xtab( t3041, rweight );
+  elseif media = 3 then     { all three media }
+    mediaa = 4;
+    xtab( t3041, rweight );
+  endif;
+  mediaa = 6;
+  xtab( t3041, rweight );
+  xtab( t3041u );
+
+{ -------------------------------------------------------------------- }
+{ table 3.5.1 }
+
+  internb = notappl;
+  interna = 3;
+  xtab( t3051, rweight );
+  coltotu = 1;
+  xtab( t3051u );
+  if V171A in 1:3 then
+    interna = 1;
+    xtab( t3051, rweight );
+    if V171A = 1 then
+      interna = 2;
+      xtab( t3051, rweight );
+      interna = notappl;
+      recode V171B -> internb;
+                 0 -> 4;       { not at all }
+                 1 -> 3;       { less than once a week }
+                 2 -> 2;       { at least once a week  }
+                 3 -> 1;       { almost every day      }
+           missing -> 9;
+      endrecode;
+      xtab( t3051, rweight );
+      internb = 11;
+      xtab( t3051, rweight );
+      coltotu = 2;
+      xtab( t3051u );
+    endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 3.6.1 }
+
+  recode V731  -> v731w1;
+         3,2   ->   1;                 { currently employed }
+          1    ->   2;                 { not currently employed }
+               -> notappl;
+  endrecode;
+  recode V731  -> v731w2;
+          0    ->   1;                 { not employed last 12 months }
+     missing,8 ->   9;                 { missing/DK }
+               -> notappl;
+  endrecode;
+  xtab( t3061, rweight );
+  xtab( t3061u );
+
+{ -------------------------------------------------------------------- }
+{ table 3.7.1 }
+
+  if V731 in 1,2,3 then           { worked in the last 12 months }
+    recode V717 -> v717w;
+           1,2  -> V717;                { professional/technical, clerical }
+           3,7  -> 3;                   { sales and services }
+            8   -> 4;                   { skilled manual }
+            9   -> 5;                   { unskilled manual }
+            6   -> 6;                   { domestic service }
+           4,5  -> 7;                   { agriculture }
+                -> 99;                  { DK/missing }
+    endrecode;
+    xtab( t3071, rweight );
+    xtab( t3071u );
+  endif;    { end worked in the last 12 months }
+
+{ -------------------------------------------------------------------- }
+{ table 3.8 }
+
+  if V731 in 1,2,3 then           { worked in the last 12 months }
+    recode V717 -> v717w1;
+           4,5  -> 1;                    { agriculture }
+           1:9  -> 2;                    { nonagricultural }
+                -> 9;                    { DK/missing }
+    endrecode;
+    recode V741 -> v741w;                 { type of earnings }
+             0  -> 4;
+            1:3 -> V741;
+                -> 9;
+    endrecode;
+    v719w = V719;                          { type of employer }
+    if V719 = missing then v719w = 9 endif;
+    v732w = V732;                          { continuity of employment }
+    if V732 = missing then v732w = 9 endif;
+    xtab( t308, rweight );
+    xtab( t308u );
+  endif;    { end worked in the last 12 months }
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.9.1 }
+
+  insuran = 0;
+  numwom  = notappl;
+  { social security }
+  if V481C = 1 then
+    hlthins = 1;
+    xtab( t3091, rweight );
+    insuran = insuran + 1;
+  endif;
+  { health insurance through employer }
+  if V481B = 1 then
+    hlthins = 2;
+    xtab( t3091, rweight );
+    insuran = insuran + 1;
+  endif;
+  { mutual health organization }
+  if V481A = 1 then
+    hlthins = 3;
+    xtab( t3091, rweight );
+    insuran = insuran + 1;
+  endif;
+  { privately purchased }
+  if V481D = 1 then
+    hlthins = 4;
+    xtab( t3091, rweight );
+    insuran = insuran + 1;
+  endif;
+  { other }
+  if V481E = 1 | V481F = 1 | V481G = 1 | V481H = 1 | V481X = 1 then
+    hlthins = 5;
+    xtab( t3091, rweight );
+    insuran = insuran + 1;
+  endif;
+  { none/any }
+  if insuran = 0 then
+    hlthins = 6;
+    xtab( t3091, rweight );
+  else
+    hlthins = 7;
+    xtab( t3091, rweight );
+  endif;
+  { number of women }
+  hlthins = notappl;
+  numwom  = 1;
+  xtab( t3091, rweight );
+  xtab( t3091u );
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.10.w }
+
+  { smokes cigarettes  daily }
+  if V463AA = 1 then
+    recode V464  -> v464w;
+           888   -> 0;
+           0:4   -> 0;
+           5:9   -> 1;
+          10:14  -> 2;
+          15:24  -> 3;
+          25:800 -> 4;
+                 -> 9;
+    endrecode;
+    xtab( t310w, rweight );
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.10.1 }
+
+  tobacco  = notappl;
+  numwom   = notappl;
+  { cigarettes }
+  if V463AA in 1,2 | V463E = 1 then
+    tobacco = 1;
+    xtab( t3101, rweight );
+  endif;
+  { other type of tobacco }
+  if V463B = 1 | V463F = 1 | V463G = 1 then
+    tobacco = 2;
+    xtab( t3101, rweight );
+  endif;
+  { any type of tobacco }
+  if tobacco in 1,2 then
+    tobacco = 3;
+    xtab( t3101, rweight );
+  endif;
+  tobacco  = notappl;
+  numwom    = 1;
+  xtab( t3101, rweight );
+  xtab( t3101u );
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.12 }
+
+  tobprod = notappl;
+  { total number }
+  tnumber = 1;
+  xtab( t312, rweight );
+  tnumber = notappl;
+  { snuff, by mouth }
+  if V463H = 1 then
+    tobprod = 1;
+    xtab( t312, rweight );
+  endif;
+  { snuff, by nose }
+  if V463D = 1 then
+    tobprod = 2;
+    xtab( t312, rweight );
+  endif;
+  { Chewing tobacco }
+  if V463C = 1 then
+    tobprod = 3;
+    xtab( t312, rweight );
+  endif;
+  { Betel quid with tobacco }
+  if V463I = 1 then
+    tobprod = 4;
+    xtab( t312, rweight );
+  endif;
+  { !!! CS other type of smokeless tobacco
+  if V463CS | ... = 1 then
+    tobprod = 5;
+    xtab( t312, rweight );
+  endif;
+  *** }
+  { any type of smokeless tobacco }
+  if tobprod in 1:5 then
+    tobprod = 6;
+    xtab( t312, rweight );
+  endif;
+  { any type of tobacco }
+  if V463AA in 1,2 | V463AB in 1,2 then
+    tobprod = 7;
+    xtab( t312, rweight );
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.13 }
+
+  tobacpct = 2;
+  xtab( t313, rweight );
+  xtab( t313u );
+  if V463AA in 1:2 | V463AB in 1,2 then
+    tobacpct = 1;
+    xtab( t313, rweight );
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.14.1 }
+
+  alcohol2 = notappl;
+  alcoholw = notappl;
+  alcohol1 = 2;
+  xtab( t3141, rweight );
+  coltotu  = 1;
+  xtab( t3141u );
+  if V485A in 1:31,95 then
+    alcohol1 = 1;
+	recode V485A -> alcohol2;
+	        1:5  -> 1;
+			6:10 -> 2;
+		   11:24 -> 3;
+        95,25:31 -> 4;
+		         -> default;
+    endrecode;
+	alcoholw = 1;
+    xtab( t3141, rweight );
+    coltotu  = 2;
+    xtab( t3141u );
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.15.1 }
+
+  if V485A in 1:31,95 then
+	recode V485A -> alcohol5;
+	        1:5  -> 1;
+			6:10 -> 2;
+		   11:24 -> 3;
+        95,25:31 -> 4;
+		         -> default;
+    endrecode;
+	alcohol6 = V485B;
+	if V485B >= 6 then alcohol6 = 6 endif;
+	alcoholw = 1;
+    xtab( t3151, rweight );
+    xtab( t3151u );
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.16.1 }
+
+  if V104 <> 96 then                 // exclude visitors
+    plcbirt2 = notappl;
+    recode V172 :: V104 -> plcbirt1;
+           <>96 ::  95  -> 1;
+           <>96 :: 0:49 -> 2;
+             96 ::      -> 3;
+                ::      -> default;
+    endrecode;
+    numwom = 1;
+    xtab( t3161, rweight );
+    coltotu = 1;
+    xtab( t3161u );
+    if plcbirt1 in 2:3 then
+      numwom   = notappl;
+      plcbirt1 = notappl;
+      plcbirt2 = 2;
+      xtab( t3161, rweight );
+      coltotu = 2;
+      xtab( t3161u );
+	  if V104 in 0:4 then
+        plcbirt2 = 1;
+        xtab( t3161, rweight );
+      endif;
+    endif;
+  endif;
+  numwom = 1;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.17 }
+
+  if V104 in 0:4 & V105 in 0:3 then  // moved in the past 5 years
+    xtab( t317, rweight );
+    xtab( t317u );
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 3.18.1 }
+
+  if !V104 in 95,96 then             // exclude non-migrants and visitors
+    v175w = V175;
+    xtab( t3181, rweight );
+    xtab( t3181u );
+  endif;
+

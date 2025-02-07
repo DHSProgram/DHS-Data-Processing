@@ -1,0 +1,154 @@
+﻿PROC GLOBAL
+  { the application assumes that the weights as well as the wealth index have already }
+  { been incorporated to the raw data file.  It is also important to know that there  }
+  { are two education variables one for the education to be used by the survey in the }
+  { report and the other for the standard classiffication.  Probably the best time to }
+  { run it is after FIMIMP when the education variables are already available         }
+
+  numeric i, j, iage, cumevm, cumtot, itot, jmax, knvr, kevr, ktot;
+  numeric nagew, nagem, xcluster, rweight, mweight, uppagem;
+
+  crosstab	float(2) awft agehh educat1+educat2+AHTYPE+AHREGION+AHWLTHI+total wmstat
+  exclude(colzero,rowzero,totals,percents,specval)
+  title( "All women factors for DHS - work table" );
+
+  crosstab	float(2) awff agehh educat1+educat2+AHTYPE+AHREGION+AHWLTHI+total
+  exclude(colzero,rowzero,totals,percents,specval)
+  title( "All women factors for DHS - final table" );
+
+  crosstab	float(2) amft agehh educat1+educat2+AHTYPE+AHREGION+AHWLTHI+total wmstat
+  exclude(colzero,rowzero,totals,percents,specval)
+  title( "All men factors - work table" );
+
+  crosstab	float(2) amff agehh educat1+educat2+AHTYPE+AHREGION+AHWLTHI+total
+  exclude(colzero,rowzero,totals,percents,specval)
+  title( "All men factors - final table" );
+
+PROC CCIQ81_FF
+preproc
+
+  total	   = 0;
+  xcluster = 0;
+  uppagem  = 59;          { !!! upper age selection for male survey }
+  nagew    = 34;          { adjust number of age groups for women 49-15 = 34 }
+  nagem    = uppagem-15;  { adjust number of age groups for men   59-15 = 44 }
+                          { not necessary to add 1 because loop starts in zero   }
+
+postproc
+
+  { logic to determine the women factors }
+  knvr = tbllay( awft, wmstat = 0 );                  { Never Married }
+  kevr = tbllay( awft, wmstat = 1 );                  { Ever Married }
+  ktot = tbllay( awft, wmstat = 2 );                  { Total }
+  itot = tblrow( awft );
+  awft[itot,*,*] = tblsum( row awft[0:itot-1,*,*] );  { total help to check number of cases  for each category }
+  awft[*,*,ktot] = awft[*,*,knvr] + awft[*,*,kevr];   { add never married + ever married to get the total }
+  awff[*,*]      = awft[*,*,ktot] / awft[*,*,kevr];   { calculate the factor }
+
+  { adjust factor for cells with no ever-married women or if a woman represents more than 500 }
+  jmax = tblcol( awft );
+  do j = 0 while	j <= jmax                            { check one characteristic at a time }
+    do i =	0 while i < nagew                          { go through all ages, -1 because it starts in 0  }
+      if awft(i,j,kevr) = 0 | awff(i,j) > 500 then
+        iage = i + 1;
+        cumevm = awft(iage,j,kevr);
+        cumtot = awft(i,j,ktot) + awft(iage,j,ktot);
+        while iage < nagew &	( awft(iage,j,kevr) =	0 | ((cumtot/cumevm) > 500) ) do
+          iage = iage + 1;
+          cumevm = cumevm + awft(iage,j,kevr);
+          cumtot = cumtot + awft(iage,j,ktot);
+        enddo;
+        { assign the same factor to all ages affected }
+        if iage <	nagew | awft(iage,j,kevr) then
+          while	i <= iage	do
+            awff(i,j) =	cumtot/cumevm;
+            i =	i + 1
+          enddo
+        endif;
+        i = iage
+      endif;
+    enddo;
+  enddo;
+
+  { write out the factors, note that 100 is added women's age  }
+  do i = 0 while	i <= nagew                           { for each single age }
+    do j = 0 while j <= jmax                          { assign factor for every characteristic }
+      if special(awff(i,j)) then
+        awff(i,j) = 1.00;
+      endif;
+      awf(j+1) = 100 * awff(i,j);
+    enddo;
+    awage = 100 + i + 15;
+    writecase( AWFACTOR );
+  enddo;
+
+  { logic to determine the men factors }
+  amft[itot,*,*] = tblsum( row amft[0:itot-1,*,*] );  { total help to check number of cases  for each category }
+  amft[*,*,ktot] = amft[*,*,knvr] + amft[*,*,kevr];   { add never married + ever married to get the total }
+  amff[*,*]      = amft[*,*,ktot] / amft[*,*,kevr];   { calculate the factor }
+
+  { adjust factor for cells with no ever-married men or if a man represents more than 500 }
+  jmax = tblcol( amft );
+  do j = 0 while	j <= jmax                            { check one characteristic at a time }
+    do i =	0 while i < nagem                          { go through all ages, -1 because it starts in 0 }
+      if amft(i,j,kevr) = 0 | amff(i,j) > 500 then
+        iage = i + 1;
+        cumevm = amft(iage,j,kevr);
+        cumtot = amft(i,j,ktot) + amft(iage,j,ktot);
+        while iage < nagem &	( amft(iage,j,kevr) =	0 | ((cumtot/cumevm) > 500) ) do
+          iage = iage + 1;
+          cumevm = cumevm + amft(iage,j,kevr);
+          cumtot = cumtot + amft(iage,j,ktot);
+        enddo;
+        { assign the same factor to all ages affected }
+        if iage <	nagem | amft(iage,j,kevr) then
+          while	i <= iage	do
+            amff(i,j) =	cumtot/cumevm;
+            i =	i + 1
+          enddo
+        endif;
+        i = iage
+      endif;
+    enddo;
+  enddo;
+
+  { write out the factors, note that 200 is added to age to avoid duplicates }
+  do i = 0 while	i <= nagem                           { for each single age }
+    do j = 0 while j <= jmax                          { assign factor for every characteristic }
+      if special(amff(i,j)) then
+        amff(i,j) = 1.00;
+      endif;
+      awf(j+1) = 100 * amff(i,j);
+    enddo;
+    awage = 200 + i + 15;
+    writecase( AWFACTOR );
+  enddo;
+
+PROC HOUSEHOLD
+preproc
+
+  if AHRESULT <> 1 then skip case endif;
+
+postproc
+
+  rweight = AHWEIGHT / 1000000;
+  mweight = AMWEIGHT / 1000000;
+
+  for i in AHSEC01_EDT do
+    agehh   = AH07;
+    { educat1 should set according to how education will be presented in the report }
+    educat1 = AH17A;
+    if AH17A in 8,missing then educat1 = 5 endif;
+    { standard education as defined in core questionnaire }
+    educat2 = AH17A;
+    if AH17A in 8,missing then educat2 = 4 endif;
+    wmstat = ( AH08 in 1:3 );	                      { Ever married }
+    { for women de-facto age 15-49 }
+    if AH04 = 2 & AH06 = 1 &  agehh in 15:49 then
+      xtab(	awft, rweight );
+    endif;
+    { for men de-facto age 15-UPPAGEM }
+    if AHELIGM = 1 & AH04 = 1 & AH06 = 1 & agehh in 15:uppagem then
+      xtab(	amft, mweight );
+    endif;
+  enddo;

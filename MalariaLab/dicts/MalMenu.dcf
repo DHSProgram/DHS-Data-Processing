@@ -1,0 +1,39 @@
+[Dictionary]
+Version=CSPro 2.5
+Label=HIV testing entry menu
+Name=ENTER_DICT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=HIV testing entry menu
+Name=ENTER_LEVEL
+
+[IdItems]
+
+[Item]
+Label=ID
+Name=ID
+Start=1
+Len=1
+
+[Record]
+Label=HIV testing entry menu record
+Name=ENTER_REC
+RecordTypeValue=''
+RecordLen=6
+
+[Item]
+Label=Cluster number
+Name=ECLUSTER
+Start=2
+Len=3
+
+[Item]
+Label=Text file position identifier
+Name=ELINE
+Start=5
+Len=2

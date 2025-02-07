@@ -1,0 +1,95 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.5
+
+[LANGUAGES]
+EN=English
+ES=Español
+
+[QUESTION]
+Field=SAMPSEL.XADDRESS
+Occurrences=1:60
+EN={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the household's address
+EN=\par
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese la direccion del hogar
+ES=\par
+ES=\par }
+
+[QUESTION]
+Field=SAMPSEL.XANEMIA
+Occurrences=1:60
+EN={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Is this household selected for anemia testing?
+EN=\par
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Esta este hogar seleccionado para la prueba de anemia?
+ES=\par
+ES=\par }
+
+[QUESTION]
+Field=SAMPSEL.XCLUSTER
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the cluster number
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs24\lang1033 Ingrese el numero de segmento/conglomerado\cf2\par
+ES=}
+
+[QUESTION]
+Field=SAMPSEL.XMALE
+Occurrences=1:60
+EN={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Is this household selected for the male interview?
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Esta este hogar seleccionado para la encuesta de hombres?
+ES=\par }
+
+[QUESTION]
+Field=SAMPSEL.XNAME
+Occurrences=1:60
+EN={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the name of the household head
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el nombre del jefe del hogar
+ES=\par }
+
+[QUESTION]
+Field=SAMPSEL.XNUMBER
+Occurrences=1:60
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the number of the selected household
+EN=\par }
+ES={\rtf1\fbidis\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\ltrpar\cf1\lang1033\fs24 Ingrese el numero del hogar seleccionado
+ES=\par }
+
+[QUESTION]
+Field=SAMPSEL.XTOTAL
+EN={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the total number of households selected in cluster
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs24\lang1033 Ingrese el numero de hogares seleccionados en el segmento/conglomerado\par
+ES=}
+

@@ -1,0 +1,152 @@
+﻿PROC GLOBAL
+  { DHS-8 women recode frequencies  version - 1.0.0 of 12/13/2021 }
+
+  numeric i, rweight, dweight, unweight;
+
+PROC RECODE8_FF
+preproc
+
+  unweight = ( sysparm()[1:1] <> "W" );       // 0-Weighted, 1-Unweighted
+  if unweight then
+    errmsg( "Women recode frequencies for Country are UNWEIGHTED" );
+  else	
+    errmsg( "Women recode frequencies for Country are WEIGHTED" );
+  endif;	
+
+PROC WOMAN
+
+  if unweight then
+    rweight = 1;
+	dweight = 1;
+  else	
+    rweight = V005/1000000;
+    dweight = D005/1000000;
+  endif;	
+  
+  { Only individuals with complete interviews }
+  if V015 = 1 then
+     freq include( REC01 alpha numeric
+                   REC11 alpha numeric
+                   REC21 alpha numeric
+                   REC22 alpha numeric  
+                   REC23 alpha numeric  )
+          exclude( CASEID, V191, V191A, B18, P18 )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     { Contraceptive table disjoint }
+     freq include( REC31 alpha numeric
+                   REC32 alpha numeric  )
+          disjoint
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     { Child level sections }
+     freq include( REC41 alpha numeric
+                   REC42 alpha numeric
+                   REC43 alpha numeric
+                   REC4A alpha numeric
+                   REC44 alpha numeric
+                   REC45 alpha numeric )
+          exclude( V445, HW70, HW71, HW72, HW73 )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     freq include( V445, HW70, HW71, HW72, HW73 )
+          stat nofreq
+          title( "Country - Women individual recode" )
+  {{WT}   weighted V005/1000000     {WT}};
+
+     freq include( REC51 alpha numeric
+                   REC61 alpha numeric
+                   REC71 alpha numeric
+                   REC75 alpha numeric
+                   REC80 alpha numeric
+                   REC81 alpha numeric  )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     { Calendar - all months }
+     do i = 1 while i <= 80 by 1
+       VCal1 = VCAL(1)[i:1];
+       VCal2 = VCAL(2)[i:1];
+       VCal3 = VCAL(3)[i:1];
+       VCal4 = VCAL(4)[i:1];
+       VCal5 = VCAL(5)[i:1];
+       freq include( VCal1 VCal2 VCal3 VCal4 VCal5 )
+            title( "Country - Women individual recode - All Calendar" )
+            weighted rweight;
+
+       freq include( VCal1 VCal2 VCal3 VCal4 VCal5 )
+           select (i = V018)
+           title( "Country - Women individual recode - Interview Month" )
+           weighted rweight;
+     enddo;
+
+     { Maternal mortality }
+     freq include( REC83 alpha numeric
+                   REC84 alpha numeric  )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     { domestic violence }
+	 if soccurs( RECDV ) then
+       freq include( RECDV alpha numeric )
+            title( "Country - Women individual recode" )
+            weighted dweight;
+     endif;			
+
+     { female genital cutting }
+     freq include( RECG1 alpha numeric 
+                   RECG2 alpha numeric )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     { early child development }
+     freq include( RECECD alpha numeric )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     { malaria social behavior change }
+     freq include( RECSBC alpha numeric )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     { chronic disease module }
+     freq include( RECCHD alpha numeric )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     { mental health module }
+     freq include( RECMTH alpha numeric )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     { fistula module }
+     freq include( RECFIS alpha numeric )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     { human papilloma virus module }
+     freq include( RECHPV alpha numeric )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+     { Standard country specific sections }
+     freq include( // REC91 alpha numeric it doen't compile if there are no variables 
+                   REC92 alpha numeric
+                   REC94 alpha numeric
+                   REC95 alpha numeric
+                   REC96 alpha numeric  )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+
+  {  { Additional country specific sections }
+     freq include( REC97 alpha numeric
+                   REC98 alpha numeric
+                   REC99 alpha numeric  )
+          title( "Country - Women individual recode" )
+          weighted rweight;
+  }
+
+  endif;

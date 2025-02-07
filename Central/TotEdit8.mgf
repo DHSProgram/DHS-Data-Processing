@@ -1,0 +1,663 @@
+﻿Language = EN
+0004 E There is no household questionnaire %d that corresponds to this individual
+0005 E Cannot open CONTROL file for cluster %d
+0006 E Data file not ready for editing for cluster %d
+0007 E Failed to update the CONTROL file for cluster %d
+0008 E Count of questionnaires for cluster %03d (%02d:%02d:%02d,%02d:%02d:%02d,%02d:%02d:%02d) does not match CONTROL file (%02d:%02d:%02d,%02d:%02d:%02d,%02d:%02d:%02d)
+0015 E Region %v %l is different than expected region %d %s
+0017 E Type of place of residence %v %l is different than expected type of place of residence %d %s
+0019 E Cluster number %04d not found in Clusters data file
+
+0025 E %s %04d not registered in the fieldwork personnel data file
+0026 E Biomarker (%04d) for %s-%s for %s in column %02d not registered in the fieldwork personnel data file
+
+{ Household messages }
+0029 E HH==>Only one person can be head of the household (%d were found)
+0030 W HH==>No more than one spouse/parent/parent-in-law of each sex is allowed in the household
+0050 E HH==>Line %02d: Member neither usual resident (AH05=%1d) nor slept previous night in HH (AH06=%1d)
+0060 E HH==>Line %02d: Sex (AH04=%1d) of spouse (%02d) must be different from sex (AH04=%1d) of head of household (%02d)
+0061 E HH==>Line %02d: Son/daughter of head of household (AH03=%1d), but head (line=%1d) not %s of member (%s=%02d)
+0071 W HH==>Line %02d: Age (AH07=%02d) of head of household or spouse is under %02d years
+0072 W HH==>Check head of household's age (line %02d, AH07=%02d) with his/her parent's age (line %02d, AH07=%02d)
+0073 W HH==>Check spouse's age (line %02d, AH07=%02d) with his/her parent's age (line %02d, AH07=%02d)
+0075 W HH==>Check son/daughter-in-law (line %02d) and age AH07=%02d less than 15
+0076 W HH==>Check son/daughter-in-law (line %02d) and invalid marital status AH08=%d
+0120 E HH==>Line %02d: Line number (%02d) of %s not valid
+0121 E HH==>Line %02d: Sex of %s (%02d) incorrect
+0122 E HH==>Line %02d: Relationship (AH03=%02d) between %s (line=%02d, AH03=%02d) and child not correct
+0123 W HH==>Line %02d: Child has different %s in household reported in %s (%02d) vs expected (%02d) according to relationship codes
+0124 W HH==>Line %02d: Age of %s (AH07(%02d)=%02d) unlikely
+0150 E HH==>Line %02d: Eligibility of member incorrect: Sex (AH04)=%1d, Age (AH07)=%02d, Elig (%s)=%02d
+0151 E HH==>Number of eligible %s incorrect: Expected %02d, found %02d
+0160 W HH==>Line %02d: Level and grade of education %s=%1d:%02d inconsistent with level and grade of education %s=%1d:%02d
+0165 W Declared that household doesn't have electricity (AH132A=%d), but electricity is used as fuel for %s (%s=%d)
+
+{ HIV barcode msgs **new ** }
+0170 W Unable to load %s transmittal sheet data for cluster %d
+0171 E Transmittal sheet for cluster %d has not been scanned
+0172 W Cluster %d, transmittal sheet barcode %s not found in any of the HH questionnaires for %s
+0173 W Cluster %d, HH %d, barcode %s for %s in HH %s section row %d already exists in another questionnaire in this cluster
+0174 W Cluster %d, HH %d, barcode %s for %s in HH %s section row %d not found in transmittal sheet
+
+{ Height and weight }
+0440 W HH==>%s Column %1d Line %02d: Weight %s=%6.2f outside range expected for age=%1d, sex=%1d
+0441 W HH==>Column %d Line %d second decimal for weight (AB106=%5.2f) different from 0,5
+0450 W HH==>%s Column %1d Line %02d: Height (length) %s=%05.1f outside range expected for age=%1d, sex=%1d
+0460 W HH==>Child Column %1d Line %02d: Children under 2 years are usually measured lying down, children 2+ measured standing up: Measured AB109=%1d, age=%02d
+0473 W HH==>%s Column %1d Line %02d: Implausible hemoglobin level %4.1f
+
+{ Misc HH stuff }
+0500 OUT DHS5 E Number of sick people in HH schedule 18-59 years (%d) does not agree with the number found in the Sick People Section (%d)
+0501 OUT DHS5 E Number of people who have died (ZH302=%d) does not agree with the number of people listed in the Death section (%d)
+0502 OUT DHS5 E Number of children 0-17 years in HH schedule (%d) does not agree with the number of children listed in the OVC section (%d)
+
+{ Individual women's questionnaire messages }
+1030 W Years respondent living in current place (A104=%d), exceeds current age (A110=%02d/%04d A111=%02d)
+1031 W Respondent is a visitor (A104=%02d), however she is a usual resident in the household schedule (AH05=%1d)
+1035 W Date moved to current place of residence (%02d/%04d) inconsistent with years living in current place A104=%d
+1060 W Neither date of birth (A110=%02d/%04d) nor age (A111=%02d) specified
+1061 W Respondent's age in individual questionnaire (A111=%d) differs from age in household (AH07=%02d)
+1062 E Date of birth (A110=%02d/%04d, cmc=%04d-%04d) and age (A111=%02d) inconsistent with date of interview (%02d/%04d, cmc=%04d)
+1063 E Date of birth (A110=%02d/%04d) is out of range with respect to the interview date (%02d/%04d, range=%02d/%04d-%02d/%04d)
+1064 W Month of birth (A110=%d) inconsistent with other information: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+1091 E Level (A114=%1d) and grade (A115=%02d) of education of respondent inconsistent
+
+{ pregnancy history }
+2141 E PregHist: Child %d-%s sex in pregnancy history with HH line in A227=%02d-%s (A219)=%d, but sex in household (AH04)=%d
+2171 E PregHist: Child %d-%s age (A225=%02d) and DOB (A220=%02d/%04d) inconsistent with date of interview=%02d/%04d
+2172 W PregHist: Child %d-%s month of pregnancy (A220M=%02d) inconsistent with other information: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+2173 W PregHist: Child %d-%s in (A225) %d years old in pregnancy history but (AH07) %d years in household with HH line number in A227=%02d-%s
+2175 W PregHist: Child %d-%s age of child (A225=%d) and DOB entered (A220=%d-%d-%d) are not consistent
+2182 E PregHist: Child %d-%s with HH line in A227=%02d-%s has different mother in household (AH13=%02d, mother's line=%02d)
+2183 W PregHist: Child %d-%s residence status in PH (A226=%d) different in household (AH05=%d) HH line in A227=%02d-%s ; mother's residence status (AH05)=%d
+2184 E PregHist: Child %d-%s with HH line #/A227=%02d-%s has already been referenced by this woman
+2185 W PregHist: Child with HH #%d-%s not found in woman's pregnancy history
+2186 W PregHist: Child %d-%s has no line number in HH (A227=%d), but mother is usual household resident member (AH05=%1d) and child lives with mother (A226=%1d)
+2191 W PregHist: Child %d-%s: Age at death A228N=%02d out of range %1d-%02d for the unit A228U=%1d
+2192 W PregHist: Child %d-%s: Age at death (A228=%1d/%02d) and DOB (A220=%02d/%04d) inconsistent with date of interview=%02d/%04d
+2200 E PregHist: Child %d with HH#/A227=%d also referenced in woman #%d's questionnaire
+2212 E PregHist: Child %d with HH#/A227=%d: child's DOB (A220=%02d/%02d/%04d) and DOB in height/weight section (AB103=%02d/%02d/%04d) differ
+2250 E Number of pregnancies (zzA224=%1d) since Jan. %04d different from pregnancies in pregnancy history %1d
+
+2270 E Current pregnancy information (A232=%1d) inconsistent with calendar (%1s).
+2280 E Duration of current pregnancy in calendar (%d) different from A233 (%d/%02d)
+2310 E Pregnancy termination date (%s=%02d/%04d, cmc=%04d-%04d) different from termination date given in calendar (cmc=%04d [%02d/%04d], row %02d)
+2330 E Pregnancy termination duration (Z233(%d)=%02d) different from duration in calendar (%02d)
+2340 E Earlier terminated pregnancy in calendar (row %02d), but no other terminated pregnancy mentioned (Z237=%1d)
+2360 W Last period before last pregnancy (A236=%1d/%02d) but have never had a pregnancy (CEB A212=%02d)
+2362 W Amenorrhea (A476(1)=%d) inconsistent with time since period returned (A236=%1d-%02d)
+2364 W Time since last period exceeds interval: child %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interview=%04d [%02d/%04d], last period A236=%1d/%02d
+2365 W Time since last period given (A236=%1d/%02d), but period not returned (A476(1)=%d) since last pregnancy
+2366 W Duration of amenorrhea + time since last period exceeds interval: child %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d] interview=%04d [%02d/%04d] amenorrhea=%03d last period A236=%1d/%02d
+2367 W Never menstruated (A236N=%02d), but time period returned given for a pregnancy in the last 5 years
+2368 W Not menstruated since last pregnancy (A236N=%02d), but stated period returned (A476(1)=%02d) after last pregnancy
+2369 W Never menstruated (A236N=%02d), but had children (A208=%02d)
+2370 W Last period (A236=%1d/%02d) occurred during current pregnancy (A233N=%02d)
+
+3090 OUT DHS5 W Living children (Z307=%02d) before first use exceeds children ever born (A208=%02d)
+3130 E Current use of contraception (A303=%1d, A307=%s) inconsistent with calendar (last use in row %02d)
+3131 E Methods used (A307=%s) inconsistent with current method in calendar (%1s).
+3140 E Current method different (A307=%s) from method in calendar (%1s)
+3141 OUT DHS5 E Respondent's sterilization status (Z302(%1d)=%1d) inconsistent with current method (A307=%s)
+3142 E Current method in A307 (%s) never known according to contraceptive table
+3143 E Current pregnancy information (A232=%1d) inconsistent with current use information (A307=%s)
+3144 OUT DHS5 W Respondent's ever use of male sterilization (Z302(%1d)=%1d) inconsistent with current method (A307=%s)
+3145 E Current method in A307N=%02d is different from current method expected=%02d
+3150 E Method used in last sexual intercourse in A726 (%s) never known according to contraceptive table
+3211 E Current method start date (A314=%02d/%04d = cmc %04d-%04d) does not agree with calendar (cmc=%04d-%04d [%02d/%04d-%02d/%04d], row %02d)
+3212 E Female sterilization use in calendar in row %02d (cmc=%04d [%02d/%04d]) but not continuously used after that date
+3215 E Sterilization start date (cmc=%04d-%04d [%02d/%04d-%02d/%04d]) before date of first union (cmc=%04d-%04d [%02d/%04d-%02d/%04d])
+3216 E Current method start date (cmc=%04d-%04d [%02d/%04d-%02d/%04d]) and minimum age at first contraceptive use (%02d) inconsistent: DOB=%04d-%04d [%02d/%04d-%02d/%04d]
+3217 E Month began using current method (A314M=%02d) inconsistent with other information: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+3280 W Source (A330=%02d) of current method (A307=%s) inconsistent with method
+3281 OUT DHS5 W Source (%s=%02d) of current method (A307=%s) inconsistent with source given in calendar (row %02d=%s)
+
+4050 W Column %1d: Stopped to get pregnant in row %02d with child %02d, but did not want child then (A408=%1d)
+4139 E Column %1d & %1d: Twins should have the same responses. %s(%1d)=%s but %s(%1d)=%s. Please check.
+4140 E Column %1d & %1d: Twins should have the same responses. %s(%1d)=%1d %s(%1d)=%1d. Please check.
+4141 E Column %1d & %1d: Twins should have the same responses. A478(%1d)=%1d but A478(%1d)=%1d, zzA463(%1d)=%1d but zzA463(%1d)=%1d. Please check.
+4142 E Column %1d & %1d: Twins should have the same responses. %s(%1d)=%s %s(%1d)=%s. Please check.
+4219 OUT DHS5 W Column %1d year for last tetanus injection (Z419Y=%02d) less than date of pregnancy A110=%02d/%04d A111=%02d
+4220 W Column %1d years since injection (A425=%02d) greater than date of pregnancy A110=%02d/%04d A111=%02d
+4260 W Column %1d: Time first breastfed (A482=%1d/%02d) child (%02d) after age at death of child (A228=%1d/%02d)
+4280 W Column %1d: Still breastfeeding child %02d that is not the last child. A485=%1d
+4291 OUT DHS5 W Column %1d: Duration of breastfeeding (Z466=%02d) exceeds age at death in months (%02d) of child (%02d)
+
+{ Vaccinations }
+4471 E Vacc col %1d: Date of %s (%02d/%02d/%04d) is after date of interview (%02d/%02d/%04d)
+4472 E Vacc col %1d: Date of %s (%02d/%02d/%04d) is before minimum date of pregnancy of child, calculated as %02d/%02d/%04d
+4473 E Vacc col %1d: Date of %s (%02d/%02d/%04d) is earlier than %s (%02d/%02d/%04d)
+4474 W Vacc col %1d: Dates are different (b=%s v h=%s v p0=%s, p1=%s v d1=%s v n1=%s v r1=%s, p2=%s v d2=%s v n2=%s v r2=%s, p3=%s v d3=%s v n3=%s v r3=%s)
+4475 E Vacc col %1d: Date of %s (%02d/%02d/%04d) is after date of death (%02d/%02d/%04d)
+4476 W Vacc col %1d: A504=%d, but no vaccinations recorded in vaccination section (A506)
+4480 W Vacc col %1d: Receipt of other vaccinations (A512=%1d), inconsistent with vaccinations recorded (B=%s; H=%s P=%s,%s,%s,%s,%s; D=%s,%s,%s,%s; N=%s,%s,%s; R=%s,%s,%s M=%s; %s V=%s)
+
+5020 OUT DHS5 E Current marital status (A701=%1d) and marital status from calendar (%1s) inconsistent
+5040 OUT DHS5 E Never in union (A702=%1d), but recorded as in union in last 5 years on calendar (row=%02d, code=%1s)
+5060 E Line number (A710=%02d) of husband/partner exceeds number of household members (AHMEMBER=%02d)
+5061 E Sex (AH04=%1d) of husband/partner (A710 line=%02d) not male
+5062 W Age (AH07=%02d) of the husband/partner (A710 line=%02d) is under %02d
+5063 W Possible husband (%02d, rel=%02d) found in HH, but not listed as husband of woman (%02d, rel=%02d)
+5064 W Relationship between woman (AH03=%02d) and husband (A710=%02d, AH03=%02d) seems incorrect
+5068 W Husband %02d age (A902=%02d) different from that given in the household AH07=%02d 
+5100 W Rank (A713=%02d) of wife exceeds number of wives (A712=%02d)
+5120 E First union after date of interview: DOU (A715)=%02d/%04d, age at u (A716)=%02d, interview=%02d/%04d, DOB (A110)=%02d/%04d, age (A111)=%02d
+5121 W First union before age %02d: DOB (A110)=%02d/%04d, age (A111)=%02d, DOU (A715)=%02d/%04d, age at u (A716)=%02d
+5126 E Month of first union (A715M=%02d) inconsistent with other information: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+5130 E Age at first union (A716=%02d) exceeds current age (A111=%02d) interview date=%02d/%04d, DOB (A110)=%02d/%04d, DOU (A715)=%02d/%04d
+5132 E Age at first union (A716=%02d) and date of first union (A715=%02d/%04d) inconsistent with date of interview (%02d/%04d), age (A111=%02d), and/or DOB (A110=%02d/%04d)
+5133 E Age at first union (A716=%d) and date of first union (A715=%02d/%04d) inconsistent after imputing DOB (A110=%02d/%04d): interview=%02d/%04d, age (A111)=%02d
+5134 E Age at first union (A716=%d) and date of first union (A715=%02d/%04d) inconsistent with interview=%02d/%04d, age (A111)=%02d, and/or DOB (A110)=%02d/%04d
+5135 W No information given for date of first union: age at u (A716)=%2d, DOU (A715)=%2d/%4d
+5140 E Age at current union (A720=%02d) exceeds current age (A111=%02d) interview date=%02d/%04d, DOB (A110)=%02d/%04d, DOU (A719)=%02d/%04d
+5141 W Current union before age %02d: DOB (A110)=%02d/%04d, age (A111)=%02d, DOU (A719)=%02d/%04d, age at u (A720)=%02d
+5142 E Age at current union (A720=%02d) and date of current union (A719=%02d/%04d) inconsistent with date of interview (%02d/%04d), age (A111=%02d), and/or DOB (A110=%02d/%04d)
+5143 E Current union after date of interview: DOU (A719)=%02d/%04d, age at u (A720)=%02d, interview=%02d/%04d, DOB (A110)=%02d/%04d, age (A111)=%02d
+5144 E Date/Age at first union (A715=%02d/%04d A716=%02d) inconsistent with date/age at current union (A719=%02d/%04d A720=%02d)
+5145 W No information given for date of current union: age at u (A720)=%2d, DOU (A719)=%2d/%4d
+5146 E Month of current union (A719M=%02d) inconsistent with other information: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+5150 W Never had sexual intercourse (A722=%d), but has children (A208=%02d) or is currently pregnant (A232=%1d)
+5151 W Never had sexual intercourse (A722=%1d), but has been in union (A701=%1d) or lived with a man (A702=%1d)
+5152 W Last sex before last pregnancy (A723=%d/%d), but currently pregnant (A232=%1d)
+5153 W Time since last sex exceeds interval: child %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d] interview=%04d [%02d/%04d] last sex (A723)=%1d/%02d
+5154 W Time since last sex given (A723=%d/%d), but sexual relations not resumed (A478(1)=2) since last pregnancy
+5155 W Duration of abstinence (%d) + time since last sex (A723=%d/%d) exceeds interval: child %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interview=%04d [%02d/%04d]
+5156 W No sex since last pregnancy (A723N=%1d/%02d), but stated sexual relations resumed (A478(1)=%02d) after last pregnancy
+5157 W Last sex (A723=%d/%d) longer ago than start of current pregnancy (A233N=%02d)
+5158 W Last sex before last pregnancy (A723=%d/%d), but never given pregnancy (A208=%02d)
+5190 W Age at first sex (A722=%02d) exceeds current age (A111=%02d); interview=%02d/%04d, DOB (A110)=%02d/%04d
+5191 W Age at first sex (A722=%02d) after age at first conception: child's DOB (A220)=%02d/%04d, woman's DOB (A110)=%02d/%04d
+5192 W First sex (A722=%02d) when in first union, but never in union (A702=%1d)
+5193 W Age at first sex (A722=%d) after date of marriage (A715=%02d/%04d); age at u (A716)=%02d, DOB (A110)=%02d/%04d
+5194 W Age at first sex (A722=%d) was at time of marriage (A715=%02d/%04d), but this is after age at first conception: first child born %02d/%04d (A220), age at u (A716)=%02d
+5195 W Age at first sex (A722=%d) after date of current marriage (A719=%02d/%04d); age at u (A720)=%02d, DOB (A110)=%02d/%04d
+5200 W No sex in last 12 months (A723=%1d/%02d), but is or may be pregnant (A232=Yes or DK: %1d)
+5245 E Number of lifetime partners must be greater than or equal to the number of partners in the last year %d
+5300 W For partner declared in column %d: first sexual intercourse (A623=%d/%02d) occurred after last sex with that partner (%s=%d/%02d)
+5301 W Last sexual intercourse with partner %d %s=%d/%02d occurred before sexual intercourse with partner %d zzA715U=%d/%02d
+
+6031 W Time to next birth seems incorrect (A805=%d/%02d)
+6032 W Answered after marriage (A805=%1d/%02d), but respondent is currently married (A701=%1d)
+6100 W Respondent married (A701=%1d), but responded "Not married" as reason for not using a method (%s=%s)
+6101 W Response "Knows no method" (%s=%s), but %d method(s) known in contraceptive table
+6104 W Declared menopausal/hysterectomy (%s=%s) inconsistent with response to time since last period (A236=%1d/%02d)
+6105 W Declared subfecund/infecund (%s=%s) inconsistent with response to desire for future birth (A804=%1d, A805=%1d%02d)
+6108 OUT DHS5 W Response "Wants more children" (Z711=%02d) inconsistent with desire for future birth (A803=%01d)
+6111 W Declared knows no source (%s=%s), however knew of a source of family planning (A331=%1d)
+6131 W Boys (A814A=%02d), girls (A814B=%02d), and either (A814C=%02d) should add up to total ideal number of children (A813=%02d)
+
+6280 W Used condom A727=%d/A732=%d/A735=%d in last 12 months but don't know condom in contraceptive table (A301=%d)
+7250 W Decision made by husband/partner (%s=%d) but respondent not in union (A701=%1d)
+
+{ Other health issues }
+8110 E Time at start of interview (A101=%02d:%02d) after time at end of interview (A1116=%02d:%02d), but only one visit
+8111 E Injections administered by health personnel zzA1102=%02d can't be more than injections in last year (zzA1101=%02d)
+
+{ maternal mortality }
+9000 E Siblings listed out of order: Sibling %02d years since birth=%02d, Sibling %02d years since birth=%02d
+9001 W More than 30 years between oldest (%02d) and youngest (%02d) sibling
+
+{ Calendar }
+9801 E Calendar: Invalid code %1s in column %1d row %02d
+9802 E Calendar: Pregnancy in row %02d (cmc=%04d [%02d/%04d]) out of range from pregnancy history (event %02d type=%1d cmc=%04d-%04d [%02d/%04d-%02d/%04d])
+9803 E Calendar: Pregnancy in row %02d has gestation length of %02d months
+9804 E pregnancy %02d (%04d-%04d [%02d/%04d-%02d/%04d]) in pregnancy history does not have entry in calendar
+9805 E Calendar: Discontinuation of use but no code given in col.%1d row %02d: col.1=%1s col.1(%02d)=%1s
+9806 W Calendar: Discontinuation (%1s,%1s) in consecutive months %02d & %02d. Please check!
+9807 E Calendar: No discontinuation of use, but code for discontinuation given in col.%1d row %02d=%1s
+9812 E Calendar: Became pregnant while using (col.%1d=%s), but use in row %02d not followed by a pregnancy
+9813 E Calendar: Stopped to become pregnant (col.%1d=%s), but no month of non-use or pregnancy after discontinuation in row %02d
+9814 W Column %1d: Abstaining (zzA463=%1d), but using a method (col.1 row %02d=%1s) in same month
+9815 W Column %d: %s (%s=%d) during pregnancy (col.1 row %02d=%1s)
+9816 OUT DHS5 W Pregnancy in row %02d outside of union
+9817 E Method (%s) used in row %02d of calendar, but not known according to contraceptive table (A301(%1d)=%1d)
+9818 E Calendar: Pregnancy code in row %02d in column 1 not followed by a termination code
+9819 E Calendar: Terminated pregnancy in row %02d has gestation of %02d months
+9820 OUT DHS5 E Calendar: Start of new method, but no code given in column %1d row %02d
+9821 OUT DHS5 E Calendar: No new method started, but code %1s given in column %1d row %02d
+
+{ Date Editing and Imputation }
+9901 E Interval between respondent's birth and first union inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+9902 E Interval between respondent's birth and first pregnancy outcome inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+9903 E Interval between first union and first pregnancy outcome inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+9904 E Interval between respondent's date of birth or union and later event inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+9905 E Interval between pregnancies outcomes inconsistent: child %02d: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d] child %02d: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+9906 E Interval between last pregnancy outcome and later event inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+9907 E Interval between events inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+9914 W Duration of amenorrhea between events inconsistent: child %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], amenorrhea=%03d, interval=%03d
+9915 W Duration of abstinence between events inconsistent: child %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], abstinence=%03d, interval=%03d
+9916 W Duration of breastfeeding between events inconsistent: child %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], breastfeeding=%03d
+9917 W Duration of contraceptive use between events inconsistent: child %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], contraceptive use=%03d, interval=%03d
+9918 E Cannot create gap between events: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+9919 E Minimum and maximum date of event %02d cross over: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+9920 E Minimum and maximum date of pregnancy of twins %02d cross over: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+9921 E Event %02d: Month of event (%02d) inconsistent with final range for event: cmc=%04d-%04d [%02d/%04d-%02d/%04d] imputed=%04d [%02d/%04d]
+
+{ Domestic violence }
+11001 E Number of years in abusive relationship DV18=%02d greater than respondent's marriage duration %02d
+
+{ Women's status }
+11020 W Woman states no one from pregnancy family in HH (WS15=%d), yet %d usual resident parents and/or siblings found in HH schedule
+11025 W Woman says someone from pregnancy family in HH (WS15=1), yet no usual resident parent or sibling found in HH
+11030 W Woman states husband/partner went to sleep hungry (WS23=%s), yet not currently in union (A701=%d)
+11031 W Woman states %s went to sleep hungry (WS23=%s), yet never gave pregnancy to a %s
+11032 W Woman states %s went to sleep hungry (WS23=%s), yet no %s living in HH with her (see pregnancy history)
+
+{ Female genital cutting }
+11050 E Respondent age at circumcision (GC07=%02d) greater than current age (A111=%02d)
+
+{ Individual men's questionnaire messages }
+21030 W Years respondent is living in current place (AM104=%d), exceeds current age (AM110=%02d/%04d AM111=%02d)
+21031 W Respondent is a visitor (AM104=%02d), however she is a usual resident in the household schedule (AH05=%1d)
+21060 W Neither date of birth (AM110=%02d/%04d) nor age (AM111=%02d) specified.
+21061 W Respondent's age in individual questionnaire (AM111=%02d) differs from age in household (AH07=%02d)
+21062 E DOB (AM110=%02d/%04d, cmc=%04d-%04d) and age (AM111=%02d) inconsistent with date of interview=%02d/%04d, cmc=%04d
+21063 E Respondent's DOB (AM110=%02d/%04d) out of range: interview=%02d/%04d, range=%02d/%04d-%02d/%04d
+21064 W Respondent's month of birth (AM110M=%02d) inconsistent with other information: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+
+22110 W Number of women with whom fathered children (ZM211=%02d) exceeds number of children ever born (AM208=%02d)
+22140 W Age of youngest child %d not plausible with father's age %02d minimum age at first birth %d
+
+23142 W Current method (AM418=%s) never known according to contraceptive table
+
+25050 E Number of wives in AM406=%02d differs from count of wives in AM407: %1d
+25060 E Line number (AM407=%02d) of wife/partner %1d exceeds number of household members (AHMEMBER=%02d)
+25061 E Sex (AH04=%1d) of wife/partner %1d (AM407 line=%02d) is not female
+25062 W Age (AH07=%02d) of wife/partner %1d (AM407 line=%02d) is under 12 years
+25063 W Possible wife (%02d, rel=%02d) found in HH, but not listed as wife of man (%02d, rel=%02d)
+25064 W Relationship between man and wife %1d (AM407=%02d) is not correct, relationship code (AH03) for man is %02d, for woman is %02d
+25068 W Wife %02d age (AM408=%02d) different from that given in the household AH07=%02d
+25120 E First union after date of interview: DOU (AM411)=%02d/%04d, age at u (AM412)=%02d, interview=%02d/%04d, DOB (AM110)=%02d/%04d, age (AM111)=%02d
+25121 W First union before age %02d: DOB (AM110)=%02d/%04d, age (AM111)=%02d, DOU (AM411)=%02d/%04d, age at u (AM412)=%02d
+25126 E Month of first union (AM411M=%02d) inconsistent with other information: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+25130 E Age at first union (AM412=%d) exceeds current age (AM111)=%02d; interview date=%02d/%04d, DOB (AM110)=%02d/%04d, DOU (AM411)=%02d/%04d
+25131 E Age at first union (AM412=%d) and date of first union (AM411=%02d/%04d) inconsistent with DOB (AM110=%02d/%04d); interview=%02d/%04d, age (AM111)=%d
+25132 E Age at first union (AM412=%d) and date of first union (AM411=%02d/%04d) inconsistent: interview=%02d/%04d, age (AM111)=%02d, DOB (AM110)=%02d/%04d
+25133 E Age at first union (AM412=%d) and date of first union (AM411=%02d/%04d) inconsistent after imputing DOB (AM110=%02d/%04d): interview=%02d/%04d, age (AM111)=%02d
+25134 E Age at first union (AM412=%d) and date of first union (AM411=%02d/%04d) inconsistent with interview=%02d/%04d, age (AM111)=%d, and/or DOB (AM110)=%02d/%04d
+25135 W No information given for date of first union: age at u (AM412)=%2d, DOU (AM411)=%2d/%4d
+25150 E Never had sexual intercourse (AM414=%d), but has children (AM208=%02d) or a partner is or maybe pregnant (AM504=%1d, AM509=%1d)
+25151 W Never had sexual intercourse (AM414=%1d), but has a sex partner or is/was in union or lives/lived with a woman (AM401=%1d, AM402=%1d)
+25153 W Time since last sex exceeds interval: child %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d] interview=%04d [%02d/%04d], last sex AM415=%1d%02d
+25158 W Last sex before last birth (AM415=%1d/%02d), but never had a child (AM208=%02d)
+25180 W Age at first birth (AM211=%02d) inconsistent with other information about timing of first birth (cmc=%04d-%04d [%02d/%04d-%02d/%04d]).  Date of birth of resp.=%04d-%04d [%02d/%04d-%02d/%04d] interview=%04d [%02d/%04d]
+
+25190 W Age at first sex (AM414=%d) exceeds current age (AM111=%d); interview=%02d/%04d, DOB (AM110)=%02d/%04d
+25191 W Age at first sex (AM414=%02d) after age at partner's conception of first birth (AM211=%02d); respondent DOB (AM110)=%02d/%04d
+25192 W First sex (AM414=%02d) when first married, but never in union (AM402=%1d)
+25193 W Age at first sex (AM414=%02d) after date of marriage (AM411=%02d/%04d); age at u (AM412)=%02d, DOB (AM110)=%02d/%04d
+25194 W Age at first sex at marriage (AM414=%02d) after age at partner's conception of first birth (AM211=%02d): date of union (AM411)=%02d/%04d, age at u (AM412)=%02d
+25200 W Has not had sex in last 12 months (AM415=%1d/%02d), but at least one partner is or may be pregnant (AM504=%1d or AM509=%1d)
+25220 OUT DHS5 W Method in AM418=%s never used according to contraceptive table ZM302(%1d)=%1d
+25221 OUT DHS5 W Condom used with partner AM419(%d)=%d but never used according to contraceptive table ZM302(%1d)=%1d
+25245 E Number of lifetime partners must be greater than or equal to the number of partners in the last year %d
+25300 W For partner declared in column %d: first sexual intercourse (AM420=%d/%02d) occurred after last sex with that partner (%s=%d/%02d)
+25301 W Last sexual intercourse with partner %d %s=%d/%02d occurred before sexual intercourse with partner %d zzAM416U=%d/%02d
+
+26131 W Boys (AM515A=%02d), girls (AM515B=%02d), and either (AM515C=%02d) should add up to total ideal number of children (AM514=%02d)
+
+26280 W Used condom in the AM419=%d with partner (%d) but don't know condom in contraceptive table (AM301=%d)
+26280 W Used condom AM414=%d/AM423=%d/AM426=%d in last 12 months but don't know condom in contraceptive table (AM301=%d)
+27250 W Decision made by wife/partner (%s=%d) but respondent not in union (AM401=%1d)
+
+{ Other health issues }
+28110 E Time at start of interview (AM101=%02d:%02d) after time at end of interview (AM819=%02d:%02d), but only one visit
+28111 E Injections administered by health personnel (zzAM806=%02d) can't be more than injections in the last 12 months (zzAM805=%02d)
+29010 W Age at circumcision zzAM802=%02d greater than current age (%02d)
+
+{ Date Editing and Imputation }
+29901 E Interval between birth and first union inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+29902 E Interval between birth and first birth inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+29903 E Interval between first union and first birth inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+29904 E Interval between birth or union and later event inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+29905 E Interval between births inconsistent: child %02d: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], child %02d: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+29906 E Interval between last birth and later event inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+29907 E Interval between events inconsistent: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+
+29918 E Cannot create gap between events: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+29919 E Minimum and maximum date of event %02d cross over: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+29921 E Event %02d: Month of event (%02d) inconsistent with final range for event: cmc=%04d-%04d [%02d/%04d-%02d/%04d], imputed=%04d [%02d/%04d]
+
+{ Summary counts }
+90000 W Count of message %05d = %05d
+
+{ Couples edits }
+99990 E Respondent %02d said that husband/wife # is (%02d) but that person is not currently in union (%1d)
+99995 E Respondent %02d said that husband/wife # is (%02d) but that person declared that his/her partner is (%02d)
+99997 E Respondents %02d and %02d are both married to person # %02d
+
+Language = ES
+{ common strings used by the application }
+  ES ( "HIV" ) VIH
+  ES ( "Malaria" ) Malaria
+  ES ( "Interviewer" ) Entrevistador(a)
+  ES ( "Supervisor" ) Supervisor(a)
+  ES ( "father" ) padre
+  ES ( "mother" ) madre
+  ES ( "women" ) mujeres
+  ES ( "woman" ) mujer
+  ES ( "men" ) hombres
+  ES ( "man" ) hombre
+  ES ( "cooking" ) cocinar
+  ES ( "heating" ) calentamiento
+  ES ( "lighting" ) alumbrado
+  ES ( "Child" ) niño(a)
+  ES ( "Hep at birth" ) Hep al nacer
+  ES ( "Polio" ) Polio 
+  ES ( "IPV" ) VPI
+  ES ( "DPT" ) DPT
+  ES ( "Pneumococ" ) Pneumococ
+  ES ( "Rotavirus" ) Rotavirus
+  ES ( "Measles" ) Sarampion
+  ES ( "Vitamin" ) Vitamina
+
+0004 E El cuestionario de hogar %d no existe para este cuestionario individual
+0005 E No puede abrir el archivo de CONTROL para el segmento %d
+0006 E El archivo de datos para el segmento %d no esta listo para edicion secundaria
+0007 E Falla al actualizar el archivo de CONTROL para el segmento %d
+0008 E Cantidad de cuestionarios para el segmento %04d (%02d:%02d:%02d,%02d:%02d:%02d,%02d:%02d:%02d) diferente del archivo de CONTROL (%02d:%02d:%02d,%02d:%02d:%02d,%02d:%02d:%02d)
+
+{ Mensajes del cuestionario de hogar }
+0029 E HH==>Solo puede haber un jefe de hogar (se encontraron %d)
+0030 W HH==>Solo puede haber un conyuge/padre o madre/suegro(a) del mismo sexo listados en el hogar
+0050 E HH==>Linea %02d: Este miembro no es ni residente habitual (AH05=%1d) ni durmio la noche anterior en el hogar (AH06=%1d)
+0060 E HH==>Linea %02d: El sexo (AH04=%1d) del conyuge (%02d) debe ser diferente del sexo (AH04=%1d) del jefe de hogar (%02d)
+0061 E HH==>Linea %02d: Este miembro es hijo/a del jefe del hogar (AH03=%2d), pero el jefe (# orden=%2d) no es el/la %s de este miembro (%s=%02d)
+0071 W HH==>Linea %02d: La edad (AH07=%02d) del jefe del hogar o su conyuge es menor de %02d a?os
+0072 W HH==>Verifique la edad del jefe del hogar (linea %02d, edad AH07=%02d) con la edad de sus padres (linea %02d, edad AH07=%02d)
+0073 W HH==>Verifique la edad del conyuge (linea %02d edad AH07=%02d) con la edad de sus padres (linea %02d, edad AH07=%02d)
+0120 E HH==>Linea %02d: Numero de linea (%02d) del/la %s no es valido
+0121 E HH==>Linea %02d: Sexo del/la %s (%02d) incorrecto
+0122 E HH==>Linea %02d: Parentesco (AH03=%02d) entre el/la %s (linea=%02d, rel. AH03=%02d) y el ni?o no es correcto
+0123 E HH==>Linea %02d: Este ni?o tiene %s diferente (%02d vs %02d) en el hogar segun codigos de parentesco
+0124 W HH==>Linea %02d: Edad del/la %s (AH07(%02d)=%02d) improbable
+0150 E HH==>Linea %02d: Elegibilidad de este miembro es incorrecta: sexo (AH04)=%1d, edad (AH07)=%02d, Eligibilidad (%s)=%02d
+0151 E HH==> Numero de %s elegibles incorrecto: se espera %02d, se encontro %02d
+0160 W HH==>Linea %02d: Nivel y grado de educacion %s=%1d:%02d inconsistente con el nivel y grado de educacion %s=%1d:%02d
+0165 W Declaro que el hogar no tiene electricidad (AH132A=%d), pero usa electricidad como combustible para %s (%s=%d)
+
+{ Mensajes para codigo de barra de VIH **new ** }
+0170 W No puede abrir el archivo de la Hoja de Transmision de VIH para el segmento %d
+0171 E La hoja de transmision para el segmento %d no ha sido escaneada
+0172 W Segmento %d, Codigo de barras %s en la Hoja de Transmision no fue encontrado en ninguno de los cuestionarios de hogar
+0173 W Segmento %d, Hogar # %d, codigo de barras %s para %s en la seccion de VIH del hogar, fila %d ya existe en otro cuestionario de este segmento
+0174 W Segmento %d, Hogar # %d, codigo de barras %s para %s en la seccion de VIH del hogar, fila %d no fue encontrado en la Hoja de Transmision
+
+{ Peso y Talla }
+0440 W HH==>%s en columna %1d linea %02d: Peso %s=%05.1f fuera del rango esperado para edad=%1d, sexo=%1d
+0441 W HH==>En columna %d Linea %d segundo deciamla para peso (AB106=%5.2f) diferente de 0,5
+0450 W HH==>%s en columna %1d linea %02d: Talla (estatura) %s=%05.1f fuera del rango esperado para edad=%1d, sexo=%1d
+0460 W HH==>Ni?o en columna %1d Linea %02d: los ni?os menores de 2 a?os son medidos acostados, y los de 2+ a?os son medidos parados: Medida AB109=%1d, edad=%02d
+0473 W HH==>%s Columna %1d Linea %02d: Niveles de hemoglobina imposibles %4.1f
+
+{ Misc del Hogar }
+0500 OUT DHS5 E Numero de enfermos 18-59 a?os en el listado de miembros del hogar (%d) difiere del total de enfermos encontrados en la Seccion de Personas Enfermas (%d)
+0501 OUT DHS5 E Numero de personas que han fallecido (ZH302=%d) difiere del total de fallecidos listados en la Seccion de Fallecidos (%d)
+0502 OUT DHS5 E Numero de ni?os de 0-17 a?os en el listado de miembros del hogar (%d) difiere del numero de ni?os listados en la Seccion de Ni?os Huerfanos y Vulnerables (%d)
+
+{ Mensajes del cuestionario individual de mujeres }
+1030 OUT DHS5 W A?os viviendo en el lugar de residencia actual (Z102=%d), es mayor que la edad actual de la entrevistada (A110=%02d/%04d A111=%02d)
+1031 OUT DHS5 W La entrevistada es visitante (Z102=%02d), sin embargo esta registrada como residente habitual en el listado de miembros del hogar (AH05=%1d)
+1035 W Fecha se mudo al lugar de residencia actual (%02d/%04d) inconsistente con años viviendo en el lugar A104=%d
+1060 W Ni la fecha de nacimiento (A110=%02d/%04d) ni la edad (A111=%02d) fueron reportadas
+1061 W La edad de la entrevistada en el cuestionario individual (A111=%02d) difiere de la edad reportada en el listado de hogar (AH07=%02d)
+1062 E La fecha de nacimiento de la entrevistada (A110=%02d/%04d, cmc=%04d-%04d) y su edad (A111=%02d) son inconsistentes con la fecha de la entrevista (%02d/%04d cmc=%04d)
+1063 E La fecha de nacimiento de la entrevistada (A110=%02d/%04d) esta fuera de rango con respecto a la fecha de la entrevista (%02d/%04d, rango=%02d/%04d-%02d/%04d)
+1064 W El mes de nacimiento de la entrevistada (A110=%02d) es inconsistente con otra informacion: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+1091 E Nivel (A114=%1d) y grado (A115=%02d) de educacion de la entrevistada inconsistentes
+
+{ Historia de embarazos }
+2141 E Historia Embarazos/ Ni?o %02d: El sexo en A219=%1d difiere del sexo registrado en el hogar (AH04=%1d)
+2171 E Historia Embarazos/ Ni?o %02d: La edad en A225=%02d) y la fecha de embarazo (A220=%02d/%04d) son inconsistentes con la fecha de la entrevista=%02d/%04d
+2172 W Historia Embarazos/ Ni?o %02d: el mes de embarazo (A220M=%02d) es inconsistente con otra informacion: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+2173 W Historia Embarazos/ Ni?o %02d: tiene A225=%d a?os en la historia de nacimientos, pero la edad en el listado de hogar es AH07=%02d a?os
+2182 E Historia Embarazos/ Ni?o %02d tiene madre diferente en el listado del hogar (AH13=%02d, # linea de la madre=%02d)
+2183 W Historia Embarazos/ Ni?o %02d: el estatus de residencia en la historia de embarazos (A226=%d) es diferente del estatus de residencia en el hogar (AH05=%1d); estatus de residencia de la madre (AH05=%1d)
+2184 E Historia Embarazos/ Ni?o %02d: el numero de orden de este ni?o (A227=%d) ya fue usado en esta seccion
+2185 W Historia Embarazos/ Ni?o con numero de linea en el hogar %d no fue encontrado en la historia de embarazos
+2186 E Historia Embarazos/ Ni?o %02d: no tiene numero de linea en el hogar (A227=%2d), pero la madre es residente habitual (AH05=%1d) y el ni?o vive con ella (A226=%1d)
+2191 W Historia Embarazos/ Ni?o %02d: edad al morir A228N=%02d fuera de rango %1d-%02d para la unidad A228U=%1d
+2192 W Historia Embarazos/ Ni?o %02d: edad al morir (A228=%1d/%02d) y la fecha de embarazo (A220=%02d/%04d) inconsistentes con la fecha de la entrevista %02d/%04d
+2200 E Historia Embarazos/ Ni?o %02d con numero de linea en el hogar A227=%02d, ya fue listado en la historia de embarazos de otro cuestionario, el de la mujer # linea=%02d
+2212 E Historia Embarazos/ Ni?o %02d con numero de linea en el hogar A227=%02d: la fecha de embarazo del ni?o (A220=%02d/%04d) y la fecha de embarazo en la seccion de peso/talla son diferentes AB103=%02d/%02d/%04d
+2250 E El total Embarazos (zzA224=%1d) desde Enero %04d difiere del total de embarazos en la historia de embarazos %1d
+
+2270 E La informacion del embarazo actual (A232=%1d) es inconsistente con el calendario (%1s)
+2280 E La duracion del embarazo actual en el calendario (%02d) y la duracion registrada en A233=%d/%02d son diferentes
+2310 E La fecha de perdida/terminacion del ultimo embarazo (zzA231=%02d/%04d, cmc=%04d-%04d) es diferente de la fecha de terminacion registrada en el calendario (cmc=%04d [%02d/%04d], fila %02d)
+2330 E La duracion del ultimo embarazo perdido/terminado (Z233=%02d) es diferente de la duracion marcada en el calendario (%02d)
+2340 E Mas de una perdida/terminacion "T" marcada en el calendario (fila %02d), pero no menciono otra perdida/terminacion en la pregunta (Z237=%1d)
+2360 W Ultima menstruacion antes del ultimo embarazo (A236=%1d/%02d) pero nunca ha tenido hijos (HNV A208=%02d)
+2362 W Amenorrea (A476(1)=%1d) inconsistente con el tiempo transcurrido desde su ultima menstruacion (A236=%1d-%02d)
+2364 W Tiempo transcurrido desde su ultima menstruacion excede intervalo: ni?o %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], entrevista=%04d [%02d/%04d], ultima menstruacion A236=%1d/%02d
+2365 W Reporto fecha de su ultima menstruacion en A236=%1d/%02d, pero dice que no ha menstruado (A476(1)=%d) desde el ultimo embarazo
+2366 W Duracion de amenorrea + el tiempo desde la ultima menstruacion excede intervalo: Ni?o %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], entrevista=%04d [%02d/%04d], amenorrea=%03d, ultima menstruacion A236=%1d-%02d
+2367 W Nunca ha menstruado (A236N=%02d), pero declaro que volvio a menstruar para algun embarazo en los ultimos 5 a?os
+2368 W No ha menstruado desde ultimo embarazo (A236N=%02d), pero declaro que le volvio la menstruacion (A476(1)=%02d) despues de su ultimo embarazo
+2369 W Nunca ha menstruado (A236N=%02d), pero tiene hijos (A208=%02d)
+2370 W Ultima menstruacion (A236=%1d/%02d) ocurrio durante el embarazo actual (A233N=%02d)
+
+3090 OUT DHS5 W Total de hijos vivos (Z307=%02d) antes del primer uso de metodo excede el total de hijos nacidos vivos (A208=%02d)
+3130 E Uso actual de metodos anticonceptivos (A303=%1d,A307=%s) inconsistente con el calendario (ultimo uso de metodo en la fila %02d)
+3131 E Metodo usado actualmente (A307=%s) inconsistente con el metodo actual en el calendario (%1s)
+3140 E Metodo usado actualmente (A307N=%s) es diferente del metodo actual en el calendario (%1s)
+3141 OUT DHS5 E Mujer esterilizada (Z302(%1d)=%1d) inconsistente con el metodo actual (A307=%s)
+3142 E Metodo actual en A307 (%s) no es conocido de acuerdo a la tabla de anticonceptivos
+3143 E La informacion del embarazo actual (A232=%1d) inconsistente con la informacion del uso actual de metodo (A307=%s)
+3144 OUT DHS5 W Entrevistada ha usado esterilizacion masculina (Z302(%1d)=%1d) inconsistente con metodo actual (A307=%s)
+3145 E Metodo usado actualmente en A307N=%02d  es diferente del metodo actual esperado=%02d
+3150 E Metodo usado en la ultima relacion sexual en A726 (%s) no es conocido de acuerdo a la tabla de anticonceptivos
+3211 E Fecha cuando comenzo a usar el metodo actual (A314=%02d/%04d = cmc %04d-%04d) no concuerda con la fecha en el calendario (cmc=%04d-%04d [%02d/%04d-%02d/%04d], fila %02d)
+3212 E Uso de esterilizacion femenina en el calendario en la fila %02d (cmc=%04d [%02d/%04d]), pero no hay uso continuo despues de esa fecha
+3215 E Fecha cuando comenzo a usar esterilizacion femenina (cmc=%04d-%04d [%02d/%04d-%02d/%04d]) antes de la fecha de la primera union (cmc=%04d-%04d [%02d/%04d-%02d/%04d])
+3216 E Fecha cuando comenzo a usar metodo actual (cmc=%04d-%04d [%02d/%04d-%02d/%04d]) y la edad minima al primer uso de metodo (%02d) inconsistentes: fdn=%04d-%04d [%02d/%04d-%02d/%04d]
+3217 E Mes cuando comenzo a usar metodo actual (A314M=%02d) inconsistente con otra informacion: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+3280 W La fuente (A330=%02d) donde consiguio el metodo actual (A307=%s) es inconsistente para el metodo
+3281 OUT DHS5 W Fuente (%s=%02d) donde consiguio metodo actual (A307=%s) inconsistente con el codigo de la fuente marcada en el calendario (fila %02d=%s)
+
+4050 W Columna %1d: Descontinuo el uso de metodo en fila %02d porque queria quedar embarazada del hijo %02d, pero declaro que no queria quedar embarazada en ese momento (A408=%1d)
+4139 E Columna %1d & %1d: Gemelos deben tener la misma respuesta en %s(%1d)=%s, pero %s(%1d)=%s. Por favor, verifique.
+4140 E Columna %1d & %1d: Gemelos deben tener la misma respuesta en %s(%1d)=%1d, %s(%1d)=%1d. Por favor, verifique.
+4141 E Columna %1d & %1d: Gemelos deben tener la misma respuesta en A478(%1d)=%1d pero A478(%1d)=%1d, zzA463(%1d)=%1d pero zzA463(%1d)=%1d. Por favor, verifique.
+4142 E Columna %1d & %1d: Gemelos deben tener la misma respuesta en %s(%1d)=%s, %s(%1d)=%s. Por favor, verifique.
+4219 OUT DHS5 W Columna %1d: A?o cuando recibio la ultima inyeccion contra el tetanos (Z419Y=%04d) es menor que la fecha de embarazo (A110=%02d/%04d A111=%02d)
+4220 W Columna %1d: A?os desde la ultima inyeccion contra el tetano (A425=%02d) mayor que la fecha de embarazo (A110=%02d/%04d A111=%02d)
+4260 W Columna %1d: Primera vez que lact? (A482=%01d/%02d) al hijo (%02d) despues de la edad de la muerte del hijo (A228=%01d/%02d)
+4280 W Columna %1d: Todavia esta amamantando al hijo #%02d, pero este no es el ultimo hijo (A485=%1d)
+4291 OUT DHS5 W Columna %1d: Duracion de la lactancia (Z466=%02d) sobrepasa la edad en meses al morir (%02d) del hijo #(%02d)
+
+{ Vacunas }
+4471 E Columna %1d: Fecha de la vacuna %s (%02d/%02d/%04d) despues de la fecha de la entrevista (%02d/%02d/%04d)
+4472 E Columna %1d: Fecha de la vacuna %s (%02d/%02d/%04d) antes de la fecha minima de embarazo del ni?o(a), calculada como %02d/%02d/%04d
+4473 E Columna %1d: Fecha de la vacuna %s (%02d/%02d/%04d) anterior a la fecha de la vacuna %s (%02d/%02d/%04d)
+4474 W Columna %1d: Fechas diferentes (b=%s v p0=%s, p1=%s v d1=%s, p2=%s v d2=%s, p3=%s v d3=%s)
+4475 E Columna %1d: Fecha de la vacuna %s (%02d/%02d/%04d) posterior a la fecha de muerte del ni?o(a) (%02d/%02d/%04d)
+4476 W Columna %1d: Tiene tarjeta de vacunacion (A504=%1d), pero no hay vacunas registradas en el cuadro de vacunacion (A506)
+4480 W Columna %1d: Otras vacunas recibidas (A509=%1d) inconsistente con las vacunas reportadas (B=%s; P=%s,%s,%s,%s,%s; D=%s,%s,%s,%s; M=%s)
+
+5020 OUT DHS5 E Estado marital actual en A701=%1d y estado marital reportado en el calendario (%1s) inconsistentes
+5040 OUT DHS5 E Nunca ha estado casada/unida (A702=%1d), pero aparece casada/unida en los ultimos 5 anos en el calendario (fila=%02d, codigo=%1s)
+5060 E El numero de linea del esposo/compa?ero (A710=%02d) excede el total de miembros del hogar (AHMEMBER=%02d)
+5061 E Sexo (AH04=%1d) del esposo/compa?ero (linea A710=%02d) registrado en el cuestionario de hogar no es masculino
+5062 W Edad (AH07=%02d) del esposo/compa?ero (linea A710=%02d) registrada en el cuestionario de hogar es menor de %02d a?os
+5063 W Posible esposo (%02d, rel=%02d) encontrado en el listado de hogar, pero no fue listado como esposo de la mujer (%02d, rel=%02d)
+5064 W Parentesco entre la mujer entrevistada (rel AH03=%02d) y su esposo (A710=%02d, rel AH03=%02d) parece incorrecto
+5100 W Rango de la esposa (A713=%02d) excede el numero total de esposas (A712=%02d)
+5120 E Primera union despues de la fecha de la entrevista: FPU (A715)=%02d/%04d, edad a la u(A716)=%02d, entrevista=%02d/%04d, FDN(A110)=%02d/%04d, edad(A111)=%02d
+5121 W Primera union antes de %02d a?os: FDN(A110)=%02d/%04d, edad(A111)=%02d, FPU(A715)=%02d/%04d, edad a la u(A716)=%02d
+5122 OUT DHS5 E Primera union (cmc=%04d-%04d [%02d/%04d-%02d/%04d]) despues del primer mes de union en el calendario (cmc=%04d [%02d/%04d])
+5123 OUT DHS5 E Primera union (cmc=%04d-%04d [%02d/%04d-%02d/%04d]) antes del primer mes de union en el calendario (cmc=%04d [%02d/%04d])
+5124 OUT DHS5 E En union mas de una vez (A714=%1d) inconsistente con el numero de uniones encontradas en el calendario (uniones=%1d) y la edad a la primera union
+5125 OUT DHS5 E Primera union (cmc=%04d-%04d [%02d/%04d-%02d/%04d]) despues de Enero %04d, pero no aparecen uniones marcadas en el calendario
+5126 E Mes de la primera union (A715M=%02d) inconsistente con otra informacion: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+5130 E Edad a la primera union (A716=%02d) excede la edad actual (A111=%02d): entrevista=%02d/%04d FDN(A110)=%02d/%04d, FPU(A715)=%02d/%04d
+5132 E Edad a la primera union (A716=%02d) y la fecha de la primera union (A715=%02d/%04d) inconsistentes con la fecha de la entrevista (%02d/%04d), edad(A111)=%02d, y/o FDN(A110)=%02d/%04d
+5133 E Edad a la primera union (A716=%02d) y la fecha de la primera union (A715=%02d/%04d) inconsistentes con la fecha de embarazo imputada: FDN(A110)=%02d/%04d, entrevista (%02d/%04d), edad(A111)=%02d
+5134 E Edad a la primera union (A716=%02d) y la fecha de la primera union (A715=%02d/%04d) inconsistentes con la fecha de la entrevista (%02d/%04d), edad(A111)=%02d, y/o FDN(A110)=%02d/%04d
+5135 W No se dio informacion para la fecha de la primera union: edad a la union (A716)=%2d, FPU (A715)=%2d/%4d
+5145 E Fecha/edad a la union actual (A719=%02d/%04d A720=%02d) inconsistente con FNAC/edad actual (A110=%02d/%04d A111=%02d) fecha entrevista=%02d/%04d
+5150 W Nunca ha tenido relaciones sexuales (A722=%d), pero tiene hijos (A208=%02d) o esta embarazada (A232=%1d)
+5151 W Nunca ha tenido relaciones sexuales (A722=%1d), pero ha estado casada/unida (A701=%1d) o vivido con un hombre (A702=%1d)
+5152 W Tuvo su ultima relacion sexual antes del ultimo embarazo (A723=%1d/%02d), pero esta embarazada (A232=%1d)
+5153 W Tiempo desde su ultima relacion sexual excede el intervalo: ni?o %02d, cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], entrevista=%04d [%02d/%04d], ultimo relacion sexual A723=%1d%02d
+5154 W Reporto la fecha de su ultima relacion sexual (A723=%d/%d), pero no ha reanudado relaciones sexuales desde su ultimo embarazo segun (A478(1)=2)
+5155 W Duracion de abstinencia (%d) + tiempo desde la ultima relacion sexual (A723=%d/%d) excede el intervalo: ni?o %02d, cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], entrevista=%04d [%02d/%04d]
+5156 W No ha tenido relaciones sexuales desde su ultimo embarazo (A723=%d/%d), pero reanudo relaciones sexuales despues del ultimo embarazo segun (A478(1)=%02d)
+5157 W La ultima relacion sexual (A723=%d/%d) ocurrio mucho antes del inicio del embarazo actual (A233N=%02d)
+5158 W Reporto que su ultima relacion sexual fue antes del ultimo embarazo (A723=%1d/%d), pero nunca ha dado a luz (A208=%02d)
+5190 W Edad a la primera relacion sexual (A722=%02d) excede la edad actual (A111=%02d); entrevista=%02d/%04d, FDN(A110)=%02d/%04d
+5191 W Edad a la primera relacion sexual (A722=%02d) despues de la edad al primer embarazo: FDN del hijo (A220)=%02d/%04d, FDN de la mujer (A110)=%02d/%04d
+5192 W Reporto que tuvo su primera relacion sexual cuando se caso/unio (A722=%02d), pero nunca se ha casado/unido (A702=%1d)
+5193 W Edad a la primera relacion sexual (A722=%02d) despues de la fecha de matrimonio: union (A715)=%02d/%04d, edad a la union (A716)=%02d, FDN(A110)=%02d/%04d
+5194 W Reporto que tuvo su primera relacion sexual (A722=%02d) cuando se caso/unio (A715=%02d/%04d), pero esto es posterior a la edad al primer embarazo: FDN primer hijo A220=%02d/%04d, edad a la union (A716)=%02d
+5200 W No ha tenido relaciones sexuales en los ultimos 12 meses (A723=%d/%d), pero esta o puede estar embarazada (A232=Si o No Sabe: %1d)
+5245 E El numero de parejas sexuales en toda su vida debe ser mayor o igual al numero de parejas en el ultimo a?o %d
+5300 W Para la pareja listada en la columna %d: la primera relacion sexual (zzA719U=%d/%02d) ocurri? despu?s de la ultima relacion sexual con esta pareja (%s=%d/%02d)
+5301 W Fecha de la ultima relacion sexual que tuvo con la pareja %d %s=%d/%02d es anterior a la fecha de la relaci?n sexual con la pareja %d zzA715U=%d/%02d
+
+6031 W Tiempo que desea esperar para tener su proximo hijo parece incorrecto (A805=%d/%02d)
+6032 W Respondio que desea tener su hijo "despues del matrimonio" (A805=%1d/%02d), pero la entrevistada esta actualmente casada/unida (A701=%1d)
+6100 W La entrevistada esta actualmente casada/unida (A701=%1d), pero respondio "No casada" como razon %s un metodo (%s=%02d)
+6101 W Respuesta "No conoce metodos" (%s=%02d), pero inform? en la tabla de anticonceptivos que conoce %d metodos
+6104 W Declaro que esta en "menopausia/histerectomizada" (%s=%02d) inconsistente con la respuesta sobre la fecha de su ultima menstruacion (A236=%1d/%02d)
+6105 W Declaro "subfecundidad/infecundidad" en %s=%02d inconsistente con respuesta a deseo de futuros embarazos (A803=%1d, A805=%1d/%02d)
+6108 OUT DHS5 W Declaro que "Quiere mas hijos" (Z711=%02d) inconsistente con deseo de tener hijos en el futuro en (A803=%01d)
+6111 W La entrevistada declaro no conocer fuente de metodos en %s=%02d, sin embargo conoce una fuente de metodos en A331=%1d
+6131 W La suma del total de ni?os (A814A=%02d), ni?as (A814B=%02d), y cualquier sexo (A814C=%02d) deben ser igual al total de hijos deseados (A813=%02d)
+
+6280 OUT DHS5 W Uso condon (A727=%d/A732=%d/A735=%d) en los ultimos 12 meses, pero segun la tabla de anticonceptivos no conoce el condon (A301=%d)
+
+{ Otros aspectos de salud }
+8110 E Hora de inicio de la entrevista (A101=%02d:%02d) despues de la hora de terminacion (A1116=%02d:%02d), con solo una visita al hogar
+8111 E Numero de inyecciones administradas por personal de salud zzA1102=%02d no puede ser mayor que el total de inyecciones recibidas el a?o pasado (zzA1101=%02d)
+
+{ Mortalidad materna }
+9000 E Los hermanos fueron listados fuera de orden: Hermano/a (%02d), a?os desde que nacio=%02d; Hermano/a (%02d), a?os desde que nacio=%02d
+9001 W Mas de 30 a?os de diferencia en la edad entre el hermano/a mayor (%02d) y el hermano/a menor es de m
+
+{ Calendario }
+9801 E Calendario: Codigo %1s invalido en la columna %1d fila %02d
+9802 E Calendario: Embarazo "N" en la fila %02d (cmc=%04d [%02d/%04d]) fuera de rango de acuerdo a la fecha declarada en la historia de embarazos (evento(%02d), tipo=%1d, cmc=%04d-%04d [%02d/%04d-%02d/%04d])
+9803 E Calendario: Embarazo "N" en la fila %02d tiene una gestacion de %02d meses
+9804 E embarazo %02d (%04d-%04d [%02d/%04d-%02d/%04d]) declarado en la historia de embarazos no esta registrado en el calendario
+9805 E Calendario: La entrevistada descontinu? el uso del metodo, pero no aparece ningun codigo de descontinuacion marcado en el calendario en col. %1d fila %02d: col.1=%1s col.1(%02d)=%1s
+9806 W Calendario: Descontinuacion (%1s,%1s) en meses consecutivos %02d & %02d. Por favor verifique!
+9807 E Calendario: La entrevistada no descontinu? el uso del metodo, pero aparece un codigo de descontinuacion marcado en el calendario en col. %1d fila %02d=%1s
+9812 E Calendario: Declaro que descontinuo el uso porque "quedo embarazada mientras usaba el metodo" (col. %1d=%s), pero el uso en la fila %02d no esta seguido de un embarazo "E"
+9813 E Calendario: Declaro que descontinuo el uso porque "queria quedar embarazada" (col. %1d=%s), pero no hay meses de "no uso" ni codigo de embarazo "E"  despues de la descontinuacion en la fila %02d
+9814 W Columna %1d: En abstinencia (zzA463=%1d), pero esta usando un metodo (col.1 fila %02d=%1s) en el mismo mes
+9815 W Columna %1d: %s (%s=%1d) durante el embarazo (col.1 fila %02d=%1s)
+9816 OUT DHS5 W Embarazo "E" en la fila %02d fuera de union/matrimonio
+9817 OUT DHS5 E Metodo (%1s) usado en la fila %02d del calendario, nunca fue usado en la tabla de anticonceptivos (Z302(%1d)=%1d)
+9818 E Calendario: Codigo de embarazo "E" en la fila %02d, columna 1 del calendario no esta seguido del codigo de terminacion/perdida "T"
+9819 E Calendario: Terminacion/perdida "T" en la fila %02d del calendario tiene una gestacion de %02d meses
+9820 OUT DHS5 E Calendario: Inicio un metodo nuevo, pero no aparece codigo de la fuente en la columna %1d fila %02d
+9821 OUT DHS5 E Calendario: No inicio ningun metodo, pero codigo %1s para la fuente marcado en la columna %1d fila %02d
+
+ Edicion de fechas e imputacion }
+9901 E Intervalo entre la fecha de embarazo de la entrevistada y la fecha de la primera union inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+9902 E Intervalo entre la fecha de embarazo de la entrevistada y la fecha de embarazo de su primer hijo inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+9903 E Intervalo entre la fecha de la primera union y la fecha de embarazo de su primer hijo inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+9904 E Intervalo entre la fecha de embarazo de la entrevistada o la fecha de la primera union y la fecha del proximo evento inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+9905 E Intervalo entre las fechas de embarazo de dos hijos inconsistente: hijo %02d: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], hijo %02d: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+9906 E Intervalo entre la fecha de embarazo del ultimo hijo y la fecha del proximo evento inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+9907 E Intervalo entre eventos inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+9914 W Duracion de la amenorrea entre dos embarazos (eventos) inconsistente: hijo %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], amenorrea=%03d, intervalo=%03d
+9915 W Duracion de la abstinencia entre dos embarazos (eventos) inconsistente: hijo %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], abstinencia=%03d, intervalo=%03d
+9916 W Duracion de la lactancia entre dos embarazos (eventos) inconsistente: hijo %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], lactancia=%03d
+9917 W Duracion del uso de anticonceptivos entre dos eventos inconsistente: child %02d cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], uso de anticonceptivos=%03d, intervalo=%03d
+9918 E No puede crear un intervalo entre dos eventos: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+9919 E Fecha minima y maxima del evento %02d se cruzan: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+9920 E Las fechas minima y maxima del embarazo de gemelos %02d se cruzan: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+9921 E Evento %02d: Mes del evento (%02d) inconsistente con el rango final del evento: cmc=%04d-%04d [%02d/%04d-%02d/%04d], imputado=%04d [%02d/%04d]
+
+{ Violencia domestica }
+11001 E Numero de a?os viviendo en una relacion de abuso (DV18=%02d) es mayor que la edad actual de la entrevistada (%02d)
+
+{ Empoderamiento de la mujer }
+11020 W La mujer declara que no tiene familiares listados en el hogar (WS15=%d), sin embargo se encontraron %d padres/hermanos residentes habituales listados en el hogar
+11025 W La mujer declara tener familiares listados en el hogar (WS15=1), pero no se encontraron padres o hermanos (as) residentes habituales en el hogar
+11030 W La mujer declaro que su esposo/compa?ero se fue a dormir con hambre (WS23=%s), sin embargo ella no esta casada/unida actualmente (A701=%d)
+11031 W La mujer declaro que %s se fue a dormir con hambre (WS23=%s), pero nunca ha dado a luz a un %s
+11032 W La mujer declaro que %s fue a dormir con hambre (WS23=%s), pero no se encontro ningun %s viviendo con ella en el hogar (ver la historia de embarazos)
+
+{ Circuncision femenina }
+11050 E Edad de la entrevistada cuando fue circuncidada (GC07=%02d) es mayor que su edad actual (A111=%02d)
+
+{ Mensajes del Cuestionario individual de hombres }
+21030 OUT DHS5 W A?os viviendo en el lugar de residencia actual (ZM102=%d), es mayor que la edad actual del entrevistado (AM110=%02d/%04d AM111=%02d)
+21031 OUT DHS5 W Entrevistado es un visitante (ZM102=%02d), sin embargo esta registrado como residente habitual en el listado de miembros del hogar (AH05=%1d)
+21060 W Ni la fecha de nacimiento (AM110=%02d/%04d) ni la edad (AM111=%02d) fueron reportada
+21061 W La edad del entrevistado en el cuestionario individual (AM111=%02d) y su edad reportada en el listado del hogar (AH07=%02d) son diferentes
+21062 E Fecha de nacimiento del entrevistado (AM110=%02d/%04d, cmc=%04d-%04d) y su edad (AM111=%02d) inconsistentes con la fecha de la entrevista (%02d/%04d, cmc=%04d)
+21063 E Fecha de nacimiento del entrevistado (AM110=%02d/%04d) fuera de rango con respecto a la fecha de la entrevista (%02d/%04d, rango=%02d/%04d-%02d/%04d)
+21064 W Mes de nacimiento del entrevistado (AM110M=%02d) inconsistente con otra informacion: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+
+22110 W Numero de mujeres con quienes procre? hijos (ZM211=%02d) excede el numero de hijos nacidos vivos (AM208=%02d)
+22140 W La edad del hijo menor (AM213=%d) no concuerda con la edad del padre (AM111=%02d), la edad minima al primer nacimiento es a los %d a?os
+
+23142 W Metodo usado actualmente (AM418=%s) no conocido de acuerdo a la tabla de anticonceptivos
+
+25050 E Numero total de esposas en AM406=%02d diferente del total de esposas listadas en AM407=%1d
+25060 E El numero de linea (AM407=%02d) de la esposa/compa?era %1d excede total de miembros del hogar (AHMEMBER=%02d)
+25061 E Sexo (AH04=%1d) de la esposa/compa?era %1d (linea AM407=%02d) no es femenino
+25062 W Edad (AH07=%02d) de la esposa/compa?era %1d (linea AM407=%02d) es menor de 12 a?os
+25063 W Posible esposa (%02d, rel=%02d) encontrada en el hogar, pero no fue listada como esposa del entrevistado (%02d, rel=%02d)
+25064 W Parentesco entre el entrevistado y su esposa %1d (AM407=%02d) no es correcta, codigo de parentesco (AH03) para el hombre es %02d, para la mujer es %02d
+25068 W Esposa %02d, con edad AM408=%02d, difiere de la edad registrada en el listado de miembros del hogar (AH07=%02d)
+25120 E Fecha de la primera union despues de la fecha de la entrevista: FPU (AM411=%02d/%04d), edad a la union (AM412=%02d), entrevista=%02d/%04d, FDN (AM110=%02d/%04d), edad (AM111=%02d)
+25121 W Primera union antes de los %02d a?os: FDN (AM110=%02d/%04d), edad (AM111=%02d), FPU (AM411=%02d/%04d), edad a la union (AM412=%02d)
+25126 E Mes de la primera union (AM411M=%02d) inconsistente con otra informacion: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+25130 E Edad a la primera union (AM412=%02d) excede la edad actual (AM111=%02d): entrevista=%02d/%04d, FDN (AM110=%02d/%04d), FPU (AM411=%02d/%04d)
+25131 E Edad a la primera union (AM412=%02d) y fecha de la primera union (AM411=%02d/%04d) inconsistentes con la fecha de nacimiento: FDN (AM110=%02d/%04d), entrevista=%02d/%04d, edad (AM111=%02d)
+25132 E Edad a la primera union (AM412=%02d) y fecha de la primera union (AM411=%02d/%04d) inconsistentes: entrevista=%02d/%04d, edad (AM111=%02d), FDN (AM110=%02d/%04d)
+25133 E Edad a la primera union (AM412=%02d) y fecha de la primera union (AM411=%02d/%04d) inconsistentes despues de imputar la fecha de nacimiento: FDN (AM110=%02d/%04d), entrevista=%02d/%04d, edad (AM111=%02d)
+25134 E Edad a la primera union (AM412=%02d) y fecha de la primera union (AM411=%02d/%04d) inconsistentes con la fecha de la entrevista=%02d/%04d, edad (AM111=%02d), FDN (AM110=%02d/%04d)
+25135 W No se dio informacion para la fecha de la primera union: edad a la union (AM412=%2d), FPU (AM411=%2d/%4d)
+25150 E Nunca ha tenido relaciones sexuales (AM414=%d), pero tiene hijos (AM208=%02d) o su esposa esta o puede estar embarazada (AM504=%1d)
+25151 W Nunca ha tenido relaciones sexuales (AM414=%1d), pero tiene pareja sexual o esta/estuvo casado/unido o vive/ha vivido con una mujer (AM401=%1d, AM402=%1d)
+25153 W Fecha desde la ultima relacion sexual excede intervalo: ni?o %02d, cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], entrevista=%04d [%02d/%04d], ultima relacion sexual (AM415=%1d%02d)
+25158 W Ultima relacion sexual antes del ultimo nacimiento (AM415=%1d/%02d), pero nunca ha tenido hijos (AM208=%02d)
+25180 W Edad cuando tuvo su primer hijo (AM211=%02d) inconsistente con otra informacion relacionada con la fecha en que tuvo su primer hijo (cmc=%04d-%04d [%02d/%04d-%02d/%04d]). Fecha nacimiento del entrevistado=%04d-%04d [%02d/%04d-%02d/%04d], entrevista=%04d [%02d/%04d]
+
+25190 W Edad a la primera relacion sexual (AM414=%02d) excede la edad actual del entrevistado (AM111=%02d); entrevista=%02d/%04d, FDN (AM110=%02d/%04d)
+25191 W Edad a la primera relacion sexual (AM414=%02d) despues de la edad cuando su pareja tuvo su primer embarazo: edad al nacimiento de su primer hijo (AM211=%02d), FDN del entrevistado (AM110=%02d/%04d)
+25192 W Reporto que tuvo su primera relacion sexual cuando se caso/unio (AM414=%02d), pero nunca ha estado casado/unido (AM402=%1d)
+25193 W Edad a la primera relacion sexual (AM414=%02d) despues de la fecha de union/matrimonio: union (AM411=%02d/%04d), edad a la union (AM412=%02d), FDN (AM110=%02d/%04d)
+25194 W Reporto que tuvo su primera relacion sexual cuando se caso/unio (AM414=%02d), lo cual fue despues del primer embarazo de su esposa/compa?era: edad al nacimiento de su primer hijo (AM211=%02d), FPU (AM411=%02d/%04d), edad a la union (AM412=%02d)
+25200 W No tuvo relaciones sexuales en los ultimos 12 meses (AM415=%1d/%02d), pero por lo menos una de sus parejas esta o podria estar embarazada (AM504=Si o No Sabe: %1d)
+25220 OUT DHS5 W Metodo usado actualmente (AM418=%s) nunca ha sido usado de acuerdo a la tabla de anticonceptivos ZM302(%01d)=%01d
+25221 OUT DHS5 W Uso condon con la pareja AM419(%d)=%d, pero nunca ha usado condones de acuerdo a la tabla de anticonceptivos ZM302(%1d)=%1d
+25245 E Numero de parejas en toda su vida debe ser mayor o igual al numero de parejas del a?o pasado %d
+25300 W Para la pareja listada en la columna %d: primera relacion sexual (AM420=%d/%02d) ocurri? despu?s de la ultima relacion sexual con esta pareja (%s=%d/%02d)
+25301 W Fecha de la ultima relacion sexual que tuvo con la pareja %d %s=%d/%02d es anterior a la fecha de la relaci?n sexual con la pareja %d AM419=%d/%02d
+
+26131 W La suma del total de ni?os (AM515A=%02d), ni?as (AM515B=%02d), y cualquier sexo (AM515C=%02d) debe ser igual que el total de hijos deseados (AM514=%02d)
+
+26280 OUT DHS5 W Uso condones en AM419=%d con la pareja en la columna %d, pero nunca ha usado condones de acuerdo a la tabla de anticonceptivos (ZM302=%d)
+
+28110 E Hora de inicio de la entrevista (AM101=%02d:%02d) posterior a la hora de terminacion (AM819=%02d:%02d), con solo una visita al hogar
+
+{ Otros aspectos de salud }
+28111 E Numero de inyecciones administradas por personal de salud (zzAM806=%02d) no puede ser mayor que el total de inyecciones recibidas el a?o pasado (zzAM805=%02d)
+
+{ Edicion de fechas e imputacion }
+29901 E Intervalo entre la fecha de nacimiento y la fecha de la primera union inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+29902 E Intervalo entre la fecha de nacimiento y la fecha de nacimiento de su primer hijo inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+29903 E Intervalo entre la fecha de la primera union y la fecha de nacimiento de su primer hijo inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+29904 E Intervalo entre la fecha de nacimiento o la fecha de la primera union y el proximo evento inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+29905 E Intervalo entre nacimientos inconsistente: hijo %02d: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], child %02d: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+29906 E Intervalo entre la fecha del ultimo nacimiento y la fecha del proximo evento inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+29907 E Intervalo entre eventos inconsistente: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], intervalo=%03d
+
+29918 E No puede crear intervalo entre eventos: cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], cmc(%02d)=%04d-%04d [%02d/%04d-%02d/%04d], interval=%03d
+29919 E Fecha minina y maxima del evento %02d se cruzan: cmc=%04d-%04d [%02d/%04d-%02d/%04d]
+29921 E Evento %02d: Mes del evento (%02d) inconsistente con el rango final del evento: cmc=%04d-%04d [%02d/%04d-%02d/%04d], imputado=%04d [%02d/%04d]
+
+{ Conteo de resumen }
+90000 W Conteo de mensajes %05d = %05d
+
+{ Edicion informacion de parejas }
+99990 E Entrevistado/a %02d dijo que el esposo/a es (linea=%02d), pero esa persona no esta actualmente en union (%1d)
+99995 E Entrevistado/a %02d dijo que el esposo/a es (linea=%02d), pero esa persona declaro que su esposo/a es (linea=%02d)
+99997 E Los entrevistados %02d y %02d estan ambos casados con la misma pareja linea=%02d

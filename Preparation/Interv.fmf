@@ -1,0 +1,108 @@
+﻿[FormFile]
+Version=CSPro 7.5
+Name=INTERV_FF
+Label=Interv
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+FieldEntryFont=0018 0000 0000 0000 0600 0000 0000 0000 0000 0000 0000 0000 0000 Courier New
+Type=SystemControlled
+  
+[Dictionaries]
+File=..\Dicts\Interv.dcf
+  
+[Form]
+Name=FORM001
+Label=Interviewer record
+Level=1
+Size=997,385
+  
+Item=INAME
+Item=ITEAM
+Item=IROLE
+Item=ISEX
+Item=ICODE
+  
+Box=94,101,971,360,Thick
+Box=94,15,970,88,Thin
+  
+[Text]
+Name=TEXT1
+Position=102,37,961,69
+Text=Demographic and Health Surveys Program - Fieldwork Personnel
+Form=1
+Font=-027 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+[EndForm]
+  
+[Level]
+Name=INTERV_LEVEL
+Label=Interviewer level
+  
+[Group]
+Required=Yes
+Name=INTERV_REC_FORM
+Label=Interviewer record
+Form=1
+LogicControl=No
+Max=1
+  
+[Field]
+Name=ICODE
+Position=531,123,588,143
+Item=ICODE,INTERV
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=331,126,510,142
+Text=Supervisor/Interviewer code
+ 
+  
+[Field]
+Name=INAME
+Position=365,185,786,205
+Item=INAME,INTERV
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=170,188,355,204
+Text=Supervisor/Interviewer Name
+ 
+  
+[Field]
+Name=ITEAM
+Position=757,225,786,245
+Item=ITEAM,INTERV
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=170,222,418,238
+Text=Team Supervisor/interviewer belong to
+ 
+  
+[Field]
+Name=IROLE
+Position=771,255,786,275
+Item=IROLE,INTERV
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=170,258,451,274
+Text=Role supervisor/interviewer play in the team
+ 
+  
+[Field]
+Name=ISEX
+Position=771,287,786,307
+Item=ISEX,INTERV
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=170,289,359,305
+Text=Sex of Supervisor/interviewer
+ 
+[EndGroup]
+  

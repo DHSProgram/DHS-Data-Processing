@@ -1,0 +1,54 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=Weight for height
+Name=WFHLMS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=Weight for height
+Name=WFHLMS_QUEST
+
+[IdItems]
+
+[Item]
+Label=Sex
+Name=SEXWH2
+Start=1
+Len=2
+
+[Item]
+Label=length in cms (1 implicit decimal)
+Name=LENWH2
+Start=3
+Len=7
+
+[Record]
+Label=Variables L, M, S
+Name=HAZLMS_REC
+RecordTypeValue=''
+RecordLen=45
+
+[Item]
+Label=Variable l
+Name=LWH2
+Start=10
+Len=12
+Decimal=5
+
+[Item]
+Label=Variable m
+Name=MWH2
+Start=22
+Len=12
+Decimal=5
+
+[Item]
+Label=Variable s
+Name=SWH2
+Start=34
+Len=12
+Decimal=5

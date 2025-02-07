@@ -1,0 +1,3062 @@
+﻿PROC GLOBAL
+{ CAPI for DHS-8 surveys - version 1.1.0 July 26, 2019 }
+
+  { Definitions of working variables }
+  string wothresp;            { Other answers response }
+  string strnotes;            { for editnote at the end of the interview }
+  string yname;               { to store household head name to use in postproc }
+  string yaddress;            { to store household address to use in postproc }
+  string alphalst;            { The alphabet }
+  string id;                 { questionnaire full ID }
+
+  array ldcH(50);             { Lower bound of CMC date of birth for children in HH H/W section }
+  array udcH(50);             { Upper bound of CMC date of birth for children in HH H/W section }
+  array string DaysWeek(7);   { to store the days of the week }
+  string dayalpha;            { literal for day of the week }
+  
+  array chfound(50);          { identify if a child in biomarkers is found in the woman's birth history }
+  array birthd(50);
+  array birthm(50);
+  array birthy(50);
+  alpha(2) xline;
+
+  string mother, father;
+  string hisher;
+
+  numeric st, sday, smonth, syear, maxmemb, wothcode, xchild, chi, chlabor, chdis;
+  numeric i, j, n, p, x, time, oldval, chage;
+  numeric xintnum, xsupnum, xmodcent, xrvisit, xmodify, xpartial, xentryhw, xhhnum, xteam;
+  numeric nwoman, err, checkdig, base, yresult, reviewsup;
+  numeric MinAgeH, MinAges, MinAgeDif, AgeDiff;
+  numeric maxbio, nextmem, healthy, hwsex, ldbh, udbh, InEntry;
+  numeric survyear, firstday, xday, daysince, activity1, activity2, xsex, capturecoor, gpsopen;
+  numeric DaysMonth = 30.4375;
+  numeric android = 0;           { switch that may be used once the application runs in Android OS }
+  numeric faciltype; // used for QSF for A114 and A115
+  
+  valueset individuals;
+
+  { used to move to a specific section in the questionnaire } 
+  function toSection();
+    numeric sec = 0;
+    if !xentryhw then
+      sec = accept( tr("Go to section:"),
+        getlabel( AHSECOVER ), 
+        getlabel( AHSEC01X  ), 
+        getlabel( AHSEC01   ), 
+        getlabel( AHSECA1   ), 
+        getlabel( AHSECCL   ), 
+        getlabel( AHSECCD   ), 
+        getlabel( AHSEC02   ), 
+        getlabel( AHSEC03   ), 
+        getlabel( AHSEC04   ), 
+        getlabel( AHSECFS   ), 
+        getlabel( ABSECOVER ), 
+        getlabel( ABSEC01   ), 
+        getlabel( ABSEC02   ), 
+        getlabel( ABSEC03   ),
+        tr("Cancel") );
+      if     sec =  1 & totocc(AHSECOVER_FORM) then move to AHSECOVER_FORM advance
+      elseif sec =  2 & totocc(AHSEC01X_FORM)  then move to AHSEC01X_FORM  advance
+      elseif sec =  3 & totocc(AHSEC01_FORM)   then move to AHSEC01_FORM   advance
+      elseif sec =  4 & totocc(AHSECAC1_FORM)  then move to AHSECAC1_FORM  advance
+      elseif sec =  5 & totocc(AHSECCHL_FORM)  then move to AHSECCHL_FORM  advance
+      elseif sec =  6 & totocc(AHSECCDI_FORM)  then move to AHSECCDI_FORM  advance
+      elseif sec =  7 & totocc(AHSEC02_FORM)   then move to AHSEC02_FORM   advance 
+      elseif sec =  8 & totocc(AHSEC03_FORM)   then move to AHSEC03_FORM   advance 
+      elseif sec =  9 & totocc(AHSEC04_FORM)   then move to AHSEC04_FORM   advance 
+      elseif sec = 10 & totocc(AHSEC04_FORM)   then move to AHSEC04_FORM   advance 
+      elseif sec = 11 & totocc(ABSECOVER_FORM) then move to ABSECOVER_FORM advance 
+      elseif sec = 12 & totocc(ABSEC01_FORM)   then move to ABSEC01_FORM   advance 
+      elseif sec = 13 & totocc(ABSEC02_FORM)   then move to ABSEC02_FORM   advance 
+      elseif sec = 14 & totocc(ABSEC03_FORM)   then move to ABSEC03_FORM   advance 
+	  elseif sec = 15 then    // do nothing
+	  else
+	    errmsg( 0005 );
+      endif;
+    else
+      sec = accept( tr("Go to section:"),
+        getlabel( ABSECOVER ), 
+        getlabel( ABSEC01   ), 
+        getlabel( ABSEC02   ), 
+        getlabel( ABSEC03   ),
+        tr("Cancel") );
+      if     sec =  1 & totocc(ABSECOVER_FORM) then move to ABSECOVER_FORM advance 
+      elseif sec =  2 & totocc(ABSEC01_FORM)   then move to ABSEC01_FORM   advance 
+      elseif sec =  3 & totocc(ABSEC02_FORM)   then move to ABSEC02_FORM   advance 
+      elseif sec =  4 & totocc(ABSEC03_FORM)   then move to ABSEC03_FORM   advance 
+	  elseif sec =  5 then    // do nothing
+	  else
+	    errmsg( 0005 );
+      endif;
+    endif;
+  end;
+
+  { to position window with answers: 0-Next to question window -1-Next to field }
+  function responseloc( loc );
+    if loc = 1 then
+      setproperty( ccHH80, "captureposx", "0" );
+      setproperty( ccHH80, "captureposy", "0" );
+	elseif loc = 2 then
+      setproperty( ccHH80, "captureposx", "-1" );
+      setproperty( ccHH80, "captureposy", "-1" );
+    endif;
+  end;
+
+  { to select where to position window with answers }
+  function responses( loc );
+    if !loc in 1,2 then
+      loc = accept( tr("Select location for responses"),
+                    tr("Top left corner beneath questions"),
+	                tr("Next to field on the form") );
+	endif;
+	responseloc( loc );
+    reenter; // force reposition of labels - only works when called from a field
+  end;
+
+  { setup basic user bar }
+  function userbase();
+    userbar( clear );
+    userbar( add button, "<",    do("PreviousField") );
+    userbar( add button, ">",    do("NextField") );
+    userbar( add button, ">>|",  do("AdvanceToEnd") );
+    userbar( add button, tr("Note"), do("EditNote") );
+    userbar( add button, tr("Lang"), do("ChangeLanguage") );
+	userbar( add button, tr("Ver"),  GetPubDate(1));
+    userbar( add button, tr("Section"), toSection() );
+	if !android then // Response location only works for Windows
+	  userbar( add button, tr("Responses"), Responses( 0 ) );
+	endif;
+  end;
+
+  { set value sets based on language }
+  function InitializeDays()
+    DaysWeek(1) = tr("Monday");
+	DaysWeek(2) = tr("Tuesday");
+	DaysWeek(3) = tr("Wednesday");
+	DaysWeek(4) = tr("Thursday");
+	DaysWeek(5) = tr("Friday");
+	DaysWeek(6) = tr("Saturday");
+	DaysWeek(7) = tr("Sunday");
+  end;
+
+  { set and save language }
+  function OnChangeLanguage()
+    SetLanguage( getlanguage() );
+    savesetting("Language", getlanguage());
+	InitializeDays();
+  end;
+
+  array string hhmember(50,8);
+  function hhm_array();
+    do i = 1 while i <= maxmemb
+	  if i > totocc(CCHH80.AHSEC01X) then
+	    break
+	  else
+	    {Line number}
+	    hhmember(i,1) = maketext( "%2d", visualvalue( AHLINE(i) ) );
+		{ First/last name }
+	    hhmember(i,2) = AHFIRSTN(i);
+	    hhmember(i,3) = AHLASTN(i);
+		{ Relationship with head of household }
+	    hhmember(i,4) = getlabel(AHRELAT, visualvalue(AHRELAT(i)));
+		{ Update labels to be sex specific where we can - otherwise leave as in dictionary }
+		if visualvalue(AHSEX(i)) = 1 then
+		  recode visualvalue( AHRELAT(i) ) -> hhmember(i,4);
+								  2        -> tr("Husband");
+								  3        -> tr("Son");
+								  4        -> tr("Son-in-law");
+								  6        -> tr("Father");
+								  7        -> tr("Father-in-law");
+								  8        -> tr("Brother");
+		  endrecode;
+		else
+		  recode visualvalue( AHRELAT(i) ) -> hhmember(i,4);
+								  2        -> tr("Wife");
+								  3        -> tr("Daughter");
+								  4        -> tr("Daughter-in-law");
+								  6        -> tr("Mother");
+								  7        -> tr("Mother-in-law");
+								  8        -> tr("Sister");
+		  endrecode;
+		endif;
+        { Sex }
+		hhmember(i,5) = getlabel(AHSEX, visualvalue(AHSEX(i)));
+		if !visualvalue(AHSEX(i)) in 1,2 then hhmember(i,5) = "" endif;
+        { Usual residence }
+		hhmember(i,6) = getlabel(AHLIVES, visualvalue(AHLIVES(i)));
+		if !visualvalue(AHLIVES(i)) in 1,2 then hhmember(i,6) = "" endif;
+        { Slept the night before }
+		hhmember(i,7) = getlabel(AHSTAYED, visualvalue(AHSTAYED(i)));
+		if !visualvalue(AHSTAYED(i)) in 1,2 then hhmember(i,7) = "" endif;
+		{ Age }
+	    hhmember(i,8) = maketext( "%2d", visualvalue( AHAGE(i) ) );
+        if special(visualvalue(AHAGE(i))) then hhmember(i,8) = "" endif;
+      endif;
+	enddo;
+	hhm_array = i-1;
+  end;
+  
+  { help function to display the household roster }
+  function showhh()
+    numeric nhhold = hhm_array();
+    showarray( tr("Household members"), hhmember, nhhold, 
+        title( tr("Line"), tr("First name"), tr("Last name"), tr("Relation"), tr("Sex"), tr("Usual"), tr("Last night"), tr("Age") ) );	
+  end;
+
+  { Function to ensure proper entry and updating of "Other" answers }
+  function getother( alpha(10) questnum, questocc );
+    { Create alpha id for other answers file }
+    { If your ID is not 10 characters in length, remember to fix the length of the level 1 ID and of OTHID in OTHERS.DCF }
+    OTHID   = id;
+    OTHQUES = questnum;   { question number }
+    OTHOCC  = questocc;   { occurrence for multiple sections/group or
+                                           multipart question }
+    { Get the previous response back if already entered
+      in case of backtabbing or updating }
+    if !loadcase(OTHERS, OTHID, OTHQUES, OTHOCC) then
+      { Otherwise initialize to blanks }
+      OTHRESP = " ";
+      OTHCODE = 0;
+    endif;
+    wothresp = OTHRESP;
+    wothcode = OTHCODE;
+  end;
+
+  { update file with households assigned to interviewers }
+  function updthhassgn()
+    { check if there are changes that require rewriting the current household }
+    if VRESULT <> yresult | VINTCODE <> xintnum | yresult = 1 & length( yname ) &
+       !pos( yname, VNAME ) | length( yaddress ) & !pos( yaddress, VADDRESS ) then
+      VRESULT  = yresult;
+      if VINTCODE <> xintnum then
+        errmsg( 80005, VNUMBER );
+      endif;
+      VINTCODE = xintnum;
+      if yresult = 1 & length( yname ) & !pos( yname, VNAME ) then
+        VNAME = strip(yname);
+      endif;
+      if length( yaddress ) & !pos( yaddress, VADDRESS ) then
+        VADDRESS = strip(yaddress);
+      endif;
+      writecase( HHFORINT );
+    endif;
+    close( HHFORINT );
+  end;
+
+PROC FL_ccHH80
+preproc
+  android = (getos() = 20);
+
+  { Get the system date helps to make sure that time in tablets is set properly }
+  sday   = sysdate("dd");
+  smonth = sysdate("mm");
+  syear  = sysdate("yyyy");
+  if cdcode(syear,smonth,sday) < cdcode(2021,1,1) then    { !!! Fix minimum date of interview }
+    errmsg( 0003, sday, smonth, syear );
+    endlevel;
+  endif;
+
+  { Set the applications minimum and maximum parameters }
+  maxmemb  = maxocc(AHSEC01);     { maximum number of household members }
+  maxbio   = maxocc(ABSEC01);     { maximum entries for several multiple records in HH }
+  alphalst = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  MinAgeH   = 15;       { Min Age for household head }
+  MinAgeS   = 12;       { Min Age for spouse }
+  MinAgeDif = 12;       { Min Age difference between head/mother and child }
+  healthy   = 2015;     { !!! Year of start of health section }
+  survyear  = 2020;     { !!! change to year when the survey was launched (for child labor module) }
+  firstday  = 3;        { !!! change to day for the first day on survey year (1-Monday, 2-Tuesday,..7-Sunday) }
+  InEntry   = ( demode() = add | demode() = modify );   { it will essentially sets inEntry = 0 to properly run it in batch }
+
+  { converts parameter to numbers  }
+  xintnum  = tonumber( sysparm()[1:4] );    { interviewer number }
+  xsupnum  = tonumber( sysparm()[5:4] );    { supervisor number }
+  xmodcent = tonumber( sysparm()[9:1] );    { modify by central office }
+  xrvisit  = tonumber( sysparm()[10:1] );   { revisit HH }
+  xmodify  = tonumber( sysparm()[11:1] );   { modify completed HH }
+  xpartial = tonumber( sysparm()[12:1] );   { if case has been saved partially }
+  xentryhw = tonumber( sysparm()[13:1] );   { enter height & weight data }
+  xhhnum   = tonumber( sysparm()[14:4] );   { household number }
+  xteam    = tonumber( sysparm()[22:2] );   { household number }
+  yname    = "";                            { initialize name of head of household }
+  yaddress = "";                            { initialize household address }
+  yresult  = 0;                             { initialize result of household interview }
+  seed( systime() );                        { initialize seed for domestic violence random selection }
+
+  if !xmodify then
+    YCLUSTER = tonumber( sysparm()[18:4] );
+    if !loadcase(CLUSTERS, YCLUSTER) then
+      errmsg( 0001, YCLUSTER );
+      endlevel
+    endif;
+  endif;
+
+  { load households assigned to interviewers file }
+  if !xmodcent then
+    VNUMBER = xhhnum;
+    open( HHFORINT );
+    if !loadcase(HHFORINT, VNUMBER) then
+      errmsg( 80004, VNUMBER );
+      endlevel
+    endif;
+  endif;
+
+  { settings for CAPI }
+  reviewsup = ( xmodcent & xmodify & xsupnum <> 0 );         { indicates supervisor is reviewing, therfore exit the application }
+  if !xmodcent | reviewsup then                              { central office desn't have to exit after reviewing one HH }
+    set behavior() exit on;
+  endif;
+  set attributes(ccHH80) assisted off (variable(title));
+  
+  { avoid radio buttons for months in blocks for android }
+  if android then
+    setproperty(ABINTM,  "CaptureType", "ComboBox" );
+    setproperty(AB103M,  "CaptureType", "ComboBox" );
+    setproperty(AB115M,  "CaptureType", "ComboBox" );
+    setproperty(ABM128M, "CaptureType", "ComboBox" );
+    setproperty(AB211M,  "CaptureType", "ComboBox" );
+    setproperty(AB311M,  "CaptureType", "ComboBox" );
+  endif;
+ 
+  { set font for value sets }
+  setfont( ALL, "Arial", 16, bold );
+
+  { set up minimal user bar }
+  userbase();
+  userbar( show );
+  userbar( add button, tr("Household"), showhh() );
+  { set language at start of the program, defaulting to language passed by menu }
+  setlanguage(loadsetting("Language", getlanguage()));
+  InitializeDays();
+
+postproc
+  { update file with households assigned to interviewers }
+  if !xmodcent then      { central office doesn't update the sample assignation file }
+    updthhassgn();
+    stop(1);
+  endif;
+
+PROC HOUSEHOLD
+  endlevel;
+
+PROC AHSECOVER_FORM
+preproc
+  if xentryhw then
+    advance to ABINTD
+  endif;
+
+postproc
+  if AHRESULT <> 1 then
+#if AppType(Entry)
+    endlevel
+#else
+    skip case
+#endif;
+  endif;
+
+PROC AHCLUST
+preproc
+  { Set cluster number coming from sample file }
+  if demode() = add then
+    $ = YCLUSTER;
+  endif;
+  if !xmodcent then      { central office doesn't modify the selection for males }
+    AHELIGM = VMALE;
+  endif;
+
+PROC AHNUMBER
+preproc
+  { Set household number coming from household assignment file }
+  if demode() = add then
+    $ = VNUMBER;
+  endif;
+  
+postproc
+  id = edit("9999",AHCLUST)+edit("9999",AHNUMBER)+"00";
+
+PROC AHREGION
+preproc
+  { !!! Set region coming from sample file }
+  if demode() = add then
+    $ = YREGION;
+  endif;
+ 
+PROC AHTYPE
+preproc
+  { !!! Set locality or urban/rural coming from sample file  }
+  {     check field tables require an Urban/Rural definition }
+  if demode() = add then
+    $ = YURBRUR
+  endif;
+
+PROC AHADDRESS
+preproc
+  { Set address coming from household assign file }
+  if pos( "???????", VADDRESS ) then
+    set attributes($) autoskip;
+  elseif demode() = add then
+    $ = VADDRESS;
+  endif;
+
+postproc
+  { store household address to use in dictionary postproc }
+  yaddress = strip($);
+
+PROC AHINTNUM
+preproc
+  if demode() = add then
+    $ = xintnum;
+  endif;
+
+PROC AHTEAM
+preproc
+  if demode() = add then
+    $ = xteam;
+  endif;
+
+PROC AHSUPERV
+preproc
+  if demode() = add then
+    $ = xsupnum;
+  endif;
+
+PROC AHVLINE
+preproc
+  n = curocc();
+  { if in modify mode and result = NA skip }
+  if xmodify & visualvalue( AHVRESULT(n) ) = notappl then
+    skip to AHINTD;
+  { partial save with modification doesn't create a new visit }
+  elseif xpartial = 2 & visualvalue( $(n) ) = notappl then
+    skip to AHINTD
+  { assign new visit for add, partial save with add }
+  elseif visualvalue( $(n) ) = notappl | n >= maxocc() then
+    $ = n;
+  { incomplete cases are called as if they were partially saved }
+  { in addmode to generate an entry in visits table             }
+  elseif xpartial = 1 & visualvalue( AHVRESULT(n) ) <> 1 then
+    advance to AHVLINE(n+1);
+  { change result code to postponed when partial visit to previous visit }
+  elseif xpartial = 1 & visualvalue( $(n+1) ) = notappl then
+    AHVRESULT(n) = 4;
+    advance to AHVLINE(n+1);
+  { revisit generates another entry in visit }
+  elseif xrvisit then
+    advance to AHVLINE(n+1);
+  endif;
+
+PROC AHVDAY
+preproc
+  if visualvalue( $(n) ) = notappl then
+    $ = sysdate( "dd" );
+  endif;
+
+PROC AHVMONTH
+preproc
+  if visualvalue( $(n) ) = notappl then
+    $ = sysdate( "mm" );
+  endif;
+
+PROC AHVYEAR
+preproc
+  if visualvalue( $(n) ) = notappl then
+    $ = sysdate( "YYYY" );
+  endif;
+
+PROC AHVHOUR
+preproc
+  if visualvalue( $(n) ) = notappl then
+    time = systime();
+    $ = int( time/10000 );
+  endif;
+
+PROC AHVMINUTE
+preproc
+  if visualvalue( $(n) ) = notappl then
+    time = systime();
+    $ = int( time/100 ) % 100;
+  endif;
+
+PROC AHVRESULT
+preproc
+  n = curocc();
+  oldval = visualvalue( $(n) );
+  { a partial case in addmode is assigned a completed interview }
+  if ( oldval = notappl | n >= maxocc() ) & xpartial = 1 then
+    $ = 1;
+  endif;
+
+onfocus
+  n = curocc();
+  oldval = visualvalue( $(n) );
+
+postproc
+  { Verify that household questionnaire was incomplete }
+  if $ <> 1 & oldval in 1,notappl then
+    if visualvalue(AH101) = notappl then
+      warning( 0014 ) select( tr("Interview result"), $, tr("Continue"), continue );
+	else
+      warning( 0019 ) select( tr("Interview result"), $, tr("Continue"), continue );
+	endif;
+  endif;
+
+  { Get Other Answer for result of household interview }
+  if $ = 9 & oldval <> 9 then
+    getother( GetSymbol(), curocc() );
+    enter FL_OTHERS
+  endif;
+  n = curocc();
+  if !xrvisit & (n >= maxocc() | visualvalue(AHVLINE(n+1)) = notappl) then
+    skip to AHINTD;
+  elseif oldval = notappl then
+    skip to AHINTD;
+  endif;
+
+PROC AHINTD
+preproc
+  if InEntry then
+    n = totocc( AHVISITS_ROSTER );
+    $ = AHVDAY( n );
+  endif;
+
+PROC AHINTM
+preproc
+  if InEntry then
+    n = totocc( AHVISITS_ROSTER );
+    $ = AHVMONTH( n );
+  endif;	
+
+PROC AHINTY
+preproc
+  if InEntry then
+    n = totocc( AHVISITS_ROSTER );
+    $ = AHVYEAR( n );
+  endif;	
+
+postproc
+  if CDCode(AHINTY,AHINTM,AHINTD) > CDCode(syear,smonth,sday) then
+    errmsg( 0016 );
+  endif;
+
+PROC AHRESULT
+preproc
+  if InEntry then
+    n = totocc( AHVISITS_ROSTER );
+    $ = AHVRESULT( n );
+  endif;	
+
+postproc
+  yresult = $;           { store result code to compare in dictionary postproc }
+
+PROC AHVISITS
+preproc
+  if InEntry then
+    $ = totocc( AHVISITS_ROSTER );
+  endif;	
+
+PROC AH100H
+preproc
+  if InEntry then
+    n = totocc( AHVISITS_ROSTER );
+    $ = AHVHOUR( n );
+  endif;	
+
+PROC AH100M
+preproc
+  if InEntry then
+    n = totocc( AHVISITS_ROSTER );
+    $ = AHVMINUTE( n );
+  endif;	
+
+postproc
+  { a partial saved is forced for incomplete interviews to allow }
+  { to revist the household in add mode                          }
+  if !xmodcent & AHRESULT <> 1 then
+    SavePartial( clear );
+    { update file with households assigned to interviewers }
+    updthhassgn();
+    stop(1);
+    endgroup
+  endif;
+
+PROC AHCONSENT_FORM
+  if AHRESULT <> 1 then
+#if AppType(Entry)
+    endlevel
+#else
+    skip case
+#endif;
+  endif;
+
+PROC AHCONSENT
+preproc
+  if AHRESULT <> 1 & special(visualvalue($)) then
+    endgroup
+  elseif visualvalue($) = 1 then
+    advance to AHLINE(1)
+  endif;
+
+postproc
+  n = totocc( AHVISITS_ROSTER );
+  if $ <> 1 then
+    x = accept( tr("Please confirm that the result of this interview is a refusal"), tr("Yes, Refused"), tr("No, consent given") );
+    if x <> 1 then
+      reenter
+    endif;
+    AHVRESULT(n) = 5;
+    AHRESULT     = 5;
+    yresult      = AHRESULT;           { store result code to compare in dictionary postproc }
+    endgroup;
+  elseif $ = 1 & AHVRESULT(n) <> 1 then
+    AHVRESULT(n) = 1
+  endif;
+
+PROC AHLINE
+preproc
+  $ = curocc();
+  SaveData();
+
+PROC AHFIRSTN
+preproc
+  { gets household head name from households assignment file }
+  if curocc() = 1 & !length( strip($) ) & demode() = add then
+    p = pos( " ", VNAME );
+    if !p | p = length( strip(VNAME) ) then
+      $ = VNAME;
+	  AHLASTN = "";
+    else
+      $ = VNAME[1:p-1];
+      AHLASTN = VNAME[p+1:length(strip(VNAME))];	  
+    endif;
+  endif;
+
+postproc
+  { Check that response is alphabetic and starts in the first column }
+  if !pos( $[1:1], strip(alphalst) ) then
+    errmsg( 89991 ) select( tr("Name"), $ );
+  endif;
+
+PROC AHLASTN
+  { Check that response is alphabetic and starts in the first column }
+  if !pos( $[1:1], strip(alphalst) ) then
+    errmsg( 89991 ) select( tr("Last name"), $ );
+  endif;
+  
+  { store household head name to use in dictionary postproc }
+  if curocc() = 1 then
+    yname = strip(AHFIRSTN) + " " + strip($);
+  endif;
+
+  if android then
+    setocclabel(AHSEC1X_ROSTER(curocc()),strip(AHFIRSTN) + " " + strip($));
+  endif;
+
+PROC AHRELAT
+preproc
+  if curocc() = 1 then
+    $ = 1
+  endif;	
+  
+postproc
+  { First line should be head of household }
+  if curocc() = 1 <=>  $ <> 1 then
+    errmsg( 0031 ) select( tr("Relation"), $ );
+  { Spouse should be second line of household }
+  elseif $ = 2 & curocc() <> 2 then
+    errmsg( 0033 ) select( tr("Relation"), $, tr("Continue"), continue );
+  endif;
+
+PROC AHSEX
+  if curocc() > 1 & AHRELAT = 2 then
+    if $ = $(1) then
+      errmsg( 0060, $, $(1) )
+        select( tr("Sex of head"), $(1), tr("Sex spouse"), $ );
+    endif;
+  endif;
+  {{POLYG}
+  if AHRELAT = 9 & $(1) = 1 then         { !! Co-wives only for countries with polygyny }
+    errmsg( 0032 );
+    reenter
+  elseif AHRELAT = 9 & $ <> 2 then
+    errmsg( 0062 );
+    reenter
+  elseif AHRELAT = 9 & !count(AHSEC1X_ROSTER where AHRELAT = 2 ) then
+    errmsg( 0063 );
+    reenter
+  endif;
+  {POLYG}}
+
+  if count( AHSEC1X_ROSTER where AHRELAT = 1) <> 1 then
+    errmsg( 0029 )  select( tr("Name"), AHFIRSTN(1) );
+  endif;
+  { Only one spouse, parent, parent-in-law of each sex expected }
+  if( count(AHSEC1X_ROSTER where AHRELAT = 2 ) >= 2 |       // !!! adjust in poligomous surveys, if necessary
+      count(AHSEC1X_ROSTER where AHRELAT = 6 & AHSEX = 1) >= 2 |
+      count(AHSEC1X_ROSTER where AHRELAT = 6 & AHSEX = 2) >= 2 |
+      count(AHSEC1X_ROSTER where AHRELAT = 7 & AHSEX = 1) >= 2 |
+      count(AHSEC1X_ROSTER where AHRELAT = 7 & AHSEX = 2) >= 2 ) then
+    errmsg( 0030 ) select( tr("Sex"), $ );
+  endif;
+
+PROC AHLIVES
+  { The head of the household should be usual resident }
+  if AHRELAT = 1 & $ <> 1 then
+    warning( 0051 ) select( tr("Usual Resident"), $, tr("Continue"), continue );
+  endif;
+
+PROC AHSTAYED
+  { All members must be either usual resident or
+    have slept previous night in household }
+  if AHLIVES <> 1 & $ <> 1 then
+    errmsg( 0050 ) select( tr("Usual Resident"), AHLIVES, tr("Place slept"), $ );
+  endif;
+
+PROC AHAGE
+  { minimum age for household head }
+  if AHRELAT = 1 & AHAGE < MinAgeH then
+    warning( 0071, $, strip(GetValueLabel(AHRELAT)), MinAgeH )
+      select( tr("Relationship"), AHRELAT, tr("Age"), $, tr("Continue"), continue );
+  endif;
+  { minimum age for household spouse }
+  if AHRELAT = 2 & AHAGE < MinAgeS then
+    warning( 0071, $, strip(GetValueLabel(AHRELAT)), MinAgeS )
+      select( tr("Relationship"), AHRELAT, tr("Age"), $, tr("Continue"), continue );
+  endif;
+  { minimum age differences }
+  if !AHRELAT in 3,5:7 then exit; endif;
+  AgeDiff = 99;
+  i = 1;
+  { minimum age difference between head and child }
+  if AHRELAT = 3 then
+    AgeDiff = AHAGE(1)-$;
+  { minimum age difference between head and parents }
+  elseif AHRELAT = 6 then
+    AgeDiff = $-AHAGE(1);
+  { minimum age difference between spouse and parents }
+  elseif AHRELAT = 7 & AHRELAT(2) = 2 then
+    AgeDiff = $-AHAGE(2);
+    i = 2;
+  { minimum age difference between head and grandchild }
+  elseif AHRELAT = 5 then
+    AgeDiff = int((AHAGE(1)-$)/2);
+  endif;
+  if AgeDiff < MinAgeDif then
+    warning( 0069, AHAGE(i), strip(getlabel(AHRELAT, AHRELAT(i))), AHAGE, strip(getlabel(AHRELAT, AHRELAT)) )
+      select( tr("Age") + " " + GetValueLabel(AHRELAT(i)), AHAGE(i),
+              tr("Age") + " " + GetValuelabel(AHRELAT), $,
+              tr("Relationship") + " " + GetValueLabel(AHRELAT), AHRELAT,
+              tr("Continue"), continue );
+  endif;
+
+PROC AHMORE
+  if $ <> 1 then
+    if totocc() > curocc() then
+      if accept( maketext(tr("Changing this will remove %d household member(s) after %s. Please confirm that you want to remove them"),
+        totocc()-curocc(), AHFIRSTN + " " + AHLASTN ),
+        tr("Yes"),tr("No")) <> 1 then
+        reenter
+      endif;
+    endif;
+    if demode() = add & android then
+      showhh();
+    endif;
+    endgroup
+  endif;
+
+PROC AHMEMBER
+preproc
+  $ = totocc( AHSEC1X_ROSTER );
+
+PROC AHRESP
+preproc
+  n = totocc( AHVISITS_ROSTER );
+  if !count( AHSEC1X_ROSTER where AHAGE in 15:98 ) then
+    errmsg( 0018  )
+      select( tr("HH Member's Age"), AHAGE(1), tr("Interview result"), AHVRESULT(n) );
+  endif;
+
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if AHAGE(i) in 15:98 then
+      individuals.add(strip(AHFIRSTN(i)) + " " + strip(AHLASTN(i)), i);
+    endif;
+  enddo;
+  SetValueSet( $, individuals );
+
+postproc
+  { Check line number of household respondent in range }
+  if !$ in 1:AHMEMBER then
+    errmsg( 0017 ) select( tr("Respondent HH"), $ );
+  endif;
+
+PROC AH07A
+  if $ = 1 then
+    reenter AHMORE( totocc(AHSEC1X_ROSTER) );
+  endif;
+
+PROC AH07B
+  if $ = 1 then
+    reenter AHMORE( totocc(AHSEC1X_ROSTER) );
+  endif;
+
+PROC AH07C
+  if $ = 1 then
+    reenter AHMORE( totocc(AHSEC1X_ROSTER) );
+  endif;
+
+PROC AHSEC01_FORM
+preproc
+  { Initialize household members' questions with information already collected or known }
+  do i = 1 while i <= maxmemb
+    if i <= AHMEMBER then
+      AH01(i) = i;
+      AH02(i) = strip(AHFIRSTN(i)) + " " + strip(AHLASTN(i));  { person's name must be added to the household schedule roster }
+      AH03(i) = AHRELAT(i);
+      AH04(i) = AHSEX(i);
+      AH05(i) = AHLIVES(i);
+      AH06(i) = AHSTAYED(i);
+      AH07(i) = AHAGE(i);
+    else
+      AH01(i) = notappl;      { blank out the entries not needed }
+    endif;
+  enddo;
+
+PROC AH01
+preproc
+  SaveData();
+  { exit section  }
+  if curocc() > AHMEMBER then    { to run in-Batch }
+    endgroup
+  endif;
+
+PROC AH02
+  if android then
+    setocclabel(AHSEC01_ROSTER(curocc()),strip($));
+  endif;
+
+PROC AH08
+preproc
+  if AH07 in 0:14 then
+    skip to AH09
+  endif;
+
+PROC AH09
+preproc
+  { Eligibility: Female, 15-49 }
+  if AH04 = 2 & AH07 in 15:49 then
+    $ = AH01;
+  else
+    $ = 0
+  endif;
+
+postproc
+  { if eligible AH09 must be same as line number }
+  if AH04 = 2 & AH07 in 15:49 then
+    if $ <> AH01 then
+      warning( 0150 ) select( tr("Eligibility"), $, tr("Continue"), continue );
+    endif
+  { Otherwise eligibility code must be zero }
+  elseif $ then
+    warning( 0150 ) select( tr("Eligibility"), $, tr("Continue"), continue );
+  endif;
+
+PROC AH10
+preproc
+  { eligibility: men, 15-59 }
+  if AHELIGM = 1 & AH04 = 1 & AH07 in 15:49 then   { !!! adjust maximum age for eligible men }
+    $ = AH01;
+  else
+    $ = 0
+  endif;
+
+postproc
+  { if eligible AH10 must be same as line number }
+  if AHELIGM = 1 & AH04 = 1 & AH07 in 15:49 then   { !!! adjust maximum age for eligible men }
+    if $ <> AH01 then
+      warning( 0150 ) select( tr("Eligibility"), $, tr("Continue"), continue );
+    endif
+  { Otherwise eligibility code must be zero }
+  elseif $ then
+    warning( 0150 ) select( tr("Eligibility"), $, tr("Continue"), continue );
+  endif;
+
+PROC AH11
+preproc
+  { Eligibility: Children, 0-5 }
+  if AH07 in 0:5 then
+    $ = AH01;
+  else
+    $ = 0
+  endif;
+
+postproc
+  { if eligible AH11 must be same as line number }
+  if AH07 in 0:5 then
+    if $ <> AH01 then
+      warning( 0150 ) select( tr("Eligibility"), $, tr("Continue"), continue );
+    endif
+  { Otherwise eligibility code must be zero }
+  elseif $ then
+    warning( 0150 ) select( tr("Eligibility"), $, tr("Continue"), continue );
+  endif;
+
+PROC AH12
+preproc
+  if !AH07 in 0:17 then
+    skip to AH16
+  endif;
+
+PROC AH13
+preproc
+  ask if AH12 = 1;
+
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if AHLINE(i) <> curocc() & AHSEX(i) = 2 & AHAGE(i) in AH07+8:98,missing then
+      individuals.add(strip(AHFIRSTN(i)) + " " + strip(AHLASTN(i)), i);
+    endif;
+  enddo;
+  individuals.add( tr("Not a household member"), 0 );
+  SetValueSet( $, individuals );
+
+postproc
+  { Check mother's line }
+  if $ <> missing & ($ > AHMEMBER | $ = AH01) then
+    errmsg( 0120 ) select( tr("Mother"), $ );
+  elseif $ <> 0 then
+    { Mother female }
+    mother = tr("mother");
+    if AHSEX($) <> 2 then
+      errmsg( 0121, mother, AHSEX($) ) 
+	    select( tr("Mother"), $, tr("Sex"), AHSEX($) );
+    { Mother and child age difference }
+    elseif AHAGE($)-AH07 < MinAgeDif then
+      warning( 0124, mother, AHAGE($), AH07 )
+	    select( tr("Mother"), $, tr("Age"), AHAGE($), tr("Continue"), continue );
+    endif;
+    { consistency between child's mother relationship to head }
+    { and child relationship to head                          }
+    if !valrelat( AHRELAT($), AH03 ) then     { Relationship not OK }
+      warning( 0122, mother, AHRELAT($), AH03 )
+	    select( tr("Mother"), $, tr("Relationship"), AHRELAT($), tr("Continue"), continue );
+    endif;
+  endif;
+
+PROC AH15
+preproc
+  ask if AH14 = 1;
+
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if AHLINE(i) <> curocc() & AHSEX(i) = 1 & AHAGE(i) in AH07+8:98,missing then
+      individuals.add(strip(AHFIRSTN(i)) + " " + strip(AHLASTN(i)), i);
+    endif;
+  enddo;
+  individuals.add( tr("Not a household member"), 0 );
+  SetValueSet( $, individuals );
+
+postproc
+  { Check father's line }
+  if $ <> missing & ($ > AHMEMBER | $ = AH01) then
+    errmsg( 0120 ) select( tr("Father"), $ );
+  elseif $ <> 0 then
+    { Father male }
+    father = tr("father");
+    if AHSEX($) <> 1 then
+      errmsg( 0121, father, AHSEX($) )
+	    select( tr("Father"), $, tr("Sex"), AHSEX($) );
+    { Father and child age difference }
+    elseif AHAGE($)-AH07 < MinAgeDif then
+      warning( 0124, father, AHAGE($), AH07 )
+	    select( tr("Father"), $, tr("Age"), AHAGE($), tr("Continue"), continue );
+    endif;
+    { consistency between child's father relationship to head }
+    { and child relationship to head                          }
+    if !valrelat( AHRELAT($), AH03 ) then     { Relationship not OK }
+      warning( 0122, father, AHRELAT($), AH03 )
+	    select( tr("Father"), $, tr("Relationship"), AHRELAT($), tr("Continue"), continue );
+    endif;
+  endif;
+
+PROC AH16
+preproc
+  { Selection for education questions }
+  if AH07 in 0:3 then
+    skip to AH20
+  endif;
+
+postproc
+  if $ <> 1 then
+    skip to AH20
+  endif;
+
+PROC AH17A
+  if $ in 8,missing then
+    skip to AH18
+  endif;
+
+PROC AH17B
+  { Verify the maximum grade for the level }
+  if !LevelYears( AH17A, $ ) then
+    errmsg( 0090 )
+	  select( tr("Level of education"), AH17A, tr("Grade/year/form"), $ );
+  endif;
+
+PROC AH18
+preproc
+  if AH07 in 25:98,missing then
+    skip to AH26
+  endif;
+
+postproc
+  if $ <> 1 then
+    skip to AH20
+  endif;
+
+PROC AH19A
+  if $ in 8,missing then
+    skip to AH20
+  elseif AH17A > $ then
+    errmsg( 0160, AH17A, AH19A )
+	  select( tr("Level attended"), AH17A, tr("Level current"), $ );
+  endif;
+
+PROC AH19B
+  { Verify the maximum grade for the level }
+  if !LevelYears( AH19A, $ ) then
+    errmsg( 0090 )
+	  select( tr("Level of education"), AH19A, tr("Grade/year/form"), $ );
+  else
+    if AH17A > AH19A | (AH17A = AH19A & valid(AH17B) & AH17B > AH19B) then
+      errmsg( 0161, AH17A, AH17B, AH19A, AH19B )
+        select( tr("Level attended"), AH17A, tr("Level current"), AH19A );
+    endif
+  endif;
+
+PROC AH20
+preproc
+  if !AH07 in 0:4 then
+    skip to AH26
+  endif;
+  
+postproc  
+  skip to next AH01
+
+PROC AH26
+preproc
+  if AH07 in 0:4 then
+    skip to next AH01
+  endif;
+
+postproc
+  if $ <> 1 then
+    skip to AH28
+  endif;
+
+PROC AH27
+  skip to AH29;
+
+PROC AH29
+  if $ <> 1 then
+    skip to AH31
+  endif;
+
+PROC AH30
+  skip to AH32;
+
+PROC AHWOMEN
+preproc
+  $ = count( AHSEC01_ROSTER where AH09 <> 0 );
+
+PROC AHMEN
+preproc
+  if AHELIGM = 1 then
+    $ = count( AHSEC01_ROSTER where AH10 <> 0 );
+  else
+    $ = 0;
+  endif;
+
+{ @@@ Begining of Accident and Injuries Module }
+PROC AHAI1
+if $ <> 1 then
+  skip to AHAI17
+endif;  
+
+PROC AHAI1L
+preproc
+  $ = curocc();
+
+PROC AHAI2
+  { Check that response is alphabetic and starts in the first column }
+  if !pos( $[1:1], strip(alphalst) ) then
+    errmsg( 89991 ) select( tr("Name"), $ );
+  endif;
+
+PROC AHAI4
+  if $ = 96 then
+    getother( GetSymbol(), curocc() );
+    enter FL_OTHERS
+  endif;
+
+PROC AHAI5
+  if $ <> 2 then
+    skip to AHAI10
+  endif;	
+
+PROC AHAI8
+  if $ = 1 then
+    skip to AHAI16
+  endif;	
+
+PROC AHAI9
+  $ = SortAlpha( $ );
+  { Check "Don't know" only response }
+  if pos( "Z", $ ) & length(strip($)) > 1 then
+    errmsg( 9996 ) select( tr("Fix answers marked"), $ );
+  { Get other answer }
+  elseif pos( "X", $ ) then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+  skip to AHAI16;
+
+PROC AHAI10
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if AH05(i) = 1 then
+      individuals.add(strip(AH02(i)), i);
+    endif;	  
+  enddo;
+  individuals.add( tr("Not a household member"), 0 );
+  SetValueSet( $, individuals );
+
+postproc
+  if $ <> 0 then
+    do i = 1 while i < curocc()
+      if $ = $(i) then 
+        errmsg( 0130 ) select( tr("Current line number"), $, tr("Previous line number"), $(i) );
+      endif;
+    enddo;
+	skip to AHAI13;
+  endif;	
+	  
+PROC AHAI13
+  $ = SortAlpha( $ );
+  { Check "Don't know" only response }
+  if pos( "Z", $ ) & length(strip($)) > 1 then
+    errmsg( 9996 ) select( tr("Fix answers marked"), $ );
+  { Get other answer }
+  elseif pos( "X", $ ) then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+  
+PROC AHAI14
+  if $ <> 1 then  
+    skip to AHAI16
+  endif;	
+
+PROC AHAI15
+  $ = SortAlpha( $ );
+  { Check "Don't know" only response }
+  if pos( "Z", $ ) & length(strip($)) > 1 then
+    errmsg( 9996 ) select( tr("Fix answers marked"), $ );
+  { Get other answer }
+  elseif pos( "X", $ ) then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+  
+PROC AHAI16
+  if $ <> 1 | curocc() >= maxocc(AHSECA1_ROSTER) then  
+    SaveData();
+    endgroup
+  endif;	
+
+PROC AHAI17
+if $ <> 1 then
+  skip to AHSECCHL_FORM
+endif;  
+
+PROC AHAI17L
+preproc
+  $ = curocc();
+
+PROC AHAI19
+  { Check that response is alphabetic and starts in the first column }
+  if !pos( $[1:1], strip(alphalst) ) then
+    errmsg( 89991 ) select( tr("Name"), $ );
+  endif;
+
+PROC AHAI20
+  if $ = 96 then
+    getother( GetSymbol(), curocc() );
+    enter FL_OTHERS
+  endif;
+
+PROC AHAI22
+  if $ <> 2 then
+    skip to AHAI27
+  endif;	
+
+PROC AHAI25
+  if $ = 1 then
+    skip to AHAI33
+  endif;	
+
+PROC AHAI26
+  $ = SortAlpha( $ );
+  { Check "Don't know" only response }
+  if pos( "Z", $ ) & length(strip($)) > 1 then
+    errmsg( 9996 ) select( tr("Fix answers marked"), $ );
+  { Get other answer }
+  elseif pos( "X", $ ) then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+  skip to AHAI33;
+
+PROC AHAI27
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if AH05(i) = 1 then  
+      individuals.add(strip(AH02(i)), i);
+    endif;	  
+  enddo;
+  individuals.add( tr("Not a household member"), 0 );
+  SetValueSet( $, individuals );
+
+postproc
+  if $ <> 0 then
+    do i = 1 while i < curocc()
+      if $ = $(i) then 
+        errmsg( 0130 ) select( tr("Current line number"), $, tr("Previous line number"), $(i) );
+      endif;
+    enddo;
+	skip to AHAI30;
+  endif;	
+	  
+PROC AHAI30
+  $ = SortAlpha( $ );
+  { Check "Don't know" only response }
+  if pos( "Z", $ ) & length(strip($)) > 1 then
+    errmsg( 9996 ) select( tr("Fix answers marked"), $ );
+  { Get other answer }
+  elseif pos( "X", $ ) then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+  
+PROC AHAI31
+  if $ <> 1 then  
+    skip to AHAI33
+  endif;	
+
+PROC AHAI32
+  $ = SortAlpha( $ );
+  { Check "Don't know" only response }
+  if pos( "Z", $ ) & length(strip($)) > 1 then
+    errmsg( 9996 ) select( tr("Fix answers marked"), $ );
+  { Get other answer }
+  elseif pos( "X", $ ) then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+  
+PROC AHAI33
+  if $ <> 1 | curocc() >= maxocc(AHSECA2_ROSTER) then  
+    SaveData();
+    endgroup
+  endif;	
+{ @@@ End of Accident and Injuries Module }
+
+{ @@@ Begining of Child Labor Module }
+PROC ACHLINE
+preproc
+  numeric oldvch = visualvalue($);
+  chlabor = count( AHSEC01_ROSTER where AH07 in 5:17 & AH05 = 1 );
+  if !chlabor then
+    endgroup
+  elseif oldvch in notappl,0 | !AH07(oldvch) in 5:17 | !AH05(oldvch) = 1 then
+    xchild = random( 1, chlabor );
+    p = 0;
+    for i in AHSEC01_ROSTER do
+      if AH07 in 5:17 & AH05 = 1 then
+        p = p + 1;
+        if p = xchild then
+          $ = AH01;
+          break;
+        endif;
+      endif;
+    enddo;
+  endif;
+
+postproc
+  ACHLNAME = AH02($);
+  hisher = tr("her"); if AH04($) = 1 then hisher = tr("his") endif;
+  daysince = CDCode(AHINTY, AHINTM, AHINTD) - CDCode(survyear, 1, 1);
+  xday     = (daysince%7) + firstday;
+  if xday > 7 then xday = xday - 7 endif; 
+  dayalpha = DaysWeek(xday);
+  
+PROC ACHL2A
+preproc
+  if demode() = add then
+    warning( tr("%s (line %02d) selected for the child labor module"), strip(ACHLNAME), ACHLINE );
+    SaveData();
+  endif;
+  
+PROC ACHL4
+preproc
+  activity1 = (ACHL2A=1) + (ACHL2B=1) + (ACHL2C=1) + (ACHL2D=1);
+  if !activity1 then
+    skip to ACHL8
+  endif;
+  
+PROC ACHL5
+  if $ = 1 then
+    skip to ACHL8
+  endif;
+  
+PROC ACHL6
+postproc  
+  if $ = 1 then
+    skip to ACHL8
+  endif;
+  
+PROC ACHL7A
+  if $ = 1 then
+    skip to ACHL8
+  endif;
+  
+PROC ACHL7B
+  if $ = 1 then
+    skip to ACHL8
+  endif;
+  
+PROC ACHL7C
+  if $ = 1 then
+    skip to ACHL8
+  endif;
+  
+PROC ACHL7D
+  if $ = 1 then
+    skip to ACHL8
+  endif;
+  
+PROC ACHL7E
+  if $ = 1 then
+    skip to ACHL8
+  endif;
+  
+PROC ACHL8
+  if $ <> 1 then
+    skip to ACHL10
+  endif;
+  
+PROC ACHL10
+  if $ <> 1 then
+    skip to ACHL12A
+  endif;
+
+PROC ACHL14
+preproc
+  activity2 = (ACHL12A=1) + (ACHL12B=1) + (ACHL12C=1) + (ACHL12D=1) + (ACHL12E=1) + (ACHL12F=1) + (ACHL12G=1);
+  if !activity2 then
+    endgroup
+  endif;
+{ @@@ End of Child Labor Module }
+
+{ @@@ Begining of Child Discipline Module }
+PROC ACDI2
+preproc
+  numeric oldvch = visualvalue($);
+  chdis = count( AHSEC01_ROSTER where AH07 in 1:14 & AH05 = 1 );
+  if !chdis then
+    endgroup
+  elseif oldvch in notappl,0 | !AH07(oldvch) in 1:14 | !AH05(oldvch) = 1 then
+    xchild = random( 1, chdis );
+    p = 0;
+    for i in AHSEC01_ROSTER do
+      if AH07 in 1:14 & AH05 = 1 then
+        p = p + 1;
+        if p = xchild then
+          $ = AH01;
+          break;
+        endif;
+      endif;
+    enddo;
+  endif;
+
+postproc
+  ACDINAME = AH02(ACDI2);
+  xsex     = AH04(ACDI2);
+  
+PROC ACDI3A
+preproc
+  if demode() = add then
+    warning( tr("%s (line %02d) selected for child discipline module"), strip(ACDINAME), ACDI2 );
+    SaveData();
+  endif;
+{ @@@ End of Child Discipline Module }
+
+PROC AH101
+preproc
+  SaveData();
+
+postproc
+  majorgrp($);
+  if $ = 96 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+  if $ in 11:13 then
+    skip to AH106
+  elseif $ in 14:81,96 then
+    skip to AH103
+  endif;
+
+PROC AH102
+  majorgrp($);
+  if $ = 96 then
+    getother( "AH101", 1 );
+    enter FL_OTHERS
+  endif;
+  if $ in 11:13 then
+    skip to AH106
+  endif;
+
+PROC AH103
+  if $ in 1,2 then
+    skip to AH106;
+  endif;
+
+PROC AH104
+  if $ in 1:900 & $%10 <> 0 & $%10 <> 5 then
+    warning( 9993 ) select( tr("Minutes"), $, tr("Continue"), continue );
+  endif;
+
+PROC AH105
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if !AH07(i) in 0:2 then
+      individuals.add(strip(AHFIRSTN(i)) + " " + strip(AHLASTN(i)), i);
+	endif;
+  enddo;
+  individuals.add( tr("Not a household member"), 0 );
+  SetValueSet( $, individuals );
+
+PROC AH107
+  if $ <> 1 then
+    skip to AH109;
+  endif;
+
+PROC AH108
+  $ = SortAlpha( $ );
+  { Check "Don't know" only response }
+  if pos( "Z", $ ) & length(strip($)) > 1 then
+    errmsg( 9996 ) select( tr("Fix answers marked"), $ );
+  { Get other answer }
+  elseif pos( "X", $ ) then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+
+PROC AH109
+  majorgrp($);
+  if $ = 61 then
+    skip to AH117
+  elseif $ = 96 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+
+PROC AH110
+  if $ <> 1 then
+    skip to AH112
+  endif;
+
+PROC AH114
+preproc
+  if !AH109 in 12,13,21,22,23,31 then
+    skip to AH117
+  else 
+    recode AH109 -> faciltype;
+	       12    -> 1;
+  13,21,22,23    -> 2;
+           31    -> 3;
+    endrecode;
+  endif;
+
+postproc
+  if $ <> 1 then
+    skip to AH117
+  endif;	
+
+PROC AH116
+  if $ = 6 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+
+PROC AH117
+  if $ = 96 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+  if $ in 1:5 then
+    skip to AH121
+  elseif $ in 6,9,96 then
+    skip to AH120
+  elseif $ = 95 then
+    skip to AH123
+  endif;
+
+PROC AH120
+  if AH117 = 6 & !$ in 1:3 then
+    warning( 0155, AH117 )
+      select( tr("Cookstove"), AH117, tr("Fuel"), $, tr("Continue"), continue );
+  endif;	  
+  if $ = 96 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+  
+PROC AH121
+  if $ = 6 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+  if $ <> 1 then
+    skip to AH123
+  endif;
+
+PROC AH123
+  if $ = 96 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+  if $ in 1,6,96 then
+    skip to AH125
+  elseif $ = 95 then
+    skip to AH126
+  endif;
+
+PROC AH125
+  if $ = 96 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+
+PROC AH126
+  if $ = 96 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+
+PROC AH128
+  if $ <> 1 then
+    skip to AH130
+  endif;
+
+PROC AH129_BLOCK
+  if AH129A + AH129B + AH129C + AH129D + AH129E + AH129F = 0 then
+    errmsg( 0180 ) 
+	  select( tr("Own animals"), AH128, tr("Chickens"), AH129F );
+  endif;
+
+PROC AH130
+  if $ <> 1 then
+    skip to AH132A
+  endif;
+
+PROC AH131
+{ !!! make sure to add code to properly check the units for different types of land }
+{     with the corresponding area.  Also make sure that if units are used, code 95  }
+{     should be accompanied by the unit it refers to. i.e., 9-95 isn't useful       }
+
+PROC AH132A
+  if $ <> 1 & (AH117 = 1 | AH125 = 1 | AH126 = 1) then
+    warning( 0165, AH117, getvaluelabel(AH117), AH125, getvaluelabel(AH125), AH126, getvaluelabel(AH126) )
+      select( tr("Electricity"), $, tr("Cooking stove"), AH117, tr("Heating fuel"), AH125, tr("Lighting fuel"), AH126, tr("Continue"), continue );
+  endif;
+
+PROC AH137
+preproc
+  SaveData();
+
+postproc
+  if $ <> 1 then
+    skip to AH149
+  endif;
+
+{ @@@ Begin Mosquito nets section for malaria module }
+PROC AH139
+preproc
+  { Initialize line numbers for mosquito nets }
+  do i = 1 while i <= 7
+    if i <= AH138 then
+      AH139(i) = i;
+    else
+      AH139(i) = notappl;      { blank out entries not needed }
+    endif;
+  enddo;
+  if curocc() > AH138 then    { to run in-Batch }
+    endgroup
+  endif;
+
+PROC AH142
+  majorgrp($);
+
+PROC AH143
+  if $ in 1:3 then
+    skip to AH145
+  endif;
+
+PROC AH145
+  if $ = 2 then
+    skip to AH147
+  elseif $ = 8 then
+    skip to next AH139
+  endif;
+
+PROC AH146A
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    individuals.add(AH02(i), i);
+  enddo;
+  SetValueSet( $, individuals );
+
+postproc
+  if $ > AHMEMBER then
+    errmsg( 0201, AHMEMBER )
+      select( tr("Person slept in net"), $ );
+  endif;
+
+PROC AH146B
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if AH01(i) <> AH146A then
+      individuals.add(AH02(i), i);
+    endif;
+  enddo;
+  individuals.add( tr("Nobody else slept under mosquito net"), 0 );
+  SetValueSet( $, individuals );
+
+postproc
+  if $ = 0 then
+    skip to next AH139
+  elseif $ > AHMEMBER then
+    errmsg( 0201, AHMEMBER )
+      select( tr("Person slept in net"), $ );
+  elseif $ = AH146A then
+    errmsg( 0202 )
+      select( tr("Person slept in net"), $ );
+  endif;
+
+PROC AH146C
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if AH01(i) <> AH146A & AH01(i) <> AH146B then
+      individuals.add(AH02(i), i);
+    endif;
+  enddo;
+  individuals.add( tr("Nobody else slept under mosquito net"), 0 );
+  SetValueSet( $, individuals );
+
+postproc
+  if $ = 0 then
+    skip to next AH139
+  elseif $ > AHMEMBER then
+    errmsg( 0201, AHMEMBER )
+      select( tr("Person slept in net"), $ );
+  elseif $ = AH146A | $ = AH146B then
+    errmsg( 0202 )
+      select( tr("Person slept in net"), $ );
+  endif;
+
+PROC AH146D
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if AH01(i) <> AH146A & AH01(i) <> AH146B & AH01(i) <> AH146C then
+      individuals.add(AH02(i), i);
+    endif;
+  enddo;
+  individuals.add( tr("Nobody else slept under mosquito net"), 0 );
+  SetValueSet( $, individuals );
+
+postproc
+  if $ = 0 then
+    skip to next AH139
+  elseif $ > AHMEMBER then
+    errmsg( 0201, AHMEMBER )
+      select( tr("Person slept in net"), $ );
+  elseif $ = AH146A | $ = AH146B | $ = AH146C then
+    errmsg( 0202 )
+      select( tr("Person slept in net"), $ );
+  endif;
+  skip to next AH139;
+
+PROC AH147
+  { Get other answer }
+  if $ = 96 then
+    getother( GetSymbol(), curocc() );
+    enter FL_OTHERS
+  endif;
+  { @@@ End Malaria module }
+
+PROC AH149
+preproc
+  SaveData();
+
+postproc
+  if !$ in 1:2 then
+    skip to AH152
+  endif;
+
+PROC AH151
+  $ = SortAlpha( $ );
+  { Check "None" only response }
+  if pos( "Y", $ ) & length(strip($)) > 1 then
+    errmsg( 9995 ) select( tr("Fix answers marked"), $ );
+  endif;
+
+PROC AH152
+  majorgrp($);
+  if $ = 96 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+
+PROC AH153
+  majorgrp($);
+  if $ = 96 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+
+PROC AH154
+  majorgrp($);
+  if $ = 96 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+
+PROC AH155
+  if $ = 6 then
+    getother( GetSymbol(), 0 );
+    enter FL_OTHERS
+  endif;
+
+PROC AH156H
+preproc
+  if visualvalue( $ ) = notappl then
+    time = systime();
+    $ = int( time/10000 );
+  endif;
+
+PROC AH156M
+preproc
+  if visualvalue( $ ) = notappl then
+    time = systime();
+    $ = int( time/100 ) % 100;
+  endif;
+
+postproc
+  if AHVISITS = 1 & !special(AH100H) & !special(AH156H) then
+    if AH100H > AH156H | AH100H = AH156H & AH100M > $ then
+      warning( 08110, AH100H, AH100M, AH156H, AH156M );
+    endif
+  endif;
+
+PROC AHNUMDV
+preproc
+  numeric oldvdv = visualvalue($);
+  if !count( AHSEC01_ROSTER where AH09 <> 0 & AH04 = 2 ) then
+    $ = 0;
+  elseif oldvdv in notappl,0 | AH09(oldvdv) = 0 then
+    nwoman = random( 1, AHWOMEN );
+    p = 0;
+    for i in AHSEC01_ROSTER do
+      if AH09 <> 0 & AH04 = 2 then
+        p = p + 1;
+        if p = nwoman then
+          $ = AH01;
+          break;
+        endif;
+      endif;
+    enddo;
+  endif;
+
+postproc
+  if $ <> 0 & demode() = add then
+    warning( tr("%s (%02d) selected for domestic violence module"), strip(AH02($)), $ );
+  endif;
+
+{ @@@ taking GPS coordinates for household }
+PROC AHLANGQ
+preproc
+  SaveData();
+  if special(visualvalue(AHLANGQ)) then
+	{ Customize this code to match the questionnaire languages used in your survey !!! }
+	string qlang = getlanguage();
+	recode qlang -> $;
+			"EN" -> 1;
+			"ES" -> 2;
+			"FR" -> 3;
+			"PT" -> 4;
+			"RU" -> 5;
+			"AR" -> 6;
+				 -> 1;
+	endrecode;
+  endif;
+	
+PROC GHAUX
+preproc
+  SaveData();
+  capturecoor = ( visualvalue(GHLATITUDE) = notappl );
+  if capturecoor then
+    skip to GHINTRO
+  endif;  
+
+onfocus
+   $ = 2;
+   capturecoor = ( visualvalue(GHLATITUDE) = notappl );
+  
+postproc
+  if $ <> 1 then
+    advance to AHFINISH
+  endif;  
+  
+PROC GHINTRO
+onfocus
+  capturecoor = ( visualvalue(GHLATITUDE) = notappl );
+
+postproc
+  { open the GPS dongle to capture GPS coordinates }
+  { !!! verify using the device manager the port number used by the dongle       }
+  {     in ICF laptops port 3 is reserved and erroneously taken as a dongle port }
+  {     in ASUS tablets ports are assigned starting from port 3 and above        }
+  capturecoor = ( visualvalue(GHLATITUDE) = notappl );
+  if $ = 1 & GHAUX <> 2 then 
+    if GHAUX = 1 & accept( tr("Coordinates were already collected. Are you sure that you need to recollect them?"),
+                           tr("No, do not recollect the coordinates"),
+                           tr("Yes, recollect the coordinates") ) <> 2 then
+      reenter GHAUX
+    endif;
+	if android then
+      gpsopen = GPS( open );
+    else // Windows
+      do i = 3 while i <= 10
+        if GPS( open, i, 4800 ) then
+          break
+        endif;
+      enddo;
+	  gpsopen = (i <= 10);
+    endif;	  
+    if !gpsopen then
+      warning( 60045 ) select( tr("Continue"), continue);
+      if capturecoor then
+        skip to AHFINISH
+      else
+        advance to AHFINISH
+      endif;
+    endif;
+  else
+    if capturecoor then
+      skip to AHFINISH
+    else
+      advance to AHFINISH
+	endif;
+  endif;
+
+PROC GHLATITUDE
+preproc
+  string gpstitle;
+  capturecoor = ( visualvalue(GHLATITUDE) = notappl );
+  if GHINTRO = 1 & GHAUX <> 2 then 
+    gpstitle = tr("GPS device acquiring GPS satellites. Please wait to complete its capture");
+    if gps(read, 25, gpstitle ) then
+      GHLATITUDE  = gps(latitude);
+      GHLATPOLE   = "N";
+      if gps(latitude) < 0 then	{ negative = south }
+        GHLATPOLE = "S";
+      endif;
+      GHLONGITUDE = gps(longitude);
+      GHLNGPOLE  = "E";
+      if gps(longitude) < 0 then	{ negative = west }
+        GHLNGPOLE = "W";
+      endif;
+      GHALTITUDE = gps(altitude);
+      GHSATELLIT = gps(satellites);	  { no. of satellites, at least 3-4 is recommended }
+      GHACCURACY = gps(accuracy);	  { precision level, 1 is the best possible and 50 the least accurate }
+    else
+      warning( 60050 ) select( tr("Continue"), continue);
+      if !capturecoor then 
+        advance to AHFINISH
+      else
+        skip to AHFINISH
+      endif;
+    endif;
+  else
+    if !capturecoor then 
+      advance to AHFINISH
+    else
+      skip to AHFINISH
+    endif;
+  endif;
+{ @@@ end taking GPS coordinates for household }
+
+PROC AHFINISH
+onfocus
+  $ = " ";
+
+postproc
+  if demode() = add then
+    strnotes = editnote();
+    if endmess() then
+      reenter
+    else
+      endlevel;
+    endif;
+  { ****
+         An instruction like the one below is used when entering biomarkers.
+         They are normally entered at a later time and require a special option on
+         the menu system
+   **** }
+  { when modified by the central office always check H/W }
+  elseif !xmodcent & ( xpartial & visualvalue(ABCOL1(1)) = notappl & visualvalue(ABCOL2(1)) = notappl & visualvalue(ABCOL3(1)) = notappl |
+                       xmodify  & visualvalue(ABCOL1(1)) = notappl & visualvalue(ABCOL2(1)) = notappl & visualvalue(ABCOL3(1)) = notappl ) then
+    endlevel;
+  endif;
+
+{ @@@ Begin Height/Weight & Hemoglobin for Children }
+PROC ABSECOVER_FORM
+preproc
+  xchild   = count( AHSEC01_ROSTER where AH11 <> 0 );
+  if !xchild & !AHWOMEN & !AHMEN then
+    endgroup
+  endif;
+  if InEntry then
+    ABCHILD = xchild;
+  endif;
+
+PROC ABINTY
+  if !DateOK( ABINTD, ABINTM, ABINTY, sday, smonth, syear ) then
+    errmsg( 0016 ) select( tr("Date biomarker"), ABINTD );
+  endif;
+  if CDCode(ABINTY,ABINTM,ABINTD) < CDCode(AHINTY,AHINTM,AHINTD) then
+    errmsg( 0016 ) select( tr("Date biomarker"), ABINTD );
+  endif;
+
+PROC ABSEC01_FORM
+preproc
+  { initialize array to store children's data birth coming from women's questionnaire if available }
+  do i = 1 while i <= 50
+    chfound(i) = 0;
+    birthd(i)  = 0;
+    birthm(i)  = 0;
+    birthy(i)  = 0;
+  enddo;
+  { load date of birth for all children of eligible women in the household }
+  do i = 1 while i <= AHMEMBER
+    xline = edit("99", AH09(i));
+    if AH09(i) & loadcase(ccIN80, AHCLUST, AHNUMBER, xline) then
+      do j = 1 while j <= soccurs(AWSEC2B)
+        if A227(j) in 1:AHMEMBER then
+          chi = A227(j);
+          chfound(chi) = 1;
+          birthd(chi)  = A220D(j);
+          birthm(chi)  = A220M(j);
+          birthy(chi)  = A220Y(j);
+		  if validyr(A220Y(J)) & ABINTY - A220Y(j) > 5 then birthy(chi) = 9998 endif;
+        endif;
+      enddo;
+    endif;
+  enddo;
+
+PROC ABCOL1
+preproc
+  SaveData();
+  { if children under 5 height and weight included }
+  xchild   = count( AHSEC01_ROSTER where AH11 <> 0 );
+  do i = 1 while i <= maxbio
+    if i <= xchild then
+      ABCOL1(i) = i;
+    else
+      ABCOL1(i) = notappl;
+    endif;
+  enddo;
+
+  if curocc() > xchild then   { to run in-Batch }
+    endgroup
+  endif;
+
+PROC AB102
+preproc
+  { find next child for height and weight }
+  nextmem = 0;
+  do i = 1 while i <= AHMEMBER
+    nextmem = nextmem + (AH11(i) <> 0);
+    if nextmem = ABCOL1 then
+      break
+    endif;
+  enddo;
+  $ = i;
+
+postproc
+  { check the line number }
+  if $ <> i then
+    errmsg( 0410, curocc(), i ) 
+	  select( tr("Line"), $ );
+  endif;
+  ACNAME = AH02($);
+
+  if android then
+    setocclabel(ABSEC01_ROSTER(curocc()),strip(ACNAME));
+  endif;
+
+PROC ACAUXIL
+preproc
+  if xentryhw then
+    if visualvalue(AB103D(ABCOL1)) <> notappl then
+      advance to ABCOL1(ABCOL1+1);
+    endif;
+  endif;
+
+postproc
+  if $ <> 1 then
+    if visualvalue(AB103D(ABCOL1)) <> notappl then
+      advance to ABCOL1(ABCOL1+1)
+    else
+      skip to next ABCOL1
+    endif;
+  endif;
+  set attributes ( AB103D, AB103M, AB103Y ) native;
+
+PROC AB103_BLOCK
+  if android then
+    setocclabel(ABSEC01_ROSTER(curocc()),maketext("%s %d/%d/%d",strip(ACNAME),AB103D,AB103M,AB103Y));
+  endif;
+
+PROC AB103D
+preproc
+  set attributes ( $ ) native;
+  if chfound(AB102) then
+    set attributes( $ ) protect;
+    $ = birthd(AB102);
+  endif;
+
+PROC AB103M
+preproc
+  set attributes ( $ ) native;
+  if chfound(AB102) then
+    set attributes( $ ) protect;
+    $ = birthm(AB102);
+  endif;
+
+PROC AB103Y
+preproc
+  set attributes ( $ ) native;
+  if chfound(AB102) then
+    set attributes( $ ) protect;
+    $ = birthy(AB102);
+    noinput;
+  endif;
+
+postproc  
+  numeric t, dii, dib;
+  if !DateOK( AB103D, AB103M, AB103Y, ABINTD, ABINTM, ABINTY ) then
+    errmsg( 2145 ) 
+	  select( tr("Date of birth"), AB103D, tr("Date biomarker"), ABINTD );
+  endif;
+  if valid(AB103D) & valid(AB103M) & validyr(AB103Y) then
+    dii = CDCode( ABINTY, ABINTM, ABINTD );
+    dib = CDCode( AB103Y, AB103M, AB103D );
+	ACAGEM = int( (dii-dib)/DaysMonth );
+  else
+    dii = cmcode(ABINTM,ABINTY);
+
+    { Initialize logical ranges for date of birth of child }
+    ldbH = dii - 71;
+    udbH = dii;
+    if validyr($) then
+      ldcH(AB102) = setlb(AB103M,$,0);
+      udcH(AB102) = setub(AB103M,$,9999);
+      ACAGEM = dii - udcH(AB102);
+    else
+      ldcH(AB102) = ldbH;
+      udcH(AB102) = udbH;
+    endif;
+    if !validyr($) | !valid(AB103M) then
+      { Lower bound of CMC }
+      t = ndjlba(ldcH(AB102), udcH(AB102), dii, dii, AH07(AB102) );
+      if t > 0 then
+        ldcH(AB102) = t
+      endif;
+      { Upper bound of CMC }
+      t = adjuba(ldcH(AB102), udcH(AB102), dii, dii, AH07(AB102) );
+      if t > 0 then
+        udcH(AB102) = t
+      endif;
+      ACAGEM = dii - ldcH(AB102);
+    endif;
+  endif;
+
+PROC AB104
+  if int(ACAGEM/12) <> $ then
+    errmsg( 0435 ) select( tr("Age"), $ );
+  elseif !$ in 0:4 then
+    skip to next ABCOL1
+  endif;
+
+PROC AB106
+onfocus
+  set attributes( $ ) native;
+
+postproc
+  if !$ in 99.90:99.98,missing then
+    hwsex = AH04(AB102);
+    if hwsex = 1 then
+      recode ACAGEM ::      $       -> err;
+              0: 2  ::  0.50: 10.00 -> 0;
+              3: 5  ::  1.00: 13.00 -> 0;
+              6: 8  ::  2.00: 15.00 -> 0;
+              9:11  ::  3.00: 16.50 -> 0;
+             12:14  ::  4.00: 17.50 -> 0;
+             15:17  ::  4.00: 18.50 -> 0;
+             18:20  ::  4.00: 19.50 -> 0;
+             21:23  ::  4.50: 20.50 -> 0;
+             24:26  ::  4.50: 23.00 -> 0;
+             27:29  ::  5.00: 24.00 -> 0;
+             30:32  ::  5.00: 24.50 -> 0;
+             33:35  ::  5.00: 25.50 -> 0;
+             36:38  ::  5.00: 26.00 -> 0;
+             39:41  ::  5.00: 27.00 -> 0;
+             42:44  ::  5.00: 29.00 -> 0;
+             45:47  ::  5.00: 29.00 -> 0;
+             48:50  ::  5.00: 30.00 -> 0;
+             51:53  ::  5.00: 31.00 -> 0;
+             54:56  ::  5.50: 32.00 -> 0;
+             57:60  ::  5.50: 33.00 -> 0;
+             61:72  ::  5.50: 34.00 -> 0;
+                    ::              -> 1;
+      endrecode
+    else
+      recode ACAGEM ::      $       -> err;
+              0: 2  ::  0.50:  9.00 -> 0;
+              3: 5  ::  1.00: 12.00 -> 0;
+              6: 8  ::  2.00: 14.00 -> 0;
+              9:11  ::  2.50: 15.50 -> 0;
+             12:14  ::  3.00: 16.50 -> 0;
+             15:17  ::  3.50: 17.50 -> 0;
+             18:20  ::  3.50: 18.50 -> 0;
+             21:23  ::  4.00: 19.50 -> 0;
+             24:26  ::  4.50: 21.50 -> 0;
+             27:29  ::  5.00: 23.00 -> 0;
+             30:32  ::  5.00: 24.50 -> 0;
+             33:35  ::  5.00: 25.50 -> 0;
+             36:38  ::  5.00: 27.00 -> 0;
+             39:41  ::  5.00: 29.00 -> 0;
+             42:44  ::  5.50: 29.00 -> 0;
+             45:47  ::  5.50: 30.00 -> 0;
+             48:50  ::  5.50: 31.00 -> 0;
+             51:53  ::  5.50: 32.00 -> 0;
+             54:56  ::  6.00: 33.00 -> 0;
+             57:60  ::  6.00: 34.50 -> 0;
+             61:72  ::  6.00: 36.00 -> 0;
+                    ::              -> 1;
+      endrecode
+    endif;
+    if err & xentryhw then
+      warning( 0440 ) select(tr("Weight"), $, tr("Continue"), continue );
+    endif;
+    { !!! If using SECA 874 scale check if 2nd decimal is in 0,5 }
+    { !!! If using SECA 878 scale check if 2nd decimal is equal to 0}
+    { !!! If using UNICEF scale, there should be no 2nd decimal at all and the weight field should have only one decimal – but also check if 2nd decimal is 0 }
+    if !GetDecimal( $, 2 ) in 0,5 then
+      warning( 441 ) select(tr("Weight"), $, tr("Continue"), continue );
+    endif;
+  endif;
+  if $ in 99.90:99.98,missing,notappl then
+    skip to AB108;
+  endif;
+
+  set attributes( $ ) hidden;
+
+PROC AB106W
+  if $ <> AB106 then 
+    errmsg( 0442 ) select(tr("Weight"), AB106 );
+  endif;
+
+PROC AB108
+onfocus
+  set attributes( $ ) native;
+
+postproc
+  if !$ in 999.0:999.8,missing then
+    hwsex = AH04(AB102);
+    if hwsex = 1 then
+      recode ACAGEM :: $          -> err;
+              0: 2 :: 36.0: 74.0 -> 0;
+              3: 5 :: 45.0: 83.0 -> 0;
+              6: 8 :: 51.0: 87.0 -> 0;
+              9:11 :: 56.0: 91.0 -> 0;
+             12:14 :: 59.0: 96.0 -> 0;
+             15:17 :: 62.0:100.0 -> 0;
+             18:20 :: 64.0:104.0 -> 0;
+             21:23 :: 65.0:107.0 -> 0;
+             24:26 :: 67.0:109.0 -> 0;
+             27:29 :: 69.0:112.0 -> 0;
+             30:32 :: 70.0:115.0 -> 0;
+             33:35 :: 71.0:119.0 -> 0;
+             36:38 :: 73.0:121.0 -> 0;
+             39:41 :: 74.0:124.0 -> 0;
+             42:44 :: 75.0:127.0 -> 0;
+             45:47 :: 77.0:129.9 -> 0;
+             48:50 :: 79.0:132.0 -> 0;
+             51:53 :: 79.0:134.0 -> 0;
+             54:56 :: 90.0:136.0 -> 0;
+             57:60 :: 82.0:139.0 -> 0;
+             61:72 :: 82.0:140.0 -> 0;
+                   ::            -> 1;
+      endrecode
+    else
+      recode ACAGEM :: $          -> err;
+              0: 2  :: 36.0: 72.0 -> 0;
+              3: 5  :: 44.0: 90.0 -> 0;
+              6: 8  :: 50.0: 86.0 -> 0;
+              9:11  :: 54.0: 90.0 -> 0;
+             12:14  :: 57.0: 95.0 -> 0;
+             15:17  :: 60.0: 99.0 -> 0;
+             18:20  :: 62.0:102.0 -> 0;
+             21:23  :: 64.0:106.0 -> 0;
+             24:26  :: 66.0:107.0 -> 0;
+             27:29  :: 69.0:111.0 -> 0;
+             30:32  :: 69.0:114.0 -> 0;
+             33:35  :: 71.0:117.0 -> 0;
+             36:38  :: 72.0:120.0 -> 0;
+             39:41  :: 74.0:122.0 -> 0;
+             42:44  :: 75.0:124.0 -> 0;
+             45:47  :: 77.0:126.9 -> 0;
+             48:50  :: 79.0:129.0 -> 0;
+             51:53  :: 79.0:131.0 -> 0;
+             54:56  :: 81.0:133.0 -> 0;
+             57:60  :: 81.0:136.0 -> 0;
+             61:72  :: 81.0:137.0 -> 0;
+                    ::            -> 1;
+      endrecode
+    endif;
+    if err & xentryhw then
+      warning( 0450 ) select( tr("Height"), $, tr("Continue"), continue );
+    endif
+  endif;
+  if $ in 20:140 & AB106 in 0:40 & $ < AB106 then
+    errmsg( 0451, "AB108", "AB106")
+      select( tr("Height"), $, tr("Weight"), AB106 );
+  endif;
+  if $ in 999.0:999.8,missing then
+    skip to AB113
+  endif;
+
+  set attributes( $ ) hidden;
+
+PROC AB108W
+  if $ <> AB108 then 
+    errmsg( 0452 ) select(tr("Height"), AB108 );
+  endif;
+
+PROC AB109
+  if ACAGEM <= 23 & $ = 2 | ACAGEM > 23 & $ = 1 then
+    if xentryhw then
+      warning( 0460 ) select( tr("Lying/Standing"), $, tr("Continue"), continue );
+    endif;
+  endif;
+  
+PROC AB110
+  if (ACAGEM <= 23 & AB109 = 1 | ACAGEM > 23 & AB109 = 2) <=> $ <> 1 then
+    errmsg( 0462, AB104, AB109, getlabel(AB109,AB109) )
+	  select( tr("Age"), AB104, tr("Lying/Standing"), AB109, tr("Correct measure"), $ );
+  endif;
+  if $ = 1 then
+    skip to AB112
+  endif; 
+  
+PROC AB111
+onfocus
+  chage = ( AB104 in 2:4 );
+
+postproc
+  getother( getsymbol(), curocc() );
+  enter FL_OTHERS
+  
+
+PROC AB113
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+
+PROC AB114
+  { Verify that fieldworker is registered }
+  if $ <> 9999 & ( !loadcase(FIELDWKQ, $) | $ = AB113 ) then
+    errmsg( 0026, $ )
+      select( tr("Fieldworker"), AB113, tr("Assistant"), $ );
+  endif;
+
+PROC AB115Y
+  if !DateOK( AHINTD, AHINTM, AHINTY, AB115D, AB115M, AB115Y ) |
+     !DateOK( AB115D, AB115M, AB115Y, ABINTD, ABINTM, ABINTY ) then
+    errmsg( 2146 )
+      select( tr("Date biomarker"), ABINTD, tr("Date measurement"), AB115D );
+  endif;
+
+PROC AB118
+preproc
+  if ACAGEM <= 5 then
+    skip to next ABCOL1
+  endif;
+
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if AH01(i) <> AB102 & AH07(i) in 15:98 then
+      individuals.add(AH02(i), i);
+    endif;
+  enddo;
+  individuals.add( tr("Not a household member"), 0 );
+  SetValueSet( $, individuals );
+
+postproc
+  if $ > AHMEMBER | $ = AB102 then
+    errmsg( 0017 ) select( tr("Line"), $ );
+  endif;
+
+PROC AB121
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+
+PROC ABM112
+  { Either parent or respondent refused then ABMHIV9 = "99995" }
+  if AB120 <> 1 & !$ in "99993":"99996","?" then
+    errmsg( 0501, AB120, $ )
+      select( tr("Consent"), AB120, tr("Barcode"), $ );
+  endif;
+  { check for duplicates }
+  n = curocc();
+  for i in ABSEC01_ROSTER do
+    if ABCOL1 <> ABCOL1(n) & !$ in "99993":"99996","?" & $ = $(n) then
+      errmsg( 0484, i ) select( tr("Barcode"), $ );
+    endif;
+  enddo;
+  { check barcode composition }
+  x = BarCodeError( $ );
+  if x = 1 then
+    { missing should be one "?" in first position }
+    errmsg( 0494, $ ) select( tr("Barcode"), $ );
+  elseif x = 2 then
+    { sequence of characters incorrect }
+    errmsg( 0495, $ ) select( tr("Barcode"), $ );
+  elseif x = 3 then
+    { check digit incorrect }
+    errmsg( 0496, $ ) select( tr("Barcode"), $ );
+  endif;
+
+PROC AB122
+onfocus
+  set attributes( $ ) native;
+
+postproc
+  if AB120 <> 1 & !$ in 99.3:99.8,missing then
+    errmsg( 0470, AB120, AB122 )
+      select( tr("Consent"), AB120, tr("Hemoglobin"), $ );
+  endif;
+  { check implausible hemoglobin levels }
+  if $ in 0.0:1.99,25.6:98.0 then
+    warning( 0473, $ ) select( tr("Hemoglobin"), $, tr("Continue"), continue );
+  endif;
+  if !$ in 99.0:99.8 then
+    set attributes( $ ) hidden;
+  endif;
+
+PROC AB122W
+  if AB122 <> $ then
+    errmsg( 0474 ) select( tr("Hemoglobin"), AB122 ); 
+  endif;
+  
+PROC ABM114
+  if AB120 <> 1 & !$ in 4,5,missing then
+    errmsg( 0502, AB120 )
+      select( tr("Consent"), AB120, tr("Result RDT"), $ );
+  endif;
+  if $ in 4,5 then
+    skip to ABM128D
+  elseif $ in 2,6 then
+    skip to AB123
+  endif;	
+
+PROC ABM117
+preproc
+  if 1 in ABM115A, ABM115B, ABM115C, ABM115D, ABM115E, 
+          ABM115F, ABM115G, ABM115H then 
+    skip to AB123
+  endif;
+
+postproc
+  if AB122 < 8 then
+    skip to AB123
+  endif;	
+
+PROC ABM119
+  if $ = 1 then
+    skip to ABM128D
+  endif;	
+
+PROC ABM122
+  if $ = 6 then
+    skip to ABM128D
+  endif;	
+
+PROC ABM123
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+  if ABM122 = 2 then
+    skip to ABM128D
+  endif;	
+
+PROC AB123
+  if AB122 < 8 <=> $ <> 1 then
+    errmsg( 0477 ) select( tr("Hemoglobin"), AB122, tr("Result"), $ );
+  endif;  
+{ @@@ End Height/Weight and Hemoglobin testing for Children }
+
+PROC ABM128Y
+  if !DateOK( AHINTD, AHINTM, AHINTY, ABM128D, ABM128M, ABM128Y ) |
+     !DateOK( ABM128D, ABM128M, ABM128Y, ABINTD, ABINTM, ABINTY ) then
+    errmsg( 2146 )
+      select( tr("Date biomarker"), ABINTD, tr("Date measurement"), AB115D );
+  endif;
+
+PROC ABCOL2
+{ @@@ Begin Height/Weight, Hemoglobin and HIV testing for Women }
+preproc
+  SaveData();
+  { if women height and weight included }
+  do i = 1 while i <= maxbio
+    if i <= AHWOMEN then
+      ABCOL2(i) = i;
+    else
+      ABCOL2(i) = notappl;
+    endif;
+  enddo;
+
+  if curocc() > AHWOMEN then
+    endgroup
+  endif;
+
+PROC AB202
+preproc
+  { find next woman for height and weight }
+  nextmem = 0;
+  do i = 1 while i <= AHMEMBER
+    nextmem = nextmem + (AH09(i) <> 0);
+    if nextmem = ABCOL2 then
+      break
+    endif;
+  enddo;
+  $ = i;
+
+postproc
+  { check the line number, rather than forcing it in }
+  if $ <> i then
+    errmsg( 0410, curocc(), i ) select( tr("Line"), $ );
+  endif;
+  AWNAME = AH02($);
+
+  if android then
+    setocclabel(ABSEC02_ROSTER(curocc()),strip(AWNAME));
+  endif;
+
+PROC AWAUXIL
+preproc
+  if xentryhw then
+    if visualvalue(AB203(ABCOL2)) <> notappl then
+      advance to ABCOL2(ABCOL2+1);
+    endif;
+  endif;
+
+postproc
+  if $ <> 1 then
+    if visualvalue(AB203(ABCOL2)) <> notappl then
+      advance to ABCOL2(ABCOL2+1)
+    else
+      skip to next ABCOL2
+    endif;
+  endif;
+
+PROC AB203
+  if AH07(AB202) in 15:17 <=> $ <> 1 then
+    errmsg( 0075, AH07(AB202) ) 
+	  select( tr("Age"), AH07(AB202), tr("Age group"), $ );
+  endif;
+
+PROC AB204
+  if AH08(AB202) = 4 <=> $ <> 1 then
+    errmsg( 0475, AH08(AB202) )
+	  select( tr("Marital status"), AH08(AB202), tr("Marital status grouped"), $ );
+  endif;
+
+PROC AB205
+onfocus
+  set attributes( $ ) native;
+
+postproc
+  if !$ in 999.94:999.96,missing then
+    if !$ in 20.00:150.00 then
+      warning( 0440 ) select( tr("Weight"), $, tr("Continue"), continue );
+	endif;
+    { !!! If using SECA 874 scale check if 2nd decimal is in 0,5 }
+    { !!! If using SECA 878 scale check if 2nd decimal is equal to 0}
+    { !!! If using UNICEF scale, there should be no 2nd decimal at all and the weight field should have only one decimal – but also check if 2nd decimal is 0 }
+    if !GetDecimal( $, 2 ) in 0,5 then
+      warning( 441 ) select( tr("Weight"), $, tr("Continue"), continue );
+    endif;
+  endif;
+  if $ in 999.90:999.98,missing,notappl then
+    skip to AB207
+  endif;
+  set attributes( $ ) hidden;
+
+PROC AB205W
+  if $ <> AB205 then 
+    errmsg( 0442 ) select( tr("Weight"), AB205 );
+  endif;
+
+PROC AB207
+onfocus
+  set attributes( $ ) native;
+
+postproc
+  if !$ in 999.4:999.6,missing then
+    if !$ in 100.0:200.0 then
+      warning( 0450 ) select( tr("Height"), $, tr("Continue"), continue );
+    endif;
+  endif;
+  if $ in 100.0:200.0 & AB205 in 20:150 & $ < AB205 then
+    errmsg( 0451, "AB207", "AB205")
+       select( tr("Weight"), AB205, tr("Height"), $ );
+  endif;
+  if $ in 999.0:999.8,missing,notappl then
+    skip to AB209
+  endif;
+  set attributes( $ ) hidden;
+
+PROC AB207W
+  if $ <> AB207 then 
+    errmsg( 0452 ) select( tr("Height"), AB207 );
+  endif;
+
+PROC AB209
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+
+PROC AB210
+  { Verify that fieldworker is registered }
+  if $ <> 9999 & ( !loadcase(FIELDWKQ, $) | $ = AB209 ) then
+    errmsg( 0026, $ )
+      select( tr("Fieldworker"), AB209, tr("Assistant"), $ );
+  endif;
+
+PROC AB211Y
+  if !DateOK( AB211D, AB211M, AB211Y, sday, smonth, syear ) |
+     !DateOK( AB211D, AB211M, AB211Y, ABINTD, ABINTM, ABINTY ) then
+    errmsg( 2146 )
+      select( tr("Date biomarker"), ABINTD, tr("Date measurement"), AB211D );
+  endif;
+
+PROC AB215
+preproc
+  if AB203 = 1 & AB204 = 1 then
+    skip to AB217
+  endif;
+
+PROC AB216
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+
+PROC ABWHIV2
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+  if ABWHIV1 <> 1 then
+    skip to AB225
+  endif;
+
+PROC ABWHIV3
+  skip to AB225
+
+PROC AB217
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if AH01(i) <> AB202 & AH07(i) in 15:98 then
+      individuals.add(AH02(i), i);
+    endif;
+  enddo;
+  individuals.add( tr("Not a household member"), 0 );
+  SetValueSet( $, individuals );
+
+postproc
+  if $ > AHMEMBER | $ = AB202 then
+    errmsg( 0017 ) select( tr("Line"), $ );
+  endif;
+
+PROC AB220
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+  if AB219 <> 1 then
+    skip to ABWHIV4
+  endif;	
+
+PROC AB224
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+
+PROC ABWHIV5
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+  if ABWHIV4 <> 1 then
+    skip to AB225
+  endif;
+
+PROC ABWHIV6
+  if $ <> 1 then
+    skip to AB225
+  endif;
+
+PROC ABWHIV7
+  if $ <> 1 then
+    skip to AB225
+  endif;
+
+PROC AB225
+onfocus
+  set attributes( $ ) native;
+
+postproc
+  { Either parent or respondent refused then AB225 = 99.5 }
+  if (AB215 in 2,3,missing | AB219 in 2,3,missing | AB223 in 2,3,missing) & !$ in 99.0:99.8,missing then  
+    if AB215 <> notappl then 
+      errmsg( 0471, AB215, AB225 )
+        select( tr("Consent"), AB215, tr("Hemoglobin"), $ );
+	else
+      errmsg( 0472, AB219, AB223, AB225 )
+        select( tr("Consent adult"), AB219, tr("Consent minor"), AB223, tr("Hemoglobin"), $ );
+	endif;
+  endif;
+  { check implausible hemoglobin levels }
+  if $ in 0.0:1.99,25.6:98.0 then
+    warning( 0473, $ ) select( tr("Hemoglobin"), $, tr("Continue"), continue );
+  endif;
+  if !$ in 99.0:99.8 then
+    set attributes( $ ) hidden;
+  else
+    skip to ABWHIV9
+  endif;
+
+PROC AB225W
+  if AB225 <> $ then
+    errmsg( 0474 ) select( tr("Hemoglobin"), AB225 );
+  endif;
+  
+PROC AB226
+  if AB225 < 8 <=> $ <> 1 then
+    errmsg( 0477 ) select( tr("Hemoglobin"), AB225, tr("Result"), $ );
+  endif;  
+
+PROC ABWHIV9
+  { Either parent or respondent refused then ABWHIV9 = "99995" }
+  if (ABWHIV1 in 2,3,missing | ABWHIV4 in 2,3,missing | ABWHIV6 in 2,3,missing) & !$ in "99991":"99998","?" then
+    if ABWHIV1 <> notappl then
+      errmsg( 0487, ABWHIV1, ABWHIV9 )
+        select( tr("Consent"), ABWHIV1, tr("Barcode"), $ );
+    else
+      errmsg( 0488, ABWHIV4, ABWHIV6, ABWHIV9 )
+        select( tr("Consent adult"), ABWHIV4, tr("Consent minor"), ABWHIV6, tr("Barcode"), $ );
+	endif;
+  endif;
+
+  { check for duplicates }
+  n = curocc();
+  for i in ABSEC02_ROSTER do
+    if ABCOL2 <> ABCOL2(n) & !$ in "99993":"99996","?" & $ = $(n) then
+      errmsg( 0484, i ) select( tr("Barcode"), $ );
+    endif;
+  enddo;
+  { check duplicates with children barcodes in case of malaria }
+  for i in ABSEC01_ROSTER do
+    if !ABM112 in "99991":"99998","?" & ABM112 = $(n) then
+      errmsg( 0489, i ) select( tr("Barcode"), $ );
+    endif;
+  enddo;
+  { check barcode composition }
+  x = BarCodeError( $ );
+  if x = 1 then
+    { missing should be one "?" in first position }
+    errmsg( 0494, $ ) select( tr("Barcode"), $ );
+  elseif x = 2 then
+    { sequence of characters incorrect }
+    errmsg( 0495, $ ) select( tr("Barcode"), $ );
+  elseif x = 3 then
+    { check digit incorrect }
+    errmsg( 0496, $ ) select( tr("Barcode"), $ );
+  endif;
+{ @@@ End Height/Weight, Hemoglobin and HIV testing for Women }
+
+{ @@@ Begin Height/Weight, Hemoglobin and HIV testing for Men }
+PROC ABCOL3
+preproc
+  SaveData();
+  { if men height and weight included }
+  do i = 1 while i <= maxbio
+    if i <= AHMEN then
+      ABCOL3(i) = i;
+    else
+      ABCOL3(i) = notappl;
+    endif;
+  enddo;
+
+  if curocc() > AHMEN then    { to run in-Batch }
+    endgroup
+  endif;
+
+PROC AB302
+preproc
+  { find next man for height and weight }
+  nextmem = 0;
+  do i = 1 while i <= AHMEMBER
+    nextmem = nextmem + (AH10(i) <> 0);
+    if nextmem = ABCOL3 then
+      break
+    endif;
+  enddo;
+  $ = i;
+
+postproc
+  { check the line number }
+  if $ <> i then
+    errmsg( 0410, curocc(), i ) select( tr("Line"), $ );
+  endif;
+  AMNAME = AH02($);
+
+  if android then
+    setocclabel(ABSEC03_ROSTER(curocc()),strip(AMNAME));
+  endif;
+
+PROC AMAUXIL
+preproc
+  if xentryhw then
+    if visualvalue(AB303(ABCOL3)) <> notappl then
+      advance to ABCOL3(ABCOL3+1);
+    endif;
+  endif;
+
+postproc
+  if $ <> 1 then
+    if visualvalue(AB303(ABCOL3)) <> notappl then
+      advance to ABCOL3(ABCOL3+1)
+    else
+      skip to next ABCOL3
+    endif;
+  endif;
+
+PROC AB303
+  if AH07(AB302) in 15:17 <=> $ <> 1 then
+    errmsg( 0075, AH07(AB302) ) 
+	  select( tr("Age"), AH07(AB302), tr("Age group"), $ );
+  endif;
+
+PROC AB304
+  if AH08(AB302) = 4 <=> $ <> 1 then
+    errmsg( 0475, AH08(AB302) )
+	  select( tr("Marital status"), AH08(AB302), tr("Marital status grouped"), $ );
+  endif;
+
+PROC AB305
+onfocus
+  set attributes( $ ) native;
+
+postproc
+if !$ in 999.94:999.96,missing then
+    if !$ in 40.00:170.00 then
+      warning( 0440 ) select( tr("Weight"), $, tr("Continue"), continue );
+	endif;
+    { !!! If using SECA 874 scale check if 2nd decimal is in 0,5 }
+    { !!! If using SECA 878 scale check if 2nd decimal is equal to 0}
+    { !!! If using UNICEF scale, there should be no 2nd decimal at all and the weight field should have only one decimal – but also check if 2nd decimal is 0 }
+    if !GetDecimal( $, 2 ) in 0,5 then
+      warning( 441 ) select( tr("Weight"), $, tr("Continue"), continue );
+    endif;
+  endif;
+  if $ in 999.90:999.98,missing,notappl then
+    skip to AB307
+  endif;
+  set attributes( $ ) hidden;
+
+PROC AB305W
+  if $ <> AB305 then 
+    errmsg( 0442 ) select( tr("Weight"), AB305 );
+  endif;
+
+PROC AB307
+onfocus
+  set attributes( $ ) native;
+
+postproc
+  if !$ in 999.4:999.6,missing then
+    if !$ in 130.0:210.0 then
+      warning( 0450 ) select( tr("Height"), $, tr("Continue"), continue );
+    endif;
+  endif;
+  if $ in 130.0:210.0 & AB305 in 40:170 & $ < AB305 then
+    errmsg( 0451, "AB307", "AB305")
+       select( tr("Weight"), AB305, tr("Height"), $ );
+  endif;
+  if $ in 999.0:999.8,missing,notappl then
+    skip to AB309
+  endif;
+  set attributes( $ ) hidden;
+
+PROC AB307W
+  if $ <> AB307 then 
+    errmsg( 0452 ) select( tr("Height"), AB307 );
+  endif;
+
+PROC AB309
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+
+PROC AB310
+  { Verify that fieldworker is registered }
+  if $ <> 9999 & ( !loadcase(FIELDWKQ, $) | $ = AB309 ) then
+    errmsg( 0026, $ )
+      select( tr("Fieldworker"), AB309, tr("Assistant"), $ );
+  endif;
+
+PROC AB311Y
+  if !DateOK( AB311D, AB311M, AB311Y, sday, smonth, syear ) |
+     !DateOK( AB311D, AB311M, AB311Y, ABINTD, ABINTM, ABINTY ) then
+    errmsg( 2146 )
+      select( tr("Date biomarker"), ABINTD, tr("Date measurement"), AB311D );
+  endif;
+
+PROC AB315
+preproc
+  if AB303 = 1 & AB304 = 1 then
+    skip to AB317
+  endif;
+
+PROC AB316
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+
+PROC ABMHIV2
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+  if ABMHIV1 <> 1 then
+    skip to AB325
+  endif;
+
+PROC ABMHIV3
+  skip to AB325
+
+PROC AB317
+onfocus
+  individuals.clear();
+  do i = 1 while i <= AHMEMBER
+    if AH01(i) <> AB302 & AH07(i) in 15:98 then
+      individuals.add(AH02(i), i);
+    endif;
+  enddo;
+  individuals.add( tr("Not a household member"), 0 );
+  SetValueSet( $, individuals );
+
+postproc
+  if $ > AHMEMBER | $ = AB302 then
+    errmsg( 0017 ) select( tr("Line"), $ );
+  endif;
+
+PROC AB320
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+  if AB319 <> 1 then
+    skip to ABMHIV4
+  endif;	
+
+PROC AB324
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+
+PROC ABMHIV5
+  { Verify that fieldworker is registered }
+  if !loadcase(FIELDWKQ, $) then
+    errmsg( 0025, tr("Fieldworker"), $ ) select( tr("Fieldworker"), $ );
+  endif;
+  if ABMHIV4 <> 1 then
+    skip to AB325
+  endif;
+
+PROC ABMHIV6
+  if $ <> 1 then
+    skip to AB325
+  endif;
+
+PROC ABMHIV7
+  if $ <> 1 then
+    skip to AB325
+  endif;
+
+PROC AB325
+onfocus
+  set attributes( $ ) native;
+
+postproc
+  { Either parent or respondent refused then AB325 = 99.5 }
+  if (AB315 in 2,3,missing | AB319 in 2,3,missing | AB323 in 2,3,missing) & !$ in 99.0:99.8,missing then
+    if AB315 <> notappl then 
+      errmsg( 0471, AB315, AB325 )
+        select( tr("Consent"), AB315, tr("Hemoglobin"), $ );
+	else
+      errmsg( 0472, AB319, AB323, AB325 )
+        select( tr("Consent adult"), AB319, tr("Consent minor"), AB323, tr("Hemoglobin"), $ );
+	endif;
+  endif;
+  { check implausible hemoglobin levels }
+  if $ in 0.0:1.99,25.6:98.0 then
+    warning( 0473, $ ) select( tr("Hemoglobin"), $, tr("Continue"), continue );
+  endif;
+  if !$ in 99.0:99.8 then
+    set attributes( $ ) hidden;
+  else
+    skip to ABMHIV9
+  endif;
+
+PROC AB325W
+  if AB325 <> $ then
+    errmsg( 0474 ) select( tr("Hemoglobin"), AB325 );
+  endif;
+  
+PROC AB326
+  if AB325 < 8 <=> $ <> 1 then
+    errmsg( 0477 ) select( tr("Hemoglobin"), AB325, tr("Result"), $ );
+  endif;  
+
+PROC ABMHIV9
+  { Either parent or respondent refused then ABMHIV9 = "99995" }
+  if (ABMHIV1 in 2,3,missing | ABMHIV4 in 2,3,missing | ABMHIV6 in 2,3,missing) & !$ in "99991":"99998","?" then
+    if ABMHIV1 <> notappl then
+      errmsg( 0487, ABMHIV1, ABMHIV9 )
+        select( tr("Consent"), ABMHIV1, tr("Barcode"), $ );
+    else
+      errmsg( 0488, ABMHIV4, ABMHIV6, ABMHIV9 )
+        select( tr("Consent adult"), ABMHIV4, tr("Consent minor"), ABMHIV6, tr("Barcode"), $ );
+	endif;
+  endif;
+  { check for duplicates }
+  n = curocc();
+  for i in ABSEC03_ROSTER do
+    if ABCOL3 <> ABCOL3(n) & !$ in "99993":"99996","?" & $ = $(n) then
+      errmsg( 0484, i ) select( tr("Barcode"), $ );
+    endif;
+  enddo;
+  { check duplicates with woman barcodes }
+  for i in ABSEC02_ROSTER do
+    if !ABWHIV9 in "99991":"99998","?" & ABWHIV9 = $(n) then
+      errmsg( 0486, i ) select( tr("Barcode"), $ );
+    endif;
+  enddo;
+  { check duplicates with children barcodes in case of malaria }
+  for i in ABSEC01_ROSTER do
+    if !ABM112 in "99991":"99998","?" & ABM112 = $(n) then
+      errmsg( 0489, i ) select( tr("Barcode"), $ );
+    endif;
+  enddo;
+  { check barcode composition }
+  x = BarCodeError( $ );
+  if x = 1 then
+    { missing should be one "?" in first position }
+    errmsg( 0494, $ ) select( tr("Barcode"), $ );
+  elseif x = 2 then
+    { sequence of characters incorrect }
+    errmsg( 0495, $ ) select( tr("Barcode"), $ );
+  elseif x = 3 then
+    { check digit incorrect }
+    errmsg( 0496, $ ) select( tr("Barcode"), $ );
+  endif;
+
+PROC ABFINISH
+onfocus
+  $ = " ";
+
+postproc
+  if demode() = add then
+    strnotes = editnote();
+    if endmess() then
+      reenter
+    endif;
+  endif;
+
+PROC OTHSEC
+  { Check text of response has changed and if so write it out }
+  if compare(OTHRESP,wothresp) <> 0 | OTHCODE <> wothcode then
+    writecase( OTHERS );
+  endif;
+
+PROC OTHRESP
+  $ = toupper($);
+  { Check that response is alphabetic and starts in the first column }
+  if !pos( $[1:1], strip(alphalst) ) then
+    errmsg( 89991 ) select( tr("Enter text"), $ );
+  endif;
+
+PROC OTHCODE
+preproc
+  { Initialize code for other answer to zero and skip variable }
+  noinput;

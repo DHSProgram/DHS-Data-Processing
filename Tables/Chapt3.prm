@@ -1,0 +1,450 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+t301   columns isex = 1 allindiv = 2 nodec
+               isex = 1 allindiv = 3 nodec
+               isex = 2 allindiv = 2 nodec
+               isex = 2 allindiv = 3 nodec;
+t301 footnote
+{+EN}
+Note: Education categories refer to the highest level of education attended, whether or
+      not that level was completed.~
+na = Not applicable
+{EN+}
+{{ES}
+Nota: Las categorías de educación se refieren al nivel más alto de educación
+ al cual se asistió, sin importar si fue completado o no dicho nivel.~
+na = No aplicable
+{ES}}
+{{FR}
+Note : Le niveau d'instruction correspond au plus haut niveau d'instruction atteint,
+       qu'il ait été achevé ou non.~
+na = Non applicable
+{FR}}
+endfootnote;
+
+t3021   columns totnmed2 = 2 nodec;
+t3021 footnote
+{+EN}
+@1 Completed X grade at the primary level~
+@2 Completed Y grade at the secondary level
+{EN+}
+{{ES}
+@1 Completó X años del nivel primario~
+@2 Completó Y años del nivel secundario
+{ES}}
+{{FR}
+@1 A achevé X classes du niveau primaire~
+@2 A achevé Y classes du niveau secondaire
+{FR}}
+endfootnote;
+{t3021w  noprint;}
+
+t3022   columns totnmed4 = 2 nodec;
+t3022 footnote
+{+EN}
+@1 Completed X grade at the primary level~
+@2 Completed Y grade at the secondary level
+{EN+}
+{{ES}
+@1 Completó X años del nivel primario~
+@2 Completó Y años del nivel secundario
+{ES}}
+{{FR}
+@1 A achevé X classes du niveau primaire~
+@2 A achevé Y classes du niveau secondaire
+{FR}}
+endfootnote;
+{t3022w  noprint;}
+
+t3031   columns totnump1 = 2 nodec;
+t3031 footnote
+{+EN}
+@1 Refers to women who attended schooling higher than the secondary level and women
+   with less schooling who can read a whole sentence or part of a sentence
+{EN+}
+{{ES}
+@1 Se refiere a mujeres que asistieron a la escuela superior
+   y a mujeres que pueden leer una frase completa o parte de la frase
+{ES}}
+{{FR}
+@1 Comprend  les femmes qui ont fréquenté l'école au niveau supérieur et celles
+   qui ont un niveau d'instruction plus faible que le supérieur qui peuvent lire
+   une phrase entière ou une partie de phrase
+{FR}}
+endfootnote;
+
+t3032   columns totnump2 = 2 nodec;
+t3032 footnote
+{+EN}
+@1 Refers to men who attended schooling higher than the secondary level and men
+   with less schooling who can read a whole sentence or part of a sentence
+{EN+}
+{{ES}
+@1 Se refiere a hombres que asistieron a la universidad
+ y a hombres que pueden leer una frase completa o parte de la frase
+{ES}}
+{{FR}
+@1 Comprend les hommes qui ont fréquenté l'école au niveau supérieur et ceux qui
+   ont un niveau d'instruction plus faible que le supérieur qui peuvent lire une
+   phrase entière ou une partie de phrase
+{FR}}
+endfootnote;
+
+t3041   columns mediaa = 6 nodec;
+
+t3042   columns mediab = 6 nodec;
+
+t3051   columns interna = 3 nodec
+                internb = 11 nodec;
+
+t3052   columns interna = 3 nodec
+                internb = 11 nodec;
+
+t3061   columns totnum2  = 1 nodec;
+t3061 footnote
+{+EN}
+@1 "Currently employed" is defined as having done work in the last 7 days.
+   Includes persons who did not work in the last 7 days but who are regularly
+   employed and were absent from work for leave, illness, vacation, or any
+   other such reason.
+{EN+}
+{{ES}
+@1 "Actualmente empleada" se refiere a quienes trabajaron durante los últimos
+ 7 días. Incluye a quienes no trabajaron durante los últimos 7 días pero
+ que estaban empleadas y estuvieron ausentes por razones de enfermedad, vacaciones
+ o cualquiera otra razón.
+{ES}}
+{{FR}
+@1 "Travaille actuellement" signifie que les femmes ont travaillé au cours des 7
+   derniers jours. En outre, les femmes qui n'ont pas travaillé au cours des 7 derniers
+   jours mais qui ont un emploi régulier et qui étaient absentes parce qu'elles étaient
+   en congé, malades ou en vacances ou encore pour d'autres raisons pareilles sont incluses ici.
+{FR}}
+endfootnote;
+
+t3062   columns totnum5  = 1 nodec;
+t3062 footnote
+{+EN}
+@1 "Currently employed" is defined as having done work in the last 7 days.
+   Includes persons who did not work in the last 7 days but who are regularly
+   employed and were absent from work for leave, illness, vacation, or any
+   other such reason.
+{EN+}
+{{ES}
+@1 "Actualmente empleado" se refiere a quienes trabajaron durante los últimos
+ 7 días. Incluye a quienes no trabajaron durante los últimos 7 días pero
+ que estaban empleados y estuvieron ausentes por razones de enfermedad, vacaciones
+ o cualquiera otra razón.
+{ES}}
+{{FR}
+@1 "Travaille actuellement" signifie que les hommes ont travaillé au cours des 7 derniers jours.
+   En outre, les hommes qui n'ont pas travaillé au cours des 7 derniers jours mais qui ont un
+   emploi régulier et qui étaient absents parce qu'ils étaient en congé, malades ou en vacances
+   ou encore pour d'autres raisons pareilles sont inclus ici.
+{FR}}
+endfootnote;
+
+t3071 columns totnum2  = 1 nodec;
+
+t3072 columns totnum5  = 1 nodec;
+
+t308  rows    totnum4  = 1 nodec;
+t308 footnote
+{+EN}
+Note: Total includes women with missing information on type of employment who are not shown separately.
+{EN+}
+{{ES}
+Nota: El total incluye a mujeres sin información en la variable tipo de empleo.
+{ES}}
+{{FR}
+Note : L'ensemble comprend les femmes dont l'information sur le type d'emploi est manquante
+       et qui ne sont pas présentées séparement.
+{FR}}
+endfootnote;
+
+t3091   columns numwom = 1 nodec;
+
+t3092   columns numman = 1 nodec;
+
+t310w  columns totnum8 = 1 nodec;
+t310w footnote
+{+EN}
+@1 Kreteks were not asked about separately; they are included to the extent that
+   respondents included them in the number of "cigarettes" smoked per day.
+{EN+}
+{{FR}
+@1 La question sur la consommation de tabac sous forme de kreteks n'a pas été posée
+   séparément et la consommation de kreteks n'est prise en compte que dans la mesure
+   où les femmes les incluent dans leur commmation quotidienne de "cigarettes".
+{FR}}
+endfootnote;
+
+t3101   columns numwom = 1 nodec;
+t3101 footnote
+{+EN}
+@1 Includes daily and occasional (less than daily) use~
+@2 Cigarettes include kreteks.~
+@3 Includes pipes full of tobacco, cigars, cheroots, cigarillos, and
+water pipes [INCLUDE OTHER COUNTRY-SPECIFIC TYPES OF SMOKED TOBACCO]
+{EN+}
+{{FR}
+@1 Y compris un usage quotidien et occasionnel (pas tous les jours)~
+@2 Les cigarettes incluent les kreteks.~
+@3 Comprend les pipes à tabac, les cigares, les cheroots, les cigarillos
+   et les pipes à eau [INCLURE D'AUTRES TYPES DE TABAC À FUMER LOCAUX]
+{FR}}
+endfootnote;
+
+t3102   columns totnum5 = 1 nodec;
+t3102 footnote
+{+EN}
+@1 Includes daily and occasional (less than daily) use~
+@2 Includes manufactured cigarettes, hand-rolled cigarettes, and kreteks~
+@3 Includes pipes, cigars, cheroots, cigarillos, and water pipes
+   [INCLUDE OTHER COUNTRY-SPECIFIC TYPES OF SMOKED TOBACCO]~
+@4 Occasional refers to less often than daily use.
+{EN+}
+{{FR}
+@1 Y compris un usage quotidien et occasionnel (pas tous les jours)~
+@2 Les cigarettes incluent les cigarettes fabriquées commercialement,
+   les cigarette roulées à la main et les Kreteks.~
+@3 Comprend les pipes à tabac, les cigares, les cheroots, les cigarillos
+   et les pipes à eau [INCLURE D'AUTRES TYPES DE TABAC À FUMER LOCAUX]~
+@4 Par consommation occasionnelle, on entend ici une consommation qui
+   n’est pas quotidienne.
+{FR}}
+endfootnote;
+
+t311  columns totnum8 = 1 nodec;
+t311 footnote
+{+EN}
+@1 Includes manufactured cigarettes, hand-rolled cigarettes, and kreteks
+{EN+}
+{{FR}
+@1 Comprend les cigarettes achetées en commerce, les cigarettes roulées à la main et les kreteks
+{FR}}
+endfootnote;
+
+t312  rows tnumber = 1 nodec;
+t312 footnote
+{+EN}
+Note: Table includes women and men who use smokeless tobacco daily or occasionally (less than daily).~
+@1 Includes snuff by mouth, snuff by nose, chewing tobacco, betel quid with tobacco,
+   and [ADD COUNTRY SPECIFIC TYPES OF SMOKELESS TOBACCO]~
+@2 Includes all types of smokeless tobacco shown in this table plus cigarettes, kreteks, pipes, cigars,
+   cheroots, cigarillos, water pipes, and [ADD COUNTRY SPECIFIC TYPES OF TOBACCO]
+{EN+}
+{{FR}
+Note: Le tableau comprend les femmes et les hommes qui consomment du tabac non fumé tous
+      les jours ou de manière occasionnelle (pas tous les jours).~
+@1 Comprend le tabac à priser dans la bouche, le tabac à prisé par voie nasale, le tabac
+  à chiquer, le betel à chiquer avec du tabac et [AJOUTER TOUS LES DIVERS TYPES DE TABAC NON FUMÉ LOCAUX]~
+@2 Comprend tous les types de tabac non fumé figurant dans ce tableau plus les cigarettes, les kreteks, les
+  pipes, les cigares, cheroots, cigarillos, pipes à eau et [AJOUTER TOUS LES DIVERS TYPES DE TABAC LOCAUX]
+{FR}}
+endfootnote;
+
+t313 columns isex = 1 tobacpct = 2 nodec
+             isex = 2 tobacpct = 3 nodec;
+t313 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+na = Non applicable
+{FR}}
+endfootnote;
+
+t3141 columns alcohol1 = 2 nodec
+              alcoholw = 1 nodec;
+t3141 footnote
+{+EN}
+Note: One drink of alcohol corresponds to one can or bottle of beer, one glass of wine, one
+      shot of spirits, or one cup of [ADD OTHER LOCAL EXAMPLES].~
+@1 The respondent reported that she drank alcohol every day, almost every day, or 25 or more
+   days in the last 1 month. 
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Un verre d'alcool correspond à une canette ou une bouteille de bière, un verre de vin, un verre de liqueur, ou une coupe de [AJOUTER EXEMPLES LOCAUX ].~
+@1 L'enquêtée a déclaré qu'elle a bu de l'alcool chaque jour, presque chaque jour, ou pendant 25 jours ou plus au cours du mois dernier.
+{FR}}
+endfootnote;
+
+t3142 columns alcohol3 = 2 nodec
+              alcoholm = 1 nodec;
+t3142 footnote
+{+EN}
+Note: One drink of alcohol corresponds to one can or bottle of beer, one glass of wine, one
+      shot of spirits, or one cup of [ADD OTHER LOCAL EXAMPLES].~
+@1 The respondent reported that she drank alcohol every day, almost every day, or 25 or more
+   days in the last 1 month. 
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Note: Un verre d'alcool correspond à une canette ou une bouteille de bière, un verre de vin, un verre de liqueur, ou une coupe de [AJOUTER EXEMPLES LOCAUX ].~
+@1 L'enquêté a déclaré qu'il a bu de l'alcool chaque jour, presque chaque jour, ou pendant 25 jours ou plus au cours du mois dernier.
+{FR}}
+endfootnote;
+
+t3151 columns alcoholw = 1 nodec;
+t3151 footnote
+{+EN}
+Note: One drink of alcohol corresponds to one can or bottle of beer, one glass of wine, one
+      shot of spirits, or one cup of [ADD OTHER LOCAL EXAMPLES]. Respondents who reported they
+      drank a few sips of an alcoholic drink were recorded as having consumed less than one standard drink.~
+@1 The respondent reported that she drank alcohol every day, almost every day, or 25 or more
+   days in the last 1 month. 
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Une consommation d'alcool correspond à une canette ou une bouteille de bière, un verre
+      de vin, un verre de liqueur, ou une coupe de [AJOUTER EXEMPLES LOCAUX ].~
+@1 L'enquêtée a déclaré qu'elle a bu de l'alcool chaque jour, presque chaque jour, ou
+   pendant 25 jours ou plus au cours du mois dernier.
+{FR}}
+endfootnote;
+
+t3152 columns alcoholm = 1 nodec;
+t3152 footnote
+{+EN}
+Note: One drink of alcohol corresponds to one can or bottle of beer, one glass of wine, one
+      shot of spirits, or one cup of [ADD OTHER LOCAL EXAMPLES].Respondents who reported they
+      drank a few sips of an alcoholic drink were recorded as having consumed less than one standard drink.~
+@1 The respondent reported that she drank alcohol every day, almost every day, or 25 or more
+   days in the last 1 month. 
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Une consommation d'alcool correspond à une canette ou une bouteille de bière,
+      un verre de vin, un verre de liqueur, ou une coupe de [AJOUTER EXEMPLES LOCAUX ].~
+@1 L'enquêté a déclaré qu'il a bu de l'alcool chaque jour, presque chaque jour, ou
+   pendant 25 jours ou plus au cours du mois dernier.
+{FR}}
+endfootnote;
+
+t3161 columns numwom   = 1 nodec
+              plcbirt2 = 2 nodec;
+t3161 footnote
+{+EN}
+Note: Respondents who are visitors in the household are excluded from this table.~
+@1 May include respondents who were born elsewhere in [COUNTRY] but moved to
+   their current place of residence when very young.~
+@2 Includes respondents who reported that they were born outside of [COUNTRY]
+   and that they always lived in their current place of residence. Such respondents
+   are assumed not to have moved in the last 5 years.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les enquêtées qui sont des visiteuses dans le ménage ne sont pas prises en compte dans ce tableau.~
+@1 Peut inclure des enquêtées qui sont nées ailleurs dans [PAYS] mais qui ont emménagé dans leur lieu de résidence actuel alors qu'elles étaient trés jeunes.~
+@2 Inclut les enquêtées ayant déclaré être nées à l'extérieur du [PAYS] et ayant toujours vécu dans leur lieu de résidence actuel. On suppose que ces enquêtées n'ont pas emménagé dans les cinq dernières années.
+{FR}}
+endfootnote;
+
+t3162 columns numman   = 1 nodec
+              plcbirt3 = 2 nodec;
+t3162 footnote
+{+EN}
+Note: Respondents who are visitors in the household are excluded from this table.~
+@1 May include respondents who were born elsewhere in [COUNTRY] but moved to
+   their current place of residence when very young.~
+@2 Includes respondents who reported that they were born outside of [COUNTRY]
+   and that they always lived in their current place of residence. Such respondents
+   are assumed not to have moved in the last 5 years.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les enquêtés qui sont des visiteurs dans le ménage ne sont pas pris en compte dans ce tableau.~
+@1  Peut inclure des enquêtées qui sont nées ailleurs dans [PAYS] mais qui ont emménagé dans leur lieu de résidence actuel alors qu'elles étaient trés jeunes.~
+@2 Inclut les enquêtées ayant déclaré être nées à l'extérieur du [PAYS] et ayant toujours vécu dans leur lieu de résidence actuel. On suppose que ces enquêtées n'ont pas emménagé dans les cinq  dernières années.
+{FR}}
+endfootnote;
+
+t317  columns numresp = 1 nodec;
+t317  footnote
+{+EN}
+Note: Type of migration is based on categorizing the previous place of residence
+      and the current place of residence as urban or rural. The previous place of
+      residence is the place the person moved from just before moving to the
+      current place of residence.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le type de migration est basé sur la catégorisation du lieu de résidence précédent
+      et du lieu de résidence actuel comme urbain ou rural. Le lieu de résidence précédent est
+      l'endroit d'où la personne a déménagé juste avant d'emménager dans son lieu de résidence actuel.
+{FR}}
+endfootnote;
+
+t3181 columns numwom = 1 nodec;
+t3181 footnote
+{+EN}
+Notes: Respondents who are visitors in the household are excluded from this table.
+       Respondents who stated that they were born outside of [COUNTRY] and that they have
+       always lived in their current place of residence were not asked about the reason
+       for migration and are excluded from this table.~
+@1 Restricted to respondents who migrated within the last 5 years.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Notes: Les enquêtées qui sont des visiteuses dans le ménage ne sont pas prises en compte
+       dans ce tableau. La question sur la raison de la migration n'a pas été posée aux
+       enquêtées ayant déclaré qu'elles sont nées hors du [PAYS] et qu'elles ont toujours
+       vécu dans leur lieu de résidence actuel et ces enquêtées ne sont pas incluses
+       dans ce tableau.~
+@1 Limité aux enquêtées qui ont migré au cours des 5 dernières années.
+{FR}}
+endfootnote;
+
+t3182 columns numman = 1 nodec;
+t3182 footnote
+{+EN}
+Notes: Respondents who are visitors in the household are excluded from this table.
+       Respondents who stated that they were born outside of [COUNTRY] and that they have
+       always lived in their current place of residence were not asked about the reason
+       for migration and are excluded from this table.~
+@1 Restricted to respondents who migrated within the last 5 years.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Notes: Les enquêtées qui sont des visiteuses dans le ménage ne sont pas prises en compte
+       dans ce tableau. La question sur la raison de la migration n'a pas été posée aux
+       enquêtées ayant déclaré qu'elles sont nées hors du [PAYS] et qu'elles ont toujours
+       vécu dans leur lieu de résidence actuel et ces enquêtées ne sont pas incluses
+       dans ce tableau.~
+@1 Limité aux enquêtés qui ont migré au cours des 5 dernières années.
+{FR}}
+endfootnote;
+

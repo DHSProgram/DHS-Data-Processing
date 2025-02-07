@@ -1,0 +1,1 @@
+BTServerPC.exe "id=101" "name=Alex Izmukhambetov" "rootdir=c:" "encrkey=1111111111111111" "autoclose=false"

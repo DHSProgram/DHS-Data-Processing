@@ -1,0 +1,1779 @@
+﻿[Dictionary]
+Version=CSPro 7.7
+Label=DHS-VII Core  07-13-2015
+Name=CCBIO80
+RecordTypeStart=11
+RecordTypeLen=3
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=0C451721569F7AD9E0004516E1BAA22D12A3A5B8A89B1F51AD6151C2596061E6
+
+[Languages]
+EN=English
+FR=French
+ES=Spanish
+
+[Level]
+Label=Biomarker
+Name=BIOMARKER
+
+[IdItems]
+
+[Item]
+Label=Cluster number
+Name=XBCLUST
+Start=1
+Len=4
+DataType=Numeric
+ZeroFill=Yes
+
+[Item]
+Label=Household number
+Name=XBNUMBER
+Start=5
+Len=4
+DataType=Numeric
+ZeroFill=Yes
+
+[Item]
+Label=Line of individual for biomarker
+Name=XBLINE
+Start=9
+Len=2
+DataType=Numeric
+ZeroFill=Yes
+
+[Record]
+Label=Biomarker Identification
+Name=XBSECOVER
+RecordTypeValue='X00'
+RecordLen=66
+
+[Item]
+Label=Day of household interview|Jour de l'interview ménage
+Name=XBINTD
+Start=14
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Day of household interview|Jour de l'interview ménage
+Name=XBINTD_VS1
+Value=1:31
+
+[Item]
+Label=Month of household interview|Mois de l'interview ménage
+Name=XBINTM
+Start=16
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Month of household interview|Mois de l'interview ménage
+Name=XBINTM_VS1
+Value=1;January|Janvier
+Value=2;February|Février
+Value=3;March|Mars
+Value=4;April|Avril
+Value=5;May|Mai
+Value=6;June|Juin
+Value=7;July|Juillet
+Value=8;August|Août
+Value=9;September|Septembre
+Value=10;October|Octobre
+Value=11;November|Novembre
+Value=12;December|Décembre
+
+[Item]
+Label=Year of household interview|Année de l'interview ménage
+Name=XBINTY
+Start=18
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Year of household interview|Année de l'interview ménage
+Name=XBINTY_VS1
+Value=2020:2030
+
+[Item]
+Label=Person's  name
+Name=XBNAME
+Start=22
+Len=25
+DataType=Alpha
+
+[Item]
+Label=Biomarker number
+Name=XBCODE
+Start=47
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Person's age
+Name=XBAGE
+Start=51
+Len=2
+DataType=Numeric
+
+[Item]
+Label=Code for type of individual for which biomarker is taken
+Name=XBPERSONC
+Start=53
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Code for type of individual for which biomarker is taken
+Name=XBPERSONC_ENG
+Value=1;Child
+Value=2;Woman
+Value=3;Man
+
+[Item]
+Label=Whether biomarker for children/women/men
+Name=XBPERSON
+Start=54
+Len=12
+DataType=Alpha
+
+[Item]
+Label=Auxlilar to confirm
+Name=XBAUXILIAR
+Start=66
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Auxlilar to confirm
+Name=XBAUXILIAR_VS1
+Value=1;Yes
+Value=2;No
+
+[Record]
+Label=Height, Weight, Hemoglobin (children)
+Name=XBSEC01
+RecordTypeValue='X01'
+Required=No
+RecordLen=87
+
+[Item]
+Label=Column number
+Name=XBCOL1
+Start=14
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Column number
+Name=XBCOL1_ENG
+Value=1:20
+
+[Item]
+Label=Line number in household schedule
+Name=XB102
+Start=16
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Line number in household schedule
+Name=XB102_ENG
+Value=1:50
+
+[Item]
+Label=Date of birth
+Name=XB103
+Start=18
+Len=8
+DataType=Alpha
+
+[Item]
+Label=Day of birth
+Name=XB103D
+Start=18
+Len=2
+ItemType=SubItem
+DataType=Numeric
+ZeroFill=Yes
+
+[ValueSet]
+Label=Day of birth
+Name=XB103D_ENG
+Value=1:31
+Value=98;Don't know
+
+[Item]
+Label=Month of birth
+Name=XB103M
+Start=20
+Len=2
+ItemType=SubItem
+DataType=Numeric
+ZeroFill=Yes
+
+[ValueSet]
+Label=Month of birth
+Name=XB103M_ENG
+Value=1;January
+Value=2;February
+Value=3;March
+Value=4;April
+Value=5;May
+Value=6;June
+Value=7;July
+Value=8;August
+Value=9;September
+Value=10;October
+Value=11;November
+Value=12;December
+Value=98;DK month
+
+[Item]
+Label=Year of birth
+Name=XB103Y
+Start=22
+Len=4
+ItemType=SubItem
+DataType=Numeric
+ZeroFill=Yes
+
+[ValueSet]
+Label=Year of birth
+Name=XB103Y_ENG
+Value=2018;2018
+Value=2019;2019
+Value=2020;2020
+Value=2021;2021
+Value=2022;2022
+Value=2023;2023
+Value=2024;2024
+Value=9998;DK Year
+
+[Item]
+Label=Child's age in years
+Name=XB104
+Start=26
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Child's age in years
+Name=XB104_VS1
+Value=0:6
+Value=7;7+
+
+[Item]
+Label=Weight alpha to check period
+Name=XB106A
+Start=27
+Len=5
+DataType=Alpha
+
+[ValueSet]
+Label=Weight alpha to check period
+Name=XB106A_VS1
+Value=99.94;Not present
+Value=99.95;Refused
+Value=99.96;Other
+
+[Item]
+Label=Weight in kilograms
+Name=XB106
+Start=27
+Len=5
+ItemType=SubItem
+DataType=Numeric
+Decimal=2
+DecimalChar=Yes
+ZeroFill=Yes
+
+[ValueSet]
+Label=Weight in kilograms
+Name=XB106_ENG
+Value=1.00:40.00
+Value=99.94;Not present
+Value=99.95;Refused
+Value=99.96;Other
+
+[Item]
+Label=Renter weight in kilograms for quality purposes
+Name=XB106W
+Start=32
+Len=5
+DataType=Numeric
+Decimal=2
+DecimalChar=Yes
+
+[ValueSet]
+Label=Renter weight in kilograms for quality purposes
+Name=XB106W_VS1
+Value=0.50:40.00
+Value=99.94;Not present
+Value=99.95;Refused
+Value=99.96;Other
+
+[Item]
+Label=Child minimally dressed
+Name=XB107
+Start=37
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Child minimally dressed
+Name=XB107_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Height alpha to check period
+Name=XB108A
+Start=38
+Len=5
+DataType=Alpha
+
+[ValueSet]
+Label=Height alpha to check period
+Name=XB108A_VS1
+Value=999.4;Not present
+Value=999.5;Refused
+Value=999.6;Other
+
+[Item]
+Label=Height in centimeters
+Name=XB108
+Start=38
+Len=5
+ItemType=SubItem
+DataType=Numeric
+Decimal=1
+DecimalChar=Yes
+ZeroFill=Yes
+
+[ValueSet]
+Label=Height in centimeters
+Name=XB108_ENG
+Value=20.0:140.0
+Value=999.4;Not present
+Value=999.5;Refused
+Value=999.6;Other
+
+[Item]
+Label=Reenter height in centimeters for quality purposes
+Name=XB108W
+Start=43
+Len=5
+DataType=Numeric
+Decimal=1
+DecimalChar=Yes
+
+[ValueSet]
+Label=Reenter height in centimeters for quality purposes
+Name=XB108W_VS1
+Value=20.0:140.0
+Value=999.4;Not present
+Value=999.5;Refused
+Value=999.6;Other
+
+[Item]
+Label=Date of measurment
+Name=XB109
+Start=48
+Len=8
+DataType=Alpha
+
+[Item]
+Label=Day of measurement
+Name=XB109D
+Start=48
+Len=2
+ItemType=SubItem
+DataType=Numeric
+ZeroFill=Yes
+
+[ValueSet]
+Label=Day of measurement
+Name=XB109D_VS1
+Value=1:31
+
+[Item]
+Label=Month of measurment
+Name=XB109M
+Start=50
+Len=2
+ItemType=SubItem
+DataType=Numeric
+ZeroFill=Yes
+
+[ValueSet]
+Label=Month of measurment
+Name=XB109M_VS1
+Value=1:12
+
+[Item]
+Label=Year of measurement
+Name=XB109Y
+Start=52
+Len=4
+ItemType=SubItem
+DataType=Numeric
+ZeroFill=Yes
+
+[ValueSet]
+Label=Year of measurement
+Name=XB109Y_VS1
+Value=2020:2030
+
+[Item]
+Label=Height: lying or standing
+Name=XB110
+Start=56
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Height: lying or standing
+Name=XB110_VS1
+Value=1;Lying down
+Value=2;Standing up
+
+[Item]
+Label=Reason correct measurement wasn't used (anchor field)
+Name=XB112
+Start=57
+Len=1
+DataType=Alpha
+
+[Item]
+Label=Child's hair had braids or ornaments
+Name=XB113
+Start=58
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Child's hair had braids or ornaments
+Name=XB113_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Fieldworker number for H/W
+Name=XB115
+Start=59
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Fieldworker number for assistant to H/W
+Name=XB116
+Start=63
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Height and weight recorded in anemia pamphlet
+Name=XB114
+Start=67
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Height and weight recorded in anemia pamphlet
+Name=XB114_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Line no. of parent/caretaker
+Name=XB118
+Start=68
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Line no. of parent/caretaker
+Name=XB118_ENG
+Value=0;Not listed in household
+Value=1:50
+
+[Item]
+Label=Read consent statement
+Name=XB120
+Start=70
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Read consent statement
+Name=XB120_ENG
+Value=1;Granted
+Value=2;Refused
+Value=3;Not present/other
+
+[Item]
+Label=Fieldworker number register for anemia
+Name=XB121
+Start=71
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Hemoglobin alpha to check period
+Name=XB123A
+Start=75
+Len=4
+DataType=Alpha
+
+[ValueSet]
+Label=Hemoglobin alpha to check period
+Name=XB123A_VS1
+Value=99.4;Not present
+Value=99.5;Refused
+Value=99.6;Other
+
+[Item]
+Label=Hemoglobin level (g/dl)
+Name=XB123
+Start=75
+Len=4
+ItemType=SubItem
+DataType=Numeric
+Decimal=1
+DecimalChar=Yes
+ZeroFill=Yes
+
+[ValueSet]
+Label=Hemoglobin level (g/dl)
+Name=XB123_ENG
+Value=2.0:26.0
+Value=99.4;Not present
+Value=99.5;Refused
+Value=99.6;Other
+
+[Item]
+Label=Reenter hemoglobin level (g/dl) for quality purposes
+Name=XB123W
+Start=79
+Len=4
+DataType=Numeric
+Decimal=1
+DecimalChar=Yes
+
+[ValueSet]
+Label=Reenter hemoglobin level (g/dl) for quality purposes
+Name=XB123W_VS1
+Value=2.0:26.0
+Value=99.5;Refused
+Value=99.6;Other
+
+[Item]
+Label=Hemoglobin result for referral|Résultat d'hémoglobine pour la référence
+Name=XB124
+Start=83
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Hemoglobin result for referral|Résultat d'hémoglobine pour la référence
+Name=XB124_VS1
+Value=1;Below (8.0 g/dl) severe anemia|En-dessous de 8.0 g/dl, anemie sevère
+Value=2;(8.0 g/dl) or above|8.0 g/dl ou plus
+
+[Item]
+Label=Severe anemia referral provided
+Name=XB125
+Start=84
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Severe anemia referral provided
+Name=XB125_VS1
+Value=1;Severe anemia referral provided
+Value=2;Severe anemia referral not provided
+
+[Item]
+Label=Type of biomarker to collect
+Name=XBCTYPE1
+Start=85
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Type of biomarker to collect
+Name=XBCTYPE1_VS1
+Value=1;Height & weight
+Value=2;Consents
+
+[Item]
+Label=Collect anemia
+Name=XBCTYPE2
+Start=86
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Collect anemia
+Name=XBCTYPE2_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=End child holder
+Name=XCHLEND
+Start=87
+Len=1
+DataType=Alpha
+
+[Record]
+Label=Height, Weight, Blood Pressure, Hemoglobin, Other tests (women/men)
+Name=XBSEC02
+RecordTypeValue='X02'
+Required=No
+RecordLen=202
+
+[Item]
+Label=Column number
+Name=XBCOL2
+Start=14
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Column number
+Name=XBCOL2_ENG
+Value=1:20
+
+[Item]
+Label=Line number in household schedule
+Name=XB202
+Start=16
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Line number in household schedule
+Name=XB202_ENG
+Value=1;Head of household
+Value=2:50
+
+[Item]
+Label=Age groups
+Name=XB203
+Start=18
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Age groups
+Name=XB203_ENG
+Value=1;15-17 years
+Value=2;18-49 years
+
+[Item]
+Label=Marital status
+Name=XB204
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Marital status
+Name=XB204_ENG
+Value=1;Code 4 (Never in union)
+Value=2;Other
+
+[Item]
+Label=Weight alpha to check period
+Name=XB205A
+Start=20
+Len=6
+DataType=Alpha
+
+[ValueSet]
+Label=Weight alpha to check period
+Name=XB205A_VS1
+Value=999.94;Not present
+Value=999.95;Refused
+Value=999.96;Other
+
+[Item]
+Label=Weight in kilograms
+Name=XB205
+Start=20
+Len=6
+ItemType=SubItem
+DataType=Numeric
+Decimal=2
+DecimalChar=Yes
+ZeroFill=Yes
+
+[ValueSet]
+Label=Weight in kilograms
+Name=XB205_ENG
+Value=15.00:220.00
+Value=999.94;Not present
+Value=999.95;Refused
+Value=999.96;Other
+
+[Item]
+Label=Reenter weight in kilograms
+Name=XB205W
+Start=26
+Len=6
+DataType=Numeric
+Decimal=2
+DecimalChar=Yes
+
+[ValueSet]
+Label=Reenter weight in kilograms
+Name=XB205W_VS1
+Value=15.00:220.00
+Value=999.94;Not present
+Value=999.95;Refused
+Value=999.96;Other
+
+[Item]
+Label=Was woman wearing only lightweight clothing
+Name=XB206
+Start=32
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Was woman wearing only lightweight clothing
+Name=XB206_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Height alpha to check period
+Name=XB207A
+Start=33
+Len=5
+DataType=Alpha
+
+[ValueSet]
+Label=Height alpha to check period
+Name=XB207A_VS1
+Value=999.4;Not present
+Value=999.5;Refused
+Value=999.6;Other
+
+[Item]
+Label=Height in centimeters
+Name=XB207
+Start=33
+Len=5
+ItemType=SubItem
+DataType=Numeric
+Decimal=1
+DecimalChar=Yes
+ZeroFill=Yes
+
+[ValueSet]
+Label=Height in centimeters
+Name=XB207_ENG
+Value=80.0:240.0
+Value=999.4;Not present
+Value=999.5;Refused
+Value=999.6;Other
+
+[Item]
+Label=Reenter height in centimeters
+Name=XB207W
+Start=38
+Len=5
+DataType=Numeric
+Decimal=1
+DecimalChar=Yes
+
+[ValueSet]
+Label=Reenter height in centimeters
+Name=XB207W_VS1
+Value=80.0:240.0
+Value=999.4;Not present
+Value=999.5;Refused
+Value=999.6;Other
+
+[Item]
+Label=Date of measurement
+Name=XB208
+Start=43
+Len=8
+DataType=Alpha
+
+[Item]
+Label=Day of measurement
+Name=XB208D
+Start=43
+Len=2
+ItemType=SubItem
+DataType=Numeric
+ZeroFill=Yes
+
+[ValueSet]
+Label=Day of measurement
+Name=XB208D_VS1
+Value=1:31
+
+[Item]
+Label=Month of measurement
+Name=XB208M
+Start=45
+Len=2
+ItemType=SubItem
+DataType=Numeric
+ZeroFill=Yes
+
+[ValueSet]
+Label=Month of measurement
+Name=XB208M_VS1
+Value=1:12
+
+[Item]
+Label=Year of measurement
+Name=XB208Y
+Start=47
+Len=4
+ItemType=SubItem
+DataType=Numeric
+ZeroFill=Yes
+
+[ValueSet]
+Label=Year of measurement
+Name=XB208Y_VS1
+Value=2020:2030
+
+[Item]
+Label=Measurement interfered with braided or ornament
+Name=XB209
+Start=51
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Measurement interfered with braided or ornament
+Name=XB209_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Fieldworker number for H/W
+Name=XB211
+Start=52
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Fieldworker number for assistant to H/W
+Name=XB212
+Start=56
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Height and weight recorded in anemia pamphlet|Enfant habillé légèrement
+Name=XB210
+Start=60
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Height and weight recorded in anemia pamphlet|Enfant habillé légèrement
+Name=XB210_VS1
+Value=1;Yes|Oui
+Value=2;No|Non
+
+[Item]
+Label=Line no. of parent/caretaker
+Name=XB212A
+Start=61
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Line no. of parent/caretaker
+Name=XB212A_VS1
+Value=0;Not listed in household
+Value=1:50
+
+[Item]
+Label=Read consent statement to parent/caretaker (Blood pressure)
+Name=XB214A
+Start=63
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Read consent statement to parent/caretaker (Blood pressure)
+Name=XB214A_VS1
+Value=1;Granted
+Value=2;Parent/Responsible adult refused
+Value=3;Not present/other
+
+[Item]
+Label=Fieldworker number for blood pressure
+Name=XB214B
+Start=64
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Read consent statement to respondent (Blood pressure)
+Name=XB215C
+Start=68
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Read consent statement to respondent (Blood pressure)
+Name=XB215C_VS1
+Value=1;Granted
+Value=2;Minor respondent refused
+Value=3;Not present/other
+
+[Item]
+Label=Fieldworker number for blood pressure
+Name=XB215D
+Start=69
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Read consent statement to parent/caretaker (Anemia)
+Name=XB217A
+Start=73
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Read consent statement to parent/caretaker (Anemia)
+Name=XB217A_ENG
+Value=1;Granted
+Value=2;Parent/Responsible adult refused
+Value=3;Not present/other
+
+[Item]
+Label=Fieldworker number for hemoglobin
+Name=XB217B
+Start=74
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Read consent statement to respondent (Anemia)
+Name=XB218C
+Start=78
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Read consent statement to respondent (Anemia)
+Name=XB218C_ENG
+Value=1;Granted
+Value=2;Minor respondent refused
+Value=3;Not present/other
+
+[Item]
+Label=Fieldworker number for hemoglobin
+Name=XB218D
+Start=79
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Read consent statement to parent/caretaker (Other test)
+Name=XB220A
+Start=83
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Read consent statement to parent/caretaker (Other test)
+Name=XB220A_VS1
+Value=1;Granted
+Value=2;Parent/Responsible adult refused
+Value=3;Not present/other
+
+[Item]
+Label=Fieldworker number for Other test
+Name=XB220B
+Start=84
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Read consent statement to respondent (Other test)
+Name=XB221C
+Start=88
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Read consent statement to respondent (Other test)
+Name=XB221C_VS1
+Value=1;Granted
+Value=2;Minor respondent refused
+Value=3;Not present/other
+
+[Item]
+Label=Fieldworker number for [Other test]
+Name=XB221D
+Start=89
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Consent for first blood pressure reading
+Name=XB214
+Start=93
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Consent for first blood pressure reading
+Name=XB214_VS1
+Value=1;Granted
+Value=2;Refused
+Value=3;Not present/other
+
+[Item]
+Label=Fieldworker number for blood pressure
+Name=XB215
+Start=94
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Read consent statement to respondent (Anemia)
+Name=XB217
+Start=98
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Read consent statement to respondent (Anemia)
+Name=XB217_VS1
+Value=1;Granted
+Value=2;Respondent refused
+Value=3;Not present/other
+
+[Item]
+Label=Fieldworker number for hemoglobin
+Name=XB218
+Start=99
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Read consent statement to respondent (Other test)
+Name=XB220
+Start=103
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Read consent statement to respondent (Other test)
+Name=XB220_VS1
+Value=1;Granted
+Value=2;Respondent refused
+Value=3;Not present/other
+
+[Item]
+Label=Fieldworker number for Other test
+Name=XB221
+Start=104
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Tests for which consent was granted
+Name=XB222
+Start=108
+Len=3
+DataType=Alpha
+
+[ValueSet]
+Label=Tests for which consent was granted
+Name=XB222_VS1
+Value='A  ';Blood pressure
+Value='B  ';Anemia
+Value='C  ';[Other test]
+Value='D  ';None
+
+[Item]
+Label=Last 30 minutes have you: eaten anything
+Name=XB224A
+Start=111
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 30 minutes have you: eaten anything
+Name=XB224A_VS1
+Value=1;Yes
+Value=2;No
+Value=8;Don't know
+
+[Item]
+Label=Last 30 minutes have you: had coffe, tea, cola other drinks with caffeine
+Name=XB224B
+Start=112
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 30 minutes have you: had coffe, tea, cola other drinks with caffeine
+Name=XB224B_VS1
+Value=1;Yes
+Value=2;No
+Value=8;Don't know
+
+[Item]
+Label=Last 30 minutes have you: smoked any tobacco products
+Name=XB224C
+Start=113
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 30 minutes have you: smoked any tobacco products
+Name=XB224C_VS1
+Value=1;Yes
+Value=2;No
+Value=8;Don't know
+
+[Item]
+Label=Last 30 minutes have you: excercised with intensity
+Name=XB224D
+Start=114
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 30 minutes have you: excercised with intensity
+Name=XB224D_VS1
+Value=1;Yes
+Value=2;No
+Value=8;Don't know
+
+[Item]
+Label=Arm circumference in centimeters
+Name=XB225
+Start=115
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Arm circumference in centimeters
+Name=XB225_VS1
+Value=16:60
+
+[Item]
+Label=Blood pressure monitor to be used
+Name=XB226
+Start=117
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Blood pressure monitor to be used
+Name=XB226_VS1
+Value=0;MODEL 767
+Value=1;Small: 16 - 23 CM
+Value=2;Medium: 24 - 35 CM
+Value=3;Large: 36 - 41 CM
+Value=9;MODEL 789
+Value=4;Extra large: 42 - 60 CM
+
+[Item]
+Label=First blood pressure reading
+Name=XB228
+Start=118
+Len=4
+DataType=Alpha
+
+[Item]
+Label=First blood pressure reading (hour)
+Name=XB228H
+Start=118
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=First blood pressure reading (hour)
+Name=XB228H_VS1
+Value=6:22
+Value=97;Inconsistent
+
+[Item]
+Label=First blood pressure reading (minutes)
+Name=XB228M
+Start=120
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=First blood pressure reading (minutes)
+Name=XB228M_VS1
+Value=0:59
+Value=97;Inconsistent
+
+[Item]
+Label=First blood pressure reading: Systolic
+Name=XB227A
+Start=122
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=First blood pressure reading: Systolic
+Name=XB227A_VS1
+Value=50:300
+Value=995;Technical problems
+Value=996;Other
+
+[Item]
+Label=Re-enter first blood pressure reading: Systolic
+Name=XB227AW
+Start=125
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Re-enter first blood pressure reading: Systolic
+Name=XB227AW_VS1
+Value=50:300
+
+[Item]
+Label=First blood pressure reading: Diastolic
+Name=XB227B
+Start=128
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=First blood pressure reading: Diastolic
+Name=XB227B_VS1
+Value=40:300
+Value=995;Technical problems
+Value=996;Other
+
+[Item]
+Label=Re-enter first blood pressure reading: Diastolic
+Name=XB227BW
+Start=131
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Re-enter first blood pressure reading: Diastolic
+Name=XB227BW_VS1
+Value=40:300
+
+[Item]
+Label=Ever had blood pressure measured by a doctor/health worker
+Name=XB230
+Start=134
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever had blood pressure measured by a doctor/health worker
+Name=XB230_VS1
+Value=1;Yes
+Value=2;No
+Value=8;Don't know
+
+[Item]
+Label=Ever been diagnosed by doctor/health worker with hypertension
+Name=XB231
+Start=135
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been diagnosed by doctor/health worker with hypertension
+Name=XB231_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Last 12 months have been diagnosed by doctor/health worker with hypertension
+Name=XB232
+Start=136
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 12 months have been diagnosed by doctor/health worker with hypertension
+Name=XB232_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Has a doctor/health worker prescribed medication to control blood pressure
+Name=XB233
+Start=137
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Has a doctor/health worker prescribed medication to control blood pressure
+Name=XB233_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Is respondent taken medication to control blood pressure
+Name=XB234
+Start=138
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Is respondent taken medication to control blood pressure
+Name=XB234_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Consent for second blood pressure reading
+Name=XB235
+Start=139
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Consent for second blood pressure reading
+Name=XB235_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Second blood pressure readinh
+Name=XB237
+Start=140
+Len=4
+DataType=Alpha
+
+[Item]
+Label=Second blood pressure reading (hour)
+Name=XB237H
+Start=140
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Second blood pressure reading (hour)
+Name=XB237H_VS1
+Value=6:22
+Value=97;Inconsistent
+
+[Item]
+Label=Second blood pressure reading (minutes)
+Name=XB237M
+Start=142
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Second blood pressure reading (minutes)
+Name=XB237M_VS1
+Value=0:59
+Value=97;Inconsistent
+
+[Item]
+Label=Second blood pressure reading: Systolic
+Name=XB236A
+Start=144
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Second blood pressure reading: Systolic
+Name=XB236A_VS1
+Value=50:300
+Value=995;Technical problems
+Value=996;Other
+
+[Item]
+Label=Re-enter second blood pressure reading: Systolic
+Name=XB236AW
+Start=147
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Re-enter second blood pressure reading: Systolic
+Name=XB236AW_VS1
+Value=50:300
+
+[Item]
+Label=Second blood pressure reading: Diastolic
+Name=XB236B
+Start=150
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Second blood pressure reading: Diastolic
+Name=XB236B_VS1
+Value=40:300
+Value=995;Technical problems
+Value=996;Other
+
+[Item]
+Label=Re-enter second blood pressure reading: Diastolic
+Name=XB236BW
+Start=153
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Re-enter second blood pressure reading: Diastolic
+Name=XB236BW_VS1
+Value=40:300
+
+[Item]
+Label=Consent for third blood pressure reading
+Name=XB238
+Start=156
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Consent for third blood pressure reading
+Name=XB238_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Third blood pressure reading
+Name=XB240
+Start=157
+Len=4
+DataType=Alpha
+
+[Item]
+Label=Third blood pressure reading (hour)
+Name=XB240H
+Start=157
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Third blood pressure reading (hour)
+Name=XB240H_VS1
+Value=6:22
+Value=97;Inconsistent
+
+[Item]
+Label=Third blood pressure reading (minutes)
+Name=XB240M
+Start=159
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Third blood pressure reading (minutes)
+Name=XB240M_VS1
+Value=0:59
+Value=97;Inconsistent
+
+[Item]
+Label=Third blood pressure reading: Systolic
+Name=XB239A
+Start=161
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Third blood pressure reading: Systolic
+Name=XB239A_VS1
+Value=50:300
+Value=995;Technical problems
+Value=996;Other
+
+[Item]
+Label=Re-enter third blood pressure reading: Systolic
+Name=XB239AW
+Start=164
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Re-enter third blood pressure reading: Systolic
+Name=XB239AW_VS1
+Value=50:300
+
+[Item]
+Label=Third blood pressure reading: Diastolic
+Name=XB239B
+Start=167
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Third blood pressure reading: Diastolic
+Name=XB239B_VS1
+Value=40:300
+Value=995;Technical problems
+Value=996;Other
+
+[Item]
+Label=Re-enter third blood pressure reading: Diastolic
+Name=XB239BW
+Start=170
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Re-enter third blood pressure reading: Diastolic
+Name=XB239BW_VS1
+Value=40:300
+
+[Item]
+Label=Final blood pressure: Systolic
+Name=XB250A
+Start=173
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Final blood pressure: Systolic
+Name=XB250A_VS1
+Value=50:500
+Value=997;Can't be determined
+
+[Item]
+Label=Final blood pressure: Diastolic
+Name=XB250B
+Start=176
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Final blood pressure: Diastolic
+Name=XB250B_VS1
+Value=50:500
+Value=997;Can't be determined
+
+[Item]
+Label=Blood pressure category
+Name=XB252
+Start=179
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Blood pressure category
+Name=XB252_VS1
+Value=1;Acceptable range
+Value=2;At the high end of the acceptable range
+Value=3;Above acceptable range
+Value=4;Moderately high
+Value=5;High
+Value=6;Very high
+
+[Item]
+Label=Respondent receive the blood pressure result form
+Name=XB253
+Start=180
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Respondent receive the blood pressure result form
+Name=XB253_VS1
+Value=1;Reporting form received
+Value=2;Not received
+
+[Item]
+Label=Hemoglobin alpha to check period
+Name=XB255A
+Start=181
+Len=4
+DataType=Alpha
+
+[ValueSet]
+Label=Hemoglobin alpha to check period
+Name=XB255A_VS1
+Value=99.4;Not present
+Value=99.5;Refused
+Value=99.6;Other
+
+[Item]
+Label=Hemoglobin level (g/dl)
+Name=XB255
+Start=181
+Len=4
+ItemType=SubItem
+DataType=Numeric
+Decimal=1
+DecimalChar=Yes
+ZeroFill=Yes
+
+[ValueSet]
+Label=Hemoglobin level (g/dl)
+Name=XB255_VS1
+Value=2.0:26.0
+Value=99.4;Not present
+Value=99.5;Refused
+Value=99.6;Other
+
+[Item]
+Label=Re-enter hemoglobin level (g/dl)
+Name=XB255W
+Start=185
+Len=4
+DataType=Numeric
+Decimal=1
+DecimalChar=Yes
+
+[ValueSet]
+Label=Re-enter hemoglobin level (g/dl)
+Name=XB255W_VS1
+Value=2.0:26.0
+Value=99.4;Not present
+Value=99.5;Refused
+Value=99.6;Other
+
+[Item]
+Label=Hemoglobin result for referral
+Name=XB256
+Start=189
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Hemoglobin result for referral
+Name=XB256_VS1
+Value=1;Below (8.0 g/dl) severe anemia
+Value=2;(8.0 g/dl) or above
+
+[Item]
+Label=Severe anemia referral provided
+Name=XB257
+Start=190
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Severe anemia referral provided
+Name=XB257_VS1
+Value=1;Severe anemia referral provided
+Value=2;Severe anemia referral not provided
+
+[Item]
+Label=Result of test
+Name=XB259
+Start=191
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Result of test
+Name=XB259_VS1
+Value=1;[Test positive]
+Value=2;[Test negative]
+Value=4;Not present
+Value=5;Refused
+Value=6;Other
+
+[Item]
+Label=Test referral provided
+Name=XB260
+Start=192
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Test referral provided
+Name=XB260_VS1
+Value=1;Referral provided
+Value=2;Referral not provided
+
+[Item]
+Label=Blood sample ID number
+Name=XBWDBS
+Start=193
+Len=5
+DataType=Alpha
+
+[ValueSet]
+Label=Blood sample ID number
+Name=XBWDBS_VS1
+Value=99994;Not present
+Value=99995;Refused
+Value=99996;Other
+
+[Item]
+Label=Type of biomarker to collect
+Name=XWCTYPE1
+Start=198
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Type of biomarker to collect
+Name=XWCTYPE1_VS1
+Value=1;Height & weight
+Value=2;Consents
+
+[Item]
+Label=Collect blood pressure
+Name=XWCTYPE2
+Start=199
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Collect blood pressure
+Name=XWCTYPE2_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Collect anemia
+Name=XWCTYPE3
+Start=200
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Collect anemia
+Name=XWCTYPE3_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=Collect Other Test
+Name=XWCTYPE4
+Start=201
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Collect Other Test
+Name=XWCTYPE4_VS1
+Value=1;Yes
+Value=2;No
+
+[Item]
+Label=End woman holder
+Name=XWOMEND
+Start=202
+Len=1
+DataType=Alpha

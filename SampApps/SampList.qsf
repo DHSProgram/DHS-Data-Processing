@@ -1,0 +1,241 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.4
+
+[LANGUAGES]
+EN=English
+FR=French
+ES=Español
+
+[QUESTION]
+Field=GPS_DCT.GINTRO
+Occurrences=1:4
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter 1 to capture the coordinates for reading No. %GCOLUMN%\par
+EN=\par
+EN=\cf2 If Dongle couldn't acquire any signals enter 3 to return to household listing\par
+EN=}
+FR={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+FR={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\fs24 Entrer 1 pour capturer les coordonnes pour le prelevement No. %GCOLUMN%\par
+FR=\par
+FR=\cf2 Si le Dongle ne peut pas recevoire des signax, entrer 3 pour revenir au denombrement de menages\par
+FR=\cf1\par
+FR=\par
+FR=}
+
+[QUESTION]
+Field=HHLISTING.LADDRESS
+Occurrences=1:99
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the address where structure %LSTRUCT% and unit %LHOUSEH% within that structure, is located
+EN=\par
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese la direccion donde esta localizada la vivienda %LSTRUCT% y la unidad %LHOUSEH%
+ES=\par
+ES=\par }
+FR={\rtf1\fbidis\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;}
+FR=\viewkind4\uc1\pard\ltrpar\cf1\lang1033\fs24 Introduire l'addresse o\'f9 la %LSTRUCT% et l'unit\'e9 %LHOUSEH% \'e0 l'int\'e9rieur de cette structure est localis\'e9
+FR=\par }
+
+[QUESTION]
+Field=HHLISTING.LAUXILIAR
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\fs24 Select an option depending on the operation you want to perform.\par
+EN=\cf2 1-To include additional households  2-To delete or insert structures or households or just to browse  9-Do nothing\par
+EN=\cf1\par
+EN=}
+ES={\rtf1\fbidis\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\ltrpar\cf1\lang1033\fs24 Seleccione una opcion dependiendo de la accion a tomar
+ES=\par \cf2 1-Incluir hogares adicionales  2-Eliminar insertar hogares o viviendas  9-Salir sin hacer nada
+ES=\par \cf1
+ES=\par }
+FR={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+FR={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\fs24 S\'e9lectionnez une option selon l'op\'e9ration que vous voulez effectuer.\par
+FR=\cf2 1-Ajouter des m\'e9nages suppl\'e9metaires 2-Supprimer, ins\'e9rer des structures ou des m\'e9nages ou parcourir seulement 9-Ne rien faire\cf1\par
+FR=}
+
+[QUESTION]
+Field=HHLISTING.LINTGPS
+Occurrences=1:300
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\b\fs24 Select an option depending on the action to be taken: 1-To copy the coordinates from the previous household.  2-Capture the household GPS coordinates now.  3-Do not take the coordinates now.  9-Option used to replace the coordinates of a household that already have them\par
+EN=}
+FR={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;}
+FR={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+FR=\pard\cf1\b\fs24 Select an option depending on the action to be taken: 1-To copy the coordinates from the previous household.  2-Capture the household GPS coordinates now.  3-Do not take the coordinates now.  9-Option used to replace the coordinates of a household that already have them\b0\par
+FR=}
+
+[QUESTION]
+Field=HHLISTING.LINTRO
+Occurrences=1:99
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Select an option depending on the operation you want to perform.
+EN=\par \cf2
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Seleccione una opcion dependiendo de la accion a tomar
+ES=\par \cf2
+ES=\par }
+FR={\rtf1\fbidis\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;}
+FR=\viewkind4\uc1\pard\ltrpar\cf1\lang1033\fs24 S\'e9lectionnez une option selon l'op\'e9ration que vous voulez effectuer.
+FR=\par }
+
+[QUESTION]
+Field=HHLISTING.LNAME
+Occurrences=1:99
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the name of the head of the household that lives in address: %LADDRESS%
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el nombre del jefe del hogar que habita en la direccion: %LADDRESS%
+ES=\par }
+FR={\rtf1\fbidis\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;}
+FR=\viewkind4\uc1\pard\ltrpar\cf1\lang1033\fs24 Introduire le nom du chef du m\'e9nage qui vit \'e0 l'addresse: %LADDRESS%
+FR=\par }
+
+[QUESTION]
+Field=HHLISTING.LNOTES
+Occurrences=1:99
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Register any observation pretaining the occupancy \cf2 (press enter if no comments)
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Registre cualquier observacion relacionada con la ocupacion del hogar \cf2 (oprima enter si no desea anotar nada)
+ES=\par }
+FR={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+FR=\viewkind4\uc1\pard\cf1\lang1033\fs24 Entregistrez n' importe quelle observation relative \'e0 l' occupation du m\'e9nage \cf2 (Appuyez sur " Enter"  s'il n' y a pas de commentaires)
+FR=\par \cf1
+FR=\par }
+
+[QUESTION]
+Field=HHLISTING.LTRUEHH
+Occurrences=1:99
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Is this a residential unit? \cf2 (include units with shops where the family or individuals live in the same dwelling)
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Es esta una unidad residencial? \cf2 (Incluya unidades donde hay almacenes/talleres, etc pero la familia o el individuo habita en la misma unidad)
+ES=\par }
+FR={\rtf1\fbidis\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;\red255\green0\blue0;}
+FR=\viewkind4\uc1\pard\ltrpar\cf1\lang1033\fs24 Est-ce que c'est une unit\'e9 r\'e9sidentielle? \cf2 (Inclure les unit\'e9s avec des boutiques o\'f9 la famille ou les personnes vivent dans le m\'eame logement)
+FR=\par }
+
+[QUESTION]
+Field=SEGMENT_DCT.SAUXILIAR
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\fs24 Do you want to select the segment to be used for cluster %SCLUSTER%?\par
+EN=}
+FR={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;}
+FR={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\fs24 Voulez-vous tirer un segment pour proc\'e9der le d\'e9nombrement pour la grappe %SCLUSTER%?\par
+FR=\pard\par
+FR=}
+
+[QUESTION]
+Field=SEGMENT_DCT.SFINAL
+Condition=SAUXILIAR <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\b\fs24 Press any key to go back to the main menu\par
+EN=}
+FR={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red255\green0\blue0;}
+FR={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\b\fs24 Appuer une touche pour continuer\par
+FR=\pard\par
+FR=}
+
+[QUESTION]
+Field=SEGMENT_DCT.SFINAL
+Condition=SAUXILIAR = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\b\fs24 Please take note of the selected segment by the system and make sure that households will be listed for the selected segment\par
+EN=\par
+EN=Press any key to go back to the main menu\par
+EN=\par
+EN=}
+FR={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red255\green0\blue0;}
+FR={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\b\fs24 Veuillez noter le segment tir\'e9 par le programme et assurer que le d\'e9nombrment soit fait dans le segment tir\'e9\par
+FR=\par
+FR=Appuyer sur une touche pour revenir au menu principale\par
+FR=\pard\par
+FR=}
+
+[QUESTION]
+Field=SEGMENT_DCT.SHHNUMB
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the number of households in the segment\par
+EN=\par
+EN=}
+FR={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;}
+FR={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\fs24 Entrer le nombre de m\'e9nages ce segment.\par
+FR=}
+
+[QUESTION]
+Field=SEGMENT_DCT.SMORE
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\fs24 Are there any other segments in the cluster?\par
+EN=}
+FR={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;}
+FR={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\fs24 Y a-t-il d' autres segments dans la grappe?\par
+FR=}
+
+[QUESTION]
+Field=SEGMENT_DCT.SOPTION
+Condition=segmendone <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\lang1033\fs24 Please select an option.\par
+EN=}
+FR={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;}
+FR={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+FR=\pard\cf1\fs24 Veuillez prendre une option.\par
+FR=\par
+FR=}
+
+[QUESTION]
+Field=SEGMENT_DCT.SOPTION
+Condition=segmendone = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\fs24 Segment selection for this cluster was already done.  Changing the number of households may change the selection of the segment for the cluster.  Please select an option.\par
+EN=\pard\par
+EN=}
+FR={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red0\green0\blue0;}
+FR={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\fs24 Tirage de segment est d\'e9j\'e0 fait dans cette grappe .  Changer le nombre de m\'e9nages dans un segment peut changer le segment tir\'e9. Veuillez prendre une option.\par
+FR=\pard\par
+FR=}
+

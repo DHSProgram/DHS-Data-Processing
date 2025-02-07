@@ -1,0 +1,31 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+tecd01 columns ecdindex = 2 nodec;
+tecd01 footnote
+{+EN}
+@1 SDG Indicator 4.2.1 
+{EN+}
+{{FR}
+@1 ODD 4 : Indicateur 4.2.1
+{FR}}
+endfootnote;

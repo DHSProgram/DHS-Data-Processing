@@ -1,0 +1,433 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 6.3
+
+[LANGUAGES]
+EN=English
+ES=Español
+
+[QUESTION]
+Field=R115_BLOCK
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green128\blue64;\red0\green128\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32  \cf2 RECORD THE DATE OF MEASUREMENT\par
+EN=\cf3\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R106
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD %R102N%'S WEIGHT IN KILOGRAMS.\par
+EN=(Use format xx.xx and enter the decimal point)\par
+EN=\f1\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R106W
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RE-ENTER %R102N%'S WEIGHT IN KILOGRAMS.\par
+EN=(Use format xx.xx and enter the decimal point)\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R107
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 WAS THE CHILD MINIMALLY DRESSED?\par
+EN=
+EN=\pard\f1\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R108
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD %R102N%'S HEIGHT IN CENTIMETERS.\par
+EN=(Use format xxx.x and enter the decimal point)\par
+EN=
+EN=\pard\f1\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R108W
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RE-ENTER %R102N%'S HEIGHT IN CENTIMETERS.\par
+EN=(Use format xxx.x and enter the decimal point)\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R109
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD WHETHER %R102N%'S WAS MEASURED LYING DOWN OR STANDING UP.\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R110
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 CHECK 104 AND 109: BASED ON CHILD'S AGE, WAS CORRECT MEASUREMENT PROCEDURE FOLLOWED?\par
+EN=
+EN=\pard\f1\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R111
+Condition=temp = 0
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 PRESS ENTER AND RECORD THE REASON WHY %R102N% WAS MEASURED STANDING UP\par
+EN=\f1\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R111
+Condition=temp = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 PRESS ENTER AND RECORD THE REASON WHY %R102N% WAS MEASURED LYING DOWN\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R112
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 WAS THE RECORDED MEASUREMENT INTERFERED WITH BY BRAIDED OR ORNAMENTED HAIR?\par
+EN=
+EN=\pard\f1\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R113
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 ENTER FIELDWORKER NUMBER OF THE BIOMARKER MEASURER.\par
+EN=
+EN=\pard\f1\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R114
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER OF ASSISTANT MEASURER.\par
+EN=\par
+EN=IF NO ASSISTANT MEASURER, ENTER 9999.\par
+EN=
+EN=\pard\f1\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R115D
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD DAY\par
+EN=\cf2\f1\fs16\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R115M
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD MONTH\par
+EN=\cf2\f1\fs16\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.R115Y
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD YEAR\par
+EN=\cf2\f1\fs16\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.RAUXILIAR
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 PLEASE PRESS ANY KEY TO CONTINUE\fs22\par
+EN=\cf2\f1\fs24\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\f0\fs32 POR FAVOR OPRIMA CUALQUIER TECLA PARA CONTINUAR\fs22\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RBRAIDS
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 WAS THE RECORDED MEASUREMENT INTERFERED WITH BY BRAIDED OR ORNAMENTED HAIR?\f1\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.RDOBD
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs22 Record the child date of birth (DAY).\par
+EN=\f1\fs24\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\f0\fs22 Registre la fecha de nacimiento (DIA).\f1\fs24\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RDOBM
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs22 MONTH\par
+EN=\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\f0\fs22 MES\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RDOBY
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs22 YEAR\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\f0\fs22 A\'d1O\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RDRESS
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 WAS THE CHILD MINIMALLY DRESSED?\cf2\fs16\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.RELIGIB
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Was child born in %healthy% or later\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs24 Nacion el ni\'f1o(a) en el a\'f1o %healthy% o mas tarde\f1\fs22\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RFLDASS
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs24 ENTER FIELDWORKER NUMBER OF ASSISTANT MEASURER.\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.RFLDWKR
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs24 ENTER FIELDWORKER NUMBER OF MEASURER.\fs22\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.RHEIGHT
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs24 Record height of %RNAME% in centimeters\fs22\par
+EN=\par
+EN=\fs24 Based on the child's age in months (%agemnth%), this child should be measured %textstr1%.\fs22\par
+EN=\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\f0\fs24 Registre la talla en centimetros de %RNAME%\fs22  \par
+ES=\par
+ES=Con base en la edad en meses del ni\'f1o(a) (%agemnth%), este ni\'f1o(a) deberia medirse %textstr1%.\par
+ES=\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RHEIGHTW
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs22 Reenter %RNAME%'s height\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\f0\fs22 Vuelva a ingresar la talla de %RNAME% \par
+ES=\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RINTD
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Register the day of the visit\par
+EN=
+EN=\pard\cf2\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs24 Ingrese el dia de la visita\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RINTM
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Register the month of the visit\par
+EN=
+EN=\pard\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs24 Ingrese el mes de la visita\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RINTY
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Register the year of the visit\par
+EN=
+EN=\pard\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs24 Ingrese el a\'f1o de la visita\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RLYNSTN
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs22 WAS THE CHILD MEASURED LYING DOWN OR STANDING UP?\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.RMEASOK
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs24 BASED ON CHILD'S AGE, WAS CORRECT MEASUREMENT PROCEDURE FOLLOWED?\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.RREASON
+Condition=temp <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs24 WHY WAS %RNAME% MEASURED LYING DOWN?\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.RREASON
+Condition=temp = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs24 WHY WAS %RNAME% MEASURED STANDING UP?\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.RRESULT
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 What was the result of the measrument\par
+EN=}
+
+[QUESTION]
+Field=RMEASURE.RVISITS
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 RECORD THE NUMBER OF VISITS NECESSARY FOR REMEASUREMENT\par
+EN=\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs32 REGISTRE EL NUMERO DE VISITAS NECESARIA PARA LA REMEDICION\par
+ES=\cf2\fs16\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RWEIGHT
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs22 Record weight of %RNAME% in kilograms\par
+EN=\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\f0\fs22 Registre el peso en kilogramos de %RNAME%\cf2\f1\fs16\par
+ES=}
+
+[QUESTION]
+Field=RMEASURE.RWEIGHTW
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Reenter %RNAME%'s weight\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\f0\fs22 Vuelva a ingresar el peso de %RNAME% \par
+ES=}
+

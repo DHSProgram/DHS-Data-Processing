@@ -1,0 +1,1403 @@
+﻿PROC GLOBAL
+{+------------------------------------------------------------------------------------+}
+{+                                                                                    +}
+{+   Guidelines July 7, 2021                -       Version 1.0.0 of 08/31/2021       +}
+{+                                                                                    +}
+{+   CHAPTER 12. MALARIA (all tables in this application used by malaria)             +}
+{+                                                                                    +}
+{+   12.1   Household possesion of mosquito nets                                      +}
+{+   12.2   Source of mosquito nets                                                   +}
+{+   12.3   Access to an insecticide-treated net (ITN)                                +}
+{+   12.4   Use of mosquito nets by persons in the household                          +}
+{+   12.5   Use of existing ITNs                                                      +}
+{+   12.6   Use of mosquito nets by children                                          +}
+{+   12.7   Use of mosquito nets by pregnant women                                    +}
+{+   12.8   Main reason mosquito net was not used the night before the survey         +}
+{+   12.9   Use of intermittent preventive treatment (IPT) by women during pregnancy  +}
+{+   12.10  Children with fever and careseeking, prompt treatment, and diagnosis      +}
+{+   12.11  Source of advice or treatment for children with fever                     +}
+{+   12.12  Type of antimalarial drugs used                                           +}
+{+   12.13  Coverage of testing for anemia and malaria in children                    +}
+{+   12.14  Prevalence of malaria in children                                         +}
+{+                                                                                    +}
+{+------------------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, j, jmax, jtot, jtot1, jtot2;
+  numeric rweight, xtemp, antimalch;
+  numeric age, anynet, itnnet, itnused, hhitn, mother;
+  numeric seekadv, public, private, ngo, others, chindex;
+  numeric x;
+
+  array educat(100);       { to carry education from level 2 to level 1 for table 12.5 }
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 12, [Country Survey Year]" );
+{EN+}
+{{ES}
+    title( "Cuadros para el Capítulo 12, [País Encuesta Año]" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 12, [Pays, Enquête, Année]" );
+{FR}}
+
+  crosstab float(1) t1201 v102w+v101w+v190w+total  hhnet1+hhnet2+numhh+hhnet3+numhh2
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 3.1 }
+{+EN}
+    title( "Table 12.1  Household possession of mosquito nets","",
+           "Percentage of households with at least one mosquito net (treated or untreated) and",
+           "insecticide-treated net (ITN); average number of nets and ITNs per household; and percentage",
+           "of households with at least one net and ITN per two persons who stayed in the household last",
+           "night, according to background characteristics, [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 12.1  Posesión de mosquiteros en los hogares","",
+           "Percentage of households with at least one mosquito net (treated or untreated) and",
+           "insecticide-treated net (ITN); average number of nets and ITNs per household; and percentage",
+           "of households with at least one net and ITN per two persons who stayed in the household last",
+           "night, according to background characteristics, [Country Survey Year]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 12.1  Possession de moustiquaires par les ménages"," ",
+           "Pourcentage de ménages avec au moins une moustiquaire (traitée ou non)",
+		   "et pourcentage avec une moustiquaire imprégnée d'insecticide (MII);",
+		   "nombre moyen de moustiquaires et de MII par ménage; pourcentage de ménages avec au moins une moustiquaire et",
+		   "pourcentage avec au moins une MII pour 2 personnes qui ont passé la nuit avant l'interview dans le ménage,",
+		   "selon certaines caractéristiques, [Pays Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1201u v102w+v101w+v190w+total  coltotu
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.1  Household possession of mosquito nets (Number of un-weighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) t1202 v102w+v101w+v190w+total sourcnet+totnets typenet
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 3.2 }
+{+EN}
+    title( "Table 12.2  Source of mosquito nets","",
+           "Percent distribution of insecticide treated nets (ITNs), non-ITNs, and all",
+		   "mosquito nets by source of net, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+    title( "Table 12.2  Source of mosquito nets","",
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 12.2  Source d'obtention des moustiquaires","",
+			"Répartition (en %) des moustiquaires imprégnées d'insecticide (MII), des moustiquaires",
+			"qui ne sont pas des MII et de toutes les moustiquaires par source d'obtention des moustiquaires,",
+			"selon certaines caractéristiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique" );
+{FR}}
+  crosstab float(0) t1202u v102w+v101w+v190w+total total typenet
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.2  Source of mosquito nets (Number of un-weighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) t1203 v102w+v101w+v190w+total  pctitn+numpers
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 3.3 }
+{+EN}
+    title( "Table 12.3  Access to an insecticide-treated net (ITN)","",
+           "Percentage of the de facto population with access to an ITN in the household, by",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+    title( "Table 12.3  Access to an ITN","",
+           "Porcentaje de la población de facto con acceso a un MTI en el hogar,",
+           "por características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 12.3  Accès à une Moustiquaire Imprégnée d'Insecticide (MII)","",
+           "Pourcentage de la population de fait ayant accès à une MII dans le ménage,",
+		   "selon certaines caractéristiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique" );
+{FR}}
+  crosstab float(0) t1203u v102w+v101w+v190w+total  total
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.3  Access to an insecticide-treated net (ITN) (Number of un-weighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) t1204 hage1+hsex+v102w+v101w+v190w+total  popitn1+popitn2
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 3.4 }
+{+EN}
+    title( "Table 12.4  Use of mosquito nets by persons in the household","",
+           "Percentage of the de facto household population who slept under a mosquito net (treated or untreated)",
+		   "and under an insecticide-treated net (ITN) the night before the survey; and among the",
+           "de facto household population in households with at least one ITN, percentage who slept under",
+           "an ITN the night before the survey, according to background characteristics, [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 12.4  Uso de mosquiteros por personas del hogar","",
+           "Percentage of the de facto household population who slept the night before the survey under a",
+           "mosquito net (treated or untreated) and under an insecticide-treated net (ITN); and among the",
+           "de facto household population in households with at least one ITN, percentage who slept under",
+           "an ITN the night before the survey, according to background characteristics, [Country Survey Year]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 12.4  Utilisation des moustiquaires par les personnes dans le ménage"," ",
+           "Pourcentage de la population de fait des ménages ayant dormi sous une moustiquaire (traitée ou non)",
+		   "et pourcentage ayant dormi sous une moustiquaire imprégnée d'insecticide (MII) la nuit avant l'interview;",
+		   "parmi la population de fait des ménages dans les ménages ayant au moins une MII,",
+		   "pourcentage ayant dormi sous une MII la nuit avant l'interview, selon certaines caractéristiques,",
+		   "[Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1204u hage1+hsex+v102w+v101w+v190w+total coltotu
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.4  Use of mosquito nets by persons in the household (Number of un-weighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) t1205 v102w+v101w+v190w+total useofitn
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 3.5 }
+{+EN}
+    title( "Table 12.5  Use of existing ITNs","",
+           "Percentage of insecticide-treated nets (ITNs) that were used by anyone the night before the",
+           "survey, according to background characteristics, [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 12.5  Uso de MTI existentes","",
+           "Porcentaje de mosquiteros tratado con insecticida (MTI) que fueron usados por alguna persona",
+           "la noche anterior a la encuesta, por características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 12.5  Utilisation des MII existantes ","",
+           "Répartition (en %) des moustiquaires imprégnées d'insecticide (MII)",
+		   "qui ont été utilisées par quelqu'un la nuit avant l'interview,",
+		   "selon certaines caractéristiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique" );
+{FR}}
+  crosstab float(0) t1205u v102w+v101w+v190w+total total
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.5  Use of existing ITNs (Number of un-weighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) t1206 age1+hsex+v102w+v101w+v190w+total chilitn1+chilitn2
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 3.6 }
+{+EN}
+    title( "Table 12.6  Use of mosquito nets by children","",
+          "Percentage of children under age 5 who slept under a mosquito net (treated or untreated)",
+		  "and under an insecticide-treated net (ITN) the night before the survey; and among children",
+          "under age 5 in households with at least one ITN, percentage who slept under an ITN the night",
+          "before the survey, according to background characteristics, [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 12.6  Uso de mosquiteros por los niños/as","",
+          "Percentage of children under age 5 who, the night before the survey, slept under a mosquito",
+          "net (treated or untreated) and under an insecticide-treated net (ITN); and among children",
+          "under age 5 in households with at least one ITN, percentage who slept under an ITN the night",
+          "before the survey, according to background characteristics, [Country Survey Year]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 12.6  Utilisation des moustiquaires par les enfants"," ",
+          "Pourcentage d'enfants de moins de 5 ans ayant dormi sous une moustiquaire (traitée ou non)",
+		  "et pourcentage ayant dormi sous une moustiquaire imprégnée d'insecticide (MII) la nuit avant l'interview;",
+		  "Parmi les enfants dans les ménages avec au moins une MII,",
+		  "pourcentage ayant dormi sous une MII la nuit avant l'interview,",
+		  "selon certaines caractéristiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1206u age1+hsex+v102w+v101w+v190w+total coltotu
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.6  Use of mosquito nets by children (Number of un-weighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) t1207 v102w+v101w+v106w+v190w+total pregitn1+pregitn2
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 3.7 }
+{+EN}
+    title( "Table 12.7  Use of mosquito nets by pregnant women","",
+           "Percentage of pregnant women age 15-49 who slept under a mosquito net (treated or untreated)",
+		   "and under an insecticide-treated net (ITN) the night before the survey; and among pregnant women",
+           "age 15-49 in households with at least one ITN, percentage who slept under an ITN the night before",
+           "the survey, according to background characteristics, [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 12.7  Uso de mosquiteros por mujeres embarazadas","",
+           "Percentage of pregnant women age 15-49 who, the night before the survey, slept under a mosquito",
+           "net (treated or untreated) and under an insecticide-treated net (ITN); and among pregnant women",
+           "age 15-49 in households with at least one ITN, percentage who slept under an ITN the night before",
+           "the survey, according to background characteristics, [Country Survey Year]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 12.7  Utilisation des moustiquaires par les femmes enceintes"," ",
+           "Pourcentage de femmes enceintes de 15-49 ans ans ayant dormi sous une moustiquaire (traitée ou non)",
+		   "et pourcentage ayant dormi sous une moustiquaire imprégnée d'insecticide (MII) la nuit avant l'interview;",
+		   "parmi les femmes enceintes de 15-49 ans dans les ménages avec au moins une MII,",
+		   "pourcentage ayant dormi sous une MII la nuit avant l'interview,",
+		   "selon certaines caractéristiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1207u v102w+v101w+v106w+v190w+total coltotu
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.7  Use of mosquito nets by pregnant women (Number of un-weighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) t1208 v102w+v101w+v190w+total unusnet1+unusnet2+totunuse typenet
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 3.8 }
+{+EN}
+    title( "Table 12.8  Main reason mosquito net was not used the night before the survey","",
+           "Among ITNs, non-ITNs, and all mosquito nets, percentage that were not used by",
+		   "anyone the night before the survey, and among mosquito nets that were not used",
+		   "by anyone the night before the survey, percent distribution by the main reason",
+		   "each net was not used, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 12.8  Raison principale pour laquelle la moustiquaire n'a pas été utilisée la nuit avant l'interview","",
+           "Parmi les MII, les moustiquaires qui ne sont pas des MII et parmi toutes les moustiquaires,",
+		   "pourcentage qui n'ont été utilisées par personne la nuit avant l'interview,",
+		   "et parmi les moustiquaires qui n'ont été utilisées par personne la nuit avant l'enquête,",
+		   "répartition (en %) selon la raison principale pour laquelle chaque moustiquaire n'a pas été utilisée,",
+		   "selon certaines caractéristiques, [Pays Enquête Année]" )
+     stub( "Caractéristique" );
+{FR}}
+  crosstab float(0) t1208u v102w+v101w+v190w+total coltotu typenet
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.8  Main reason mosquito net was not used the night before the survey (Number of un-weighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) t1209 border2+v102w+v101w+v106w+v190w+total fansidar livbirth+stlbirth+livestil
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 3.11 }
+{+EN}
+    title( "Table 12.9  Use of Intermittent Preventive Treatment (IPTp) by women during pregnancy","",
+           "Percentage of women age 15-49 with a live birth and/or a stillbirth in the 2 years preceding the",
+		   "survey who, during the pregnancy that resulted in the last live birth or stillbirth, received",
+		   "one or more doses of SP/Fansidar, received two or more doses of SP/Fansidar, and received three",
+		   "or more doses of SP/Fansidar, according to background characteristics, [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+      stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 12.9  Utilisation du Traitement Préventif Intermittent (TPIg) par les femmes au cours de la grossesse"," ",
+           "Percentage de femmes de 15-49 ans ayant eu une naissance vivante",
+		   "et/ou un mort-né au cours des 2 années ayant précédé l'enquête qui,",
+		   "durant la grossesse qui a abouti a une naissance vivante ou à un mort-né,",
+		   "ont reçu une dose ou plus de SP/Fansidar, deux doses ou plus de SP/Fansidar",
+		   "et pourcentgae en ayant reçu trois doses ou plus,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique socioéconomique" );
+{FR}}
+  crosstab float(0) t1209u border2+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.9  Use of Intermittent Preventive Treatment (IPTp) by women during pregnancy (Number of un-weighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) t1210 age1+hsex+v102w+v101w+v106wt+v190w+total  chilfev1+treatfev
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 4.1 }
+{+EN}
+    title( "Table 12.10  Children with fever and careseeking, prompt treatment, and diagnosis","",
+           "Percentage of children under age 5 with fever in the 2 weeks preceding the survey; and among",
+		   "children under age 5 with fever, percentage for whom advice or treatment was sought, percentage",
+		   "for whom advice or treatment was sought the same or next day following the onset of fever,",
+		   "percentage who had blood taken from a finger or heel for testing, and percentage who were",
+		   "diagnosed with malaria by a healthcare provider, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 12.10  Prévalence, diagnostic et traitement précoce des enfants avec de la fièvre","",
+           "Pourcentage d'enfants de moins de 5 ans ayant eu de la fièvre",
+		   "au cours des 2 semaines ayant précédé l'interview; parmi ces enfants de moins de 5 ans ayant eu de la fièvre,",
+		   "pourcentage pour lesquels des conseils ou un traitement ont été recherchés, pourcentage pour lesquels des conseils",
+		   "ou un traitement ont été recherchés le jour même ou le jour suivant le début de la fièvre,",
+		   "pourcentage pour lesquels on a prélevé du sang au doigt ou au talon pour être testé",
+		   "et pourcentage ayant été diagnostiqué avec le paludisme par un prestataire de santé,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémo-graphique" );
+{FR}}
+  crosstab float(0) t1210u age1+hsex+v102w+v101w+v106wt+v190w+total  coltotu
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.10  Children with fever and careseeking, prompt treatment, and diagnosis (Number of un-weighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) t1211 pubsect+prvsect+ngosect+othsect+othonly+numchild chilfev2
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 4.2 }
+{+EN}
+    title( "Table 12.11  Source of advice or treatment for children with fever","",
+           "Percentage of children under age 5 with fever in the 2 weeks preceding the survey for whom",
+           "advice or treatment was sought from specific sources; and among children under age 5 with",
+           "fever in the 2 weeks preceding the survey for whom advice or treatment was sought, percentage",
+           "for whom advice or treatment was sought from specific sources, [Country Survey Year]" )
+     stub( "Source" );
+{EN+}
+{{ES}
+    title( "Table 12.11  Source of advice or treatment for children with fever","",
+           "Percentage of children under age five with fever in the two weeks preceding the survey for whom",
+           "advice or treatment was sought from specific sources; and among children under age five with",
+           "fever in the two weeks preceding the survey for whom advice or treatment was sought,",
+           "the percentage for whom advice or treatment was sought from specific sources,",
+           "por características seleccionadas, [País Encuesta Año]" )
+     stub( "Fuente" );
+{ES}}
+{{FR}
+    title( "Tableau 12.11  Source des conseils ou traitements pour les enfants ayant de la fièvre","",
+           "Pourcentage d'enfants de moins de 5 ans ayant eu de la fièvre",
+		   "au cours des 2 semaines ayant précédé l'interview pour lesquels des conseils",
+		   "ou un traitement ont été recherchés auprès de sources spécifiques;",
+		   "parmi les enfants ayant eu de la fièvre dans les 2 dernières semaines avant l'interview",
+		   "et pour lesquels on a recherché des conseils ou un traitement,",
+		   "pourcentage pour lesquels les conseils ou",
+		   "le traitement ont été recherchés auprès de sources spécifiques, [Pays, Enquête, Année]" )
+     stub( "Source" );
+{FR}}
+  crosstab float(0) t1211u total chilfev2
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.11  Source of advice or treatment for children with fever (Number of un-weighted cases)" )
+     stub( "Source" );
+
+  crosstab float(1) t1212 chage4+hsex+v102w+v101w+v106wt+v190w+total medfever+chfevant
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 4.3 }
+{+EN}
+    title( "Table 12.12  Type of antimalarial drugs used","",
+           "Among children under age 5 with fever in the 2 weeks preceding the survey who took any antimalarial",
+           "medication, percentage who took specific antimalarial drugs, according to background characteristics, [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 12.12  Tipo de medicamentos antimaláricos utilizados","",
+           "Entre los niños menores de 5 años con fiebre en las dos semanas que precedieron la encuesta y que tomaron",
+           "medicamentos antimaláricos, porcentaje que tomaron medicamentos antimaláricos específicos",
+           "por características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 12.12  Type d'antipaludiques utilisés"," ",
+           "Parmi les enfants de moins de 5 ans ayant eu de la fièvre",
+		   "au cours des 2 semaines ayant précédé l'interview et qui ont pris des antipaludiques,",
+		   "pourcentage qui ont pris des antipaludiques spécifiques,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1212u chage4+hsex+v102w+v101w+v106wt+v190w+total total
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.12  Type of antimalarial drugs used (Number of un-weighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) t1213 hage3+hsex+mothint+v102w+v101w+v106wt+v190w+total anemtest
+    exclude(colzero,rowzero,totals,percents,specval)
+	{ MALARIA - table 4.4 }
+{+EN}
+    title( "Table 12.13  Coverage of testing for malaria in children","",
+           "Percentage of eligible children age 6-59 months who were tested for malaria,",
+           "according to background characteristics (unweighted), [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{ES}
+    title( "Table 12.13  Coverage of testing for anemia and malaria in children","",
+           "Percentage of eligible children age 6-59 months who were tested for anemia and for malaria,",
+           "according to background characteristics (unweighted), [Country Survey Year]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 12.13  Couverture des tests de paludisme chez les enfants","",
+           "Pourcentage d'enfants éligibles de 6-59 mois qui ont été testés pour le paludisme,",
+		   "selon certaines caractéristiques sociodémographiques (non pondéré), [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1213u hage3+hsex+mothint+v102w+v101w+v106wt+v190w+total total
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 12.13  Coverage of testing for anemia and malaria in children (Number of un-weighted cases)" )
+
+  crosstab float(1) t1214 hage3+hsex+mothint+v102w+v101w+v106wt+v190w+total prevmal1+prevmal2
+     exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 4.6 }
+{+EN}
+   title( "Table 12.14  Prevalence of malaria in children","",
+          "Percentage of children age 6-59 months classified in two tests as having malaria,",
+          "according to by background characteristics, [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+   title( "Table 12.14  Prevalence of malaria in children","",
+          "Percentage of children age 6-59 months classified in two tests as having malaria,",
+          "according to background characteristics, [Country Survey Year]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+   title( "Tableau 12.14  Prévalence du paludisme chez les enfants","",
+          "Pourcentage d'enfants de 6-59 mois dont les résultats",
+		  "des deux tests de dépistage du paludisme sont positifs,",
+		  "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1214u hage3+hsex+mothint+v102w+v101w+v106wt+v190w+total coltotu
+     exclude(rowzero,colzero,percents,totals,specval)
+   title( "Table 12.14  Prevalence of malaria in children (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  { facilitates tabulation of table 12.12 as every cell has to be tallyed individually }
+  function tabt1211( category )
+    if category = 1 then
+      chilfev2  = 1;                    { all children }
+      xtab( t1211, rweight );
+      if seekadv then
+        chilfev2  = 2;                  { all children who sought advice }
+        xtab( t1211, rweight );
+      endif;
+    endif;
+  end;
+
+  { function to recode birth order as it is used by several tables }
+  function RecBorder( chi )
+    xtemp = BORD(chi);
+    { adjust multiple births to give the same order as that of the first of the multiples }
+    if B0(chi) > 1 then xtemp = BORD(chi) - B0(chi) + 1 endif;
+    recode xtemp -> x;
+              1  -> 0;
+            2:3  -> 1;
+            4:5  -> 2;
+                 -> 3;
+    endrecode;
+    RecBorder = x;
+  end;
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+  totnets  = 1;
+  totnum1  = 1;
+  numhh    = 1;
+  percent  = 0;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { table 12.1 }
+  jtot1 = tblcol( t1201, numhh );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    if j in 0:1 then
+      t1201[*,j] = 100 * t1201[*,j] / t1201[*,jtot1];  { percents }
+    else
+      t1201[*,j] = t1201[*,j] / t1201[*,jtot1];        { means }
+    endif;
+  enddo;
+  jtot2 = tblcol( t1201 );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t1201[*,j] = 100 * t1201[*,j] / t1201[*,jtot2];  { percents }
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1201", t1201, 0,       jtot1-1, t1201u, 0 );      { all households }
+  Col2Dim( "t1201", t1201, jtot1+1, jtot2-1, t1201u, 1 );      { HH with at least one person }
+
+  { table 12.2 }
+  { calulate all mosquito nets }
+  t1202[*,*,2] = t1202[*,*,0] + t1202[*,*,1];
+  jtot = tblcol( t1202 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t1202[*,j,*] = 100 * t1202[*,j,*] / t1202[*,jtot,*];
+  enddo;
+  t1202[*,jmax+1,*] = tblsum( column t1202[*,0:jmax,*] );
+  { check unweighted N's }
+  t1202u[*,*,2] = t1202u[*,*,0] + t1202u[*,*,1];
+  Col3Dim( "t1202", t1202, 0, jtot-2, t1202u, 0 );
+  { assign defaults for layers non-itns and all mosquito nets }
+  itot = tblrow( t1202 );
+  t1202[0:itot-1,*,1] = default;    // non-itns
+  t1202[0:itot-1,*,2] = default;    // all mosquito nets
+  { assign NA to appropriate cells }
+  jmax = tblcol(t1202, sourcnet = 10);
+  t1202[itot,0:jmax,1] = NACells;    // non-itns
+
+  { table 12.3 }
+  t1203[*,0] = 100 * t1203[*,0] / t1203[*,1];
+  { check unweighted N's }
+  Col2Dim( "t1203", t1203, 0, 0, t1203u, 0 );
+
+  { table 12.4 }
+  jtot1 = tblcol( t1204, popitn1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1204[*,j] = 100 * t1204[*,j] / t1204[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1204, popitn2 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    t1204[*,j] = 100 * t1204[*,j] / t1204[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1204", t1204, 0,       jtot1-1, t1204u, 0 );    { HH population }
+  Col2Dim( "t1204", t1204, jtot1+1, jtot2-1, t1204u, 1 );    { HH population with ITN }
+
+  { table 12.5 }
+  jtot = tblcol( t1205 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1205[*,j] = 100 * t1205[*,j] / t1205[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1205", t1205, 0, jtot-1, t1205u, 0 );
+
+  { table 12.6 }
+  jtot1 = tblcol( t1206, chilitn1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1206[*,j] = 100 * t1206[*,j] / t1206[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1206 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    t1206[*,j] = 100 * t1206[*,j] / t1206[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1206", t1206, 0,       jtot1-1, t1206u, 0 );     { children under 5 }
+  Col2Dim( "t1206", t1206, jtot1+1, jtot2-1, t1206u, 1 );     { children under 5 in HH with ITN }
+
+  { table 12.7 }
+  jtot1 = tblcol( t1207, pregitn1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1207[*,j] = 100 * t1207[*,j] / t1207[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1207 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    t1207[*,j] = 100 * t1207[*,j] / t1207[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1207", t1207, 0,       jtot1-1, t1207u, 0 );     { pregnant women }
+  Col2Dim( "t1207", t1207, jtot1+1, jtot2-1, t1207u, 1 );     { pregnant women in HH with ITN }
+
+  { table 12.8 }
+  { calulate all mosquito nets }
+  t1208[*,*,2] = t1208[*,*,0] + t1208[*,*,1];
+  jtot1 = tblcol( t1208, unusnet1 );
+  jmax = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1208[*,j,*] = 100 * t1208[*,j,*] / t1208[*,jtot1,*];
+  enddo;
+  jtot2 = tblcol( t1208 );
+  jmax = jtot2 - 2;
+  do j = jtot1+1 while j <= jmax
+    t1208[*,j,*] = 100 * t1208[*,j,*] / t1208[*,jtot2,*];
+  enddo;
+  t1208[*,jmax+1,*] = tblsum( column t1208[*,jtot1+1:jmax,*] );
+  { check unweighted N's }
+  t1208u[*,*,2] = t1208u[*,*,0] + t1208u[*,*,1];
+  Col3Dim( "t1208", t1208, 0,       jtot1-1, t1208u, 0 );
+  Col3Dim( "t1208", t1208, jtot1+1, jtot2-2, t1208u, 1 );
+  { assign defaults for layers non-itns and all mosquito nets }
+  itot = tblrow( t1208 );
+  t1208[0:itot-1,*,1]  = default;    // non-itns
+  t1208[0:itot-1,*,2]  = default;    // all mosquito nets
+  t1208u[0:itot-1,*,1] = default;    // non-itns
+  t1208u[0:itot-1,*,2] = default;    // all mosquito nets
+
+  { table 12.9 }
+  jtot = tblcol( t1209 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1209[*,j,*] = 100 * t1209[*,j,*] / t1209[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "t1209", t1209, 0, jtot-1, t1209u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t1209 );
+  t1209[0:itot-1,*,1]  = default;    // stillbirths
+  t1209[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t1209u[0:itot-1,*,1] = default;    // stillbirths
+  t1209u[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { table 12.10 }
+  jtot1 = tblcol( t1210, chilfev1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1210[*,j] = 100 * t1210[*,j] / t1210[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1210, treatfev );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    t1210[*,j] = 100 * t1210[*,j] / t1210[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1210", t1210, 0,       jtot1-1, t1210u, 0 );     { children under 5 }
+  Col2Dim( "t1210", t1210, jtot1+1, jtot2-1, t1210u, 1 );     { children under 5 with fever }
+
+  { Table 12.11 processing }
+  itot = tblrow( t1211 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    t1211[i,*] = 100 * t1211[i,*]/t1211[itot,*];
+  enddo;
+  { check unweighted N's }
+  Row2Dim( "t1211", t1211, 0, itot-1, t1211u, 0 );
+
+  { Table 12.12 processing }
+  jtot = tblcol( t1212 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1212[*,j] = 100 * t1212[*,j]/t1212[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1212", t1212, 0, jtot-1, t1212u, 0 );
+
+  { Table 12.13 processing }
+  jtot = tblcol( t1213 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1213[*,j] = 100 * t1213[*,j]/t1213[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1213", t1213, 0, jtot-1, t1213u, 0 );
+
+  { Table 12.14 processing }
+  jtot1 = tblcol( t1214, prevmal1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1214[*,j] = 100 * t1214[*,j]/t1214[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1214 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    t1214[*,j] = 100 * t1214[*,j]/t1214[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1214", t1214, 0,       jtot1-1, t1214u, 0 );
+  Col2Dim( "t1214", t1214, jtot1+1, jtot2-1, t1214u, 1 );
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+  { initialize array for education variable to properly pouplate it in level 2 }
+  do i = 1 while i <= 100
+    educat(i) = notappl;
+  enddo;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = HV005/1000000;
+  endif;
+
+  v102w   = HV025;
+  v101w   = HV024;
+  v190w   = HV270;
+
+  hhitn   = ( count( RECHML_EDT where HML10 = 1 ) > 0 );               { HH has an ITN net }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 12.1 }
+
+  hhnet1 = notappl;
+  hhnet2 = notappl;
+  hhnet3 = notappl;
+  numhh2   = notappl;
+  numhh    = 1;
+  xtab( t1201, rweight );
+  numhh    = notappl;
+  coltotu = 1;
+  xtab( t1201u );
+  { any kind of nets }
+  if HV227 = 1 then                                   { have a bednet }
+    hhnet1 = 1;
+    xtab( t1201, rweight );
+  endif;
+  { ITN nets }
+  itnnet = count( RECHML_EDT where HML10 = 1 );       { number of ITN nets }
+  if itnnet > 0 then
+    hhnet1 = 2;
+    xtab( t1201, rweight );
+  endif;
+  hhnet1 = notappl;
+  { average number of nets }
+  anynet = 0;
+  if HML1 in 0:97 then
+    anynet = HML1;
+  elseif HV227 = 1 then
+    anynet = 1;                                       { assume one if missing but have a net }
+  endif;
+  hhnet2 = 1;                                       { for mean number of any nets }
+  xtab( t1201, anynet*rweight );
+  hhnet2 = 2;                                       { for mean number of ITN nets }
+  xtab( t1201, itnnet*rweight );
+  hhnet2 = notappl;
+  { households with at least one de-facto member }
+  if HV013 then
+    numhh2 = 1;
+    xtab( t1201, rweight );
+    numhh2 = notappl;
+    coltotu = 2;
+    xtab( t1201u );
+    if anynet/HV013 >= 0.5 then                        { at least one net of any type for every two de-facto members }
+      hhnet3 = 1;
+      xtab( t1201, rweight );
+    endif;
+    if itnnet/HV013 >= 0.5 then                        { at least one ITN net for every two de-facto members }
+      hhnet3 = 2;
+      xtab( t1201, rweight );
+    endif;
+  endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 12.2 }
+
+  { !!! adjust labels for sourcnet (source of distribution) based on survey }
+  for i in RECHML do
+     { type of net }
+     recode HML10 -> typenet;
+              1   -> 1;      { ITN }
+                  -> 2;      { other }
+     endrecode;
+     { source of distribution }
+     recode HML22 :: HML23 -> sourcnet;
+             1:3  ::       -> HML22;
+                  :: 10:96 -> HML23;
+                  ::       -> 99;
+     endrecode;
+    xtab( t1202, rweight );
+    xtab( t1202u );
+  enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 12.3 }
+
+  { among households with at least one de-facto member }
+  if HV013 then
+    pctitn   = notappl;
+    numpers = 1;
+    xtab( t1203, HV013*rweight );
+    xtab( t1203u, HV013 );
+    itnnet = count( RECHML_EDT where HML10 = 1 );       { number of ITN nets }
+    numpers = notappl;
+    pctitn  = 1;
+    xtemp = itnnet * 2 / HV013;
+    if xtemp > 1 then xtemp = 1 endif;
+    xtab( t1203, xtemp*HV013*rweight );
+  endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 12.4 }
+
+  for i in RECHMH_EDT  do
+    if HV103(i) = 1 then { de-facto }
+      recode HML16 -> hage1;
+              0:4  -> 1;
+              5:14 -> 2;
+             15:34 -> 3;
+             35:49 -> 4;
+             50:97 -> 5;
+                   -> 9;
+      endrecode;
+      hsex   = HV104(i);
+      if HV104(i) = missing then hsex = 9; endif;
+      anynet = ( HML12 in 1:3 );                       { Any net }
+      itnnet = ( HML12 in 1:2 );                       { ITN net }
+      popitn2 = notappl;
+      popitn1 = 3;
+      xtab( t1204, rweight );
+      coltotu = 1;
+      xtab( t1204u );
+      if anynet then
+        popitn1 = 1;                                 { any net }
+        xtab( t1204, rweight );
+      endif;
+      if itnnet then
+        popitn1 = 2;                                 { ITN nets }
+        xtab( t1204, rweight );
+      endif;
+      { for households with ITN }
+      popitn1 = notappl;
+      if hhitn then
+        popitn2 = 2;
+        xtab( t1204, rweight );
+        coltotu = 2;
+        xtab( t1204u );
+        if itnnet then
+          popitn2 = 1;
+          xtab( t1204, rweight );
+        endif;
+      endif;
+    endif;
+  enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 12.5 }
+
+  { number of ITN nets }
+  useofitn = 2;
+  itnnet  = count( RECHML_EDT where HML10 = 1 );
+  xtab( t1205,  itnnet*rweight );
+  xtab( t1205u, itnnet );
+  { number of ITN nets used the night before }
+  useofitn = 1;
+  itnused = count( RECHML_EDT where HML10 = 1 & HML21 = 1 );
+  xtab( t1205, itnused*rweight );
+
+{-----------------------------------------------------------------------------------------------}
+{ table 12.6 }
+
+  for i in RECHMH_EDT  do
+    if HV103(i) = 1 & HML16 in 0:4 then { de-facto children 0-4 years old }
+      age1   = HML16;
+      hsex   = HV104(i);
+      if HV104(i) = missing then hsex = 9; endif;
+      anynet = ( HML12 in 1:3 );                       { Any net }
+      itnnet = ( HML12 in 1:2 );                       { ITN net }
+      chilitn2 = notappl;
+      chilitn1 = 3;
+      xtab( t1206, rweight );
+      coltotu = 1;
+      xtab( t1206u );
+      if anynet then
+        chilitn1 = 1;                                 { any net }
+        xtab( t1206, rweight );
+      endif;
+      if itnnet then
+        chilitn1 = 2;                                 { ITN nets }
+        xtab( t1206, rweight );
+      endif;
+      { for households with ITN }
+      chilitn1 = notappl;
+      if hhitn then
+        chilitn2 = 2;
+        xtab( t1206, rweight );
+        coltotu = 2;
+        xtab( t1206u );
+        if itnnet then
+          chilitn2 = 1;
+          xtab( t1206, rweight );
+        endif;
+      endif;
+    endif;
+  enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 12.7 }
+
+  for i in RECHMH_EDT  do
+    if HV103(i) = 1 & HML18 = 1 & HV104(i) = 2 & HML16 in 15:49 then   { de-facto pregnant women age 15-49 }
+      { education is coming from level 2 for women with complete interviews }
+      v106w  = educat(i);
+      if v106w = notappl then
+        v106w  = HV106(i);            { make sure to recode it as it is done at level 2 }
+      endif;
+      if v106w in 8,missing then v106w = 9 endif;
+      anynet = ( HML12 in 1:3 );                       { Any net }
+      itnnet = ( HML12 in 1:2 );                       { ITN net }
+      pregitn2 = notappl;
+      pregitn1 = 3;
+      xtab( t1207, rweight );
+      coltotu = 1;
+      xtab( t1207u );
+      if anynet then
+        pregitn1 = 1;                                 { any net }
+        xtab( t1207, rweight );
+      endif;
+      if itnnet then
+        pregitn1 = 2;                                 { ITN nets }
+        xtab( t1207, rweight );
+      endif;
+      { for households with ITN }
+      pregitn1 = notappl;
+      if hhitn then
+        pregitn2 = 2;
+        xtab( t1207, rweight );
+        coltotu = 2;
+        xtab( t1207u );
+        if itnnet then
+          pregitn2 = 1;
+          xtab( t1207, rweight );
+        endif;
+      endif;
+    endif;
+  enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 12.8 }
+
+  for i in RECHML do
+    { type of net }
+    recode HML10 -> typenet;
+             1   -> 1;      { ITN }
+                 -> 2;      { other }
+    endrecode;
+	unusnet2 = notappl;
+	totunuse = notappl;
+    unusnet1 = 2;
+    xtab( t1208, rweight );
+    coltotu = 1;
+    xtab( t1208u );
+	if HML21 = 0 then          // nobody slept under the net
+      unusnet1 = 1;
+      xtab( t1208, rweight );
+    endif;
+	unusnet1 = notappl;
+	if HML21 = 0 then          // nobody slept under the net
+      totunuse = 1;
+      recode HML24 -> unusnet2;
+	           96  -> 9;
+			       -> HML24;
+      endrecode;
+      xtab( t1208, rweight );
+      coltotu = 2;
+      xtab( t1208u );
+    endif;
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ Tables 12.13 }
+
+  for i in RECH6_EDT do
+    { de-facto children in households selected for hemoglobin and with blood taken }
+    { !!! assumes that children tested for hemoglobin are also tested for malaria  }
+    if HV103(HC0) = 1 & HV042 = 1 & HC1 in 6:59 then
+      recode  HC1  -> hage3;
+              6:8  -> 1;
+              9:11 -> 2;
+             12:17 -> 3;
+             18:23 -> 4;
+             24:35 -> 5;
+             36:47 -> 6;
+                   -> 7;
+      endrecode;
+      hsex     = HC27;
+      v106wt   = notappl;
+      mothint  = notappl;
+      mother   = HV112(HC0);
+      if HC60 in 1:HV009 then
+        mothint = 1;                            { child's mother interviewed }
+        v106wt   = HC61;                        { mother's education }
+        if HC61 in 8,missing then v106wt = 9 endif;
+      else                                      { mother was not interviewed }
+        recode   mother     -> mothint;
+                    0       -> 3;                  { mother not in household }
+              missing,98,97 -> 9;                  { missing }
+                            -> 2;                  { mother lives in household }
+        endrecode;
+        if mother in 1:HV009 then                  { mother lives in household }
+          v106wt = HV106(mother);               { mother's education from HH }
+          if HV106(mother) in 8,missing then v106wt = 9 endif;
+        endif;
+      endif;
+      anemtest = 3;
+      xtab( t1213 );
+      xtab( t1213u );
+      { finds child in malaria record }
+      chindex = 0;
+      do j = 1 while j <= soccurs( RECHMH )
+        if HC0 = HMHIDX(j) then
+          chindex = j;
+          break;
+        endif;
+      enddo;
+      { rapid test (RDT) for malaria }
+      if chindex & HML35(chindex) in 0,1 then
+        anemtest = 1;
+        xtab( t1213 );
+      endif;
+      { microscopy for malaria }
+      if chindex & HML32(chindex) in 0,1,6 then
+        anemtest = 2;
+        xtab( t1213 );
+      endif;
+    endif;                 { end de-facto children }
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ Tables 12.14 }
+
+  for i in RECH6_EDT do
+    { de-facto children in households selected for hemoglobin and with blood taken }
+    { !!! assumes that children tested for hemoglobin are also tested for malaria  }
+    if HV103(HC0) = 1 & HV042 = 1 & HC1 in 6:59 then
+      recode  HC1  -> hage3;
+              6:8  -> 1;
+              9:11 -> 2;
+             12:17 -> 3;
+             18:23 -> 4;
+             24:35 -> 5;
+             36:47 -> 6;
+                   -> 7;
+      endrecode;
+      hsex     = HC27;
+      v106wt   = notappl;
+      mothint  = notappl;
+      mother   = HV112(HC0);
+      if HC60 in 1:HV009 then
+        mothint = 1;                            { child's mother interviewed }
+        v106wt   = HC61;                        { mother's education }
+        if HC61 in 8,missing then v106wt = 9 endif;
+      else                                      { mother was not interviewed }
+        recode   mother     -> mothint;
+                    0       -> 3;                  { mother not in household }
+              missing,98,97 -> 9;                  { missing }
+                            -> 2;                  { mother lives in household }
+        endrecode;
+        if mother in 1:HV009 then                  { mother lives in household }
+          v106wt = HV106(mother);               { mother's education from HH }
+          if HV106(mother) in 8,missing then v106wt = 9 endif;
+        endif;
+      endif;
+      { finds child in malaria record }
+      chindex = 0;
+      do j = 1 while j <= soccurs( RECHMH )
+        if HC0 = HMHIDX(j) then
+          chindex = j;
+          break;
+        endif;
+      enddo;
+      prevmal2 = notappl;
+      { rapid test (RDT) for malaria }
+      if chindex & HML35(chindex) in 0,1 then
+        prevmal1 = 2;
+        xtab( t1214, rweight );
+        coltotu = 1;
+        xtab( t1214u );
+        if chindex & HML35(chindex) = 1 then
+          prevmal1 = 1;
+          xtab( t1214, rweight );
+        endif;
+      endif;
+      prevmal1 = notappl;
+      { microscopy for malaria }
+      if chindex & HML32(chindex) in 0,1,6 then
+        prevmal2 = 2;
+        xtab( t1214, rweight );
+        coltotu = 2;
+        xtab( t1214u );
+        if chindex & HML32(chindex) = 1 then
+          prevmal2 = 1;
+          xtab( t1214, rweight );
+        endif;
+      endif;
+    endif;                 { end de-facto children }
+  enddo;
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005/1000000;
+  endif;
+
+
+  v102w   = V102;
+  v101w   = V101;
+  v106w   = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v106wt  = v106w;
+  v190w   = V190;
+
+  { populate education array to use at household level in table 12.5 }
+  educat(V003) = v106w;
+
+{-----------------------------------------------------------------------------------------------}
+{ tables 12.9 }
+
+  { note that REC41, REC43 & RECML are parallel records }
+  livestil = 1;
+  for i in REC41_EDT do
+    if M80 in 1,3 & P19(MIDXP) < 24 then  // last birth/stillbirth in the last 2 years
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      { count women with one live birth }
+      fansidar = 4;
+      xtab( t1209, rweight );
+      xtab( t1209u );
+      if M49A = 1 then                   { SP/fansidar taken }
+        fansidar = 1;                    { took 1+ SP/Fansidar, assume DK/missing (on number of doses) was taken at least once }
+        xtab( t1209, rweight );
+        if ML1 in 2:97 then              { took 2+ doses SP/Fansidar }
+          fansidar = 2;
+          xtab( t1209, rweight );
+        endif;
+        if ML1 in 3:97 then          { took 3+ doses SP/Fansidar }
+          fansidar = 3;
+          xtab( t1209, rweight );
+        endif;
+      endif;
+      livestil = 0;
+    endif;          { end last birth/stillbirth }
+  enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ tables 12.10 }
+
+  { note that REC41 & REC43 are parallel records }
+  for i in REC4A_EDT do
+    agemnth  = B19(HIDXA);
+    age1     = int( agemnth/12 );
+    hsex     = B4(HIDXA);
+    treatfev = notappl;
+    chilfev1 = 2;
+    xtab( t1210, rweight );
+    coltotu = 1;
+    xtab( t1210u );
+    if H22 = 1 then                  { fever }
+      chilfev1 = 1;
+      xtab( t1210, rweight );
+      chilfev1 = notappl;
+      treatfev = 5;
+      xtab( t1210, rweight );
+      coltotu = 2;
+      xtab( t1210u );
+      { !!! Include: Public medical sector, Private medical sector, NGO medical sector,
+                     Shop, Market, and Itinerant drug seller.
+            Exclude: Traditional practitioner, Other specify, Survey specific as friends/family, church }
+      if 1 in H32A,  H32B,  H32C,  H32D,  H32E, H32F, H32G, H32H, H32I,     // public sector
+              H32J,  H32K,  H32L,  H32M,  H32N, H32O, H32P, H32Q, H32R,     // private sector
+              H32NA, H32NB, H32NC, H32ND, H32NE then                        // NGO sector
+              { !!! among variables below include: Shop, Market, itinerant drug seller
+                H32S, H32T,  H32U,  H32V, H32W }
+        treatfev = 1;
+        xtab( t1210, rweight );
+        if H46B in 0,1 then        { treatment sought the same or next day for valid treatment sources }
+          treatfev = 2;
+          xtab( t1210, rweight );
+        endif;
+      endif;
+      if H47 = 1 then              { blood taken from a finger or heel }
+        treatfev = 3;
+        xtab( t1210, rweight );
+      endif;
+      if H71 = 1 then              { diagnosed with malaria by a healthcare provider }
+        treatfev = 4;
+        xtab( t1210, rweight );
+      endif;
+    endif;
+  enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ tables 12.11 }
+
+  { !!! note that for the most part variables H32A to H32X hold country specific sources for treatment    }
+  {     make sure to properly change the labels for working variables PUBSECT, PRVSECT, NGOSECT & OTHSECT }
+  {     for purposes of this application, sources from question A625 in the core questionnaire are used   }
+  for i in REC4A_EDT do
+    if H22 = 1 then            { children with fever }
+      pubsect    = notappl;
+      prvsect    = notappl;
+      ngosect    = notappl;
+      othsect    = notappl;
+      othonly    = notappl;
+      seekadv  = ( H32Y = 0 );
+      { tally all children }
+      numchild = 1;
+      tabt1211( 1 );
+      numchild = notappl;
+      chilfev2 = 1;
+      xtab( t1211u );
+      if seekadv then
+        chilfev2 = 2;
+        xtab( t1211u );
+      endif;
+      { tally public sector institutions/places }
+      public = ( H32A = 1 | H32B = 1 | H32C = 1 | H32D = 1 | H32E = 1 |
+                 H32F = 1 | H32G = 1 | H32H = 1 | H32I = 1 );
+      pubsect  = 1;                      { any public sector }
+      tabt1211( public );
+      pubsect  = 2;                      { public hospital }
+      tabt1211( H32A );
+      pubsect  = 3;                      { public health center }
+      tabt1211( H32B );
+      pubsect  = 4;                      { health post }
+      tabt1211( H32C );
+      pubsect  = 5;                      { mobile clinic }
+      tabt1211( H32D );
+      pubsect  = 6;                      { fieldworker }
+      tabt1211( H32E );
+      pubsect  = 7;                      { other public }
+      tabt1211( H32F );
+      pubsect  = 8;                      { CS public }
+      tabt1211( H32G );
+      pubsect  = 9;                      { CS public }
+      tabt1211( H32H );
+      pubsect  = 10;                     { CS public }
+      tabt1211( H32I );
+      pubsect  = notappl;
+      { tally private sector institutions/places }
+      private = ( H32J = 1 | H32K = 1 | H32L = 1 | H32M = 1 | H32N = 1 |
+                  H32O = 1 | H32P = 1 | H32Q = 1 | H32R = 1 );
+      prvsect  = 1;                      { any private }
+      tabt1211( private );
+      prvsect  = 2;                      { private hospital }
+      tabt1211( H32J );
+      prvsect  = 3;                      { mobile clinic }
+      tabt1211( H32M );
+      prvsect  = 4;                      { pharmacy }
+      tabt1211( H32K );
+      prvsect  = 5;                      { private doctor }
+      tabt1211( H32L );
+      prvsect  = 6;                      { mobile clinic }
+      tabt1211( H32N );
+      prvsect  = 7;                      { fieldworker }
+      tabt1211( H32O );
+      prvsect  = 8;                      { other private }
+      tabt1211( H32P );
+      prvsect  = 9;                      { CS private }
+      tabt1211( H32Q );
+      prvsect  = 10;                     { CS private }
+      tabt1211( H32R );
+      prvsect  = notappl;
+      { tally NGO sector institutions/places }
+      ngo = ( H32NA = 1 | H32NB = 1 | H32NC = 1 | H32ND = 1 | H32NE = 1 );
+      ngosect  = 1;                      { any NGO }
+      tabt1211( ngo );
+      ngosect  = 2;                      { NGO hospital }
+      tabt1211( H32NA );
+      ngosect  = 3;                      { NGO clinic }
+      tabt1211( H32NB );
+      ngosect  = 4;                      { NGO other medical sector }
+      tabt1211( H32NC );
+      ngosect  = 5;                      { CS NGO }
+      tabt1211( H32ND );
+      ngosect  = 5;                      { CS NGO }
+      tabt1211( H32NE );
+      ngosect  = notappl;
+      { tally other places }
+      others = ( H32S = 1 | H32T = 1 | H32U = 1 | H32V = 1 | H32W = 1 );
+      othsect  = 1;                      { any other }
+      tabt1211( others );
+      othsect  = 2;                      { shop }
+      tabt1211( H32S );
+      othsect  = 3;                      { traditional practitioner }
+      tabt1211( H32T );
+      othsect  = 4;                      { market }
+      tabt1211( H32U );
+      othsect  = 5;                      { itinerant drug seller }
+      tabt1211( H32V );
+      othsect  = 6;                      { CS other }
+      tabt1211( H32W );
+      othsect  = notappl;
+      othonly  = 1;                      { other private }
+      tabt1211( H32X );
+      othonly  = notappl;
+
+    endif;            { end alive & with fever }
+
+  enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ tables 12.12 }
+
+  { note that REC41, REC43 & RECML are parallel records }
+  for i in REC4A_EDT do
+    agemnth = B19(HIDXA);
+    recode agemnth -> chage4;
+	         0:5   -> 0;
+	         6:11  -> 1;
+	        12:23  -> 2;
+	        24:35  -> 3;
+	        36:47  -> 4;
+	               -> 5;
+    endrecode;
+    hsex    = B4(HIDXA);
+    { !! antimalarials: fansidar, chloroquine, quinine,     }
+    {                   amodiaquine, artemisinin, CS, Other }
+    antimalch = ( H37A = 1 | H37B = 1 | H37C = 1 | H37D = 1 | H37DA = 1 |
+                  H37E = 1 | H37F = 1 | H37G = 1 | H37H = 1 | H37AA = 1 | H37AB = 1 );
+    if H22 = 1 & antimalch then          { child had fever and took antimalarial drug }
+      medfever = notappl;
+      chfevant = 1;
+      xtab( t1212, rweight );
+      chfevant = notappl;
+      xtab( t1212u );
+      if H37E = 1 then          { combination with artemisinin }
+        medfever = 1;
+        xtab( t1212, rweight );
+      endif;
+      if H37A = 1 then          { fansidar }
+        medfever = 2;
+        xtab( t1212, rweight );
+      endif;
+      if H37B = 1 then          { chloroquine }
+        medfever = 3;
+        xtab( t1212, rweight );
+      endif;
+      if H37C = 1 then          { amodiaquine }
+        medfever = 4;
+        xtab( t1212, rweight );
+      endif;
+      if H37D = 1 then          { quinine pills }
+        medfever = 5;
+        xtab( t1212, rweight );
+      endif;
+      if H37DA = 1 then          { quinine injection }
+        medfever = 6;
+        xtab( t1212, rweight );
+      endif;
+      if H37AA = 1 then          { artesunate rectal }
+        medfever = 7;
+        xtab( t1212, rweight );
+      endif;
+      if H37AB = 1 then          { artesunate injection }
+        medfever = 8;
+        xtab( t1212, rweight );
+      endif;
+      if H37F = 1 then          { CS antimalarial }
+        medfever = 9;
+        xtab( t1212, rweight );
+      endif;
+      if H37G = 1 then          { CS antimalarial }
+        medfever = 10;
+        xtab( t1212, rweight );
+      endif;
+      if H37H = 1 then          { other antimalarial }
+        medfever = 11;
+        xtab( t1212, rweight );
+      endif;
+
+    endif;              { end fever and antimalrial }
+
+  enddo;

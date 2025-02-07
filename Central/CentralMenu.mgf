@@ -1,0 +1,120 @@
+﻿Language = EN
+001 Cluster=%04d, not defined in sample file
+002 Interviewer %04d not found in teams file
+003 Interviewer %04d not authorized to work in Cluster %04d
+004 You must select your code
+005 A HH must be selected
+006 Error when trying to open file (%s)
+007 Cluster %04d not defined in control file
+008 Cluster %04d already closed
+009 Cluster %04d already started secondary editing
+010 A HH can be revisited only when result of the previous visit was incomplete or partial (%d)
+011 Supervisor can only review complete interviews (Result=%s)
+012 Height and weight valid only in complete HHs (%d)
+013 Cluster %04d already accepted
+014 Cluster %04d has not been accepted yet
+015 Make sure that the SUPERVISOR SD card is in the PDA.  Once inserted click the OK button
+016 Data for Cluster %04d were transfer to supervisor.  Click OK and after icon to disconnect external memory
+017 Cluster %04d has not passed secondary editing yet
+018 Cluster %04d hasn't been accepted and therefore option not possible
+020 An individual must be selected
+023 Failed to get team number
+025 Review result of individual interview (%s) with appropriate option (%d)
+054 You must select your supervisor code
+055 Supervisor can only review complete individual interviews (Result=%s)
+060 Cluster can't be closed as there are still errors
+061 External memory is not connected to computer.  Connect and repeat the option
+063 Cluster has not been closed yet, close it first with appropriate option
+065 Secondary editing for women can only be run after secondary editing for households is run
+066 It is not necessary to run inconsistencies for incomplete HHs
+070 Make sure that flash memory is in computer to make a data BACKUP to directory %s
+071 Flash memory is not connected to the computer or directory %s doesn't exist.  Data will not be backed-up to flash memory
+072 Completed data backup from %s directory to %s directory
+075 Not all proccesses required to transfer data to central office have been run yet
+080 Cluster %04d sucessfully closed
+100 Error in control file when loading the Cluster
+101 Cluster was already accepted
+102 There are no data in ARRIVED directory for Cluster
+103 Cluster can't be accepted because there are still problems that need to be resolved
+104 There are no data in CLOSED directory for Cluster
+105 HHs and individuals can only be modified after been accepted.  Data don't exist in directory %s
+106 Notes file doesn't exist in directory %s
+107 Secondary editing can only be run after data are accepted.  Data don't exist in directory %s
+110 Cluster can't be closed because either it hasn't been accepted or secondary editing hasn't been run
+111 Cluster was already closed
+112 Cluster is now closed
+115 Cluster accepted successfully
+999 Message=%08d
+
+Language = ES
+{ common strings used by application }
+  ES ( "Cluster %d already accepted" ) Conglomerado %d ya fue aceptado
+  ES ( "Accept Cluster again" ) Desea aceptar el conglomerado de todas maneras
+  ES ( "Yes" ) Si
+  ES ( "No" ) No
+  ES ( "Clusters that arrived for the first time to the central office" ) Segmentos que llegaron por primera vez a la oficina central
+  ES ( "Cluster:" ) Segmento:
+  ES ( "Created on:" ) Creado en:
+  ES ( "Supervisor:" ) Supervisor:
+  ES ( "Completed clusters to be accepted: 1-Arrived first time; 2-Already accepted; 3-Passed secondary editing" ) Segmentos completos para ser aceptados: 1-Llegaron por primera vez; 2-Ya fueron aceptados; 3-Pasaron por edicion secundaria
+  ES ( "but already accepted and passed secondary editing on:" ) ya fue aceptado y paso por edicion secundaria
+  ES ( "but was already accepted on:" ) pero fue ya aceptado en:
+  ES ( "arrived for the first time" ) llego por primera vez
+  ES ( "arrived on:" ) llego en:
+  ES ( "Clusters arrived from the field since last time the central office system was executed" ) Segmentos que llegaron desde la ultima vez que se ejecuto el sistema para la oficina central
+  ES ( "Data directory to be modified" ) Datos a ser modificados para
+  ES ( "1-To fix structural problems" ) 1-Resolver problemas estructurales
+  ES ( "2-For secondary editing" ) 2-Para edicion secundaria (limpieza)
+  ES ( "3-Browse data" ) 3-Revisar los datos
+  ES ( "9-Return to main menu" ) 9-Regresar al menu principal
+  ES ( "Do you want to modify the original data anyway" ) Desea modificar los datos originales de todas maneras
+  ES ( "Type of report desired" ) Tipo de reporte deseado
+  ES ( "By Cluster" ) Por Segmento
+  ES ( "By Supervisor" ) Por Supervisor(a)    
+
+001 Segmento=%04d, no esta definido en el archivo de la muestra
+002 Entrevistadora %04d no esta declarada en el archivo de entrevistadoras
+003 Entrevistadora %04d no esta autorizada para trabajar en segmento %04d
+004 Usted debe seleccionar su correspondiente codigo de entrevistadora
+005 Se debe seleccionar una vivienda/hogar
+006 Error al tratar de abrir el archivo (%S)
+007 segmento %04d no esta definido en el archivo de control
+008 Segmento %04d ya fue cerrado
+009 Segmento %04d ya paso edicion secundaria (limpieza)
+010 Un hogar se puede revisitar solamente cuando el resultado de la visita previa no fue completa (%d)
+011 La supervisora solo puede revisar hogares con entrevistas completas (Resultado=%s)
+012 Peso y talla son validos unicamente para hogares con entrevistas completas (%d)
+013 Segmento %04d ya fue aceptado
+014 Segmento %04d no ha sido aun aceptado
+015 Asegurese que la memoria FLASH de la SUPERVISORA esta conectada al computador.  Una vez conectada haga click en el boton OK
+016 Los datos del segmento %04d se transfirieron al computador de la supervisora.  Haga click en OK y luego en icono para desconectar la memoria externa
+017 Segmento %04d no se ha pasado por edicion secundaria (limpieza)
+018 Segmento %04d no se ha aceptado por tanto la opcion no esta disponible
+020 Se debe seleccionar una mujer
+025 Revise el resultado de la entrevista de mujer (%s) con la opcion requerida (%d)
+023 Fallo en obtener un numero de grupo
+054 Usted debe seleccionar su correspondiente codigo de supervisora
+055 La supervisora solo puede revisar mujeres con entrevistas completas (Resultado=%s)
+060 Este segmento no se puede cerrar por cuanto aun existen errores
+061 La memoria externa no esta conectada al computador.  Conectela y vuelva a repetir esta opcion
+063 El segmento no ha sido aun cerrado, use primero la opcion 8
+065 Inconsistencias para las mujeres no se pueden correr hasta tanto se hayan corrido para los hogares
+066 No se corren inconsistencias para hogares incompletos o parciales
+070 Asegurese que la memoria flash se encuentra en el computador para hacer un BACKUP de los datos a direcotorio %s
+071 La memoria flash no se encuentra en el computador o el directorio %s no existe.  No se hara backup de los datos a la memoria flash
+072 Finalizo copia de resplado de folder %s a folder %s
+075 Aun no se han terminado todos los procesos necesarios para transferir los datos a la oficina central
+080 Segmento %04d cerrado exitosamente
+100 Error en el archivo de control al cargar el segmento
+101 Este segmento ya fue aceptado
+102 No existen datos en el directorio ARRIVED para el segmento
+103 Este segmento no se acepta por cuanto aun tiene problemas
+104 No existen datos en el directorio CLOSED para el segmento
+105 Los hogares y mujeres solo se pueden modificar despues de ser aceptados.  Los datos no existen directorio %s
+106 Archivo de notas no existe en directorio %s
+107 Solo se pueden correr inconsistencias despues de ser aceptados los datos.  Los datos no existen directorio %s
+110 Este segmento no se puede cerrar por cuanto no se ha aceptado o no se han corrido inconsistencias
+111 Este segmento ya fue cerrado
+112 El segmento queda cerrado
+115 segmento aceptado exitosamente
+999 Mensaje=%08d

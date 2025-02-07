@@ -1,0 +1,106 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+tcd011 columns bloodp1 = 3 nodec
+               bloodp2 = 4 nodec;
+
+tcd012 columns bloodp3 = 3 nodec
+               bloodp4 = 4 nodec;
+
+tcd021 columns bloods1 = 3 nodec
+               bloods2 = 4 nodec;
+
+tcd022 columns bloods3 = 3 nodec
+               bloods4 = 4 nodec;			   
+
+tcd03  columns heartw  = 2 nodec
+               heartw  = 4 nodec			   
+               heartm  = 2 nodec
+               heartm  = 4 nodec;			   			   
+tcd03 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tcd04  columns lungdw  = 2 nodec
+               lungdw  = 4 nodec			   
+               lungdm  = 2 nodec
+               lungdm  = 4 nodec;			   			   			   
+tcd04 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tcd05  columns tumorw  = 2 nodec
+               tumorw  = 4 nodec			   
+               tumorm  = 2 nodec
+               tumorm  = 4 nodec;			   			   			   
+tcd05 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tcd06  columns anxietyw  = 2 nodec
+               anxietyw  = 4 nodec			   
+               anxietym  = 2 nodec
+               anxietym  = 4 nodec;			   			   			   
+tcd06 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tcd07  columns arthritw  = 2 nodec
+               arthritw  = 4 nodec			   
+               arthritm  = 2 nodec
+               arthritm  = 4 nodec;			   			   			   
+tcd07 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tcd08  columns cancer  = 4 nodec
+               numwom  = 1 nodec;			   
+
+tcd09  rows    wtestp  = 1 nodec
+               wtreat1 = 1 nodec
+               wtreat2 = 1 nodec;
+tcd09 footnote
+{+EN}
+@1 Includes women who did not know if they had received treatment
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;			   

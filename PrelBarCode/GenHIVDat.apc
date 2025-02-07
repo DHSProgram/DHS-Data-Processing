@@ -1,0 +1,102 @@
+﻿PROC GLOBAL
+
+  { This application is used to generate the data HIV file to be used }
+  { for final report tables and for distribution                      }
+
+  numeric i, j, elisa1, elisa2, elisa3, elisa4, result;
+
+  function GenerateVars()
+    elisa1 = notappl;
+    elisa2 = notappl;
+    elisa3 = notappl;
+    elisa4 = notappl;
+    do j = 1 while j <= totocc(LTEST)
+      if LTYPE(j) = 1 & LCANCEL(j) <> 1 then elisa1 = LTRES(j) endif;   { level 1, vironostika }
+      if LTYPE(j) = 2 & LCANCEL(j) <> 1 then elisa2 = LTRES(j) endif;   { level 2, enzygnost   }
+      if LTYPE(j) = 3 & LCANCEL(j) <> 1 then elisa3 = LTRES(j) endif;   { level 3, vironostika(repeat) }
+      if LTYPE(j) = 4 & LCANCEL(j) <> 1 then elisa4 = LTRES(j) endif;   { level 3, enzygnost (repeat)  }
+    enddo;
+    HIV01  = LBAR;         { bar code }
+    HIV02  = LABID;        { lab identification number }
+    HIV03  = LFINRES;      { final test result, includes HIV 1 & 2 }
+    HIV06  = elisa3;       { assay 1 result }
+    if elisa3 = notappl then HIV06 = elisa1 endif;
+    HIV07  = elisa4;       { assay 2 result }
+    if elisa4 = notappl then HIV07 = elisa2 endif;
+    HIV08  = LDETERM1;     { assay 3, western blot }
+    { !!!! check algorithm compliance, adjust if necessary }
+    recode elisa1 :: elisa2 :: elisa3 :: elisa4 -> result;
+             0    ::   0    ::        ::        -> 0;              { negative }
+             0    ::notappl ::        ::        -> 0;              { negative }
+             1    ::   1    ::        ::        -> LDETERM1;       { determined by western blot }
+                  ::        ::   0    ::   0    -> 0;              { negative }
+                  ::        ::   0    ::   1    -> 9;              { inconclusive }
+                  ::        ::   1    ::   0    -> 9;              { inconclusive }
+                  ::        ::   1    ::   1    -> LDETERM1;       { determined by western blot }
+                  ::        ::        ::        -> default;        { not possible according to algorithm }
+    endrecode;
+    if result <> LFINRES then
+      errmsg( 100, LBAR, result, LFINRES );
+      errmsg( 105, "1", LBAR, elisa1, elisa2, elisa3, elisa4, LDETERM1 );
+    endif;
+    { !!!! check pieces of data that should be present according to algorithm, adjust if necessary }
+    if elisa1 = 0 then
+      if elisa2 = 0 then
+        if elisa3 <> notappl | elisa4 <> notappl | LDETERM1 <> notappl then
+          errmsg( 105, "2", LBAR, elisa1, elisa2, elisa3, elisa4, LDETERM1 );
+        endif;
+      endif;
+    endif;
+    if elisa1 = 1 & elisa2 = 1 then
+      if elisa3 <> notappl | elisa4 <> notappl | LDETERM1 = notappl then
+        errmsg( 105, "3", LBAR, elisa1, elisa2, elisa3, elisa4, LDETERM1 );
+      endif;
+    elseif elisa1 in 0,1 & elisa2 in 0,1 & elisa1 <> elisa2 then
+      if elisa3 = notappl | elisa4 = notappl then
+        errmsg( 105, "4", LBAR, elisa1, elisa2, elisa3, elisa4, LDETERM1 );
+      elseif elisa3 = 1 & elisa4 = 1 & LDETERM1 = notappl then
+        errmsg( 105, "5", LBAR, elisa1, elisa2, elisa3, elisa4, LDETERM1 );
+      endif;
+    endif;
+  end
+
+PROC CCIQ81_FF
+
+
+PROC HOUSEHOLD
+preproc
+
+  if AHRESULT <> 1 then skip case endif;
+
+  { this application should run after SCRAMBLING the data because }
+  { it rquires the scrambled cluster and household number.        }
+  { The application can also be run using the recode file but     }
+  { variable names need to be adjusted                            }
+
+  { women variables }
+  for i in ABSEC02_EDT
+    if loadcase(TESTLOG_DICT, ABWHIV9) then
+      HIVCLUST  = AHCLUST;      { cluster }
+      HIVNUMB   = AHNUMBER;     { household number }
+      HIVLINE   = AB202;        { individual line number }
+      HIV05     = AWHIVWGT;     { HIV weight }
+      GenerateVars();
+      writecase( HIVTESTDAT );
+    elseif length(strip(ABWHIV9)) & !ABWHIV9 in "99991":"99999","?" then
+      errmsg( "Bar code=%s not found in lab database", ABWHIV9 );
+    endif;
+  enddo;
+
+  { men variables }
+  for i in ABSEC03_EDT
+    if loadcase(TESTLOG_DICT, ABMHIV9) then
+      HIVCLUST  = AHCLUST;      { cluster }
+      HIVNUMB   = AHNUMBER;     { household number }
+      HIVLINE   = AB302;        { individual line number }
+      HIV05     = AMHIVWGT;     { HIV weight }
+      GenerateVars();
+      writecase( HIVTESTDAT );
+    elseif length(strip(ABMHIV9)) & !ABMHIV9 in "99991":"99999","?" then
+      errmsg( "Bar code=%s not found in lab database", ABMHIV9 );
+    endif;
+  enddo;

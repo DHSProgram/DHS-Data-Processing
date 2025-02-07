@@ -1,0 +1,160 @@
+
+decimals period;
+thousands comma;
+
+TMM1 columns MORT = 0 NODEC
+             MORT = 1 NODEC
+	     MORT = 2 2;
+TMM1 footnote
+{+US}
+@1 Expressed per 1,000 population~
+@a Age-adjusted rate
+{US+}
+{{SP}
+@1 Expresado por 1,000 personas-a¤os de exposici¢n~
+@a Tasa ajustada por edad
+{SP}}
+endfootnote;
+
+TMM2 footnote
+{+US}
+@1 The probability of dying between exact ages 15 and 50, expressed per 1,000 persons at age 15
+{US+}
+{{SP}
+@1 La probabilidad de morir entre las edades exactas de 15 y 50 a¤os, expresada por cada 1,000 persona a los edad de 15 años
+{SP}}
+endfootnote;
+
+TMM3 columns COLTMM3 = 1 1
+             COLTMM3 = 2 NODEC
+             COLTMM3 = 3 NODEC
+             COLTMM3 = 4 2;
+TMM3 footnote
+{+US}
+@1 A maternal death is defined as the death of a woman while pregnant or within 42 days of
+   termination of pregnancy, from any cause except accidents or violence~
+@2 Expressed per 1,000 woman-years of exposure~
+@a Age-adjusted rate
+{US+}
+{{SP}
+@1 Una muerte materna se define como la muerte de una mujer mientras está embarazada o dentro
+   de los 42 días siguientes a la terminación del embarazo, por cualquier causa, salvo accidentes o la violencia~
+@2 Expresado por 1,000 mujer-a¤os de exposici¢n~
+@a Tasa ajustada por edad
+{SP}}
+endfootnote;
+
+TMM4 rows  ROWTMM4 = 0 1
+           ROWTMM4 = 3 3;
+TMM4 footnote
+{+US}
+CI: Confidence interval~
+@1 Age-adjusted rate expressed per 1,000 women age 15-49~
+@2 Expressed per 100,000 live births; calculated as the age-adjusted maternal
+   mortality rate (shown in Table MM.3) times 100 divided by the age-adjusted general fertility rate~
+@3 Calculated as 1-(1-MMR){\super TFR} where TFR represents the total fertility
+   rate for the seven years preceding the survey
+{US+}
+{{SP}
+IC: Intervalo de confianza~
+@1 Tasa ajustada por edad expresado por 1,000 mujeres de 15-49 a¤os de edad~
+@2 Expresado por cada 100,000 nacidos vivos; calculado como la tasa de mortalidad materna ajustada por
+   edad (muestra en Cuadro MM.3) multiplicado por 100, dividido por la tasa general de fecundidad ajustada por edad~
+@3 Calculado como 1-(1-RMM){\super TGF} donde TGF representa la tasa global de fecundidad para los siete a¤os anteriores a la encuesta
+{SP}}
+endfootnote;
+
+TC8 columns COLC8A = 1 NODEC
+            COLC8B = 1 NODEC
+            COLC8C = 1 NODEC;
+
+TMW rows    ROWMW  = 2 NODEC;
+TMW footnote
+{+US}
+Note: Restricted to sisters who died during the seven years preceding the survey
+{US+}
+{{SP}
+Note: Restringido para las hermanas que murieron en los siete a¤os anteriores a la encuesta
+{SP}}
+endfootnote;
+
+TC9 footnote
+{+US}
+@1 Includes the respondent~
+@2 Excludes the respondent
+{US+}
+{{SP}
+@1 Incluye la entrevistada~
+@2 Excluye la entrevistada
+{SP}}
+endfootnote;
+{
+TC9W noprint;
+}
+
+TC10 rows  ROWTC10 = 0 1
+           ROWTC10 = 1 0
+           ROWTC10 = 2 0
+		   ROWTC10 = 3 0
+		   ROWTC10 = 4 0
+           ROWTC10 = 5 3;
+TC10 footnote
+{+US}
+@1 Pregnancy-related mortality is defined as the death of a woman while pregnant or within 2 months of termination of pregnancy, from any cause including accidents or violence~
+@2 Expressed per 1,000 woman-years of exposure~
+@3 Age-adjusted rate expressed per 1,000 women age 15-49~
+@4 Expressed per 100,000 live births; calculated as the age-adjusted pregnancy-related mortality rate times 100 divided by the age-adjusted general fertility rate~
+@5 Calculated as 1-(1-PRMR){\super TFR} where TFR represents the total fertility rate for the seven years preceding the survey~
+@a Age-adjusted rate
+{US+}
+{{SP}
+@1 Mortalidad en relacion con el embarazo se define como la muerte de una mujer mientras está embarazada o dentro de los 2 meses de la terminación del embarazo, por cualquier causa, incluyendo accidentes o la violencia~
+@2 Expresado por 1,000 mujer-a¤os de exposici¢n~
+@3 Tasa ajustada por edad expresado por 1,000 mujeres de 15-49 a¤os de edad~
+@4 Expresado por cada 100,000 nacidos vivos; calculado como la tasa de mortalidad relacionada con el embarazo ajustada por edad multiplicado por 100, dividido por la tasa global de fecundidad ajustada    por edad~
+@5 Calculado como 1-(1-RMRE){\super TGF} donde TGF representa la tasa global de fecundidad para los siete a¤os anteriores a la encuesta~
+@a Tasa ajustada por edad
+{SP}}
+endfootnote;
+
+TC10W columns COLTC10W = 1 1
+              COLTC10W = 2 NODEC
+              COLTC10W = 3 NODEC
+              COLTC10W = 4 2;
+TC10W footnote
+{+US}
+@1 Pregnancy-related mortality is defined as the death of a woman while pregnant or within 2 months of termination of pregnancy, from any cause including accidents or violence~
+@2 Expressed per 1,000 woman-years of exposure~
+@a Age-adjusted rate
+{US+}
+{{SP}
+@1 Mortalidad en relacion con el embarazo se define como la muerte de una mujer mientras está embarazada o dentro de los 2 meses de la terminación del embarazo, por cualquier causa, incluyendo accidentes o la violencia~
+@2 Expresado por 1,000 mujer-a¤os de exposici¢n~
+@a Tasa ajustada por edad
+{SP}}
+endfootnote;
+
+{ tables F1W, MMTW, PMTW, AMMW and AMFW are necessary to do the calculation but they don't need to be printed }
+{ if analysts request to print them out, just delete the lines with the tables' NOPRINT instructions    }
+F1W columns  FERT = 0 NODEC
+             FERT = 1 NODEC;
+
+AMFW columns MORT = 0 NODEC
+             MORT = 1 NODEC;
+
+AMMW columns MORT = 0 NODEC
+             MORT = 1 NODEC;
+
+MMTW columns MORT = 0 NODEC
+             MORT = 1 NODEC;
+
+PMTW columns MORT = 0 NODEC
+             MORT = 1 NODEC;
+{
+F1W  noprint;
+AMMW noprint;
+AMFW noprint;
+MMTW noprint;
+PMTW noprint;
+AGEDIS noprint;
+}

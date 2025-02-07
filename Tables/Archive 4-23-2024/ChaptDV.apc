@@ -1,0 +1,1803 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------------------+}
+{+                                                                                      +}
+{+   Guidelines February 21, 2017       -           Version 2.0.0 of 04/21/2017         +}
+{+                                                                                      +}
+{+   CHAPTER DV Domestic Violence                                                       +}
+{+                                                                                      +}
+{+   DV.1w: module outcomes (WORKING TABLE ONLY)                                        +}
+{+   DV.2w: Background characteristics of respondents for the DV module (WORKING TABLE) +}
+{+   DV.1 : Experience of physical violence by any perpetrator                          +}
+{+   DV.2 : Persons committing physical violence                                        +}
+{+   DV.3 : Violence during pregnancy                                                   +}
+{+   DV.4 : Experience of sexual violence by any perpetrator                            +}
+{+   DV.5 : Persons committing sexual violence                                          +}
+{+   DV.6 : Experience of sexual violence by any non-intimate partner                   +}
+{+   DV.7 : Age at first experience of sexual violence                                  +}
+{+   DV.8 : Expereince of different forms of violence                                   +}
+{+   DV.9 : Forms of controlling behaviors and intimate-partner violence                +}
+{+   DV.10: Controlling behaviors of husband/intimate partner by                        +}
+{+          background characteristics                                                  +}
+{+   DV.11: Intimate-partner violence by background characteristics                     +}
+{+   DV.12: Intimate-partner violence by husband's/intimate partner's characteristics   +}
+{+          and women's empowerment indicators                                          +}
+{+   DV.13: Violence by any husband or intimate partner in the last 12 months           +}
+{+   DV.14: Injuries to women due to intimate-partner violence                          +}
+{+   DV.15  Violence by women against their husband/intimate partner by                 +}
+{+          women's background characteristics                                          +}
+{+   DV.16: Violence by women against their husband/intimate partner by his             +}
+{+          characteristics and women's empowerment indicators                          +}
+{+   DV.16: Violence by women against their spouse by husband's characteristics         +}
+{+   DV.17: Help seeking to stop violence                                               +}
+{+   DV.18: Sources from where help was sought                                          +}
+{+                                                                                      +}
+{+--------------------------------------------------------------------------------------+}
+
+  numeric i, imax, itot, j, jmax, jtot, imar, imar1, iepv, jepv, jany, jmax1, jmax2, iage, jphs;
+  numeric rweight;
+  numeric PVever, SVever, cnt, anyCB, freqCB, contbeh3;
+  numeric anyPV, anySV, AnyEV, freqPV, freqSV, freqEV, decision, wbeat, diffage, diffed;
+  numeric chusb, fhusb, ageviol, x013w11;
+  numeric d105aw, d105bw, d105jw, d105cw, d105dw, d105ew, d105fw, d105hw, d105iw, d105kw, d103aw, d103bw, d103cw;
+  numeric d101aw, d101bw, d101cw, d101dw, d101ew;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for Domestic Violence, Country survey 2020" );
+{EN+}
+{{ES}
+    title( "Cuadros para Violencia Domestica, Pa¡s Encuesta 2020" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre Domestic Violence, Enquête Pays 2020" );
+{FR}}
+
+  crosstab float(1) dvw1  v044w+totnum2 pctdist
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table DV.1W  DV module outcomes (WORKING TABLE ONLY)","",
+           "Percent distribution of women age 15-49 by DV module outcome (unweighted),",
+		   "Country survey 2020" )
+     stub( "Outcome" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) dvw2  v013w11+v130w+v131w+v501w9+v741w3+v102w+v101w+v106w+v190w+total imarr*dvnum
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table DV.2W Background characteristics of respondents for the DV module (WORKING TABLE ONLY)"," ",
+           "Percent distribution of women who completed the domestic violence module according to", 
+		   "selected background characteristics, Country survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro de trabajo  Caracter¡sticas de las mujere entrevistadas para el modulo de violencia domestica"," ",
+           "Distribuci¢n porcentual de las mujeres que completaron el modulo de violencia domestica",
+           "por caracter¡sticas seleccionadas, Pa¡s Encuesta 2020" )
+     stub( "Caracter¡stica" );
+{ES}}
+{{FR}
+    title( "WORKING TABLE  Background characteristics of respondents for the dv module"," ",
+           "Percent distribution of women who completed the domestic violence module according to selected background",
+           "characteristics, Enquête Pays 2020" )
+     stub( "Caractristique sociodmographique" );
+{FR}}
+
+  crosstab float(1) dv01  v013w11+v130w+v131w+v102w+v101w+v501w10+v106w+v190w+total phyviol1+phyviol2+numwom
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.1  Experience of physical violence by any perpetrator","",
+           "Percentage of women age 15-49 who have experienced physical violence by any perpetrator since age",
+           "15 and percentage who have experienced physical violence by any perpetrator in the 12 months", 
+		   "preceding the survey, according to background characteristics, Country survey 2020" )
+    stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    title( "Cuadro DV.1  Violencia f¡sica","",
+           "Porcentaje de mujeres de 15-49 a¤os que han experimentado violencia f¡sica desde los 15",
+           "a¤os de edad y porcentaje que han experimentado violencia durante los 12",
+           "meses que precedieron la encuesta, por caracter¡sticas seleccionadas, Pais 2020" )
+     stub( "Caracter¡stica" );
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv01u  v013w11+v130w+v131w+v102w+v101w+v501w10+v106w+v190w+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.1  Experience of physical violence (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) dv02  dv118w+numwom3 mstatus+total
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.2  Persons committing physical violence","",
+           "Among women age 15-49 who have experienced physical violence since age 15, percentage who",
+           "report specific persons who committed the violence, by the respondent's partnership",
+           "status, Country survey 2020" )
+     stub( "Person" );
+    {EN+}
+    {{ES}
+    title( "Cuadro DV.2  Personas que cometieron la violencia f¡sica","",
+           "Entre las mujeres de 15-49 a¤os que han experimentado violencia f¡sica desde los 15",
+           "a¤os de edad, porcentaje que reportaron las personas que cometieron la violencia f¡sica,",
+           "seg£n estado conyugal actual, Pa¡s Encuesta 2020" )
+    stub( "Persona" );
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv02u  total mstatus+total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.2  Persons committing physical violence (Number of un-weighted cases" )
+     stub( "Person" );
+
+  crosstab float(1) dv03  v013w11+v130w+v131w+v102w+v101w+v501w10+v218w+v106w+v190w+total pregviol
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.3  Experience of violence during pregnancy","",
+           "Among women age 15-49 who have ever been pregnant, percentage who have ever experienced",
+           "physical violence during pregnancy, according to background characteristics, Country survey 2020" )
+    stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    title( "Cuadro DV.3  Experiencia de violencia durante el embarazo","",
+           "Entre las mujeres de 15-49 a¤os que han estado embarazadas alguna vez, porcentaje que",
+           "han experimentado violencia f¡sica durante un embarazo,",
+           "seg£n caracter¡sticas seleccionadas, Pa¡s Encuesta 2020" )
+    stub( "Caracter¡stica" );
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv03u  v013w11+v130w+v131w+v102w+v101w+v501w10+v218w+v106w+v190w+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.3  Experience of violence during pregnancy (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) dv04  v013w11+v130w+v131w+v102w+v101w+v501w10+v741w3+v106w+v190w+total sexviol1+numwom
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.4  Experience of sexual violence by any perpetrator","",
+           "Percentage of women age 15-49 who have ever experienced sexual violence by any perpetrator", 
+		   "and percentage who have experienced sexual violence by any perpetrator in the 12 months", 
+		   "preceding the survey, according to background characteristics, Country survey 2020" )
+    stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv04u  v013w11+v130w+v131w+v102w+v101w+v501w10+v741w3+v106w+v190w+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.4 Experience of sexual violence by any perpetrator (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) dv05  d127w+numwom4 mstatus+total
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.5  Persons committing sexual violence","",
+           "Among women age 15-49 who have experienced sexual violence, percentage who report",
+           "specific persons who committed the violence according to respondent's ",
+           "partnership status, Country survey 2020" )
+    stub( "Person" );
+    {EN+}
+    {{ES}
+    title( "Cuadro DV.5  Personas que cometieron violencia sexual","",
+           "Entre las mujeres de 15-49 a¤os que han experimentado alguna vez violencia sexual,",
+           "porcentaje que mencionaron personas espec¡ficas que cometieron la violencia, seg£n",
+           "estado marital actual, Pa¡s Encuesta 2020" )
+    stub( "Persona" );
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv05u  total mstatus+total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.5 Persons committing sexual violence (Number of un-weighted cases)" )
+    stub( "Person" );
+
+  crosstab float(1) dv06  v013w11+v130w+v131w+v102w+v101w+v501w10+v106w+v190w+total sexviol2+numwom
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.6  Experience of sexual violence by any non-intimate partner", "",
+           "Percentage of women age 15-49 who have ever experienced sexual violence by someone who", 
+		   "is not a husband or intimate partner, and percentage who have experienced sexual", 
+		   "violence by someone who is not a husband or intimate partner in the 12 months preceding", 
+		   "the survey, according to background characteristics, Country survey 2020" )
+    stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv06u  v013w11+v130w+v131w+v102w+v101w+v501w10+v106w+v190w+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.6  Experience of sexual violence by any non-intimate partner (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) dv07  v013w11+age1829+total2+typeperp d126w+nosexv+numwom
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.7  Age at first experience of sexual violence","",
+           "Percentage of women age 15-49 who experienced sexual violence by specific",
+           "exact ages, according to current age and type of perpetrator, Country survey 2020" )
+    stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv07u  v013w11+age1829+total2+typeperp total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.7  Age at first experience of sexual violence (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) dv08  v013w12+total formviol
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.8  Experience of different forms of violence","",
+           "Percentage of women age 15-49 who have ever experienced different forms of violence by current age,",
+           "Country Survey 2020" )
+    stub( "Age" );
+    {EN+}
+    {{ES}
+    title( "Table DV.8  Experience con diferentes formas de violencia","",
+           "Porcentaje de mujeres de 15-49 que han experimentado diferentes formas de violencia por edad actual,",
+           "Pa¡s Encuesta 2020" )
+    stub( "Edad" );
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv08u  v013w12+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.8  Experience of different forms of violence (Number of un-weighted cases)" )
+    stub( "Age" );
+
+  crosstab float(1) dv09  wcontbeh+wphyviol+wsexviol+wemoviol+anyviolh+spoviol+emwoman spouvio1+spouvio2+spouvio3
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.9  Forms of controlling behaviors and intimate-partner violence","",
+           "Percentage of women age 15-49 who have ever had a husband or intimate partner who have", 
+		   "experienced controlling behaviors and various forms of intimate-partner violence ever or", 
+		   "in the 12 months preceding the survey, perpetrated by a husband or intimate partner,", 
+           "Country survey 2020" )
+    stub( "Type of violence experienced" );
+    {EN+}
+    {{ES}
+    title( "Cuadro DV.9  Formas de violencia marital","",
+           "Porcentaje de mujeres de 15-49 a¤os alguna vez unidas que han experimentado varias formas",
+           "de violencia por parte del esposo/compa¤ero, alguna vez o en los £ltimos 12 meses, ",
+           "Pa¡s Encuesta 2020" )
+    stub( "Tipo de violencia" );
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv09u  total spouvio1+spouvio2+spouvio3
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.9  Forms of controlling behaviors and intimate-partner violence (Number of un-weighted cases)" )
+    stub( "Type of violence" );
+
+  crosstab float(1) dv10  v013w11+v130w+v131w+v102w+v101w+v501w11+v106w+v190w+d129w+total husbcont
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.10  Controlling behaviors of husband/intimate partner by background characteristics", "",
+           "Percentage of women age 15-49 who have ever had a husband or intimate partner whose", 
+		   "husbands/intimate partners have ever demonstrated specific types of controlling behaviors,", 
+		   "according to background characteristics, Country survey 2020" )
+    stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv10u  v013w11+v130w+v131w+v102w+v101w+v501w11+v106w+v190w+d129w+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.10  Controlling behaviors of husband/intimate partner by background characteristics (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) dv11  v013w11+v130w+v131w+v102w+v101w+v501w11+v741w3+v106w+v190w+total spouvio4
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.11  Intimate-partner violence by background characteristics","",
+           "Percentage of women age 15-49 who have ever had a husband or intimate partner who", 
+		   "have ever experienced emotional, physical, or sexual violence committed by their", 
+		   "current or most recent husband/intimate partner, according to background characteristics,",
+           "Country survey 2020" )
+    stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv11u  v013w11+v130w+v131w+v102w+v101w+v501w11+v741w3+v106w+v190w+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.11  Intimate-partner violence by background characteristics (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) dv12  whac+v701w+wehe+hawa3+lastworv+mcontrol+wifebeav+d121w+d129w+total spouvio4
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.12  Intimate-partner violence by husband's/intimate partner's characteristics and women's empowerment indicators","",
+           "Percentage of women age 15-49 who have ever had a husband or intimate partner who", 
+		   "have ever experienced emotional, physical, or sexual violence committed by their current", 
+		   "or most recent husband/intimate partner, according to the husband's/intimate partner's", 
+		   "characteristics and women's empowerment indicators, Country survey 2020" )
+    stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv12u  whac+v701w+wehe+hawa3+lastworv+mcontrol+wifebeav+d121w+d129w+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.12  Intimate-partner violence by husband's/intimate partner's characteristics and women's empowerment indicators (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) dv13  v013w11+v102w+v101w+v501w11+v106w+v190w+total husbviol
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.13  Violence by any husband or intimate partner in the last 12 months","",
+           "Percentage of women age 15-49 who have ever had a husband or intimate partner who have", 
+		   "experienced emotional, physical or sexual violence by any husband/intimate partner in the", 
+		   "last 12 months, according to background characteristics, Country survey 2020" )
+    stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv13u  v013w11+v102w+v101w+v501w11+v106w+v190w+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.13  Violence by any husband or intimate partner in the last 12 months (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) dv14 evphyvio+evsexvio+evsexphy wbruises+winjury+wwounds+anyinjur+phsviol
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.14  Injuries to women due to intimate-partner violence","",
+           "Among women age 15-49 who have ever had a husband or intimate partner who have", 
+		   "experienced violence committed by their current or most recent husband/intimate", 
+		   "partner, percentage who have been injured as a result of the violence, by types", 
+		   "of injuries, according to the type of violence, Country survey 2020" )
+    stub( "Type of violence experienced" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv14u evphyvio+evsexvio+evsexphy total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.14  Injuries to women due to intimate-partner violence (Number of un-weighted cases)" )
+    stub( "Type of violence" );
+
+  crosstab float(1) dv15  PVbyHusb+v013w11+v130w+v131w+v102w+v101w+v501w11+v741w3+v106w+v190w+total womviol+emwoman1
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.15  Violence by women against their husband/intimate partner by women's background characteristics","",
+           "Percentage of women age 15-49 who have ever had a husband or intimate partner who have", 
+		   "committed physical violence against their current or most recent husband/intimate partner", 
+		   "when he was not already beating or physically hurting her, ever and in the last 12 months,", 
+		   "according to women's own experience of women's experience of intimate-partner violence and", 
+		   "background characteristics, Country survey 2020" )
+    stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv15u  PVbyHusb+v013w11+v130w+v131w+v102w+v101w+v501w11+v741w3+v106w+v190w+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.15  Violence by women against their husband/intimate partner by women's background characteristics (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) dv16  whac+v701w+wehe+hawa3+lastworv+mcontrol+wifebeav+d121w+d129w+total womviol+emwoman1
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.16  Violence by women against their husband/intimate partner by his characteristics and women's empowerment indicators","",
+           "Percentage of women age 15-49 who have ever had a husband or intimate partner who have committed", 
+		   "physical violence against their current or most recent husband/intimate partner when he was not", 
+		   "already beating or physically hurting her, ever and in the last 12 months, according to their", 
+		   "husband's/intimate partner's characteristics and women's empowerment indicators,",
+           "Country survey 2020" )
+    stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv16u  whac+v701w+wehe+hawa3+lastworv+mcontrol+wifebeav+d121w+d129w+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.16  Violence by women against their husband/intimate partner by his characteristics and women's empowerment indicators (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) dv17 typeviol+v013w11+v130w+v131w+v102w+v101w+v501w10+v741w3+v106w+v190w+total seekhelp+twviol
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.17  Help seeking to stop violence","",
+           "Percent distribution of women age 15-49 who have ever experienced physical or sexual violence",
+           "by their help-seeking behavior, according to type of violence and background characteristics,", 
+		   "Country survey 2020" )
+    stub( "Type of violence/Background Characteristic" );
+    {EN+}
+    {{ES}
+    title( "Cuadro DV.17  B£squeda de ayuda para detener la violencia","",
+           "Distribuci¢n porcentual de las mujeres de 15-49 a¤os que han experimentado violencia f¡sica o sexual,",
+           "por si buscaron ayuda seg£n tipo de violencia y caracter¡sticas seleccionadas, Pa¡s Encuesta 2020" )
+    stub( "Caracter¡stica" );
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv17u typeviol+v013w11+v130w+v131w+v102w+v101w+v501w10+v741w3+v106w+v190w+total total
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.17  Help seeking to stop violence (Number of un-weighted cases)" )
+    stub( "Background Characteristic" );
+
+  crosstab float(1) dv18  sourhelp typeviol+totviol
+    exclude(totals,specval,rowzero,colzero,percents)
+    {+EN}
+    title( "Table DV.18  Sources for help to stop the violence","",
+           "Percentage of women age 15-49 who have experienced physical or sexual violence and",
+           "sought help by sources from which they sought help according to the type of violence that",
+           "women reported, Country survey 2020" )
+    stub( "Source" );
+    {EN+}
+    {{ES}
+    title( "Cuadro DV.18  Fuentes de ayuda para frenar la violencia","",
+          "Porcentaje de mujeres de 15-49 a¤os que han experimentado alguna vez violencia",
+          "f¡sica o sexual por los tipos de fuentes donde busc¢ ayuda seg£n tipo de violencia",
+          "reportada por la mujer, Pa¡s Encuesta 2020" )
+    stub( "Fuente" );
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) dv18u  total typeviol+totviol
+    exclude(totals,specval,rowzero,colzero,percents)
+    title( "Table DV.18  Sources for help to stop the violence (Number of un-weighted cases)" )
+    stub( "Person" );
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  totnum2  = 1;
+  pctdist  = 1;
+  numwom   = 1;
+  numwom3  = 1;
+  numwom4  = 1;
+  emwoman  = 1;
+  emwoman1 = 1;
+  phsviol  = 1;
+  twviol   = 1;
+  total    = 0;
+  total2   = 0;
+  totviol  = 1;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 1 - run unweighted tables }
+
+postproc
+  { constructs table to determine whether run is weighted/unweighted }
+
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table dvw.1  processing }
+  itot  = tblrow( dvw1 );
+  imax  = itot - 2;
+  do i = 0 while i <= imax
+    dvw1[i,*] = dvw1[i,*] * 100 / dvw1[itot,*];
+  enddo;
+  dvw1[imax+1,*] = tblsum( row dvw1[0:imax,*]);
+  
+  { Table dvw.2  processing }
+  imar  = tblrow( dvw2, v501w9 = 0 );                              // never married
+  dvw2[imar,*] = dvw2[imar+1,*] + dvw2[imar+2,*] + dvw2[imar+3,*];
+  imar1 = tblrow( dvw2, v501w9 = 4 );                              // ever married
+  dvw2[imar1,*] = dvw2[imar1+1,*] + dvw2[imar1+2,*];
+  itot  = tblrow( dvw2 );
+  jmax1 = tblcol( dvw2, imarr = 1 dvnum = 1 );
+  jmax2 = tblcol( dvw2, imarr = 2 dvnum = 1 );
+  do i = 0 while i <= itot
+    dvw2[i,jmax1] = dvw2[i,jmax1+1] * 100 / dvw2[itot,jmax1+1];
+    dvw2[i,jmax2] = dvw2[i,jmax2+1] * 100 / dvw2[itot,jmax2+1];
+  enddo;
+  { Assigning NA to selected rows }
+  jtot = tblcol( dvw2 );
+  dvw2[imar:imar+3,jmax2:jtot] = NACells; 
+
+  { Table DV.1 processing }
+  imar  = tblrow( dv01, v501w10 = 0 );                              // never married
+  dv01[imar,*]  = dv01[imar+1,*]  + dv01[imar+2,*];
+  imar1 = tblrow( dv01, v501w10 = 4 );                              // ever married
+  dv01[imar1,*] = dv01[imar1+1,*] + dv01[imar1+2,*];
+  jtot = tblcol( dv01 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv01[*,j] = dv01[*,j] * 100 / dv01[*,jtot];
+  enddo;
+  { check unweighted N's }
+  dv01u[imar,*]  = dv01u[imar+1,*]  + dv01u[imar+2,*];
+  dv01u[imar1,*] = dv01u[imar1+1,*] + dv01u[imar1+2,*];
+  Col2Dim( "dv01", dv01, 0, jtot-1, dv01u, 0 );
+
+  { Table DV.2 processing }
+  itot = tblrow( dv02 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    dv02[i,*] = dv02[i,*] * 100 / dv02[itot,*];
+  enddo;
+  { check unweighted N's }
+  Row2Dim( "dv02", dv02, 0, itot-1, dv02u, 0 );
+  { Assigning NA to selected rows }
+  dv02[0:1,1]  = NAcells;           { husbands }
+  dv02[9:11,1] = NAcells;           { in-laws }
+
+  { Table DV.3 processing }
+  imar  = tblrow( dv03, v501w10 = 0 );                              // never married
+  dv03[imar,*]  = dv03[imar+1,*]  + dv03[imar+2,*];
+  imar1 = tblrow( dv03, v501w10 = 4 );                              // ever married
+  dv03[imar1,*] = dv03[imar1+1,*] + dv03[imar1+2,*];
+  dv03[*,0] = dv03[*,0] * 100 / dv03[*,1];
+  { check unweighted N's }
+  dv03u[imar,*]  = dv03u[imar+1,*]  + dv03u[imar+2,*];
+  dv03u[imar1,*] = dv03u[imar1+1,*] + dv03u[imar1+2,*];
+  Col2Dim( "dv03", dv03, 0, 0, dv03u, 0 );
+
+  { Table DV.4 processing }
+  imar  = tblrow( dv04, v501w10 = 0 );                              // never married
+  dv04[imar,*]  = dv04[imar+1,*]  + dv04[imar+2,*];
+  imar1 = tblrow( dv04, v501w10 = 4 );                              // ever married
+  dv04[imar1,*] = dv04[imar1+1,*] + dv04[imar1+2,*];
+  jtot = tblcol( dv04 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv04[*,j] = dv04[*,j] * 100 / dv04[*,jtot];
+  enddo;
+  { check unweighted N's }
+  dv04u[imar,*]  = dv04u[imar+1,*]  + dv04u[imar+2,*];
+  dv04u[imar1,*] = dv04u[imar1+1,*] + dv04u[imar1+2,*];
+  Col2Dim( "dv04", dv04, 0, jtot-1, dv04u, 0 );
+
+  { Table DV.5 processing }
+  itot = tblrow( dv05 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    dv05[i,*] = dv05[i,*] * 100 / dv05[itot,*];
+  enddo;
+  { check unweighted N's }
+  Row2Dim( "dv05", dv05, 0, itot-1, dv05u, 0 );
+  { Assigning NA to selected rows }
+  dv05[0:1,1]  = NAcells;           { husbands }
+  dv05[6,1]    = NAcells;           { in-laws }
+
+  { Table DV.6 processing }
+  imar  = tblrow( dv06, v501w10 = 0 );                              // never married
+  dv06[imar,*]  = dv06[imar+1,*]  + dv06[imar+2,*];
+  imar1 = tblrow( dv06, v501w10 = 4 );                              // ever married
+  dv06[imar1,*] = dv06[imar1+1,*] + dv06[imar1+2,*];
+  jtot = tblcol( dv06 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv06[*,j] = dv06[*,j] * 100 / dv06[*,jtot];
+  enddo;
+  { check unweighted N's }
+  dv06u[imar,*]  = dv06u[imar+1,*]  + dv06u[imar+2,*];
+  dv06u[imar1,*] = dv06u[imar1+1,*] + dv06u[imar1+2,*];
+  Col2Dim( "dv06", dv06, 0, jtot-1, dv06u, 0 );
+  { write out SDG indicators }
+  itot   = tblrow( dv06 );
+  jtot   = tblcol( dv06, sexviol2 = 2 );                      { any violence }
+  SDGIndicator( "5.2.2", NACells, dv06(itot,jtot), NACells );
+
+  { Table DV.7 processing }
+  jtot = tblcol( dv07 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv07[*,j] = dv07[*,j] * 100 / dv07[*,jtot];
+    if j > 0 & j < jmax then                 { to have sexual violence by exact ages }
+      dv07[*,j] = dv07[*,j] + dv07[*,j-1];   { it's necessary to accumulate          }
+    endif;
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "dv07", dv07, 0, jtot-1, dv07u, 0 );
+  { Assigning NA to selected cells }
+  itot   = tblrow( dv07, age1829 = 1 );
+  dv07[0,3:4]  = NAcells;           { for age 15-19 }
+  dv07[1,4]    = NAcells;           { for age 20-24 }
+  dv07[itot,4] = NAcells;           { for age 18-29 }
+  { write out SDG indicators }
+  jtot   = tblcol( dv07, d126w   = 4 );                      
+  SDGIndicator( "16.2.3", NACells, dv07(itot,jtot), NACells );
+
+  { Table DV.8 processing }
+  { Adding age group 15-19 }
+  iage = tblrow (dv08, v013w12 = 1 );
+  dv08[iage,*] = tblsum( row dv08[iage+1:iage+2,*]);
+  jtot = tblcol( dv08 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv08[*,j] = dv08[*,j] * 100 / dv08[*,jtot];
+  enddo;
+  { check unweighted N's }
+  dv08u[iage,*] = tblsum( row dv08u[iage+1:iage+2,*]);
+  Col2Dim( "dv08", dv08, 0, jtot-1, dv08u, 0 );
+
+  { Table DV.9 processing }
+  { Adding often or sometimes }
+  jany = tblcol ( dv09, spouvio2 );
+  dv09[*,jany] = tblsum( column dv09[*,jany+1:jany+2]);
+  itot = tblrow( dv09 );
+  imax = itot - 1;
+  do j = 1 while j <= tblcol( dv09 )
+    dv09(itot,j) = dv09(itot,0);              { denominator for all columns is the same }
+  enddo;
+  do i = 0 while i <= imax
+    dv09[i,*] = dv09[i,*] * 100 / dv09[itot,*];
+  enddo;
+  { check unweighted N's }
+  do j = 1 while j <= tblcol( dv09 )
+    dv09u(0,j) = dv09u(0,0);                  { denominator for all columns is the same }
+  enddo;
+  Row2Dim( "dv09", dv09, 0, itot-1, dv09u, 0 );
+  { assigning NA to panel for violence from husband/partner }
+  dv09[itot-5:itot-1, 2:3] = NAcells;
+
+  { Table DV.10 processing }
+  imar  = tblrow( dv10, v501w11 = 0 );                              // never married
+  dv10[imar,*]  = dv10[imar+1,*]  + dv10[imar+2,*];
+  imar1 = tblrow( dv10, v501w11 = 3 );                              // ever married
+  dv10[imar1,*] = dv10[imar1+1,*] + dv10[imar1+2,*];
+  jtot = tblcol( dv10 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv10[*,j] = dv10[*,j] * 100 / dv10[*,jtot];
+  enddo;
+  { check unweighted N's }
+  dv10u[imar,*]  = dv10u[imar+1,*]  + dv10u[imar+2,*];
+  dv10u[imar1,*] = dv10u[imar1+1,*] + dv10u[imar1+2,*];
+  Col2Dim( "dv10", dv10, 0, jtot-1, dv10u, 0 );
+
+  { Table DV.11 processing }
+  imar  = tblrow( dv11, v501w11 = 0 );                              // never married
+  dv11[imar,*]  = dv11[imar+1,*]  + dv11[imar+2,*];
+  imar1 = tblrow( dv11, v501w11 = 3 );                              // ever married
+  dv11[imar1,*] = dv11[imar1+1,*] + dv11[imar1+2,*];
+  jtot = tblcol( dv11 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv11[*,j] = dv11[*,j] * 100 / dv11[*,jtot];
+  enddo;
+  { check unweighted N's }
+  dv11u[imar,*]  = dv11u[imar+1,*]  + dv11u[imar+2,*];
+  dv11u[imar1,*] = dv11u[imar1+1,*] + dv11u[imar1+2,*];
+  Col2Dim( "dv11", dv11, 0, jtot-1, dv11u, 0 );
+
+  { Table DV.12 processing }
+  jtot = tblcol( dv12 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv12[*,j] = dv12[*,j] * 100 / dv12[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "dv12", dv12, 0, jtot-1, dv12u, 0 );
+
+  { Table DV.13 processing }
+  imar  = tblrow( dv13, v501w11 = 0 );                              // never married
+  dv13[imar,*]  = dv13[imar+1,*]  + dv13[imar+2,*];
+  imar1 = tblrow( dv13, v501w11 = 3 );                              // ever married
+  dv13[imar1,*] = dv13[imar1+1,*] + dv13[imar1+2,*];
+  jtot = tblcol( dv13 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv13[*,j] = dv13[*,j] * 100 / dv13[*,jtot];
+  enddo;
+  { check unweighted N's }
+  dv13u[imar,*]  = dv13u[imar+1,*]  + dv13u[imar+2,*];
+  dv13u[imar1,*] = dv13u[imar1+1,*] + dv13u[imar1+2,*];
+  Col2Dim( "dv13", dv13, 0, jtot-1, dv13u, 0 );
+  { write out SDG indicators }
+  itot   = tblrow( dv13 );
+  jtot   = tblcol( dv13, husbviol = 7 );                      { any violence }
+  SDGIndicator( "5.2.1", NACells, dv13(itot,jtot), NACells );
+  jtot   = tblcol( dv13, husbviol = 2 );                      { physical violence }
+  SDGIndicator( "5.2.1.a", NACells, dv13(itot,jtot), NACells );
+  jtot   = tblcol( dv13, husbviol = 3 );                      { sexual violence }
+  SDGIndicator( "5.2.1.b", NACells, dv13(itot,jtot), NACells );
+  jtot   = tblcol( dv13, husbviol = 1 );                      { emotional }
+  SDGIndicator( "5.2.1.c", NACells, dv13(itot,jtot), NACells );
+
+  { Table DV.14 processing }
+  jtot = tblcol( dv14 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv14[*,j] = dv14[*,j] * 100 / dv14[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "dv14", dv14, 0, jtot-1, dv14u, 0 );
+
+  { Table DV.15 processing }
+  imar  = tblrow( dv15, v501w11 = 0 );                              // never married
+  dv15[imar,*]  = dv15[imar+1,*]  + dv15[imar+2,*];
+  imar1 = tblrow( dv15, v501w11 = 3 );                              // ever married
+  dv15[imar1,*] = dv15[imar1+1,*] + dv15[imar1+2,*];
+  { Ever physical violence }
+  iepv = tblrow( dv15, PVbyHusb = 1 );
+  dv15[iepv,*] = tblsum( row dv15[iepv:iepv+1,*]);
+  { add in the last 12 months to ever as it includes that }
+  jepv = tblcol( dv15, womviol = 1 );
+  dv15[*,jepv] = tblsum( column dv15[*,jepv:jepv+1]);
+  jtot = tblcol( dv15 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv15[*,j] = dv15[*,j] * 100 / dv15[*,jtot];
+  enddo;
+  { check unweighted N's }
+  dv15u[imar,*]  = dv15u[imar+1,*]  + dv15u[imar+2,*];
+  dv15u[imar1,*] = dv15u[imar1+1,*] + dv15u[imar1+2,*];
+  dv15u[iepv,*] = tblsum( row dv15u[iepv:iepv+1,*]);
+  Col2Dim( "dv15", dv15, 0, jtot-1, dv15u, 0 );
+
+  { Table DV.16 processing }
+  { add in the last 12 months to ever as it includes that }
+  jepv = tblcol( dv16, womviol = 1 );
+  dv16[*,jepv] = tblsum( column dv16[*,jepv:jepv+1]);
+  jtot = tblcol( dv16 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    dv16[*,j] = dv16[*,j] * 100 / dv16[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "dv16", dv16, 0, jtot-1, dv16u, 0 );
+
+  { Table DV.17 processing }
+  imar  = tblrow( dv17, v501w10 = 0 );                              // never married
+  dv17[imar,*]  = dv17[imar+1,*]  + dv17[imar+2,*];
+  imar1 = tblrow( dv17, v501w10 = 4 );                              // ever married
+  dv17[imar1,*] = dv17[imar1+1,*] + dv17[imar1+2,*];
+  jtot = tblcol( dv17 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    dv17[*,j] = dv17[*,j] * 100 / dv17[*,jtot];
+  enddo;
+  dv17[*,jmax+1] = tblsum( column dv17[*,0:jmax]);
+  { check unweighted N's }
+  dv17u[imar,*]  = dv17u[imar+1,*]  + dv17u[imar+2,*];
+  dv17u[imar1,*] = dv17u[imar1+1,*] + dv17u[imar1+2,*];
+  Col2Dim( "dv17", dv17, 0, jtot-2, dv17u, 0 );
+
+  { Table DV.18 processing }
+  itot = tblrow( dv18 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    dv18[i,*] = dv18[i,*] * 100 / dv18[itot,*];
+  enddo;
+  { check unweighted N's }
+  Row2Dim( "dv18", dv18, 0, itot-1, dv18u, 0 );
+
+PROC WOMAN
+preproc
+
+{ -------------------------------------------------------------------- }
+{ table DVW.1 - tabulated before filtering for completion and DV module }
+
+  v044w = V044;     
+  xtab( dvw1 );
+  
+  if V015 <> 1 | V044 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = D005 / 1000000;   { if a subsample, use dv's weight variable }
+  endif;
+
+  { general variables }
+  v013w    = V013;
+  v013w1   = V013;           { with var label for printing purposes }
+  v102w    = V102;
+  v101w    = V101;
+  v106w    = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w    = V190;
+
+  { partner's education }
+  v701w    = V701;
+  if V701 in 8,missing then v701w = 9 endif;
+
+  { ethnicity }
+  v131w   = V131;
+  if V131 = missing then v131w = 99 endif;
+
+  { religion }
+  v130w   = V130;
+  if V130 = missing then v130w =  9 endif;
+
+  { Age }
+  recode V012 -> V013w11;
+        15:19 -> 1;
+        20:24 -> 2;
+        25:29 -> 3;
+        30:39 -> 4;
+        40:49 -> 5;
+  endrecode;
+  recode V012 -> V013w12;
+        15:17 -> 2;
+        18:19 -> 3;
+        20:24 -> 4;
+        25:29 -> 5;
+        30:39 -> 6;
+        40:49 -> 7;
+  endrecode;
+  age1829 = ( V012 in 18:29 );
+
+  { Marital status }
+  recode V501 -> v501w6;
+          0   -> 0;
+         1:5  -> 1;
+              -> 9;
+  endrecode;
+
+  { Marital status }
+  recode V502 -> v501w2;
+           0  -> 0;
+          1,2 -> V502;
+              -> default;
+  endrecode;
+
+  { Marital status combined with intimate partner }
+  recode V501 :: D100 -> v501w9;
+           0  ::   0  -> 1;        // never married, no intimate partner ever
+           0  ::   1  -> 2;        // never married, currently has intimate partner 
+           0  ::   2  -> 3;        // never married, had intimate partner 
+          1,2 ::      -> 5;        // ever married, in union
+          3:5 ::      -> 6;        // ever married, not in union
+              ::      -> default;
+  endrecode;
+  v501w10 = v501w9;
+  if V501w9 = 3 then v501w10 = 2 endif;
+  recode v501w9 -> v501w11;
+            1   -> notappl;
+           2:6  -> v501w9 - 1;
+                -> default;
+  endrecode;				
+
+  { Marital status }
+  recode V502 :: D100 -> mstatus;
+          1,2 ::      -> 1;
+              ::  1,2 -> 1;
+           0  ::      -> 2;
+              ::   0  -> 2;
+              ::      -> notappl;
+  endrecode;
+  typeperp = mstatus;
+
+  { employed last 12 months }
+  recode V741  -> v741w3;
+         1:2   -> 1;
+         0,3   -> 2;
+       notappl -> 3;
+               -> 9;
+  endrecode;
+
+  { living children }
+  recode V218 -> v218w;
+           0  -> 0;
+          1:2 -> 1;
+          3:4 -> 2;
+              -> 3;
+  endrecode;
+
+  { Husband's alcohol consumption }
+  recode  D113   :: D114     -> whac;
+           1     ::   0      -> 1;
+           1     ::   2      -> 2;
+           1     ::   1      -> 3;
+       missing,8 ::          -> 9;
+                 :: missing,8-> 9;
+                 ::          -> 0;
+  endrecode;
+
+  { Respondent afraid of husband/partner }
+  recode D129 -> d129w;
+           0  -> 3;
+          1:2 -> D129;
+      missing -> 9;
+              -> notappl;
+  endrecode;
+
+  { Spousal age difference }
+  hawa3 = notappl;
+  if V502 = 1 then                 { Currently married }
+    if !special(V730) & V730 < 98 then
+      diffage = V730 - V012;
+      recode diffage -> hawa3;
+              < 0    -> 0;  { wife older }
+                0    -> 1;  { the same age }
+               0:4   -> 2;  { 0-4 years younger }
+               5:9   -> 3;  { 5-9 years younger }
+                     -> 4;  { 10+ years younger }
+      endrecode;
+    else
+      hawa3     = 9;
+    endif;
+  endif;  { Currenlty married }
+
+  { Spousal education difference }
+  wehe = notappl;
+  if V502 = 1 then                 { Currently married }
+    wehe = 9;
+    if !special(V715) & V715 < 97 & !special(V133) & V133 < 97 then
+      diffed = V715 - V133;
+      if V715 = 0 & V133 = 0 then
+        wehe   = 3;
+      else
+        if diffed > 0 then
+          wehe = 0
+        elseif diffed < 0 then
+          wehe = 1;
+        elseif diffed = 0 then
+          wehe = 2
+        endif;
+      endif;
+    endif;
+  endif;
+
+  { decisions in which respondent has the last word }
+  decision = 0;
+  if V743A in 1:3  then { self or jointly -Woman’s own health care }
+    decision = decision + 1;
+  endif;
+  if V743B in 1:3  then { self or jointly - Making major household purchases }
+    decision = decision + 1;
+  endif;
+  if V743D in 1:3  then { self or jointly - Visits to her family or relatives }
+    decision = decision + 1;
+  endif;
+  recode decision -> lastworv;
+             0    -> 0;
+            1:2   -> 1;
+             3    -> 2;
+  endrecode;
+  { notappl for not currently married women }
+  if V502 <> 1 then lastworv = notappl endif;
+
+  { reasons to justify wife beating }
+  wbeat = 0;
+  if V744A = 1 then wbeat = wbeat + 1 endif;
+  if V744B = 1 then wbeat = wbeat + 1 endif;
+  if V744C = 1 then wbeat = wbeat + 1 endif;
+  if V744D = 1 then wbeat = wbeat + 1 endif;
+  if V744E = 1 then wbeat = wbeat + 1 endif;
+  recode wbeat -> wifebeav;
+           0   -> 0;
+          1:2  -> 1;
+          3:4  -> 2;
+               -> 3;
+  endrecode;
+
+  { Numbers of marital control behaviors displayed by husband }
+  recode D102 -> mcontrol;
+          0   -> 0;
+         1:2  -> 1;
+         3:4  -> 2;
+         5:6  -> 3;          { !!! modify if more than 6 controls }
+  endrecode;
+
+  {--------- Domestic violence variables -----------------------------}
+
+  { Any controlling behavior by husband/intimate partner }
+  AnyCB  = ( D101A in 1:4 | D101B in 1:4 | D101C in 1:4 | D101D in 1:4 | D101E in 1:4 );
+  { often or sometimes controlling behavior }
+  FreqCB = 0;     { never }
+  if     1 in D101A,D101B,D101C,D101D,D101E then
+    FreqCB = 1;   { often last year }
+  elseif 2 in D101A,D101B,D101C,D101D,D101E then
+    FreqCB = 2;   { sometimes last year  }
+  elseif 3 in D101A,D101B,D101C,D101D,D101E then
+    FreqCB = 3;   { not last year }
+  endif;
+
+  { Any Physical Violence by husband/intimate partner }
+  AnyPV  = ( D105A in 1:4 | D105B in 1:4 | D105C in 1:4 | D105D in 1:4 |
+             D105E in 1:4 | D105F in 1:4 | D105G in 1:4 | D105J in 1:4  );
+  { Ever experienced physical violence }
+  PVEver = ( AnyPV | D130A in 1:4 |
+             D115Y = 0    |  { Ever been beaten since age 15 }
+             D118Y = 0    ); { Ever been beaten during pregnancy }
+  { often or sometimes physical violence }
+  FreqPV = 0;     { never }
+  if     1 in D105A,D105B,D105C,D105D,D105E,D105F,D105G,D105J then
+    FreqPV = 1;   { often last year }
+  elseif 2 in D105A,D105B,D105C,D105D,D105E,D105F,D105G,D105J then
+    FreqPV = 2;   { sometimes last year  }
+  elseif 3 in D105A,D105B,D105C,D105D,D105E,D105F,D105G,D105J then
+    FreqPV = 3;   { not last year }
+  endif;
+
+  { Any Sexual violence by husband/intimate partner }
+  AnySV  = ( D105H in 1:4 | D105I in 1:4 | D105K in 1:4 );
+  { Ever experienced sexual violence }
+  SVEver  = ( AnySV | D130B in 1:4 | D123 = 2 | D124 = 1 | D125 = 1 );
+  { often or sometimes sexual violence }
+  freqSV = 0;    { never }
+  if     1 in D105H,D105I,D105K then
+    freqSV = 1;  { often last year }
+  elseif 2 in D105H,D105I,D105K then
+    freqSV = 2;  { sometimes last year }
+  elseif 3 in D105H,D105I,D105K then
+    freqSV = 3;  { not last year }
+  endif;
+
+  { Any Emotional violence by husband }
+  AnyEV  = ( D103A in 1:4 | D103B in 1:4 | D103C in 1:4 );
+  { often or sometimes emotional violence }
+  freqEV = 0;    { never }
+  if     1 in D103A,D103B,D103C then
+    freqEV = 1;  { often last year }
+  elseif 2 in D103A,D103B,D103C then
+    freqEV = 2;  { sometimes last year }
+  elseif 3 in D103A,D103B,D103C then
+    freqEV = 3;  { not last year }
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table DVW.2 }
+
+  { for all women }
+  imarr    = 1;
+  dvnum = 2;
+  xtab( dvw2, rweight );
+  dvnum = 3;
+  xtab( dvw2 );
+  { for ever married women }
+  if V501 <> 0 then
+    imarr    = 2;
+    dvnum = 2;
+    xtab( dvw2, rweight );
+    dvnum = 3;
+    xtab( dvw2 );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ Table DV.1 }
+
+  phyviol1 = notappl;
+  phyviol2 = notappl;
+  numwom   = 1;
+  { denominator: all women }
+  xtab( dv01, rweight );
+  xtab( dv01u );
+  numwom = notappl;
+  if PVever = 1 then          { Ever experience physical violence since age 15 }
+    phyviol1 = 1;
+    xtab( dv01, rweight );
+    phyviol1 = notappl;
+    { violence in last 12 months }
+    if D105A = 1 | D105B = 1 | D105C = 1 | D105D = 1 |
+       D105E = 1 | D105F = 1 | D105G = 1 | D105J = 1 | D117A = 1 then
+      phyviol2 = 1;  { Often }
+    elseif D105A = 2 | D105B = 2 | D105C = 2 | D105D = 2 |
+           D105E = 2 | D105F = 2 | D105G = 2 | D105J = 2 | D117A = 2 then
+      phyviol2 = 2;  { Sometimes }
+    endif;
+    xtab( dv01, rweight );
+    if phyviol2 in 1,2 | D130A = 1 then
+      phyviol2 = 3;   { Any last 12m }
+      xtab( dv01, rweight );
+    endif;
+  endif;  { physical violence ever }
+  numwom = 1;
+
+{ -------------------------------------------------------------------- }
+{ Table DV.2 }
+
+  if PVever = 1 then          { Ever experience physical violence since age 15 }
+    { by current husband}
+    chusb = ( (V502 = 1 | D100 = 1) & (AnyPV | D118A = 1) );      { CM & any physical violence or hurt by husband while pregnant }
+    { by former husband }
+    fhusb = 0;
+    if (V502 in 1,2 | D100 = 1) & 
+	   (D115J = 1 | D118J = 1 | D130A in 1:4) then { hurt by former partner at any time or during pregnancy or by next to last partner }
+      fhusb = 1;
+    elseif (V502 = 2 | D100 = 2) & AnyPV then                                   { Ever married & any physical violence }
+      fhusb = 1;
+    endif;
+    numwom3 = notappl;
+    if chusb  = 1              then  dv118w =  1; xtab( dv02, rweight ); endif;  { Current husband }
+    if fhusb  = 1              then  dv118w =  2; xtab( dv02, rweight ); endif;  { Former husband }
+    if D115K  = 1 | D118K  = 1 then  dv118w =  3; xtab( dv02, rweight ); endif;  { Current boyfriend }
+    if D115L  = 1 | D118L  = 1 then  dv118w =  4; xtab( dv02, rweight ); endif;  { Former boyfriend }
+    if D115C  = 1 | D118C  = 1 then  dv118w =  5; xtab( dv02, rweight ); endif;  { Father/ step father }
+    if D115B  = 1 | D118B  = 1 then  dv118w =  6; xtab( dv02, rweight ); endif;  { Mother/ step mother }
+    if D115F  = 1 | D118F  = 1 then  dv118w =  7; xtab( dv02, rweight ); endif;  { Sister/ brother }
+    if D115D  = 1 | D118D  = 1 then  dv118w =  8; xtab( dv02, rweight ); endif;  { Daughter/ son }
+    if D115G  = 1 | D118G  = 1 then  dv118w =  9; xtab( dv02, rweight ); endif;  { Other relative }
+    if D115O  = 1 | D118O  = 1 then  dv118w = 10; xtab( dv02, rweight ); endif;  { Mother-in-law }
+    if D115P  = 1 | D118P  = 1 then  dv118w = 11; xtab( dv02, rweight ); endif;  { Father-in-law }
+    if D115Q  = 1 | D118Q  = 1 then  dv118w = 12; xtab( dv02, rweight ); endif;  { Other in-law }
+    if D115V  = 1 | D118V  = 1 then  dv118w = 13; xtab( dv02, rweight ); endif;  { Teacher }
+    if D115XD = 1 | D118XD = 1 then  dv118w = 14; xtab( dv02, rweight ); endif;  { schoolmate/classmate }
+    if D115W  = 1 | D118W  = 1 then  dv118w = 15; xtab( dv02, rweight ); endif;  { Employer }
+    if D115XE = 1 | D118XE = 1 then  dv118w = 16; xtab( dv02, rweight ); endif;  { Police/ soldier }
+    if D115X  = 1 | D118X  = 1 then  dv118w = 17; xtab( dv02, rweight ); endif;  { Other }
+    { Denominators }
+    dv118w  = notappl;
+    numwom3 = 1;
+    xtab( dv02, rweight );
+    xtab( dv02u );
+  endif;  { physical violence ever }
+
+{ -------------------------------------------------------------------- }
+{ Table DV.3 }
+
+  { births -  pregnant -  terminat.}
+  if V201 > 0 | V213 = 1 |  V228 = 1 then  { ever been pregnant }
+    pregviol = 2;
+    xtab( dv03, rweight );
+    xtab( dv03u );
+    { Ever experienced physical violence during pregnancy }
+    if D118Y = 0 then
+      pregviol = 1;
+      xtab( dv03, rweight );
+    endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ Table DV.4 }
+
+  sexviol1 = notappl;
+  xtab( dv04, rweight );
+  xtab( dv04u );
+  numwom = notappl;        { Ever experienced sexual violence }
+  if SVEver then
+    sexviol1 = 1;
+    xtab( dv04, rweight );
+    if D105H in 1,2 | D105I in 1,2 | D105K in 1,2 | D130B = 1 | D124 = 1 then
+      sexviol1 = 2;
+      xtab( dv04, rweight );
+    endif;
+  endif;
+  numwom = 1;
+
+{ -------------------------------------------------------------------- }
+{ Table DV.5  }
+
+  if SVEver then           { Ever experienced sexual violence }
+    d127w   = notappl;
+    numwom4 = 1;
+    xtab( dv05, rweight );
+    xtab( dv05u );
+    numwom4 = notappl;
+    if D105H in 1:4 | D105I in 1:4 | D105K in 1:4 then            { Current husband/intimate partner }
+      d127w = 1;
+      xtab( dv05, rweight );                                       
+    endif;
+    if D130B in 1:4 then d127w = 2; xtab( dv05, rweight ); endif;  { Former husband/intimate partner }
+    if D127D  = 1 | D127E = 1 then                                 { Current/former boyfriend }
+	  d127w =  3; 
+	  xtab( dv05, rweight ); 
+	endif;  
+    if D127A  = 1 then  d127w =  4; xtab( dv05, rweight ); endif;  { Father/ step father }
+    if D127B  = 1 then  d127w =  5; xtab( dv05, rweight ); endif;  { Brother/step brother }
+    if D127C  = 1 then  d127w =  6; xtab( dv05, rweight ); endif;  { Other relative }
+    if D127F  = 1 then  d127w =  7; xtab( dv05, rweight ); endif;  { In-law }
+    if D127G  = 1 then  d127w =  8; xtab( dv05, rweight ); endif;  { Own friends/acquaintance }
+    if D127H  = 1 then  d127w =  9; xtab( dv05, rweight ); endif;  { Family firend }
+    if D127I  = 1 then  d127w = 10; xtab( dv05, rweight ); endif;  { Teacher }
+    if D127J  = 1 then  d127w = 11; xtab( dv05, rweight ); endif;  { Schoolmate/classmate }
+    if D127K  = 1 then  d127w = 12; xtab( dv05, rweight ); endif;  { Employer }
+    if D127L  = 1 then  d127w = 13; xtab( dv05, rweight ); endif;  { Police/ soldier }
+    if D127M  = 1 then  d127w = 14; xtab( dv05, rweight ); endif;  { Priest/religious leader }
+    if D127N  = 1 then  d127w = 15; xtab( dv05, rweight ); endif;  { Stranger }
+    if D127X  = 1 then  d127w = 16; xtab( dv05, rweight ); endif;  { Other }
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ Table DV.6  }
+
+  numwom = notappl;
+  if D125 = 1 then
+    sexviol2 = 1;
+    xtab( dv06, rweight );
+  endif;	
+  if D125 = 1 & D124 = 1 then
+    sexviol2 = 2;
+    xtab( dv06, rweight );
+  endif;
+  sexviol2 = notappl;
+  numwom = 1;  
+  xtab( dv06, rweight );
+  xtab( dv06u );
+
+{ -------------------------------------------------------------------- }
+{ Table DV.7 }
+
+  numwom  = 1;
+  total2  = 0;
+  d126w   = notappl;
+  nosexv  = notappl;
+  { first tally for age, age 18-29 and total }
+  typeperp = notappl;
+  ageviol = D109A;
+  if D109A = notappl then
+    ageviol = D126
+  elseif D109A in 0:49 & D126 in 0:49 & D126 < D109A then
+    ageviol = D126
+  endif;	
+  if ageviol <> notappl then           { question now asked to anyone who have experienced sexual violence }
+    { Age at first experience of sexual violence }
+    recode ageviol -> D126w;
+              <10  -> 1;
+             10:11 -> 2;
+             12:14 -> 3;
+             15:17 -> 4;
+             18:21 -> 5;
+                   -> notappl;
+    endrecode;
+    { exclude women with inconsistency between D126 and V012 }
+    if ageviol in 1:49 & ageviol > (V012+1) then
+      D126w =  notappl;
+    endif;
+  elseif !SVEver then
+    nosexv = 1
+  endif;
+  xtab( dv07, rweight );
+  xtab( dv07u );
+  { now tally for type of perpetrator }
+  x013w11 = v013w11;
+  v013w11 = notappl;
+  total2  = notappl;
+  age1829 = notappl;
+  d126w   = notappl;
+  nosexv  = notappl;
+  { when perpetrator: husband/intimate partner - for ever married/with intimate partner }
+  if mstatus = 1 then
+    typeperp = 1;
+    ageviol = D109A;
+    if ageviol <> notappl then           { question now asked to anyone who have experienced sexual violence }
+      { Age at first experience of sexual violence }
+      recode ageviol -> D126w;
+               <10   -> 1;
+              10:11  -> 2;
+               12:14 -> 3;
+               15:17 -> 4;
+               18:21 -> 5;
+                     -> notappl;
+      endrecode;
+      { exclude women with inconsistency between D126 and V012 }
+      if ageviol in 1:49 & ageviol > (V012+1) then
+        D126w =  notappl;
+      endif;
+    elseif !SVEver then
+      nosexv = 1
+    endif;
+    xtab( dv07, rweight );
+    xtab( dv07u );
+  endif;	
+  { now tabulates when perpetrator: non-intimate partner - for all women }
+  typeperp = 2;  
+  d126w   = notappl;
+  nosexv  = notappl;
+  ageviol = D126;
+  if ageviol <> notappl then       { question now asked to anyone who have experienced sexual violence }
+    { Age at first experience of sexual violence }
+    recode ageviol -> d126w;
+             <10   -> 1;
+            10:11  -> 2;
+             12:14 -> 3;
+             15:17 -> 4;
+             18:21 -> 5;
+                   -> notappl;
+    endrecode;
+    { exclude women with inconsistency between D126 and V012 }
+    if ageviol in 1:49 & ageviol > (V012+1) then
+      D126w =  notappl;
+    endif;
+  elseif D125 = 0 then
+    nosexv = 1
+  endif;
+  xtab( dv07, rweight );
+  xtab( dv07u );
+  v013w11 = x013w11;
+  total2  = 0;
+  
+{ -------------------------------------------------------------------- }
+{ Table DV.8 }
+
+  recode PVEver :: SVEver -> formviol;
+            1   ::   0    -> 1;            { physical violence only }
+            0   ::   1    -> 2;            { sexual violence only }
+            1   ::   1    -> 3;            { physical and sexual violence }
+                ::        -> notappl;
+  endrecode;
+  xtab( dv08, rweight );
+  if PVEver | SVEver then              { physical or sexual violence }
+    formviol = 4;
+    xtab( dv08, rweight );
+  endif;
+  formviol = 5;
+  xtab( dv08, rweight );
+  xtab( dv08u );
+
+{ -------------------------------------------------------------------- }
+{ Table DV.9 }
+
+  if V502 in 1,2 | D100 in 1,2 then     { women ever married/intimate partner }
+    wcontbeh = notappl;
+    wphyviol = notappl;
+    wsexviol = notappl;
+    wemoviol = notappl;
+    anyviolh = notappl;
+    spoviol  = notappl;
+    { Denominator tallied in table's last row first column }
+    spouvio2 = notappl;
+    emwoman  = 1;
+    spouvio1 = 1;
+    xtab( dv09, rweight );
+    xtab( dv09u );
+    emwoman = notappl;
+    { controlling behavior last 12 months }
+    if D101A in 1,2 then d101aw = D101A else d101aw = notappl endif;
+    if D101B in 1,2 then d101bw = D101B else d101bw = notappl endif;
+    if D101C in 1,2 then d101cw = D101C else d101cw = notappl endif;
+    if D101D in 1,2 then d101dw = D101D else d101dw = notappl endif;
+    if D101E in 1,2 then d101ew = D101E else d101ew = notappl endif;
+    { physical last 12 months }
+    if D105A in 1,2 then d105aw = D105A else d105aw = notappl endif;
+    if D105B in 1,2 then d105bw = D105B else d105bw = notappl endif;
+    if D105J in 1,2 then d105jw = D105J else d105jw = notappl endif;
+    if D105C in 1,2 then d105cw = D105C else d105cw = notappl endif;
+    if D105D in 1,2 then d105dw = D105D else d105dw = notappl endif;
+    if D105E in 1,2 then d105ew = D105E else d105ew = notappl endif;
+    if D105F in 1,2 then d105fw = D105F else d105fw = notappl endif;
+    { sexual last 12 months }
+    if D105H in 1,2 then d105hw = D105H else d105hw = notappl endif;
+    if D105K in 1,2 then d105kw = D105K else d105kw = notappl endif;
+    if D105I in 1,2 then d105iw = D105I else d105iw = notappl endif;
+    { emotional last 12 months }
+    if D103A in 1,2 then d103aw = D103A else d103aw = notappl endif;
+    if D103B in 1,2 then d103bw = D103B else d103bw = notappl endif;
+    if D103C in 1,2 then d103cw = D103C else d103cw = notappl endif;
+
+    { controlling behavior }
+    if D101A in 1:4 then  wcontbeh = 1; spouvio1 = 1; spouvio3 = d101aw; xtab( dv09, rweight ); endif;
+    if D101B in 1:4 then  wcontbeh = 2; spouvio1 = 1; spouvio3 = d101bw; xtab( dv09, rweight ); endif;
+    if D101C in 1:4 then  wcontbeh = 3; spouvio1 = 1; spouvio3 = d101cw; xtab( dv09, rweight ); endif;
+    if D101D in 1:4 then  wcontbeh = 4; spouvio1 = 1; spouvio3 = d101dw; xtab( dv09, rweight ); endif;
+    if D101E in 1:4 then  wcontbeh = 5; spouvio1 = 1; spouvio3 = d101ew; xtab( dv09, rweight ); endif;
+    { any controlling behavior }
+    if AnyCB then
+      wcontbeh = 0;
+      spouvio1 = 1;
+      spouvio3 = freqCB;
+      xtab( dv09, rweight );
+    endif;
+    wcontbeh = notappl;    
+	
+    { physical violence }
+    if D105A in 1:4 then  wphyviol = 1; spouvio1 = 1; spouvio3 = d105aw; xtab( dv09, rweight ); endif;
+    if D105B in 1:4 then  wphyviol = 2; spouvio1 = 1; spouvio3 = d105bw; xtab( dv09, rweight ); endif;
+    if D105J in 1:4 then  wphyviol = 3; spouvio1 = 1; spouvio3 = d105jw; xtab( dv09, rweight ); endif;
+    if D105C in 1:4 then  wphyviol = 4; spouvio1 = 1; spouvio3 = d105cw; xtab( dv09, rweight ); endif;
+    if D105D in 1:4 then  wphyviol = 5; spouvio1 = 1; spouvio3 = d105dw; xtab( dv09, rweight ); endif;
+    if D105E in 1:4 then  wphyviol = 6; spouvio1 = 1; spouvio3 = d105ew; xtab( dv09, rweight ); endif;
+    if D105F in 1:4 then  wphyviol = 7; spouvio1 = 1; spouvio3 = d105fw; xtab( dv09, rweight ); endif;
+    { any physical violence by husband }
+    if AnyPV then
+      wphyviol = 0;
+      spouvio1 = 1;
+      spouvio3 = freqPV;
+      xtab( dv09, rweight );
+    endif;
+    wphyviol = notappl;
+
+    { Sexual violence }
+    if D105H in 1:4 then  wsexviol = 1; spouvio1 = 1; spouvio3 = d105hw;   xtab( dv09, rweight ); endif;
+    if D105K in 1:4 then  wsexviol = 2; spouvio1 = 1; spouvio3 = d105kw;   xtab( dv09, rweight ); endif;
+    if D105I in 1:4 then  wsexviol = 3; spouvio1 = 1; spouvio3 = d105iw;   xtab( dv09, rweight ); endif;
+    { Any sexual violence }
+    if AnySV then
+      wsexviol = 0;
+      spouvio1 = 1;
+      spouvio3 = freqSV;
+      xtab( dv09, rweight );
+    endif;
+    wSexviol = notappl;
+
+    { Emotional violence }
+    if D103A in 1:4 then  wemoviol = 1; spouvio1 = 1; spouvio3 = d103aw; xtab( dv09, rweight ); endif;
+    if D103B in 1:4 then  wemoviol = 2; spouvio1 = 1; spouvio3 = d103bw; xtab( dv09, rweight ); endif;
+    if D103C in 1:4 then  wemoviol = 3; spouvio1 = 1; spouvio3 = d103cw; xtab( dv09, rweight ); endif;
+    { Any Emotional violence }
+    if AnyEV then
+      wemoviol = 0;
+      spouvio1 = 1;
+      spouvio3 = freqEV;
+      xtab( dv09, rweight );
+    endif;
+    wemoviol = notappl;
+
+    { at least three forms of controlling behavior }
+	contbeh3 = (D101A in 1:4) + (D101B in 1:4) + (D101C in 1:4) + 
+	           (D101D in 1:4) + (D101E in 1:4);
+    if contbeh3 >= 3 then
+      spouvio3 = FreqCB;
+      anyviolh = 1;
+      spouvio1 = 1;
+      xtab( dv09, rweight );
+    endif;
+
+    { Any form of physical or sexual violence }
+    if AnyPV | AnySV then
+      spouvio3 = notappl;
+      anyviolh = 2;
+      spouvio1 = 1;
+	  
+      xtab( dv09, rweight );
+      spouvio1 = notappl;
+      if FreqPV = 1 | FreqSV = 1 then
+        spouvio3 = 1;
+        xtab( dv09, rweight );
+      elseif FreqPV = 2 | FreqSV = 2 then
+        spouvio3 = 2;
+        xtab( dv09, rweight );
+      endif;
+    endif;
+
+    { Any form of physical, emotional or sexual violence }
+    if AnyPV | AnySV | AnyEV then
+      spouvio3 = notappl;
+      anyviolh = 3;
+      spouvio1 = 1;
+      xtab( dv09, rweight );
+      spouvio1 = notappl;
+      if FreqPV = 1 | FreqSV = 1 | FreqEV = 1 then
+        spouvio3 = 1;
+        xtab( dv09, rweight );
+      elseif FreqPV = 2 | FreqSV = 2 | FreqEV = 2 then
+        spouvio3 = 2;
+        xtab( dv09, rweight );
+      endif;
+    endif;
+    anyviolh = notappl;
+
+    { spousal violence committed by any husband/partner }
+    { physical violence }
+    if AnyPV | D130A in 1:4 then
+      spouvio3 = notappl;
+      spouvio1 = 1;
+      spoviol  = 1;
+      xtab( dv09, rweight );
+      spouvio1 = notappl;
+      if FreqPV in 1,2 | D130A = 1 then
+        spouvio3 = 2;
+        xtab( dv09, rweight );
+      endif;
+    endif;
+    { sexual violence }
+    if AnySV | D130B in 1:4 then
+      spouvio3 = notappl;
+      spouvio1 = 1;
+      spoviol  = 2;
+      xtab( dv09, rweight );
+      spouvio1 = notappl;
+      if FreqSV in 1,2 | D130B = 1 then
+        spouvio3 = 2;
+        xtab( dv09, rweight );
+      endif;
+    endif;
+    { emotional violence }
+    if AnyEV | D130C in 1:4 then
+      spouvio3 = notappl;
+      spouvio1 = 1;
+      spoviol  = 3;
+      xtab( dv09, rweight );
+      spouvio1 = notappl;
+      if FreqEV in 1,2 | D130C = 1 then
+        spouvio3 = 2;
+        xtab( dv09, rweight );
+      endif;
+    endif;
+    { Physical or sexual violence }
+    if AnyPV | D130A in 1:4 | AnySV | D130B in 1:4 then
+      spouvio3 = notappl;
+      spouvio1 = 1;
+      spoviol  = 4;
+      xtab( dv09, rweight );
+      spouvio1 = notappl;
+      if FreqPV in 1,2 | D130A = 1 | FreqSV in 1,2 | D130B = 1 then
+        spouvio3 = 2;
+        xtab( dv09, rweight );
+      endif;
+    endif;
+    { Physical, sexual or emotional violence }
+    if AnyPV | D130A in 1:4 | AnySV | D130B in 1:4 | AnyEV | D130C in 1:4 then
+      spouvio3 = notappl;
+      spouvio1 = 1;
+      spoviol  = 5;
+      xtab( dv09, rweight );
+      spouvio1 = notappl;
+      if FreqPV in 1,2 | D130A = 1 | FreqSV in 1,2 | D130B = 1 | FreqEV in 1,2 | D130C = 1 then
+        spouvio3 = 2;
+        xtab( dv09, rweight );
+      endif;
+    endif;
+    spoviol  = notappl;
+
+  endif;     { women ever married/intimate partner }
+
+{ -------------------------------------------------------------------- }
+{ Table DV.10 }
+
+  if V502 in 1,2 | D100 in 1,2 then       { women ever married/intimate partner }
+    cnt = 0;                        { count numbers of control }
+    if D101A in 1:3 then	            { Is jealous or angry if she talks to other men }
+      husbcont = 1;
+      xtab( dv10, rweight );
+      cnt = cnt + 1;
+    endif;
+    if D101B in 1:3 then               { Frequently accuses her of being unfaithful }
+      husbcont = 2;
+      xtab( dv10, rweight );
+      cnt = cnt + 1;
+    endif;
+    if D101C in 1:3 then               { Does not permit her to meet her female friends }
+      husbcont = 3;
+      xtab( dv10, rweight );
+      cnt = cnt + 1;
+    endif;
+    if D101D in 1:3 then               { Tries to limit her contact with her family }
+      husbcont = 4;
+      xtab( dv10, rweight );
+      cnt = cnt + 1;
+    endif;
+    if D101E in 1:3 then				{ Insists on knowing where she is at all times }
+      husbcont = 5;
+      xtab( dv10, rweight );
+      cnt = cnt + 1;
+    endif;
+    if D101F in 1:3 then				{ Does not trust her with any money }
+      husbcont = 6;
+      xtab( dv10, rweight );
+      cnt = cnt + 1;
+    endif;
+    if cnt >= 3 then                { Displays 3 or more of the specific behaviors }
+      husbcont = 7;
+      xtab( dv10, rweight );
+    endif;
+    if cnt = 0 then					{ Displays none of the specific behaviors }
+      husbcont = 8;
+      xtab( dv10, rweight );
+    endif;
+    { Denominator: all woman ever married/intimate partner }
+    husbcont = 9;
+    xtab( dv10, rweight );
+    xtab( dv10u );
+  endif;     { women ever married/intimate partner }
+
+{ -------------------------------------------------------------------- }
+{ Tables DV.11 & DV.12 }
+
+  if V502 in 1,2 | D100 in 1,2 then       { women ever married/intimate partner }
+    { Respondent's father beat her mother }
+    recode D121   -> d121w;
+             0    -> 2;
+             1    -> 1;
+        8,missing -> 9;
+                  -> notappl;
+    endrecode;
+    if AnyEV                  then spouvio4 = 1; xtab( dv11, rweight ); xtab( dv12, rweight );endif; { Emotional }
+    if AnyPV                  then spouvio4 = 2; xtab( dv11, rweight ); xtab( dv12, rweight );endif; { Physical }
+    if AnySV                  then spouvio4 = 3; xtab( dv11, rweight ); xtab( dv12, rweight );endif; { Sexual }
+    if AnyPV & AnySV          then spouvio4 = 4; xtab( dv11, rweight ); xtab( dv12, rweight );endif; { Physical & sexual }
+    if AnyEV & AnyPV  & AnySV then spouvio4 = 5; xtab( dv11, rweight ); xtab( dv12, rweight );endif; { emotional & physical & sexual }
+    if AnyPV | AnySV          then spouvio4 = 6; xtab( dv11, rweight ); xtab( dv12, rweight );endif; { Physical or sexual }
+    if AnyEV | AnyPV  | AnySV then spouvio4 = 7; xtab( dv11, rweight ); xtab( dv12, rweight );endif; { emotional or physical or sexual }
+    spouvio4 = 8;
+    xtab( dv11, rweight );
+    xtab( dv11u );
+    xtab( dv12, rweight );
+    xtab( dv12u );
+  endif;     { women ever married/intimate partner }
+
+{ -------------------------------------------------------------------- }
+{ Table DV.13 }
+
+  if V502 in 1,2 | D100 in 1,2 then       { women ever married/intimate partner }
+    husbviol = 8;
+    xtab( dv13, rweight );
+    xtab( dv13u );
+    if FreqEV in 1,2 | D130C = 1 then
+      husbviol = 1;
+      xtab( dv13, rweight );
+    endif;
+    if FreqPV in 1,2 | D130A = 1 then
+      husbviol = 2;
+      xtab( dv13, rweight );
+    endif;
+    if FreqSV in 1,2 | D130B = 1 then
+      husbviol = 3;
+      xtab( dv13, rweight );
+    endif;
+    if (FreqPV in 1,2 | D130A = 1) & (FreqSV in 1,2 | D130B = 1) then
+      husbviol = 4;
+      xtab( dv13, rweight );
+    endif;
+    if (FreqPV in 1,2 | D130A = 1) & (FreqSV in 1,2 | D130B = 1) & (FreqEV in 1,2 | D130C = 1) then
+      husbviol = 5;
+      xtab( dv13, rweight );
+    endif;
+    if FreqPV in 1,2 | D130A = 1 | FreqSV in 1,2 | D130B = 1 then
+      husbviol = 6;
+      xtab( dv13, rweight );
+    endif;
+    if FreqPV in 1,2 | D130A = 1 | FreqSV in 1,2 | D130B = 1 | FreqEV in 1,2 | D130C = 1 then
+      husbviol = 7;
+      xtab( dv13, rweight );
+    endif;
+  endif;     { women ever married/intimate partner }
+
+{ -------------------------------------------------------------------- }
+{ table DV.14 }
+
+  if V502 in 1,2 | D100 in 1,2 then       { women ever married/intimate partner }
+    wbruises = ( D110A = 1 );				            { Cuts, bruises, or aches }
+    winjury  = ( D110B = 1 );                           { Eye injuries, sprains, dislocations, or burns }
+    wwounds  = ( D110D = 1 );                           { Deep wounds, broken bones, broken teeth, or any other serious injury }
+    anyinjur = ( D110A = 1 | D110B = 1 | D110D = 1 );   { Any injuries }
+
+    evphyvio = notappl;
+    evsexvio = notappl;
+    evsexphy = notappl;
+    if AnyPV then                      { physical violence }
+      evphyvio = 1;
+      xtab( dv14, rweight );
+      xtab( dv14u );
+      if FreqPV in 1,2 then
+        evphyvio = 2;
+        xtab( dv14, rweight );
+        xtab( dv14u );
+      endif;
+    endif;
+    evphyvio = notappl;
+
+    if AnySV then                      { sexual violence }
+      evsexvio = 1;
+      xtab( dv14, rweight );
+      xtab( dv14u );
+      if FreqSV in 1,2 then
+        evsexvio = 2;
+        xtab( dv14, rweight );
+        xtab( dv14u );
+      endif;
+    endif;
+    evsexvio = notappl;
+
+    if AnyPV | AnySV then              { physical or sexual violence }
+      evsexphy = 1;
+      xtab( dv14, rweight );
+      xtab( dv14u );
+      if FreqPV in 1,2 | FreqSV in 1,2 then
+        evsexphy = 2;
+        xtab( dv14, rweight );
+        xtab( dv14u );
+      endif;
+    endif;
+    evsexphy = notappl;
+	
+  endif;     { women ever married/intimate partner }
+
+{ -------------------------------------------------------------------- }
+{ Tables DV.15 & DV.16 }
+
+  if V502 in 1,2 | D100 in 1,2 then       { women ever married/intimate partner }
+    { Any Physical Violence by respondent against husband }
+    if FreqPV in 1,2 then
+      PVbyHusb = 2;               { in the last 12 months }
+    elseif AnyPV then
+      PVbyHusb = 1;               { ever }
+    else
+      PVbyHusb = 3;               { never }
+    endif;
+    { Violence against current husband }
+    recode D112A :: D112 -> womviol;
+             1,2 ::      -> 2;        { in the last 12 months }
+                 ::   1  -> 1;        { ever }
+                 ::      -> notappl;
+    endrecode;
+    xtab( dv15, rweight );
+    xtab( dv15u );
+    xtab( dv16, rweight );
+    xtab( dv16u );
+  endif;     { women ever married/intimate partner }
+
+{ -------------------------------------------------------------------- }
+{ Table DV.17 }
+
+  if PVEver | SVEver then          { Ever experienced physical/sexual violence }
+    { Type of violence }
+    recode PVever :: SVever -> TypeViol;
+             1    ::   0    -> 1;  { physical only }
+             0    ::   1    -> 2;  { sexual only }
+                  ::        -> 3;  { both }
+    endrecode;
+    if D119Y = 0 then                { sought help to stop violence }
+      seekhelp = 1;
+    elseif D128 = 1 then             { never sought help, but told someone }
+      seekhelp = 2;
+    elseif D128 = 0 then             { never sought help, never told anyone }
+      seekhelp = 3;
+    else                             { missing, DK }
+      seekhelp = 9;
+    endif;
+    xtab( dv17, rweight );
+    xtab( dv17u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ Table DV.18 }
+
+  if D119Y = 0 & ( PVEver | SVEver ) then          { Sought help and ever experienced physical/sexual violence }
+    recode PVever :: SVever -> TypeViol;
+             1    ::   0    -> 1;  { physical only }
+             0    ::   1    -> 2;  { sexual only }
+                  ::        -> 3;  { both }
+    endrecode;
+    if D119B = 1 | D119C = 1 | D119D = 1 | D119E = 1 |                   { Own family: mother/father/daughter/son/sister/brother/step mother-father }
+       D119F = 1 | D119G = 1 | D119H = 1 | D119M = 1 | D119N = 1 then
+      sourhelp = 1;
+      xtab( dv18, rweight );
+    endif;
+    if D119I = 1 | D119O = 1 | D119P = 1 | D119Q = 1 | D119R = 1 then    { In-laws }
+      sourhelp = 2;
+      xtab( dv18, rweight );
+    endif;
+    if D119A = 1 | D119J = 1 then                                        { Husband/partner }
+      sourhelp = 3;
+      xtab( dv18, rweight );
+    endif;
+    if D119K = 1 | D119L = 1 then                                        { boyfriend }
+      sourhelp = 4;
+      xtab( dv18, rweight );
+    endif;
+    if D119S = 1 | D119T = 1 | D119XD = 1 then                           { Friend }
+      sourhelp = 5;
+      xtab( dv18, rweight );
+    endif;
+    if D119U = 1 then                                                    { neighbor }
+      sourhelp = 6;
+      xtab( dv18, rweight );
+    endif;
+    if D119XF = 1 then                                                   { Religious leader }
+      sourhelp = 7;
+      xtab( dv18, rweight );
+    endif;
+    if D119XH = 1 then                                                   { Doctor/ medical personnel }
+      sourhelp = 8;
+      xtab( dv18, rweight );
+    endif;
+    if D119XE = 1 then                                                   { Police }
+      sourhelp = 9;
+      xtab( dv18, rweight );
+    endif;
+    if D119XG = 1 then                                                   { Lawyer }
+      sourhelp = 10;
+      xtab( dv18, rweight );
+    endif;
+    if D119XB = 1 then                                                   { Social service organization }
+      sourhelp = 11;
+      xtab( dv18, rweight );
+    endif;
+    if D119V = 1  | D119W = 1  | D119X = 1  | D119XA = 1 |               { others: teacher, employer, stranger, 4-CS }
+       D119XC = 1 | D119XI = 1 | D119XJ = 1 | D119XK = 1 then
+      sourhelp = 12;
+      xtab( dv18, rweight );
+    endif;
+    sourhelp = 13;
+    xtab( dv18, rweight );
+    xtab( dv18u );
+  endif; { physical/sexual violence }
+

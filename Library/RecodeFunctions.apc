@@ -1,0 +1,234 @@
+﻿
+  { categories for level of education }
+  function LevEduc( attend, edlevel )
+    numeric z;
+    recode   attend :: edlevel -> z;
+           missing  ::         -> missing;
+          notappl,2 ::         -> 0;  { no education }
+               8    ::         -> 8;  { don't know }
+                    ::    0    -> 0;  { pre-primary = no education }
+                    ::    1    -> 1;  { primary }
+                    ::    2    -> 2;  { secondary }
+                    ::    3    -> 3;  { higher }
+                    ::         -> edlevel;
+    endrecode;
+    LevEduc = z;
+  end;
+
+  { grade of eductation }
+  function GraEduc( edlevel, edgrade )
+    numeric z;
+    if edlevel in 0,8,notappl,missing then
+      z = notappl
+    else
+      z = edgrade;
+      { if edgrade = 8 then z = 98 endif;  { in case that 8-DK } }
+    endif;
+    GraEduc = z;
+  end;
+
+  { education in single years }
+  function SingEduc( edlevel, edgrade, zprm, zsec )
+    numeric z;
+    recode edlevel :: edgrade -> z;
+           notappl ::         -> notappl;
+                   :: missing -> missing;
+           missing ::         -> missing;
+                   ::    98   -> 98;
+                 8 ::         -> 98;
+                   ::    97   -> 97;
+                 0 ::         -> 0;     { Preschool and no education counted as 0 years }
+                 1 ::         -> edgrade;
+                 2 ::         -> edgrade+zprm;
+                 3 ::         -> edgrade+zprm+zsec;
+    endrecode;
+    SingEduc = z;
+  end;
+
+  { education attainment }
+  function AttnEduc( edlevel, edgrade )
+    numeric z;
+    recode edlevel :: edgrade -> z;
+           notappl ::         -> notappl;
+           missing ::         -> missing;
+                 8 ::         -> 8;
+                 0 ::         -> 0;    { Preschool and no education counted as 0 years }
+                 1 ::    6    -> 2;    { !! 6 = years of primary school !! }
+                 1 ::         -> 1;
+                 2 ::    6    -> 4;    { !! 6 = years of secondary school !! }
+                 2 ::         -> 3;
+                 3 ::         -> 5;
+    endrecode;
+    AttnEduc = z;
+  end;
+
+  { Recodes Yes/No variables code 1/2 to 1/0 }
+  function YesNo( ynvar );
+    if ynvar = 2 then
+      ynvar = 0
+    endif;
+    YesNo = ynvar
+  end
+
+  { Recodes NA to zero }
+  function NAtoZero( ynvar );
+    if ynvar = notappl then
+      ynvar = 0
+    endif;
+    NAtoZero = ynvar
+  end
+
+  { Recodes 3 to zero }
+  function Fr3toZro( ynvar );
+    if ynvar = 3 then
+      ynvar = 0;
+    endif;
+    Fr3toZro = ynvar;
+  end;
+
+  { Recodes 3 to 8 }
+  function fr3to8( ynvar );
+    if ynvar = 3 then
+      ynvar = 8;
+    endif;
+    fr3to8   = ynvar;
+  end;
+
+  { to properly handle missings for the combination of variables with units and two digit numbers }
+  function unitnumb( yunits, ynumbers );
+    numeric z;
+    if ynumbers in missing,refused then
+      z = yunits * 100 + 99
+    else
+      z = yunits * 100 + ynumbers
+    endif;
+    unitnumb = z;
+  end
+
+  { Converts alphanumeric variables to 1/0/8/missing one at a time }
+  function alfa2num( vara, string varb, string varc );
+    numeric z;
+    { VARA = filter question }
+    { VARB = the variable itself }
+    { VARC = the character to search in the variable }
+    { Example::
+                          VARA  <--------- VARB-------->  <------- VARC --------->
+        V785A = alfa2num( A1042,  alpha variable itself     The character to search );
+    }
+    if vara = missing | pos("?", varb) then
+      z = missing;
+    elseif vara = 8 then
+      z = 8;
+    elseif vara = 1 then
+      z = ( pos(varc, varb) > 0 );
+    else
+      z = 0;
+    endif;
+    alfa2num = z;
+  end;
+
+  { Converts alphanumeric variables to 1/0/missing one at a time    }
+  { This function differs from the previous one in that code 8 (DK) }
+  { or alpha code "Z" is converted to zero instead of 8             }
+  function alfaDKnum( vara, string varb, string varc );
+    numeric z;
+    { VARA = filter question }
+    { VARB = the variable itself }
+    { VARC = the character to search in the variable }
+    { Example::
+                          VARA  <--------- VARB-------->  <------- VARC --------->
+        V785A = alfaDKnum( A1042,  alpha variable itself     The character to search );
+    }
+    if vara = missing | pos("?", varb) then
+      z = missing;
+    elseif vara = 8 | pos("Z",varb) then
+      z = 0;
+    elseif vara = 1 then
+      z = ( pos(varc, varb) > 0 );
+    else
+      z = 0;
+    endif;
+    alfaDKnum = z;
+  end;
+
+  { calculates the number of days since january 1, 1900 up to the date given in the parameters }
+  { the function assumes that the day (zday) within month (zmonth) is consistent               }
+  function CDCode( zyear, zmonth, zday )
+    numeric z, zz, zdays1 = 0, zdays2 =0, leapday, totdays = 99999;
+    if !zyear in 1900:2170 | !zmonth in 1:12 | !zday in 1:31 then
+      errmsg( "Invalid date to calculate CDC Year=%04d, Month=%02d, day=%02d", zyear, zmonth, zday );
+    else
+      { number of days between 1900 and zyear }
+      do z = 1900 while z < zyear
+        zdays1 = zdays1 + 365 + (z % 4 = 0);
+      enddo;
+      { number of days up to the month in year zyear }
+      leapday = (zyear % 4 = 0);
+      do z = 1 while z < zmonth
+        recode z          -> zz;
+             1,3,5,7,8,10 -> 31;
+                        2 -> 28+leapday;
+                 4,6,9,11 -> 30;
+        endrecode;
+        zdays2 = zdays2 + zz;
+      enddo;
+      { total days }
+      totdays = zdays1 + zdays2 + zday;
+    endif;
+    CDCode = totdays;
+  end
+
+  { determines the combination of persons involved in activities with child }
+  function ChActivity( string zactivity )
+    numeric z, za, zb, zx, zy;
+	za = ( pos("A", ZACTIVITY) > 0 ); 
+	zb = ( pos("B", ZACTIVITY) > 0 ); 
+	zx = ( pos("X", ZACTIVITY) > 0 ); 
+	zy = ( pos("Y", ZACTIVITY) > 0 ); 
+	recode  za :: zb :: zx :: zy -> z;
+	           ::    ::    ::  1 -> 0;     { no one }
+	         1 ::  1 ::  1 ::    -> 4;     { mother, father and other }
+	         1 ::  1 ::    ::    -> 5;     { mother and father }
+	         1 ::    ::  1 ::    -> 6;     { mother and other }
+	           ::  1 ::  1 ::    -> 7;     { father and other }
+	         1 ::    ::    ::    -> 1;     { mother alone }
+	           ::  1 ::    ::    -> 2;     { father alone }
+	           ::    ::  1 ::    -> 3;     { other alone }
+	           ::    ::    ::    -> missing;  
+    endrecode;
+    ChActivity = z;
+  end	
+  
+  { function to get the score for GAD anxiety variables }
+  function Score( xvar )  
+    numeric z = 0;
+    if xvar in 1:3 then
+	  z = xvar;
+    endif;
+    Score = z;
+  end;	
+  
+  { function to determine if a blood pressure measurment has valid values }
+  function ValidBP( xvar, xtype )  
+    numeric z = 0;
+	if xtype = 1 & xvar in 50:300 then          // systolic valid range
+	  z = 1;
+	elseif xtype = 2 & xvar in 40:300 then      // diastolic valid range
+	  z = 1;
+    endif;
+    ValidBp = z;
+  end;	
+  
+  { function to determine the blood pressure test result }
+  function BloodResult( syst, diast )     
+    numeric z;
+    recode syst :: diast -> z; 
+          0:129 :: 0: 84 -> 1; 
+          0:139 :: 0: 89 -> 2; 
+          0:159 :: 0: 99 -> 3; 
+          0:179 :: 0:109 -> 4; 
+          0:209 :: 0:119 -> 5; 
+                ::       -> 6; 
+    endrecode;
+	BloodResult = z;
+  end;

@@ -1,0 +1,61 @@
+﻿---
+fileType: Question Text
+version: CSPro 7.7
+languages:
+  - name: EN
+    label: English
+  - name: ES
+    label: Español
+  - name: FR
+    label: Français
+styles:
+  - name: Normal
+    className: normal
+    css: |
+      font-family: Arial;font-size: 16px;
+  - name: Instruction
+    className: instruction
+    css: |
+      font-family: Arial;font-size: 14px;color: #0000FF;
+  - name: Heading 1
+    className: heading1
+    css: |
+      font-family: Arial;font-size: 36px;
+  - name: Heading 2
+    className: heading2
+    css: |
+      font-family: Arial;font-size: 24px;
+  - name: Heading 3
+    className: heading3
+    css: |
+      font-family: Arial;font-size: 18px;
+questions:
+  - name: MENU_DICT.WFINAL
+    conditions:
+      - questionText:
+          EN: |
+            <p style="text-align:center;"><span style="font-size:16px;color:#ff00ff;font-family:'Arial', sans-serif;">Welcome to the&nbsp;</span></p>
+            <p style="text-align:center;"><span style="font-size:16px;color:#0000ff;font-family:'Arial', sans-serif;">Demographic &amp; Health Survey Program&nbsp;</span></p>
+            <p style="text-align:center;"><br></p>
+            <p style="text-align:center;"><span style="font-size:10px;color:#000000;font-family:'Arial', sans-serif;">Press Enter key and Select an option from the list to be displayed&nbsp;</span></p>
+            
+          ES: |
+            <p style="text-align:center;"><span style="font-size:16px;color:#ff00ff;font-family:'Arial', sans-serif;">Bienvenido al&nbsp;</span></p>
+            <p style="text-align:center;"><span style="font-size:16px;color:#0000ff;font-family:'Arial', sans-serif;">Programa de Encuestas de Demografia y Salud&nbsp;</span></p>
+            <p style="text-align:center;"><br></p>
+            <p style="text-align:center;"><span style="font-size:10px;color:#000000;font-family:'Arial', sans-serif;">Oprima la Tecla Enter y Seleccione una opcion de la lista que se despliega&nbsp;</span></p>
+            
+          FR: |
+            <p style="text-align:center;"><span style="font-size:16px;color:#ff00ff;font-family:'Arial', sans-serif;">Welcome to the&#160;</span></p>
+            <p style="text-align:center;"><span style="font-size:16px;color:#0000ff;font-family:'Arial', sans-serif;">Demographic &amp; Health Survey Program&#160;</span></p>
+            <p style="text-align:center;"><br></p>
+            <p style="text-align:center;"><span style="font-size:10px;color:#000000;font-family:'Arial', sans-serif;">Press Enter key and Select an option from the list to be displayed&#160;</span></p>
+            
+        helpText:
+          EN: |
+            
+          ES: |
+            
+          FR: |
+            
+...

@@ -1,0 +1,57 @@
+[Dictionary]
+Version=CSPro 4.0
+Label=vars
+Name=VARS_DICT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=vars questionnaire
+Name=VARS_QUEST
+
+[IdItems]
+
+[Item]
+Label=Recode variable
+Name=VAR1
+Start=1
+Len=12
+DataType=Alpha
+
+[Record]
+Label=vars record
+Name=VARS_REC
+RecordTypeValue=''
+RecordLen=205
+
+[Item]
+Label=Raw variable 1
+Name=RVAR1
+Start=13
+Len=12
+DataType=Alpha
+
+[Item]
+Label=Raw variable 2
+Name=RVAR2
+Start=25
+Len=12
+DataType=Alpha
+Occurrences=5
+
+[Item]
+Label=Checked complete
+Name=RCHECK
+Start=85
+Len=1
+DataType=Alpha
+
+[Item]
+Label=Notes
+Name=RNOTE
+Start=86
+Len=120
+DataType=Alpha

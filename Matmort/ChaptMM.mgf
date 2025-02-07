@@ -1,0 +1,5 @@
+1       i=%d, sibsex=%d, survstat=%d, sage=%d, yeardt=%2d, yearsd=%d, aged=%d, MM9=%d, nbp=%d
+2       gage=%d, higage=%d, higcm=%d, q104c=%d
+3       gage=%d, fert=%d, periods=%d, higexp=%d, rweight= %d, AWFACTT=%d
+4       gage=%d, fert=%d, periods=%d, lowexp=%d, rweight= %d, AWFACTT=%d
+5       gage=%d, fert=%d, periods=%d, rweight=%d

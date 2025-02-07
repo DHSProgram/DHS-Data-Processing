@@ -1,0 +1,1184 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines November 1, 2022       -      Version 1.0.0 of 02/10/2023   +}
+{+                                                                          +}
+{+   CHAPTER CD.   CHRONIC DISEASE                                          +}
+{+                                                                          +}
+{+   Table CD.1.1 Blood pressure diagnosis and treatment: Women             +}
+{+   Table CD.1.2 Blood pressure diagnosis and treatment: Men               +}
+{+   Table CD.2.1 Blood sugar diagnosis and treatment: Women                +}
+{+   Table CD.2.2 Blood sugar diagnosis and treatment: Men                  +}
+{+   Table CD.3   Heart disease and chronic heart condition diagnosis       +} 
+{+                and treatment                                             +}           
+{+   Table CD.4   Lung disease and chronic lung condition diagnosis         +}
+{+                and treatment                                             +}
+{+   Table CD.5   Cancer or tumor diagnosis and treatment                   +}
+{+   Table CD.6   Depression diagnosis and treatment                        +}
+{+   Table CD.7   Arthritis diagnosis and treatment                         +}
+{+   Table CD.8   Cervical cancer                                           +}
+{+   Table CD.9   Treatment and follow up visits for women with abnormal or +}
+{+                inconclusive cervical cancer test results                 +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric j, jtot, jtot1, jtot2, jtot3, jtot4, jmax;
+  numeric i, itot, itot1, itot2, itot3, imax;
+  numeric agechild, mother, motheduc, ethnicity;
+  numeric rweight;
+  
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+    {+EN}
+    title( "Tables for chronic disease module, [Country Survey Year]" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    title( "Tables for chronic disease module, [Pays, Enquête, Année]" );
+    {FR}}
+
+  crosstab float(1) tcd011 v013w1+v102w+v101w+v106w+v190w+total bloodp1+bloodp2
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CD.1.1 Blood pressure diagnosis and treatment: Women"," ",
+           "Percentage of women age 15-49 who have ever had their blood pressure measured", 
+		   "and percentage who have been told by a healthcare provider that they have high", 
+		   "blood pressure or hypertension; among women who have been told they have high", 
+		   "blood pressure, percentage told in the past 12 months they have high blood", 
+		   "pressure or hypertension, percentage prescribed medication to control blood", 
+		   "pressure, and percentage taking medication to control blood pressure;",
+           "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+	 title("Tableau CD.1.1 Diagnostic de la tension artérielle et traitement: Femme"," ",
+           "Pourcentage de femmes de 15-49 ans dont la tension artérielle a déjà été mesurée",
+		   "et pourcentage ayant été informées par un professionnel de santé que leur tension",
+		   "était  élevée ou qu'elles souffraient d'hypertension artérielle; parmi les femmes",
+		   "ayant été informées qu'elles souffraient d'hypertension artérielle, pourcentage qui",
+		   "l'ont été dans les 12 derniers mois, pourcentage à qui on a prescrit des médicaments",
+		   "pour contrôler la tension artérielle, et pourcentage qui prennne des médicaments pour",
+		   "contrôler leur tension artérielle, selon certaines caractéristiques sociodémographiques,",
+		   "[Pays, Enquête, Année]")
+     stub( "Caractéristique sociodémographique" );
+    {FR}}
+  crosstab float(0) tcd011u v013w1+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CD.1.1 Blood pressure diagnosis and treatment: Women (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tcd012 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen bloodp3+bloodp4
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CD.1.2 Blood pressure diagnosis and treatment: Men"," ",
+           "Percentage of men age 15-49 who have ever had their blood pressure measured", 
+		   "and percentage who have been told by a healthcare provider that they have high", 
+		   "blood pressure or hypertension; among men who have been told they have high", 
+		   "blood pressure, percentage told in the past 12 months they have high blood", 
+		   "pressure or hypertension, percentage prescribed medication to control blood", 
+		   "pressure, and percentage taking medication to control blood pressure;",
+           "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+	title( "Tableau CD.1.2  Diagnostic de la tension artérielle et traitement: Homme"," ",
+           "Pourcentage d'hommes de 15-49 ans dont la tension artérielle a déjà été mesurée",
+		   "et pourcentage ayant été informés par un professionnel de santé que leur tension était",
+		   "élevée ou qu'ils souffraient d'hypertension artérielle; parmi les hommes ayant été",
+		   "informés qu'ils souffraient d'hypertension artérielle, pourcentage qui l'ont été dans",
+		   "les 12 derniers mois, pourcentage à qui on a prescrit des médicaments pour contrôler",
+		   "la tension artérielle, et pourcentage qui prennne des médicaments pour contrôler leur",
+		   "tension artérielle, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]")
+     stub( "Caractéristique sociodémographique" );
+    {FR}}
+  crosstab float(0) tcd012u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CD.1.2 Blood pressure diagnosis and treatment: Women (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tcd021 v013w1+v102w+v101w+v106w+v190w+total bloods1+bloods2
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CD.2.1 Blood sugar diagnosis and treatment: Women"," ",
+           "Percentage of women age 15-49 who have ever had their blood sugar measured and", 
+		   "percentage who have been told by a healthcare provider that they have high blood", 
+		   "sugar or diabetes; among women who have been told they have high blood sugar,", 
+		   "percentage told in the past 12 months they have high blood sugar or diabetes,", 
+		   "percentage prescribed medication to control blood sugar, and percentage taking", 
+		   "medication to control blood sugar,",
+           "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+	title( "Tableau CD.2.1  Diagnostic de l'hyperglycémie et traitement: Femme"," ",
+           "Pourcentage de femmes de 15-49 ans dont le taux de sucre dans le sang  a déjà",
+		   "été mesuré et pourcentage ayant été informées par un prestataire de santé que leur",
+		   "taux de sucre dans le sang était élevé ou qu'elles avaient du diabète  ; parmi les",
+		   "femmes informées que leur taux de sucre dans le sang était élevé, pourcentage qui ont",
+		   "été informées dans les 12 derniers mois que leur taux de sucre était élevé ou qu'elles",
+		   "avaient du diabète, pourcentage à qui on a prescrit des médicaments pour contrôler leur",
+		   "taux de sucre et pourcentage qui prenne des médicaments pour contrôler leur taux de sucre",
+		   "dans le sang, selon certaines caractéristiques sociodémographiques, [Pays, enquête, année]")
+     stub( "Caractéristique sociodémographique" );
+    {FR}}
+  crosstab float(0) tcd021u v013w1+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CD.2.1 Blood sugar diagnosis and treatment: Women (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tcd022 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen bloods3+bloods4
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CD.2.2 Blood sugar diagnosis and treatment: Men"," ",
+           "Percentage of men age 15-49 who have ever had their blood sugar measured and", 
+		   "percentage who have been told by a healthcare provider that they have high blood", 
+		   "sugar or diabetes; among men who have been told they have high blood sugar,", 
+		   "percentage told in the past 12 months they have high blood sugar or diabetes,", 
+		   "percentage prescribed medication to control blood sugar, and percentage taking", 
+		   "medication to control blood sugar,",
+           "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+	title( "Tableau CD.2.2  Diagnostic de l'hyperglycémie et traitement: Homme"," ",
+           "Pourcentage d'hommes de 15-49 ans dont le taux de sucre dans le sang  a déjà été mesuré",
+		   "et pourcentage ayant été informés par un prestataire de santé que leur taux de sucre dans",
+		   "le sang était élevé ou qu'ils avaient du diabète  ; parmi les hommes informés que leur taux",
+		   "de sucre dans le sang était élevé, pourcentage qui ont été informés dans les 12 derniers mois",
+		   "que leur taux de sucre était élevé ou qu'ils avaient du diabète, pourcentage à qui on a prescrit",
+		   "des médicaments pour contrôler leur taux de sucre et pourcentage qui prenne des médicaments pour",
+		   "contrôler leur taux de sucre dans le sang, selon certaines caractéristiques sociodémographiques,",
+		   "[Pays, enquête, année]")
+     stub( "Caractéristique sociodémographique" );
+    {FR}}
+  crosstab float(0) tcd022u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CD.2.2 Blood sugar diagnosis and treatment: Men (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tcd03 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen heartw1+heartw2+heartm1+heartm2
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CD.3 Heart disease and chronic heart condition diagnosis and treatment"," ",
+           "Percentage of women and men age 15-49 who have been told by a healthcare provider", 
+		   "that they have heart disease or a chronic heart condition and among those who", 
+		   "have been told, percentage receiving treatment,", 
+           "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+	title( "Tableau CD.3  Diagnostic et traitement des maladies cardiaques et des maladies cardiaques à l'état chronique"," ",
+           "Pourcentage de femmes et d'hommes de 15-49 ans qui ont été informés par un prestataire",
+		   "de santé qu'ils souffraient d'une maladie cardiaque ou d'une maladie cardiaque chronique",
+		   "et, parmi  celles et ceux qui ont été informés de leur état, pourcentage recevant un traitement,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]")
+     stub( "Caractéristique sociodémographique" );
+    {FR}}
+  crosstab float(0) tcd03u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CD.3 Heart disease and chronic heart condition diagnosis and treatment (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tcd04 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen lungdw1+lungdw2+lungdm1+lungdm2
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CD.4 Lung disease and chronic lung condition diagnosis and treatment"," ",
+           "Percentage of women and men age 15-49 who have been told by a healthcare provider", 
+		   "that they have lung disease or a chronic lung condition and among those who have", 
+		   "been told, percentage receiving treatment,", 
+           "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+	title( "Tableau CD.4  Diagnostic et traitement des maladies pulmonaires et des affections pulmonaires à l'état chronique"," ",
+           "Pourcentage de femmes et d'hommes de 15-49 ans qui ont été informés par un prestataire",
+		   "de santé qu'ils souffraient d'une maladie pulmonaire ou d'une affection pulmonaire à l'état",
+		   "chronique et, parmi celles et ceux qui ont été informés de leur état, pourcentage recevant un",
+		   "traitement, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]")
+     stub( "Caractéristique sociodémographique" );
+    {FR}}
+  crosstab float(0) tcd04u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CD.4 Lung disease and chronic lung condition diagnosis and treatment (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tcd05 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen tumorw1+tumorw2+tumorm1+tumorm2
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CD.5 Cancer or tumor diagnosis and treatment"," ",
+           "Percentage of women and men age 15-49 who have been told by a healthcare provider", 
+		   "that they have cancer or a tumor and among those who have been told, percentage", 
+		   "receiving treatment,",
+           "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+	title( "Tableau CD.5  Diagnostic et traitement d' un cancer ou d'une tumeur"," ",
+           "Pourcentage de femmes et d'hommes de 15-49 ans qui ont été informés par un prestataire",
+		   "de santé qu'ils avaient un cancer ou une tumeur et, parmi celles et ceux qui ont été",
+		   "informés de leur état, pourcentage recevant un traitement, selon certaines caractéristiques",
+		   "sociodémographiques, [Pays, Enquête, Année]")
+     stub( "Caractéristique sociodémographique" );
+    {FR}}
+  crosstab float(0) tcd05u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CD.5 Cancer or tumor diagnosis and treatment (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tcd06 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen anxietw1+anxietw2+anxietm1+anxietm2
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CD.6 Depression diagnosis and treatment"," ",
+           "Percentage of women and men age 15-49 who have been told by a healthcare provider", 
+		   "that they have depression or anxiety and among those who have been told,", 
+		   "percentage receiving treatment," 
+           "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+	title( "Tableau CD.6  Diagnostic et traitement de la dépression"," ",
+           "Pourcentage de femmes et d'hommes de 15-49 ans qui ont été informés par un prestataire",
+		   "de santé qu'ils souffraient de dépression ou d'anxiété et, parmi celles et ceux qui ont",
+		   "été informés de leur état, pourcentage recevant un traitement, selon certaines caractéristiques",
+		   "sociodémographiques, [Pays, Enquête, Année]")
+     stub( "Caractéristique sociodémographique" );
+    {FR}}
+  crosstab float(0) tcd06u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CD.6 Depression diagnosis and treatment (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tcd07 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen arthriw1+arthriw2+arthrim1+arthrim2
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CD.7 Arthritis diagnosis and treatment"," ",
+           "Percentage of women and men age 15-49 who have been told by a healthcare", 
+		   "worker that they have arthritis and among those who have been told,", 
+		   "percentage receiving treatment,", 
+           "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+	title( "Tableau CD.7  Diagnostic et traitement de l'arthrite"," ",
+           "Pourcentage de femmes et d'hommes de 15-49 ans qui ont été informés par un prestataire",
+		   "de santé qu'ils souffraient d'arthrite et, parmi celles et ceux qui ont été informés",
+		   "de leur état, pourcentage recevant un traitement, selon certaines caractéristiques",
+		   "ociodémographiques, [Pays, Enquête, Année]")
+     stub( "Caractéristique sociodémographique" );
+    {FR}}
+  crosstab float(0) tcd07u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CD.7 Arthritis diagnosis and treatment (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tcd08 v013w1+v102w+v101w+v106w+v190w+total cancer+timetest+restest+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CD.8 Cervical cancer"," ",
+           "Percentage of women age 15-49 who have heard of cervical cancer, have heard", 
+		   "of a test for cervical cancer, and have been tested for cervical cancer;", 
+		   "percentage of women age 15-49 who have been tested for cervical cancer by", 
+		   "timing of last test and by test results,",
+		   "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+	title( "Tableau CD.8 Cancer du col de l'utérus"," ",
+           "Pourcentage de femmes de 15-49 ans ayant entendu parler du cancer du col de l'utérus,",
+		   "pourcentage ayant entendu parler d'un test de dépistage du cancer du col de l'utérus",
+		   "et pourcentage ayant effectué un test de dépistage du cancer du col de l'utérus ; pourcentage",
+		   "de femmes de 15-49 ans qui ont été testées pour le cancer du col de l'utérus selon le moment",
+		   "du dernier test et selon les résultats du test, en fonction de certaines caractéristiques",
+		   "sociodémographiques, [Pays, Enquête, Année]")
+     stub( "Caractéristique sociodémographique" );
+    {FR}}
+  crosstab float(0) tcd08u v013w1+v102w+v101w+v106w+v190w+tot1549 coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CD.8 Cervical cancer (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tcd09 cervix+wtestp+treatch+wtreat1+visitfol+wtreat2 pctreat
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CD.9 Treatment and follow up visits for women with abnormal or inconclusive cervical cancer test results","",
+           "Among women age 15-49 with abnormal, positive, or suspect cancer results to", 
+		   "their cervical cancer screening test, percent distribution by treatment status;", 
+		   "among women who received treatment, percentage who received treatment on the", 
+		   "same day as their test result, and percentage with any follow up visit after", 
+		   "treatment; and among women with unclear or inconclusive results or with abnormal,", 
+		   "or suspect cancer results who did not receive treatment, percentage with any", 
+		   "follow up visit due to their test result,",
+		   "according to background characteristics, [Country Survey Year]")
+     stub( "Treatment and follow-up" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    title( "Tableau CD.9 Visites pour le traitement et le suivi des femmes dont les résultats",
+           "du test de dépistage du cancer du col de l'utérus sont anormaux ou non concluants"," ",
+           "Parmi les femmes de 15-49 ans dont les résultats de leur test pour le cancer du col de",
+           "l'utérus sont anormaux ou non concluants, répartition (en %) par statut du traitement;",
+           "parmi les femmes ayant reçu un traitement, pourcentage l'ayant reçu le même jour que les résultats de test,",
+           "et pourcentage ayant effectué une visite de suivi après le traitement;",
+           "parmi les femmes avec des résultats au test peu clairs ou non concluants",
+           "ou avec des résultats anormaux ou suspects qui n'ont pas reçu de traitement, pourcentage ayant effectué une visite de suivi en raison du résultat de leur test, [Pays, Enquête, Année]")
+    stub ( "Traitement et suivi" );         
+    {FR}}
+  crosstab float(0) tcd09u coltotu total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CD.9 Treatment and follow up visits for women with abnormal or inconclusive cervical cancer test results (Number of unweighted cases)" )
+     stub( "Treatment and follow-up" );
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table cd.1.1 processing }
+  jtot1 = tblcol( tcd011, bloodp1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tcd011[*,j] = tcd011[*,j] * 100 / tcd011[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tcd011 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tcd011[*,j] = tcd011[*,j] * 100 / tcd011[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tcd011", tcd011, 0,       jtot1-1, tcd011u, 0 );
+  Col2Dim( "tcd011", tcd011, jtot1+1, jtot2-1, tcd011u, 1 );
+
+  { Table cd.1.2 processing }
+  jtot1 = tblcol( tcd012, bloodp3 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tcd012[*,j] = tcd012[*,j] * 100 / tcd012[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tcd012 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tcd012[*,j] = tcd012[*,j] * 100 / tcd012[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tcd012", tcd012, 0,       jtot1-1, tcd012u, 0 );
+  Col2Dim( "tcd012", tcd012, jtot1+1, jtot2-1, tcd012u, 1 );
+
+  { Table cd.2.1 processing }
+  jtot1 = tblcol( tcd021, bloods1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tcd021[*,j] = tcd021[*,j] * 100 / tcd021[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tcd021 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tcd021[*,j] = tcd021[*,j] * 100 / tcd021[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tcd021", tcd021, 0,       jtot1-1, tcd021u, 0 );
+  Col2Dim( "tcd021", tcd021, jtot1+1, jtot2-1, tcd021u, 1 );
+
+  { Table cd.2.2 processing }
+  jtot1 = tblcol( tcd022, bloods3 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tcd022[*,j] = tcd022[*,j] * 100 / tcd022[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tcd022 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tcd022[*,j] = tcd022[*,j] * 100 / tcd022[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tcd022", tcd022, 0,       jtot1-1, tcd022u, 0 );
+  Col2Dim( "tcd022", tcd022, jtot1+1, jtot2-1, tcd022u, 1 );
+
+  { Table cd.3 processing }
+  jtot1 = tblcol( tcd03, heartw1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tcd03[*,j] = tcd03[*,j] * 100 / tcd03[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tcd03, heartw2 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tcd03[*,j] = tcd03[*,j] * 100 / tcd03[*,jtot2];
+  enddo;
+  jtot3 = tblcol( tcd03, heartm1 );
+  jmax  = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    tcd03[*,j] = tcd03[*,j] * 100 / tcd03[*,jtot3];
+  enddo;
+  jtot4 = tblcol( tcd03, heartm2 );
+  jmax  = jtot4 - 1;
+  do j = jtot3 + 1 while j <= jmax
+    tcd03[*,j] = tcd03[*,j] * 100 / tcd03[*,jtot4];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tcd03", tcd03, 0,       jtot1-1, tcd03u, 0 );
+  Col2Dim( "tcd03", tcd03, jtot1+1, jtot2-1, tcd03u, 1 );
+  Col2Dim( "tcd03", tcd03, jtot2+1, jtot3-1, tcd03u, 2 );
+  Col2Dim( "tcd03", tcd03, jtot3+1, jtot4-1, tcd03u, 3 );
+  { assign defaults/NA }
+  itot = tblrow( tcd03 );
+  tcd03[itot,  0:jtot2] = NAcells;  { for row total 15-54[59] }
+  tcd03[itot-1,0:jtot2] = NAcells;  { for row 50-54[59]       }
+
+  { Table cd.4 processing }
+  jtot1 = tblcol( tcd04, lungdw1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tcd04[*,j] = tcd04[*,j] * 100 / tcd04[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tcd04, lungdw2 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tcd04[*,j] = tcd04[*,j] * 100 / tcd04[*,jtot2];
+  enddo;
+  jtot3 = tblcol( tcd04, lungdm1 );
+  jmax  = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    tcd04[*,j] = tcd04[*,j] * 100 / tcd04[*,jtot3];
+  enddo;
+  jtot4 = tblcol( tcd04, lungdm2 );
+  jmax  = jtot4 - 1;
+  do j = jtot3 + 1 while j <= jmax
+    tcd04[*,j] = tcd04[*,j] * 100 / tcd04[*,jtot4];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tcd04", tcd04, 0,       jtot1-1, tcd04u, 0 );
+  Col2Dim( "tcd04", tcd04, jtot1+1, jtot2-1, tcd04u, 1 );
+  Col2Dim( "tcd04", tcd04, jtot2+1, jtot3-1, tcd04u, 2 );
+  Col2Dim( "tcd04", tcd04, jtot3+1, jtot4-1, tcd04u, 3 );
+  { assign defaults/NA }
+  itot = tblrow( tcd04 );
+  tcd04[itot,  0:jtot2] = NAcells;  { for row total 15-54[59] }
+  tcd04[itot-1,0:jtot2] = NAcells;  { for row 50-54[59]       }
+
+  { Table cd.5 processing }
+  jtot1 = tblcol( tcd05, tumorw1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tcd05[*,j] = tcd05[*,j] * 100 / tcd05[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tcd05, tumorw2 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tcd05[*,j] = tcd05[*,j] * 100 / tcd05[*,jtot2];
+  enddo;
+  jtot3 = tblcol( tcd05, tumorm1 );
+  jmax  = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    tcd05[*,j] = tcd05[*,j] * 100 / tcd05[*,jtot3];
+  enddo;
+  jtot4 = tblcol( tcd05, tumorm2 );
+  jmax  = jtot4 - 1;
+  do j = jtot3 + 1 while j <= jmax
+    tcd05[*,j] = tcd05[*,j] * 100 / tcd05[*,jtot4];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tcd05", tcd05, 0,       jtot1-1, tcd05u, 0 );
+  Col2Dim( "tcd05", tcd05, jtot1+1, jtot2-1, tcd05u, 1 );
+  Col2Dim( "tcd05", tcd05, jtot2+1, jtot3-1, tcd05u, 2 );
+  Col2Dim( "tcd05", tcd05, jtot3+1, jtot4-1, tcd05u, 3 );
+  { assign defaults/NA }
+  itot = tblrow( tcd05 );
+  tcd05[itot,  0:jtot2] = NAcells;  { for row total 15-54[59] }
+  tcd05[itot-1,0:jtot2] = NAcells;  { for row 50-54[59]       }
+
+  { Table cd.6 processing }
+  jtot1 = tblcol( tcd06, anxietw1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tcd06[*,j] = tcd06[*,j] * 100 / tcd06[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tcd06, anxietw2 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tcd06[*,j] = tcd06[*,j] * 100 / tcd06[*,jtot2];
+  enddo;
+  jtot3 = tblcol( tcd06, anxietm1 );
+  jmax  = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    tcd06[*,j] = tcd06[*,j] * 100 / tcd06[*,jtot3];
+  enddo;
+  jtot4 = tblcol( tcd06, anxietm2 );
+  jmax  = jtot4 - 1;
+  do j = jtot3 + 1 while j <= jmax
+    tcd06[*,j] = tcd06[*,j] * 100 / tcd06[*,jtot4];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tcd06", tcd06, 0,       jtot1-1, tcd06u, 0 );
+  Col2Dim( "tcd06", tcd06, jtot1+1, jtot2-1, tcd06u, 1 );
+  Col2Dim( "tcd06", tcd06, jtot2+1, jtot3-1, tcd06u, 2 );
+  Col2Dim( "tcd06", tcd06, jtot3+1, jtot4-1, tcd06u, 3 );
+  { assign defaults/NA }
+  itot = tblrow( tcd06 );
+  tcd06[itot,  0:jtot2] = NAcells;  { for row total 15-54[59] }
+  tcd06[itot-1,0:jtot2] = NAcells;  { for row 50-54[59]       }
+
+  { Table cd.7 processing }
+  jtot1 = tblcol( tcd07, arthriw1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tcd07[*,j] = tcd07[*,j] * 100 / tcd07[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tcd07, arthriw2 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tcd07[*,j] = tcd07[*,j] * 100 / tcd07[*,jtot2];
+  enddo;
+  jtot3 = tblcol( tcd07, arthrim1 );
+  jmax  = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    tcd07[*,j] = tcd07[*,j] * 100 / tcd07[*,jtot3];
+  enddo;
+  jtot4 = tblcol( tcd07, arthrim2 );
+  jmax  = jtot4 - 1;
+  do j = jtot3 + 1 while j <= jmax
+    tcd07[*,j] = tcd07[*,j] * 100 / tcd07[*,jtot4];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tcd07", tcd07, 0,       jtot1-1, tcd07u, 0 );
+  Col2Dim( "tcd07", tcd07, jtot1+1, jtot2-1, tcd07u, 1 );
+  Col2Dim( "tcd07", tcd07, jtot2+1, jtot3-1, tcd07u, 2 );
+  Col2Dim( "tcd07", tcd07, jtot3+1, jtot4-1, tcd07u, 3 );
+  { assign defaults/NA }
+  itot = tblrow( tcd07 );
+  tcd07[itot,  0:jtot2] = NAcells;  { for row total 15-54[59] }
+  tcd07[itot-1,0:jtot2] = NAcells;  { for row 50-54[59]       }
+
+  { Table cd.8 processing }
+  jtot1 = tblcol( tcd08, cancer );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tcd08[*,j] = tcd08[*,j] * 100 / tcd08[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tcd08 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tcd08[*,j] = tcd08[*,j] * 100 / tcd08[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tcd08", tcd08, 0,       jtot1-1, tcd08u, 0 );
+  Col2Dim( "tcd08", tcd08, jtot1+1, jtot2-1, tcd08u, 1 );
+
+  { Table cd.9 processing }
+  itot1 = tblrow( tcd09, wtestp );
+  imax  = itot1 - 2;
+  do i = 0 while i <= imax
+    tcd09[i,*] = tcd09[i,*] * 100 / tcd09[itot1,*];
+  enddo;
+  tcd09[imax+1,*] = tblsum( row tcd09[0:imax,*] );  
+  itot2 = tblrow( tcd09, wtreat1 );
+  imax  = itot2 - 1;
+  do i = itot1 + 1 while i <= imax
+    tcd09[i,*] = tcd09[i,*] * 100 / tcd09[itot2,*];
+  enddo;
+  itot3 = tblrow( tcd09 );
+  imax  = itot3 - 1;
+  do i = itot2 + 1 while i <= imax
+    tcd09[i,*] = tcd09[i,*] * 100 / tcd09[itot3,*];
+  enddo;
+  { check unweighted N's }
+  Row2Dim( "tcd09", tcd09, 0,       itot1-1, tcd09u, 0 );
+  Row2Dim( "tcd09", tcd09, itot1+1, itot2-1, tcd09u, 1 );
+  Row2Dim( "tcd09", tcd09, itot2+1, itot3-1, tcd09u, 2 );
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+                    
+postproc            
+                    
+{-----------------------------------------------------------------------------------------------}
+{ male tables }     
+                    
+  isex = 2;                                    { men }
+  for i in RECH1_EDT do
+    if HV118 = 1 then                                   { if eligible for male interview }
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then { found & complete questionnaire }
+                    
+        if unweight then
+          rweight = 1;
+        else        
+          rweight = MV005/1000000;
+        endif;      
+                    
+        { to tally total for all men regardless of age }
+        totmen   = 0;
+        { to tally total for men 15-49 }
+        tot1549  = 0;
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:59 );
+		{ totals women/men for table 3.16 }
+		wom1549  = notappl;
+		man1549  = 1;
+                    
+        { general variables }
+        v102w  = MV102;
+        v101w  = MV101;
+        v106w  = MV106;
+        if MV106 in 8,missing then v106w = 9 endif;
+        v190w  = MV190;
+        v013w1 = MV013;        { with var labels for printing purposes }
+                    
+        { to properly tabulate men, variables for men 50 and above are set to NotAppl }
+        if MV012 > 49 then
+          tot1549  = notappl;
+          v102w    = notappl;
+          v101w    = notappl;
+          v106w    = notappl;
+          v190w    = notappl;
+          v013w1   = notappl;
+        endif;      
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.1.2 }       
+              
+        bloodp4 = notappl;
+        bloodp3 = 3;  
+        xtab( tcd012, rweight );
+        coltotu = 1;     
+        xtab( tcd012u );
+        if MCHD01 = 1 then          // blood pressure measured
+          bloodp3 = 1;  
+          xtab( tcd012, rweight );
+        endif;	
+        if MCHD02 = 1 then         // told have high blood pressure 
+          bloodp3 = 2;  
+          xtab( tcd012, rweight );
+        endif;	
+        bloodp3 = notappl;
+        if MCHD02 = 1 then         // told have high blood pressure  
+          bloodp4 = 4;  
+          xtab( tcd012, rweight );
+          coltotu = 2;     
+          xtab( tcd012u );
+          if MCHD03 = 1 then       // told in past 12 months have high blood pressure  
+            bloodp4 = 1;  
+            xtab( tcd012, rweight );
+          endif;	
+          if MCHD04 = 1 then       // prescribed medication
+            bloodp4 = 2;  
+            xtab( tcd012, rweight );
+          endif;	
+          if MCHD05 = 1 then       // taking medication
+            bloodp4 = 3;  
+            xtab( tcd012, rweight );
+          endif;	
+        endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.2.2 }       
+              
+        bloods4 = notappl;
+        bloods3 = 3;  
+        xtab( tcd022, rweight );
+        coltotu = 1;     
+        xtab( tcd022u );
+        if MCHD06 = 1 then          // blood sugar measured
+          bloods3 = 1;  
+          xtab( tcd022, rweight );
+        endif;	
+        if MCHD07 = 1 then         // told have high blood sugar
+          bloods3 = 2;  
+          xtab( tcd022, rweight );
+        endif;	
+        bloods3 = notappl;
+        if MCHD07 = 1 then         // told have high blood sugar
+          bloods4 = 4;  
+          xtab( tcd022, rweight );
+          coltotu = 2;     
+          xtab( tcd022u );
+          if MCHD08 = 1 then       // told in past 12 months have high blood sugar
+            bloods4 = 1;  
+            xtab( tcd022, rweight );
+          endif;	
+          if MCHD09 = 1 then       // prescribed medication
+            bloods4 = 2;  
+            xtab( tcd022, rweight );
+          endif;	
+          if MCHD10 = 1 then       // taking medication
+            bloods4 = 3;  
+            xtab( tcd022, rweight );
+          endif;	
+        endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.3 }       
+              
+        heartw1 = notappl;
+        heartw2 = notappl;
+        heartm2 = notappl;
+        heartm1 = 2;  
+        xtab( tcd03, rweight );
+        coltotu = 3;     
+        xtab( tcd03u );
+        if MCHD11 = 1 then          // told have heart disease
+          heartm1 = 1;  
+          xtab( tcd03, rweight );
+          heartm1 = notappl;  
+          heartm2 = 2;  
+          xtab( tcd03, rweight );
+          coltotu = 4;     
+          xtab( tcd03u );
+          if MCHD12 = 1 then        // receiving treatment for heart disease
+            heartm2 = 1;  
+            xtab( tcd03, rweight );
+          endif;	  
+        endif;	
+                     
+{ -------------------------------------------------------------------- }
+{ table cd.4 }       
+              
+        lungdw1 = notappl;
+        lungdw2 = notappl;
+        lungdm2 = notappl;
+        lungdm1 = 2;  
+        xtab( tcd04, rweight );
+        coltotu = 3;     
+        xtab( tcd04u );
+        if MCHD13 = 1 then          // told have lung disease
+          lungdm1 = 1;  
+          xtab( tcd04, rweight );
+          lungdm1 = notappl;  
+          lungdm2 = 2;  
+          xtab( tcd04, rweight );
+          coltotu = 4;     
+          xtab( tcd04u );
+          if MCHD14 = 1 then        // receiving treatment for lung disease
+            lungdm2 = 1;  
+            xtab( tcd04, rweight );
+          endif;	  
+        endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.5 }       
+              
+        tumorw1 = notappl;
+        tumorw2 = notappl;
+        tumorm2 = notappl;
+        tumorm1 = 2;  
+        xtab( tcd05, rweight );
+        coltotu = 3;     
+        xtab( tcd05u );
+        if MCHD15 = 1 then          // told have tumor disease
+          tumorm1 = 1;  
+          xtab( tcd05, rweight );
+          tumorm1 = notappl;  
+          tumorm2 = 2;  
+          xtab( tcd05, rweight );
+          coltotu = 4;     
+          xtab( tcd05u );
+          if MCHD16 = 1 then        // receiving treatment for tumor disease
+            tumorm2 = 1;  
+            xtab( tcd05, rweight );
+          endif;	  
+        endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.6 }       
+              
+        anxietw1  = notappl;
+        anxietw2  = notappl;
+        anxietm2  = notappl;
+        anxietm1  = 2;  
+        xtab( tcd06, rweight );
+        coltotu = 3;     
+        xtab( tcd06u );
+        if MCHD17 = 1 | MCHD18 = 1 then    // told have depression/anxiety
+          anxietm1 = 1;  
+          xtab( tcd06, rweight );
+          anxietm1 = notappl;  
+          anxietm2 = 2;  
+          xtab( tcd06, rweight );
+          coltotu = 4;     
+          xtab( tcd06u );
+          if MCHD19 = 1 then              // receiving treatment for depression/anxiety
+            anxietm2 = 1;  
+            xtab( tcd06, rweight );
+          endif;	  
+        endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.7 }       
+              
+        arthriw1  = notappl;
+        arthriw2  = notappl;
+        arthrim2  = notappl;
+        arthrim1  = 2;  
+        xtab( tcd07, rweight );
+        coltotu = 3;     
+        xtab( tcd07u );
+        if MCHD20 = 1 then            // told have arthritis
+          arthrim1 = 1;  
+          xtab( tcd07, rweight );
+          arthrim1 = notappl;  
+          arthrim2 = 2;  
+          xtab( tcd07, rweight );
+          coltotu = 4;     
+          xtab( tcd07u );
+          if MCHD21 = 1 then          // receiving treatment for arthritis
+            arthrim2 = 1;  
+            xtab( tcd07, rweight );
+          endif;	  
+        endif;	
+                    
+      endif        { end loadcase & complete interview }
+    endif;      { end eligible for men interview }
+  enddo;            
+  
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+                    
+  isex = 1;         
+  if unweight then  
+    rweight = 1;    
+  else              
+    rweight = V005 / 1000000;
+  endif;            
+                    
+  { totals for all men and men 50-54[59] set to NA }
+  totmen   = notappl;
+  men5059  = notappl;
+  { to tally totals for all women, when necessary }
+  tot1549  = 0;     
+  { totals women/men for table 3.16 }
+  wom1549  = 1;     
+  man1549  = notappl;
+                    
+  { general variables }
+  v013w1   = V013;  
+  v102w    = V102;  
+  v101w    = V101;  
+  v106w    = V106;  
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w    = V190;  
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.1.1 }       
+              
+  bloodp2 = notappl;
+  bloodp1 = 3;  
+  xtab( tcd011, rweight );
+  coltotu = 1;     
+  xtab( tcd011u );
+  if CHD01 = 1 then          // blood pressure measured
+    bloodp1 = 1;  
+    xtab( tcd011, rweight );
+  endif;	
+  if CHD02 = 1 then         // told have high blood pressure 
+    bloodp1 = 2;  
+    xtab( tcd011, rweight );
+  endif;	
+  bloodp1 = notappl;
+  if CHD02 = 1 then         // told have high blood pressure  
+    bloodp2 = 4;  
+    xtab( tcd011, rweight );
+    coltotu = 2;     
+    xtab( tcd011u );
+    if CHD03 = 1 then       // told in past 12 months have high blood pressure  
+      bloodp2 = 1;  
+      xtab( tcd011, rweight );
+    endif;	
+    if CHD04 = 1 then       // prescribed medication
+      bloodp2 = 2;  
+      xtab( tcd011, rweight );
+    endif;	
+    if CHD05 = 1 then       // taking medication
+      bloodp2 = 3;  
+      xtab( tcd011, rweight );
+    endif;	
+  endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.2.1 }       
+              
+  bloods2 = notappl;
+  bloods1 = 3;  
+  xtab( tcd021, rweight );
+  coltotu = 1;     
+  xtab( tcd021u );
+  if CHD06 = 1 then          // blood sugar measured
+    bloods1 = 1;  
+    xtab( tcd021, rweight );
+  endif;	
+  if CHD07 = 1 then         // told have high blood sugar
+    bloods1 = 2;  
+    xtab( tcd021, rweight );
+  endif;	
+  bloods1 = notappl;
+  if CHD07 = 1 then         // told have high blood sugar
+    bloods2 = 4;  
+    xtab( tcd021, rweight );
+    coltotu = 2;     
+    xtab( tcd021u );
+    if CHD08 = 1 then       // told in past 12 months have high blood sugar
+      bloods2 = 1;  
+      xtab( tcd021, rweight );
+    endif;	
+    if CHD09 = 1 then       // prescribed medication
+      bloods2 = 2;  
+      xtab( tcd021, rweight );
+    endif;	
+    if CHD10 = 1 then       // taking medication
+      bloods2 = 3;  
+      xtab( tcd021, rweight );
+    endif;	
+  endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.3 }       
+              
+  heartm1 = notappl;
+  heartm2 = notappl;
+  heartw2 = notappl;
+  heartw1 = 2;  
+  xtab( tcd03, rweight );
+  coltotu = 1;     
+  xtab( tcd03u );
+  if CHD11 = 1 then          // told have heart disease
+    heartw1 = 1;  
+    xtab( tcd03, rweight );
+    heartw1 = notappl;  
+    heartw2 = 2;  
+    xtab( tcd03, rweight );
+    coltotu = 2;     
+    xtab( tcd03u );
+    if CHD12 = 1 then        // receiving treatment for heart disease
+      heartw2 = 1;  
+      xtab( tcd03, rweight );
+    endif;	  
+  endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.4 }       
+              
+  lungdm1 = notappl;
+  lungdm2 = notappl;
+  lungdw2 = notappl;
+  lungdw1 = 2;  
+  xtab( tcd04, rweight );
+  coltotu = 1;     
+  xtab( tcd04u );
+  if CHD13 = 1 then          // told have lung disease
+    lungdw1 = 1;  
+    xtab( tcd04, rweight );
+    lungdw1 = notappl;  
+    lungdw2 = 2;  
+    xtab( tcd04, rweight );
+    coltotu = 2;     
+    xtab( tcd04u );
+    if CHD14 = 1 then        // receiving treatment for lung disease
+      lungdw2 = 1;  
+      xtab( tcd04, rweight );
+    endif;	  
+  endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.5 }       
+              
+  tumorm1 = notappl;
+  tumorm2 = notappl;
+  tumorw2 = notappl;
+  tumorw1 = 2;  
+  xtab( tcd05, rweight );
+  coltotu = 1;     
+  xtab( tcd05u );
+  if CHD15 = 1 then          // told have tumor disease
+    tumorw1 = 1;  
+    xtab( tcd05, rweight );
+    tumorw1 = notappl;  
+    tumorw2 = 2;  
+    xtab( tcd05, rweight );
+    coltotu = 2;     
+    xtab( tcd05u );
+    if CHD16 = 1 then        // receiving treatment for tumor disease
+      tumorw2 = 1;  
+      xtab( tcd05, rweight );
+    endif;	  
+  endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.6 }       
+              
+  anxietm1  = notappl;
+  anxietm2  = notappl;
+  anxietw2  = notappl;
+  anxietw1  = 2;  
+  xtab( tcd06, rweight );
+  coltotu = 1;     
+  xtab( tcd06u );
+  if CHD17 = 1 | CHD18 = 1 then    // told have depression/anxiety
+    anxietw1 = 1;  
+    xtab( tcd06, rweight );
+    anxietw1 = notappl;  
+    anxietw2 = 2;  
+    xtab( tcd06, rweight );
+    coltotu = 2;     
+    xtab( tcd06u );
+    if CHD19 = 1 then              // receiving treatment for depression/anxiety
+      anxietw2 = 1;  
+      xtab( tcd06, rweight );
+    endif;	  
+  endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.7 }       
+              
+  arthrim1  = notappl;
+  arthrim2  = notappl;
+  arthriw2  = notappl;
+  arthriw1  = 2;  
+  xtab( tcd07, rweight );
+  coltotu = 1;     
+  xtab( tcd07u );
+  if CHD20 = 1 then            // told have arthritis
+    arthriw1 = 1;  
+    xtab( tcd07, rweight );
+    arthriw1 = notappl;  
+    arthriw2 = 2;  
+    xtab( tcd07, rweight );
+    coltotu = 2;     
+    xtab( tcd07u );
+    if CHD21 = 1 then          // receiving treatment for arthritis
+      arthriw2 = 1;  
+      xtab( tcd07, rweight );
+    endif;	  
+  endif;	
+                    
+{ -------------------------------------------------------------------- }
+{ table cd.8 }       
+              
+  timetest = notappl;
+  restest  = notappl;
+  numwom   = notappl;
+  cancer   = 4;  
+  xtab( tcd08, rweight );
+  coltotu = 1;     
+  xtab( tcd08u );
+  if CHD24 = 1 then            // have heard of cervical cancer
+    cancer = 1;  
+    xtab( tcd08, rweight );
+  endif;	
+  if CHD25 = 1 then            // have heard of test for cervical cancer
+    cancer = 2;  
+    xtab( tcd08, rweight );
+  endif;	
+  if CHD27 = 1 then            // have been tested for cervical cancer
+    cancer = 3;  
+    xtab( tcd08, rweight );
+  endif;	
+  cancer = notappl;  
+  if CHD27 = 1 then            // have been tested for cervical cancer
+    numwom = 1;
+    recode CHD28 -> timetest;  // time of last cervical cancer test
+             0   -> 1;
+            1:3  -> 2;
+			4:40 -> 3;
+			 98  -> 8;
+                 -> default;
+    endrecode;
+    recode CHD29 -> restest;  // cervical cancer test results
+            2,3  -> 1;
+             1   -> 2;
+             4   -> 3;
+             5   -> 4;
+                 -> CHD29;
+    endrecode;				 
+    xtab( tcd08, rweight );
+    coltotu = 2;     
+    xtab( tcd08u );
+  endif;	
+  
+{ -------------------------------------------------------------------- }
+{ table cd.9 }       
+  
+  wtestp   = notappl;
+  cervix   = notappl;
+  wtreat1  = notappl;
+  treatch  = notappl;
+  wtreat2  = notappl;
+  visitfol = notappl;
+  pctreat  = 1;
+  if CHD29 in 2,3 then                 // result abnormal/positive, suspect cancer
+    wtestp = 1;	
+    recode CHD30 -> cervix;
+             0   -> 2;
+             1   -> 1;
+                 -> CHD30;
+    endrecode;				 
+    xtab( tcd09, rweight );
+    coltotu = 1;     
+    xtab( tcd09u );
+    wtestp   = notappl;
+    cervix   = notappl;
+    if CHD30 = 1 then	               // received treatment
+      wtreat1 = 1;	
+      xtab( tcd09, rweight );
+      coltotu = 2;     
+      xtab( tcd09u );
+      wtreat1  = notappl;
+      if CHD31 = 1 then	               // received treatment the same day
+        treatch = 1;	
+        xtab( tcd09, rweight );
+      endif;		
+      if CHD32 = 1 then	               // had a follow-up visit
+        treatch = 2;	
+        xtab( tcd09, rweight );
+      endif;		
+      treatch  = notappl;
+    endif;		
+  endif;	
+  if CHD29 = 4 | CHD30 in 0,8 then	   // test unclear/inconclusive, didn't receive results/DK
+    wtreat2 = 1;	
+    visitfol = ( CHD33 = 1 );	  
+    xtab( tcd09, rweight );
+    coltotu = 3;     
+    xtab( tcd09u );
+    wtreat2  = notappl;
+    visitfol = notappl;	
+  endif;		

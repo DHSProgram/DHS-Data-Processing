@@ -1,0 +1,66 @@
+[Dictionary]
+Version=CSPro 4.1
+Label=Height for Age
+Name=HFALMS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=Height for Age
+Name=HFALMS_QUEST
+
+[IdItems]
+
+[Item]
+Label=Sex
+Name=SEXHFA
+Start=1
+Len=8
+
+[ValueSet]
+Label=Sex
+Name=SEXHFA_VSA
+Value=1;Male
+Value=2;Female
+
+[Item]
+Label=Age (months)
+Name=AGEHFA
+Start=9
+Len=8
+
+[ValueSet]
+Label=Age (months)
+Name=AGEHFA_VS1
+Value=61:229
+
+[Record]
+Label=Variables L, M, S
+Name=HFALMS_REC
+RecordTypeValue=''
+RecordLen=40
+
+[Item]
+Label=Variable l
+Name=LHFA
+Start=17
+Len=4
+
+[Item]
+Label=Variable m
+Name=MHFA
+Start=21
+Len=12
+Decimal=4
+DecimalChar=Yes
+
+[Item]
+Label=Variable s
+Name=SHFA
+Start=33
+Len=8
+Decimal=5
+DecimalChar=Yes

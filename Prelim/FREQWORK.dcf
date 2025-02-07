@@ -1,0 +1,345 @@
+﻿[Dictionary]
+Version=CSPro 7.4
+Label=FRWORK
+Name=FRWORK_DICT
+RecordTypeStart=1
+RecordTypeLen=1
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=E9A05A4938BACA3A293A36C8C865C5F1E09486466E370EB812AF6775255293A0
+
+[Level]
+Label=FRWORK questionnaire
+Name=FRWORK_QUEST
+
+[IdItems]
+
+[Item]
+Label=FRWORK identification
+Name=FRWORK_ID
+Start=2
+Len=1
+
+[Record]
+Label=FRWORK record
+Name=FRWORK_REC
+RecordTypeValue='1'
+RecordLen=62
+
+[Item]
+Label=Respondent's weight in kilograms (1 decimal)
+Name=V437
+Start=3
+Len=4
+
+[ValueSet]
+Label=Respondent's weight in kilograms (1 decimal)
+Name=V437_VS1
+Value=154:1629
+Value=9994;Not present
+Value=9995;Refused
+Value=9996;Other
+Value=9999;Missing
+Name=MISSING,Special
+Value='    ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Respondent's height in centimeters (1 decimal)
+Name=V438
+Start=7
+Len=4
+
+[ValueSet]
+Label=Respondent's height in centimeters (1 decimal)
+Name=V438_VS1
+Value=1056:1974
+Value=9994;Not present
+Value=9995;Refused
+Value=9996;Other
+Value=9999;Missing
+Name=MISSING,Special
+Value='    ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Body Mass Index
+Name=V445
+Start=11
+Len=4
+
+[ValueSet]
+Label=Body Mass Index
+Name=V445_VS1
+Value=1200:6000
+Value=9998;Flagged cases
+Value=9999;Missing
+Name=MISSING,Special
+Value='    ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Rohrer's index
+Name=V446
+Start=15
+Len=4
+
+[ValueSet]
+Label=Rohrer's index
+Name=V446_VS1
+Value=600:7000
+Value=9998;Flagged cases
+Value=9999;Missing
+Name=MISSING,Special
+Value='    ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Hemoglobin level (g/dl - 1 decimal)
+Name=V453
+Start=19
+Len=3
+
+[ValueSet]
+Label=Hemoglobin level (g/dl - 1 decimal)
+Name=V453_VS1
+Value=0:900
+Value=994;Not present
+Value=995;Refused
+Value=996;Other
+Value=999;Missing
+Name=MISSING,Special
+Value='   ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Child's weight in kilograms (1 decimal)
+Name=HW2
+Start=22
+Len=4
+
+[ValueSet]
+Label=Child's weight in kilograms (1 decimal)
+Name=HW2_VS1
+Value=10:9990
+Value=9994;Not present
+Value=9995;Refused
+Value=9996;Other
+Value=9999;Missing
+Name=MISSING,Special
+Value='    ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Child's height in centimeters (1 decimal)
+Name=HW3
+Start=26
+Len=4
+
+[ValueSet]
+Label=Child's height in centimeters (1 decimal)
+Name=HW3_VS1
+Value=100:2000
+Value=9994;Not present
+Value=9995;Refused
+Value=9996;Other
+Value=9999;Missing
+Name=MISSING,Special
+Value='    ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Height: lying or standing
+Name=HW15
+Start=30
+Len=1
+
+[ValueSet]
+Label=Height: lying or standing
+Name=HW15_VS1
+Value=0;Not measured
+Value=1;Lying
+Value=2;Standing
+Value=9;Missing
+Name=MISSING,Special
+Value=' ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Day of birth of child
+Name=HW16
+Start=31
+Len=2
+
+[ValueSet]
+Label=Day of birth of child
+Name=HW16_VS1
+Value=1:31
+Value=97;Inconsistent
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+Value='  ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Date measured (day)
+Name=HW17
+Start=33
+Len=2
+
+[ValueSet]
+Label=Date measured (day)
+Name=HW17_VS1
+Value=1:31
+Value='  ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Date measured (month)
+Name=HW18
+Start=35
+Len=2
+
+[ValueSet]
+Label=Date measured (month)
+Name=HW18_VS1
+Value=1:12
+Value='  ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Date measured (year)
+Name=HW19
+Start=37
+Len=4
+
+[ValueSet]
+Label=Date measured (year)
+Name=HW19_VS1
+Value=2000:2011
+Value='    ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Line number of parent/caretaker
+Name=HW51
+Start=41
+Len=2
+
+[ValueSet]
+Label=Line number of parent/caretaker
+Name=HW51_VS1
+Value=0;Not in household
+Value=1:50
+Value=99;Missing
+Name=MISSING,Special
+Value='  ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Read consent statement - hemoglobin
+Name=HW52
+Start=43
+Len=1
+
+[ValueSet]
+Label=Read consent statement - hemoglobin
+Name=HW52_VS1
+Value=1;Granted
+Value=2;Refused
+Value=9;Missing
+Name=MISSING,Special
+Value=' ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Hemoglobin level (g/dl - 1 decimal)
+Name=HW53
+Start=44
+Len=3
+
+[ValueSet]
+Label=Hemoglobin level (g/dl - 1 decimal)
+Name=HW53_VS1
+Value=35:768
+Value=994;Not present
+Value=995;Refused
+Value=996;Other
+Value=999;Missing
+Name=MISSING,Special
+Value='   ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Height/Age standard deviation (new WHO)
+Name=HW70
+Start=47
+Len=4
+
+[ValueSet]
+Label=Height/Age standard deviation (new WHO)
+Name=HW70_VS1
+Value=-600:600
+Value=9996;Height out of plausible limits
+Value=9997;Age in days out of plausible limits
+Value=9998;Flagged cases
+Value=9999;Missing
+Name=MISSING,Special
+Value='    ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Weight/Age standard deviation (new WHO)
+Name=HW71
+Start=51
+Len=4
+
+[ValueSet]
+Label=Weight/Age standard deviation (new WHO)
+Name=HW71_VS1
+Value=-600:500
+Value=9996;Height out of plausible limits
+Value=9997;Age in days out of plausible limits
+Value=9998;Flagged cases
+Value=9999;Missing
+Name=MISSING,Special
+Value='    ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=Weight/Height standard deviation (new WHO)
+Name=HW72
+Start=55
+Len=4
+
+[ValueSet]
+Label=Weight/Height standard deviation (new WHO)
+Name=HW72_VS1
+Value=-600:500
+Value=9996;Height out of plausible limits
+Value=9997;Age in days out of plausible limits
+Value=9998;Flagged cases
+Value=9999;Missing
+Name=MISSING,Special
+Value='    ';Not applicable
+Name=NOTAPPL,Special
+
+[Item]
+Label=BMI standard deviation (new WHO)
+Name=HW73
+Start=59
+Len=4
+
+[ValueSet]
+Label=BMI standard deviation (new WHO)
+Name=HW73_VS1
+Value=-600:500
+Value=9996;Height out of plausible limits
+Value=9997;Age in days out of plausible limits
+Value=9998;Flagged cases
+Value=9999;Missing
+Name=MISSING,Special
+Value='    ';Not applicable
+Name=NOTAPPL,Special

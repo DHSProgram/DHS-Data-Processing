@@ -1,0 +1,84 @@
+﻿Language = EN
+50000 Language to be used to report messages not found. Please talk to the IT expert
+50001 Error number %d not found in error messages data file
+50041 Can't load supervisor control file for cluster %04d
+50050 Household=%04d members in household schedule (%02d) inconsistent with total number of members (%02d)
+50051 Household=%04d eligible women in household schedule (%02d) inconsistent with total number of eligible women (%02d)
+50052 Household=%04d eligible men in Household schedule (%02d) inconsistent with total number of eligible men (%02d)
+50100 Household=%04d missing record with data for: %s
+50101 Household=%04d number of records for mosquito nets %d incorrect, expected %d
+50106 Household=%04d number of records for height and weight %d for %s incorrect, expected (%d)
+50110 Household=%04d incomplete household (result=%d), there are records that shouldn't exist
+50153 The number of households (%02d/%02d/%02d) or individuals (%02d/%02d/%02d) found, inconsistent with households (%02d/%02d/%02d) or individuals (%02d/%02d/%02d) recorded
+50155 Supervisor %d not defined in file with fieldwork personnel
+50203 Household=%04d %s=%02d missing record required
+50204 Household=%04d woman=%02d record for contraceptive use history (%d) inconsistent with ever use (A320=%d)
+50205 Household=%04d individual=%02d calendar records (%d) inconsistent
+50206 Household=%04d woman=%02d pregnancy history records (%d) inconsistent with total pregnancies (A212=%d)
+50207 Household=%04d woman=%02d records for pregnancy and postnatal care (%d), inconsistent with births in the last five years (AESEC4=%d)
+50208 Household=%04d woman=%02d records for child's immunization (%d), inconsistent with births in the last five years (AESEC5=%d)
+50209 Household=%03d individual=%02d records for child's health (%d) inconsistent with births in the last five years (AESEC6=%d)
+50216 Household=%04d woman=%02d records for siblings %02d/%02d incorrect, expected %02d
+50217 Household=%04d woman=%02d domestic violence record incorrect: woman selected=%02d records=%d
+50220 Household=%04d %s=%02d hasn't been visited for individual interview
+50230 Household=%04d individual=%02d there are records for men in a complete woman's questionnaire
+50231 Household=%04d individual=%02d there are records for women in a complete men's questionnaire
+50232 Household=%04d individual=%02d result=%d there are records for %s in an incomplete individual questionnaire
+50271 Household=%04d individual=%02d number of records for ORS and feeding practices (%d) inconsistent
+50300 Household=%04d individual=%02d number of records for FGC inconsistent
+50301 Household=%04d individual=%02d number of records for daughters in FGC (%02d) inconsistent with expected number (%02d)
+
+Language = ES
+{ common strings used by the application }
+  ES ( "Wrong Supervisor" ) Supervisor Incorrecto
+  ES ( "QUESTIONNAIRES IN CLUSTER: %s" ) CUESTIONARIOS EN EL SEGMENTO: %s  
+  ES ( "Supervisor: %04d-%s" ) Supervisora: %04d-%s
+  ES ( "Household" ) Hogar
+  ES ( "Interviewer" ) Entrevistadora
+  ES ( "Address/Name" ) Direccion/Nombre
+  ES ( "Result" ) Resultado
+  ES ( "Visits" ) Visitas
+  ES ( "-Incomplete" ) Incompleto(a)
+  ES ( "-Complete" ) Completo(a)
+  ES ( "children" ) niños
+  ES ( "women" ) mujeres
+  ES ( "men" ) hombres  
+  ES ( "woman" ) mujer
+  ES ( "W-" ) M-
+  ES ( "man" ) hombre
+  ES ( "M-" ) H-
+  ES ( "Not visited" ) No visitada(o)
+  ES ( "SUMMARY OF OUTSTANDING ISSUES THAT NEED TO BE RESOLVED" ) RESUMEN DE ERRORES QUE DEBEN SER CORREGIDOS
+  ES ( "Totals" ) Totales
+  ES ( "Households" ) Hogares
+  ES ( "Comp-Inc." ) Comp-Inc.
+  ES ( "Individuals" ) Individuales
+  
+50000 Idioma a ser usado para reportar mensajes no se encontro. Por favor comentalo con la persona encargada del sistema
+50001 Numero de error %d no se encontro en el archivo de mensajes de error
+50041 No se pudo cargar el archivo de control de supervisor para el segmento %04d
+50050 Hogar=%04d Personas en listado de hogar (%02d) inconsistente con total de personas (%02d)
+50051 Hogar=%04d mujeres elegibles en listado de hogar (%02d) inconsistente con total de mujeres elegibles (%02d)
+50052 Hogar=%04d hombres elegibles en listado de hogar (%02d) inconsistente con total de hombres elegibles (%02d)
+50100 Hogar=%04d Falta registro con informacion para: %s
+50101 Hogar=%04d numero de registros para mosquiteros incorrecto %d se esperaban %d
+50106 Hogar=%04d registros de peso y talla %d para %s incorrecto se esperaban (%d)
+50110 Hogar=%04d En hogar incompleto (resultado=%d), hay registros que no deben existir
+50153 El numero de hogares (%02d/%02d/%02d) o individuales (%02d/%02d/%02d) encontrados es inconsistente con los hogares (%02d/%02d/%02d) o individuales (%02d/%02d/%02d) registrados
+50155 La supervisora %d no esta definida en el archivo de peronal de trabajo de campo
+50203 Hogar=%04d %s=%02d falta algun registro obligatorio
+50204 Hogar=%04d mujer=%02d registros de historia de uso (%d) inconsistente con uso alguna vez (A313=%d)
+50205 Hogar=%04d individual=%02d registros del calendario (%d) incompletos
+50206 Hogar=%04d mujer=%02d registros de nacimientos (%d) inconsistente con total de nacidos vivos (A212=%d)
+50207 Hogar=%04d mujer=%02d registros para parto y cuidado prenatal (%d), inconsistente con nacidos ultimos cinco a�os (ASEC4=%d)
+50208 Hogar=%04d mujer=%02d registros para vacunacion (%d), inconsistente con nacidos ultimos cinco a�os (AESEC5=%d)
+50209 Hogar=%04d mujer=%02d registros para salud de los ni�os (%d), inconsistente con nacidos ultimos cinco a�os (AESEC6=%d)
+50216 Hogar=%04d mujer=%02d hermanos %02d/%02d incorrecto se esperaban %02d
+50217 Hogar=%04d mujer=%02d violencia domestica incorrecta: mujer seleccionada para VD=%02d registros=%d
+50220 Hogar=%04d %s=%02d no se ha visitado para entrevista individual
+50230 Hogar=%04d individual=%02d existen registros definidos para hombres en un cuestionario completo para mujeres
+50231 Hogar=%04d individual=%02d existen registros definidos para mujeres en un cuestionario completo para hombres
+50232 Hogar=%04d individual=%02d resultado=%d existen registros definidos de %s en un cuestionario incompleto
+50271 Hogar=%04d individual=%02d numero de registros para SRO y practicas alimenticias (%d) inconsistente
+50300 Hogar=%04d individual=%02d numero de registros para FGC inconsistente
+50301 Hogar=%04d individual=%02d numero de registros para hijas en FGC (%02d) inconsistent con numero esperado (%02d)

@@ -1,0 +1,359 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines November 1, 2022       -      Version 1.0.0 of 02/22/2023   +}
+{+                                                                          +}
+{+   CHAPTER HEX. HEALTH EXPENDITURE                                        +}
+{+                                                                          +}
+{+   Table HE.1  Annual outpatient visits and inpatient admissions          +}
+{+   Table HE.2  Annual per capita expenditure [(in Country currency)]      +} 
+{+               on outpatient visits and inpatient admissions              +} 
+{+   Table HE.3  Annual total health expenditures [(in Country currency)]   +}
+{+               per household                                              +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric j, jtot, jtot1, jtot2, jtot3, jmax, i;
+  numeric rweight, oweight;
+  numeric nvisits, eligoutv, eligoutc, costoutp, costinpa, totinpa, totcost;
+  numeric validinp, meaninpc;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+    {+EN}
+    title( "Tables for health expenditure module, [Country Survey Year]" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+
+  crosstab float(0) the01  agehex+hv025w+hv024w+hv270w+total female1+male1+totalh1
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table HE.1  Annual outpatient visits and inpatient admissions"," ",
+           "Average number of annual outpatient visits and inpatient admissions to", 
+		   "health facilities, for female, male, and total de jure{\super 1} population,", 
+		   "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) the01u agehex+hv025w+hv024w+hv270w+total isex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table HE.1  Annual outpatient visits and inpatient admissions (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(0) the02  agehex+hv025w+hv024w+hv270w+total female2+male2+totalh2
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table HE.2  Annual per capita expenditure [(in Country currency)] on outpatient visits and inpatient admissions"," ",
+           "Average annual per capita expenditure for outpatient visits and inpatient admissions", 
+		   "to health facilities for female, male, and total de jure{\super 1} population,", 
+		   "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) the02u agehex+hv025w+hv024w+hv270w+total isex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table HE.2  Annual per capita expenditure [(in Country currency)] on outpatient visits and inpatient admissions (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(0) the03  hv025w+hv024w+hv270w+total hhtcost
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table HE.3  Annual total health expenditures [(in Country currency)] per household"," ",
+           "Annual total expenditures on any health-related items for de jure{\super 1}", 
+		   "members of the household, according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) the03u hv025w+hv024w+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table HE.3  Annual total health expenditures [(in Country currency)] per household (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+	 
+  { recode age needed in several places }
+  function RecAge( agex )
+    numeric z;
+    recode agex -> z;
+           0:4	-> 1;
+           5:17 -> 2;
+          18:29 -> 3;
+          30:39 -> 4;
+          40:49 -> 5;
+          50:59 -> 6;
+          60:95 -> 7;
+     98,missing -> 98;
+                -> default;
+     endrecode;
+     RecAge = z;
+  end; 	 
+
+  { determine if a cost variable is valid }
+  function ValidCost( xcost )
+    numeric z = 0;  
+	if xcost in 0:999999990 then  // when recode was constructed special values were standarized
+      z = xcost;
+    endif;
+    ValidCost = z;
+  end;	
+
+  { determine if a cost variable is valid and return missing if not }
+  function ValidAvg( xcost ) 
+    numeric z = missing;  
+	// !!! if a special code for "No Cost/free" assign 0 to xcost
+	if xcost in 0:999999990 then  // when recode was constructed special values were standarized
+      z = xcost;
+    endif;
+    ValidAvg = z;
+  end;	
+  
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table he.1 processing }
+  jtot1 = tblcol( the01, female1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    the01[*,j] = the01[*,j] / the01[*,jtot1];
+  enddo;
+  jtot2 = tblcol( the01, male1 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    the01[*,j] = the01[*,j] / the01[*,jtot2];
+  enddo;
+  jtot3 = tblcol( the01 );
+  jmax  = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    the01[*,j] = the01[*,j] / the01[*,jtot3];
+  enddo;
+  { calculate inpatient rates per 1000 }
+  the01[*,jtot1-1] = the01[*,jtot1-1] * 1000;    
+  the01[*,jtot2-1] = the01[*,jtot2-1] * 1000;    
+  the01[*,jtot3-1] = the01[*,jtot3-1] * 1000;    
+  { check unweighted N's }
+  Col2Dim( "the01", the01, 0,       jtot1-1, the01u, 0 );
+  Col2Dim( "the01", the01, jtot1+1, jtot2-1, the01u, 1 );
+  Col2Dim( "the01", the01, jtot2+1, jtot3-1, the01u, 2 );
+
+  { Table he.2 processing }
+  { calculate total costs for each panel }
+  jtot = tblcol( the02, female2 = 3 );               // for females
+  the02[*,jtot] = the02[*,jtot-2] + the02[*,jtot-1];  
+  jtot = tblcol( the02, male2 = 3 );                  // for males
+  the02[*,jtot] = the02[*,jtot-2] + the02[*,jtot-1];  
+  jtot = tblcol( the02, totalh2 = 3 );               // for total
+  the02[*,jtot] = the02[*,jtot-2] + the02[*,jtot-1];  
+  jtot1 = tblcol( the02, female2 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    the02[*,j] = the02[*,j] / the02[*,jtot1];
+  enddo;
+  jtot2 = tblcol( the02, male2 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    the02[*,j] = the02[*,j] / the02[*,jtot2];
+  enddo;
+  jtot3 = tblcol( the02 );
+  jmax  = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    the02[*,j] = the02[*,j] / the02[*,jtot3];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "the02", the02, 0,       jtot1-1, the02u, 0 );
+  Col2Dim( "the02", the02, jtot1+1, jtot2-1, the02u, 1 );
+  Col2Dim( "the02", the02, jtot2+1, jtot3-1, the02u, 2 );
+
+  { Table he.3 processing }
+  jtot  = tblcol( the03 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    the03[*,j] = the03[*,j] / the03[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "the03", the03, 0, jtot-1, the03u, 0 );
+  
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+	oweight = 1;
+  else
+    rweight = HV005 / 1000000;
+    oweight = HEXOWGT / 1000000;
+  endif;
+
+  hv024w   = HV024;
+  hv025w   = HV025;
+  hv270w   = HV270; 
+  eligoutv = count( RECH1 where HEX3 = 1 );    // eligible for outpatient care vists regardless if money was paid
+  eligoutc = count( RECH1 where HEX5 = 1 );    // eligible for outpatient care cost if money was paid
+
+  { table he.1 }
+  { first count population }
+  totalh1 = 3;   
+  for i in RECH1 do
+    agehex = RecAge( HV105 );
+    if HV102 = 1 then          // de-jure population
+      female1 = notappl;
+      male1   = notappl;
+	  if HV104 = 2 then
+        isex    = 1;		
+        female1 = 3; 
+      else
+        isex    = 2;		
+        male1   = 3;
+      endif;		
+      xtab( the01, rweight );	  
+      xtab( the01u );
+    endif;
+  enddo;	
+  { tabulate outpatient visits }
+  totalh1 = 1;
+  female1 = notappl;
+  male1   = notappl;
+  if soccurs(RECHHE2) & HEX70 in 1:HV009 & HV102(HEX70) = 1 then     { outpatients present and is de-jure }
+    agehex = RecAge( HV105(HEX70) );
+    { calculate number of outpatient visits }	
+	nvisits = 1;
+	if HEX75 in 1:40 then
+	  nvisits = nvisits + HEX75
+    endif;	 
+	if HV104(HEX70) = 2 then
+	  female1 = 1;
+    else	  
+	  male1 = 1;
+    endif;	  
+    nvisits = nvisits * eligoutv * 13;          // consider all individuals eligible for outpatient care and extrapolate to 1 year	
+    xtab( the01, nvisits*oweight );	  
+  endif;	 
+  { tabulate inpatient visits }
+  totalh1 = 2;
+  for i in RECHHE1 do
+    if HV102(HEX20) = 1 then           { de-jure inpaptients }
+      agehex = RecAge( HV105(HEX20) );
+      female1 = notappl;
+      male1   = notappl;
+      { calculate number of inpatient visits }	
+	  nvisits = 1 + (HEX25 = 1) + (HEX30 = 1); 
+	  if HEX36 in 4:30 then nvisits = nvisits + (HEX36-3) endif;
+      nvisits = nvisits * 2;                 // to extrapolate to 1 year	  
+      if HV104(HEX20) = 2 then
+	    female1 = 2;
+      else	  
+	    male1   = 2;
+      endif;	  
+      xtab( the01, nvisits*rweight );
+    endif;
+  enddo;
+
+  { table he.2 }
+  { first count population }
+  totalh2 = 4;   
+  for i in RECH1 do
+    agehex = RecAge( HV105 );
+    if HV102 = 1 then                       // de-jure population
+      female2 = notappl;
+      male2   = notappl;
+	  if HV104 = 2 then
+	    isex    = 1;
+        female2 = 4 
+      else
+	    isex    = 2;
+        male2   = 4;
+      endif;		
+      xtab( the02, rweight );	  
+      xtab( the02u );
+    endif;
+  enddo;	
+  { tabulate outpatient expenses }
+  costoutp = 0;
+  totalh2  = 1;
+  female2  = notappl;
+  male2    = notappl;
+  if soccurs(RECHHE2) & HEX70 in 1:HV009 & HV102(HEX70) = 1 then     { outpatient present and is de-jure }
+    agehex = RecAge( HV105(HEX70) );
+    { calculate cost for outpatient visits }	
+	costoutp = ValidCost( HEX72 );               // cost last visit
+    if HEX76 in 1:30 then
+      costoutp = costoutp + costoutp * HEX76     // assume other costs are the same as the last one
+    endif;
+    // consider all individuals eligible for outpatient care (cost of medicines not included) and extrapolate to 1 year
+    costoutp = costoutp * eligoutc * 13;
+	if HV104(HEX70) = 2 then
+	  female2 = 1;
+    else	  
+	  male2 = 1;
+    endif;	  
+    xtab( the02, costoutp*oweight );	
+  endif;	
+  // add cost of medicine extrapolated to one year for table THE03 for all households
+  costoutp = costoutp + ValidCost(HEX79) * 13;
+  totinpa = 0;
+  { tabulate inpatient expenses }
+  totalh2 = 2;
+  for i in RECHHE1 do
+    costinpa = 0;  
+    if HV102(HEX20) = 1 then                          // de-jure inpaptients 
+      agehex = RecAge( HV105(HEX20) );
+      female2 = notappl;
+      male2   = notappl;
+      { calculate cost for inpatient visits }	
+      costinpa = ValidCost(HEX24) + ValidCost(HEX29) + ValidCost(HEX34); 
+      if HEX36 in 4:30 then
+        // calculate mean of costs per visit to apply to other visits
+        validinp = (ValidAvg(HEX24) <> missing) + (ValidAvg(HEX29) <> missing) + (ValidAvg(HEX34) <> missing);
+		meaninpc = costinpa/validinp * (HEX36 - 3);   // to get to this point it is necessary to have at least 3 visits
+		costinpa = costinpa + meaninpc;
+      endif;		
+      costinpa = costinpa * 2;	                      // to extrapolate cost to 1 year
+	  totinpa  = totinpa + costinpa;
+      // !!! should we average for other costs 	  
+      if HV104(HEX20) = 2 then
+	    female2 = 2;
+      else	  
+	    male2 = 2;
+      endif;	  
+      xtab( the02, costinpa*rweight );	           
+    endif;
+  enddo;
+
+  { table he.3 }
+  totcost = costoutp + totinpa;                  // total health cost calculated in table he.2
+  if count(RECH1 where HV102 = 1 ) then          // households with at least one de-jure member
+    hhtcost = 2;      
+    xtab( the03, rweight );	  
+    xtab( the03u );	  
+    hhtcost = 1;      
+    xtab( the03, totcost*rweight );	  
+  endif;	
+	

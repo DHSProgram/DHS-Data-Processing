@@ -1,0 +1,126 @@
+﻿Language = EN
+001 Cluster=%02d, not defined in sample file
+002 Interviewer %02d not declared in interviewer's file
+003 Interviewer %02d not authorized to work in cluster %d
+004 Must select your corresponding interviewer code
+005 A household must be selected
+006 Error while open file (%s)
+009 This option for household %d is not valid as the case was already partially collected (%d) or visited with a result code (%d)
+010 A Household can only be revisited when the result of a previous visit was incomplete (%d) or partial (%d)
+011 Only household interviews with complete result can be modified (%d)
+012 Anthropometry only valid for complete households (result=%d)
+015 Make sure that the supervisor flash memory is in your computer.  Once in it click OK
+016 Data for cluster %04d were copied.  Click OK y return SD card to supervisor
+020 There are no eligible individuals (women/men) in the household or no individual was selected
+025 An individual can only be revisited when the result of a previous visit was incomplete or partial (%s)
+026 Only individual interviews with complete result can be modified (%s)
+054 Must select your team's supervisor code
+061 The supervisor flash memory isn't in your machine.  Insert it and repeat this option
+070 Make sure that your flash memory is in the computer to properly BACKUP the data to directory %s
+071 The flash memory isn't in the computer or directory %s doesn't exist.  BACKUP to flash memory may not be possible
+072 Completed data backup from SampData directory to %s directory
+080 Menu for individual interviews only accessible for complete household interviews (result=%d)
+085 There are no files available yet for sampling selection for cluster %s
+081 Cluster interviews made by supervisor moved to proper directory in the computer
+082 Household lisiting for sampling selection not necessary to be transferred as it is already in the supervisor's machine
+090 Upgrades No. %d installed (folder=%s created).  It is recommended to EXIT the system for the upgarde to take effect 
+095 File (%s) with households assigned for cluster %d does not exist (is corrupted).  Get it from supervisor before proceeding
+096 There are no households available for this operation or a household was not selected
+100 Household file, in household %s the first record isn't valid '%s' in line %d
+101 Household file, household %d duplicated in line %d
+105 The previous problems must be fixed to execute the task required
+150 **** There is another session running or the computer crashed while running
+200 Plug in your modem and connect to the internet network
+201 Data has been sent to the central office
+202 Data has NOT been sent to the central office
+300 Enumerator connected to: %s
+301 Enumerator can't connect to: %s
+
+Language = ES
+{ common strings used by the application }
+  ES ( "Reset" ) Reiniciar
+  ES ( "Yes" ) Si
+  ES ( "No" ) No
+  ES ( "Cluster" ) Segmento
+  ES ( "Enumerator" ) Enumerador
+
+001 Conglomerado=%02d, no esta definido en el archivo de la muestra
+002 Entrevistadora %02d no esta incluida en el archivo de entrevistadoras
+003 Entrevistadora %02d no esta autorizada para trabajar en Conglomerado %d
+004 Usted debe seleccionar su correspondiente codigo de entrevistadora
+005 Se debe seleccionar una vivienda/hogar
+006 Error al tratar de abrir el archivo (%s)
+009 Esta opcion no es valida para el hogar %d por que este ya fue parcialmente recolectado (%d) o visitado con codigo de resultado (%d)
+010 Un hogar solo se puede revisitar cuando el resultado de la visita anterior fue incompleta (%d) o fue recolectado parcialmente (%d)
+011 Solo se pueden modificar hogares con entrevistas completas (%d)
+012 Peso y talla son validos unicamente para hogares con entrevistas completas (resultado=%d)
+015 Asegurese que la memori flash de la SUPERVISORA esta en su computador.  Una vez en el computador click en el boton OK
+016 Los datos del conglomerado %04d se han copiado.  Haga click en OK y regrese la tarjeta SD a la supervisora
+020 No hay individuos (mujeres/hombres) elegibles en este hogar o no se selecciono ninguno
+025 Una mujer solo se puede revisitar cuando el resultado de la visita anterior fue incompleta o fue recolectada parcialmente (%s)
+026 Solo se pueden modificar mujeres con entrevistas completas (%s)
+054 Usted debe seleccionar el codigo de la supervisora a la cual ha sido asignada
+061 La tarjeta la memoria flash de la SUPERVISORA no esta en su computador.  Insertela y vuelva a repetir esta opcion
+070 Asegurese que la memoria flash se encuentra en el computador para hacer un BACKUP de los datos al directorio %s
+071 La memoria flash no se encuentra en el computador o el directorio %s no existe.  No se hara backup de los datos a la memoria flash
+072 Finalizo copia de resplado de carpeta SampData a carpeta %s", backup
+080 El menu para mujeres elegibles solo se puede accesar para hogares con entrevistas completas (resultado=%d)
+081 Entrevistas hechas por el supervisor transferidas al directorio correcto
+082 Listado de hogares para seleccion de la muestra no se necesita tranferir por cuanto ya exisite en la maquina del supervisor
+085 No hay archivos disponibles todavia para seleccion de hogares para el segmento %s
+090 Actualizacion No. %d instalada (folder=%s creado).  Se recomienda Salir del sistema para que la actuaizacion tenga efecto
+095 Archivo (%s) con hogares asignados para conglomerado %d no existe (esta malo).  Obtengalo de la supervisora antes de continuar
+096 No hay hogares disponibles para esta operacion o no se selecciono ningun hogar
+100 Archivo hogares, en el hogar %s el primer registro es invalido '%s' en la linea %d
+101 Archivo hogares, hogar %d duplicado en la linea %d
+105 Los problemas anteriores se deben solucionar para realizar la tarea solicitada
+150 **** Hay otra sesion corriendo o el computador fallo mientras corria
+200 Plug in your modem and connect to the internet network
+201 Los datos se han enviado a la oficina central
+202 Los datos NO se han enviado a la oficina central
+300 Enumerador conectado a: %s
+301 Enumerador no se pudo conectar a: %s
+
+Language = FR
+  FR ( "There is another session running or the computer crashed while running" ) Il y a une autre session en cours ou bien que l'ordinateur s'est plantÃ© en cours d'exÃ©cution
+  FR ( "Reset" ) Re-initialiser
+  FR ( "Yes" ) Oui
+  FR ( "No" ) Non
+  FR ( "Cluster" ) Grappe
+  FR ( "Enumerator" ) Enumérateur
+  
+001 La grappe=%02d n'est pas définie dans le fichier de l'échantillion
+002 Enquêteur(rice) %02d non declaré dans le ficher des enquêteurs
+003 Enquêteur(rice) %02d non authorisé(e) à travailler dans la grappe %d
+004 Vous devez sélectionner votre code d'enquêteur(rice)
+005 Un ménage doit être sélectionné
+006 Erreur pendant l'ouverture d'un fichier (%s)
+009 Cette option pour le ménage %d n'est pas acceptable puisque le cas a été partiellement rassemblé (%d) ou visité et ayant un code résultat (%d)
+010 Un ménage ne peut être visité une seconde fois que quand le résultat de la visite précédante n'est pas rempli (%d) ou la collecte de données est partielle (%d)
+011 Les enquêtes ménages ayant un résulat rempli sont les seules à être modifiées (%d)
+012 Anthropométrie n'est acceptable que pour les ménages remplis (résultat=%d)
+015 Assurez-vous que la carte SD est dans votre tablette. Une fois qu'elle est en place appuyer sur OK
+016 Données pour la grappe %04d sont copiées. Cliquez sur OK puis retournez la carte SD au superviseur
+020 Il n'y a pas d'individus (femmes/hommes) éligibles dans le ménage ou bien il n'y a pas d'individus sélectionnés
+025 Un individu ne peut être visité une seconde fois que lorsque le résultat de la visite précédante est non rempli ou partiellement rempli (%s)
+026 Seules les enquêtes individuelles ayant un résultat rempli peuvent être modifiées (%s)
+054 Vous devez sélectionner le code du supervseur de votre équipe
+061 La carte SD du superviseur n'est pas dans votre tablette. Insérez-la et puis répétez cette option
+070 Assurez-vous que la carte SD est insérée dans votre tablette pour bien SAUVEGARDER les données dans ficher %s
+071 La carte SD n'est pas dans votre tablette dans le fichier %s. La SAUVEGARDE dans la carte SD ne peut pas être efféctué
+072 Completed data backup from SampData directory to %s directory
+080 Le menu des enquêtes individuelles n'est accessible que pour les enquêtes ménages complètement remplis (résultat=%d)
+081 Les enquêtes de la grappe conduites par le superviseur sont transférées au bon répertoire sur le tablette
+082 Il n'est pas nécessaire de transférer la liste de ménages pour la sélection de l'échantillion puisqu'elle existe déjà sur la machine du superviseur
+085 Il n'y a pas de fichiers déjà disponibles pour la sélection d'échantillonage pour cette grappe %s
+090 Upgrades No. %d installed (folder=%s created).  It is recommended to EXIT the system for the upgarde to take effect 
+095 Le file (%s) avec des ménages affectées à la grappe %d n'existe pas (est corrompu). Prenez-le de chez le superviseur avant de continuer
+096 Il n'y a pas de ménages disponibles pour cette opération ou bien qu'un ménage n'a pas été sélectionné
+100 Fichier ménage: dans le ménage %s, le premier enregistrement n'est pas valable '%s' à la ligne %d
+101 Ficheir ménage: Le ménage %d est répété à la ligne %d
+105 Les problèmes antérieurs doivent êtres résolus pour pouvoir exécuter la tache demandée
+200 Insérer votre modem et connecter au résaux internet
+201 Les données sont envoyées au bureau central
+202 Les données NE SONT pas envoyées au bureau central
+300 Enumerator connected to: %s
+301 Enumerator can't connect to: %s

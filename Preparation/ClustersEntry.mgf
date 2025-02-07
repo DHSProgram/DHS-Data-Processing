@@ -1,0 +1,14 @@
+﻿{ common strings used by application }
+
+  ES ( "Do you want to change the code for" ) Desea cambiar el codigo para
+  ES ( "1-Yes" ) 1-Si
+  ES ( "2-No" ) 2-No
+  ES ( "Do you want to enter more clusters?" ) Desea ingresar datos para otros segmentos?  
+
+Language = EN
+001 Code for %s different from previous code %d
+002 It is necessary to enter the name for %s
+
+Language = ES
+001 Codigo de %s diferent de codigo anterior %d
+002 Es necesario ingresar el nombre de %s  

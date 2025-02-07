@@ -1,0 +1,92 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.4
+
+[LANGUAGES]
+EN=English
+ES=Español
+
+[QUESTION]
+Field=SAMPSEL.XADDRESS
+Occurrences=1:60
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Enter the household address for HH number %XNUMBER%
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs20 Ingrese la direccion del hogar %XNUMBER%
+ES=\par }
+
+[QUESTION]
+Field=SAMPSEL.XCHANGE
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Select an option for cluster %XCLUSTER% that has %XTOTAL% households
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs20 Seleccione la opcion deseada para el conglomerado %XCLUSTER% que tiene %XTOTAL% hogares
+ES=\par }
+
+[QUESTION]
+Field=SAMPSEL.XINTCODE
+Occurrences=1:60
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Select the interviewer to be assigned to collect the household %XNUMBER% whose head is: %TEXTSTR%
+EN=\par \fs24
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs20 Que entrevistadora(or) se asignara para recolectar el hogar %XNUMBER%  cuyo jefe es: %TEXTSTR%
+ES=\par }
+
+[QUESTION]
+Field=SAMPSEL.XMALE
+Occurrences=1:60
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Do you want to change the men's survey selection criteria for the household %XNUMBER% whose head is: %TEXTSTR%
+EN=\par \fs24
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs20 Desea cambiar la seleccion para hombres del hogar %XNUMBER% perteneciente a: %TEXTSTR%
+ES=\par \fs24
+ES=\par }
+
+[QUESTION]
+Field=SAMPSEL.XNAME
+Occurrences=1:60
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Enter the household head name for HH number %XNUMBER%
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs20 Registre el nombre del jefe del hogar %XNUMBER%
+ES=\par }
+
+[QUESTION]
+Field=SAMPSEL.XNUMBER
+Occurrences=1:60
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Enter the household number for the new household
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs20 Ingrese el numero de hogar para el hogar a adicionar
+ES=\par }
+
+[QUESTION]
+Field=SAMPSEL.XTOTAL
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Enter the number of households in the cluster\cf2
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs20 Ingrese el numero de hogares en el conglomerado
+ES=\par }
+

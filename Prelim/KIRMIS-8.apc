@@ -1,0 +1,301 @@
+﻿PROC GLOBAL
+{+---------------------------------------------------------------------------+}
+{+   Guidelines July 31, 2011             -    Version 1.0.0 of  7/31/2021   +}
+{+                                                                           +}
+{+   KIR - PRELIMINARY MALARIA TABLE                                         +}
+{+                                                                           +}
+{+   Application should run after finimp, as variable MLPREG is needed       +}
+{+                                                                           +}
+{+---------------------------------------------------------------------------+}
+
+  numeric rweight, di;
+  numeric i, j;
+  numeric chlditn, prgitn, totitn, popitn, itn, pers;
+  numeric ch5, totpop, pwom, xtemp, agemnth;
+  numeric DaysMonth = 30.4375;
+
+  array Duplicated(100);
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Key Malaria indicators, [Country Survey Year]" );
+
+  crosstab float(1) tkmi MALA01+MALA02+MALA03+MALA04 total+AHREGION
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Key Malaria indicators from the [Year Country] Malaria Indicator Survey","",
+           "[Add background information about the survey such as implementing agency,",
+           "dates of data collection, total number of households and women surveyed, etc.]" )
+     stub( "Malaria indicator" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    Title( "Indicateurs clés du paludisme de l'Enquête des Indicateurs du Paludisme [Pays, Année]","",
+	       "[Ajoutez des informations générales sur le sondage telles que l'agence d'exécution,",
+		   "les dates de collecte des données, le nombre total de ménages et des femmes interviewées, etc.]")
+     stub( "Indicateur" );
+{FR}}
+  crosstab float(1) tkmiw MALA01+MALA02+MALA03+MALA04 total+AHREGION
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Key Malaria indicators from the [Year Country] Malaria Indicator Survey (Denominators)","" )
+     stub( "Malaria indicator" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+     stub( "Indicateur du paludisme" );
+{FR}}
+
+  { function to determine if a child/woman sleep in more than one net }
+  function IsDuplicated( xLine )
+    IsDuplicated = ( Duplicated(xLine) <> 0 );
+    Duplicated(xLine) = xLine;
+  end
+
+PROC CCIQ81_FF
+preproc
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+  total = 0;
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table tkmi processing }
+  tkmi = tkmi / tkmiw * 100;
+
+PROC HOUSEHOLD
+preproc
+
+  if AHRESULT <> 1 then skip case; endif;
+
+  UrbRur = AHTYPE;
+
+postproc
+
+  if unweight  then
+    rweight = 1
+  else
+    rweight = AHWEIGHT / 1000000;
+  endif;
+
+  { Insecticide Treated Net (itn) }
+  { initialize arrays to check if a child/woman slept in more than one net }
+  { the child/woman will be according to the first net where he/she is found  }
+  do j = 1 while j <= 100
+    Duplicated(j) = 0;
+  enddo;
+  popitn  = 0;   { count total de-facto population }
+  chlditn = 0;   { count children 0-4 under itn }
+  prgitn  = 0;   { count pregnant women under itn }
+  totitn  = 0;   { count number of itn }
+  itn     = 0;
+  for i in AHSEC03_EDT do
+    { Insecticide Treated Net - LLIN }
+    itn = ( AH142 in 11:19 |  AH143 in 1:3 | AH144 in 1:2 );
+
+    if itn then totitn = totitn + 1 endif; { Number of itn mosquito nets }
+
+    if AH145 = 1 then    { someone slept under that net last night }
+
+      { first person in net }
+      pers = AH146A;
+      if pers in 1:AHMEMBER & AH06(pers) = 1 & !IsDuplicated(pers) then
+        if itn & ML07I(pers) in 0:4 then  chlditn = chlditn + 1; endif;
+        if itn & MLPREG(pers)       then  prgitn  = prgitn  + 1; endif;
+        if itn                      then  popitn  = popitn  + 1; endif;
+      endif;
+
+      { second person in net }
+      pers = AH146B;
+      if pers in 1:AHMEMBER & AH06(pers) = 1 & !IsDuplicated(pers) then
+        if itn & ML07I(pers) in 0:4 then  chlditn = chlditn + 1; endif;
+        if itn & MLPREG(pers)       then  prgitn  = prgitn  + 1; endif;
+        if itn                      then  popitn  = popitn  + 1; endif;
+      endif;
+
+      { third person in net }
+      pers = AH146C;
+      if pers in 1:AHMEMBER & AH06(pers) = 1 & !IsDuplicated(pers) then
+        if itn & ML07I(pers) in 0:4 then  chlditn = chlditn + 1; endif;
+        if itn & MLPREG(pers)       then  prgitn  = prgitn  + 1; endif;
+        if itn                      then  popitn  = popitn  + 1; endif;
+      endif;
+
+      { fourth person in net }
+      pers = AH146D;
+      if pers in 1:AHMEMBER & AH06(pers) = 1 & !IsDuplicated(pers) then
+        if itn & ML07I(pers) in 0:4 then  chlditn = chlditn + 1; endif;
+        if itn & MLPREG(pers)       then  prgitn  = prgitn  + 1; endif;
+        if itn                      then  popitn  = popitn  + 1; endif;
+      endif;
+
+      { !!! in case there is a fifth person
+      pers = AH144E;
+      if pers in 1:AHMEMBER & AH06(pers) = 1 & !IsDuplicated(pers) then
+        if itn & ML07I(pers) in 0:4 then  chlditn = chlditn + 1; endif;
+        if itn & MLPREG(pers)       then  prgitn  = prgitn  + 1; endif;
+        if itn                      then  popitn  = popitn  + 1; endif;
+      endif;
+      !!! }
+
+    endif;
+
+  enddo;
+
+  MALA01 = notappl;
+  MALA02 = notappl;
+  MALA03 = notappl;
+  MALA04 = notappl;
+
+  { Households with at least one Insecticide Treated Net, itn }
+  MALA01 = 1;
+  xtab( tkmiw, rweight );
+  if totitn > 0 then
+    xtab( tkmi, rweight );
+  endif;
+
+  { counting de-facto population }
+  totpop = count( AHSEC01 where AH06 = 1 );
+  { Household with at least one ITN for every two persons who stayed in the household }
+  if totpop then
+    MALA01 = 2;
+    xtab( tkmiw, rweight );
+    if totitn / totpop >= 0.5 then
+      xtab( tkmi, rweight );
+	endif;
+  endif;
+
+  { counting de-facto children under 5 }
+  ch5 = count( AHSEC01 where ML07I in 0:4 & AH06 = 1 );
+  { Children under 5 who slept under an itn the night before of the survey }
+  MALA01 = 3;
+  xtab( tkmiw, ch5*rweight );
+  if chlditn > 0 then
+    xtab( tkmi, chlditn*rweight );
+  endif;
+
+  { counting de-facto pregnant women }
+  pwom = count( AHSEC01 where AH06 = 1 & MLPREG = 1 );
+  { Pregnant women 15-49 who slept under an itn the night before the survey }
+  MALA01 = 4;
+  xtab( tkmiw, pwom*rweight);
+  if prgitn > 0 then
+    xtab( tkmi, prgitn*rweight);
+  endif;
+
+  { de-facto population who could sleep under an ITN if ITN were used by up to 2 people }
+  if totpop > 0 then
+    MALA01 = 5;
+    xtab( tkmiw, totpop*rweight);
+    xtemp = totitn * 2 / totpop;
+    if xtemp > 1 then xtemp = 1 endif;
+    xtab( tkmi, xtemp*totpop*rweight );
+  endif;
+
+  { de-facto population slept under an itn the night before the survey in HH with ITNs }
+  if totpop > 0 & totitn > 0 then
+    MALA01 = 6;
+    xtab( tkmiw, totpop*rweight);
+    if popitn > 0 then
+      xtab( tkmi, popitn*rweight);
+    endif;
+  endif;
+  MALA01 = notappl;
+
+  { Rapid malaria test for children 6:59 months }
+  for i in ABSEC01 do
+{
+    if int( (ABINTCD-ACCDC) / DaysMonth ) in 6:59 & AH06(AB102) = 1 & AB115 in 1,2 then  { !!! check for codes in AB115 to be included in the denominator }
+      MALA04 = 1;
+      xtab( tkmiw, rweight);
+      if AB115 = 1 then              { !!! check question number for malaria RDT }
+        xtab( tkmi, rweight);
+      endif;
+    endif;
+}
+  enddo;
+  MALA04 = notappl;
+
+PROC INDIVIDUAL
+preproc
+
+  if ARESULT <> 1 | AH06(ALINE) <> 1 then skip case; endif;  { Only completed and de-facto women }
+
+postproc
+
+  if unweight then
+    rweight = 1
+  else
+    rweight = AWEIGHT / 1000000;
+  endif;
+
+  if AQTYPE = 2 then
+
+    di = AINTCD;
+
+    MALA01 = notappl;
+    MALA02 = notappl;
+    MALA03 = notappl;
+    MALA04 = notappl;
+
+    { women with births in the last two years }
+    if count( AWSEC2B where (di-A220CD)/DaysMonth < 24 ) then
+      MALA02 = 1;
+      xtab( tkmiw, rweight);
+      { took 2+ fansidar doses }
+      if A432(1) in 2:90 then
+        xtab( tkmi, rweight);
+      endif;
+    endif;
+
+    { women with births in the last two years }
+    if count( AWSEC2B where (di-A220CD)/DaysMonth < 24 ) then
+      MALA02 = 2;
+      xtab( tkmiw, rweight);
+      { took 3+ fansidar doses }
+      if A432(1) in 3:90 then
+        xtab( tkmi, rweight);
+      endif;
+    endif;
+    MALA02 = notappl;
+
+    for i in AWSEC6A_EDT do
+      agemnth = ( di-A220CD(A603) ) / DaysMonth;
+      { Alive & under 5 years of age }
+      if agemnth < 60 & A618 = 1 then
+
+        { Children with fever in the 2 weeks before the survey who sought treatment }
+        MALA03 = 1;
+        xtab( tkmiw,rweight );
+        if A625 = 1 & !( length(strip(A626)) = 1 & pos("R", A626) ) then  { !! excludes traditional practitioner (check code) }
+          xtab( tkmi,rweight );
+        endif;
+
+        { Children with fever in the 2 weeks before the survey who were taken blood from heel/finger }
+        MALA03 = 2;
+        xtab( tkmiw,rweight );
+        if A619 = 1 then
+          xtab( tkmi,rweight );
+        endif;
+
+        { Among children with fever in the 2 weeks before the survey who took any antimalarial medication, percentage who took ACT (Artemisinin Combination Therapy) }
+        if poschar( "ABCDEFGHI", A631 ) then
+          MALA03 = 3;
+          xtab( tkmiw,rweight );
+          if pos( "A", A631 ) then   { !! check for ACT codes }
+            xtab( tkmi,rweight );
+          endif;
+        endif;
+      endif;  { end alive and under 5 }
+    enddo;
+    MALA03 = notappl;
+
+  endif;  { end women type of questionnaire }

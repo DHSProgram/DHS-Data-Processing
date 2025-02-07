@@ -1,0 +1,720 @@
+﻿  string strval;
+
+  FILE PartialFile;
+  { function to partially save data on demand }
+  function SaveData()
+    if demode() = add then
+      savepartial();
+    endif;
+  end;
+
+  { Check relationship of child's mother/father to the household head  }
+  { with the child relationship to the head                            }
+  function valrelat( parent, child )
+    numeric isOK;
+    recode parent :: child -> isOK;  { MOTHER/FATHER         - CHILD              }
+            1,2  ::   3   -> 1;     { Head/Spouse           - Son/Daughter       }
+              2  ::  10   -> 1;     { Spouse                - Stepchild          }
+            3,4  ::   5   -> 1;     { Son/Daughter (in-law) - Grandchild         }
+              5  ::   9   -> 1;     { Grandchild            - Other Relative     }
+              6  ::   1   -> 1;     { Parent                - Head               }
+              7  ::   2   -> 1;     { Parent-in-law         - Spouse             }
+            6,7  ::   8   -> 1;     { Parent/Parent-in-Law  - Brother/Sister     }
+              7  ::   9   -> 1;     { Parent-in-law         - Other Relative     }
+              8  ::   9   -> 1;     { Brother/Sister        - Other Relative :: Niece/nephew-blood }
+           {  ?  ::  11   -> 1; }   { Niece/Nephew          - Other relative     }
+           {  ?  ::  13   -> 1; }   { Niece/Nephew-marriage - Not related        }
+              9  ::   9   -> 1;     { Other Relative        - Other Relative     }
+          10,11  ::  11   -> 1;     { Adopted/Not Related   - Not Related        }
+      missing,98 ::98,missing -> 1; { Unknown               - Unknown            }
+  {{POLYG}       ::  11   -> 1;     { Co-wife               - Not related        } {POLYG}}
+                 ::       -> 0;     { All others are incorrect                     }
+    endrecode;
+    valrelat = isOK;
+  end;
+
+  { valid value in a two digits variable }
+  function valid( xvar );
+    valid = ( !special(xvar) & xvar <= 95 )
+  end;
+
+  { valid value in a four digits digits year }
+  function validyr( xvar );
+    validyr = ( !special(xvar) & xvar <= 9995 )
+  end;
+
+  { convert notappl to zero }
+  function NAtoZero( xvar );
+    if xvar = notappl then
+      xvar = 0
+    endif;
+    NAtoZero = xvar;
+  end;
+
+  { check if two values are equal }
+  function noteq( xvar, dvar );
+    noteq = ( xvar <> NAtoZero(dvar) );
+  end;
+
+  { check if one value is less than another }
+  function lessthan( xvar, dvar );
+    lessthan = ( xvar < NAtoZero(dvar) );
+  end;
+
+  { convert notappl to zero }
+  function NSmoke( xvar );
+    if xvar in 888,missing,notappl then
+      xvar = 0
+    endif;
+    NSmoke = xvar;
+  end;
+
+  { Function to check if a date is after the date of interview }
+  function afterint( vcheckm, vchecky, IntM, IntY );
+    numeric z = 0;
+    if validyr(vchecky) & vchecky > IntY |
+       vchecky = IntY & valid(vcheckm) & vcheckm > IntM then
+      z = 1
+    endif;
+    afterint = z;
+  end;
+
+  function maxgrade( xlevel )
+    numeric z;
+    recode xlevel -> z;
+           0   -> 2; { !!! Preschool maximum }
+           1   -> 7; { !!! Primary maximum }
+           2   -> 6; { !!! Secondary maximum }
+           3   -> 5; { !!! Higher }
+    endrecode;
+    maxgrade = z;
+  end;
+
+  { check that number of years of school according to level is correct }
+  function LevelYears( xlevel, xyears )
+    { Verify the maximum grade for the level }
+    numeric isOK = 1, z;
+    z = maxgrade( xlevel );
+    if valid(xyears) & xyears > z then
+      isOK = 0;
+    endif;
+    LevelYears = isOK;
+  end;
+
+  { returns the first or second digit (decpos) of a decimal variable }
+  function GetDecimal( value, decpos )
+    numeric wholeval, intval, decval;
+    intval   = int( value + 0.00001 ) * 100;   //to properly round the decimal part
+    wholeval = int( value * 100 + 0.00001 );
+    decval   = wholeval - intval;
+    strval   = edit( "99", decval );
+    GetDecimal = tonumber( strval[decpos:1] );
+  end;
+
+  { Function to check all possible combinations of day, month for full dates }
+  { also checks that first date (x) is less or equal than second date (upto) }
+  function DateOK( xday, xmonth, xyear, uptoday, uptomonth, uptoyear )
+    numeric z, leapyear;
+    recode          xmonth         ::        xday        -> z;       { !!! }
+     1,3,5,7,8,10,12,97,98,missing :: 1:31,97,98,missing -> 1;
+     4,6,9,11                      :: 1:30,97,98,missing -> 1;
+     2                             :: 1:28,97,98,missing -> 1;
+                                   ::                    -> 0;
+    endrecode;
+    leapyear = (xyear % 4 = 0);
+    if z = 0 & leapyear & xmonth = 2 & xday = 29 then z = 1 endif;
+    if validyr(xyear) & xyear > uptoyear then
+      z = 0
+    elseif xyear = uptoyear & xmonth <= 12 & xmonth > uptomonth then
+      z = 0
+    elseif xyear = uptoyear & xmonth = uptomonth & xday <= 31 & xday > uptoday then
+      z = 0
+    endif;
+    DateOK = z;
+  end;
+
+  { Function to check that date of measurement is on or after date of biomarker }
+  function BefDBio( xday, xmonth, xyear, uptoday, uptomonth, uptoyear )
+    numeric z = 0;
+    if validyr(xyear) & xyear < uptoyear then
+      z = 1
+    elseif xyear = uptoyear & xmonth <= 12 & xmonth < uptomonth then
+      z = 1
+    elseif xyear = uptoyear & xmonth = uptomonth & xday <= 31 & xday < uptoday then
+      z = 1
+    endif;
+    BefDBio = z;
+  end;
+
+  { function to convert "other methods" to search in calendar }
+  function MethInStr( zmeth, zoth );
+    numeric z;
+    z = zmeth;
+    if zmeth = 95 then
+      z = zoth;                { other modern method position in string of methods in calendar }
+    elseif zmeth = 96 then
+      z = zoth + 1;            { other traditional method position in string of methods in calendar }
+    endif;
+    MethInStr = z;
+  end;
+
+  { calculates the number of days since January 1, 1900 up to the date given in the parameters }
+  { the function assumes that the day (zday) within month (zmonth) is consistent               }
+  function CDCode( zyear, zmonth, zday )
+    numeric z, zz, zdays1 = 0, zdays2 =0, leapday, totdays = 99999;
+    if !zyear in 1900:2170 | !zmonth in 1:12 | !zday in 1:31 then
+      errmsg( "Invalid date to calculate CDC Year=%04d, Month=%02d, day=%02d", zyear, zmonth, zday );
+    else
+      { number of days between 1900 and zyear }
+      do z = 1900 while z < zyear
+        zdays1 = zdays1 + 365 + (z % 4 = 0);
+      enddo;
+      { number of days up to the month in year zyear }
+      leapday = (zyear % 4 = 0);
+      do z = 1 while z < zmonth
+        recode   z     -> zz;
+          1,3,5,7,8,10 -> 31;
+                     2 -> 28+leapday;
+              4,6,9,11 -> 30;
+        endrecode;
+        zdays2 = zdays2 + zz;
+      enddo;
+      { total days }
+      totdays = zdays1 + zdays2 + zday;
+    endif;
+    CDCode = totdays;
+  end
+
+  { randomly impute a day between 1 and the maximum number of days in a month }
+  function ImputeDay( yint, mint, dint, zyear, zmonth )
+    numeric zz, leapday;
+    { number of days up to the month in year zyear }
+    leapday = (zyear % 4 = 0);
+    recode zmonth     -> zz;
+      1,3,5,7,8,10,12 -> 31;
+                    2 -> 28+leapday;
+             4,6,9,11 -> 30;
+    endrecode;
+    if yint = zyear & mint = zmonth then
+      zz = dint
+    endif;
+    ImputeDay = random( 1, zz );
+  end
+
+  { checks age and day of birth. check necessary for births in the month of interview and if day, month and year are present }
+  function age_day_check( xday, xmonth, xyear, uptoday, uptomonth, uptoyear, agetofit )
+    { returns:
+      0 if age consistent,
+      1 if inconsistent, and
+     -1 if can't check age }
+    { only need to do the check if:
+      1. day is valid
+      2. month of birth and month of interview are the same
+      3. years are given and valid - otherwise can't check age }
+    if valid( xday ) & valid( uptoday ) &
+       valid( xmonth ) & xmonth = uptomonth &
+       validyr( xyear ) & validyr( uptoyear ) & valid( agetofit ) then
+      age_day_check = ( ( (uptoyear - xyear) - (xday > uptoday) ) <> agetofit );
+    else
+      age_day_check = (-1);
+    endif;
+  end;
+
+  { reads the CSPro STS file to find out if a household or individual has been partially saved }
+  function partialcs( ztype, ncluster, nnumber, nline, string FileToCheck )
+    numeric FoundPart = 0, zlen;
+    string  PartialRecord, findadd, findmod;
+    setfile( PartialFile, FileToCheck + ".sts" );
+    if ztype = 1 then
+      findadd  = "Pos=ADD." + edit("9999", ncluster) + edit("9999",nnumber);
+      findmod  = "Pos=MOD." + edit("9999", ncluster) + edit("9999",nnumber);
+    else
+      findadd  = "Pos=ADD." + edit("9999", ncluster) + edit("9999",nnumber) + edit("99",nline);
+      findmod  = "Pos=MOD." + edit("9999", ncluster) + edit("9999",nnumber) + edit("99",nline);
+    endif;
+    zlen = length(findadd);
+    while !FoundPart do
+      if !FileRead( PartialFile, PartialRecord ) then
+        FoundPart = 3
+      elseif pos( strip(findadd), PartialRecord[1:zlen] ) then
+        FoundPart = 1
+      elseif pos( strip(findmod), PartialRecord[1:zlen] ) then
+        FoundPart = 2
+      endif;
+    enddo;
+    close( PartialFile );
+    if FoundPart in 1,2 then
+      partialcs = FoundPart;
+    else
+      partialcs = 0;
+    endif;
+  end;
+  
+  { Revised function to adjust dates based on age }
+  function ndjlba( lowera, uppera, lowerb, upperb, agetofit )
+    numeric z;
+    { calculate new possible lower bound for a = lower bound of b - age - 12 months }
+    z = lowerb - 12 * (agetofit + 1);
+    { if new lower bound > upper bound then we have an inconsistency }
+    if z > uppera then
+      z = -1
+    else
+      { if new lower bound is less than upper bound, change new lower bound to be
+        lower bound of b - age - 11 months }
+      if z < uppera then
+        z = z + 1
+      endif;
+      { if new lower bound is less than old lower bound for a, leave with old value }
+      if lowera > z then
+        z = lowera
+      endif
+    endif;
+    { return value of lower bound of a }
+    ndjlba = z;
+  end;
+
+  { check duplicates after collapsing all households as different interviewers may have }
+  { collected the same household                                                        }
+  function FindHHDups( string thisfile, array string duplicatHH(,) );
+    FILE   filedups;
+    numeric prevhh = 0, xline, currhh, l, k = 0;
+	{ !!! positions for HH, record, interviewer, address, and result }
+	numeric hhpos = 5, recpos = 11, intpos = 135, adpos = 16, respos = 139;
+	string oneline, currec;
+	array string allhh(100,10);
+    setfile( filedups, thisfile );
+    allhh.clear();	
+    xline = 0;
+    while FileRead( filedups, oneline ) do
+      currhh = tonumber( oneline[hhpos:4] );                 
+      currec = oneline[recpos:3];                            
+      xline = xline + 1;
+      if currhh <> prevhh then
+        if currec <> "H00" then
+//          e = errmsg( 100, oneline[5:4], currec, xline );
+          k = k + 1;
+          duplicatHH(k,1)  = oneline[hhpos:4];               // household number
+          duplicatHH(k,9)  = "101";		  	                 // error type
+          duplicatHH(k,10) = edit("ZZZZ9", xline);           // line in concatenated file			  
+        else
+          do l = 1 while l <= 100
+            if !length( strip(allhh(l,1)) ) then
+              allhh(l,1) = oneline[hhpos:4];                 // household number
+              allhh(l,3) = strip(oneline[adpos:40]);         // address 
+              allhh(l,4) = oneline[intpos:4];                // interviewer number
+              allhh(l,5) = oneline[respos:1];                // result
+              break;
+            elseif currhh = tonumber(allhh(l,1)) then
+              k = k + 1;
+              duplicatHH(k,1)  = allhh(l,1);                 // previous household
+              duplicatHH(k,3)  = allhh(l,3);                 // previous address  
+              duplicatHH(k,4)  = allhh(l,4);                 // previous interviewer  
+              duplicatHH(k,5)  = allhh(l,5);                 // previous result  
+              duplicatHH(k,6)  = strip(oneline[adpos:40]);   // current address
+              duplicatHH(k,7)  = oneline[intpos:4];          // current interviewer
+              duplicatHH(k,8)  = oneline[respos:1];          // current result
+              duplicatHH(k,9)  = "102";			             // error type
+              duplicatHH(k,10) = edit("ZZZZ9", xline);       // line in concatenated file			  
+//              e = errmsg( 101, currhh, xline );
+              break;
+            endif;
+          enddo;
+        endif;
+        prevhh = currhh;
+      elseif currec = "H00" then
+        k = k + 1;
+        duplicatHH(k,1)  = oneline[hhpos:4];                 // household
+        duplicatHH(k,9)  = "103";			                 // error type
+        duplicatHH(k,10) = edit("ZZZZ9", xline);             // line in concatenated file			  
+//        e = errmsg( 102, currhh, currec, xline );
+        do l = 1 while l <= 100 & length( allhh(l,1) )
+          if currhh = tonumber(allhh(l,1)) then
+            duplicatHH(k,1)  = allhh(l,1);                   // previous household
+            duplicatHH(k,3)  = allhh(l,3);                   // previous address  
+            duplicatHH(k,4)  = allhh(l,4);                   // previous interviewer 
+            duplicatHH(k,5)  = allhh(l,5);                   // previous result
+            duplicatHH(k,6)  = strip(oneline[adpos:40]);     // current address
+            duplicatHH(k,7)  = oneline[intpos:4];            // current interviewer
+            duplicatHH(k,9)  = "104";			             // error type
+            duplicatHH(k,10) = edit("ZZZZ9", xline);         // line in concatenated file			  
+            break;
+          endif;
+        enddo;
+      endif;
+    enddo;
+    close( filedups );
+    FindHHDups = k;
+  end;
+
+  { check duplicates after collapsing all individuals as different interviewers may have }
+  { collected the same individual                                                        }
+  function FindINDups( string thisfile, array string DuplicatIN(,) )
+    FILE   filedups;
+    numeric prevhh = 0, prevind = 0, k = 0, xline = 0, currhh, currind, l, newpers;
+	{ !!! positions for HH, indiv lines, record, interviewer, name, and result }
+	numeric hhpos = 5, lnpos = 9, recpos = 11, intpos = 97, nampos = 141, respos = 101;
+	string oneline, currec;
+    array string AllInd(100,10);                  { array to check duplicate individuals }
+    setfile( filedups, strip(thisfile) );
+	AllInd.clear();
+    while FileRead( filedups, oneline ) do
+      currhh  = tonumber( oneline[hhpos:4] );              
+      currind = tonumber( oneline[lnpos:2] );              
+      currec  = oneline[recpos:3];                         
+      xline = xline + 1;
+	  newpers = 0;
+      if currhh <> prevhh | currind <> prevind then
+        newpers = 1;
+        if currec <> "W00" then                         { first record in an individual questionnaire }
+          k = k + 1;
+          duplicatIN(k,1)  = oneline[hhpos:4];               // household number
+          duplicatIN(k,2)  = oneline[lnpos:2];               // line number 
+          duplicatIN(k,9)  = "101";		  	                 // error type
+          duplicatIN(k,10) = edit("ZZZZ9", xline);           // line in concatenated file			  
+//          e = errmsg( 103, oneline[5:4], oneline[9:2], oneline[11:3], xline );
+        else
+          do l = 1 while l <= 100   
+            if currhh = tonumber(AllInd(l,1)) & currind = tonumber(AllInd(l,2)) then
+              k = k + 1;
+              duplicatIN(k,1)  = AllInd(l,1);              // previous household
+              duplicatIN(k,2)  = AllInd(l,2);              // line number 
+              duplicatIN(k,3)  = AllInd(l,3);              // previous name  
+              duplicatIN(k,4)  = AllInd(l,4);              // previous interviewer  
+              duplicatIN(k,5)  = AllInd(l,5);              // previous result  
+              duplicatIN(k,6)  = strip(oneline[nampos:36]);  // current name
+              duplicatIN(k,7)  = oneline[intpos:4];          // current interviewer
+              duplicatIN(k,8)  = oneline[respos:1];          // current result
+              duplicatIN(k,9)  = "102";			             // error type
+              duplicatIN(k,10) = edit("ZZZZ9", xline);       // line in concatenated file			  
+//              e = errmsg( 104, currhh, currind, xline );
+              newpers = 0;
+              break;
+            endif;
+          enddo;
+          if newpers then
+            do l = 1 while l <= 100 		  
+              if !length( strip(AllInd(l,1)) ) then
+                AllInd(l,1) = oneline[hhpos:4];            // household number
+                AllInd(l,2) = oneline[lnpos:2];            // line number
+                AllInd(l,3) = strip(oneline[nampos:36]);   // name
+                AllInd(l,4) = oneline[intpos:4];           // interviewer number
+                AllInd(l,5) = oneline[respos:1];           // result
+                break;
+              endif;
+            enddo; 
+          endif;			
+        endif;
+        prevhh  = currhh;
+        prevind = currind;
+      elseif currec = "W00" then                         { first record in an individual questionnaire }
+        k = k + 1;
+        duplicatIN(k,1)  = oneline[hhpos:4];                 // household number
+        duplicatIN(k,2)  = oneline[lnpos:4];                 // line number 
+        duplicatIN(k,9)  = "103";		  	                 // error type
+        duplicatIN(k,10) = edit("ZZZZ9", xline);             // line in concatenated file			  
+//      e = errmsg( 105, oneline[5:4], oneline[9:2], oneline[11:3], xline );
+        do l = 1 while l <= 100 & length( AllInd(l,1) )
+          if currhh = tonumber(AllInd(l,1)) & currind = tonumber(AllInd(l,2)) then
+            duplicatIN(k,1)  = AllInd(l,1);                // previous household
+            duplicatIN(k,2)  = AllInd(l,2);                // previous line number 
+            duplicatIN(k,3)  = AllInd(l,3);                // previous name  
+            duplicatIN(k,4)  = AllInd(l,4);                // previous interviewer 
+            duplicatIN(k,5)  = AllInd(l,5);                // previous result
+            duplicatIN(k,6)  = strip(oneline[nampos:36]);    // current address
+            duplicatIN(k,7)  = oneline[intpos:4];            // current interviewer
+            duplicatIN(k,8)  = oneline[respos:1];            // current result
+            duplicatIN(k,9)  = "104";			             // error type
+            duplicatIN(k,10) = edit("ZZZZ9", xline);         // line in concatenated file			  
+            break;
+          endif;
+        enddo;
+      endif;
+    enddo;
+    close( filedups );
+    FindINDups = k;
+  end;
+
+  { check duplicates after collapsing all biomarkers as different technicians may have }
+  { collected the same individual for biomarkers                                       }
+  function FindBIODups( string thisfile, array string DuplicatBIO(,) )
+    FILE   filedups;
+    numeric prevhh = 0, prevind = 0, k = 0, xline = 0, currhh, currind, l, newbio;
+	{ !!! positions for HH, indiv lines, record, interviewer, name, and result }
+	numeric hhpos = 5, lnpos = 9, recpos = 11, intpos = 47, nampos = 22;
+	string oneline, currec;
+    array string allbio(100,10);                  { array to check duplicate individuals }
+    setfile( filedups, strip(thisfile) );
+	allbio.clear();
+    while FileRead( filedups, oneline ) do
+      currhh  = tonumber( oneline[hhpos:4] );              
+      currind = tonumber( oneline[lnpos:2] );              
+      currec  = oneline[recpos:3];                         
+      xline = xline + 1;
+	  newbio = 0;
+      if currhh <> prevhh | currind <> prevind then
+        newbio = 1;
+        if currec <> "X00" then                         { first record in an individual questionnaire }
+          k = k + 1;
+          DuplicatBIO(k,1)  = oneline[hhpos:4];              // household number
+          DuplicatBIO(k,2)  = oneline[lnpos:2];              // line number 
+          DuplicatBIO(k,9)  = "101";		  	             // error type
+          DuplicatBIO(k,10) = edit("ZZZZ9", xline);          // line in concatenated file			  
+//          e = errmsg( 103, oneline[5:4], oneline[9:2], oneline[11:3], xline );
+        else
+          do l = 1 while l <= 100   
+            if currhh = tonumber(allbio(l,1)) & currind = tonumber(allbio(l,2)) then
+              k = k + 1;
+              DuplicatBIO(k,1)  = allbio(l,1);               // previous household
+              DuplicatBIO(k,2)  = allbio(l,2);               // line number 
+              DuplicatBIO(k,3)  = allbio(l,3);               // previous name  
+              DuplicatBIO(k,4)  = allbio(l,4);               // previous interviewer  
+              DuplicatBIO(k,5)  = allbio(l,5);               // previous result  
+              DuplicatBIO(k,6)  = strip(oneline[nampos:25]); // current name
+              DuplicatBIO(k,7)  = oneline[intpos:4];         // current interviewer
+              DuplicatBIO(k,8)  = "BLANK";                   // current result
+              DuplicatBIO(k,9)  = "102";			         // error type
+              DuplicatBIO(k,10) = edit("ZZZZ9", xline);      // line in concatenated file			  
+//              e = errmsg( 104, currhh, currind, xline );
+              newbio = 0;
+              break;
+            endif;
+          enddo;
+          if newbio then
+            do l = 1 while l <= 100 		  
+              if !length( allbio(l,1) ) then
+                allbio(l,1) = oneline[hhpos:4];                // household number
+                allbio(l,2) = oneline[lnpos:2];                // line number
+                allbio(l,3) = strip(oneline[nampos:25]);       // name
+                allbio(l,4) = oneline[intpos:4];               // interviewer number
+                allbio(l,5) = "BLANK";                         // result
+                break;
+              endif;
+            enddo; 
+          endif;			
+        endif;
+        prevhh  = currhh;
+        prevind = currind;
+      elseif currec = "X00" then                         { first record in an individual questionnaire }
+        k = k + 1;
+        DuplicatBIO(k,1)  = oneline[hhpos:4];                  // household number
+        DuplicatBIO(k,2)  = oneline[lnpos:4];                  // line number 
+        DuplicatBIO(k,9)  = "103";		  	                   // error type
+        DuplicatBIO(k,10) = edit("ZZZZ9", xline);              // line in concatenated file			  
+//      e = errmsg( 105, oneline[5:4], oneline[9:2], oneline[11:3], xline );
+        do l = 1 while l <= 100 & length( allbio(l,1) )
+          if currhh = tonumber(allbio(l,1)) & currind = tonumber(allbio(l,2)) then
+            DuplicatBio(k,1)  = allbio(l,1);                   // previous household
+            DuplicatBio(k,2)  = allbio(l,2);                   // previous line number 
+            DuplicatBio(k,3)  = allbio(l,3);                   // previous name  
+            DuplicatBio(k,4)  = allbio(l,4);                   // previous interviewer 
+            DuplicatBio(k,5)  = allbio(l,5);                   // previous result
+            DuplicatBio(k,6)  = strip(oneline[nampos:25]);     // current address
+            DuplicatBio(k,7)  = oneline[intpos:4];             // current interviewer
+            DuplicatBio(k,8)  = "BLANK";                       // current result
+            DuplicatBio(k,9)  = "104";			               // error type
+            DuplicatBio(k,10) = edit("ZZZZ9", xline);          // line in concatenated file			  
+            break;
+          endif;
+        enddo;
+      endif;
+    enddo;
+    close( filedups );
+    FindBIODups = k;
+  end;
+
+  { check duplicates after collapsing all remeasurements as different technicians may have }
+  { remeasured the same children                                                           }
+  function FindRemDups( string thisfile, array string DuplicatRem(,) )
+    FILE   filedups;
+    numeric prevhh = 0, prevind = 0, k = 0, xline = 0, currhh, currind, l, newbio;
+	{ !!! positions for HH, indiv lines, record, interviewer, name, and result }
+	numeric hhpos = 5, lnpos = 9, intpos = 95, nampos = 52;
+	string oneline;
+    array string AllRem(100,10);                  { array to check duplicate remeasurements }
+    setfile( filedups, strip(thisfile) );
+	AllRem.clear();
+    while FileRead( filedups, oneline ) do
+      currhh  = tonumber( oneline[hhpos:4] );              
+      currind = tonumber( oneline[lnpos:2] );              
+      xline = xline + 1;
+      newbio = 1;
+      do l = 1 while l <= 100   
+        if currhh = tonumber(AllRem(l,1)) & currind = tonumber(AllRem(l,2)) then
+          k = k + 1;
+          DuplicatRem(k,1)  = AllRem(l,1);               // previous household
+          DuplicatRem(k,2)  = AllRem(l,2);               // line number 
+          DuplicatRem(k,3)  = AllRem(l,3);               // previous name  
+          DuplicatRem(k,4)  = AllRem(l,4);               // previous interviewer  
+          DuplicatRem(k,5)  = AllRem(l,5);               // previous result  
+          DuplicatRem(k,6)  = strip(oneline[nampos:20]); // current name
+          DuplicatRem(k,7)  = oneline[intpos:4];         // current interviewer
+          DuplicatRem(k,8)  = "BLANK";                   // current result
+          DuplicatRem(k,9)  = "102";			         // error type
+          DuplicatRem(k,10) = edit("ZZZZ9", xline);      // line in concatenated file			  
+//          e = errmsg( 104, currhh, currind, xline );
+          newbio = 0;
+          break;
+        endif;
+      enddo;
+      if newbio then
+        do l = 1 while l <= 100 		  
+          if !length( strip(AllRem(l,1)) ) then
+            AllRem(l,1) = oneline[hhpos:4];                // household number
+            AllRem(l,2) = oneline[lnpos:2];                // line number
+            AllRem(l,3) = strip(oneline[nampos:20]);       // name
+            AllRem(l,4) = oneline[intpos:4];               // interviewer number
+            AllRem(l,5) = "BLANK";                         // result
+            break;
+          endif;
+        enddo; 
+      endif;			
+      prevhh  = currhh;
+      prevind = currind;
+    enddo;
+    close( filedups );
+    FindRemDups = k;
+  end;
+
+  { remove duplicates for others }
+  function RemoveDupOthers( string finput )
+    FILE   fileIN;
+    FILE   fileOUT;	
+    numeric l, k = 0, LenID = 22;                  // !!!! LenID, the lenght of the others ID
+	string oneline, foutput;
+    array string AllOthers(1000);                  { array to check other duplicates }
+    setfile( fileIN, finput );
+    foutput = "./TempOther";	
+    setfile( fileOUT, foutput );
+	AllOthers.clear();
+    while FileRead( fileIN, oneline ) do
+      do l = 1 while l <= k 		  
+        if AllOthers(l) = oneline[1:LenID] then
+          break;		  
+        endif;
+      enddo; 
+      if l > k then
+        k = k + 1;	  
+        AllOthers(k) = oneline[1:LenID];
+        FileWrite( fileOUT, oneline );
+      endif;		
+    enddo;
+    close( fileIN );
+    close( FileOUT );	
+    FileDelete( finput );
+    FileRename( foutput, finput );	
+  end;	
+
+  { check extreme ranges for weight based on age and sex }
+  function CheckWeight( zsex, zage, zweight )
+    numeric zerr;  
+    if zsex = 1 then
+      recode  zage  ::    zweight   -> zerr;
+              0: 2  ::  0.50: 10.00 -> 0;
+              3: 5  ::  1.00: 13.00 -> 0;
+              6: 8  ::  2.00: 15.00 -> 0;
+              9:11  ::  3.00: 16.50 -> 0;
+             12:14  ::  4.00: 17.50 -> 0;
+             15:17  ::  4.00: 18.50 -> 0;
+             18:20  ::  4.00: 19.50 -> 0;
+             21:23  ::  4.50: 20.50 -> 0;
+             24:26  ::  4.50: 23.00 -> 0;
+             27:29  ::  5.00: 24.00 -> 0;
+             30:32  ::  5.00: 24.50 -> 0;
+             33:35  ::  5.00: 25.50 -> 0;
+             36:38  ::  5.00: 26.00 -> 0;
+             39:41  ::  5.00: 27.00 -> 0;
+             42:44  ::  5.00: 29.00 -> 0;
+             45:47  ::  5.00: 29.00 -> 0;
+             48:50  ::  5.00: 30.00 -> 0;
+             51:53  ::  5.00: 31.00 -> 0;
+             54:56  ::  5.50: 32.00 -> 0;
+             57:60  ::  5.50: 33.00 -> 0;
+             61:72  ::  5.50: 34.00 -> 0;
+                    ::              -> 1;
+      endrecode
+    else
+      recode  zage  ::    zweight   -> zerr;
+              0: 2  ::  0.50:  9.00 -> 0;
+              3: 5  ::  1.00: 12.00 -> 0;
+              6: 8  ::  2.00: 14.00 -> 0;
+              9:11  ::  2.50: 15.50 -> 0;
+             12:14  ::  3.00: 16.50 -> 0;
+             15:17  ::  3.50: 17.50 -> 0;
+             18:20  ::  3.50: 18.50 -> 0;
+             21:23  ::  4.00: 19.50 -> 0;
+             24:26  ::  4.50: 21.50 -> 0;
+             27:29  ::  5.00: 23.00 -> 0;
+             30:32  ::  5.00: 24.50 -> 0;
+             33:35  ::  5.00: 25.50 -> 0;
+             36:38  ::  5.00: 27.00 -> 0;
+             39:41  ::  5.00: 29.00 -> 0;
+             42:44  ::  5.50: 29.00 -> 0;
+             45:47  ::  5.50: 30.00 -> 0;
+             48:50  ::  5.50: 31.00 -> 0;
+             51:53  ::  5.50: 32.00 -> 0;
+             54:56  ::  6.00: 33.00 -> 0;
+             57:60  ::  6.00: 34.50 -> 0;
+             61:72  ::  6.00: 36.00 -> 0;
+                    ::              -> 1;
+      endrecode
+    endif;
+    CheckWeight = zerr;
+  end;
+
+  { check extreme ranges for height based on age and sex }
+  function CheckHeight( zsex, zage, zheight )
+    numeric zerr;  
+    if zsex = 1 then
+      recode  zage ::   zheight  -> zerr;
+              0: 2 :: 36.0: 74.0 -> 0;
+              3: 5 :: 45.0: 83.0 -> 0;
+              6: 8 :: 51.0: 87.0 -> 0;
+              9:11 :: 56.0: 91.0 -> 0;
+             12:14 :: 59.0: 96.0 -> 0;
+             15:17 :: 62.0:100.0 -> 0;
+             18:20 :: 64.0:104.0 -> 0;
+             21:23 :: 65.0:107.0 -> 0;
+             24:26 :: 67.0:109.0 -> 0;
+             27:29 :: 69.0:112.0 -> 0;
+             30:32 :: 70.0:115.0 -> 0;
+             33:35 :: 71.0:119.0 -> 0;
+             36:38 :: 73.0:121.0 -> 0;
+             39:41 :: 74.0:124.0 -> 0;
+             42:44 :: 75.0:127.0 -> 0;
+             45:47 :: 77.0:129.9 -> 0;
+             48:50 :: 79.0:132.0 -> 0;
+             51:53 :: 79.0:134.0 -> 0;
+             54:56 :: 80.0:136.0 -> 0;
+             57:60 :: 82.0:139.0 -> 0;
+             61:72 :: 82.0:140.0 -> 0;
+                   ::            -> 1;
+      endrecode
+    else
+      recode  zage  ::   zheight  -> zerr;
+              0: 2  :: 36.0: 72.0 -> 0;
+              3: 5  :: 44.0: 90.0 -> 0;
+              6: 8  :: 50.0: 86.0 -> 0;
+              9:11  :: 54.0: 90.0 -> 0;
+             12:14  :: 57.0: 95.0 -> 0;
+             15:17  :: 60.0: 99.0 -> 0;
+             18:20  :: 62.0:102.0 -> 0;
+             21:23  :: 64.0:106.0 -> 0;
+             24:26  :: 66.0:107.0 -> 0;
+             27:29  :: 69.0:111.0 -> 0;
+             30:32  :: 69.0:114.0 -> 0;
+             33:35  :: 71.0:117.0 -> 0;
+             36:38  :: 72.0:120.0 -> 0;
+             39:41  :: 74.0:122.0 -> 0;
+             42:44  :: 75.0:124.0 -> 0;
+             45:47  :: 77.0:126.9 -> 0;
+             48:50  :: 79.0:129.0 -> 0;
+             51:53  :: 79.0:131.0 -> 0;
+             54:56  :: 81.0:133.0 -> 0;
+             57:60  :: 81.0:136.0 -> 0;
+             61:72  :: 81.0:137.0 -> 0;
+                    ::            -> 1;
+      endrecode
+    endif;
+    CheckHeight = zerr;	
+  end;
+

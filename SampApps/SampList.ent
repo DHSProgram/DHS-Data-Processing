@@ -1,0 +1,34 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=SAMPLIST
+Name=SAMPLIST
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+DisplayCodesAlongsideLabels=Yes
+ShowRefusals=No
+ParadataCollection=SomeEvents
+ParadataRecordValues=Yes
+ParadataRecordCoordinates=Yes
+ParadataDeviceStateMinutes=5
+ParadataCollectEvent=data_source_event
+ParadataCollectEvent=device_state_event
+ParadataCollectEvent=message_event
+[External Dictionaries]
+File=..\Dicts\Clusters.dcf
+File=..\Dicts\Segment.dcf
+[AppCode]
+File=.\SampList.apc
+[Message]
+File=.\SampList.mgf
+[Help]
+File=.\SampList.qsf
+[Forms]
+File=.\HHListing.fmf
+File=.\GPS.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\HHListing.dcf,Input,.\HHListing.fmf
+Dict-Type=..\Dicts\Clusters.dcf,External
+Dict-Type=..\Dicts\GPS.dcf,External,.\GPS.fmf
+Dict-Type=..\Dicts\Segment.dcf,External

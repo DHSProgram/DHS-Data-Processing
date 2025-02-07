@@ -1,0 +1,94 @@
+﻿Language = EN  
+005 Directory %s does not exist
+020 Password incorrect for user %s %s, please re-enter the password
+025 User %s %s doesn't have administrative rights to access the system, please select another user
+070 Make sure that your flash memory is in the computer to properly BACKUP the data to directory %s
+071 The flash memory isn't in the computer or directory %s doesn't exist.  BACKUP to flash memory may not be possible
+072 Completed data backup in DATA directory to %s directory
+080 The system will shut down to reindex the database on re-entering
+300 Blood sample %s/Lab-Id %d is already in the database
+320 Bar code %s not in correct format or wrongly entered, please reenter
+330 Warning: Lab ID entered (%d) differs from that expected (%d), please check before continuing
+
+Language = ES 
+{ strings commonly used by application }
+  ES ( "Laboratory code written on sample ?" ) Se escribio el numero de laboratorio en la muestra?
+  ES ( "No" ) No
+  ES ( "Yes" ) Si
+  ES ( "Do you want to scan more samples?" ) Desea escanear mas muestras?
+  ES ( "Reset" ) Reiniciar
+  ES ( "There is another session running or the computer crashed while running" ) Hay otra sesión corriendo o el computador falló mientras corría
+  { strings used by EQ control application }
+  ES ( "DBS Samples selected for external quality Control (QC)" ) Muestras seleccionadas para control de calidad externo
+  ES ( "Lab-ID  Bar Code" ) Lab-ID  Codigo de Barra
+  ES ( "Negative" ) Negativo
+  ES ( "Positive" ) Positivo
+  ES ( "Summary of Samples selected for external QC" ) Resumen de muestras para control externo
+  ES ( "Samples logged in (scanned)         %6d" ) Muestras ingresadas (scaneadas)          %6d
+  ES ( "Samples with final result           %6d" ) Muestras con resultado final             %6d
+  ES ( "Samples previously included for QC  %6d" ) Muestras previamente incluidas para CE   %6d
+  ES ( "Samples with final result other     %6d" ) Muestras con resultado final otro        %6d
+  ES ( "Samples with protocol incomplete    %6d" ) Muestras con protocolo incompleto        %6d
+  ES ( "Samples analyzed and selected for external retesting" ) Muestras analizadas/seleccionadas para control externo
+  ES ( ".......Total positives %6d Selected %6d" ) .......Total positivas %6d Seleccionadas %6d
+  ES ( ".......Total negatives %6d Selected %6d" ) .......Total negativas %6d Seleccionadas %6d
+  ES ( "Do you accept the samples selected for External Quality Control QC" ) Acepta las muestras seleccionadas para control de calidad externo
+  { strings used by TReports application }
+  ES ( "               Date          1st Reading                 2d Reading                  Discordants       " )           Fecha         1ra Lectura                 2da Lectura                 Discordantes     
+  ES ( "ID   Barcode Scanned  Res Density Gam Spec Tech  Res Density Gam Spec Tech  Res Density Gam Spec Tech " )ID   CBarra  Registr  Res Densi   Gam Espe Tecn  Res Densi   Gam Espe Tecn  Res Densi   Gam Espe Tecn
+  ES ( "               MALARIA TESTING SUMMARY" ) RESUMEN DE LA PRUEBA DE MALARIA
+  ES ( "Total samples scanned                             %6d" ) Total de muestras registradas                     %6d
+  ES ( "Samples processed for first reading               %6d" ) Muestras con primera lectura realizada            %6d
+  ES ( "Samples processed for second reading              %6d" ) Muestras con segunda lectura realizada            %6d
+  ES ( "Samples discordant                                %6d" ) Muestras con resultados discordantes              %6d
+  ES ( "Samples discordant proccessed                     %6d" ) Muestras discordantes procesadas                  %6d
+  ES ( "Samples with tests completed                      %6d" ) Muestras con pruebas terminadas                   %6d
+  ES ( "Samples with final result other                   %6d" ) Muestras con resultado final otro                 %6d
+  ES ( "Samples taken into account for EQC                %6d" ) Muestras incluidas en control de calidad externa  %6d
+  ES ( "Samples selected for EQC                          %6d" ) Muestras para control de calidad externa          %6d
+
+005 Directorio %s no existe
+020 Contraseña de %s %s incorrecta, por favor ingresela de nuevo
+025 El usuario %s %s no dispone de acceso administrativo al sistema, favor seleccionar otro usuario
+070 Asegurese que la memoria flash se encuentra en el computador para hacer un BACKUP de los datos al directorio %s
+071 La memoria flash no se encuentra en el computador o el directorio %s no existe.  No se hara backup de los datos a la memoria flash
+072 Finalizo copia de resplado de carpeta DATA a carpeta %s"
+080 El sistema se cancelara para reindexar la base de datos cuando se reingrese
+300 Muestra %s/Lab-Id %d ya existe en la base de datos
+320 Codigo de barra %s tiene formato incorrecto o se entro equivocadamente, por favor re-ingresar 
+330 Alerta: Numero de laboratorio (%d) difiere del esperado (%d), revise antes de continuar
+
+Language = FR 
+{ strings commonly used by application }
+  FR ( "Laboratory code written on sample ?" ) Code labo enregistr� sur l'�chantillon ?
+  FR ( "No" ) Non
+  FR ( "Yes" ) Oui
+  FR ( "Do you want to scan more samples?" ) Voulez-vous scanner d'autres �chantillons ?
+  FR ( "Reset" ) Re-initialiser
+  FR ( "There is another session running or the computer crashed while running" ) Il y a une autre session en cours ou bien que l'ordinateur s'est planté en cours d'exécution
+  { strings used by EQ control application }
+  FR ( "DBS Samples selected for external quality Control (QC)" ) Echantillons DBS sélectionnés pour contrôle de qualité externe (CQ)
+  FR ( "Lab-ID  Bar Code" ) Lab-ID  Code barres
+  FR ( "Negative" ) Negative
+  FR ( "Positive" ) Positive
+  FR ( "Summary of Samples selected for external QC" ) Récapitulatif des échantillons sélectionnés pour CQ externe
+  FR ( "Samples logged in (scanned)         %6d" ) Echantillons entrés (scannés)            %6d
+  FR ( "Samples with final result           %6d" ) Echantillons avec résultat final         %6d
+  FR ( "Samples previously included for QC  %6d" ) Échantillons précédemment inclus pour CQ %6d
+  FR ( "Samples with protocol incomplete    %6d" ) Echantillons avec protocole incomplet    %6d
+  FR ( "Samples analyzed and selected for external retesting" ) Échantillons analysés et sélectionnés pour le test externe
+  FR ( ".......Total positives %6d Selected %6d" ) .......Total positifs %6d sélectionnés %6d
+  FR ( ".......Total negatives %6d Selected %6d" ) .......Total négatifs %6d sélectionnés %6d
+  FR ( "Do you accept the samples selected for External Quality Control QC" ) Acceptez-vous les échantillons sélectionnés pour le contrôle de qualité externe CQ
+  FR ( "O-Sample Damaged/Useless" ) O-Muestra inservible
+  
+005 Répertoire %s n'existe pas
+020 Mot de passe incorrecte pour l'utilisateur %s %s, veuillez re-essayer
+025 User %s %s doesn't have administrative rights to access the system, please select another user
+070 Make sure that your flash memory is in the computer to properly BACKUP the data to directory %s
+071 The flash memory isn't in the computer or directory %s doesn't exist.  BACKUP to flash memory may not be possible
+072 Completed data backup in DATA directory to %s directory
+080 Le système s'arrêtera pour réindexer la base de données à la reprise
+300 Echantillon %s/Code labo %d est d�j� dans la base de donn�es 
+320 Code barres %s en format incorrect ou mal saisi, veuillez re-essayer
+330 Avertissement : Code labo entr� (%d) diff�re de celui attendu (%d), veuillez v�rifier avant de continuer

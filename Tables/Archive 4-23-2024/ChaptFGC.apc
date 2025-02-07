@@ -1,0 +1,793 @@
+﻿PROC GLOBAL
+{+----------------------------------------------------------------------------------------------+}
+{+                                                                                              +}
+{+   Guidelines November 15, 2020            -      Version 1.0.0 of 11/11/2012                 +}
+{+                                                                                              +}
+{+   CHAPTER FGC. FEMALE GENITAL CUTTING MODULE                                                 +}
+{+                                                                                              +}
+{+   FGC.1 Knowledge of female circumcision                                                     +}
+{+   FGC.2 Prevalence of female circumcision                                                    +}
+{+   FGC.3 Age at circumcision                                                                  +}
+{+   FGC.4 Prevalence of circumcision and age at circumcision: Girls 0-14                       +}
+{+   FGC.5 Circumcision of girls age 0-14 by mother's background characteristics                +}
+{+   FGC.6 Infibulation among circumcised girls age 0-14                                        +}
+{+   FGC.7 Aspects of  circumcision among circumcised girls age 0-14 and women age 15-49        +}
+{+   Figure FGC.2  Circumcision by age: Girls and Women                                         +}
+{+   FGC.8 Opinions of women and men about whether circumcision is required by religion         +}
+{+   FGC.9 Opinions of women and men about whether the practice of circumcision should continue +}
+{+                                                                                              +}
+{+----------------------------------------------------------------------------------------------+}
+
+  numeric i, itot, itot1, itot2, imax, j, jmin, jmax, jtot, jtot1, jtot2;
+  numeric itrad, imed, iot1;
+  numeric rweight, months, ageg, x;
+  numeric itotu, jtotu,itotrg;
+
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter FGC, Country 2020" );
+{EN+}
+
+  crosstab float(1) tfgc1 v013w+v130w+v131w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex*knowcirc
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table FGC.1  Knowledge of female circumcision","",
+           "Percentage of women 15-49 and men age 15-64 who have heard of female circumcision,",
+           "according to background characteristics, Country 2020" )
+    stub( "Background characteristic" );
+{EN+}
+  crosstab float(0) tfgc1u v013w+v130w+v131w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex
+    exclude(totals,percents,specval)
+    title( "Table FGC.1  Knowledge of female circumcision (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) tfgc2 v013w+v130w+v131w+v102w+v101w+total pctcirc+typcirc1+numwomc
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table FGC.2  Prevalence of female circumcision","",
+           "Percentage of women 15-49 circumcised, and percent distribution of circumcised women by type",
+           "of circumcision according to background characteristics, Country 2020" )
+    stub( "Background characteristic" );
+{EN+}
+  crosstab float(0) tfgc2u v013w+v130w+v131w+v102w+v101w+total coltotu
+    exclude(totals,percents,specval)
+    title( "Table FGC.2  Prevalence of female circumcision (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) tfgc3 v013w+v130w+v131w+v102w+v101w+total g106w+numwomc
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table FGC.3  Age at circumcision","",
+           "Percent distribution of circumcised women age 15-49 by age at circumcision according to background",
+           "characteristics, Country 2020" )
+    stub( "Background characteristic" );
+{EN+}
+  crosstab float(0) tfgc3u v013w+v130w+v131w+v102w+v101w+total total
+    exclude(totals,percents,specval)
+    title( "Table FGC.3  Age at circumcision (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) tfgc4 agech+tot14 agecirc+totgirls
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table FGC.4  Prevalence of circumcision and age at circumcision: Girls 0-14","",
+           "Percent distribution of girls age 0-14 by age at circumcision, and percentage of girls circumcised",
+           " according to current age, Country 2020" )
+    stub( "Background characteristic" );
+{EN+}
+  crosstab float(0) tfgc4u agech+tot14 total
+    exclude(totals,percents,specval)
+    title( "Table FGC.4  Prevalence of circumcision and age at circumcision: Girls 0-14 (un-weigted)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) tfgc5 v130w+v131w+v102w+v101w+v106wt+g102w+v190w+total agech+totall1
+    exclude(totals,percents,specval)
+{+EN}
+   title( "Table FGC.5  Circumcision of girls age 0-14 by mother's background characteristics","",
+          "Percentage of girls age 0-14 who are circumcised, according to age and mother's",
+          "background characteristics, Country 2020" )
+    stub( "Background characteristic" );
+{EN+}
+  crosstab float(1) tfgc5w v130w+v131w+v102w+v101w+v106wt+g102w+v190w+total agech+totall1
+    exclude(totals,percents,specval);
+  crosstab float(0) tfgc5u v130w+v131w+v102w+v101w+v106wt+g102w+v190w+total agech+totall1
+    exclude(totals,percents,specval)
+   title( "Table FGC.5  Circumcision of girls age 0-14 by mother's background characteristics (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) tfgc6 v130w+v131w+v102w+v101w+v106wt+g105w+v190w+total g123w+totnumg
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table FGC.6  Infibulation among circumcised girls age 0-14  ","",
+           "Percent distribution of girls age 0-14 who are circumcised by whether or not they are infibulated,",
+           "according to mother's background characteristics, Country 2020" )
+    stub( "Background characteristic" );
+{EN+}
+  crosstab float(0) tfgc6u v130w+v131w+v102w+v101w+v106wt+g105w+v190w+total total
+    exclude(totals,percents,specval)
+    title( "Table FGC.6  Infibulation among circumcised girls age 0-14 (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) tfgc7 whocirc+total+typcirc2+total+tnumber agech+girlwom
+    exclude(totals,percents,specval)
+{+EN}
+   title( "Table FGC.7  Aspects of  circumcision among circumcised girls age 0-14 and women age 15-49 ","",
+          "Percent distribution of circumcised girls age 0-14 by current age and women age 15-49,",
+          "according to person performing the circumcision and type of circumcision, Country 2020")
+    stub( "Characteristic of circumcision" );
+{EN+}
+  crosstab float(0) tfgc7u total agech+girlwom
+    exclude(totals,percents,specval)
+   title( "Table FGC.7  Aspects of  circumcision among circumcised girls age 0-14 and women age 15-49 (Number of un-weighted cases)" )
+    stub( "Characteristic of circumcision" );
+
+  crosstab float(1) tfig4 ages+circ15p+circdkm+totw1549 girls014+cirbyage
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table FGC.2  Working Table for Figure FGC.4  Circumcision by age: Girls and Women ","",
+           "Percentage of girls who are circumcised by current age, and percentage of women age 15-49",
+           "who were circumcised by specific exact ages, Country 2020")
+    stub( "Background characteristic" );
+{EN+}
+
+  crosstab float(1) tfgc8 g102w1+v013w+v130w+v131w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex*relcirc
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table FGC.8  Opinions of women and men about whether circumcision is required by religion ","",
+           "Percentage of women 15-49 and men age 15-64 who have heard of female circumcision, by opinion",
+           "on whether their religion requires female circumcision, according to background characteristics,",
+           "Country 2020")
+    stub( "Background characteristic" );
+{EN+}
+  crosstab float(0) tfgc8u g102w1+v013w+v130w+v131w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex
+    exclude(totals,percents,specval)
+    title( "Table FGC.8  Opinions of women and men about whether circumcision is required by religion (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) tfgc9 g102w1+v013w+v130w+v131w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex*contcirc
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table FGC.9 Opinions of women and men about whether the practice of circumcision should continue","",
+           "Percent distribution of women age 15-49 and men age 15-64 who have heard of female circumcision by",
+           "their opinion on whether the practice of circumcision should be continued,",
+           "by background characteristics, Country 2020")
+    stub( "Background characteristic" );
+{EN+}
+  crosstab float(0) tfgc9u g102w1+v013w+v130w+v131w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex
+    exclude(totals,percents,specval)
+    title( "Table FGC.9  Opinions of women and men about whether the practice of circumcision should continue (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  { funtion to recode girl's age used in several tables }
+  function agegirl( varage )
+    recode varage -> x;
+            0:4   -> 1;
+            5:9   -> 2;
+           10:14  -> 3;
+             	  -> notappl;
+    endrecode;
+    agegirl = x;
+  end;
+
+PROC  RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+  totmen   = 0;
+  tot1549  = 0;
+  totnumg  = 1;
+  tnumber  = 1;
+  totall1  = 0;
+  tot14    = 0;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  {------------------------------------------------}
+  { table fgc1 }
+  tfgc1[*,0] = 100 * tfgc1[*,0] / tfgc1[*,1];
+  tfgc1[*,2] = 100 * tfgc1[*,2] / tfgc1[*,3];
+  { check unweighted N's }
+  Col2Dim( "tfgc1", tfgc1, 0, 0, tfgc1u, 0 );                       { women }
+  Col2Dim( "tfgc1", tfgc1, 2, 2, tfgc1u, 1 );                       { men }
+  { assign NA to selected rows }
+  itot = tblrow( tfgc1 );
+  tfgc1[itot-1:itot,0:1] = NAcells;                        { women last 2 rows }
+
+  {------------------------------------------------}
+  { table fgc2 }
+  { First Panel }
+  jtot1 = tblcol( tfgc2, pctcirc = 2 );
+  tfgc2[*,jtot1-1] = 100 * tfgc2[*,jtot1-1] / tfgc2[*,jtot1];
+  { Second Panel }
+  jmin  = jtot1 + 1;
+  jtot2 = tblcol( tfgc2 );
+  jmax  = jtot2 - 2;
+  do j = jmin while j <= jmax
+     tfgc2[*,j] = 100 * tfgc2[*,j] / tfgc2[*,jtot2];
+  enddo;
+  tfgc2[*,jmax+1] = tblsum( column tfgc2[*,jmin:jmax] );
+  { check unweighted N's }
+  Col2Dim( "tfgc2", tfgc2, 0,       jtot1-1, tfgc2u, 0 );           { women circumcised }
+  Col2Dim( "tfgc2", tfgc2, jtot1+1, jtot2-2, tfgc2u, 1 );           { percent distribution type of circumcision }
+  { write out SDG indicators }
+  itot   = tblrow( tfgc2 );
+  jtot   = tblcol( tfgc2, pctcirc = 1 );
+  SDGIndicator( "5.3.2", NACells, tfgc2(itot,jtot), NACells );
+
+  {------------------------------------------------}
+  { table tfgc3 }
+  jtot = tblcol( tfgc3 );
+  jmax  = jtot - 2;
+  do j = 0 while j <= jmax
+     tfgc3[*,j] = 100 * tfgc3[*,j] / tfgc3[*,jtot];
+  enddo;
+  tfgc3[*,jmax+1] = tblsum( column tfgc3[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "tfgc3", tfgc3, 0, jtot-2, tfgc3u, 0 );
+
+  {------------------------------------------------}
+  { table tfgc4 }
+  { First Panel }
+  jtot = tblcol( tfgc4, totgirls = 2 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+     tfgc4[*,j] = 100 * tfgc4[*,j] / tfgc4[*,jtot];
+  enddo;
+  tfgc4[*,jmax+1] = tblsum( column tfgc4[*,0:jmax] );
+  { Second Panel }
+  tfgc4[*,jtot+1] = 100 * tfgc4[*,jtot+1] / tfgc4[*,jtot];
+  { check unweighted N's }
+  Col2Dim( "tfgc4", tfgc4, 0,      jtot-2, tfgc4u, 0 );             { percent distribution age at circumcision }
+  Col2Dim( "tfgc4", tfgc4, jtot+1, jtot+1, tfgc4u, 0 );             { percentage circumcised }
+  { assign NA to selected rows }
+  tfgc4[0,2:3] = NAcells;                        { for age 0-4, circumcicion at 5-9, 10-14 }
+  tfgc4[1,  3] = NAcells;                        { for age 5-9, circumcicion at 10-14 }
+
+  {------------------------------------------------}
+  { table tfgc5 }
+  tfgc5 = tfgc5 * 100 / tfgc5w;
+  { check unweighted N's }
+  CellUnw( "tfgc5", tfgc5, tfgc5u );
+
+  {------------------------------------------------}
+  { table tfgc6 }
+  jtot = tblcol( tfgc6 );
+  jmax  = jtot - 2;
+  do j = 0 while j <= jmax
+     tfgc6[*,j] = 100 * tfgc6[*,j] / tfgc6[*,jtot];
+  enddo;
+  tfgc6[*,jmax+1] = tblsum( column tfgc6[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "tfgc6", tfgc6, 0, jtot-2, tfgc6u, 0 );
+
+  {------------------------------------------------}
+  { table tfgc7 }
+  itot = tblrow( tfgc7 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    tfgc7[i,*] = tfgc7[i,*] * 100 / tfgc7[itot,*];
+  enddo;
+  { totals for major categories }
+  itrad = tblrow( tfgc7, whocirc = 10 );            	{ Traditional agent  }
+  imed  = tblrow( tfgc7, whocirc = 20 );            	{ Medical professional   }
+  iot1  = tblrow( tfgc7, whocirc = 99 );            	{ Don't know/ missing }
+  tfgc7[itrad,*] = tblsum( row tfgc7[itrad+1:imed-1,*] );
+  tfgc7[imed,*]  = tblsum( row tfgc7[imed+1:iot1-1,*] );
+  { check unweighted N's }
+  itot1 = tblrow( tfgc7, whocirc );
+  itot2 = tblrow( tfgc7, typcirc2 );
+  Row2Dim( "tfgc7", tfgc7, 0,       itot1, tfgc7u, 0 );             { person performed circumcision }
+  Row2Dim( "tfgc7", tfgc7, itot1+2, itot2, tfgc7u, 0 );             { type of circumcision }
+
+  {------------------------------------------------}
+  { table tfig4 }
+  { First Panel : girls}
+  tfig4[*,0] = 100 * tfig4[*,0] / tfig4[*,1];
+  { First Panel : women}
+  jtot = tblcol( tfig4 );
+  itot = tblrow( tfig4 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    tfig4[i,jtot] = tfig4[i,jtot] * 100 / tfig4[itot,jtot];
+    if i > 0 & i < imax then                                 { to be circumcised by exact ages }
+      tfig4[i,jtot] = tfig4[i,jtot] + tfig4[i-1,jtot];       { it's necessary to accumulate   }
+    endif;
+  enddo;
+  { assign NA to selected rows }
+  tfig4[0:4,jtot] = NAcells;                                 { first 4 rows for women 15-49 }
+  itot = tblrow( tfig4 );
+  tfig4[itot-1:itot,0:1] = NAcells;                          { girls last 2 rows }
+
+  {------------------------------------------------}
+  { table tfgc8 }
+  { for women }
+  jtot1 = tblcol( tfgc8, isex = 1 relcirc = 5 );
+  do j = 0 while j < jtot1
+    tfgc8[*,j] = 100 * tfgc8[*,j] / tfgc8[*,jtot1];
+  enddo;
+  tfgc8[*,jtot1-1] = tblsum( column tfgc8[*,0:jtot1-2] );
+  { for men }
+  jtot2 = tblcol( tfgc8, isex = 2 relcirc = 5 );
+  do j = jtot1+1 while j < jtot2
+    tfgc8[*,j] = 100 * tfgc8[*,j] / tfgc8[*,jtot2];
+  enddo;
+  tfgc8[*,jtot2-1] = tblsum( column tfgc8[*,jtot1+1:jtot2-2] );
+  { check unweighted N's }
+  Col2Dim( "tfgc8", tfgc8, 0,       jtot1-2, tfgc8u, 0 );           { women }
+  Col2Dim( "tfgc8", tfgc8, jtot1+1, jtot2-2, tfgc8u, 1 );           { men }
+  { assign NA to selected rows }
+  itot = tblrow( tfgc8 );
+  tfgc8[itot-1:itot,0:jtot1] = NAcells;                            { women last 2 rows }
+  tfgc8[0:2,jtot1+1:jtot2] = NAcells;                              { panel female circumcision for men }
+
+  {------------------------------------------------}
+  { table tfgc9 }
+  { for women }
+  jtot1 = tblcol( tfgc9, isex = 1 contcirc = 5 );
+  do j = 0 while j < jtot1
+    tfgc9[*,j] = 100 * tfgc9[*,j] / tfgc9[*,jtot1];
+  enddo;
+  tfgc9[*,jtot1-1] = tblsum( column tfgc9[*,0:jtot1-2] );
+  { for men }
+  jtot2 = tblcol( tfgc9, isex = 2 contcirc = 5 );
+  do j = jtot1+1 while j < jtot2
+    tfgc9[*,j] = 100 * tfgc9[*,j] / tfgc9[*,jtot2];
+  enddo;
+  tfgc9[*,jtot2-1] = tblsum( column tfgc9[*,jtot1+1:jtot2-2] );
+  { check unweighted N's }
+  Col2Dim( "tfgc9", tfgc9, 0,       jtot1-2, tfgc9u, 0 );           { women }
+  Col2Dim( "tfgc9", tfgc9, jtot1+1, jtot2-2, tfgc9u, 1 );           { men }
+  { assign NA to selected rows }
+  itot = tblrow( tfgc9 );
+  tfgc9[itot-1:itot,0:jtot1] = NAcells;                            { women last 2 rows }
+  itot = tblrow( tfgc9, v013w );
+  tfgc9[itot-1:itot,0:jtot1] = NAcells;                            { women age groups 50-54 & 55-59 according to v013w }
+  tfgc9[0:2,jtot1+1:jtot2] = NAcells;                              { panel female circumcision for men }
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+  hv025w = HV025;
+  hv024w = HV024;
+
+postproc
+
+  {-----------------------------------------------------------------------------------------------}
+  { male tables }
+
+  for i in RECH1_EDT do
+    if HV118 = 1 then
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then { found & complete questionnaire }
+        isex = 2;
+        if unweight then
+          rweight = 1;
+        else
+          rweight = MV005/1000000;
+        endif;
+
+        { to tally all men regardless of age }
+        totmen   = 0;
+        { to tally total for men 15-49 }
+        tot1549  = 0;
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:64 );
+
+        { set woman variables to NA }
+    	   { women circumcision }
+    	   G102w1 = notappl;
+
+        { general variables }
+
+        v102w  = MV102;
+        v101w  = MV101;
+        v106w  = MV106;
+        if MV106 = missing then v106w = 9 endif;
+        v190w  = MV190;
+
+        v131w  = MV131;
+        if MV131 = missing then v131w = 99 endif;
+
+        v130w  = MV130;
+        if MV130 = missing then v130w =  9 endif;
+        if MV130 = 96      then v130w =  6 endif;
+
+        v013w  = MV013;
+
+        { the following background variables will be assigned NOTAPPL }
+        { in order to preperly tally tables where there is a line for }
+        { for men > 49 years old }
+        if MV012 > 49 then
+          v013w    = notappl;
+          v106w    = notappl;
+          v190w    = notappl;
+          v102w    = notappl;
+          v130w    = notappl;
+          v131w    = notappl;
+          v101w    = notappl;
+          tot1549  = notappl;
+        endif;
+
+
+        {-----------------------------------------------------------------------------------------------}
+        { table FGC 1 }
+
+        if MG100 = 1 | MG101 = 1 then                      { ever heard of FGC }
+          knowcirc = 1;
+          xtab( tfgc1, rweight );
+        endif;											 { end ever heard of FGC }
+        knowcirc = 2;
+        xtab( tfgc1, rweight );
+        xtab( tfgc1u );
+
+        {-----------------------------------------------------------------------------------------------}
+        { table FGC 8 }
+
+        if MG100 = 1 | MG101 = 1 then                      { ever heard of FGC }
+          relcirc = 5;								     { effective of men }
+          xtab( tfgc8, rweight );
+          recode MG118 -> relcirc;
+                   1   -> 1;						  		 { Required }
+                   0   -> 2;						  		 { not Required }
+                       -> 3;						  		 { others }
+          endrecode;
+          xtab( tfgc8, rweight );
+          xtab( tfgc8u );
+        endif;											 { end ever heard of FGC }
+
+        {-----------------------------------------------------------------------------------------------}
+        { table FGC 9 }
+
+        if MG100 = 1 | MG101 = 1 then                      { ever heard of FGC }
+          contcirc = 5;								     { effective of men }
+          xtab( tfgc9, rweight );
+          recode MG119 -> contcirc;
+                   1   -> 1;						  		 { Continued }
+                   2   -> 2;						  		 { Stopped }
+                       -> 3;						  		 { others }
+          endrecode;
+          xtab( tfgc9, rweight );
+          xtab( tfgc9u );
+        endif;											 { end ever heard of FGC }
+
+      endif     { end loadcase & complete interview }
+    endif;		{ end Eligibility for male interview }
+ enddo;
+
+{-----------------------------------------------------------------------------------------------}
+
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  isex = 1;
+  if unweight then
+    rweight = 1
+  else
+    rweight = V005/1000000
+  endif;
+
+  { totals for all men and men 50-54[59] set to NA }
+  totmen   = notappl;
+  men5059  = notappl;
+  { all women are tallyied }
+  tot1549  = 0;
+
+  { general variables }
+  v102w  = V102;
+  v101w  = V101;
+
+  v106w  = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v106wt = v106w;
+  v190w  = V190;
+
+  v013w  = V013;
+
+  v131w  = V131;
+  if V131 = missing then v131w = 99 endif;
+
+  v130w  = V130;
+  if V130 = missing then v130w =  9 endif;
+  if V130 = 96      then v130w =  6 endif;
+
+  G102w = G102;
+  if G102 = missing then G102w =  9 endif;
+
+  G102w1 = G102w;
+
+  { Infibulation }
+  recode G102 :: G105 -> G105w;
+          1   ::  1   ->  1;   { Infibulated }
+          1   ::      ->  2;   { Circumcised, not infibulated }
+              ::      ->  3;   { Not circumcised }
+  endrecode;
+
+  {-----------------------------------------------------------------------------------------------}
+  {  table FGC 1  }
+
+  if G100 = 1 | G101 = 1 then                        { ever heard of FGC }
+    knowcirc = 1;
+    xtab( tfgc1, rweight );
+  endif;
+  knowcirc = 2;										 { effective of women }
+  xtab( tfgc1, rweight );
+  xtab( tfgc1u );
+
+  {-----------------------------------------------------------------------------------------------}
+  { table FGC 2  }
+
+  typcirc1 = notappl;
+  numwomc  = notappl;
+  pctcirc = 2;										 { Number of of women }
+  xtab( tfgc2, rweight );
+  coltotu = 1;
+  xtab( tfgc2u );
+  if G100 = 1 | G101 = 1 then                         { ever heard of FGC }
+    if G102 = 1 then				   					 { Circomcised }
+      pctcirc  = 1;
+      numwomc  = 1;								       { Number of circumcised women }
+      { Type of circumcision, pbserve the priority given }
+      recode G105 :: G103 :: G104 -> typcirc1;
+               1  ::      ::      ->  3;          { sewen closed }
+                  ::   1  ::      ->  2;          { cut, flesh removed }
+                  ::      ::  1   ->  1;          { cut, flesh not removed }
+                  ::      ::      ->  9;
+	  endrecode;
+      xtab( tfgc2, rweight );
+      coltotu = 2;
+      xtab( tfgc2u );
+    endif;
+  endif;										         { end ever heard of FGC }
+
+  {-----------------------------------------------------------------------------------------------}
+  { table FGC 3  }
+
+  numwomc = notappl;
+  if G100 = 1 | G101 = 1 then                         { ever heard of FGC }
+    if G102 = 1 then								     { circomcised }
+      numwomc  = 1;		     						 { number of circumcised women }
+      { Age at circumcision}
+      recode G106 -> G106w;
+	          95  -> 1;	   					 { during infancy }
+	         0:4  -> 1;
+	         5:9  -> 2;
+            10:14 -> 3;
+       98,missing -> 9;						    { don't know and missing }
+                  -> 4;
+      endrecode;
+      xtab( tfgc3, rweight );
+      xtab( tfgc3u );
+    endif; 											 { end circumcision }
+  endif;										{ end ever heard of FGC }
+
+  {-----------------------------------------------------------------------------------------------}
+  { table FGC4 }
+
+  { denominator is all living daughters born in the last 14 years }
+  for i in REC21_EDT do
+    months = B19;
+    ageg   = int( months/12 );
+    agecirc  = notappl;
+    if B5 = 1 & B4 = 2 & ageg <= 14 then						{ living daughters age 0-14 }
+      agech = agegirl( ageg );
+      totgirls = 2;                           { total number of girls }
+      xtab( tfgc4, rweight );
+      xtab( tfgc4u );
+      { if girl not found in FGC roster declare her as not circumcised }
+      { if found the circumcision test is made in the following loop }
+      do j = 1 while j <= soccurs( RECG2 )
+        if BIDX = GIDX(j) then
+          break;
+        endif;
+      enddo;
+      if j > soccurs( RECG2 ) then
+        totgirls = notappl;                   { to avoid double counting them }
+        agecirc = 6;								        { not circomcised }
+        xtab( tfgc4, rweight );
+      endif;
+    endif;
+  enddo;
+  { numerator is based on the FGC daughter's roster }
+  for i in RECG2_EDT do
+    months = B19(GIDX);
+    ageg   = int( months/12 );
+ 	  totgirls = notappl;
+    if ageg <= 14 then								      { age 0-14 }
+      agech = agegirl( ageg );
+      if G121 = 1 then 						     	 { girl circomcised }
+        recode G122 -> agecirc;
+	           0,95 -> 1;
+	           1:4 	-> 2;
+               5:9 	-> 3;
+              10:14 -> 4;
+           		    -> 5;
+        endrecode;
+        totgirls = 3;
+        xtab( tfgc4, rweight );
+      else
+        agecirc = 6;								        { not circomcised }
+        xtab( tfgc4, rweight );
+      endif;
+    endif;
+  enddo;
+
+  {-----------------------------------------------------------------------------------------------}
+  { table FGC5 }
+
+  { denominator is all living daughters born in the last 14 years }
+  for i in REC21_EDT do
+    months = B19;
+    ageg   = int( months/12 );
+    if B5 = 1 & B4 = 2 & ageg <= 14 then						{ living daughters age 0-14 }
+      agech = agegirl( ageg );
+      xtab( tfgc5w, rweight );
+      xtab( tfgc5u );
+    endif;
+  enddo;
+  { numerator is provided by individual daughters in the FGC module }
+  for i in RECG2_EDT do
+    months = B19(GIDX);
+    ageg   = int( months/12 );
+    if ageg <= 14 then								        { age 0-14 }
+      agech = agegirl( ageg );
+      if G121 = 1 then 						     	   { girl circomcised }
+        xtab( tfgc5, rweight );
+      endif;
+    endif;
+  enddo;
+
+  {-----------------------------------------------------------------------------------------------}
+  { table FGC 6}
+
+  for i in RECG2_EDT do
+    months = B19(GIDX);
+    ageg   = int( months/12 );
+    if ageg <= 14 & G121 = 1 then					{ age 0-14 & circumsised }
+      recode G123 -> g123w;
+               0  -> 2;
+               1  -> 1;
+                  -> 9;
+      endrecode;
+      xtab( tfgc6, rweight );
+      xtab( tfgc6u );
+    endif;
+  enddo;
+
+  {-----------------------------------------------------------------------------------------------}
+  { table FGC 7}
+
+  { for respondent's daughters }
+  for i in RECG2_EDT do
+    months = B19(GIDX);
+    ageg   = int( months/12 );
+    if ageg <= 14 & G121 = 1 then					 { age 0-14 & circumsised }
+      agech = agegirl( ageg );
+      girlwom = 1;				          					  { girls age 0-14 }
+      { who perform daughter's circumcision }
+      recode  G124 ->  whocirc;
+             11:16 -> G124+10;   { health professional }
+             21:26 -> G124-10;   { traditional }
+        missing,98 -> 99;
+      endrecode;
+      recode G123 -> typcirc2;
+               0  -> 2;
+               1  -> 1;
+                  -> 9;
+      endrecode;
+      xtab( tfgc7, rweight );
+      xtab( tfgc7u );
+    endif;											{ end girl circomcised }
+  enddo;
+  { for respondents }
+  agech = notappl;
+  if G102 = 1 then								             { respondent circomcised }
+    girlwom = 2; 									             { to tally women age 15-45 }
+    {  who performed woman circumcision }
+    recode G107 -> whocirc;
+          11:16	-> G107+10;   { health professional }
+          21:26	-> G107-10;   { traditional }
+     missing,98 -> 99;
+    endrecode;
+    recode G105 -> typcirc2;
+             0  -> 2;
+             1  -> 1;
+                -> 9;
+    endrecode;
+    xtab( tfgc7, rweight );
+    xtab( tfgc7u );
+  endif; 											 { end circumcision }
+
+  {-----------------------------------------------------------------------------------------------}
+  { table tfig4 for figure 2 }
+
+  { for respondent's daughters }
+  cirbyage = notappl;
+  circ15p  = notappl;
+  totw1549 = notappl;
+  circdkm  = notappl;
+  { denominator is all living daughters born in the last 14 years }
+  for i in REC21_EDT do
+    months = B19;
+    ages   = int( months/12 );
+    if B5 = 1 & B4 = 2 & ages <= 14 then						{ living daughters age 0-14 }
+      girls014 = 2;
+      xtab( tfig4, rweight );
+    endif;
+  enddo;
+  { numerator is provided by individual daughters in the FGC module }
+  for i in RECG2_EDT do
+    months = B19(GIDX);
+    ages   = int( months/12 );
+    if ages <= 14 then	  		          { age 0-14 }
+      if G121 = 1 then  	              { girl circomcised }
+        girls014 = 1;
+        xtab( tfig4, rweight );
+      endif;				      { end girl circomcised }
+    endif;						{ end ageg <= 14 }
+  enddo;
+  { for respondents }
+  girls014 = notappl;
+  ages		   = notappl;
+  cirbyage = 1;
+  totw1549 = 1;					 	 	  { to tally all women 15-49  }
+  xtab( tfig4, rweight );
+  totw1549 = notappl;
+  if G102 = 1 then		                  { circomcised }
+    cirbyage = 1;
+    recode G106 -> ages;
+            95  -> 0;
+           0:13 -> G106 + 1;
+                -> notappl;
+    endrecode;
+    circ15p  = ( G106 in 14:49 );	 			{ to tally Women circumcised 14 and above }
+    circdkm  = ( G106 in 98,missing );			{ to tally Don't know and missing }
+    xtab( tfig4, rweight );
+  endif; 								  { end circumcision }
+
+  {-----------------------------------------------------------------------------------------------}
+  { table FGC.8 continue women }
+
+  if G100 = 1 | G101 = 1 then                        { ever heard of FGC }
+    relcirc = 5;									 { effective of women }
+    xtab( tfgc8, rweight );
+    recode G118 -> relcirc;
+             1  -> 1;							  		 { Required }
+             0  -> 2;							  		 { not Required }
+                -> 3;							  		 { others }
+    endrecode;
+    xtab( tfgc8, rweight );
+    xtab( tfgc8u );
+  endif;											 { end ever heard of FGC }
+
+  {-----------------------------------------------------------------------------------------------}
+  { table FGC.9 continue women }
+
+  if G100 = 1 | G101 = 1 then                        { ever heard of FGC }
+    contcirc = 5;									 { effective of women }
+    xtab( tfgc9, rweight );
+    recode G119 -> contcirc;
+            1   -> 1;							  		 { Continued }
+            2   -> 2;							  		 { Stopped }
+                -> 3;							  		 { others }
+    endrecode;
+    xtab( tfgc9, rweight );
+    xtab( tfgc9u );
+  endif;											 { end ever heard of FGC }

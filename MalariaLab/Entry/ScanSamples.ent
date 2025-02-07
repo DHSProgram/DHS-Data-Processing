@@ -1,0 +1,23 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=SCANSAMPLES
+Name=SCANSAMPLES
+AppType=DataEntry
+CAPI=Yes
+[External Dictionaries]
+File=..\dicts\common.dcf
+File=..\dicts\LabIndex.dcf
+[AppCode]
+File=.\ScanSamples.apc
+[Message]
+File=.\MalariaLab.mgf
+[Help]
+File=.\ScanSamples.qsf
+[Forms]
+File=.\cnull.fmf
+File=.\ScanSamples.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Cnull.dcf,Input,.\cnull.fmf
+Dict-Type=..\Dicts\testlog.dcf,External,.\ScanSamples.fmf
+Dict-Type=..\dicts\common.dcf,External
+Dict-Type=..\dicts\LabIndex.dcf,External

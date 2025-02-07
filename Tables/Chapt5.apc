@@ -1,0 +1,1778 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines July 7, 2021         -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                          +}
+{+   CHAPTER 5.    FERTILITY                                                +}
+{+                                                                          +}
+{+   5.1  Current fertility                                                 +}
+{+   5.2  Fertility by background characteristics                           +}
+{+   5.3  Trends in age-specific fertility rates                            +}
+{+   5.4  Children ever born and living                                     +}
+{+   5.5  Birth intervals                                                   +}
+{+   5.6  Postpartum amenorrhea, abstinence, and insusceptibility           +}
+{+   5.7  Median duration of postpartum insusceptibility by                 +}
+{+        background characteristics                                        +}
+{+   5.8  Age at first menstruation                                         +}
+{+   5.9  Menopause                                                         +}
+{+   5.10 Age at first birth                                                +}
+{+   5.11 Median age at first birth by background characteristics           +}
+{+   5.12 Teenage pregnancy and motherhood                                  +}
+{+   5.13 Sexual and reproductive health behaviors before age 15            +}
+{+   5.14 Pregnancy outcome by background characteristics                   +}
+{+   5.15 Induced abortion rates                                            +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, imin, imax, itot, j, jmax, jtot, jtot1, jtot2, maxval, kmax, k, ktot;
+  numeric rweight, maxage, maxint, emsample, itfr, igfr, icbr;
+  numeric xurbrur, xregion, xeduc, xwealth, singwgt, fertwgt, currmarr;
+  numeric higcm, lowcm, totexp, higage, higexp, lowexp, lowage, birth;
+  numeric imed, imea, upmed, medmin, medmax, med1st, acum, months, xorder, adjfact;
+  numeric n, temp, abortion, ageabort, itgr, iggr, itemp;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 5, [Country Survey Year]" );
+{EN+}
+{{ES}
+    title( "Cuadros para el Capítulo 5, [País Encuesta Año]" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 5, [Pays, Enquête, Année]" );
+{FR}}
+
+  crosstab float(0) t501  agegroup+fert1 v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Table 5.1  Current fertility"," ",
+           "Age-specific and total fertility rates, the general",
+           "fertility rate, and the crude birth rate for the 3 years",
+           "preceding the survey, by residence, [Country Survey Year]" )
+     stub( "Age group" );
+{EN+}
+{{ES}
+    title( "Cuadro 5.1  Fecundidad actual"," ",
+           "Tasas específicas por edad y tasa global de fecundidad, tasa general de ",
+           "fecundidad y tasa bruta de natalidad para los tres años ",
+           "anteriores a la encuesta, por zona de residencia urbana-rural,",
+           "[País Encuesta Año]" )
+     stub( "Grupo de edad" );
+{ES}}
+{{FR}
+    title( "Tableau 5.1  Fécondité actuelle"," ",
+           "Taux de fécondité par âge, Indice Synthétique de Fécondité (ISF),",
+		   "Taux Global de Fécondité Générale (TGFG) et Taux Brut de Natalité (TBN) pour",
+		   "la période des 3 années ayant précédé l'enquête par milieu de résidence,",
+		   "[Pays, Enquête, Année]" )
+     stub( "Groupe d'âges" );
+{FR}}
+  crosstab float(1) t501e agegroup v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T501E Exposure" );
+  crosstab float(1) t501b agegroup v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T501B Births" );
+  crosstab float(1) t501p tothhpop+agegroup HV025+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T501P Population from household schedule" );
+  crosstab float(0) t501u agegroup+total v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 5.1  Current fertility (exposure Number of un-weighted cases)" )
+     stub( "Age group" );
+  crosstab float(1) t501ey ageyoung v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T501EY Exposure for young women" );
+  crosstab float(1) t501by ageyoung v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T501BY Births for young women" );
+
+  crosstab float(1) t502  v102w+v101w+v106w+v190w+total fert2
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Table 5.2  Fertility by background characteristics"," ",
+           "Total fertility rate for the 3 years preceding the survey,",
+           "percentage of women age 15-49 currently pregnant, and mean number",
+           "of children ever born to women age 40-49 years, according to background",
+           "characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 5.2  Fecundidad según características seleccionadas"," ",
+           "Tasa global de fecundidad para los tres años que precedieron",
+           "la encuesta, porcentaje de mujeres de 15-49 años actualmente ",
+           "embarazadas, y número promedio de nacidos vivos a mujeres de 40-49 años,",
+           "por características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 5.2  Fécondité selon certaines caractéristiques"," ",
+           "Indice Synthétique de Fécondité pour les 3 années précédant l'enquête,",
+		   "pourcentage de femmes de 15-49 ans actuellement enceintes et nombre moyen",
+		   "d'enfants nés vivants pour les femmes de 40-49 ans,",
+		   "selon certaines caractéristiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique" );
+{FR}}
+  crosstab float(3) t502f v102w+v101w+v106w+v190w+total agegroup
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T502F - Age specific rates" );
+  crosstab float(1) t502e v102w+v101w+v106w+v190w+total agegroup
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T502E - Exposure" );
+  crosstab float(1) t502b v102w+v101w+v106w+v190w+total agegroup
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T502B - Births" );
+  crosstab float(1) t502p v102w+v101w+v106w+v190w+total total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T502P - Current pregnancy" );
+  crosstab float(0) t502u  v102w+v101w+v106w+v190w+total agegroup+total+numwom1+age40
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 5.2  Fertility by background characteristics (exposure and women 40-49 Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(0) t503 agegroup years
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Table 5.3.1  Trends in age-specific fertility rates"," ",
+           "Age-specific fertility rates for 5-year periods preceding",
+           "the survey, according to age group,",
+           "[Country Survey Year]" )
+     stub( "Age group" );
+{EN+}
+{{ES}
+    title( "Cuadro 5.3.1  Tendencia de las tasas específicas de fecundidad"," ",
+           "Tasas específicas de fecundidad para períodos quinquenales",
+           "que precedieron la encuesta, por edad de la madre al momento ",
+           "del nacimiento, [País Encuesta Año]" )
+     stub( "Edad de la madre al nacimiento" );
+{ES}}
+{{FR}
+    title( "Tableau 5.3.1  Tendances de la fécondité par âge"," ",
+           "Taux de fécondité par âge par période de 5 ans précédant",
+           "l'enquête, selon le groupe d'âges, [Pays, Enquête, Année]")
+     stub( "Âge de la mère à la naissance" );
+{FR}}
+  crosstab float(1) t503e agegroup years
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T503E - Exposure" );
+  crosstab float(1) t503b agegroup years
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T503B - Births" );
+  crosstab float(0) t503u  agegroup years
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 5.3.1 Trends in age-specific fertility rates (exposure Number of un-weighted cases)" )
+     stub( "Mother's age at birth" );
+  crosstab float(1) t503ey ageyoung total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T503EY Exposure for young women" );
+  crosstab float(1) t503by ageyoung total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T503BY Births for young women" );
+
+  crosstab float(2) t504  v013w+total v201w+totnum2+totmean2 v502w
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Table 5.4  Children ever born and living"," ",
+           "Percent distribution of all women and currently married women",
+           "age 15-49 by number of children ever born, mean number of children",
+           "ever born and mean number of living children, according to age",
+           "group, [Country Survey Year]" )
+     stub( "Age group" );
+{EN+}
+{{ES}
+    title( "Cuadro 5.4  Hijos nacidos vivos y sobrevivientes"," ",
+           "Distribución porcentual de todas las mujeres y de las mujeres",
+           "actualmente casadas/unidas de 15-49 años por el número de hijos nacidos vivos;",
+           "promedio de hijos nacidos vivos y promedio de hijos sobrevivientes,",
+           "según grupos de edad, [País Encuesta Año]" )
+     stub( "Edad" );
+{ES}}
+{{FR}
+    title( "Tableau 5.4  Enfants nés vivants et enfants survivants des femmes"," ",
+           "Répartition (en %) de l'ensemble des femmes de 15-49 ans et des femmes",
+           "de 15-49 ans actuellement en union par nombre d'enfants nés vivants,",
+		   "nombre moyen d'enfants nés vivants et nombre moyen d'enfants survivants,",
+		   "par le groupe d'âges, [Pays, Enquête, Année]" )
+     stub( "Groupe d'âges" );
+{FR}}
+  crosstab float(0) t504u  v013w+total total v502w
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 5.4  Children ever born and living (Number of un-weighted cases)" )
+     stub( "Age group" );
+
+  crosstab float(1) t505 age10+sex+surv+border+v102w+v101w+v106wt+v190w+total pinter+totmednu
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Table 5.5  Birth intervals"," ",
+           "Percent distribution of non-first live births in the 5 years",
+           "preceding the survey by number of months since preceding",
+           "live birth, and median number of months since preceding live birth,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 5.5  Intervalos entre nacimientos"," ",
+           "Distribución porcentual de los nacimientos en los cinco años ",
+           "anteriores a la encuesta por número de meses desde el nacimiento ",
+           "anterior, según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 5.5  Intervalles intergénésiques"," ",
+           "Répartition (en %) des naissances vivantes, autres que les naissances de rang un,",
+		   "ayant eu lieu au cours des 5 années ayant précédé l'enquête par nombre de mois écoulés depuis",
+		   "la naissance vivante précédente et nombre médian de mois depuis la naissance vivante précédente,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(1) t505w age10+sex+surv+border+v102w+v101w+v106wt+v190w+total intmed
+    exclude(specval, rowzero, colzero, totals, percents);
+  crosstab float(0) t505u age10+sex+surv+border+v102w+v101w+v106wt+v190w+total total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 5.5  Birth intervals (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t506  agemnth+medmea postpart+numbirth
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 5.6  Postpartum amenorrhea, abstinence and insusceptibility"," ",
+           "Percentage of live births and stillbirths in the 3 years preceding the survey",
+           "for which mothers are postpartum amenorrheic, abstaining,",
+           "and insusceptible, by number of months since birth, and",
+           "median and mean durations, [Country Survey Year]" )
+     stub( "Months since birth " );
+{EN+}
+{{ES}
+    title( "Cuadro 5.6  Amenorrea, abstinencia e insusceptibilidad de postparto"," ",
+           "Porcentaje de nacimientos y mortinatos en los tres años anteriores a la encuesta cuyas madres",
+           "están en amenorrea, en abstinencia o en insusceptibilidad de postparto, por número ",
+           "de meses desde el nacimiento; y las duraciones mediana y promedio, [País Encuesta Año]" )
+     stub( "Meses desde el nacimiento" );
+{ES}}
+{{FR}
+    title( "Tableau 5.6  Aménorrhée, abstinence et insusceptibilité post-partum"," ",
+           "Pourcentage de naissances vivantes et de mort-nés des 3 années ayant précédé l'enquête dont les mères sont en aménorrhée,",
+		   "en abstinence et en insusceptibilité post-partum,",
+		   "selon le nombre de mois depuis la naissance et durées médiane et moyenne, [Pays, Enquête, Année]" )
+     stub( "Nombre de mois depuis la naissance" );
+{FR}}
+  crosstab float(1) t506w agemnth postpart+numbirth
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "T506W - Smoothed data" );
+
+  crosstab float(1) t507  age30+v102w+v101w+v106wt+v190w+total medpostp
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 5.7  Median duration of amenorrhea, postpartum abstinence and postpartum insusceptibility"," ",
+           "Median number of months of postpartum amenorrhea, postpartum",
+           "abstinence, and postpartum insusceptibility following live births",
+           "and stillbirths in the 3 years preceding the survey, according to background",
+           "characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 5.7  Duración mediana de la amenorrea, abstinencia postparto e insusceptibilidad de postparto"," ",
+           "Mediana del número de meses de amenorrea postparto, abstinencia postparto, e insusceptibilidad ",
+           "de postparto correspondiente a los nacimientos y mortinatos en los tres años anteriores a la encuesta ",
+           "por características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 5.7  Durée médiane de l'aménorrhée, de l'abstinence post-partum et de l'insusceptibilité post-partum"," ",
+           "Nombre médian de mois d'aménorrhée post-partum, d'abstinence post-partum et",
+		   "d'insusceptibilité post-partum à la suite de naissances vivantes ou de mort-nés",
+		   "ayant eu lieu au cours des 3 années ayant précédé l'enquête, selon certaines",
+		   "caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(1) t507w age30+v102w+v101w+v106wt+v190w+total agemnth medpostp+numbirth
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "T507W - Smoothed data" );
+  crosstab float(1) t507s age30+v102w+v101w+v106wt+v190w+total agemnth medpostp+numbirth
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "T507S - Raw data (not smoothed)" );
+  crosstab float(0) t507u age30+v102w+v101w+v106wt+v190w+total agemnth
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 5.7  Median duration of amenorrhea, postpartum abstinence and postpartum insusceptibility (Un-weighted unsmoothed number of births)" )
+     stub( "Background characteristic" );
+
+  { !!! for ever married surveys the title should be changed to:
+        "Percent distribution of ever-married women age 15-49....." }
+  crosstab float(1) t508  v013w+total menstr1+menstr2+totmean8
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 5.8 Age at first menstruation"," ",
+           "Percent distribution of women age 15-49 by age at menarche, and mean age",
+		   "at menarche, according to current age, [Country Survey Year]" )
+     stub( "Current age" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 5.8  Âge aux premières règles"," ",
+           "Répartition (en%) des femmes de 15-49 ans par âge aux premières règles",
+		   "et âge moyen aux premières règles, selon l'âge actuel, [Pays, Enquête, Année]" )
+     stub( "Âge actuel" );
+{FR}}
+  crosstab float(1) t508w v013w+total totmean8
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 5.8W working table" )
+     stub( "Current age" );
+  crosstab float(0) t508u v013w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 5.8 Age at first menstruation (Number of un-weighted cases)" )
+     stub( "Current age" );
+
+  crosstab float(1) t509  v012w+total menopa
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 5.9 Menopause"," ",
+           "Percentage of women age 30-49 who are menopausal, according to age, [Country Survey Year]" )
+     stub( "Age" );
+{EN+}
+{{ES}
+    title( "Cuadro 5.9 Menopausia"," ",
+           "Porcentaje de mujeres de 30-49 años que están en la menopausia,",
+           "por edad, [País Encuesta Año]" )
+     stub( "Edad" );
+{ES}}
+{{FR}
+    title( "Tableau 5.9 Ménopause"," ",
+           "Pourcentage de femmes de 30-49 ans qui sont en ménopause, selon l'âge,",
+           "[Pays, Enquête, Année]" )
+     stub( "Groupe d'âges" );
+{FR}}
+  crosstab float(0) t509u v012w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 5.9 Menopause (Number of un-weighted cases)" )
+     stub( "Age" );
+
+  crosstab float(1) t510  v013w+age20t+age25t agebirth+nobirth+nummed
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Table 5.10 Age at first birth"," ",
+           "Percentage of women age 15-49 who had a live birth by exact ages, percentage who",
+           "have never had a live birth, and median age at first live birth, according",
+           "to current age, [Country Survey Year]" )
+     stub( "Current age" );
+{EN+}
+{{ES}
+    title( "Cuadro 5.10 Edad al primer nacimiento"," ",
+           "Porcentaje de mujeres de 15-49 años que han tenido hijos antes de ciertas ",
+           "edades exactas, porcentaje que nunca han tenido hijos y edad mediana al primer ",
+           "nacimiento, según edad actual, [País Encuesta Año]" )
+     stub( "Edad actual" );
+{ES}}
+{{FR}
+    title( "Tableau 5.10 Âge à la première naissance"," ",
+           "Pourcentage de femmes de 15-49 ans qui ont déjà eu une naissance vivante avant d'atteindre certains âges exacts,",
+		   "pourcentage n'ayant jamais eu de naissance vivante et âge médian à la première naissance vivante,",
+		   "selon l'âge actuel, [Pays, Enquête, Année]" )
+     stub( "Âge actuel" );
+{FR}}
+  crosstab float(1) t510w v013w+age20t+age25t agemed
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T510W - Number of women by age at first birth" );
+  crosstab float(0) t510u  v013w+age20t+age25t total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 5.10 Age at first birth (Number of un-weighted cases)" )
+     stub( "Current age" );
+
+  crosstab float(1) t511  v102w+v101w+v106w+v190w+total age20+age25
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Table 5.11 Median age at first birth"," ",
+           "Median age at first live birth among women age 20-49 and age 25-49 years,",
+           "according to background characteristics, [Country Survey Year]")
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 5.11 Edad mediana al primer nacimiento"," ",
+           "Edad mediana al primer nacimiento entre mujeres de 20-49 y de 25-49 años, ",
+           "por características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 5.11 Âge médian à la première naissance"," ",
+           "Âge médian à la première naissance vivante parmi les femmes de 20-49 ans et de 25-49 ans,",
+		   "selon certaines caractéristique, [Pays, Enquête, Année]" )
+     stub( "Caractéristique" );
+{FR}}
+  crosstab float(1) t511w v102w+v101w+v106w+v190w+total agemed age20+age25
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T511W - Number of women by age at first birth" );
+  crosstab float(0) t511u  v102w+v101w+v106w+v190w+total age20+age25
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 5.11 Median age at first birth (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t512  ageteen+v102w+v101w+v106w+v190w+total pregteen+numwom
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Table 5.12 Teenage pregnancy"," ",
+           "Percentage of women age 15-19 who have ever had a live birth, percentage who",
+		   "have ever had a pregnancy loss, percentage who are currently pregnant, and",
+		   "percentage who have ever been pregnant, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 5.12 Grossesse chez les adolescentes"," ",
+           "Pourcentage de femmes de 15-19 ans qui ont déjà eu une naissance vivante,",
+		   "pourcentage ayant déjà eu une grossesse improductive,",
+		   "pourcentage qui sont actuellement enceintes et pourcentage ayant déjà été enceintes,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t512u ageteen+v102w+v101w+v106w+v190w+total total2
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 5.12 Teenage pregnancy and motherhood (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t513  isex befage15
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Table 5.13 Sexual and reproductive health behaviors before age 15","",
+           "Among women and men age 15-19, percentage who initiated sexual intercourse,",
+           "were married, and had a live birth/fathered a child before age 15, according",
+           "to sex, and percentage or women who have ever been pregnant before age 15,",
+		   "[Country Survey Year]" )
+     stub( "Sex" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 5.13  Rapports sexuels et comportements en matière de santé reproductive avant l'âge de 15 ans","",
+           "Parmi les femmes et les hommes de 15-19 ans, pourcentage qui ont commencé leur vie sexuelle avant l'âge de 15 ans,",
+		   "pourcentage qui étaient en union avant l'âge de 15 ans et",
+		   "pourcentage qui avaient déjà eu une naissance vivante/engendré  une naissance vivante avant l'âge de 15 ans, selon le sexe;",
+		   "et pourcentage de femmes qui ont déjà été enceintes avant l'âge de 15 ans, [Pays, Enquête, Année]" )
+     stub( "Sexe" );
+{FR}}
+  crosstab float(1) t513u isex total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 5.13  Sexual and reproductive health behaviors before age 15 (Number of un-weighted cases)","" )
+     stub( "Sex" );
+
+  crosstab float(1) t514  pregage+pregord+v102w+v101w+v106w+v190w+total pregtyp+pregtot
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Table 5.14 Pregnancy outcome by background characteristics"," ",
+           "Percent distribution of pregnancies ending in the 3 years preceding the",
+		   "survey by type of outcome, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 5.14  Résultat de la grossesse par caractéristique sociodémographique"," ",
+           "Répartition (en%) des grossesses qui se sont terminées dans les 3 années ayant précédé",
+           "l'enquête par type de résultat, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t514u pregage+pregord+v102w+v101w+v106w+v190w+total total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 5.14 Pregnancy outcome by background characteristics (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(0) t515  agegroup+abortr v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Table 5.15 Induced abortion rates"," ",
+           "Age-specific and total induced abortion rates, and general abortion",
+		   "rates, for the 3 years preceding the survey, according to residence,",
+           "[Country Survey Year]" )
+     stub( "Age group" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 5.15  Interruption volontaire de grossesse (IVG)"," ",
+           "Taux de recours à l'IVG par âge spécifique, Indice Conjoncturel",
+		   "d'Avortement (ICA) et Taux Global de recours à l'IVG (TGRIVG)",
+		   "pour la période des 3 années ayant précédé l'enquête, selon",
+		   "le milieu de résidence, [Pays, Enquête, Année]" )
+     stub( "Groupe d'âges" );
+{FR}}
+  crosstab float(1) t515e agegroup v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T515E Exposure" );
+  crosstab float(1) t515a agegroup v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T515A Abortions" );
+  crosstab float(0) t515u agegroup+total v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 5.15 Induced abortion rates (exposure Number of un-weighted cases)" )
+     stub( "Age group" );
+  crosstab float(1) t515ey ageyoung v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T515EY Exposure for young women" );
+  crosstab float(1) t515ay ageyoung v102w+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "T515AY Abortions for young women" );
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+  total2   = 0;
+  numwom   = 1;
+  totnum2  = 1;
+  nummed   = 1;
+  totmednu = 1;
+  age40    = notappl;
+  medmea   = 0;
+  med1st   = 1;    { up to DHS6 it was 0.75 but due to change in calculation of age now using days the midpoint of the 0-1 }
+  maxage   = 30;
+  maxint   = 70;
+  pregtot  = 1;
+  emsample = 0;         { 0 - All woman sample, 1 - Ever married woman sample }
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 5.1 processing }
+  imax = tblrow( t501, agegroup );
+  itfr = tblrow( t501, fert1 = 1 );
+  igfr = tblrow( t501, fert1 = 2 );
+  icbr = tblrow( t501, fert1 = 3 );
+  t501e  = t501e / 12;                                { years of exposure   }
+  t501[1:imax,*] = t501b[1:imax,*] / t501e[1:imax,*]; { age specific rates  }
+  t501[itfr  ,*] = tblsum( row t501[1:imax,*] );      { total fertility rate }
+  t501[itfr  ,*] = t501[itfr,*]  * 5;
+  t501[igfr  ,*] = tblsum( row t501b[0:imax,  *] );   { general fertility rate, include births of women < 15 }
+  t501[icbr  ,*] = tblsum( row t501e[1:imax-1,*] );
+  t501[igfr  ,*] = 1000 * t501[igfr,*] / t501[icbr,*];
+  t501[icbr  ,*] = 0;                                 { crude birth rate }
+  do i = 1 while i <= imax
+    t501[icbr,*] = t501[icbr,*] + ( (t501p[i+1,*] / t501p[0,*]) * t501[i,*] );
+  enddo;
+  t501[icbr,*]   = t501[icbr,*] *  1000;
+  t501[0:imax,*] = 1000 * t501[0:imax,*];
+  t501e[0,*]     = default;        { Suppress the exposure for 10-14 as the exposure calculated here is not what is used }
+
+  { calculate ASFR for girls 10-14 }
+  { Adjust exposure and births }
+  itot = tblrow( t501ey );
+  do i = 0 while i < itot
+    recode i -> adjfact;
+           0 -> 6/5;     { adjustment for age 14 }
+           1 -> 6/3;     {                    13 }
+           2 -> 6/1;     {                    12 }
+           3 -> 0;       {                    11 }
+           4 -> 0;       {                    10 }
+    endrecode;
+    t501ey[i,*] = t501ey[i,*] * adjfact / 12;  { adjust and convert to years of exposure }
+    t501by[i,*] = t501by[i,*] * adjfact;
+  enddo;
+  t501ey = t501ey * 5/3;    { to compensate for exposure to women 10 and 11 years old }
+  t501ey[itot,*] = tblsum( row t501ey[0:itot-1,*] );
+  t501by[itot,*] = tblsum( row t501by[0:itot-1,*] );
+  { include ASFR for women 10-14 to table 5.1 }
+  t501[0,*] = t501by[itot,*] / t501ey[itot,*] * 1000;
+  { check unweighted N's }
+  { calculate total unweighted exposure }
+  imax = tblrow( t501u, agegroup );
+  t501u[imax+1,*] = tblsum( row t501u[0:imax,*] );
+  { calculate unweighted exposure in years }
+  t501u = t501u / 12;
+  FERTUnw( "t501", t501, t501u, tblrow(t501u), tblcol(t501u), 0 );
+  { write out SDG indicators }
+  jtot   = tblcol( t501 );
+  SDGIndicator( "3.7.2", default, default, default );     { to provide a header for the next two indicators }
+  SDGIndicator( "3.7.2.a", NACells, int(t501(0,jtot)+0.5), NACells );
+  SDGIndicator( "3.7.2.b", NACells, int(t501(1,jtot)+0.5), NACells );
+
+  { Table 5.2 processing }
+  jtot = tblcol( t502f );
+  t502[*,2] = t502[*,2] / t502[*,0];            { mean CEB 40-49 }
+  t502[*,1] = t502p[*,0] * 100 / t502[*,1];     { % currently pregnant }
+  t502e     = t502e / 12;                       { total fertility rate }
+  t502f     = t502b / t502e;
+  t502[*,0] = tblsum( column t502f[*,1:jtot] );
+  t502[*,0] = t502[*,0] * 5;
+  t502b[*,0] = default;         { Suppress the births   for 10-14 as the births   calculated here is not what is used }
+  t502e[*,0] = default;         { Suppress the exposure for 10-14 as the exposure calculated here is not what is used }
+  t502u[*,0] = default;         { Suppress the unweighted exposure for 10-14 as the unweighted exposure calculated here is not what is used }
+  t502f[*,0] = default;         { Suppress the ASFR for 10-14 as this is not used in table 5.2 }
+
+  { check unweighted N's }
+  { calculate total unweighted exposure }
+  jmax = tblcol( t502u, total );
+  t502u[*,jmax] = tblsum( column t502u[*,1:jmax-1] );
+  { calculate unweighted exposure in years }
+  t502u[*,0:jmax] = t502u[*,0:jmax] / 12;
+  FERTUnw( "t502", t502, t502u, tblrow(t502u), jmax, 1 );
+  { check unweighted N's for all women and women 40-49 }
+  jtot1 = tblcol( t502 );
+  jtot2 = tblcol( t502u );
+  Col2Dim( "t502", t502, jtot1-1, jtot1-1, t502u, jtot2-1 );     { all women }
+  Col2Dim( "t502", t502, jtot1,   jtot1,   t502u, jtot2   );     { women 40-49 }
+
+  { Table 5.3 processing }
+  t503e  = t503e  / 12;
+  t503   = t503b  / t503e  * 1000;
+  { check unweighted N's }
+  { calculate unweighted exposure in years }
+  t503u = t503u / 12;
+  FERTUnw( "t503", t503, t503u, tblrow(t503u), tblcol(t503u), 0 );
+  t503b[0,*] = default;         { Suppress the births   for 10-14 as the births   calculated here is not what is used }
+  t503e[0,*] = default;         { Suppress the exposure for 10-14 as the exposure calculated here is not what is used }
+
+  { calculate ASFR for women 10-14 }
+  { Adjust exposure and births }
+  itot = tblrow( t503ey );
+  do i = 0 while i < itot
+    recode i -> adjfact;
+           0 -> 10/9;    { adjustment for age 14 }
+           1 -> 10/7;    {                    13 }
+           2 -> 10/5;    {                    12 }
+           3 -> 10/3;    {                    11 }
+           4 -> 10/1;    {                    10 }
+    endrecode;
+    t503ey(i,0) = t503ey(i,0) * adjfact / 12;  { adjust and convert to years of exposure }
+    t503by(i,0) = t503by(i,0) * adjfact;
+  enddo;
+  t503ey[itot,0] = tblsum( row t503ey[0:itot-1,0] );
+  t503by[itot,0] = tblsum( row t503by[0:itot-1,0] );
+  { include ASFR for women 10-14 in table 5.3 for the 0-4 period only – other periods are calculated normally }
+  t503(0,0) = t503by(itot,0) / t503ey(itot,0) * 1000;
+
+  { Table 5.4 processing }
+  { add single + married women }
+  t504[*,*,0] =   t504[*,*,0] + t504[*,*,1];
+  jtot = tblcol( t504, totnum2 );
+  jmax = jtot - 2;
+  { % of CEB }
+  do j = 0 while j <= jmax
+    t504[*,j,*] = t504[*,j,*] *   100 / t504[*,jtot,*];
+  enddo;
+  t504[*,jmax+1,*] = tblsum( column t504[*,0:jmax,*] );
+  t504[*,jtot+1,*] = t504[*,jtot+1,*] / t504[*,jtot,*]; { mean CEB }
+  t504[*,jtot+2,*] = t504[*,jtot+2,*] / t504[*,jtot,*]; { mean Living children }
+  { check unweighted N's }
+  t504u[*,*,0] =   t504u[*,*,0] + t504u[*,*,1];
+  Col3Dim( "t504", t504, 0,      jtot-2, t504u, 0 );     { percent distribution }
+  Col3Dim( "t504", t504, jtot+1, jtot+2, t504u, 0 );     { means }
+
+  { Table 5.5 processing }
+  jtot = tblcol( t505, totmednu = 1 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t505[*,j] = t505[*,j] * 100 / t505[*,jtot];
+  enddo;
+  t505[*,jmax+1] = tblsum( column t505[*,0:jmax] );
+  t505[*,jtot+1] = tblmed( column t505w[*,0:maxint] intervals(highest default) );
+  { check unweighted N's }
+  Col2Dim( "t505", t505, 0,      jtot-2, t505u, 0 );     { percent distribution }
+  Col2Dim( "t505", t505, jtot+1, jtot+1, t505u, 0 );     { median }
+
+  { Table 5.6 processing }
+  itot = tblrow( t506, medmea = 0 );
+  imax = itot - 1;
+  jtot = tblcol( t506 );
+  jmax = jtot - 1;
+  imed = tblrow( t506, medmea = 1 );
+  imea = tblrow( t506, medmea = 2 );
+
+  { smoothing by a three group moving average }
+  t506w[0:imax,*] = t506[0:imax,*];
+  do i = 1 while i < imax
+    t506w[i,*] = ( t506[i-1,*]+t506[i,*]+t506[i+1,*] ) / 3;
+  enddo;
+
+  { calculate percentages }
+  do j = 0 while j <= jmax
+    t506 [0:itot,j] = t506 [0:itot,j] * 100 / t506 [0:itot,jtot];
+    t506w[0:imax,j] = t506w[0:imax,j] * 100 / t506w[0:imax,jtot];
+  enddo;
+
+  { calculate medians }
+  do j = 0 while j <= jmax
+    upmed  = 100;
+    medmin = 0;
+    medmax = med1st;
+    do i = 0 while i <= imax
+      if t506w(i,j) <= 50 & upmed > 50 then
+        t506(imed,j) = medmin + ( (upmed-50)/(upmed-t506w(i,j)) )*(medmax-medmin);
+        break;
+      endif;
+      medmin = medmax;
+      medmax = i*2 + 3;      { up to DHS6 it was 2.5 but due to change in calculation of age now using days the midpoint of 2-3, 4-5, 6-7 ... is now 3.0, 5.0, 7.0 ... }
+      if t506w(i,j) < upmed then
+        upmed = t506w(i,j);
+      endif;
+    enddo;
+  enddo;
+  t506(imed,jtot) = NAcells;
+  do j = 0 while j <= jmax
+    acum = 2 * med1st * t506(0,j) / 100;
+    do i = 1 while i <= imax
+      acum = acum + 2 * t506(i,j) / 100;
+    enddo;
+    t506(imea,j) = acum + med1st;
+  enddo;
+  t506(imea,jtot) = NAcells;
+
+  { Table 5.7 processing }
+  jtot = tblcol( t507w );
+  itot = tblrow( t507  );
+  ktot = tbllay( t507w );
+  kmax = ktot - 1;
+
+  { smoothing by a three group moving average }
+  t507s = t507w;
+  do j = 1 while j <= jtot-1
+     t507w[*,j,*] = ( t507s[*,j-1,*]+t507s[*,j,*]+t507s[*,j+1,*] ) / 3;
+  enddo;
+
+  { calculating percentages }
+  do i = 0 while i <= itot
+    do k = 0 while k <= kmax
+      do j = 0 while j <= jtot
+        t507w[i,j,k] = t507w[i,j,k] * 100 / t507w[i,j,ktot];
+      enddo;
+    enddo;
+  enddo;
+
+  { calculating medians }
+  do k = 0 while k <= kmax
+    do i = 0 while i <= itot
+      upmed  = 100;
+      medmin = 0;
+      medmax = med1st;
+      do j = 0 while j <= jtot
+        if t507w(i,j,k) <= 50 & upmed > 50 then
+          t507(i,k) = medmin + ( (upmed-50)/(upmed-t507w(i,j,k)) )*(medmax-medmin);
+          { check un-weighted cases }
+          MEDUnw( "t507", t507, t507u, i, k, j-1 );
+          break;
+        endif;
+        medmin = medmax;
+        medmax = j*2 + 3;        { up to DHS6 it was 2.5 but due to change in calculation of age now using days the midpoint of 2-3, 4-5, 6-7 ... is now 3.0, 5.0, 7.0 ... }
+        if t507w(i,j,k) < upmed then
+          upmed = t507w(i,j,k);
+        endif;
+      enddo;
+    enddo;
+  enddo;
+
+  { Table 5.8 processing }
+  jtot1 = tblcol( t508, totmean8 = 1 );
+  jmax  = jtot1 - 2;
+  do j = 0 while j <= jmax
+    t508[*,j] = t508[*,j] * 100 / t508[*,jtot1];
+  enddo;
+  t508[*,jmax+1] = tblsum( column t508[*,0:jmax] );
+  jtot2 = tblcol( t508 );
+  t508[*,jtot2-1] = t508w[*,1] / t508[*,jtot2];   // mean
+  { check unweighted N's }
+  Col2Dim( "t508", t508, 0,       jtot1-2, t508u, 0 );
+  Col2Dim( "t508", t508, jtot2-1, jtot2-1, t508u, 1 );
+
+  { Table 5.9 processing }
+  t509[*,0] = 100 * t509[*,0] / t509[*,1];
+  { check unweighted N's }
+  Col2Dim( "t509", t509, 0, 0, t509u, 0 );
+
+  { Table 5.10 processing }
+  itot = tblrow( t510 );
+  jtot = tblcol( t510 ) - 1;
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t510[*,j] = t510[*,j] * 100 / t510[*,jtot];
+    if j > 0 & j < jmax then                 { to have births by exact ages }
+      t510[*,j] = t510[*,j] + t510[*,j-1];   { it's necessary to accumulate }
+    endif;
+  enddo;
+  t510[0,1:jmax-1] = NAcells;                { default row for women 15-19 }
+  t510[1,3:jmax-1] = NAcells;                { default row for women 20-24 }
+  t510[itot-1,3:jmax-1] = NAcells;           { default row for women 20-49 }
+  t510[*,jtot+1] = tblmed( column t510w[*,0:maxage] intervals(highest default) );
+  do i = 0 while i <= itot
+    maxval = (i+3) * 5;
+    if i = itot then           { women 25-49 }
+      maxval = 25
+    elseif i = itot - 1 then   { women 20-49 }
+      maxval = 20
+    endif;
+    if t510(i,jtot+1) < 0 | t510(i,jtot+1) >= maxval | t510(i,jtot+1) = default then
+      t510(i,jtot+1) = omitted
+    endif;
+  enddo;
+  t510[0,jtot+1] = omitted;                  { omitted for median for women 15-19 }
+  { check unweighted N's }
+  Col2Dim( "t510", t510, 0,      jtot-1, t510u, 0 );    { percentages }
+  Col2Dim( "t510", t510, jtot+1, jtot+1, t510u, 0 );    { median }
+
+  { Table 5.11 processing }
+  jtot = tblcol( t511 );
+  do j = 0 while j <= jtot
+    t511[*,j] = tblmed( column t511w[*,0:maxage,j] intervals(highest default) );
+  enddo;
+  itot = tblrow( t511 );
+  { loop to assign default to medians that are above the lower limit of age }
+  do j = 0 while j <= jtot
+    if j = jtot then
+      maxval = 25
+    elseif j = jtot-1 then
+      maxval = 20
+    endif;
+    do i = 0 while i <= itot
+      if t511(i,j) < 0 | t511(i,j) >= maxval | t511(i,j) = default then
+        t511(i,j) = omitted
+      endif;
+    enddo;
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t511", t511, 0, 0, t511u, 0 );              { women 20-49 }
+  Col2Dim( "t511", t511, 1, 1, t511u, 1 );              { women 25-49 }
+
+  { Table 5.12 processing }
+  jtot = tblcol( t512 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t512[*,j] = t512[*,j] * 100 / t512[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t512", t512, 0, jtot-1, t512u, 0 );
+
+  { Table 5.13 processing }
+  jtot = tblcol( t513 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t513[*,j] = t513[*,j] * 100 / t513[*,jtot];
+  enddo;
+  t513[1,jmax] = NACells;
+  Col2Dim( "t513", t513, 0, jtot-1, t513u, 0 );
+
+  { Table 5.14 processing }
+  jtot = tblcol( t514 );
+  jmax = jtot - 1;
+  do j = 0 while j < jmax
+    t514[*,j] = t514[*,j] * 100 / t514[*,jtot];
+  enddo;
+  { check unweighted N's }
+  t514[*,jmax] = tblsum( column t514[*,0:jmax-1] );
+  Col2Dim( "t514", t514, 0, jtot-2, t514u, 0 );
+
+  { Table 5.15 processing }
+  imax  = tblrow( t515, agegroup );
+  itgr  = tblrow( t515, abortr = 1 );
+  iggr  = tblrow( t515, abortr = 2 );
+  itemp = tblrow( t515, abortr = 3 );                 { working row to add-up exposure }
+  t515e  = t515e / 12;                                { years of exposure   }
+  t515[1:imax,*] = t515a[1:imax,*] / t515e[1:imax,*]; { age specific rates  }
+  t515[itgr  ,*] = tblsum( row t515[1:imax,*] );      { total abortion rate }
+  t515[itgr  ,*] = t515[itgr,*] * 5;
+  t515[iggr  ,*] = tblsum( row t515a[0:imax,  *] );   { general abortion rate, include abortions of women < 15 }
+  t515[itemp ,*] = tblsum( row t515e[1:imax-1,*] );
+  t515[iggr  ,*] = 1000 * t515[iggr,*] / t515[itemp,*];
+  t515[0:imax,*] = 1000 * t515[0:imax,*];
+  t515e[itemp,*] = default;        { Suppress working line used to calculate general abortion rates }
+  t515e[0,*]     = default;        { Suppress the exposure for 10-14 as the exposure calculated here is not what is used }
+
+  { calculate ASFR for girls 10-14 }
+  { Adjust exposure and births }
+  itot = tblrow( t515ey );
+  do i = 0 while i < itot
+    recode i -> adjfact;
+           0 -> 6/5;     { adjustment for age 14 }
+           1 -> 6/3;     {                    13 }
+           2 -> 6/1;     {                    12 }
+           3 -> 0;       {                    11 }
+           4 -> 0;       {                    10 }
+    endrecode;
+    t515ey[i,*] = t515ey[i,*] * adjfact / 12;  { adjust and convert to years of exposure }
+    t515ay[i,*] = t515ay[i,*] * adjfact;
+  enddo;
+  t515ey = t515ey * 5/3;    { to compensate for exposure to women 10 and 11 years old }
+  t515ey[itot,*] = tblsum( row t515ey[0:itot-1,*] );
+  t515ay[itot,*] = tblsum( row t515ay[0:itot-1,*] );
+  { include ASFR for women 10-14 to table 5.1 }
+  t515[0,*] = t515ay[itot,*] / t515ey[itot,*] * 1000;
+  { check unweighted N's }
+  { calculate total unweighted exposure }
+  imax = tblrow( t515u, agegroup );
+  t515u[imax+1,*] = tblsum( row t515u[0:imax,*] );
+  { calculate unweighted exposure in years }
+  t515u = t515u / 12;
+  FERTUnw( "t515", t515, t515u, tblrow(t515u), tblcol(t515u), 0 );
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+  { male tables }
+  {-----------------------------------------------------------------------------------------------}
+
+  isex = 2;                            { men }
+  for i in RECH1_EDT do
+    if HV118 = 1 then                  { man eligible for individual interview }
+      { load male questionnaire }
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX(i)) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then  { man found with a complete interview }
+
+        { men's weight }
+        if unweight then
+          rweight = 1;
+        else
+          rweight = MV005/1000000;
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 5.13 }
+
+        if MV012 in 15:19 then
+          befage15 = 5;
+          xtab( t513, rweight );
+          xtab( t513u );
+          if MV531 in 5:14 then
+            befage15 = 1;
+            xtab( t513, rweight );
+          endif;
+          if MV511 in 5:14 then
+            befage15 = 2;
+            xtab( t513, rweight );
+          endif;
+          if MV212 in 5:14 then
+            befage15 = 3;
+            xtab( t513, rweight );
+          endif;
+        endif;
+
+      endif;        { end loadcase with a complete interview }
+    endif;        { end man eligible for interview }
+  enddo;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = HV005 / 1000000;
+  endif;
+
+{ ---------------------------------------------------------------------- }
+{ --> table 5.1 to calculate proportion of women out of total population }
+
+  for i in RECH1_EDT do
+    if HV103 = 1 then
+      agegroup = notappl;
+      tothhpop = 1;
+      xtab( t501p, rweight );
+      if HV105 in 15:49 & HV104 = 2 then
+        tothhpop = notappl;
+        agegroup = int( HV105/5 ) - 2;
+        xtab( t501p, rweight );
+      endif;
+    endif;
+  enddo;
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  isex = 1;                            { women }
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  v101w  = V101;
+  v102w  = V102;
+  v013w  = V013;
+  v190w  = V190;
+  v013w1 = V013;                  { var label different for printing purposes }
+  age20t = ( V012 >= 20 );
+  age25t = ( V012 >= 25 );
+
+  recode V012 -> age10;
+        15:19 -> 1;
+        20:29 -> 2;
+        30:39 -> 3;
+              -> 4;
+  endrecode;
+
+  v106w = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v106wt = v106w;
+  singwgt = AWFACTT / 100 - 1;    { factor to tally single women in ever married samples }
+
+{ -------------------------------------------------------------------- }
+{ table 5.1, 5.2 Exposure and Births }
+
+  xurbrur = v102w;
+  xregion = v101w;
+  xeduc   = v106w;
+  xwealth = v190w;
+  age40   = notappl;
+  numwom1 = notappl;
+  total   = 0;
+  fertwgt = rweight;
+
+  higcm  = V008 - 1;                                      { High & ... }
+  lowcm  = higcm - 35;                                    { ... low limits }
+  totexp = higcm - lowcm + 1;
+  higage = int( (higcm - V011) / 60 );                    { High age & ... }
+  higexp = higcm - V011 - higage*60 + 1;                  { ... exposure }
+  if higexp > totexp then higexp = totexp endif;
+  lowage = higage - 1;                                    { Low age & ... }
+  lowexp = totexp - higexp;                               { ... exposure }
+  agegroup = higage - 2;
+  if agegroup in 0:7 then
+    if emsample then
+      v102w = notappl; v101w  = notappl;  v190w = notappl;
+      v106w = notappl; total = 0;
+      fertwgt = AWFACTT / 100 * rweight;
+    endif;
+    xtab( t501e, higexp*fertwgt );
+    xtab( t502e, higexp*fertwgt );
+    xtab( t501u, higexp*fertwgt/rweight );
+    xtab( t502u, higexp*fertwgt/rweight );
+    if emsample then
+      v102w = xurbrur; v101w = notappl;  v190w = notappl;
+      v106w = notappl; total = notappl;
+      fertwgt = AWFACTU / 100 * rweight;
+      xtab( t501e, higexp*fertwgt );
+      xtab( t501u, higexp*fertwgt/rweight );
+      xtab( t502e, higexp*fertwgt );
+      xtab( t502u, higexp*fertwgt/rweight );
+      v102w = notappl; v101w = xregion;  v190w = notappl;
+      v106w = notappl; total = notappl;
+      fertwgt = AWFACTR / 100 * rweight;
+      xtab( t502e, higexp*fertwgt );
+      xtab( t502u, higexp*fertwgt/rweight );
+      v102w = notappl; v101w = notappl;  v190w = notappl;
+      v106w = xeduc;   total = notappl;
+      fertwgt = AWFACTE / 100 * rweight;
+      xtab( t502e, higexp*fertwgt );
+      xtab( t502u, higexp*fertwgt/rweight );
+      v102w = notappl; v101w = notappl;  v190w = xwealth;
+      v106w = notappl; total = notappl;
+      fertwgt = AWFACTW / 100 * rweight;
+      xtab( t502e, higexp*fertwgt );
+      xtab( t502u, higexp*fertwgt/rweight );
+    endif;
+  endif;
+
+  agegroup = lowage - 2;
+  if agegroup in 0:7 then
+    if emsample then
+      v102w = notappl; v101w = notappl;  v190w = notappl;
+      v106w = notappl; total = 0;
+      fertwgt = AWFACTT / 100 * rweight;
+    endif;
+    xtab( t501e, lowexp*fertwgt );
+    xtab( t502e, lowexp*fertwgt );
+    xtab( t501u, lowexp*fertwgt/rweight );
+    xtab( t502u, lowexp*fertwgt/rweight );
+    if emsample then
+      v102w = xurbrur; v101w = notappl;  v190w = notappl;
+      v106w = notappl; total = notappl;
+      fertwgt = AWFACTU / 100 * rweight;
+      xtab( t501e, lowexp*fertwgt );
+      xtab( t501u, lowexp*fertwgt/rweight );
+      xtab( t502e, lowexp*fertwgt );
+      xtab( t502u, lowexp*fertwgt/rweight );
+      v102w = notappl; v101w = xregion;  v190w = notappl;
+      v106w = notappl; total = notappl;
+      fertwgt = AWFACTR / 100 * rweight;
+      xtab( t502e, lowexp*fertwgt );
+      xtab( t502u, lowexp*fertwgt/rweight );
+      v102w = notappl; v101w = notappl;  v190w = notappl;
+      v106w = xeduc;   total = notappl;
+      fertwgt = AWFACTE / 100 * rweight;
+      xtab( t502e, lowexp*fertwgt );
+      xtab( t502u, lowexp*fertwgt/rweight );
+      v102w = notappl; v101w = notappl;  v190w = xwealth;
+      v106w = notappl; total = notappl;
+      fertwgt = AWFACTW / 100 * rweight;
+      xtab( t502e, lowexp*fertwgt );
+      xtab( t502u, lowexp*fertwgt/rweight );
+    endif;
+  endif;
+  if emsample then
+    v102w = xurbrur; v101w = xregion;  v190w = xwealth;
+    v106w = xeduc;   total = 0;
+  endif;
+  { count Births }
+  for i in REC21_EDT do
+    birth = B3;
+    if birth in lowcm:higcm then
+      agegroup = int( (birth-V011)/60 ) - 2;     { Age group at birth }
+      if agegroup < 0 then agegroup = 0 endif;
+      if agegroup in 0:7 then                    { age 0 includes children born to women < 15 just for GFR }
+         xtab( t501b, rweight );
+         xtab( t502b, rweight );
+      endif;
+    endif;
+  enddo;
+
+  { calculate exposure and births for girls 10-14       }
+  { exposure is calculated separately one age at a time }
+  higcm  = V008 - 1;                                      { High & ... }
+  lowcm  = higcm - 35;                                    { ... low limits }
+  do j = 10 while j <= 14
+    ageyoung = j;
+    lowage = V011 + ageyoung * 12;
+    higage = lowage + 11;
+    totexp = 0;
+    if lowage in lowcm:higcm then
+      totexp = higcm - lowage + 1;
+    elseif higage in lowcm:higcm then
+      totexp = higage - lowcm + 1;
+    endif;
+    if totexp > 12 then totexp = 12 endif;
+    if totexp then
+      if emsample then
+        v102w = notappl;
+        total = 0;
+        fertwgt = AWFACTT / 100 * rweight;
+      endif;
+      xtab( t501ey, totexp*fertwgt );
+      if emsample then
+        v102w = xurbrur; total = notappl;
+        fertwgt = AWFACTU / 100 * rweight;
+        xtab( t501ey, totexp*fertwgt );
+      endif;
+    endif;
+  enddo;
+  if emsample then
+    v102w = xurbrur; total = 0;
+  endif;
+  { count Births }
+  for i in REC21_EDT do
+    if B3 in lowcm:higcm then
+      ageyoung = int( (B3-V011)/12 );               { Age at birth }
+      if ageyoung in 10:14 then
+        xtab( t501by, rweight );
+      endif;
+    endif;
+  enddo;
+
+{ ------------------------------------------------------------------------ }
+{ table 5.2   to calculate percentage of pregnant women }
+
+  numwom1 = 1;
+  fert2   = 2;
+  if emsample then
+    v102w = notappl; v101w = notappl;  v190w = notappl;
+    v106w = notappl; total = 0;
+    fertwgt = AWFACTT / 100 * rweight;
+  endif;
+  xtab( t502, fertwgt );
+  xtab( t502u, fertwgt/rweight );
+  if emsample then
+    v102w = xurbrur; v101w = notappl;  v190w = notappl;
+    v106w = notappl; total = notappl;
+    fertwgt = AWFACTU / 100 * rweight;
+    xtab( t502, fertwgt );
+    xtab( t502u, fertwgt/rweight );
+    v102w = notappl; v101w = xregion;  v190w = notappl;
+    v106w = notappl; total = notappl;
+    fertwgt = AWFACTR / 100 * rweight;
+    xtab( t502, fertwgt );
+    xtab( t502u, fertwgt/rweight );
+    v102w = notappl; v101w = notappl;  v190w = notappl;
+    v106w = xeduc;   total = notappl;
+    fertwgt = AWFACTE / 100 * rweight;
+    xtab( t502, fertwgt );
+    xtab( t502u, fertwgt/rweight );
+    v102w = notappl; v101w = notappl;  v190w = xwealth;
+    v106w = notappl; total = notappl;
+    fertwgt = AWFACTW / 100 * rweight;
+    xtab( t502, fertwgt );
+    xtab( t502u, fertwgt/rweight );
+    v102w = xurbrur; v101w = xregion;  v190w = xwealth;
+    v106w = xeduc;   total = 0;
+  endif;
+  numwom1 = notappl;
+  if V213 = 1 then
+    xtab( t502p, rweight );
+  endif;
+
+{ ------------------------------------------------------------------------ }
+{ table 5.2   to calculate mean number of children ever born }
+
+  if V012 in 40:49 then
+    agegroup = notappl;
+    fert2 = 1;
+    if emsample then
+      v102w = notappl; v101w  = notappl;  v190w = notappl;
+      v106w = notappl; total = 0;
+      fertwgt = AWFACTT / 100 * rweight;
+    endif;
+    xtab( t502, fertwgt );
+    age40    = 1;
+    xtab( t502u, fertwgt/rweight );
+    if emsample then
+      v102w = xurbrur; v101w  = notappl;  v190w = notappl;
+      v106w = notappl; total = notappl;
+      fertwgt = AWFACTU / 100 * rweight;
+      xtab( t502, fertwgt );
+      xtab( t502u, fertwgt/rweight );
+      v102w = notappl; v101w  = xregion;  v190w = notappl;
+      v106w = notappl; total = notappl;
+      fertwgt = AWFACTR / 100 * rweight;
+      xtab( t502, fertwgt );
+      xtab( t502u, fertwgt/rweight );
+      v102w = notappl; v101w  = notappl;  v190w = notappl;
+      v106w = xeduc;   total = notappl;
+      fertwgt = AWFACTE / 100 * rweight;
+      xtab( t502, fertwgt );
+      xtab( t502u, fertwgt/rweight );
+      v102w = notappl; v101w  = notappl;  v190w = xwealth;
+      v106w = notappl; total = notappl;
+      fertwgt = AWFACTW / 100 * rweight;
+      xtab( t502, fertwgt );
+      xtab( t502u, fertwgt/rweight );
+      v102w = xurbrur; v101w  = xregion;  v190w = xwealth;
+      v106w = xeduc;   total = 0;
+    endif;
+    fert2 = 3;
+    xtab( t502, V201*rweight );
+  endif;
+
+{ ------------------------------------------------------------------------ }
+{ table 5.3   Exposure and Births }
+
+  if emsample then
+    fertwgt = AWFACTT / 100 * rweight;
+  endif;
+  lowcm = V008;
+  do i = 1 while i <= 4
+    years = i;
+    higcm  = lowcm - 1;                                  { High & ... }
+    lowcm  = higcm - 59;                                 { ... low limits }
+    totexp = higcm - lowcm + 1;
+    higage = int( (higcm - V011)/60 );                   { High age & ... }
+    higexp = higcm - V011 - higage*60 + 1;               { ... exposure }
+    if higexp > totexp then higexp = totexp endif;
+    lowage = higage - 1;                                 { Low age & ... }
+    lowexp = totexp - higexp;                            { ... exposure }
+    agegroup = higage - 2;
+    if agegroup in 0:7 then
+      xtab( t503e, higexp*fertwgt );
+      xtab( t503u, higexp*fertwgt/rweight );
+    endif;
+    agegroup = lowage - 2;
+    if agegroup in 0:7 then
+      xtab( t503e, lowexp*fertwgt );
+      xtab( t503u, lowexp*fertwgt/rweight );
+    endif;
+    for j in REC21_EDT do
+      birth = B3;
+      if birth in lowcm:higcm then
+        agegroup = int( (birth - V011)/60 ) - 2;         { Age group at birth }
+        if agegroup in 0:7 then
+          xtab( t503b, rweight );
+        endif;
+      endif;
+    enddo;
+  enddo;
+
+  { calculate exposure and births for girls 10-14. Exposure is calculated separately one age at a time }
+  { It is only necessary to count births and exposure for the first period (0-4 years).                }
+  { There is no truncation for the remaining 3 periods                                                 }
+  higcm  = V008 - 1;                                      { High & ... }
+  lowcm  = higcm - 59;                                    { ... low limits }
+  do j = 10 while j <= 14
+    ageyoung = j;
+    lowage = V011 + ageyoung * 12;
+    higage = lowage + 11;
+    totexp = 0;
+    if lowage in lowcm:higcm then
+      totexp = higcm - lowage + 1;
+    elseif higage in lowcm:higcm then
+      totexp = higage - lowcm + 1;
+    endif;
+    if totexp > 12 then totexp = 12 endif;
+    if totexp then
+      xtab( t503ey, totexp*fertwgt );
+    endif;
+  enddo;
+  { count Births }
+  for i in REC21_EDT do
+    if B3 in lowcm:higcm then
+      ageyoung = int( (B3-V011)/12 );               { Age at birth }
+      if ageyoung in 10:14 then
+        xtab( t503by, rweight );
+      endif;
+    endif;
+  enddo;
+
+{ ------------------------------------------------------------------------ }
+{ table 5.4   }
+
+  totmean2 = notappl;
+  v201w  = V201;
+  if V201 > 10 then v201w = 10 endif;
+  currmarr = ( V502 = 1 ) + 1;
+  v502w = currmarr;
+  xtab( t504, rweight );
+  xtab( t504u );
+  if emsample then
+    v502w  = 1;
+    v201w  = 0;
+    xtab( t504,  singwgt*rweight );
+    xtab( t504u, singwgt );
+    v502w  = currmarr;
+  endif;
+  v201w   = notappl;
+  totnum2 = notappl;
+  totmean2 = 0;
+  xtab( t504, V201*rweight );
+  totmean2 = 1;
+  xtab( t504, V218*rweight );
+  totnum2 = 1;
+
+{ ------------------------------------------------------------------------ }
+{ table 5.5   }
+
+  for i in REC21_EDT do
+    months = B19;
+    j = i + B0;
+    if !B0 then j = i + 1 endif;
+    if j <= V201 & months < 60 then
+      { adjust multiple births to give the same order as that of the first of the multiples }
+      xorder = BORD;
+      if B0 > 1 then xorder = BORD - B0 + 1 endif;
+      recode  xorder -> border;
+                2:3  -> 1;
+                4:6  -> 2;
+                     -> 3;
+      endrecode;
+      sex   = B4(j);
+      surv  = B5(j);
+      if B5(j) = 0 then surv = 2 endif;
+      recode  B11  -> pinter;
+              <18  -> 1;
+             18:23 -> 2;
+             24:35 -> 3;
+             36:47 -> 4;
+             48:59 -> 5;
+                   -> 6;
+      endrecode;
+      xtab( t505, rweight );
+      xtab( t505u );
+      intmed  = B11;
+      if intmed > maxint then intmed = maxint endif;
+      xtab( t505w, rweight );
+    endif;
+  enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 5.6 }
+
+  for i in REC22_EDT do
+    months = P19;
+    { children under 36, but only the first of twins }
+    if P32 in 1,2 & months in 0:35 & ( i = 1 | P0 <= 1 & P3 <> P3(1) ) then
+      agemnth  = int( months/2 ) + 1;
+      numbirth = 1;                         { No. of births }
+      postpart  = notappl;
+      xtab( t506,  rweight );
+      numbirth = notappl;
+      if i = 1 then                         { When most recent child: }
+        if V405 = 1 then                    { ... still amenorrheic }
+          postpart = 1;
+          xtab( t506,  rweight );
+        endif;
+        if V406 = 1 then                    { ... still abstaining }
+          postpart = 2;
+          xtab( t506,  rweight );
+        endif;
+        if V405 = 1 | V406 = 1 then         { ... still insusceptible }
+          postpart = 3;
+          xtab( t506,  rweight );
+        endif;
+      endif;
+    endif;
+  enddo;
+  numbirth = 1;
+
+{ -------------------------------------------------------------------- }
+{ table 5.7 }
+
+  recode V012 -> age30;
+          <30 -> 1;
+              -> 2;
+  endrecode;
+  for i in REC22_EDT do
+    months = P19;
+    { children under 36, but only the first of twins }
+    if P32 in 1,2 & months in 0:35 & ( i = 1 | P0 <= 1 & P3 <> P3(1) ) then
+      agemnth  = int( months/2 ) + 1;
+      numbirth = 1;                         { No. of births }
+      medpostp = notappl;
+      xtab( t507w, rweight );
+      xtab( t507u );
+      numbirth = notappl;
+      if i = 1 then                         { When most recent child: }
+        if V405 = 1 then                    { ... still amenorrheic }
+          medpostp = 1;
+          xtab( t507w, rweight );
+        endif;
+        if V406 = 1 then                    { ... still abstaining }
+          medpostp = 2;
+          xtab( t507w, rweight );
+        endif;
+        if V405 = 1 | V406 = 1 then         { ... still insusceptible }
+          medpostp = 3;
+          xtab( t507w, rweight );
+        endif;
+      endif;
+    endif;
+  enddo;
+  numbirth = 1;
+
+{ ------------------------------------------------------------------------ }
+{ table 5.8 }
+
+  menstr1  = notappl;
+  menstr2  = notappl;
+  totmean8 = 1;
+  if V249 = 96 then
+    menstr2 = V249
+  else
+    recode  V249 -> menstr1;
+            0:10 -> 10;
+           11:15 -> V249;
+           16:49 -> 16;
+             98  -> 98;
+                 -> default;
+    endrecode;
+  endif;
+  xtab( t508, rweight );
+  coltotu = 1;
+  xtab( t508u );
+  menstr1  = notappl;
+  menstr2  = notappl;
+  if V249 in 0:49 then
+    totmean8 = 3;
+    xtab( t508,  rweight );
+    coltotu = 2;
+    xtab( t508u );
+    totmean8 = 2;
+    xtab( t508w, V249*rweight );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 5.9 }
+
+  if V012 >= 30 then
+    recode V012 -> v012w;
+          30:34 -> 1;
+          35:39 -> 2;
+          40:41 -> 3;
+          42:43 -> 4;
+          44:45 -> 5;
+          46:47 -> 6;
+          48:49 -> 7;
+    endrecode;
+
+    { Menopause }
+    menopa = 2;
+    xtab( t509, rweight );
+    xtab( t509u );
+    { Assumes 6+ months if: menopause, before last birth, never menstruated }
+    if V213 <> 1 & V405 <> 1 & V226 in 6:996 then
+      menopa = 1;
+      xtab( t509, rweight );
+    endif;
+  endif;
+
+{ :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: }
+{ table 5.10  }
+
+  recode V212 -> agebirth;
+         <15  -> 1;
+        15:17 -> 2;
+        18:19 -> 3;
+        20:21 -> 4;
+        22:24 -> 5;
+              -> notappl;
+  endrecode;
+  nobirth = ( V201 = 0 );
+  xtab( t510, rweight );
+  xtab( t510u );
+  if emsample then
+    agebirth = notappl;
+    nobirth  = 1;
+    xtab( t510,  singwgt*rweight );
+    xtab( t510u, singwgt );
+  endif;
+  agemed = V212;
+  if V201 = 0 | agemed  > maxage then agemed = maxage endif;
+  xtab( t510w, rweight );
+  if emsample then
+    agemed = maxage;
+    xtab( t510w, singwgt*rweight );
+  endif;
+
+{ ------------------------------------------------------------------------ }
+{ table 5.11 }
+
+  age20 = ( V012 >= 20 );
+  age25 = ( V012 >= 25 );
+  if V012 >= 20 then
+    agemed = V212;
+    if V201 = 0 | agemed > maxage then agemed = maxage endif;
+    xtab( t511w, rweight );
+    xtab( t511u );
+    if emsample then
+      agemed = maxage;
+      v102w = notappl; v101w = notappl; v190w = notappl;
+      v106w = notappl; total = 0;
+      xtab( t511w, rweight*(AWFACTT/100-1) );
+      xtab( t511u, AWFACTT/100-1 );
+      v102w = xurbrur; v101w = notappl; v190w = notappl;
+      v106w = notappl; total = notappl;
+      xtab( t511w, rweight*(AWFACTU/100-1) );
+      xtab( t511u, AWFACTU/100-1 );
+      v102w = notappl; v101w = xregion; v190w = notappl;
+      v106w = notappl; total = notappl;
+      xtab( t511w, rweight*(AWFACTR/100-1) );
+      xtab( t511u, AWFACTR/100-1 );
+      v102w = notappl; v101w = notappl; v190w = notappl;
+      v106w = xeduc;   total = notappl;
+      xtab( t511w, rweight*(AWFACTE/100-1) );
+      xtab( t511u, AWFACTE/100-1 );
+      v102w = notappl; v101w = notappl; v190w = xwealth;
+      v106w = notappl; total = notappl;
+      xtab( t511w, rweight*(AWFACTW/100-1) );
+      xtab( t511u, AWFACTW/100-1 );
+      v102w = xurbrur; v101w = xregion; v190w = xwealth;
+      v106w = xeduc;   total = 0;
+    endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 5.12 }
+
+  if V012 in 15:19 then
+    ageteen  = V012 - 14;
+	numwom   = notappl;
+    if V201 > 0 then
+      pregteen = 1;
+      xtab( t512, rweight );
+    endif;
+    if V245 > 0 then
+      pregteen = 2;
+      xtab( t512, rweight );
+    endif;
+    if V213 = 1 then
+      pregteen = 3;
+      xtab( t512, rweight );
+    endif;
+    if V201 > 0 | V245 > 0 | V213 = 1 then
+      pregteen = 4;
+      xtab( t512, rweight );
+    endif;
+	numwom   = 1;
+	pregteen = notappl;
+    xtab( t512, rweight );
+    xtab( t512u );
+    if emsample then
+      v102w = notappl; v101w = notappl;  v190w = notappl;
+      v106w = notappl; total = 0;
+      xtab( t512, rweight*(AWFACTT/100-1) );
+      xtab( t512u, AWFACTT/100-1 );
+      ageteen  = notappl;
+      v102w = xurbrur; v101w = notappl;  v190w = notappl;
+      v106w = notappl; total = notappl;
+      xtab( t512, rweight*(AWFACTU/100-1) );
+      xtab( t512u, AWFACTU/100-1 );
+      v102w = notappl; v101w = xregion;  v190w = notappl;
+      v106w = notappl; total = notappl;
+      xtab( t512, rweight*(AWFACTR/100-1) );
+      xtab( t512u, AWFACTR/100-1 );
+      v102w = notappl; v101w = notappl;  v190w = notappl;
+      v106w = xeduc;   total = notappl;
+      xtab( t512, rweight*(AWFACTE/100-1) );
+      xtab( t512u, AWFACTE/100-1 );
+      v102w = notappl; v101w = notappl;  v190w = xwealth;
+      v106w = notappl; total = notappl;
+      xtab( t512, rweight*(AWFACTW/100-1) );
+      xtab( t512u, AWFACTW/100-1 );
+      v102w = xurbrur; v101w = xregion;  v190w = xwealth;
+      v106w = xeduc;   total = 0;
+    endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 5.13 }
+
+  if V012 in 15:19 then
+    befage15 = 5;
+    xtab( t513, rweight*AWFACTT/100 );	   // base for the table should be all women
+    xtab( t513u );
+    if V531 in 5:14 then
+      befage15 = 1;
+      xtab( t513, rweight );
+    endif;
+    if V511 in 5:14 then
+      befage15 = 2;
+      xtab( t513, rweight );
+    endif;
+    if V212 in 5:14 then
+      befage15 = 3;
+      xtab( t513, rweight );
+    endif;
+	n = soccurs(REC22);
+	if n & int( (P3(n)-P20(n)-V011)/12 ) < 15 then
+      befage15 = 4;
+      xtab( t513, rweight );
+	endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 5.14 }
+
+  for i in REC22_EDT do
+    if P19 < 36 then
+      temp = int( (P3-V011)/12 );
+	  recode temp -> pregage;
+	         0:19 -> 1;
+            20:24 -> 2;
+            25:34 -> 3;
+            35:44 -> 4;
+            45:49 -> 5;
+                  -> default;
+      endrecode;
+      pregord = PORD;
+      if PORD > 5 then pregord = 5 endif;
+      pregtyp = P32;
+      xtab( t514, rweight );
+      xtab( t514u );
+    endif;      
+  enddo;
+
+
+{ -------------------------------------------------------------------- }
+{ table 5.15 Exposure and abortions }
+
+  xurbrur = v102w;
+  total   = 0;
+  fertwgt = rweight;
+
+  higcm  = V008 - 1;                                      { High & ... }
+  lowcm  = higcm - 35;                                    { ... low limits }
+  totexp = higcm - lowcm + 1;
+  higage = int( (higcm - V011) / 60 );                    { High age & ... }
+  higexp = higcm - V011 - higage*60 + 1;                  { ... exposure }
+  if higexp > totexp then higexp = totexp endif;
+  lowage = higage - 1;                                    { Low age & ... }
+  lowexp = totexp - higexp;                               { ... exposure }
+  agegroup = higage - 2;
+  if agegroup in 0:7 then
+    if emsample then
+      v102w = notappl;
+      total = 0;
+      fertwgt = AWFACTT / 100 * rweight;
+    endif;
+    xtab( t515e, higexp*fertwgt );
+    xtab( t515u, higexp*fertwgt/rweight );
+    if emsample then
+      v102w = xurbrur;
+      total = notappl;
+      fertwgt = AWFACTU / 100 * rweight;
+      xtab( t515e, higexp*fertwgt );
+      xtab( t515u, higexp*fertwgt/rweight );
+    endif;
+  endif;
+
+  agegroup = lowage - 2;
+  if agegroup in 0:7 then
+    if emsample then
+      total = 0;
+      fertwgt = AWFACTT / 100 * rweight;
+    endif;
+    xtab( t515e, lowexp*fertwgt );
+    xtab( t515u, lowexp*fertwgt/rweight );
+    if emsample then
+      v102w = xurbrur;
+      total = notappl;
+      fertwgt = AWFACTU / 100 * rweight;
+      xtab( t515e, lowexp*fertwgt );
+      xtab( t515u, lowexp*fertwgt/rweight );
+    endif;
+  endif;
+  if emsample then
+    v102w = xurbrur;
+    total = 0;
+  endif;
+  { count Abortions }
+  for i in REC22_EDT do
+    if P32 = 4 & P3 in lowcm:higcm then
+      agegroup = int( (P3-V011)/60 ) - 2;     { Age group at birth }
+      if agegroup < 0 then agegroup = 0 endif;
+      if agegroup in 0:7 then                    { age 0 includes children born to women < 15 just for GFR }
+         xtab( t515a, rweight );
+      endif;
+    endif;
+  enddo;
+
+  { calculate exposure and births for girls 10-14       }
+  { exposure is calculated separately one age at a time }
+  higcm  = V008 - 1;                                      { High & ... }
+  lowcm  = higcm - 35;                                    { ... low limits }
+  do j = 10 while j <= 14
+    ageyoung = j;
+    lowage = V011 + ageyoung * 12;
+    higage = lowage + 11;
+    totexp = 0;
+    if lowage in lowcm:higcm then
+      totexp = higcm - lowage + 1;
+    elseif higage in lowcm:higcm then
+      totexp = higage - lowcm + 1;
+    endif;
+    if totexp > 12 then totexp = 12 endif;
+    if totexp then
+      if emsample then
+        v102w = notappl;
+        total = 0;
+        fertwgt = AWFACTT / 100 * rweight;
+      endif;
+      xtab( t515ey, totexp*fertwgt );
+      if emsample then
+        v102w = xurbrur; total = notappl;
+        fertwgt = AWFACTU / 100 * rweight;
+        xtab( t515ey, totexp*fertwgt );
+      endif;
+    endif;
+  enddo;
+  if emsample then
+    v102w = xurbrur;
+	total = 0;
+  endif;
+  { count abortions }
+  for i in REC22_EDT do
+    if P32 = 4 & P3 in lowcm:higcm then
+      ageabort = int( (P3-V011)/12 );               { Age at abortion }
+      if ageabort in 10:14 then
+        xtab( t515ay, rweight );
+      endif;
+    endif;
+  enddo;
+

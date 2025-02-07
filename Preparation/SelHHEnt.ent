@@ -1,0 +1,21 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=SELHHENT
+Name=SELHHENT
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[External Dictionaries]
+File=..\Dicts\Clusters.dcf
+[AppCode]
+File=.\SelHHEnt.apc
+[Message]
+File=.\Preparation.mgf
+[Help]
+File=.\SelHHEnt.qsf
+[Forms]
+File=.\SampleSel.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\SampSel.dcf,Input,.\SampleSel.fmf
+Dict-Type=..\Dicts\Clusters.dcf,External

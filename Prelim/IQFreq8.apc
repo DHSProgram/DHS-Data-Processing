@@ -1,0 +1,414 @@
+﻿PROC GLOBAL
+{ DHS-V raw data frequencies  version 1.0.1 of 07/14/06 }
+
+  array alpha(80) xcal(9);
+
+  numeric i, j, x, calend, calbeg, callen, calint, found;
+  numeric DaysMonth = 30.4375;
+
+  numeric hweight, rweight, dweight, unweight;
+
+PROC CCIQ81_FF
+preproc
+
+    calend = cmcode(12,2020);   { !!! last date of calendar }
+    calbeg = cmcode( 1,2015);   { !!! first date of calendar }
+    callen = calend-calbeg+1;   { length of calendar }
+
+  unweight = ( sysparm()[1:1] <> "W" );       // 0-Weighted, 1-Unweighted
+  if unweight then
+    errmsg( "Raw frequencies for Country are UNWEIGHTED" );
+  else	
+    errmsg( "Raw frequencies for Country are WEIGHTED" );
+  endif
+  
+PROC HOUSEHOLD
+preproc
+
+  if unweight then
+    hweight = 1;
+  else	
+    hweight = AHWEIGHT/1000000;
+  endif;	
+
+  if AHRESULT = 1 then
+    freq include( AHCLUST, AHNUMBER,
+                  AHSECOVER numeric alpha,
+                  AHSEC01   numeric alpha,
+                  AHSECA1   numeric alpha,
+                  AHSECA2   numeric alpha,
+                  AHSEC02   numeric alpha,
+                  AHSEC03   numeric alpha,
+                  AHSEC04   numeric alpha,
+                  AHSECCL   numeric alpha,
+                  AHSECCD   numeric alpha,
+                  AHSECFS   numeric alpha,
+                  ABSECOVER numeric alpha )
+	     exclude( AHINTCD, AHWLTHF, AHWLTFUR, ABINTCD )
+         breakdown(1)
+         title( "Country - Household Data" )
+         weighted hweight;
+
+    freq include( AHINTCD, AHWLTHF, AHWLTFUR, ABINTCD )
+         stat nofreq
+         title( "Country - Household Data" )
+         weighted hweight;
+
+    { Child well-being module }
+    for i in ABSEC01_EDT do
+      freq include( AHSECCW numeric alpha )
+           exclude( AHCW08, AHCW19 )
+           title( "Country - Household Data" )
+           weighted hweight;
+    enddo;
+
+    { H/W & Anemia -- Children }
+    for i in ABSEC01_EDT do
+      freq include( ABSEC01 numeric alpha )
+           exclude( ACCDC, ACCDCM, ACZSHA, ACZSWA, ACZSWH, ACZSBM )
+           title( "Country - Household Data" )
+           select( (ACCDCM - ACCDC) / DaysMonth < 60 )
+           weighted hweight;
+    enddo;
+
+    { H/W & Anemia -- Children statistics for z-scores }
+    for i in ABSEC01_EDT do
+      freq include( ACCDC, ACCDCM, ACZSHA, ACZSWA, ACZSWH, ACZSBM )
+           stat nofreq
+           title( "Country - Household Data" )
+           select( (ACCDCM - ACCDC) / DaysMonth < 60 )
+           weighted hweight;
+    enddo;
+
+    { H/W, Anemia & HIV testing -- Women }
+    freq include( ABSEC02 numeric alpha )
+         exclude( ABWDBS, AWBM )
+         title( "Country - Household Data" )
+         weighted hweight;
+
+    { H/W & Anemia -- Women statistics for z-scores }
+    freq include( AWBM )
+         stat nofreq
+         title( "Country - Household Data" )
+         weighted hweight;
+
+    { H/W, Anemia & HIV testing -- Men }
+    freq include( ABSEC03 numeric alpha )
+         exclude( ABMDBS, AMBM )
+         title( "Country - Household Data" )
+         weighted hweight;
+
+    { H/W & Anemia -- men statistics for z-scores }
+    freq include( AMBM )
+         stat nofreq
+         title( "Country - Household Data" )
+         weighted hweight;
+
+  endif;
+
+PROC INDIVIDUAL
+preproc
+
+  { Drop incomplete and non-de facto }
+  if ARESULT <> 1 | AH06(ALINE) <> 1 then skip case; endif;
+
+  if unweight then
+    rweight = 1;
+	dweight = 1;
+  else	
+    rweight = AWEIGHT/1000000;
+    dweight = ADWEIGHT/1000000;
+  endif;	
+
+  if AQTYPE = 2 then      { Women }
+
+    { get freqs of HH vars that will appear in woman's recode file }
+    freq include(AHWLTHF,AHWLTFUR)
+         stat nofreq
+         title( "Country - Women's Data" )
+         weighted rweight;
+
+    if AH05(ALINE) = 1 then
+      freq include(AHSEC02 numeric alpha) 
+           breakdown(1)
+           title( "Country - Women's data at HH level for dejure women" )
+            weighted rweight;
+    endif;
+
+    freq include( ALINE,
+                  ASECOVER numeric alpha,
+                  AWSEC01  numeric alpha,
+                  AWSEC2A  numeric alpha,
+                  AWSEC2B  numeric alpha,
+                  AWSEC2D  numeric alpha )
+         breakdown(1)
+         exclude( AINTCD, A220CD )
+         title( "Country - Women's Data" )
+         weighted rweight;
+
+	   freq include( AINTCD, A220CD )
+         stat nofreq
+         title( "Country - Women's Data" )
+         weighted rweight;
+
+    freq include( AWSEC3A numeric alpha )
+         disjoint
+         title( "Country - Women's Data" )
+         weighted rweight;
+
+    freq include( AWSEC3B numeric alpha )
+         breakdown(1)
+         title( "Country - Women's Data" )
+         weighted rweight;
+
+    for i in AWSEC04_EDT do
+      freq include( AWSEC04 numeric alpha )
+           breakdown(1)
+           title( "Country - Women's Data" )
+           select( (AINTCD - A220CD(A404)) / DaysMonth < 36 )
+           weighted rweight;
+    enddo;
+
+    for i in AWSEC05_EDT do
+      freq include( AWSEC05 numeric alpha)
+           breakdown(1)
+           title( "Country - Women's Data" )
+           select( (AINTCD - A220CD(A503)) / DaysMonth < 36 )    { !!! make sure vaccinations only for last three years }
+           weighted rweight;
+    enddo;
+
+    for i in AWSEC6A_EDT do
+      freq include( AWSEC6A numeric alpha)
+           breakdown(1)
+           title( "Country - Women's Data" )
+           select( (AINTCD - A220CD(A603)) / DaysMonth < 60 )
+           weighted rweight;
+    enddo;
+
+    for j in AWSEC2B_EDT do
+      if A227 in 1:50 & (AINTCD-A220CD)/DaysMonth < 60 then
+        found = 0;
+        do i = 1 while i <= soccurs(ABSEC01) & !found
+          if A227(j) = AB102(i) then
+            found = 1;
+            recode AB106(i) -> hw2;
+                   99.94    -> 9994;
+                   99.95    -> 9995;
+                   99.96    -> 9996;
+                   missing  -> missing;
+                            -> int(AB106(i)*10+0.5);
+            endrecode;
+            hw3  = int(AB108(i)*10);
+            hw15 = AB110(i);
+            hw16 = ACDBR(i);
+            hw17 = ABINTD;
+            hw18 = ABINTM;
+            hw19 = ABINTY;
+            hw51 = AB118(i);
+            hw52 = AB120(i);
+            hw53 = AB123(i)*10;
+            hw70 = ACZSHA(i);
+            hw71 = ACZSWA(i);
+            hw72 = ACZSWH(i);
+            hw73 = ACZSBM(i);
+            freq include( hw2, hw3, hw15, hw16, hw17, hw18, hw19, hw51, hw52, hw53 )
+              title( "Country - children's anthropometry at woman's level" )
+                   weighted rweight;
+            freq include( hw70, hw71, hw72, hw73 )
+                 nofreq stat
+              title( "Country - children's anthropometry at woman's level" )
+                   weighted rweight;
+          endif;
+        enddo;
+      endif;
+    enddo;
+
+    for i in AWSEC04_EDT do
+      freq include( A436, A476, A478, A482U, A482N, A485 )
+           title( "Mom freqs for V4...current status" )
+           select( (AINTCD - A220CD(A404)) / DaysMonth < 60 & ACOL41 = 1 )
+           weighted rweight;
+    enddo;
+
+    for i in ABSEC02_EDT do
+      if AB202 = ALINE then
+        recode AB205 -> v437;
+             999.94  -> 9994;
+             999.95  -> 9995;
+             999.96  -> 9996;
+             missing -> missing;
+                     -> int(AB205*10+0.5);
+        endrecode;
+        v438  = int(AB207*10);
+        v445  = AWBM;
+        v453  = int(AB225*10);
+        freq include( v437, v438, v453 )
+             title( "woman's hts/wts/anemia" )
+             weighted rweight;
+        freq include( v445 )
+             nofreq stat
+             title( "woman's anthropometry scores" )
+             weighted rweight;
+      endif;
+    enddo;
+
+    x = count(AWSEC2B where (AINTCD - A220CD) / DaysMonth < 24 & A226 = 1 );
+	if x then
+      freq include( A635,  A636A,  A636B,  A636BN,  A636C,  A636CN, A636CA, A636E,  A636EA, 
+	                A636F, A636G,  A636H,  A636I,   A636IA, A636J,  A636K,  A636KA,  
+					A637A, A637AN, A637AY, A637AYA, A637B,  A637C,  A637D,  A637E,  A637F,  
+					A637G, A637H,  A637I,  A637J,   A637K,  A637L,  A637M,  A637N,  A637O,  
+					A637P, A637Q,  A637R,  A637S,   A637T,  A637U,  A637V,  A639,   A640,    
+					A641,  A642,   A636Z,  A637Z ) 
+         breakdown(1)
+         title( "feeding practices for children 0:23" )
+         weighted rweight;
+    endif;		 
+    freq include( A643A, A643B,  A643C,  A643D, A643E, A643F, A643G, A643H,  A643I,  A643J, A643K, 
+		          A643L, A643M,  A643N,  A643O, A643P, A643Q, A643R, A643S,  A643T,  A643U, A643V,
+				  A643W, A643X,  A643XA, A643Y, A643Z  ) 
+         breakdown(1)					
+         title( "feeding practices for women" )
+         weighted rweight;
+
+    freq include( AWSEC07 numeric alpha,
+                  AWSEC08 numeric alpha,
+                  AWSEC09 numeric alpha,
+                  AWSEC10 numeric alpha,
+                  AWSEC11 numeric alpha )
+         disjoint
+         breakdown(1)
+         title( "Country - Women's Data" )
+         weighted rweight;
+
+    { Chronic disease module }
+    freq include( AWSECCHD numeric alpha )
+         breakdown(1)
+         title( "Country - Women's Data" )
+         weighted rweight;
+
+    { Mental health module }
+    freq include( AWSECMH numeric alpha )
+         breakdown(1)
+         title( "Country - Women's Data" )
+         weighted rweight;
+
+    { Maternal mortality module }
+    freq include( AWSECM2 numeric alpha 
+                  AWSECM3 numeric alpha )
+         title( "Country - Women's Data" )
+         weighted rweight;
+  
+    { Domestic violence }
+    freq include( AWSECDV numeric alpha )
+         breakdown(1)
+         title( "Country - Women's Data" )
+         weighted dweight;
+
+  
+    { Female genital cutting }
+    freq include( AWSECG1 numeric alpha
+                  AWSECG2 numeric alpha )
+         breakdown(1)
+         title( "Country - Women's Data" )
+         weighted rweight;
+
+    { early childhood development }
+    for i in AWSECECD_EDT do
+      freq include( AWSECECD numeric alpha )
+           breakdown(1)
+           title( "Country - Women's Data" )
+           select( A226(AECDCA) = 1 & (AINTCD - A220CD(AECDCA)) / DaysMonth >= 24 & (AINTCD - A220CD(AECDCA)) / DaysMonth < 60 )
+           weighted rweight;
+    enddo;		   
+
+    { malaria SBC }
+    freq include( AWSECSBC numeric alpha )
+         breakdown(1)
+         title( "Country - Women's Data" )
+         weighted rweight;
+
+    { fistula }
+    freq include( AWSECFIS numeric alpha )
+         breakdown(1)
+         title( "Country - Women's Data" )
+         weighted rweight;
+
+    { Calendar all columns month by month }
+    freq include(ACAL)
+         disjoint
+         breakdown(1)
+         title( "Country - Women's Data - All Calendar" )
+         weighted rweight;
+
+    { Calendar - month of interview only }
+    calint = calend - cmcode(AINTM,AINTY) + 1;  { row of month of interview }
+    do i = 1 while i <= totocc( AWSEC2C_EDT )
+      xcal(i) = ACAL(i);
+      ACAL(i) = xcal(i)[calint:1];
+    enddo;
+    freq include(ACAL)
+         disjoint
+         breakdown(1)
+         title( "Country - Women's Data - Interview Month" )
+         weighted rweight;
+    do i = 1 while i <= totocc( AWSEC2C_EDT )
+      ACAL(i) = xcal(i);
+    enddo;
+
+  elseif AQTYPE = 1 then  { Men }
+
+    { get freqs of HH vars that will appear in men's recode file }
+    freq include(AHWLTHF,AHWLTFUR)
+         stat nofreq
+         title( "Country - Men's Data" )
+         weighted rweight;
+
+    freq include( ALINE,
+                  ASECOVER numeric alpha,
+                  AMSEC01  numeric alpha,
+                  AMSEC02  numeric alpha )
+         exclude( AINTCD )
+         title( "Country - Men's Data" )
+         weighted rweight;
+
+	freq include( AINTCD )
+         stat nofreq
+         title( "Country - Men's Data" )
+         weighted rweight;
+
+    freq include( AMSEC3A numeric alpha,
+                  AMSEC3B numeric alpha,
+                  AMSEC04 numeric alpha )
+         disjoint
+         breakdown(1)
+         title( "Country - Men's Data" )
+         weighted rweight;
+
+    freq include( AMSEC05 numeric alpha,
+                  AMSEC06 numeric alpha,
+                  AMSEC07 numeric alpha,
+                  AMSEC08 numeric alpha )
+         breakdown(1)
+         title( "Country - Men's Data" )
+         weighted rweight;
+
+    { Chronic disease module }
+    freq include( AMSECCHD numeric alpha )
+         breakdown(1)
+         title( "Country - Men's Data" )
+         weighted rweight;
+
+    { Mental health module }
+    freq include( AMSECMH numeric alpha )
+         breakdown(1)
+         title( "Country - Men's Data" )
+         weighted rweight;
+
+    { Maternal mortality, Female genital cutting }
+    freq include( AMSECGC numeric alpha )
+         breakdown(1)
+         title( "Country - Men's Data" )
+         weighted rweight;
+
+  endif;

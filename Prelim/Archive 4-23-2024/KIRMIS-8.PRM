@@ -1,0 +1,23 @@
+{
+decimals period;
+thousands comma;
+}
+
+tkmi footnote
+{+EN}
+* Adapt to the country specific strata which may be provinces, zones, malaria epidemiologic strata or other.~
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require any further treatment. 
+   In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY], this was known as a long-lasting 
+   insecticidal net (LLIN).~
+@2 Percentage of de facto household population who could sleep under an ITN if each ITN in the household 
+   were used by up to two people~
+@3 Includes advice or treatment from the following sources: [PUBLIC SECTOR, PRIVATE MEDICAL SECTOR, 
+   NGO MEDICAL SECTOR, SHOP, MARKET, AND ITINERANT DRUG SELLER]. Excludes advice or treatment from 
+   a traditional practitioner~
+@4 ACT=artemisinin-based combination therapy
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;

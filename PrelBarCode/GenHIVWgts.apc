@@ -1,0 +1,122 @@
+﻿PROC GLOBAL
+
+  numeric i, j, xcluster, womelig, menelig, nclust;
+  numeric totwom, totmen, testwom, testmen, findwgt;
+
+  array HIVTable(2000,9);   { 1-scrambled cluster number }
+			    { 2-Cluster strata }
+			    { 3-Cluster region }
+			    { 4-Cluster place of residence uran/rual }
+			    { 5-Scrambled household weight by cluster }
+			    { 6-Eligible women for HIV }
+			    { 7-Women with a valid HIV test result }
+			    { 8-Eligible men for HIV }
+			    { 9-Men with a valid HIV test result }
+
+  array indvres(50);        { stores the result of individual interview to use at HH level for HIV weights   }
+
+PROC CCIQ81_FF
+preproc
+
+  xcluster = 0;           { to indetify when a cluster cahnges }
+  nclust   = 0;           { keep track of clusters }
+  totwom   = 0;           { total eligible women }
+  testwom  = 0;           { women with a valid HIV test result }
+  totmen   = 0;           { total eligible men }
+  testmen  = 0;           { men with a valid HIV test result }
+
+  { initialize arrays }
+  do i = 1 while i <= 2000
+    do j = 1 while j <= 9
+      HIVTable(i,j)  = 0;
+    enddo;
+  enddo;
+
+postproc
+
+  { print out the scrambled clusters along with other information }
+  write( " " );
+  write( "Scrambled                                  Household          Women                    Men         " );
+  write( " Cluster     Strata     Region   Urb/Rur     Weight     Eligible  Valid-Test   Eligible  Valid-Test " );
+  write( "----------------------------------------------------------------------------------------------------" );
+  do i = 1 while i <= 2000
+    if HIVTable(i,1) <> 0 then
+      write( "   %4d        %2d        %2d        %2d      %8d       %2d        %2d           %2d        %2d",
+             HIVTable(i,1), HIVTable(i,2), HIVTable(i,3), HIVTable(i,4), HIVTable(i,5), HIVTable(i,6),
+             HIVTable(i,7), HIVTable(i,8), HIVTable(i,9) );
+      totwom  = totwom  + HIVTable(i,6);
+      testwom = testwom + HIVTable(i,7);
+      totmen  = totmen  + HIVTable(i,8);
+      testmen = testmen + HIVTable(i,9);
+    endif;
+  enddo;
+  write( "----------------------------------------------------------------------------------------------------" );
+  write( " Totals                                                %5d     %5d        %5d     %5d", totwom, testwom, totmen, testmen );
+
+
+PROC HOUSEHOLD
+preproc
+
+  { !! if HIV subsampled skip households not included for HIV testing as well }
+  if AHRESULT <> 1 then skip case endif;
+
+  { initialize array to store individuals }
+  do i = 1 while i <= 50
+    indvres(i) = 0;
+  enddo;
+
+  { store scrambled cluster number, strata, region and urban/rural }
+  if xcluster <> AHCLUST then
+    nclust = nclust + 1;
+    HIVTable(nclust,1) = AHCLUST;
+    HIVTable(nclust,2) = AHSTRATA;
+    HIVTable(nclust,3) = AHREGION;
+    HIVTable(nclust,4) = AHTYPE;
+    findwgt            = 0;             { to check if first household in cluster has a valid weight }
+    HIVTable(nclust,5) = 0;
+    if AHWEIGHT <> 0 then
+      HIVTable(nclust,5) = AHWEIGHT;    { !!! if HIV subsampled use the household weight for the subsample }
+      findwgt = 1;
+    endif;
+    xcluster = AHCLUST;
+  endif;
+  { to make sure that the first HH in the cluster has a valid weight. Important for HIV with subsampling }
+  if !findwgt & xcluster = AHCLUST & AHWEIGHT <> 0 then   { !!! if HIV subsampled use the household weight for the subsample }
+      HIVTable(nclust,5) = AHWEIGHT;                      { !!! }
+      findwgt = 1;
+  endif;
+
+postproc
+
+  { count de-facto eligible women }
+  womelig = count( AHSEC01 where AH04 = 2 & AH06 = 1 & AH09 <> 0 );
+  HIVTable(nclust,6) = HIVTable(nclust,6) + womelig;
+  { count women with valid HIV test }
+  for i in ABSEC02_EDT do
+    { de facto woman with a valid barcode and individual interview }
+    if AH06(AB202) = 1 & length( strip(ABWHIV9) ) & !ABWHIV9 in "99990":"99999","?" & indvres(AB202) = 1 then
+      if loadcase( TESTLOG_DICT, ABWHIV9 ) & LFINRES in 0:3,7,9 then
+        HIVTable(nclust,7) = HIVTable(nclust,7) + 1;
+      endif;
+    endif;
+  enddo;
+
+  { count de-facto eligible men }
+  menelig = count( AHSEC01 where AH04 = 1 & AH06 = 1 & AH10 <> 0 );
+  HIVTable(nclust,8) = HIVTable(nclust,8) + menelig;
+  { count men with valid HIV test }
+  for i in ABSEC03_EDT do
+    { de facto man with a valid barcode and individual interview }
+    if AH06(AB302) = 1 & length( strip(ABMHIV9) ) & !ABMHIV9 in "99990":"99999","?" & indvres(AB302) = 1 then
+      if loadcase( TESTLOG_DICT, ABMHIV9 ) & LFINRES in 0:3,7,9 then
+        HIVTable(nclust,9) = HIVTable(nclust,9) + 1;
+      endif;
+    endif;
+  enddo;
+
+PROC INDIVIDUAL
+preproc
+
+  if AH06(ALINE) <> 1 then skip case endif;   { skip none de facto population }
+
+  indvres(ALINE) = ARESULT;   { array to be used in postproc for HIV weights }

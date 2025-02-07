@@ -1,0 +1,109 @@
+[FormFile]
+Version=CSPro 4.1
+Name=HHFORINT_FF
+Label=HHForInt
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+FieldEntryFont=0018 0000 0000 0000 0600 0000 0000 0000 0000 0000 0000 0000 0000 Courier New
+Type=SystemControlled
+  
+[Dictionaries]
+File=4/29/2015 12:02:23 PM,..\Dicts\HHForInt.dcf
+  
+[Form]
+Name=FORM001
+Label=Households in cluster
+Level=1
+Size=952,310
+  
+Item=VADDRESS
+Item=VNAME
+Item=VMALE
+Item=VINTCODE
+Item=VRESULT
+Item=VNUMBER
+  
+[EndForm]
+  
+[Level]
+Name=HHFORINT_QUES
+Label=Assign households to interviewers questionnaire
+  
+[Group]
+Required=Yes
+Name=HHINCLST_FORM
+Label=Households in cluster
+Form=1
+LogicControl=No
+Max=1
+  
+[Field]
+Name=VNUMBER
+Position=366,114,423,134
+Item=VNUMBER,HHFORINT
+Protected=Yes
+Form=1
+  
+[Text]
+Position=59,116,179,132
+Text=Household number
+ 
+  
+[Field]
+Name=VADDRESS
+Position=366,145,927,165
+Item=VADDRESS,HHFORINT
+Protected=Yes
+Form=1
+  
+[Text]
+Position=59,148,179,164
+Text=Household address
+ 
+  
+[Field]
+Name=VNAME
+Position=366,175,787,195
+Item=VNAME,HHFORINT
+Protected=Yes
+Form=1
+  
+[Text]
+Position=59,178,271,194
+Text=Name of household head/address
+ 
+  
+[Field]
+Name=VMALE
+Position=366,205,381,225
+Item=VMALE,HHFORINT
+Protected=Yes
+Form=1
+  
+[Text]
+Position=59,208,285,224
+Text=Household selected for male survey
+ 
+  
+[Field]
+Name=VINTCODE
+Position=366,235,423,255
+Item=VINTCODE,HHFORINT
+Form=1
+  
+[Text]
+Position=59,238,277,254
+Text=Interviewer assigned to household
+ 
+  
+[Field]
+Name=VRESULT
+Position=366,265,381,285
+Item=VRESULT,HHFORINT
+Form=1
+  
+[Text]
+Position=59,268,344,284
+Text=Household result an whether collected or not
+ 
+[EndGroup]
+  

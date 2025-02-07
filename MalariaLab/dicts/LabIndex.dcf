@@ -1,0 +1,34 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=LabIndex
+Name=LABINDEX
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=LabIndex questionnaire
+Name=LABINDEX_QUEST
+
+[IdItems]
+
+[Item]
+Label=Lab number
+Name=LABNUMBER
+Start=1
+Len=5
+
+[Record]
+Label=LabIndex record
+Name=LABINDEX_REC
+RecordTypeValue=''
+RecordLen=10
+
+[Item]
+Label=Bar code
+Name=LBARCODE
+Start=6
+Len=5
+DataType=Alpha

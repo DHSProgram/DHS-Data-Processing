@@ -1,0 +1,114 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=GPS
+Name=GPS_DCT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=093E176410D9E4A875B2BDAF3B918DB1B4A891BE6D776127135CAC0E604E9B8A
+
+[Languages]
+EN=English
+ES=Español
+FR=French
+
+[Level]
+Label=Coordinates|Coordendas
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=Cluster number|Numero del segmento
+Name=GCLUSTER
+Start=1
+Len=4
+ZeroFill=Yes
+
+[Record]
+Label=GPS readings|Lecturas GPS
+Name=GPSSEC
+RecordTypeValue=''
+MaxRecords=4
+RecordLen=41
+
+[Item]
+Label=Column number|Numero de columna
+Name=GCOLUMN
+Start=5
+Len=1
+
+[Item]
+Label=Introduction|Introduccion|Introduction
+Name=GINTRO
+Start=6
+Len=1
+
+[ValueSet]
+Label=Introduction|Introduccion|Introduction
+Name=GINTRO_VS1
+Value=1;Capture coordinates|Captura de coordenadas|Capture des coordonnes
+Value=2;Advance to next reading|Avanzar a la siguiente lectura|Avancer au prochaine prelevement
+Value=3;Return to household listing/main menu|Regresar al mneu principal (listado de hogares)|Revenir au denombrement de menages/menu principal
+
+[Item]
+Label=Latitude in degrees|Latitud en grados
+Name=GLATITUDE
+Start=7
+Len=12
+Decimal=6
+DecimalChar=Yes
+
+[Item]
+Label=Pole north-south for latitude|Polo latitude norte-sur
+Name=GLATPOLE
+Start=19
+Len=1
+DataType=Alpha
+
+[ValueSet]
+Label=Pole north-south for latitude|Polo latitude norte-sur
+Name=GLATPOLE_VS1
+Value='N';North|Norte
+Value='S';South|Sur
+
+[Item]
+Label=Longitude in degrees|Longitud en grados
+Name=GLONGITUDE
+Start=20
+Len=12
+Decimal=6
+DecimalChar=Yes
+
+[Item]
+Label=East-west longitude|Longitud este-oeste
+Name=GLNGPOLE
+Start=32
+Len=1
+DataType=Alpha
+
+[ValueSet]
+Label=East-west longitude|Longitud este-oeste
+Name=GLNGPOLE_VS1
+Value='E';East|Este
+Value='W';West|Oeste
+
+[Item]
+Label=Altitude in meters|Altitud en metros
+Name=GALTITUDE
+Start=33
+Len=5
+
+[Item]
+Label=Number of satellites|Numero de satelites
+Name=GSATELLIT
+Start=38
+Len=2
+
+[Item]
+Label=Accuracy (between 1-50) 1-the best 50-the weakest|Precision (entre 1-50) 1-La mejor 50-Debil
+Name=GACCURACY
+Start=40
+Len=2

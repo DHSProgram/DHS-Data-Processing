@@ -1,0 +1,61 @@
+﻿PROC GLOBAL
+
+  numeric lines, maxlines;
+
+  string workhd1;
+  string workhd2;
+  string texthead;
+  string texttail;
+  string textbox;
+  string textboxb;
+  string textboxe;
+  string fques;
+
+PROC XOTHERS_FF
+preproc
+
+  fques    = "";
+  maxlines = 200000;         { Lines per page - 80 for condensed printing }
+                             { 60 for regular   printing }
+{  workhd1  = "                                 Other Answers"; }
+  workhd1  = "                                 Other Answers";
+  workhd2  = " Question    No.   Response                                                     Code  Freq.";
+{ texthead = "ÃÄÄÄÄ´";
+  textboxb = "³";       These are the ASCII characters
+  textboxe = "³";
+  texttail = "ÀÄÄÄÄÙ";  }
+  texthead = "+----|";           { check for ANSII to make it look like windows characters }
+  textboxb = "|";
+  textboxe = "|";
+  texttail = "+----|";
+
+postproc
+  write( "%81s", texttail );
+
+PROC LEVEL_1
+preproc
+
+{ uncomment the IF CONDITION to print others that were reclassified. }
+{ This is something that needs to be done after entering the others  }
+{ that were reclassified into OTHSUMM.DAT normallly in Excel.  This  }
+{ allows to check potential data entry erros in OTHSUMM.DAT          }
+{ if XOTHCODE = 0 then skip case endif;                              }
+
+  if fques <> xothques then
+     if length( strip(fques) ) then
+       write( "%85s", texttail );
+     endif;
+     write( "%s", workhd1 );
+     write( "%s", workhd2 );
+     lines = 2;
+  endif;
+  write( "%85s", texthead );
+  write( "%10s%5d%-64s%1s%4d%1s%5d", xothques, xothnum, strip(xothresp), textboxb, xothcode, textboxe, xothcnt );
+  lines = lines + 2;
+  if lines >= maxlines-2 then
+     write( "%85s", texttail );
+     write( "%s", workhd1 );
+     write( "%s", workhd2 );
+     lines = 2;
+  endif;
+  fques = xothques;

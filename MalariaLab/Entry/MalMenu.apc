@@ -1,0 +1,401 @@
+﻿PROC GLOBAL
+
+  { Working variables -- check the lengths needed for all fields }
+  string CSPro;                                    { CSPro executables directory }
+  string opid, wopid;                              { operator ID}
+  string backup;                                   { backup drive }
+  string wrkprj, data;                             { directories }
+  string fname, fnameT;                            { filenames }
+  string TheCommand;                               { command lines }
+  string sid, AppName;
+  string entry, dicts, utility, testlog_dat;
+  string common_dat;
+
+  numeric always, mainmenu, submenu, i, j, n, x, last;
+  numeric pcteqc;
+
+  FILE piffile;
+  FILE justone;                    { file handler to make sure that there are no concurrent sesions }
+
+  { setup basic user bar }
+  function userbase();
+    userbar( clear );
+    userbar( add button, "Lang", do("ChangeLanguage") );
+  end;
+
+  { set value sets based on language }
+  function OnChangeLanguage()
+    SetLanguage( getlanguage() );
+    savesetting("Language", getlanguage());
+  end;
+
+  { function to check the existence of system directories }
+  function chkdir( string xdir )
+    if !DirExist( xdir ) then
+      errmsg( 005, xdir );
+      stop(1);
+    endif;
+  end;
+
+  { function to prompt for a Yes/No user response }
+  function ynprompt( string textstr1 );
+    x = accept( textstr1, tr("Yes"), tr("No") ); 
+    ynprompt = ( x = 1 );
+  end;
+
+  { writes out standard header for application pff file }
+  function pff_head( wtype );
+    FileWrite( piffile, "[Run Information]" );
+    FileWrite( piffile, "Version=CSPro 7.4" );
+    if wtype = 1 then  { batch }
+      FileWrite( piffile, "AppType=Batch" );
+      FileWrite( piffile, "" );
+      FileWrite( piffile, "[Files]" );
+    else { data entry }
+      FileWrite( piffile, "AppType=Entry" );
+      FileWrite( piffile, "" );
+      FileWrite( piffile, "[DataEntryInit]" );
+      FileWrite( piffile, "OperatorID=Anyone" );
+      FileWrite( piffile, "StartMode=ADD" );
+      FileWrite( piffile, "FullScreen=YES" );
+      FileWrite( piffile, "LOCK=MODIFY,VERIFY" );
+      FileWrite( piffile, "NoFileOpen=YES" );
+      FileWrite( piffile, "Interactive=Ask" );
+      FileWrite( piffile, "" );
+      FileWrite( piffile, "[Files]" );
+   endif;
+  end;
+
+  { run different CSPro executables }
+  function runpff()
+    ExecPff( AppName + ".pff", maximized, wait );
+  end;
+
+  { select operator }
+  function getop();
+    x = 0;
+    open( USERS_DICT );
+    clear( USERS_DICT );
+    x = selcase( USERS_DICT, "" ) include( UNAME1, UNAME2 )
+	    where URIGHTS = 1;
+    opid = edit("99",UOPID);
+    close( USERS_DICT );
+    getop = x;
+  end;
+
+  { Views a text file }
+  function textview( string textname )
+    ExecSystem( CSPro + "\TextView.exe " + textname, wait );
+  end;
+
+  { get the last Lab ID number used by the database }
+  function GetSampNumber()
+    numeric NewSample = 0;
+    open(COMMON_DICT);
+    if loadcase( COMMON_DICT, sid ) & SLASTID then
+      NewSample = SLASTID;
+    else
+      setfile( TESTLOG_DICT, testlog_dat );
+      while loadcase( TESTLOG_DICT ) do
+        if length( strip(edit("ZZZZZ",LABID)) ) & LABID > NewSample then NewSample = LABID endif;
+      enddo;
+      close( TESTLOG_DICT );
+    endif;
+    close( COMMON_DICT );
+    NewSample = NewSample+1;
+	GetSampNumber = NewSample;
+  end;
+  
+  { generates PFF for data entry app to scan in barcodes }
+  function ScanSamples( NewSamp )
+    fname = entry + "\" + AppName + ".pff";
+    setfile( piffile, fname, create );
+    pff_head( 0 );
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+    FileWrite( piffile, "" );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "common_DICT=" + common_dat );
+    FileWrite( piffile, "TESTLOG_DICT=" + testlog_dat );
+    FileWrite( piffile, "LABINDEX=" + data + "\LABINDEX.DAT" );
+    FileWrite( piffile, "" );
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "Parameter=" + edit("99999",NewSamp) + sid );
+    close(piffile);
+    runpff();
+  end;
+
+  { generates PFF for data entry app to input test results }
+  function InputResults()
+    fname = entry + "\" + AppName + ".pff";
+    setfile( piffile, fname, create );
+    pff_head( 0 );
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+    FileWrite( piffile, "" );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "TESTLOG_DICT=" + testlog_dat );
+    FileWrite( piffile, "LABINDEX=" + data + "\LABINDEX.DAT" );
+    FileWrite( piffile, "USERS_DICT=" + data + "\USERS.DAT" );
+    FileWrite( piffile, "" );
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    close(piffile);
+    runpff();
+  end;
+
+  { generates PFF file for TREPORTS application }
+  function TReports( viewtype );
+    fname = entry + "\" + AppName + ".pff";
+    setfile( piffile, fname, create );
+    pff_head(1);
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".bch" );
+    FileWrite( piffile, "InputData=" + testlog_dat );
+    FileWrite( piffile, "Listing=" + entry + "\" + AppName + ".lst" );
+    FileWrite( piffile, "WriteData=" + entry + "\" + AppName + ".WRT" );
+    FileWrite( piffile, "" );
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "Parameter=" + edit("9",viewtype) );
+    FileWrite( piffile, "ViewListing=Never" );
+    FileWrite( piffile, "ViewResults=No" );
+    close( piffile );
+    runpff();
+  end;
+
+  { generate a listing of the samples selected for external QC }
+  function ExternQC();
+    fname = entry + "\" + AppName + ".pff";
+    setfile( piffile, fname, create );
+    pff_head( 1 );
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".bch" );
+    FileWrite( piffile, "InputData=" + testlog_dat );
+    FileWrite( piffile, "OutputData=" + data + "\tmplog.dat" );
+    FileWrite( piffile, "Listing=" + entry + "\" + AppName + ".lst" );
+    FileWrite( piffile, "WriteData=" + entry + "\" + AppName + ".WRT" );
+    FileWrite( piffile, "" );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "" );
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "Parameter=" + edit("999",pcteqc) );
+    FileWrite( piffile, "ViewListing=Never" );
+    FileWrite( piffile, "ViewResults=No" );
+    close( piffile );
+    runpff();
+  end;
+
+  { check version available for next back-up.  It is a Round-robin system made of up to 10 versions  }
+  function backupn()
+    do n = 0 while n <= 9 & FileExist( backup + "\MalariaData" + "_" + edit("9",n) + ".zip" )
+    enddo;
+    { open space for next back-up }
+    x = n + 1;
+    if n = 9 then x = 0 endif;
+    fname = backup + "\MalariaData" + "_" + edit("9",x) + ".zip";
+    if FileExist(fname) then
+      FileDelete( fname );
+    endif;
+    backupn = n;
+  end;
+
+  { finds the drive letter where the flash memory is located }
+  function searchdrive()
+    numeric found = 0;
+    do i = 1 while i <= 5 & !found
+      backup = "DEFGH"[i:1] + ":\DATA";
+      if DirExist( backup ) then
+        found = 1;
+      endif;
+    enddo;
+    searchdrive = found;
+  end;
+
+  { makes a data backup }
+  function backupf()
+    numeric nextbkp;
+
+    if !searchdrive() | !DirExist( backup ) then
+      errmsg( 070, backup );
+      searchdrive();
+    endif;
+    if DirExist( backup ) then
+      { handle round robin back-up number }
+      nextbkp = backupn();
+      TheCommand = Utility + "\UpgradePc\7za.exe a -w -i!" + data +  "\*.dat -pDHS " +
+                   backup  + "\MalariaData" + "_" + edit("9",nextbkp) + ".zip";
+      ExecSystem( TheCommand, maximized, wait );
+	  errmsg( 072, backup );
+    else
+      errmsg( 071, backup );
+    endif;
+  end;
+
+PROC ENTER_FF
+preproc
+
+  CSPro  = PathName( CSPro );
+  sid    = "DHS8";            { ID for common file }
+
+  pcteqc = 10;          { !! percentage of samples for external QC }
+
+  { set font for value sets }
+  setfont( All, "Arial", 18, bold );
+
+  { set up minimal user bar }
+  userbase();
+  userbar( show );
+
+  { set language at start of the program, defaulting to language passed by menu }
+  setlanguage(loadsetting("Language", getlanguage()));
+
+
+  { Set work drive & project directory name }
+  backup   = "E:\DATA";       { backup to a flash memory }
+  wrkprj   = "C:\MalariaLab";
+
+  { variables used for directory names }
+  entry    = wrkprj + "\entry";      { applications and forms }
+  data     = wrkprj + "\data";       { all data files reuired by system }
+  dicts    = wrkprj + "\dicts";      { dictionaries }
+  utility  = wrkprj + "\Utility";    { store 7-zip }
+
+  { variables used for default FILE names }
+  testlog_dat   = data + "\Testlog.dat";
+  common_dat    = data + "\Common.dat";
+
+  { Check that there are not two concurrent sessions of CSPro loaded at the same time }
+  fname = PathName(Application) + "justone.txt";
+  if FileExist( fname ) then
+    SetFile( justone, fname );
+    FileRead( justone, TheCommand );
+    errmsg( "*** %s", TheCommand );
+    x = accept( tr("Reset"), tr("Yes"), tr("No") );
+    if x = 2 then stop(1) endif;
+  endif;
+  SetFile( justone, fname, create );
+  TheCommand = tr("There is another session running or the computer crashed while running");
+  FileWrite( justone, TheCommand );
+  justone.close();	  
+
+  { Check that all directories needed exist }
+  chkdir( wrkprj );
+  chkdir( entry );
+  chkdir( dicts );
+  chkdir( data );
+  chkdir( utility );
+
+  { set attributes for certain variables }
+  set attributes ( UPCHECK ) hidden;
+
+PROC ENTER_LEVEL
+preproc
+  enter USERS_FF;
+
+PROC ECLUSTER
+preproc
+  $ = 0;
+  noinput;
+
+postproc
+  always = 1;
+  while always do   { loop forever }
+    if getlanguage() = "EN" then
+      mainmenu = accept("Malaria Test Tracking System: User " + strip(UNAME1) + " " + strip(UNAME2),
+                {01}  "S Scan samples received from field",
+                {02}  "A Input microscopy results for malaria",
+                {03}  "R Microscopy status reports",
+				{04}  "Q Select samples for External Quality Control",
+                {05}  "B Backup all data",
+                {06}  "E Exit system (Esc)" );
+    elseif getlanguage() = "ES" then
+      mainmenu = accept("Sistema Monitero Muestras de Malaria: Usuario " + strip(UNAME1) + " " + strip(UNAME2),
+                {01}  "S Escanear muestras recibidias del campo",
+                {02}  "A Entrar resultados de microscopia de malaria",
+                {03}  "R Reportes del estado de microscopia",
+				{04}  "Q Seleccionar muestras para Control de Calidad Externo",
+                {05}  "B Hacer copia de respaldo de los datos",
+                {06}  "E Salir del sistema (Esc)" );
+    endif;				
+
+    if mainmenu in 0,6 then   { exit the system }
+      if FileExist( justone ) then
+        FileDelete( justone )
+      endif;
+      stop(1);       { quit the process }
+    elseif mainmenu = 1 then { scan samples }
+	  last = GetSampNumber();
+	  close( TESTLOG_DICT );
+	  AppName = "ScanSamples";
+      ScanSamples( last );
+    elseif mainmenu = 2 then  { input results }
+	  close( TESTLOG_DICT );
+	  AppName = "InputResults";
+      InputResults();
+    elseif mainmenu = 3 then { reports }
+      if GetLanguage() = "EN" then
+        submenu = accept( "Reports Menu",
+                {01}  "1 All samples logged",
+                {02}  "2 Samples awaiting for first reading to be entered",
+                {03}  "3 Samples awaiting for second reading to be entered",
+                {04}  "4 Samples awaiting for discordant readings to be entered",
+                {05}  "5 Samples with first reading already entered",
+                {06}  "6 Samples with second reading already entered",
+                {07}  "7 Samples with discordant reading already entered",
+                {08}  "8 Samples with all readings completed",
+                {09}  "9 Samples selected for External Quality Control EQC",
+                {10}  "X Return to main menu" );
+      elseif GetLanguage() = "ES" then
+        submenu = accept( "Menu de Reportes",
+                {01}  "1 Todas las muestras escaneadas",
+                {02}  "2 Muestras esperando para ingresar primera lectura",
+                {03}  "3 Muestras esperando para ingresar segunda lectura",
+                {04}  "4 Muestras esperando para ingresar lectura de discordantes",
+                {05}  "5 Muestras con primera lectura ya ingresada",
+                {06}  "6 Muestras con segunda lectura ya ingresada",
+                {07}  "7 Muestras con lectura discordante ya ingresada",
+                {08}  "8 Muestras con todas las lecturas completas",
+                {09}  "9 Muestras para Control de Calidad Externa CCE",
+                {10}  "X Regresar al menu principal" );
+      endif;
+      if submenu in 1:9 then
+        close( TESTLOG_DICT );
+	    AppName = "TReports";
+        TReports( submenu );
+        textview( AppName + ".WRT" );
+      endif;
+    elseif mainmenu = 4 then  { select samples for EQC }
+	  close( TESTLOG_DICT );
+	  AppName = "ExternQC";
+      ExternQC();
+      textview( AppName + ".WRT" );
+      if ynprompt( tr("Do you accept the samples selected for External Quality Control QC") ) then
+        FileDelete( testlog_dat + ".*" );
+        FileRename( data + "\tmplog.dat", testlog_dat );
+        errmsg( 080 );
+      FileDelete( justone );        { delete file justone to avoid messages when re-entering the system }
+      stop(1);     { quit the system to be sure that a new testlog IDX file is created }
+                   { when entering the system again                                    }
+    endif;
+    elseif mainmenu = 5 then  { input results }
+      backupf();
+    endif;
+  enddo;
+
+PROC ID
+preproc
+  reenter ECLUSTER;
+
+PROC UOPID
+preproc
+  getop();
+  wopid = opid; { stores original user }
+  noinput;
+
+PROC UPCHECK
+  if $ <> UPASS then
+    errmsg( 020, strip(UNAME1), strip(UNAME2) );
+    reenter;
+  elseif URIGHTS <> 1 then
+    errmsg( 025, strip(UNAME1), strip(UNAME2) );
+    reenter;
+  endif;

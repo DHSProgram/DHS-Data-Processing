@@ -1,0 +1,138 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{me1   noprint;  }   { consider printing working tables }
+{me2   noprint;  }
+{me3   noprint;  }
+{mt1   noprint;  }
+{mt2   noprint;  }
+{mt3   noprint;  }
+
+t801 footnote
+{+EN}
+@1 Computed as the difference between the infant and neonatal mortality rates
+{EN+}
+{{ES}
+@1 Calculada como la diferencia entre la tasa de mortalidad infantil y la neonatal
+{ES}}
+{{FR}
+@1 Calculé par différence entre les taux de mortalité infantile et néonatale
+{FR}}
+endfootnote;
+
+t802 footnote
+{+EN}
+@1 Computed as the difference between the infant and neonatal mortality rates
+{EN+}
+{{ES}
+@1 Calculada como la diferencia entre la tasa de mortalidad infantil y la neonatal
+{ES}}
+{{FR}
+@1 Calculé par différence entre les taux de mortalité infantile et néonatale
+{FR}}
+endfootnote;
+
+t803 footnote
+{+EN}
+@1 Computed as the difference between the infant and neonatal mortality rates~
+@2 Excludes first-order births
+{EN+}
+{{ES}
+@1 Calculada como la diferencia entre la tasa de mortalidad infantil y la neonatal~
+@2 Excluye nacimientos de primer orden
+{ES}}
+{{FR}
+@1 Calculé par différence entre les taux de mortalité infantile et néonatale~
+@2 Non compris les naissances de rang 1
+{FR}}
+endfootnote;
+
+t804  columns npdeaths = 7 1;
+t804 footnote
+{+EN}
+Note: respondents may choose to report the duration of their pregnancy in either
+      weeks or months.~
+@1 Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks. When pregnancy
+   duration is reported in months, stillbirths are fetal deaths in pregnancies lasting 
+   7 or more months.~
+@2 Early neonatal deaths are deaths at age 0-6 days among live-born children.~
+@3 Stillbirth rate: the number of stillbirths divided by the number of pregnancies
+   lasting 28 or more weeks, expressed per 1,000.~
+@4 Early neonatal rate: the number of early neonatal deaths divided by the number 
+   of live births, expressed per 1,000.~
+@5 Perinatal mortality rate: the sum of the number of stillbirths and early neonatal
+   deaths divided by the number of pregnancies lasting 28 or more weeks, expressed per 1,000.~
+@6 Includes pregnancies lasting 7 or more months when duration of pregnancy is reported in months.~   
+@7 Pregnancy interval categories correspond to birth interval categories of <24 months, 
+   24-35 months, 36-47 months, and 48+ months assuming a pregnancy duration of 9 months.   
+{EN+}
+{{ES}
+@1 Nacidos muertos son muertes fetales en embarazos de siete o m s meses de duraci¢n.~
+@2 Las muertes neonatales tempranas son aqu‚llas ocurridas entre nacidos vivos
+   durante los primeros 6 d¡as (0-6 d¡as).~
+{ES}}
+{{FR}
+Note: Les enquêtées peuvent déclarer la durée de leur grossesse soit en semaines, soit en mois.~
+@1 Les mort-nés sont des décès foetaux qui se sont produits à 28 semains ou plus de grossesse. 
+   Quand la durée de la grossesse est déclarée en mois, les mort-nés sont des décès 
+   foetaux qui se sont produits au cours de grossesse de 7 mois ou plus.~
+@2 Les décès néonatals précoces sont des décès qui se sont produits à 0-6 jours parmi les 
+   enfants nés-vivants.~
+@3 Taux de mortinatalité : nombre de mort-nés divisé par le nombre de grossesses à 7 mois
+   ou plus, exprimé pour 1 000.~
+@4 Taux de mortalité néonatale précoce : nombre de décès néonatals précoces divisés par
+   le nombre de naissances vivantes, exprimé pour 1 000.~
+@5 Taux de mortalité périnatale : somme du nombre de mort-nés et de décès néonatals précoces
+   divisée par le nombre de grossesse à 28 semaines ou plus, exprimé pour 1 000.~
+@6 Y compris les grossesses de 7 mois ou plus quand la durée de la grossesse a 
+   été déclarée en mois.~   
+@7 Catégories d'intervalles entre grossesses correspondent aux différents intervalles entre
+   naissances de <24 mois, 24-35 mois, 36-47 mois et 48 mois ou+ en supposant une durée de
+   grossesse de 9 mois.
+{FR}}
+endfootnote;
+
+t805  columns birtrisk = 2 2
+      rows    tbirthwm = 1 nodec;
+t805 footnote
+{+EN}
+Note:  Risk ratio is the ratio of the proportion dead among births in a specific high-risk category to
+       the proportion dead among births not in any high-risk category.~
+na = Not applicable~
+@1 Women are assigned to risk categories according to the status they would have at the birth of a child
+   if they were to conceive at the time of the survey: current age less than 17 years and 3 months or
+   older than 34 years and 2 months, latest birth less than 15 months ago, or latest birth being of order
+   3 or higher.~
+@2 Includes the category age <18 and birth order >3~
+@a Includes sterilized women
+{EN+}
+{{ES}
+Nota: La raz¢n de riesgo es el cuociente entre la proporci¢n de muertes de nacimientos en una categor¡a de riesgo
+elevado y la proporci¢n de muertes de nacimientos que no est n en ninguna categor¡a de riesgo elevado.~
+na = No aplicable~
+@1 Las mujeres se clasifican en categor¡as de riesgo seg£n el estado que tendr¡an al momento del
+   nacimiento del hijo si fueran a concebir al momento de la encuesta: la edad actual menos de 17 a¤os
+   y 3 meses o mayor de 34 a¤os y 2 meses; £ltimo nacimiento hace menos de 15 meses; o el £ltimo nacimiento
+   de orden 3 ¢ m s.~
+@2 Incluye la categor¡a <18 a¤os de edad y orden de nacimiento >3~
+@a Incluye mujeres esterilizadas
+{ES}}
+{{FR}
+Note : Le rapport de risque est le rapport de la proportion de naissances décédées parmi les naissances
+       appartenant à une catégorie à haut risque spécifique à la proportion de naissances décédées parmi
+       celles n'appartenant à aucune catégorie à hauts risques.~
+na = Non applicable~
+@1 Les femmes sont classées dans les catégories à risque selon le statut qu'elles auraient à la naissance
+   de l'enfant si elles concevaient un enfant au moment de l'enquête : âge actuel inférieur à 17 ans et 3 
+   mois ou supérieur à 34 ans et 2 mois, la dernière naissance a eu lieu il y a 15 mois ou la dernière
+   naissance était de rang 3 ou plus.~
+@2 Y compris la catégorie âge <18 et rang de naissance >3~
+@a Y compris les femmes stérilisées
+{FR}}
+endfootnote;

@@ -1,0 +1,710 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+}
+
+P01 rows hhrate  = 1 1
+         wrate   = 1 1
+         subrate = 1 1
+         mrate   = 1 1;
+P01 footnote
+{+EN}
+@1 Households interviewed/households occupied.~
+@2 Respondents interviewed/eligible respondents.
+{EN+}
+{{FR}
+@1 Ménages enquêtés/ménages occupés~
+@2 Enquêtés interviewés/enquêtés éligibles
+{FR}}
+{{ES}
+@1 Hogares entrevistados/hogares ocupados.~
+@2 Entrevistas completas/entrevistados elegibles.
+{ES}}
+endfootnote;
+
+P02 columns isex = 1 allindiv = 1 nodec
+            isex = 1 allindiv = 2 nodec
+            isex = 2 allindiv = 1 nodec
+            isex = 2 allindiv = 2 nodec;
+P02 footnote
+{+EN}
+Note:  Education categories refer to the highest level of education
+       attended, whether or not that level was completed.~
+na = Not applicable
+{EN+}
+{{FR}
+Note : Le niveau d'instruction correspond au plus haut niveau d'instruction atteint, qu'il ait été achevé ou non.~
+na = Non applicable
+{FR}}
+{{ES}
+Nota: Las categorías de educación incluyen las personas que han
+      completado por lo menos un año del nivel especificado.~
+na = No aplica
+{ES}}
+endfootnote;
+
+P03 rows agegroup = ALL nodec
+         fert1    = 2 nodec;
+P03 footnote
+{+EN}
+Notes: Age-specific fertility rates are per 1,000 women. Estimates in brackets are truncated. Rates
+       are for the period 1-36 months preceding the interview. Rates for the 10-14 age group are based
+       on retrospective data from women age 15-17.~
+TFR:  Total fertility rate expressed per woman~
+GFR:  General fertility rate expressed per 1,000 women age 15-44~
+CBR:  Crude birth rate, expressed per 1,000 population
+{EN+}
+{{FR}
+Notes : Les taux de fécondité par âge sont exprimés pour 1000 femmes. Les taux entre parenthèses sont tronquées.
+        Les taux correspondent à la période 1-36 mois précédant l'enquête.
+        Les taux pour le groupe d'âges 10-14 ans sont basés sur des données rétrospectives provenant des femmes âgées de 15-17 ans.~
+ISF : Indice Synthétique de Fécondité exprimé pour une femme.~
+TGFG : Taux Global de Fécondité Générale exprimé pour 1 000 femmes de 15-44 ans.~
+TBN : Taux Brut de Natalité exprimé pour 1 000 individus.
+{FR}}
+{{ES}
+Notas: Las tasas específicas de fecundidad por edad están expresadas por 1,000
+       mujeres. Las tasas para el grupo 45-49 pueden estar ligeramente sesgadas
+       debido a truncamiento. Las tasas corresponden al período 1-36 meses antes
+       de la encuesta.~
+       La tasa global de fecundidad es expresada en nacimientos por mujer.~
+       La tasa general de fecundidad es expresada en nacimientos por 1,000
+       mujeres en edad 15-44 años.~
+       La tasa bruta de natalidad es expresada en nacimientos por 1,000 habitantes.
+{ES}}
+endfootnote;
+{p03e noprint;}
+{p03b noprint;}
+{p03p noprint;}
+
+p04 columns numwom = 1 nodec;
+p04 footnote
+{+EN}
+@1 Stillbirth, miscarriage, or abortion
+{EN+}
+{{FR}
+@1 Grossesse n'ayant pas abouti à la naissance d'un enfant vivant. Inclut les morts-nés, les fausses-couches ou les avortements.
+{FR}}
+{{ES}
+@1 Stillbirth, miscarriage, or abortion
+{ES}}
+endfootnote;
+
+p05 rows totalnum = 1 nodec;
+p05 footnote
+{+EN}
+@1 The number of living children includes a woman's current pregnancy~
+@2 Wants next birth within 2 years~
+@3 Wants to delay next birth for 2 or more years~
+@4 Includes both female and male sterilization
+{EN+}
+{{FR}
+@1 Le nombre d'enfants vivants inclut la grossesse actuelle de la femme.~
+@2 Veut une autre naissance dans les 2 ans.~
+@3 Veut espacer la prochaine naissance de 2 ans ou plus.~
+@4 Y compris la stérilisation féminine et masculine.
+{FR}}
+{{ES}
+@1 El número de hijos e hijas vivos incluye el embarazo actual~
+@2 Desea otro hijo o hija antes de dos años~
+@3 Desea esperar dos o más años~
+@4 Incluye esterilización femenina y masculina
+{ES}}
+endfootnote;
+
+p06 columns totalnum = 1 nodec;
+p06 footnote
+{+EN}
+Note: If more than one method is used, only the most effective method is
+      considered in this tabulation.~
+SDM = Standard days method~
+LAM = Lactational amenorrhea method~
+@1 Women who have had sexual intercourse within 30 days preceding the survey.
+{EN+}
+{{FR}
+Note : Si plus d'une méthode a été utilisée, seule la méthode la plus efficace est prise en compte dans ce tableau.~
+MJF = Méthode des Jours Fixes.~
+MAMA = Méthode de l'Aménorrhée et de l'Allaitement Maternel.~
+@1 Concerne les femmes qui ont eu des rapports sexuels dans les 30 jours précédant l'interview.
+{FR}}
+endfootnote;
+
+p07  columns numwom = 1 nodec;
+p07  footnote
+{+EN}
+Note: Numbers in this table correspond to the revised definition of unmet
+      need described in Bradley et al., 2012.~
+@1 Percentage of demand satisfied is met need divided by total demand.~
+@2 Modern methods include female sterilization, male sterilization, IUD,
+   injectables, implants, pill, male condom, female condom, emergency contraception,
+   standard days method (SDM), lactational amenorrhea method (LAM) and
+   other modern methods.~
+@3 Total demand is the sum of unmet need and met need.~
+@4 Women who have had sexual intercourse within 30 days preceding the survey.
+{EN+}
+{{FR}
+Note : Les valeurs figurant dans ce tableau sont basées sur la définition révisée des besoins non satisfaits décrite dans Bradley et al., 2012.~
+@1 Le pourcentage de demande satisfaite équivaut aux besoins satisfaits divisé par la demande totale.~
+@2 Les méthodes modernes comprennent la stérilisation féminine, la stérilisation masculine, le DIU, les injectables, les implants, la pilule le condom masculin, le condom féminin, la contraception d'urgence, la Méthode des Jours Fixes (MJF) et la Méthode de l'Allaitement Maternel et de l'Aménorrhée (MAMA) et d'autres méthodes modernes.~
+@3 La demande totale équivaut à la somme des besoins non satisfaits et des besoins satisfaits.~
+@4 Concerne les femmes qui ont eu des rapports sexuels dans les 30 jours ayant précédé l'interview.
+{FR}}
+{{ES}
+Nota: Las cifras en este cuadro corresponden a la definición revisdada de la necesidad
+      de planificación familiar como se describe en Bradley y otros, 2012.~
+@1 El porcentaje de demanda satisfecha se calcula como la necesidad satisfecha dividida
+   por la demanda total.~
+@2 Métodos modernos incluyen esterilización masculina y femenina, DIU,
+   inyecciones, implantes, píldora, condón masculino y femenino, anticoncepción de emergencia,
+   el método del collar, amenorrea por lactancia (MELA), y otrso metodos modernos.~
+@3 La demanda total es la suma de la necesidad insatisfecha y la necesidad satisfecha
+   de planificación familiar.
+{ES}}
+endfootnote;
+
+p08 footnote
+{+EN}
+@1 Computed as the difference between the infant and neonatal mortality rates
+{EN+}
+{{FR}
+@1 Calculé par différence entre les taux de mortalité infantile et néonatale.
+{FR}}
+{{ES}
+@1 Calculada como la diferencia entre la tasa de mortalidad infantil y la de
+   mortalidad neonatal
+{ES}}
+endfootnote;
+
+p09 columns matcare1 = 5 nodec
+            matcare2 = 3 nodec
+            matcare3 = 2 nodec;
+p09 footnote
+{+EN}
+Notes: If more than one source of assistance was mentioned, only the provider
+       with the highest qualifications is considered in this tabulation. Stillbirths
+       are fetal deaths in pregnancies lasting 28 or more weeks. When pregnancy duration
+       is reported in months, stillbirths are fetal deaths in pregnancies lasting 7 or
+       more months.~
+na = Not applicable~
+@1 Skilled provider includes [INSERT CADRES THAT ARE CONSIDERED SKILLED ATTENDANTS
+   IN PROVISION OF ANC/FOR DELIVERY IN THE COUNTRY].~
+@2 [Iron tablets and syrup OR PHRASING USED IN WOMAN'S QUESTIONNAIRE Q426].~
+@3 Includes mothers with two injections during the pregnancy of her most recent
+   live birth, or two or more injections (the last within 3 years of the
+   most recent live birth), or three or more injections (the last within 5 years of
+   the most recent live birth), or four or more injections (the last within 10 years
+   of the most recent live birth), or five or more injections at any time prior
+   to the last live birth~
+@4 Includes women who received a check from a doctor, midwife, nurse, community
+   health worker, or traditional birth attendant.~
+@5 For women who had both a live birth and a stillbirth in the 2 years preceding the
+   survey, data on antenatal care and postnatal checks are tabulated for the most
+   recent birth only.
+{EN+}
+{{FR}
+Notes : Si plus d'un prestataire de santé a été mentionné, seul celui ayant les qualifications les plus élevées est pris en compte dans ce tableau.
+   Les mort-nés sont des décès foetaux qui se sont produits après une grossesse de 28 semaines ou plus. Quand la durée de la grossesse est déclarée en mois,
+   les mort-nés sont des décès foetaux qui se sont produits après une grossesse de 7 mois ou plus.~
+na = Non applicable~
+@1 Sont considérés comme des prestataires de santé qualifiés [INSÉRER LES CATÉGORIES QUI ONT ÉTÉ CONSIDÉRÉES COMME DES PRESTATAIRES QUALIFIÉS
+   POUR FOURNIR DES SOINS PRÉNATALS/ASSISTANCE À L'ACCOUCHEMENT DANS LE DANS LE PAYS"~
+@2 [Comprimés de fer et sirop OU TERMES UTILISÉS DANS LE QUESTIONNAIRE FEMME Q426].~
+@3 Y compris les mères ayant reçu deux injections au cours de la grossesse de leur dernière naissance vivante ou, au moins, deux injections
+   (la dernière ayant été effectuée au cours des 3 années ayant précédé la dernière naissance vivante), ou, au moins, trois injections
+   (la dernière ayant été effectuée au cours des 5 années ayant précédé la dernière naissance vivante), ou, au moins, quatre injections
+   (la dernière ayant été effectuée au cours des 10 années ayant précédé la dernière naissance vivante), ou, au moins,
+   cinq injections à n'importe quel moment avant la dernière naissance vivante.~
+@4 Y compris les femmes ayant reçu des soins effectués par un médecin, une sage-femme, une infirmière,
+   un agent de santé communautaire ou une sage-femme traditionnelle.~
+@5 Pour les femmes ayant eu une naissance vivante et un enfant mort-né au cours des 2 années ayant précédé l'enquête,
+   les données sur les soins prénatals et postnatals sont calculées sur la naissance la plus récente seulement.
+{FR}}
+{{ES}
+{ES}}
+endfootnote;
+
+p10 stubsize = 1600 cellsize = 600;
+P10 columns vaccage1 = 0 allvacc = 4 nodec
+            vaccage2 = 0 vacc2   = 4 nodec;
+P10 footnote
+{+EN}
+Note: Children are considered to have received the vaccine if it was either written on
+      the child's vaccination card or reported by the mother. For children whose vaccination
+      information is based on the mother's report, date of vaccination is not collected.
+      The proportions of vaccinations given during the first and second years of life are
+      assumed to be the same as for children with a written record of vaccination.~
+BCG = Bacille Calmette-Guérin~
+DPT = Diphtheria-pertussis-tetanus~
+HepB = Hepatitis B~
+Hib = Haemophilus influenzae type b~
+OPV = Oral polio vaccine~
+IPV = Inactivated polio vaccine~
+@1 Children are considered to have received HepB (birth dose) if it was recorded on their card or
+   reported by their mother, regardless of timing.~
+@2 OPV 0 is the polio vaccination given at birth.~
+@3 BCG, three doses of [DPT-CONTAINING VACCINE], three doses of polio vaccine (excluding polio
+   vaccine given at birth), and one dose of [MEASLES CONTAINING VACCINE]~
+@4 BCG, HepB (birth dose), three doses of [DPT-HEPB-HIB], [THREE/FOUR] doses of OPV, one dose of IPV,
+   [THREE/TWO] doses of pneumococcal vaccine, [THREE/TWO] doses of rotavirus vaccine, and one dose
+   of [MEASLES-CONTAINING VACCINE]~
+@5 BCG, HepB (birth dose), [THREE/FOUR] doses of [DPT-HEPB-HIB], [THREE/FOUR] doses of OPV,
+   one dose of IPV, [THREE/TWO] doses of pneumococcal vaccine, [THREE/TWO] doses of rotavirus vaccine,
+   and two doses of [MEASLES-CONTAINING VACCINE]~
+@6 Vaccination card, booklet, or other home-based record
+{EN+}
+{{FR}
+Note : On considère que les enfants sont vaccinés si l'information est inscrite sur le carnet de vaccination de l'enfant
+   ou si c'est la mère qui le déclare . Pour les enfants dont l'information sur la vaccination est basée sur la déclaration de la mère,
+   la date de la vaccination n'est pas collectée. On suppose que les proportions de vaccins effectués durant la première
+   et la deuxième années sont les mêmes que pour les enfants pour lesquels on dispose d'un enregistrement écrit de la vaccination.~
+BCG = Bacille Calmette-Guérin~
+DTC = Diphthérie-tétanos-coqueluche~
+HepB = Hépatite B~
+Hib = Haemophilus influenzae type b~
+VPO = Vaccin contre la Polio Oral~
+VPI = Vaccin contre la Polio Inactivé~
+@1 On considère que les enfants ont reçu le vaccin HepB (dose à la naissance) si le vaccin a été enregistré sur leur carnet
+   ou s'il a été déclaré par leur mère, quelque soit le moment où a été effectué la vacination.~
+@2 OPV 0 est le vaccin de la polio donné à la naissance.~
+@3 BCG, trois doses de [DTC-CONTENANT VACCIN], trois doses du vaccin contre la polio (non compris le vaccin contre la polio donné à la naissance),
+   et une dose de [VACCIN CONTENANT UN ANTIGÈNE CONTRE LA ROUGEOLE].~
+@4 BCG, HepB (dose à la naissance), trois doses de [DTC-HEPB-HIB], [TROIS/QUATRE] doses du vaccin oral contre la polio, une dose de VPI,
+   [TROIS/DEUX] doses du vaccin contre le pneumocoque, [TROIS/DEUX] doses du vaccin contre le rotavirus et une dose de
+   [VACCIN CONTENANT UN ANTIGÈNE CONTRE LA ROUGEOLE].~
+@5 BCG, HepB (dose à la naissance), [TROIS/QUATRE] doses de [DTC-HEPB-HIB], [TROIS/QUATRE] doses du vaccin oral contre la polio,
+   une dose de VPI, [TROIS/DEUX] doses du vaccin contre le pneumocoque, [TROIS/DEUX] doses du vaccin contre le rotavirus et deux doses de
+   [VACCIN CONTENANT UN ANTIGÈNE CONTRE LA ROUGEOLE].~
+@6 Carnet, carte de vaccination, livret ou autre enregistrement écrit.
+{FR}}
+{{ES}
+BCG = Bacille Calmette-Guérin~
+DPT = Diphtheria-pertussis-tetanus~
+HepB = Hepatitis B~
+Hib = Haemophilus influenzae type b~
+Note: Children are considered to have received the vaccine if it was either written on
+      the child's vaccination card or reported by the mother. For children whose vaccination
+      information is based on the mother's report, date of vaccination is not collected.
+      The proportions of vaccinations given during the first and second years of life are
+      assumed to be the same as for children with a written record of vaccination.~
+@1 For children whose vaccination information is based on the mother's report, children reported
+   to have received HepB (birth dose) received the vaccine within 24 hours after birth.  For
+   children whose vaccination information is based on the written record of vaccination, children
+   are considered to have received hepatitis B (birth dose) if this vaccine is recorded on their
+   card, regardless of when the dose was administered.~
+@2 Polio 0 is the polio vaccination given at birth.~
+@3 BCG, three doses of [DPT-HEPB-HIB], three doses of oral polio vaccine (excluding polio vaccine
+   given at birth), and one dose of [MEASLES CONTAINING VACCINE]~
+@4 BCG, hepatitis B (birth dose), three doses of [DPT-HEPB-HIB], [THREE/FOUR] doses of oral polio
+   vaccine, [THREE/TWO] doses of pneumococcal vaccine, [THREE/TWO] doses of rotavirus vaccine,
+   and one dose of [MEASLES CONTAINING VACCINE]~
+@5 BCG, hepatitis B (birth dose), three doses of [DPT-HEPB-HIB], [THREE/FOUR] doses of oral polio
+   vaccine, [THREE/TWO] doses of pneumococcal vaccine, [THREE/TWO] doses of rotavirus vaccine, and
+   two doses of [MEASLES CONTAINING VACCINE]~
+{ES}}
+endfootnote;
+
+P10w columns withcard = 3 nodec;
+P10w footnote
+{+EN}
+@1 Vaccination card, booklet or other home-based record
+{EN+}
+{{FR}
+@1 Carnet de vaccination, livret ou autre type d'enregistrement
+{FR}}
+{{ES}
+@1 Vaccination card, booklet or other home-based record
+{ES}}
+endfootnote;
+
+p11W rows illness = 4 nodec;
+
+p11 columns arisympt = 2 nodec
+            chfever1 = 2 nodec
+            chdiarrh = 6 nodec;
+p11 footnote
+{+EN}
+@1 Symptoms of ARI include short, rapid breathing which was chest-related and/or
+   difficult breathing which was chest-related.~
+@2 Includes advice or treatment from the following sources: [PUBLIC SECTOR, PRIVATE MEDICAL SECTOR,
+   NGO MEDICAL SECTOR, SHOP, MARKET, AND ITINERANT DRUG SELLER]. Excludes advice or treatment from
+   a traditional practitioner [ADD ANY SURVEY-SPECIFIC NON-MEDICAL CATEGORY SUCH AS FRIENDS/RELATIVES OR CHURCH].~
+@3 Continued feeding includes children who were given more, same as usual, or somewhat less food
+   during the diarrhea episode.
+{EN+}
+{{FR}
+@1 Les symptômes d'IRA incluent une respiration courte et rapide associée à des problèmes de congestion dans la poitrine
+   et/ou des difficultés respiratoires associées à des problèmes de congestion dans la poitrine.~
+@2 Sont inclus les conseils et traitements des sources suivantes : [SECTEUR PUBLIC, SECTEUR MÉDICAL PRIVÉ, 
+   SECTEUR MÉDICAL ONG, BOUTIQUE, MARCHÉ ET VENDEUR ITINÉRANT DE MÉDICAMENTS]. Ne sont pas pris en compte ici 
+   les conseils ou les traitements fournis par un praticien traditionnel 
+   [AJOUTEZ TOUTE CATÉGORIE NON MÉDICALE SPÉCIFIQUE À L'ENQUÊTE COMME AMIS/PARENTS OU INSTITUTION RELIGIEUSE].~
+@3 Les enfants qui ont continué à être alimentés comprennent les enfants qui ont reçu plus d'aliments que d'habitude et ceux qui ont reçu
+   les quantités habituelles ou un peu moins que d'habitude durant l'épisode diarrhéique.~
+{FR}}
+{{ES}
+@1 Síntoma de IRA incluye respiración corta y agitada debido a congestión
+   del pecho y/o dificultad para respirar debido a congestión del pecho.~
+@2 Includes advice or treatment from the following sources: [PUBLIC SECTOR, PRIVATE MEDICAL SECTOR,
+   NGO MEDICAL SECTOR, SHOP, MARKET, AND ITINERANT DRUG SELLER]. Excludes advice or treatment from
+   a traditional practitioner.~
+@3 Continued feeding includes children who were given more, same as usual, or somewhat less food
+   during the diarrhea episode.
+{ES}}
+endfootnote;
+
+p12 columns hghtage  = 3 negative
+            wghthght = 4 negative
+            wghtage  = 3 negative
+            hghtage  = 4 nodec
+            wghthght = 5 nodec
+            wghtage  = 4 nodec;
+p12 footnote
+{+EN}
+Note: Each of the indices is expressed in standard deviation units (SD) from the median of
+      the WHO Child Growth Standards.~
+@1 Recumbent length is measured for children under age 2; standing height is measured for all
+   other children~
+@2 Includes children who are below -3 SD from the WHO Growth Standards
+   population median~
+@3 Includes children whose mothers are deceased~
+@4 For women who are not interviewed, information is taken from the Household Questionnaire.
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+{EN+}
+{{FR}
+Note : Chaque indice est exprimé en termes d'unités d'écart type (ET) par rapport à la médiane des Normes OMS de la croissance de l'enfant.~
+@1 Les enfants de moins de 2 ans sont mesurés en position allongée ; tous les autres enfants sont mesurés en position debout.~
+@2 Y compris les enfants qui se situent en dessous de -3 ET de la médiane des Normes OMS de la croissance de l'enfant.~
+@3 Y compris les enfants dont la mère est décédée.~
+@4 Pour les femmes qui n'ont pas été interviewées, l'information provient du Questionnaire Ménage. Non compris les enfants dont la mère n'est pas
+   listée dans le Questionnaire Ménage.
+{FR}}
+{{ES}
+Nota: Cada índice se expresa en desviaciones estándar (DE) de la mediana de los Estándares de
+      Crecimiento de los Niños de la Organización Mundial de la Salud (OMS)~
+@1 Para los menores de 2 años la talla se mide estando recostados; para todos los demós niños/niñas la
+   talla se mide estando de pies~
+@2 Incluye niños/niñas que están por debajo de -3 DE de la mediana de la
+   población para los Estándares de Crecimiento de los Niños de la OMS~
+@3 Incluye niños/niñas cuyas madres están muertas~
+@4 Para las mujeres no entrevistadas, la información se toma del Cuestionario de Hogar. Excluye niños/niñas
+   cuyas madres no fueron listadas en el Cuestionario de Hogar.
+{ES}}
+endfootnote;
+
+p12w columns missdat = 4 nodec
+             outrdat = 2 nodec
+             outrdat = 4 nodec
+             outrdat = 6 nodec
+             validat = 4 nodec;
+p12w footnote
+{+EN}
+@1 Child's height in centimeters is missing, child was not present, child refused, and "other" result codes~
+@2 Child's weight in kilograms is missing, child was not present, child refused, and "other" result codes~
+@3 Incomplete date of birth; a complete date of birth is month/day/year or month/year.~
+@4 Implausible cases for height-for-age are defined as more than 6 standard deviations (SD) above or below
+   the standard population median (Z-scores) based on the WHO Child Growth Standards among children with
+   complete height and month/year of birth data.~
+@5 Complete age is calculated from month and year of birth.~
+@6 Implausible cases for weight-for-height are defined as more than 5 SD above or below the standard
+   population median (Z-scores) based on the WHO Child Growth Standards among children with complete
+   weight and height data.~
+@7 Implausible cases for weight-for-age are defined as more than 5 SD above or 6 SD below
+   the standard population median (Z-scores) based on the WHO Child Growth Standards among children
+   with complete weight and month/year of birth data.~
+@8 No missing data, incomplete data, or implausible data~
+@9 Includes children whose mothers are deceased
+10 For women who are not interviewed, information is taken from the Household Questionnaire.
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+{EN+}
+{{FR}
+@1 La taille de l'enfant en centimètres est manquante, l'enfant n'était pas présent, la mesure de l'enfant a été refusée et code résultat "autre".~
+@2 Le poids de l'enfant en kilogrammes est manquant, l'enfant n'était pas présent, la mesure de l'enfant a été refusée et code résultat "autre".~
+@3 Date de naissance incomplète; une date de naissance complète comprend le jour/mois/année ou le mois/année.~
+@4 Les cas non plausibles pour la taille-pour-âge sont définis comme plus de 6 écarts type (ET) au-dessus ou en-dessous de la médiane de la
+   population de référence (Z-scores) basé sur les Normes OMS de la croissance de l'enfant parmi les enfants dont les données sur la taille et
+   sur le mois/année de naissance sont complètes.~
+@5 L'âge complet est obtenu à partir du mois et de l'année de naissance.~
+@6 Les cas non plaisibles pour le poids-pour-taille sont définis comme plus de 5 écarts type (ET) au-dessus ou en-dessous de la médiane de la population
+   de référence (Z-scores) basé sur les Normes OMS de la croissance de l'enfant parmi les enfants dont les données sur le poids et
+   sur le mois/année de naissance sont complètes.~
+@7 Les cas non plausibles pour le poids-pour-âge sont définis comme plus de 6 ET en-dessous ou 5 ET au-dessus de la médiane de la
+   population de référence (Z-scores) basé sur les Normes OMS de la croissance de l'enfant parmi les enfants dont les données sur le poids et
+   sur le mois/année de naissance sont complètes.~
+@8 Pas de données manquantes, incomplètes ou non plausibles.~
+@9 Y compris les enfants dont la mère est décédée.~
+@10 Pour les femmes qui n'ont pas été interviewées, l'information provient du Questionnaire Ménage.
+    Non compris les enfants dont la mèren'est pas listé dans le Questionnaire Ménage.
+{FR}}
+{{ES}
+@1 Child's height in centimeters is missing, child was not present, child refused, and "other" result codes~
+@2 Child's weight in kilograms is missing, child was not present, child refused, and "other" result codes~
+@3 Incomplete date of birth; a complete date of birth is month/day/year or month/year.~
+@4 Implausible cases for height-for-age are defined as more than 6 standard deviations (SD) above or below
+   the standard population median (Z-scores) based on the WHO Child Growth Standards among children with
+   complete height and month/year of birth data.~
+@5 Complete age is calculated from month and year of birth.~
+@6 Implausible cases for weight-for-height are defined as more than 5 SD above or below the standard
+   population median (Z-scores) based on the WHO Child Growth Standards among children with complete
+   weight and height data.~
+@7 Implausible cases for weight-for-age are defined as more than 5 SD above or 6 SD below
+   the standard population median (Z-scores) based on the WHO Child Growth Standards among children
+   with complete weight and month/year of birth data.~
+@8 No missing data, incomplete data, or implausible data~
+@9 Includes children whose mothers are deceased
+10 For women who are not interviewed, information is taken from the Household Questionnaire.
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+{ES}}
+endfootnote;
+
+P13 rows iycfind =  2 nodec
+         iycfind =  4 nodec
+         iycfind =  6 nodec
+         iycfind =  8 nodec
+         iycfind = 10 nodec;
+p13 footnote
+{+EN}
+@1 Includes children born in the 2 years preceding the survey regardless of
+   of whether the children are living or dead at the time of interview
+{EN+}
+{{FR}
+@1 Y compris les enfants nés au cours des 2 années ayant précédé l'enquête, que les enfants soient en vie ou décédés au moment de l'enquête.
+{FR}}
+{{ES}
+{ES}}
+endfootnote;
+
+p14 columns numchi2 = 1 nodec;
+p14 footnote
+{+EN}
+Notes: Table is based on children who stayed in the household on the night before the interview 
+       and who were tested for anemia. Anemia classifications are based on cutoffs applied to hemoglobin 
+       levels that have been adjusted for altitude (WHO, 2024). Hemoglobin is measured in grams per 
+       deciliter (g/dl) using the [HemoCue 201+] device.
+{{FR}
+Notes : Le tableau est basé sur les enfants qui ont passé la nuit ayant précédé l'interview dans le ménage
+        et qui ont été testés pour l'anémie. Les classifications de l'anémie sont basées sur des seuils appliqués 
+        à des niveaux d'hémoglobine qui ont été ajustés selon l'altitude (OMS, 2024). Hémoglobine est en grammes 
+        par décilitre (g/dl) en utilisant l'appareil [HemoCue 201+].
+{FR}}
+{{ES}
+Nota: El Cuadro se basa en los niños que durmieron en el hogar la noche
+      antes de la entrevista y a quines se les practico la prueba de anemia. La prevalencia
+      de la anemia, con base en los niveles de hemoglobina, se ajusta a la altitud utilizando
+      fórmulas CDC (CDC, 1998) and cutoffs defined in WHO 2017. Hemoglobina en gramos por
+      decilitro(g/dl) using the [HemoCue 201+] device.
+{ES}}
+endfootnote;
+
+p14w columns chanemia = 2 nodec;
+
+p15 columns numwom = 1 nodec;
+p15 footnote
+{+EN}
+Note: Anemia classifications are based on cutoffs applied to hemoglobin levels that have been adjusted 
+      for altitude and cigarette smoking (WHO 2024). Hemoglobin is measured in grams per deciliter (g/dl) 
+      using the [HemoCue 201+] device.~
+@1 Includes women who do not know if they are pregnant
+{EN+}
+{{FR}
+Note: Les classifications de l'anémie sont basées sur des seuils appliqués à des niveaux d'hémoglobine 
+      qui ont été ajustés selon l'altitude et le statut tabagique (OMS 2024). L'hémoglobine est mesurée 
+      en grammes par décilitre (g/dl) en utilisant l'appareil [HemoCue 201+].~
+@1 Y compris les femmes qui ne savent pas si elles sont enceintes
+{FR}}
+{{ES}
+{ES}}
+endfootnote;
+
+p15w columns wmanemia = 2 nodec;
+p15w footnote
+{+EN}
+@1 Includes women who do not know if they are pregnant
+{EN+}
+{{FR}
+@1 Y compris les femmes qui ne savent pas si elles sont enceintes.
+{FR}}
+{{ES}
+@1 Includes women who do not know if they are pregnant
+{ES}}
+endfootnote;
+
+p16 columns hhitn   = 3 nodec
+            persitn = 2 nodec;
+p16 footnote
+{+EN}
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require
+   any further treatment. In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN
+   TERMINOLOGY], this was known as a long-lasting insecticidal net (LLIN).~
+@2 De facto household members
+{EN+}
+{{FR}
+@1 Une Moustiquaire Imprégnée d'Insecticide (MII) est une moustiquaire qui a été imprégnée industriellement par le fabricant et qui ne nécessite
+   pas de traitement supplémentaire. Dans [LISTER LES EDS ET LES EIP PRÉCÉDENTES QUE LE PAYS A EFFECTUÉES ET
+   DANS LESQUELLES L' ACRONYME MIILDA A ÉTÉ UTILISÉE ], ce type de moustiquaire correspond à la Moustiquaire Imprégnée à Longue Durée d'Action (MILDA).~
+@2 Membres de fait des ménages.
+{FR}}
+{{ES}
+{ES}}
+endfootnote;
+
+p17 columns chitn1   = 2 nodec
+            chitn2   = 2 nodec
+            pregitn1 = 2 nodec
+            pregitn2 = 2 nodec;
+p17 footnote
+{+EN}
+Note: Table is based on children and pregnant women who stayed in the household the night
+      before the interview.~
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require
+   any further treatment. In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN
+   TERMINOLOGY], this was known as a long-lasting insecticidal net (LLIN).
+{EN+}
+{{FR}
+Note : Le tableau est basé sur les enfants et les femmes enceintes ayant passé la nuit précédant l'interview dans le ménage.~
+@1 Une Moustiquaire Imprégnée d'Insecticide (MII) est une moustiquaire qui a été imprégnée industriellement par le fabricant et qui ne nécessite pas de traitement supplémentaire. Dans [LISTER LES EDS ET LES EIP PRÉCÉDENTES QUE LE PAYS A RÉALISÉES ET DANS LESQUELLES L'ACRONYME MIILDA ÉTAIT UTILISÉE ], ce type de moustiquaire correspond à la Moustiquaire Imprégnée à Longue Durée d'Action (MIILDA).
+{FR}}
+{{ES}
+{ES}}
+endfootnote;
+
+p18 columns fansidar = 4 nodec;
+p18 footnote
+{+EN}
+Note: Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks. When pregnancy
+      duration is reported in months, stillbirths are fetal deaths in pregnancies lasting 7
+      or more months.~
+@1 For women who had both a live birth and a stillbirth in the 2 years preceding the survey, data
+   are tabulated for the most recent birth only.~
+{EN+}
+{{FR}
+Note : Les mort-nés sont des décès foetaux qui se sont produits après une grossesse de 28 semaines ou plus. Quand la durée de la grossesse est déclarée en mois, les mort-nés sont des décès foetaux qui se sont produits après une grossesse de 7 mois ou plus.~
+@1 Pour les femmes ayant eu une naissance vivante et un enfant mort-né dans les 2 années ayant précédé l'enquête, les données sont calculées sur la naissance la plus récente seulement.
+{FR}}
+
+{{ES}
+{ES}}
+endfootnote;
+
+p19 columns chfever2 = 2 nodec
+            fevtreat = 5 nodec
+            antimala = 2 nodec;
+p19 footnote
+{+EN}
+@1 Includes advice or treatment from the following sources: [PUBLIC SECTOR, PRIVATE MEDICAL
+   SECTOR, NGO MEDICAL SECTOR, SHOP, MARKET, AND ITINERANT DRUG SELLER]. Excludes advice or
+   treatment from a traditional practitioner
+   [ADD ANY SURVEY-SPECIFIC NON-MEDICAL CATEGORY SUCH AS FRIENDS/RELATIVES OR CHURCH].
+{EN+}
+{{FR}
+@1 Comprend les conseils ou traitements des sources suivantes: [SECTEUR PUBLIC, SECTEUR MÉDICAL PRIVÉ, 
+   ONG SECTEUR MÉDICAL PRIVÉ, BOUTIQUE, MARCHÉ ET MARCHAND AMBULANT DE MÉDICAMENTS]. Non compris 
+   les conseils ou traitement d'un praticien traditionnel [AJOUTEZ TOUTE CATÉGORIE NON MÉDICALE 
+   SPÉCIFIQUE À L'ENQUÊTE COMME AMIS/PARENTS OU INSTITUTION RELIGIEUSE].
+{FR}}
+{{ES}
+{ES}}
+endfootnote;
+
+p20 columns rdtmala = 2 nodec
+            micrmala = 2 nodec;
+p20 footnote
+{+EN}
+RDT = Rapid Diagnostic Test ([INSERT NAME OF RDT USED])
+{EN+}
+{{FR}
+TDR : Test de Diagnostic Rapide ([AJOUTER LE NOM DU TEST UTILISÉ])
+{FR}}
+{{ES}
+{ES}}
+endfootnote;
+
+p20w columns rdtmicr = 3 nodec;
+p20w footnote
+{+EN}
+RDT = Rapid Diagnostic Test ([INSERT NAME OF RDT USED])
+{EN+}
+{{FR}
+TDR = Test de Diagnostic rapide ([AJOUTER LE NOM DU TDR UTILISÉ])
+{FR}}
+{{ES}
+{ES}}
+endfootnote;
+
+p21 columns isex1 = 1 numwom = 1 nodec
+            isex1 = 2 nummen = 1 nodec;
+p21 footnote
+{+EN}
+@1 Knowledge about HIV prevention means knowing that consistent use of condoms
+   during sexual intercourse and having just one uninfected faithful partner can
+   reduce the chance of getting HIV, knowing that a healthy-looking person can
+   have HIV, and rejecting two common misconceptions about transmission or
+   prevention of HIV: HIV can be transmitted by mosquito bites and a person can
+   become infected by sharing food with a person who has HIV.
+{EN+}
+{{FR}
+@1 Sont considérés comme connaissant les moyens de prévention du VIH, les enquêtés qui savent que l'utilisation systématique
+   du condom au cours des rapports sexuels et la limitation des rapports sexuels à un seul partenaire sexuel fidèle et non infecté peuvent
+   réduire les risques de contracter le VIH, ceux qui savent qu'une personne apparemment en bonne santé peut, en fait,
+   avoir le VIH et ceux qui rejettent les deux conceptions erronées les plus courantes sur la transmsission ou la prévention du VIH:
+   le VIH peut être transmis par les piqûres de moustiques et une personne peut devenir infectée en partageant les repas avec une personne qui a le VIH.
+{FR}}
+
+{{ES}
+{ES}}
+endfootnote;
+
+p221 columns wsex12m = 3 nodec
+             wpart12m = 2 nodec
+             wsexoth = 2 nodec
+             wsexever = 2 nodec;
+p221 footnote
+{+EN}
+@1 Means are calculated excluding respondents who gave non-numeric responses.
+{EN+}
+{{FR}
+@1 Les moyennes sont calculées en excluant les enquêtées qui ont donné des réponses non numériques.
+{FR}}
+{{ES}
+@1 Los promedios se calculan excluyendo a quienes dieron respuestas no numéricas.
+{ES}}
+endfootnote;
+
+p222 columns msex12m = 3 nodec
+             mpart12m = 2 nodec
+             msexoth = 2 nodec
+             msexever = 2 nodec;
+p222 footnote
+{+EN}
+@1 Means are calculated excluding respondents who gave non-numeric responses.
+{EN+}
+{{FR}
+@1 Les moyennes sont calculées en excluant les enquêtés qui ont donné des réponses non numériques.
+{FR}}
+{{ES}
+@1 Los promedios se calculan excluyendo a quienes dieron respuestas no numéricas.
+{ES}}
+endfootnote;
+
+p231 columns numwom = 1 nodec;
+p231 footnote
+{+EN}
+@1 Includes respondents who have not heard of HIV or who refused to answer questions on testing
+{EN+}
+{{FR}
+@1 Y compris les enquêtées qui n'ont pas entendu parler du VIH ou qui ont refusé de répondre aux questions sur le test.
+{FR}}
+{{ES}
+{ES}}
+endfootnote;
+
+p232 columns nummen = 1 nodec;
+p232 footnote
+{+EN}
+@1 Includes respondents who have not heard of HIV or who refused to answer questions on testing
+{EN+}
+{{FR}
+@1 Y compris les enquêtés qui n'ont pas entendu parler du VIH ou qui ont refusé de répondre aux questions sur le VIH.
+{FR}}
+{{ES}
+{ES}}
+endfootnote;

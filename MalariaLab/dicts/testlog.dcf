@@ -1,0 +1,371 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=testlog
+Name=TESTLOG_DICT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=36D92F888CB7015330AFFA04861E914176DF4074B91131B748B112B3FCE5530B
+
+[Languages]
+EN=English
+ES=Español
+FR=French
+
+[Level]
+Label=Log for Malaria test samples
+Name=LEVEL1
+
+[IdItems]
+
+[Item]
+Label=Sample ID bar code
+Name=LBAR
+Start=1
+Len=5
+DataType=Alpha
+
+[Record]
+Label=testlog record
+Name=TESTLOG_REC
+RecordTypeValue=''
+RecordLen=216
+
+[Item]
+Label=Sample identification (lab version)
+Name=LABID
+Start=6
+Len=5
+ZeroFill=Yes
+
+[Item]
+Label=Date received
+Name=LDATE
+Start=11
+Len=8
+
+[Item]
+Label=Test status
+Name=LSTATUS
+Start=19
+Len=1
+
+[ValueSet]
+Label=Test status
+Name=LSTATUS_VS1
+Value=1;Sample scanned
+Value=2;First reading completed
+Value=3;Second reading completed
+Value=9;Test completed
+
+[Item]
+Label=Auxiliary to decide the type of operation to be performed
+Name=LOPTION
+Start=20
+Len=1
+
+[ValueSet]
+Label=Auxiliary to decide the type of operation to be performed
+Name=LOPTION_VS1
+Value=1;Enter results for first microscopy reading
+Value=2;Modify results for first microscopy reading
+Value=3;Enter results for second microscopy reading
+Value=4;Modify results for second microscopy reading
+Value=5;Enter results for third/discordant microscopy reading
+Value=6;Modify results for third/discordant microscopy reading
+Value=9;Cancel (return to main menu)
+
+[Item]
+Label=Presence asexual parasites first reading
+Name=LRESULT1
+Start=21
+Len=1
+
+[ValueSet]
+Label=Presence asexual parasites first reading
+Name=LRESULT1_VS1
+Value=1;Present
+Value=0;Not present
+Value=6;Other
+Value=9;Not yet entered
+Name=MISSING,Special
+
+[Item]
+Label=Asexual parasite form first reading
+Name=LASEXUAL1
+Start=22
+Len=4
+
+[ValueSet]
+Label=Asexual parasite form first reading
+Name=LASEXUAL1_VS1
+Value=0:9999
+
+[Item]
+Label=WBC white blood cells asexual first reading
+Name=LWBCA1
+Start=26
+Len=3
+
+[ValueSet]
+Label=WBC white blood cells asexual first reading
+Name=LWBCA1_VS1
+Value=0:999
+
+[Item]
+Label=Density form first reading
+Name=LDENSITY1
+Start=29
+Len=9
+Decimal=2
+DecimalChar=Yes
+
+[Item]
+Label=Presence gametocytes first reading
+Name=LGAMETO1
+Start=38
+Len=1
+
+[ValueSet]
+Label=Presence gametocytes first reading
+Name=LGAMETO1_VS1
+Value=1;Present
+Value=0;Not present
+
+[Item]
+Label=Species first reading
+Name=LSPECIE1
+Start=39
+Len=4
+DataType=Alpha
+
+[ValueSet]
+Label=Species first reading
+Name=LSPECIE1_VS1
+Value='A   ';Pf: Plasmodium falciparum
+Value='B   ';Pv: P vivax
+Value='C   ';Pm: P malariae
+Value='D   ';Po: P ovale
+
+[Item]
+Label=Lab technician first reading
+Name=LABTECH1
+Start=43
+Len=2
+
+[Item]
+Label=Remarks from first reading
+Name=LREMARK1
+Start=45
+Len=40
+DataType=Alpha
+
+[Item]
+Label=Presence asexual parasites second reading
+Name=LRESULT2
+Start=85
+Len=1
+
+[ValueSet]
+Label=Presence asexual parasites second reading
+Name=LRESULT2_VS1
+Value=1;Present
+Value=0;Not present
+Value=6;Other
+Value=9;Not yet entered
+Name=MISSING,Special
+
+[Item]
+Label=Asexual parasite form second reading
+Name=LASEXUAL2
+Start=86
+Len=4
+
+[ValueSet]
+Label=Asexual parasite form second reading
+Name=LASEXUAL2_VS1
+Value=0:9999
+
+[Item]
+Label=WBC white blood cells asexual second reading
+Name=LWBCA2
+Start=90
+Len=3
+
+[ValueSet]
+Label=WBC white blood cells asexual second reading
+Name=LWBCA2_VS1
+Value=0:999
+
+[Item]
+Label=Density form second reading
+Name=LDENSITY2
+Start=93
+Len=9
+Decimal=2
+DecimalChar=Yes
+
+[Item]
+Label=Presence gametocytes first reading
+Name=LGAMETO2
+Start=102
+Len=1
+
+[ValueSet]
+Label=Presence gametocytes first reading
+Name=LGAMETO2_VS1
+Value=1;Present
+Value=0;Not present
+
+[Item]
+Label=Species second reading
+Name=LSPECIE2
+Start=103
+Len=4
+DataType=Alpha
+
+[ValueSet]
+Label=Species second reading
+Name=LSPECIE2_VS1
+Value='A   ';Pf: Plasmodium falciparum
+Value='B   ';Pv: P vivax
+Value='C   ';Pm: P malariae
+Value='D   ';Po: P ovale
+
+[Item]
+Label=Lab technician second reading
+Name=LABTECH2
+Start=107
+Len=2
+
+[Item]
+Label=Remarks from second reading
+Name=LREMARK2
+Start=109
+Len=40
+DataType=Alpha
+
+[Item]
+Label=Presence asexual parasites third reading
+Name=LRESULT3
+Start=149
+Len=1
+
+[ValueSet]
+Label=Presence asexual parasites third reading
+Name=LRESULT3_VS1
+Value=1;Present
+Value=0;Not present
+Value=9;Not yet entered
+Name=MISSING,Special
+
+[Item]
+Label=Asexual parasite form third reading
+Name=LASEXUAL3
+Start=150
+Len=4
+
+[ValueSet]
+Label=Asexual parasite form third reading
+Name=LASEXUAL3_VS1
+Value=0:9999
+
+[Item]
+Label=WBC white blood cells asexual third reading
+Name=LWBCA3
+Start=154
+Len=3
+
+[ValueSet]
+Label=WBC white blood cells asexual third reading
+Name=LWBCA3_VS1
+Value=0:999
+
+[Item]
+Label=Density form first reading
+Name=LDENSITY3
+Start=157
+Len=9
+Decimal=2
+DecimalChar=Yes
+
+[Item]
+Label=Presence gametocytes first reading
+Name=LGAMETO3
+Start=166
+Len=1
+
+[ValueSet]
+Label=Presence gametocytes first reading
+Name=LGAMETO3_VS1
+Value=1;Present
+Value=0;Not present
+
+[Item]
+Label=Species third reading
+Name=LSPECIE3
+Start=167
+Len=4
+DataType=Alpha
+
+[ValueSet]
+Label=Species third reading
+Name=LSPECIE3_VS1
+Value='A   ';Pf: Plasmodium falciparum
+Value='B   ';Pv: P vivax
+Value='C   ';Pm: P malariae
+Value='D   ';Po: P ovale
+
+[Item]
+Label=Lab technician third reading
+Name=LABTECH3
+Start=171
+Len=2
+
+[Item]
+Label=Remarks from third reading
+Name=LREMARK3
+Start=173
+Len=40
+DataType=Alpha
+
+[Item]
+Label=Test final result
+Name=LFINRES
+Start=213
+Len=1
+
+[ValueSet]
+Label=Test final result
+Name=LFINRES_VS1
+Value=0;Negative
+Value=1;Positive
+Value=6;Other
+
+[Item]
+Label=Auxiliary to finalize test manipulations
+Name=LEND
+Start=214
+Len=1
+
+[ValueSet]
+Label=Auxiliary to finalize test manipulations
+Name=LEND_VS1
+Value=1;Record the test
+Value=2;Return to options
+Value=3;Discard the test
+
+[Item]
+Label=To control samples selected for EQ control
+Name=LEXT
+Start=215
+Len=1
+
+[Item]
+Label=To make records of fix length since the beginning
+Name=LFIXLAST
+Start=216
+Len=1
+DataType=Alpha

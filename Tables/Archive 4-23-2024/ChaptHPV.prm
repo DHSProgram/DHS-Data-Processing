@@ -1,0 +1,19 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+thpv01 columns numwom = 1 nodec;
+thpv01 footnote
+@1 Includes women who don’t know if they received an HPV vaccination~
+@2 Includes women who don't know how many doses of HPV vaccine they received~
+@3 Women who did not receive an HPV vaccination or who did not know if they received an HPV 
+   vaccination are assumed not to have received an HPV vaccination card.~
+HPV = Human papillomavirus   
+endfootnote;
+
+thpv02 columns hpvwom = 1 nodec;

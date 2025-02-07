@@ -1,0 +1,1062 @@
+﻿PROC GLOBAL
+{+---------------------------------------------------------------------------+}
+{+                                                                           +}
+{+   Guidelines July 7, 2021          -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                           +}
+{+   CHAPTER 16. Water and sanitation                                        +}
+{+                                                                           +}
+{+   16.1   Household drinking water                              (MALARIA)  +}
+{+   16.2   Drinking water service ladder                         (MALARIA)  +}
+{+   16.3   Person collecting drinking water                                 +}
+{+   16.4   Availability of sufficient drinking water                        +}
+{+   16.5   Treatment of household drinking water                            +}
+{+   16.6   Household sanitation facilities                       (MALARIA)  +}
+{+   16.7   Sanitation service ladder                             (MALARIA)  +}
+{+   16.8   Emptying and removal of wastes from on-site sanitation facilities+}
+{+   16.9   Management of household excreta                                  +}
+{+   16.10  Disposal of children's stools                                    +}
+{+   16.11  Handwashing                                                      +}
+{+   16.12  Menstrual hygiene                                                +}
+{+                                                                           +}
+{+---------------------------------------------------------------------------+}
+
+  numeric i, imin, itot, itot1, itot2, imax, ilat, j, jmin, jmax, jtot, jtot1, jtot2, jtot3;
+  numeric rweight, agep, sexp, months;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 16, [Country Survey Year]" );
+{EN+}
+{{ES}
+    title( "Cuadros para el capítulo 16, [País Encuesta Año]" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 16, [Pays, Enquête, Année]" );
+{FR}}
+
+
+  crosstab float(1) t1601 hv201w+total+hv204w+tothh2 hhandpop*(hv025w1+total)
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.1 }
+{+EN}
+    title( "Table 16.1 Household drinking water", "",
+           "Percent distribution of households and de jure population by source of drinking water",
+		   "and by time to obtain drinking water, according to residence,",
+           "[Country Survey Year]" )
+     stub( "Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 16.1  Agua para tomar en los hogares"," ",
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 16.1  Eau utilisée par les ménages pour boire", "",
+		   "Répartition (en %) des ménages et de la population de droit",
+		   "par provenance de l'eau pour boire et en fonction du temps",
+		   "pour s'approvisionner en eau, selon le milieu de résidence,",
+		   "[Pays, Enquête, Année]" )
+     stub( "Caractéristique" );
+{FR}}
+
+  crosstab float(1) t1602 hv025w+hv024w+hv270w+total hv201w2+totnum3
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.2 }
+{+EN}
+    title( "Table 16.2  Drinking water service ladder", "",
+           "Percent distribution of de jure population by drinking water service ladder,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 16.2  Échelle des services d'eau de boisson ", "",
+           "Répartition (en %) de la population de droit par échelle de",
+		   "service d'eau de boisson, selon certaines caractéristiques",
+		   "socio-économiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique socio-économique" );
+{FR}}
+
+  crosstab float(1) t1603 hv025w+hv024w+hv201w4+hv270w+total watprem+watfetch+watpers
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 16.3  Person collecting drinking water", "",
+           "Percentage of de jure population in households without drinking water on premises,",
+		   "and percent distribution of de jure population in households without drinking water",
+		   "on premises by the person who usually collects drinking water used in the household,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 16.3  Personne qui collecte l'eau de boisson ", "",
+           "Pourcentage de la population de droit dans les ménages qui ne disposent",
+		   "pas d'eau à boire sur place et répartition (en %) de la population de droit",
+		   "dans les ménages sans eau potable sur place par la personne qui habituellement",
+		   "collecte l'eau de boisson utilisée dans le ménage,",
+		   "selon certaines caractéristiques socio-économiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique socioéconomique" );
+{FR}}
+  crosstab float(0) t1603u hv025w+hv024w+hv201w4+hv270w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 16.3  Person collecting drinking water (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1604 hv025w+hv024w+hv201w4+hv204w2+hv270w+total watsuff
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 16.4  Availability of sufficient drinking water", "",
+           "Percentage of de jure population with sufficient quantities of drinking water when needed,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 16.4  Disponibilité d'eau à boire en quantités suffisantes", "",
+           "Pourcentage de la population de droit disposant de quantités suffisantes",
+		   "d'eau à boire, à la demande, selon certaines caractéristiques",
+		   "socio-économiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique socio-économique" );
+{FR}}
+
+  crosstab float(1) t1605 hv025w+hv024w+hv201w4+hv270w+total wattreat
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 16.5  Treatment of household drinking water", "",
+           "Percentage of de jure population using various methods to treat drinking water, and",
+		   "percentage using an appropriate treatment method, according to residence,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 16.5  Moyen de traitement de l'eau de boisson des ménages", "",
+           "Pourcentage de la population de droit utilisant diverses méthodes pour",
+		   "traiter l'eau de boisson, et pourcentage utilisant une méthode appropriée",
+		   "pour le traitement de l'eau, selon certaines caractéristiques",
+		   "socio-économiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique socio-économique" );
+{FR}}
+
+  crosstab float(1) t1606 hv205w1+hv205w3+nofacil+tothh2+hv238aw+tothh3 hhandpop*(hv025w1+total)
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.3 }
+{+EN}
+    title( "Table 16.6  Household sanitation facilities"," ",
+           "Percent distribution of households and de jure population by type of toilet/latrine facilities,",
+           "percent distribution of households and de jure population with a toilet/latrine facility by",
+           "location of the facility, according to residence,",
+           "[Country Survey Year]" )
+     stub( "Type and location of toilet/latrine facility" );
+{EN+}
+{{ES}
+    title( "Cuadro 16.6  Acceso a servicio sanitario en los hogares"," ",
+           "[País Encuesta Año]" )
+     stub( "Tipo de servicio sanitario y localizacion" );
+{ES}}
+{{FR}
+    title( "Tableau 16.6  Types d'installations sanitaires utilisées par les ménages"," ",
+           "Répartition (en %) des ménages et de la population de droit par",
+		   "type d'installations sanitaires et répartition (en %) des ménages",
+		   "et de la population de droit disposant d'installations sanitaires",
+		   "par endroit où se trouvent ces installations, selon le milieu de résidence,",
+		   "[Pays, Enquête, Année]" )
+     stub( "Type d'installations sanitaires et endroit où elles sont situées" );
+{FR}}
+
+  crosstab float(1) t1607 hv025w+hv024w+hv270w+total sanitype+totnum3
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.4 }
+{+EN}
+    title( "Table 16.7  Sanitation service ladder", "",
+           "Percent distribution of de jure population by type of sanitation service,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 16.7  Échelle des services d'assainissement", "",
+           "Répartition (en %) de la population de droit par type de service",
+		   "d'assainissement, selon certaines caractéristiques socio-économiques,",
+		   "[Pays, Enquête, Année]" )
+     stub( "Caractéristique socio-économique" );
+{FR}}
+
+  crosstab float(1) t1608 hv205w2+hv025w+hv024w+hv270w+total wastrem1+total+wastrem2+impfpers
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 16.8  Emptying and removal of wastes from on-site sanitation facilities", "",
+           "Percent distribution of de jure population in households with septic tanks and",
+		   "improved latrines by method of emptying and removal, and percentage of the population",
+		   "with on-site sanitation facilities for which excreta was safely disposed of in situ,",
+		   "percentage with on-site sanitation facilities for which excreta was disposed of unsafely,",
+		   "and percentage with on-site sanitation facilities for which excreta was removed for",
+		   "treatment, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 16.8  Vidange et évacuation des excréments des installations sanitaires sur place", "",
+           "Répartition (en %) de la population de droit dans les ménages disposant de fosses septiques et",
+		   "de latrines améliorées par méthode de vidange et d'évacuation des excréments, et pourcentage",
+		   "de la population avec des installations sanitaires sur place pour lesquelles les excréments",
+		   "ont été éliminés en toute sécurité sur place, pourcentage avec des installations sanitaires",
+		   "sur place dont on les excréments ont été éliminés de manière non sécuritaire et pourcentage",
+		   "avec des installations sanitaires sur place dont les excréments ont été éliminés pour être",
+		   "traités, selon certaines caractéristiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique socioéconomique" );
+{FR}}
+
+  crosstab float(1) t1609 hv025w+hv024w+hv270w+total mngexcr1+mngexcr2+mngexcr3+total+mngexcr4+numpers
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 16.9  Management of household excreta", "",
+           "Percent distribution of de jure population by management of excreta from household sanitation facilities,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 16.9  Gestion des excréments humains des ménages", "",
+           "Répartition (en %) de la population de droit par gestion des excréments",
+		   "humains d'installations sanitaires des ménages, selon certaines caractéristiques",
+		   "socio-économiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique socioéconomique" );
+{FR}}
+
+  crosstab float(1) t1610 chage7+ch0623+hv205w4+v102w+v101w+v106wt+v190w+total v465w+total+chstool
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 16.10  Disposal of children's stools"," ",
+           "Percent distribution of youngest children under age 2",
+           "living with the mother by the manner of disposal of the",
+           "child's last fecal matter, and percentage of children whose",
+           "stools are disposed of appropriately, according to background",
+           "characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 16.10  Eliminación de las deposiciones de los niños/as"," ",
+           "Distribución porcentual de los niños/as más jóvenes menores de",
+           "dos años que viven con la madre por la forma de eliminación",
+           "de las deposiciones y porcentaje de niños/as para quienes",
+           "las deposiciones son desechadas en forma segura, según",
+           "característica seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 16.10  Évacuation des selles des enfants"," ",
+           "Répartition (en %) des enfants les plus jeunes de moins de 2 ans vivant",
+		   "avec leur mère par moyen d'évacuation des dernières matières fécales de l'enfant",
+		   "et pourcentage d'enfants dont les matières fécales ont été évacuées de manière appropriée,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1610u chage7+ch0623+hv205w4+v102w+v101w+v106wt+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 16.10  Disposal of children's stools (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1611 hv025w+hv024w+hv270w+total  washand+pers1+hv232w+pers2+baswash+limwash+pers3
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 16.11  Handwashing"," ",
+           "Percentage of the de jure population for whom the place most often used for washing",
+           "hands was observed, by whether the location was fixed or mobile, and total percentage",
+           "of the de jure population for whom the place for handwashing was observed; and among",
+           "the de jure population for whom the place for handwashing was observed, percentage",
+           "with water available, percentage with soap available, and percentage with a cleansing",
+           "agent other than soap available; percentage of the de jure population with a basic",
+           "handwashing facility and percentage with a limited handwashing facility, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 16.11  Lavado de manos"," ",
+           "Percentage of the de jure population for whom the place most often used for washing",
+           "hands was observed, by whether the location was fixed or mobile, and total percentage",
+           "of the de jure population for whom the place for handwashing was observed; and among",
+           "the de jure population for whom the place for handwashing was observed, percentage",
+           "with water available, percentage with soap available, and percentage with a cleansing",
+           "agent other than soap available; percentage of the de jure population with a basic",
+           "handwashing facility and percentage with a limited handwashing facility, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 16.11  Lavage des mains"," ",
+           "Pourcentage de la population de droit pour laquelle l'endroit le plus souvent utilisé",
+		   "pour se laver les mains a été observé selon que l'endroit est fixe ou mobile",
+		   "et pourcentage de l'ensemble la population pour laquelle l'endroit pour",
+		   "se laver les mains a été observé; et parmi la population de droit pour laquelle",
+		   "l'endroit pour se laver les mains a été observé, pourcentage disposant d'eau,",
+		   "pourcentage disposant de savon et pourcentage disposant d'autres produits",
+		   "nettoyants autre que le savon; pourcentage de la population de droit disposant",
+		   "d'installation de lavage des mains de base et pourcentage disposant d'installation",
+		   "de lavage limitée, selon certaines caractéristiques socio-économiques,",
+		   "[Pays, Enquête, Année]" )
+     stub( "Caractéristique socioéconomique" );
+{FR}}
+  crosstab float(0) t1611u hv025w+hv024w+hv270w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 16.11  Handwashing (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1612 v013w+v102w+v101w+v106w+v190w+total menstabs+numwom+mensthan+numwom2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 16.12  Menstrual hygiene", "",
+           "Among women age 15-49 whose most recent menstrual period was in the last year,",
+		   "percentage who used specified materials to collect or absorb blood from the most",
+		   "recent menstrual period; and among women age 15-49 whose most recent menstrual period",
+		   "was in the last year and were at home during their last menstrual period, percentage",
+		   "who were able to wash and change in privacy while at home and percentage who were able",
+		   "to both wash and change in privacy and who used appropriate materials during their last",
+		   "menstruation, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 16.12  Hygiène menstruelle", "",
+           "Parmi les femmes de 15-49 ans dont la période menstruelle la plus récente a eu lieu",
+		   "l'année dernière, pourcentage ayant utilisé des matériaux spécifiques pour recueillir",
+		   "ou absorber le sang de leur dernière période menstruelle ; parmi les femmes de 15-49 ans",
+		   "dont la période menstruelle la plus récente a eu lieu l'année dernière et qui se trouvaient",
+		   "à la maison durant leur dernière période menstruelle, pourcentage qui pouvaient se laver et",
+		   "se changer en privé pendant qu'elles étaient à la maison et pourcentage qui pouvaient se laver",
+		   "et s'habiller en privé et qui ont utilisé des matériaux appropriés durant leur dernière période",
+		   "menstruelle, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique socioéconomique" );
+{FR}}
+  crosstab float(0) t1612u v013w+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 16.12  Menstrual hygiene (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+  tothh2   = 1;
+  totnum3  = 1;
+  numpers  = 1;
+  chstool  = 1;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 16.1 processing }
+  itot = tblrow( t1601 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t1601[i,*] = t1601[i,*] * 100 / t1601[itot,*];
+  enddo;
+  { total source of drinking water }
+  imin = tblrow( t1601,  hv201w = 10 );
+  imax = tblrow( t1601,  total ) - 1;
+  t1601[imax+1,*] = tblsum( row t1601[imin:imax,*] );
+  { total improved source for water }
+  imin = tblrow( t1601, hv201w = 10 );
+  imax = tblrow( t1601, hv201w = 30 );
+  t1601[imin,*] = tblsum( row t1601[imin+1:imax-1,*] );
+  { total non-improved source for water }
+  imin = tblrow( t1601, hv201w = 30 );
+  imax = tblrow( t1601, hv201w = 40 );
+  t1601[imin,*] = tblsum( row t1601[imin+1:imax-1,*] );
+  { total time to obtain water }
+  imin = tblrow( t1601,  total ) + 1;
+  t1601[itot-1,*] = tblsum( row t1601[imin:itot-2,*] );
+
+  { Table 16.2 processing }
+  jtot = tblcol( t1602 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t1602[*,j] = t1602[*,j] * 100 / t1602[*,jtot];
+  enddo;
+  t1602[*,jmax+1] = tblsum( column t1602[*,0:jmax] );
+  { write out SDG indicators }
+  SDGIndicator( "1.4.1", default, default, default );        { to provide a header for these indicators }
+  SDGIndicator( "6.1.1", default, default, default );        { to provide a header for these indicators }
+  itot   = tblrow( t1602 );
+  imax   = tblrow( t1602, hv025w = 1 );
+  jtot   = tblcol( t1602, hv201w2 = 1 );
+  SDGIndicator( "1.4.1.a", t1602(imax,jtot), t1602(imax+1,jtot), t1602(itot,jtot) );
+  SDGIndicator( "6.1.1.a", t1602(imax,jtot), t1602(imax+1,jtot), t1602(itot,jtot) );
+
+  { Table 16.3 processing }
+  jtot1 = tblcol( t1603, watprem );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1603[*,j] = t1603[*,j] * 100 / t1603[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1603 );
+  jmax  = jtot2 - 2;
+  do j = jtot1+1 while j <= jmax
+    t1603[*,j] = t1603[*,j] * 100 / t1603[*,jtot2];
+  enddo;
+  t1603[*,jmax+1] = tblsum( column t1603[*,jtot1+1:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t1603", t1603, 0,       jtot1-1, t1603u, 0 );
+  Col2Dim( "t1603", t1603, jtot1+1, jtot2-2, t1603u, 1 );
+
+  { Table 16.4 processing }
+  jtot = tblcol( t1604 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1604[*,j] = t1604[*,j] * 100 / t1604[*,jtot];
+  enddo;
+  { write out SDG indicators }
+  itot   = tblrow( t1604 );
+  imax   = tblrow( t1604, hv025w = 1 );
+  jtot   = tblcol( t1604, watsuff = 1 );
+  SDGIndicator( "6.1.1.b", t1604(imax,jtot), t1604(imax+1,jtot), t1604(itot,jtot) );
+
+  { Table 16.5 processing }
+  jtot = tblcol( t1605 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1605[*,j] = t1605[*,j] * 100 / t1605[*,jtot];
+  enddo;
+
+  { Table 16.6 processing }
+  { percentages for type of facility }
+  itot1 = tblrow( t1606, tothh2 );
+  imax = itot1 - 2;
+  do i = 0 while i <= imax
+    t1606[i,*] = t1606[i,*] * 100 / t1606[itot1,*];
+  enddo;
+  t1606[imax+1,*] = tblsum( row t1606[0:imax,*] );
+  { percenatges for location of facility }
+  itot2 = tblrow( t1606 );
+  imax = itot2 - 2;
+  do i = itot1+1 while i <= imax
+    t1606[i,*] = t1606[i,*] * 100 / t1606[itot2,*];
+  enddo;
+  t1606[imax+1,*] = tblsum( row t1606[itot1+1:imax,*] );
+  { total - improved sanitation }
+  imin = tblrow( t1606, hv205w1 = 0 );
+  imax = tblrow( t1606, hv205w1 );
+  t1606[imin,*] = tblsum( row t1606[imin+1:imax,*] );
+  { total - unimproved sanitation }
+  imin = tblrow( t1606, hv205w3 = 0 );
+  imax = tblrow( t1606, hv205w3 );
+  t1606[imin,*] = tblsum( row t1606[imin+1:imax,*] );
+  { write out SDG indicators }
+  SDGIndicator( "6.2.1", default, default, default );        { to provide a header for these indicators }
+  imax   = tblrow( t1606, nofacil = 1 );
+  jtot   = tblcol( t1606, hhandpop = 2 hv025w1 = 1 );
+  SDGIndicator( "6.2.1.d", t1606(imax,jtot), t1606(imax,jtot+1), t1606(imax,jtot+2) );
+
+  { Table 16.7 processing }
+  jtot = tblcol( t1607 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t1607[*,j] = t1607[*,j] * 100 / t1607[*,jtot];
+  enddo;
+  t1607[*,jmax+1] = tblsum( column t1607[*,0:jmax] );
+  { write out SDG indicators }
+  itot   = tblrow( t1607 );
+  imax   = tblrow( t1607, hv025w = 1 );
+  jtot   = tblcol( t1607, sanitype = 1 );
+  SDGIndicator( "1.4.1.b", t1607(imax,jtot), t1607(imax+1,jtot), t1607(itot,jtot) );
+  SDGIndicator( "6.2.1.a", t1607(imax,jtot), t1607(imax+1,jtot), t1607(itot,jtot) );
+
+  { Table 16.8 processing }
+  { compute total latrine }
+  ilat  = tblrow( t1608, hv205w2 = 2 );
+  itot1 = tblrow( t1608, hv205w2 );
+  t1608[ilat,*] = tblsum( row t1608[ilat+1:itot1,*] );
+  jtot = tblcol( t1608 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1608[*,j] = t1608[*,j] * 100 / t1608[*,jtot];
+  enddo;
+  jmax = tblcol( t1608, total );
+  t1608[*,jmax] = tblsum( column t1608[*,0:jmax-1] );
+
+  { Table 16.9 processing }
+  jtot = tblcol( t1609 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1609[*,j] = t1609[*,j] * 100 / t1609[*,jtot];
+  enddo;
+  jmax = tblcol( t1609, total );
+  t1609[*,jmax] = tblsum( column t1609[*,0:jmax-1] );
+  { write out SDG indicators }
+  itot   = tblrow( t1609 );
+  imax   = tblrow( t1609, hv025w = 1 );
+  jtot   = tblcol( t1609, mngexcr4 = 1 );
+  SDGIndicator( "6.2.1.b", t1609(imax,jtot), t1609(imax+1,jtot), t1609(itot,jtot) );
+
+  { Table 16.10 processing }
+  jtot = tblcol( t1610 );
+  jmax = jtot - 3;
+  do j = 0 while j <= jmax
+    t1610[*,j] = t1610[*,j] * 100 / t1610[*,jtot];
+  enddo;
+  t1610[*,jmax+1] = tblsum( column t1610[*,0:jmax] );
+  { stools disposed safely, first two columns }
+  t1610[*,jmax+2] = tblsum( column t1610[*,0:1] );
+  { check unweighted N's }
+  Col2Dim( "t1610", t1610, 0,      jtot-3, t1610u, 0 );
+  Col2Dim( "t1610", t1610, jtot-1, jtot-1, t1610u, 0 );
+
+  { Table 16.11 processing }
+  { percentages for place for washing hands }
+  { add fixed and mobile place }
+  t1611[*, 2] = t1611[*, 0] + t1611[*,1];
+  jtot1 = tblcol( t1611, pers1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1611[*, j] = t1611[*, j] * 100 / t1611[*,jtot1];
+  enddo;
+  { percentages for handwashing observed }
+  jtot2 = tblcol( t1611, pers2 );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t1611[*, j] = t1611[*, j] * 100 / t1611[*,jtot2];
+  enddo;
+  { percentages for basic/limited handwashing }
+  jtot3 = tblcol( t1611 );
+  jmax  = jtot3 - 1;
+  do j = jtot2+1 while j <= jmax
+    t1611[*, j] = t1611[*, j] * 100 / t1611[*,jtot3];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1611", t1611, 0,       jtot1-1, t1611u, 0 );
+  Col2Dim( "t1611", t1611, jtot1+1, jtot2-1, t1611u, 1 );
+  Col2Dim( "t1611", t1611, jtot2+1, jtot3-1, t1611u, 2 );
+  { write out SDG indicators }
+  itot   = tblrow( t1611 );
+  imax   = tblrow( t1611, hv025w = 1 );
+  jtot   = tblcol( t1611, baswash = 1 );
+  SDGIndicator( "1.4.1.c", t1611(imax,jtot), t1611(imax+1,jtot), t1611(itot,jtot) );
+  SDGIndicator( "6.2.1.c", t1611(imax,jtot), t1611(imax+1,jtot), t1611(itot,jtot) );
+
+  { Table 16.12 processing }
+  jtot1 = tblcol( t1612, numwom );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1612[*, j] = t1612[*, j] * 100 / t1612[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1612 );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t1612[*, j] = t1612[*, j] * 100 / t1612[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1612", t1612, 0,       jtot1-1, t1612u, 0 );
+  Col2Dim( "t1612", t1612, jtot1+1, jtot2-1, t1612u, 1 );
+
+PROC HOUSEHOLD
+preproc
+
+  hv024w  = HV024;
+  hv025w  = HV025;
+  hv025w1 = HV025;
+  hv270w  = HV270;
+
+  if HV015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = HV005 / 1000000;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 16.1 }
+
+  { !! this recodification needs to be defined by country managers           }
+  { !! following recodification based on categories in the core questionaire }
+  {    as defined in te standard recode dictionary for variable HV201        }
+  recode HV201 -> hv201w;
+         11,12 -> 11;      { piped water into dwelling, yard/plot }
+           13  -> 12;      { piped to neighbor }
+           14  -> 13;      { public tap/standpipe }
+           21  -> 14;      { tube well, borehole }
+           31  -> 15;      { protected dug well }
+           41  -> 16;      { protected spring }
+           51  -> 17;      { rain water }
+         61,62 -> 18;      { tanker truck/cart with small tank }
+           71  -> 19;      { bottled water improved }
+           32  -> 31;      { unprotected well }
+           42  -> 32;      { unprotected spring }
+           96  -> 33;      { other }
+           43  -> 40;      { surface water(River/dam/lake/pond...) }
+               -> 99;      { missing }
+  endrecode;
+  { round trip duration to water source for tables 16.1, 16.4 }
+  recode  HV204 -> hv204w;
+          0,996 -> 1;      { on premises }
+           1:30 -> 2;      { 30 minutes or less }
+         31:990 -> 3;      { more than 30 minutes }
+                -> 9;      { DK/missing }
+  endrecode;
+  hv204w2 = hv204w;  
+  { tabulate households }
+  hhandpop = 1;
+  xtab( t1601, rweight );
+  { tabulate de jure HH members }
+  hhandpop = 2;
+  xtab( t1601, HV012*rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 16.2 }
+
+  { !! table based on recodification variables defined in previous table }
+  recode hv201w :: hv204w -> hv201w2;
+          11:29 ::   1,2  -> 1;      { basic service }
+          11:29 ::        -> 2;      { limited service }
+          31:39 ::        -> 3;      { unimproved }
+           40   ::        -> 4;      { surface water }
+                ::        -> 9;      { missing }
+  endrecode;
+  { tabulate de jure population }
+  xtab( t1602, HV012*rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 16.3 }
+
+  { !! table based on variables defined in previous table. used by tables 16.3, 16.4 }
+  recode hv201w -> hv201w4;
+          11:29 -> 1;      { basic service }
+          31:39 -> 2;      { unimproved }
+           40   -> 3;      { surface water }
+                -> 9;      { missing }
+  endrecode;
+  { tabulate de jure population }
+  watfetch = notappl;
+  watpers  = notappl;
+  watprem  = 2;
+  xtab( t1603, HV012*rweight );
+  coltotu = 1;
+  xtab( t1603u, HV012 );
+  if HV235 = 3 & HV204 in 1:998 then    // 998 in HV204 included for consistency with table 16.1
+    watprem = 1;
+    xtab( t1603, HV012*rweight );
+	watprem = notappl;
+    if HV236A in 1:HV009 then
+      agep = HV105(HV236A);
+	  sexp = HV104(HV236A);
+	  recode sexp :: agep  -> watfetch;
+   	           2  :: 15:98 -> 1;        // adult female include DK
+	           1  :: 15:98 -> 2;        // adult male include DK
+	           2  ::  0:15 -> 3;        // child female include DK
+	           1  ::  0:15 -> 4;        // child male include DK
+			      ::       -> 9;
+      endrecode;
+    elseif HV236A = 0 then
+      watfetch = 5
+    else
+      watfetch = 9;
+    endif;
+    watpers = 1;     
+    xtab( t1603, HV012*rweight );
+    coltotu = 2;
+    xtab( t1603u, HV012 );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 16.4 }
+
+  watsuff = 2;
+  xtab( t1604, HV012*rweight );
+  if HV201B = 0 then
+    watsuff = 1;
+    xtab( t1604, HV012*rweight );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 16.5 }
+
+  { water treatment }
+  if HV237A = 1 then                  { boil }
+    wattreat = 1;
+    xtab( t1605, HV012*rweight );
+  endif;
+  if HV237B = 1 then                  { add bleach/chlorine }
+    wattreat = 2;
+    xtab( t1605, HV012*rweight );
+  endif;
+  if HV237C = 1 then                  { strain through a cloth }
+    wattreat = 3;
+    xtab( t1605, HV012*rweight );
+  endif;
+  if HV237D = 1 then                  { use water filter }
+    wattreat = 4;
+    xtab( t1605, HV012*rweight );
+  endif;
+  if HV237E = 1 then                  { solar disinfection }
+    wattreat = 5;
+    xtab( t1605, HV012*rweight );
+  endif;
+  if HV237F = 1 then                  { let it stand and settle }
+    wattreat = 6;
+    xtab( t1605, HV012*rweight );
+  endif;
+  { other treatment }
+  if 1 in HV237G,HV237H,HV237I,HV237J,HV237K,HV237X then
+    wattreat = 7;
+    xtab( t1605, HV012*rweight );
+  endif;
+  if HV237Z in 1,8 then               { don't know }
+    wattreat = 8;
+    xtab( t1605, HV012*rweight );
+  endif;
+  if HV237  = 0 then                  { no treatment }
+    wattreat = 9;
+    xtab( t1605, HV012*rweight );
+  endif;
+  { water appropriate treatment method and total }
+  if HV237A = 1 | HV237B = 1 | HV237D = 1 | HV237E = 1 then
+    wattreat = 10;
+    xtab( t1605, HV012*rweight );
+  endif;
+  { tabulate number of persons }
+  wattreat = 11;
+  xtab( t1605, HV012*rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 16.6 }
+
+  { !! this recodification needs to be defined by country managers             }
+  {    following recodifications based on categories in the core questionnaire }
+  { improved sanitation }
+  recode HV205 -> hv205w1;
+           11  -> 11;      { flush/pour to piped sewer system }
+           12  -> 12;      { flush/pour to septic tank }
+           13  -> 13;      { flush/pour to a pit latrine }
+           15  -> 14;      { flush/pour, don't know where }
+           21  -> 15;      { Ventilated improved pit (VIP) latrine }
+           22  -> 16;      { pit latrine with a slab }
+           41  -> 17;      { composting toilet }
+               -> notappl;
+  endrecode;
+  { not improved }
+  recode HV205 -> hv205w3;
+           14  -> 11;      { flush/pour not to sewer/septic tank/pit latrine }
+           23  -> 12;      { pit latrine without slab /open pit }
+           42  -> 13;      { bucket toilet }
+           43  -> 14;      { hanging toilet/hanging latrine }
+           96  -> 96;      { other }
+       missing -> 99;      { missing }
+               -> notappl;
+  endrecode;
+  { no facility/bush/field }
+  nofacil = ( HV205 = 31 );
+  { location of toilet facility }
+  hv238aw = HV238A;
+  if HV238A = missing then hv238aw = 9 endif;
+  tothh3 = notappl;
+  if HV238A <> notappl then tothh3 = 1 endif;
+  { tabulate households }
+  hhandpop = 1;
+  xtab( t1606, rweight );
+  { tabulate de jure HH members }
+  hhandpop = 2;
+  xtab( t1606, HV012*rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 16.7 }
+
+  { !! table uses recodification variables defined for table 16.6 }
+
+  sanitype = notappl;
+  if hv205w1 <> notappl & HV225 = 0 then
+    sanitype = 1
+  { basic sanitation service }
+  elseif hv205w1 <> notappl & HV238 in 2:95,98,missing then
+    sanitype = 2
+  elseif hv205w3 <> notappl then
+    sanitype = 3
+  elseif HV205 = 31 then
+    sanitype = 4
+  endif;
+  xtab( t1607, HV012*rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 16.8 }
+
+  { base - flush: 12-septic tank/21-pit latrine,                                        }
+  {        ventialted: 21-improved pit latrine/22-pit latrine slab/41-composting toilet }
+  if HV205 in 12,13,21,22,41 then
+	impfpers = 1;
+	recode HV205 -> hv205w2;
+            12   -> 1;	  // septic tank
+            13   -> 3;	  // flush to pit latrine
+            21   -> 4;	  // ventilated improved latrine
+            22   -> 5;	  // pit latrine with slab
+            41   -> 6;    // composting toilet
+                 -> default;
+    endrecode;
+    if HV255 = 1 then
+      recode HV256 :: HV257 -> wastrem1;
+               1   ::   1   -> 1;	     // Removed by a service provider to treatment plant
+               1   ::       -> 2;	     // Removed by a service provider, don't know where
+                   ::   2   -> 3;	     // Buried in a covered pit
+                   ::  3,4  -> 4;	     // To uncovered pit, open ground, water body or elsewhere
+                   ::   6   -> 5;	     // Other
+                   ::   8   -> 6;	     // Don't know where wastes were taken
+               8   ::       -> 6;	     // Don't know where wastes were taken
+                   ::       -> default;
+      endrecode;
+      if wastrem1 = default then
+        if HV257 = 1 then wastrem1 = 1 endif;
+        errmsg("wastrem1: HV256=%d HV257=%d counted in %d",HV256,HV257,wastrem1);
+      endif;
+    else
+      recode HV255 -> wastrem1;
+               0   -> 7;                 // Never emptied
+         8,missing -> 8;                 // Don't know/missing if ever emptied
+                   -> default;
+      endrecode;
+    endif;
+    recode wastrem1 -> wastrem2;
+            3,7,8   -> 1;
+             4,5    -> 2;
+            1,2,6   -> 3;
+                    -> default;
+    endrecode;
+    xtab( t1608, HV012*rweight );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 16.9 }
+
+  mngexcr1 = ( HV205 = 11 );       // Connected to sewer
+  mngexcr2 = notappl;
+  mngexcr3 = notappl;
+  if HV205 in 12,13,21,22,41 then
+    recode HV255 :: HV257 -> mngexcr2;
+     0,8,missing ::       -> 1;	  // Safe disposal in situ of excreta from on-site sanitation facilities
+             1   ::   2   -> 1;
+             1   :: 3,4,6 -> 2;   // Unsafe disposal of exreta from on-site sanitation facilities
+             1   ::  1,8  -> 3;   // Removal of excreta for treatment off-site
+    endrecode;
+  elseif HV205 <> 11 then
+    recode   HV205   -> mngexcr3;
+              15     -> 1;        // Using improved santiation facilities, on-site status unknown
+      14,23,42,43,96 -> 2;		  // Using unimproved sanitation facilities
+              31     -> 3; 	      // Practicing open defecation
+    endrecode;
+  endif;
+  mngexcr4 = ( mngexcr1 = 1 | mngexcr2 in 1,3 );
+  xtab( t1609, HV012*rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 16.11 }
+
+  hv232w  = notappl;
+  pers2   = notappl;
+  baswash = notappl;
+  limwash = notappl;
+  pers3   = notappl;
+  { tabulates place for washing hands }
+  washand = notappl;
+  pers1   = 1;
+  if HV230A in 1,2 then
+    washand = HV230A;  { place for washing hands observed (fixed/mobile) }
+  endif;
+  xtab( t1611, HV012*rweight );
+  coltotu = 1;
+  xtab( t1611u, HV012 );
+  washand = notappl;
+  pers1   = notappl;
+  { tabulates availability of water/soap }
+  if HV230A in 1,2 then
+    if HV230B = 1 then                  { water available }
+      hv232w = 1;
+      xtab( t1611, HV012*rweight );
+    endif;
+    if HV232 = 1 then                   { soap available }
+      hv232w = 2;
+      xtab( t1611, HV012*rweight );
+    endif;
+    if HV232B = 1 then                  { other cleansing agent available }
+      hv232w = 3;
+      xtab( t1611, HV012*rweight );
+    endif;
+    hv232w = notappl;
+    pers2  = 1;
+    xtab( t1611, HV012*rweight );
+    coltotu = 2;
+    xtab( t1611u, HV012 );
+    pers2 = notappl;
+  endif;
+  { tabulates basic/limited handwashing facility }
+  if HV230A in 1,2,3 then
+    baswash = ( HV230A in 1,2 & HV230B = 1 & HV232 = 1  );
+    limwash = ( HV230A in 1,2 & (HV230B = 0 | HV232 = 0) );
+    pers3   = 1;
+    xtab( t1611, HV012*rweight );
+    coltotu = 3;
+    xtab( t1611u, HV012 );
+  endif;
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  { general variables }
+  v013w    = V013;
+  v102w    = V102;
+  v101w    = V101;
+  v106w    = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v106wt   = v106w;
+  v190w    = V190;
+
+{ --------------------------------------------------------------------------- }
+{ Table 16.10 }
+
+  recode HV205 -> hv205w4;  { codes: 1-Improved, 2-Unimproved, 3-Open defecation }
+           11  -> 1;      { flush/pour to piped sewer system }
+           12  -> 1;      { flush/pour to septic tank }
+           13  -> 1;      { flush/pour to a pit latrine }
+           15  -> 1;      { flush/pour, don't know where }
+           21  -> 1;      { Ventilated improved pit (VIP) latrine }
+           22  -> 1;      { pit latrine with a slab }
+           41  -> 1;      { composting toilet }
+           14  -> 2;      { flush/pour not to sewer/septic tank/pit latrine }
+           23  -> 2;      { pit latrine without slab /open pit }
+           42  -> 2;      { bucket toilet }
+           43  -> 2;      { hanging toilet/hanging latrine }
+           96  -> 2;      { other }
+           31  -> 3;      { no-facility/open defecation }
+      missing  -> 9;
+  endrecode;
+
+  { if at least one child born in the last 2 years and living with respondent }
+  if count( REC21_EDT where B19 < 24 & B9 = 0 ) then
+    do i = 1 while i <= soccurs( REC21 )      { identify youngest child living with mother }
+      if B9(i) = 0 then
+        break
+      endif;
+    enddo;
+    months = B19(i);
+    recode months -> chage7;
+              0:1 -> 0;
+              2:3 -> 1;
+              4:5 -> 2;
+              6:8 -> 3;
+             9:11 -> 4;
+            12:17 -> 5;
+            18:23 -> 6;
+                  -> default;
+    endrecode;
+    ch0623 = ( months in 6:23 );
+    recode V465  -> v465w;
+             1   -> 1;         { child used toilet or latrine  }
+             2   -> 2;         { put/rinsed into into toilet }
+             5   -> 3;         { buried in yard }
+             3   -> 4;         { put/rinsed into drain ditch }
+             4   -> 5;         { thrown into garbage }
+             9   -> 6;         { left in the open }
+          6:97   -> 7;         { other }
+     98,missing  -> 8;         { missing }
+                 -> notappl;
+    endrecode;
+    xtab( t1610, rweight );
+    xtab( t1610u );
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 16.12 }
+
+  if V247A <> notappl then    // this was controlled by the data capture application
+	menstabs = notappl;
+	mensthan = notappl;
+    numwom2  = notappl;
+	numwom = 1;
+    xtab( t1612, rweight );
+	coltotu = 1;
+    xtab( t1612u );
+    numwom   = notappl;
+	if V247A = 1 then         // resusable pads
+	  menstabs = 1;
+      xtab( t1612, rweight );
+    endif;
+	if V247B = 1 then         // disposable pads
+	  menstabs = 2;
+      xtab( t1612, rweight );
+    endif;
+	if V247C = 1 then         // tampons
+	  menstabs = 3;
+      xtab( t1612, rweight );
+    endif;
+	if V247D = 1 then         // mestrual cup
+	  menstabs = 4;
+      xtab( t1612, rweight );
+    endif;
+	if V247E = 1 then         // cloth
+	  menstabs = 5;
+      xtab( t1612, rweight );
+    endif;
+	if V247F = 1 then         // toilet paper
+	  menstabs = 6;
+      xtab( t1612, rweight );
+    endif;
+	if V247G = 1 then         // cotton wool
+	  menstabs = 7;
+      xtab( t1612, rweight );
+    endif;
+	if V247H = 1 then         // underwear only
+	  menstabs = 8;
+      xtab( t1612, rweight );
+    endif;
+	if 1 in V247X,V247I,V247J,V247K,V247L then          // other
+	  menstabs = 9;
+      xtab( t1612, rweight );
+    endif;
+	if V247Y = 1 then          // nothing
+	  menstabs = 10;
+      xtab( t1612, rweight );
+    endif;
+	menstabs = notappl;
+	if V248 in 0,1 then        // were at home during last menstrual period
+      numwom2 = 1;
+      xtab( t1612, rweight );
+	  coltotu = 2;
+      xtab( t1612u );
+      numwom2  = notappl;
+	  if V248 = 1 then         // able to wash and change in privacy
+        mensthan = 1;
+        xtab( t1612, rweight );
+        if 1 in V247A,V247B,V247C,V247D,V247E,V247F,V247G then  // used appropriate materials during menstruation
+          mensthan = 2;
+          xtab( t1612, rweight );
+        endif;
+      endif;
+    endif;
+  endif;
+

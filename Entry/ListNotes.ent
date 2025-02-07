@@ -1,0 +1,23 @@
+﻿[CSPro Application]
+Version=CSPro 7.5
+Label=LISTELIG
+Name=LISTELIG
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+CAPIFont1=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont2=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont1Color=0
+CAPIFont2Color=16711680
+[AppCode]
+File=.\listnotes.apc
+Include=..\Library\HTMLFunctions.apc
+[Message]
+File=.\ListNotes.mgf
+[Help]
+File=.\listelig.qsf
+[Forms]
+File=.\Cnull.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Cnull.dcf,Input,.\Cnull.fmf

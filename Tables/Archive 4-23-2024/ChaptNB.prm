@@ -1,0 +1,48 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+tnb01 columns numbirth = 1 nodec;
+
+tnb02 columns numbrth3 = 1 nodec;
+tnb02 footnote
+{+EN}
+@1 Razor blade, knife or scissors~
+@2 Includes boiled blades that are used, and blades that are boiled and 
+   it is unknkown if the blade is new or used~
+@3 Includes non-metal instruments, or unknown types of instruments, 
+   or metal blades with incomplete information on whether they are new 
+   or used, and whether they were boiled or not~
+@4 Clean instruments are new metal instruments and used metal instruments 
+   that were boiled.   
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tnb03 columns numbirth = 1 nodec;
+tnb03 footnote
+{+EN}
+Note: Mothers can report more than one substance applied 
+      to the stump of the umbilical cord.~
+@1 Includes alcohol, spirit, or gentian violet~	  
+@2 Includes mustard oil, ash, animal dung, or other substances~
+@3 Either nothing applied to the cord, or nothing other than 
+   chlorhexidine or another antiseptic applied
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tch01 columns chlorhex = 3 nodec
+              numbrth4 = 1 nodec;
+

@@ -1,0 +1,4273 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------------------------------+}
+{+   Guidelines March 17, 2021                 -           Version 1.0.0 of 09/23/2020              +}
+{+                                                                                                  +}
+{+   Application uses the external TablesFunctions.app located in \Library directory                +}
+{+                                                                                                  +}
+{+   The program was written for both women and male questionnaires.  Check for                     +}
+{+   instructions related to AQTYPE and remove code corresponding to AQTYPE = 1,                    +}
+{+   if no male questionnaire was used in the country.                                              +}
+{+                                                                                                  +}
+{+   PRELIMINARY REPORT TABULATIONS                                                                 +}
+{+                                                                                                  +}
+{+   1.    Results of the household and individual interviews                                       +}
+{+   2.    Background characteristics of respondents                                                +}
+{+   3.    Current fertility                                                                        +}
+{+   4.    Teenage pregnancy and motherhood                                                         +}
+{+   5.    Fertility preferences by number of living children                                       +}
+{+   6.    Current use of contraception according to background characteristics                     +}
+{+   7.    Need and demand for family planning among currently married women and                    +}
+{+         sexually active unmarried women                                                          +}
+{+   8.    Early childhood mortality rates                                                          +}
+{+   9.    Maternal care indicators                                                                 +}
+{+   10.   Vaccinations by background characteristics                                               +}
+{+   11w.  Prevalence of acute respiratory infection, fever, and diarrhea                           +}
+{+         (working table only)                                                                     +}
+{+   11.   Treatment for acute respiratory infection, fever, and diarrhea                           +}
+{+   12.   Nutritional status of children                                                           +}
+{+   12w.  Nutritional status data quality (working table)                                          +}
+{+   13.   Infant and young child feeding (IYCF) indicators                                         +}
+{+   14    Prevalence of anemia in children                                                         +}
+{+   14w.  Coverage of testing for anemia among children and women (working table)                  +}
+{+   15    Prevalence of anemia in women                                                            +}
+{+   15w.  Coverage of testing for anemia in women (working table)                                  +}
+{+   16.   Household possession of insecticide-treated nets                                         +}
+{+   17.   Use of insecticide-treated nets by children and pregnant women                           +}
+{+   18.   Use of intermittent preventive treatment (IPTp) by women during pregnancy                +}
+{+   19.   Prevalence, diagnosis, and prompt treatment of children with fever                       +}
+{+   20W.  Percentage of children tested for malaria (WORKING TABLE ONLY)                           +}
+{+   20.   Prevalence of malaria in children                                                        +}
+{+   21.   Knowledge of HIV prevention methods                                                      +}
+{+   22.1. Multiple sexual partners and higher-risk sexual intercourse in the last 12 months: Women +}
+{+   22.2. Multiple sexual partners and higher-risk sexual intercourse in the last 12 months: Men   +}
+{+   23.1. Coverage of prior HIV testing: Women                                                     +}
+{+   23.2. Coverage of prior HIV testing: Men                                                       +}
+{+   25-26. Coverage of HIV testing (in PrelHIV7 application)                                       +}
+{+                                                                                                  +}
+{+--------------------------------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, j, jtot, jmax, jmin, jtot1, jtot2, jtot3, jtot4, jtot5;
+  numeric itfr, igfr, icbr, any, nouse, mod, trad, rweight, emsample;
+  numeric hemoglob, adjalt, adjsmk, hemoadj;
+  numeric agesingl, agemnth, ch, live, mother, lsex, hhi, preg, pregdur, di, db;
+  numeric fertwgt, currmarr, higcm, lowcm, higexp, lowexp, higage, medcm;
+  numeric age, surv, survprg, dc, xurbrur, xregion, xwealth, xeduc;
+  numeric meth, method, allvac, nvaccs, lastch, liquids, solids, sweetdrk, unhealthy;
+  numeric tested, totetan, lastinj, hlthprv, partners;
+  numeric lastsex, sexly, nsexp, sexactv;
+  numeric zw, x803x804, polio0;
+  numeric V602, V603, V604, V605, pregnant, amenor, pregs5, birthmts, xusing;
+  numeric whenwant, cutoff, amenor24, lastpreg, a239x, lper3, infec1, infec2, infec3;
+  numeric infec4, infec, V625A, V626A, x, first2d;
+  numeric group1, group2, group3, group4, group5, group6, group7, group8, allgrp, idxbrf;
+  numeric cnt, compknow, mensubs, iage, imar, temp1, temp2;
+  numeric period, upplim, perborn, grps, iter, p, n, k;
+  numeric NN, PNN, IMR, CMR, U5MR;
+  numeric xprovid, xunit, xnumber, sexrisk, condrisk;
+  numeric xa, imm_a, imm_b;
+  numeric xgiven1, xgiven2, xgiven3, xgiven4, npolio, y, adjfact, lowage, totexp;
+  numeric defacto, xtemp, chlditn, prg1549, prgitn, totitn, itn, pers;
+  numeric ch5, chld04, pwom, lastone;
+  numeric DaysMonth = 30.4375;
+
+  array agewomen(50); { carry women's age from level 2 to level 1 for table 11 }
+  array age_approp(2);
+
+  array Duplicated(100);
+
+  { Vaccination schedule for table p10 }
+
+  { Schedule for immunizations - approx month of first vaccination (for 6 weeks, use 1 month).
+    -1 = Not in schedule
+    Num is number of vaccines according to schedule (e.g. rota is sometimes only 2) }
+  numeric
+  vsched_bcg    =  0,   vnum_bcg    = 1,
+  vsched_hepb0  =  0,   vnum_hepb0  = 1,
+  vsched_penta  =  1,   vnum_penta  = 3,
+  vsched_penta4 = 12,   vnum_penta4 = 1,  // booster for children 24:35
+  vsched_polio0 =  0,   vnum_polio0 = 1,
+  vsched_polio  =  1,   vnum_polio  = 3,
+  vsched_ipv    = -1,   vnum_ipv    = 1,
+  vsched_pneumo =  1,   vnum_pneumo = 3,
+  vsched_rota   =  1,   vnum_rota   = 3,
+  vsched_mcv1   =  9,   vnum_mcv1   = 1,
+  vsched_mcv2   = 18,   vnum_mcv2   = 1
+  ;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Tables for Key Indicators Report, [Country Survey Year]" );
+
+  crosstab float(0) p01 hhresult+hhrate+wresult+wrate+subresul+subrate+mresult+mrate urbrur+total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 1 Results of the household and individual interviews"," ",
+           "Number of households, number of interviews, and response rates,",
+           "according to residence (unweighted), [Country Survey Year]" )
+    stub ( "Result" );
+{EN+}
+{{FR}
+    title( "Tableau 1  Résultats des interviews ménages et individuelles"," ",
+           "Effectif de ménages, nombre d’interviews et taux de réponse par milieu de résidence (non pondéré), [Pays Enquête Année]" )
+     stub( "Résultat" );
+{FR}}
+{{ES}
+    title( "Cuadro 1 Implementación de la muestra: hogares, mujeres y hombres"," ",
+           "N£mero de hogares, n£mero de entrevistas y tasas de respuesta,",
+           "seg£n zona de residencia (sin ponderar), [País Encuesta Año]" )
+    stub ( "Resultado" );
+{ES}}
+
+  crosstab float(1) p02 age5+healthst+relig+ethnic+mstat+urbrur+region+educ+wealthq+tot1549+men5059+totmen
+                        isex*allindiv
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 2 Background characteristics of respondents"," ",
+           "Percent distribution of women and men age 15-49 by selected background",
+           "characteristics, [Country Survey Year]" )
+     Stub( " Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 2  Caractéristiques sociodémographiques des enquêtés"," ",
+           "Répartition (en %) des femmes et des hommes de 15-49 ans selon certaines",
+           "caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Cuadro 2 Caracter¡sticas de las mujeres y los hombres entrevistados"," ",
+           "Distribución porcentual de las mujeres y de los hombres de 15-49 a¤os",
+           "por caracter¡sticas seleccionadas, [País Encuesta Año]" )
+     Stub( "Caracter¡stica" );
+{ES}}
+
+  crosstab float(1) p03  agegroup+fert1, urbrur+total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 3 Current Fertility"," ",
+           "Age-specific and total fertility rates, general fertility rate, and",
+           "the crude birth rate for the 3 years preceding the survey, according to",
+           "residence, [Country Survey Year]" )
+     Stub( "Age group" );
+{EN+}
+{{FR}
+    title( "Tableau 3 Fécondité actuelle"," ",
+           "Taux de fécondité par âge, Indice Synthétique de Fécondité,",
+		   "Taux Global de Fécondité Générale et Taux Brut de Natalité",
+		   "pour la période des 3 années ayant précédé l’enquête,",
+		   "par milieu de résidence, [Pays Enquête Année]" )
+     stub( "Groupe d'âges" );
+{FR}}
+{{ES}
+    title( "Cuadro 3 Fecundidad actual"," ",
+           "Tasas espec¡ficas por edad y tasa global de fecundidad, tasa general de ",
+           "fecundidad, y tasa bruta de natalidad para los tres a¤os anteriores a la",
+           "encuesta, por zona de residencia, [País Encuesta Año]" )
+     Stub( "Grupo de edad" );
+{ES}}
+  crosstab float(3) p03b agegroup urbrur+total
+    exclude(rowzero, colzero, percents, totals, specval)
+    title( "Table 3 working.  Current Fertility - births");
+  crosstab float(3) p03e agegroup urbrur+total
+    exclude(rowzero, colzero, percents, totals, specval)
+    title( "Table 3 working.  Current Fertility - exposure");
+  crosstab float(1) p03p tothhpop+agegroup urbrur+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 3 working.  Current Fertility - population");
+  crosstab float(0) p03u agegroup+total urbrur+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 3 Current fertility (exposure Number of unweighted cases)" )
+    stub ( "Age group" );
+  crosstab float(1) p03ey ageyoung urbrur+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "p03EY Exposure for young women" );
+  crosstab float(1) p03by ageyoung urbrur+total
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "p03BY Births for young women" );
+
+  crosstab float(1) p04 ageteen+urbrur+region+educ+wealthq+total pregteen+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 4 Teenage pregnancy"," ",
+           "Percentage of women age 15-19 who have ever had a live birth, percentage who",
+		   "have ever had a pregnancy loss, percentage who are currently pregnant, and",
+		   "percentage who have ever been pregnant, according to background characteristics,",
+           "[Country Survey Year]" )
+     Stub( " Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 4 Fécondité des adolescentes"," ",
+           "Pourcentage de femmes de 15-19 ans qui ont déjà eu une naissance vivante, pourcentage ayant déjà eu une grossesse improductive,"
+		   "pourcentage qui sont actuellement enceintes et pourcentage ayant déjà été enceintes, selon certaines caractéristiques sociodémographiques,",
+	       "[Pays Enquête Année]" )
+     Stub( " Caractéristique sociodémographique" );
+{FR}}
+{{+SP}
+    title( "Cuadro 4 Embarazo y maternidad de adolescentes"," ",
+           "Porcentaje de mujeres adolescentes de 15-19 a¤os que han tenido un nacido",
+           "vivo o que están embarazadas por primera vez; y porcentaje que han empezado",
+           "la maternidad, por caracter¡sticas seleccionadas, [País Encuesta Año]" )
+     Stub( "Caracter¡stica" );
+{SP+}}
+  crosstab float(0) p04u ageteen+urbrur+region+educ+wealthq+total total1
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Table 4 Teenage pregnancy and motherhood (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p05  desire+totalnum, lchild1+total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 5 Fertility preferences by number of living children"," ",
+           "Percent distribution of currently married women age 15-49 by desire for",
+           "children, according to number of living children, [Country Survey Year]" )
+     stub( "Desire for children" );
+{EN+}
+{{FR}
+    title( "Tableau 5 Préférences en matière de fécondité par nombre d'enfants vivants"," ",
+           "Répartition (en %) des femmes de 15-49 ans, actuellement en union, par désir",
+           "d'enfants, selon le nombre d'enfants vivants, [Pays Enquête Année]" )
+     Stub( "Désir d’enfants" );
+{FR}}
+{{ES}
+    title( "Cuadro 5 Preferencias de fecundidad por n£mero de hijos e hijas sobrevivientes"," ",
+           "Distribución porcentual de las mujeres actualmente casadas/unidas y de los hombres",
+           "actualmente casados/unidos por preferencias de fecundidad, seg£n n£mero de hijos e",
+           "hijas sobrevivientes, [País Encuesta Año]" )
+     stub( "Preferencia de fecundidad" );
+{ES}}
+  crosstab float(0) p05u total lchild1+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 5 Fertility preferences by number of living children (Number of unweighted cases)" )
+     stub( "Desire for children" );
+
+  crosstab float(1) p06 lchild+age5+urbrur+region+educ+wealthq+total
+                        useany+usemod+modmeth+usetrad+tradmeth+nousing+totalnum cmsau1
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 6 Current use of contraception according to background characteristics"," ",
+           "Percent distribution of currently married women and sexually active unmarried women age 15-49, by",
+           "contraceptive method currently used, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 6 Utilisation actuelle de la contraception par caractéristiques sociodémographiques"," ",
+           "Répartition (en %) des femmes de 15-49 ans actuellement en union et",
+		   "des femmes qui ne sont pas en union et qui sont sexuellement actives, par méthode contraceptive actuellement utilisée,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Cuadro 6 Uso actual de métodos anticonceptivos por caracter¡sticas seleccionadas"," ",
+           "Distribución porcentual de las mujeres actualmente casadas/unidas y de las mujeres",
+           "no unidas sexualmente activas de 15-49 a¤os, por método usado actualmente, seg£n",
+           "caracter¡sticas seleccionadas, [País Encuesta Año]" )
+     stub( "Caracter¡stica" );
+{ES}}
+  crosstab float(0) p06u lchild+age5+urbrur+region+educ+wealthq+total total cmsau1
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6 Current use of contraception according to background characteristics (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p07 age5+urbrur+region+educ+wealthq+total umetneed+metneed+demandfp+numwom+demsatis cmsau4
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7 Need and demand for family planning among currently married women and sexually active unmarried women","",
+           "Percentage of currently married women age 15-49 with unmet need for",
+           "family planning, percentage with met need for family planning, percentage with met need for family",
+           "planning who are using modern methods,  percentage with demand for family planning, percentage of the",
+           "demand for family planning that is satisfied, and percentage of the demand for family planning that is",
+           "satisfied with modern methods, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 7 Besoin et demande pour des services de planification familiale parmi les femmes",
+           "actuellement en union et parmi les femmes qui ne sont pas en union et qui sont sexuellement actives","",
+           "Pourcentage de femmes de 15-49 ans, actuellement en union et de femmes qui ne sont pas en union",
+		   "et qui sont sexuellement actives, ayant des besoins non satisfaits en matière de planification familiale;",
+		   "pourcentage ayant des besoins satisfaits en matière de planification familiale,",
+		   "pourcentage ayant des besoins satisfaits par des méthodes modernes; pourcentage de demande en planification familiale;",
+		   "pourcentage de demande en planification familiale satisfaite et",
+		   "pourcentage de demande en planification familiale satisfaite par des méthodes modernes,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Cuadro 7 Necesidad y demanda de planificación familiar entre las mujeres actualmente casadas/unidas y mujeres no unidas, sexualmente activas","",
+           "Porcentaje de mujeres actualmente unidas y de mujeres sexualmente activas de 15-49 a¤os con necesidad",
+           "insatisfecha de planificación familiar, porcentaje con necesidad satisfecha de planificación familiar,",
+           "porcentaje con necesidad satisfecha de planificación familiar que est n usando métodos modernos, porcentaje",
+           "con demanda de planificación familiar, porcentaje de la demanda de planificación familiar que est ",
+           "satisfecha, y porcentaje de la demanda de planificación familiar que est  satisfecha con métodos modernos",
+           "por caracter¡sticas seleccionadas, [País Encuesta Año]" )
+     stub( "Caracter¡stica" );
+{ES}}
+  crosstab float(0) p07u age5+urbrur+region+educ+wealthq+total total cmsau4
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7 Need and demand for family planning among currently married women (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(0) p08  colper mortrate
+{+EN}
+    title("Table 8 Early childhood mortality rates"," ",
+          "Neonatal, post-neonatal, infant, child and under-5 mortality rates for ",
+          "5 year periods preceding the survey, [Country Survey Year]");
+{EN+}
+{{FR}
+    title("Tableau 8 Quotient de mortalité des enfants de moins de cinq ans","",
+          "Quotients de mortalité néonatale, post-néonatale, infantile, juvénile et infanto-juvénile",
+		  "par période de 5 ans ayant précédé l’enquête, [Pays Enquête Année]");
+{FR}}
+{{ES}
+    title("Cuadro 8 Tasas de mortalidad infantil y en la ni¤ez"," ",
+          "Tasas de mortalidad neonatal, post-neonatal, infantil, post-infantil y en la ni¤ez",
+          "para per¡odos quinquenales antes de la encuesta, [País Encuesta Año]");
+{ES}}
+  crosstab float(1) p08w    agedth+ageexp+ageprb+mortrate colper
+    title("Working table for mortality for total sample, [Country Survey Year]");
+  crosstab float(1) p08u    colper ageexp
+    title("Working table for mortality for total sample, [Country Survey Year]");
+
+  crosstab float(1) p09 gage+urbrur+region+educmoth+wealthq+total
+                        matcare1+matcare2+matcare3 livbirth+stlbirth+livstill
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9 Maternal care indicators"," ",
+           "Among women age 15-49 who had a live birth and/or a stillbirth in the 2 years",
+		   "preceding the survey, percentage who received antenatal care (ANC) from a skilled",
+		   "provider for the most recent live birth or stillbirth, percentage with four or more",
+		   "ANC visits for the most recent live birth or stillbirth, percentage who took any",
+		   "iron-containing supplements during pregnancy, and percentage whose most recent",
+		   "live birth was protected against neonatal tetanus; among all live births and stillbirths",
+		   "in the 2 years before the survey, percentage delivered by a skilled provider and",
+		   "percentage delivered in a health facility; and among women age 15-49 with a live birth or",
+		   "stillbirth in the 2 years preceding the survey, percentage who received a postnatal check",
+		   "during the first 2 days after giving birth, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 9 Indicateurs des soins de santé maternelle"," ",
+           "Parmi les femmes de 15-49 ans ayant eu une naissance vivante et/ou",
+		   "un enfant mort-né au cours des 2 années ayant précédé l’enquête,",
+		   "pourcentage ayant reçu des soins prénatals par un prestataire de santé qualifié",
+		   "pour la naissance vivante la plus récente ou l'enfant mort/né,",
+		   "pourcentage ayant effectué quatre visites prénatales ou plus pour la naissance vivante",
+		   "la plus récente ou l'enfant mort-né, pourcentage ayant pris des suppléments contenant",
+		   "du fer pendant la grossesse de la naissance vivante la plus récente ou d'un mort-né,",
+		   "et pourcentage dont la naissance vivante la plus récente a été protégée contre",
+		   "le tétanos néonatal; parmi toutes les naissances vivantes et",
+		   "tous les mort-nés ayant eu lieu au cours des 2 années ayant précédé l’enquête,",
+		   "pourcentage ayant été assisté par un prestataire de santé qualifié et",
+		   "pourcentage dont l’accouchement a eu lieu dans un établissement de santé;",
+		   "parmi les femmes de 15-49 ans ayant eu une naissance vivante ou un mort-né",
+		   "au cours des 2 années ayant précédé l’enquête, pourcentage ayant reçu",
+		   "des soins postnatals dans les 2 jours après la naissance,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     Stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Cuadro 9 Indicadores de cuidados maternos"," ",
+           "[País Encuesta Año]" )
+     stub( "Caracter¡stica" );
+{ES}}
+  crosstab float(0) p09u gage+urbrur+region+educmoth+wealthq+total colpunw livbirth+stlbirth+livstill
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9 Maternal care indicators (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p10  sex+border2+cardseen+urbrur+region+educmoth+wealthq+total 
+                         vaccage1*(bcg+hepb0+penta+polio+ipv+pneumo+rota+mcv1+allvacc)+vaccage2*vacc2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10 Vaccinations by background characteristics"," ",
+           "Percentage of children age 12-23 months and children age 24-35 months who received specific",
+		   "vaccines at any time before the survey (according to a vaccination card or the mother’s report),",
+		   "percentage fully vaccinated (basic antigens), percentage fully vaccinated (according to national",
+		   "schedule), and percentage who received no vaccinations, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 10 Vaccinations selon certaines caractéristiques sociodémographiques"," ",
+           "Pourcentage d’enfants de 12-23 mois et de 24-35 mois ayant reçu certains vaccins",
+		   "à n’importe quel moment avant l’enquête (selon le carnet de vaccination ou la déclaration de la mère),",
+		   "pourcentage complètement vacciné (antigènes de base), pourcentage complètement vacciné",
+		   "(conformément au calendrier national), et pourcentage n'ayant reçu aucun vaccin,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Cuadro 10 Vacunaciones por caracter¡sticas seleccionadas"," ",
+           "Percentage of children age 12-23 months and children age 24-35 months who received specific",
+		   "vaccines at any time before the survey (according to a vaccination card or the mother’s report),",
+		   "percentage fully vaccinated (basic antigens), percentage fully vaccinated (according to national",
+		   "schedule), and percentage who received no vaccinations, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Caracter¡stica" );
+{ES}}
+  crosstab float(0) p10u  sex+border2+cardseen+urbrur+region+educmoth+wealthq+total colpunw
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 10 Vaccinations by background characteristics (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p10w  grpchild withcard
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10W Ownership and observation of vaccination cards (WORKING TABLE ONLY)","",
+           "Percentage of children age 12-23 months and children age 24-35 months who ever had a",
+           "vaccination card, and percentage with a vaccination card seen, [Country Survey Year]" )
+     stub( "Age" );
+{EN+}
+{{FR}
+    title( "Table 10W Observation of vaccination cards (WORKING TABLE ONLY)","",
+           "Percentage of children age 12-23 months and children age 24-35 months with a vaccination card seen,",
+           "[Country Survey Year]" )
+     stub( "Age" );
+{FR}}
+{{ES}
+    title( "Table 10W Observation of vaccination cards (WORKING TABLE ONLY)","",
+           "Percentage of children age 12-23 months and children age 24-35 months with a vaccination card seen,",
+           "[Country Survey Year]" )
+     stub( "Age" );
+{ES}}
+
+  crosstab float(1) p11w illness percntag
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 11W Children with ARI symptoms, fever, and diarrhea (WORKING TABLE ONLY)"," ",
+           "Percentage of children under age 5 who were sick with short, rapid breathing",
+           "which was chest related or with difficulty breathing which was chest related",
+           "(symptoms of acute respiratory infection - ARI), fever, or diarrhea in the 2",
+           "weeks preceding the survey, [Country Survey Year]" )
+     stub( "Illness" );
+{EN+}
+{{FR}
+    title( "Tableau 11W Children with ARI symptoms, de la fièvre et de la diarrhée (TABLEAU DE TRAVAIL SEULEMENT)"," ",
+           "Pourcentage d'enfants de moins de cinq ans qui ont souffert",
+           "de la toux, accompagnée d'une respiration courte et rapide ou de",
+           "difficultés respiratoires dues à une congestion de la poitrine",
+           "(symptômes d'Infections Respiratoires Aiguës - IRA), pourcentage",
+           "ayant eu de la fièvre et pourcentage ayant eu de la diarrhée au cours",
+           "des deux semaines ayant précédé l'enquête, Pays Enquêté 2020" )
+     stub( "Maladies" );
+{FR}}
+{{ES}
+    title("Cuadro 11W Niños con s¡ntomas de IRA, fiebre y diarrea (SOLO CUADRO DE TRABAJO)"," ",
+           "Percentage of children under age 5 who were sick with short, rapid breathing",
+           "which was chest related or with difficulty breathing which was chest related",
+           "(symptoms of acute respiratory infection - ARI), fever, or diarrhea in the two",
+           "weeks preceding the survey, [Country Survey Year]" )
+    stub( "Enfermedad" );
+{ES}}
+
+  crosstab float(1) p11  chage1+sex+urbrur+region+educmoth+wealthq+total
+                         arisympt+chfever1+chdiarrh
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 11 Treatment for acute respiratory infection, fever, and diarrhea","",
+           "Among children under age 5 who had symptoms of acute respiratory infection (ARI) or had",
+		   "fever during the 2 weeks preceding the survey, percentage for whom advice or treatment",
+		   "was sought; and among children under age 5 who had diarrhea during the 2 weeks preceding",
+		   "the survey, percentage for whom advice or treatment was sought, percentage given a fluid",
+		   "made from oral rehydration salt (ORS) packets or given pre-packaged ORS fluid, percentage",
+		   "given zinc, percentage given ORS and zinc, and percentage given ORS, zinc, and continued",
+		   "feeding, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 11  Traitement des symptômes d’IRA, de la fièvre, et de la diarrhée"," ",
+           "Parmi les enfants de moins de 5 ans ayant présenté des symptômes d’Infection Respiratoire Aiguë (IRA)",
+		   "ou qui ont eu de la fièvre au cours des 2 semaines ayant précédé l’interview, pourcentage pour lesquels",
+		   "on a recherché des conseils ou un traitement, et parmi les enfants de moins de 5 ans",
+		   "ayant eu la diarrhée au cours des 2 semaines ayant précédé l’interview,",
+		   "pourcentage pour lesquels on a recherché des conseils ou un traitement,",
+		   "pourcentage à qui on a donné des liquides préparés à partir des sachets de Sels de Réhydratation Orale (SRO)",
+		   "ou des liquides SRO préconditionnés, pourcentage à qui on a donné du zinc,",
+		   "pourcentage à qui on a donné des SRO et du zinc, et pourcentage à qui on a donné des SRO, du zinc,",
+		   "et qui ont continué à être alimenté, selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Cuadro 11 Tratamientos de infección respiratoria aguda, fiebre y diarrea"," ",
+           "     Entre los ni¤os menores de cinco a¤os que estuvieron enfermos con",
+           "     s¡ntomas de infección respiratoria aguda (IRA) o que estuvieron enfermos",
+           "     con fiebre en las dos semanas anteriores a la encuesta, porcentaje que buscó",
+           "     tratamiento en establecimiento o proveedor de salud y entre los ni¤os menores",
+           "     de cinco a¤os que estuvieron enfermos con diarrea durante las dos semanas",
+           "     anteriores a la encuesta, porcentaje que buscó tratamiento en establecimiento",
+           "     o proveedor de salud, porcentaje que recibió paquetes de sales de rehidratación",
+           "     oral (SRO) y porcentaje que recibió terapia de rehidratación oral (TRO) por",
+           "     caracter¡sticas seleccionadas, [País Encuesta Año]" )
+     stub( "Caracter¡stica" );
+{ES}}
+  crosstab float(0) p11u  chage1+sex+urbrur+region+educmoth+wealthq+total colpunw
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 11 Treatment for acute respiratory infection, fever, and diarrhea (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p12  chage1+chage2+sex+mothstat+urbrur+region+educmoth+wealthq+total
+                         hghtage+wghthght+wghtage
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 12 Nutritional status of children"," ",
+           "Percentage of children under age 5 classified as",
+           "malnourished according to three anthropometric indices of",
+           "child growth: height-for-age, weight-for-height,",
+           "and weight-for-age, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 12 Etat nutritionnel des enfants"," ",
+           "Pourcentage d’enfants de moins de 5 ans considérés comme atteints de malnutrition",
+		   "selon trois indices anthropométriques de mesure de la croissance de l'enfant : la taille",
+		   "en fonction de l’âge, le poids en fonction de la taille et le poids en fonction de l’âge,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Cuadro 12 Estado nutricional de los ni¤os menores de 5 años"," ",
+           "Porcentaje de ni¤os de facto menores de cinco a¤os clasificados",
+           "como malnutridos seg£n los tres ¡ndices antropométricos del",
+           "estado de nutrición: talla-por-edad, peso-por-talla, y",
+           "peso-por-edad, por caracter¡sticas seleccionadas, [País Encuesta Año]" )
+     stub( "Caracter¡stica" );
+{ES}}
+  crosstab float(0) p12u  chage1+chage2+sex+mothstat+urbrur+region+educmoth+wealthq+total colpunw
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 12 Nutritional status of children (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p12W chage1+chage2+sex+urbrur+region+educmoth+mothstat+measurer+total  missdat+outrdat+validat
+    exclude(rowzero,colzero,totals,percents,specval)
+{+EN}
+    title( "Table 12W Height and weight data completeness and quality for children","",
+           "Among children under age 5 (age 0-59 months) who were eligible for anthropometry,",
+           "percentage with incomplete or missing data for height, weight, or month or year of birth;",
+           "among children with complete height and age, percentage with implausible data for",
+           "height-for-age; among children with complete weight and height, percentage with implausible",
+           "data for weight-for-height; and, among children with complete weight and age, percentage",
+           "with implausible data for weight-for-age; and among all children under age 5 who were",
+           "eligible for anthropometry, percentage with valid data for height-for-age, weight-for-height,",
+           "or weight-for-age, according to background characteristics (unweighted), [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Table 12W Height and weight data completeness and quality for children","",
+           "Among children under age 5 (age 0-59 months) who were eligible for anthropometry,",
+           "percentage with incomplete or missing data for height, weight, or month or year of birth;",
+           "among children with complete height and age, percentage with implausible data for",
+           "height-for-age; among children with complete weight and height, percentage with implausible",
+           "data for weight-for-height; and, among children with complete weight and age, percentage",
+           "with implausible data for weight-for-age; and among all children under age 5 who were",
+           "eligible for anthropometry, percentage with valid data for height-for-age, weight-for-height,",
+           "or weight-for-age, according to background characteristics (unweighted), [Country Survey Year]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Table 12W Height and weight data completeness and quality for children","",
+           "Among children under age 5 (age 0-59 months) who were eligible for anthropometry,",
+           "percentage with incomplete or missing data for height, weight, or month or year of birth;",
+           "among children with complete height and age, percentage with implausible data for",
+           "height-for-age; among children with complete weight and height, percentage with implausible",
+           "data for weight-for-height; and, among children with complete weight and age, percentage",
+           "with implausible data for weight-for-age; and among all children under age 5 who were",
+           "eligible for anthropometry, percentage with valid data for height-for-age, weight-for-height,",
+           "or weight-for-age, according to background characteristics (unweighted), [Country Survey Year]" )
+     stub( "Característica" );
+{ES}}
+
+  crosstab float(1) p13  iycfind iycftot
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 13  Infant and young child feeding (IYCF) indicators"," ",
+           "Percentage of children fed according to various IYCF practices,",
+           "[Country Survey Year]" )
+     stub( "Indicator" );
+{EN+}
+{{FR}
+    title( "Tableau 13  Indicateurs de l'Alimentation du Nourrisson et du Jeune Enfant (Indicateurs ANJE)"," ",
+           "Pourcentage d'enfants nourris selon les pratiques ANJE, [Pays Enquête Année]" )
+     stub( "" );
+{FR}}
+{{ES}
+     title( "Cuadro 13 Situación de lactancia por edad"
+            "Distribución porcentual de los £ltimos ni¤os/ni¤as menores de dos a¤os",
+            "que viven con la madre, por situaci¤n de la lactancia y porcentaje que",
+            "est  lactando actualmente; y entre todos los ni¤os/ni¤as menores de dos",
+            "a¤os, porcentaje que est n usando biberón, seg£n la edad en meses, [País Encuesta Año]" )
+      stub( "Edad en meses" );
+{ES}}
+  crosstab float(0) p13u  rowpunw total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 13  Infant and young child feeding (IYCF) indicators (Number of unweighted cases)" )
+     stub( "Indicator" );
+
+  crosstab float(1) p14 chage3+chage4+sex+urbrur+region+wealthq+total anemxtrc+anemiac+anemean+numchi2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14  Prevalence of anemia in children","",
+           "Percentage of children age 6-59 months classified as having anemia, and mean hemoglobin level,", 
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 14  Prévalence de l’anémie chez les enfants"," ",
+           "Pourcentage d’enfants de 6-59 mois considérés comme étant atteints d’anémie, et niveaux moyens d'hémoglobine,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]")
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Cuadro 14 Prevalencia de anemia entre los ni¤os"," ",
+           "Porcentaje de ni¤os de 6 a 59 meses con cualquier tipo de anemia, con anemia",
+           "leve, moderada o severa, por caracter¡sticas seleccionadas, [País Encuesta Año]" )
+     stub( "Caracter¡stica" );
+{ES}}
+  crosstab float(0) p14u chage3+chage4+sex+urbrur+region+wealthq+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14  Prevalence of anemia in children (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p14w sex+chage3+chage4+urbrur+region+wealthq+total chanemia
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14W Coverage of testing for anemia in children (WORKING TABLE ONLY)","",
+           "Percentage of eligible children age 6-59 months tested for",
+           "anemia, according to background characteristics (unweighted), [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 14W Couverture du test d'anémie des enfants (TABLEAU DE TRAVAIL SEULEMENT)","",
+           "Pourcentage d'enfants éligibles de 6-59 mois testés pour",
+           "l'anémie, selon certaines caractéristiques sociodémographiques (non pondéré), Pays Enquêté 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Cuadro 14W Cobertura de las pruebas para la anemia en ni¤os y mujeres (SOLO CUADRO DE TRABAJO)","",
+           "Porcentaje de ni¤os elegibles de edad de 6-59 meses que",
+           "recibieron el test de anemia, por caracter¡sticas seleccionadas (sin ponderar), [País Encuesta Año]" )
+     stub( "Caracter¡stica" );
+{ES}}
+
+  crosstab float(1) p15 age20+lchild2+pregstat+urbrur+region+educ+wealthq+total anemxtrw+anemiaw+anemean+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15  Prevalence of anemia in women","",
+           "Percentage of women age 15-49 with anemia, and mean hemoglobin level, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Table 15  Prévalence de l'anémie chez les femmes","",
+           "Pourcentage de femmes de 15-49 ans considérés comme étant atteintes d’anémie, et niveaux moyens d'hémoglobine,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Table 15  Prevalence of anemia in women","",
+           "Percentage of women age 15-49 with anemia, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Caracter¡stica" );
+{ES}}
+  crosstab float(1) p15u age20+lchild2+pregstat+urbrur+region+educ+wealthq+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 15  Prevalence of anemia in women (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p15w age20+lchild2+pregstat+urbrur+region+educ+wealthq+total wmanemia
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15W Coverage of testing for anemia in women (WORKING TABLE ONLY)","",
+           "Percentage of eligible women age 15-49 years tested for",
+           "anemia, according to background characteristics (unweighted), [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Table 15W Couverture du test d'anémie des femmes (TABLEAU DE TRAVAIL SEULEMENT)","",
+           "Pourcentage de femmes éligibles de 15-49 ans testés pour l'anémie, ",
+           "selon certaines caractéristiques sociodémographiques (non pondéré), Pays Enquêté 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Table 15W Coverage of testing for anemia in women (WORKING TABLE ONLY)","",
+           "Percentage of eligible children age 15-49 years tested for",
+           "anemia, according to background characteristics (unweighted), [Country Survey Year]" )
+     stub( "Caracter¡stica" );
+{ES}}
+
+  crosstab float(1) p16 urbrur+region+wealthq+total hhitn+persitn
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 16 Household possession of insecticide-treated nets","",
+           "Percentage of households with at least one  insecticide-treated net (ITN); average",
+           "number of ITNs per household; and percentage of households with at least one ITN per",
+           "two persons who stayed in the household last night, according to background characteristics,",
+           "[Country Survey Year]" )
+    stub( "Background Characteristic" );
+{EN+}
+{{FR}
+   title ( "Tableau 16  Possession de Moustiquaires Imprégnées d'Insecticide par les ménages","",
+           "Pourcentage de ménages qui possède au moins une Moustiquaire Imprégnée d’Insecticide (MII);",
+		   "nombre moyen de MII par ménage et pourcentage de ménages qui possèdent au moins une MII pour",
+		   "deux personnes qui ont passé la nuit dernière dans le ménage,",
+		   "selon certaines caractéristiques, [Pays Enquête Année]" )
+    stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) p16u urbrur+region+wealthq+total colpunw
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 16 Household possession of insecticide-treated nets (Number of unweighted caes)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) p17  urbrur+region+wealthq+total chitn1+chitn2+pregitn1+pregitn2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 17 Use of insecticide-treated nets by children and pregnant women","",
+           "Percentage of children under age 5 who slept under an insecticide-treated net (ITN)",
+		   "the night before the survey; among children under age 5 in households with at least",
+		   "one ITN, percentage who slept under an ITN the night before the survey; percentage of",
+		   "pregnant women age 15-49 who slept under an ITN the night before the survey; and among",
+		   "pregnant women age 15-49 in households with at least one ITN, percentage who slept",
+		   "under an ITN the night before the survey, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 17  Utilisation des Moustiquaires Imprégnées d’Insecticide (MII) par les enfants et les femmes enceintes","",
+           "Pourcentage d’enfants de moins de 5 ans qui, la nuit avant l’interview, ont dormi sous",
+		   "une Moustiquaire Imprégnée d’Insecticide (MII); et parmi les enfants de moins de 5 ans des ménages avec,",
+		   "au moins, une MII, pourcentage ayant dormi sous une MII la nuit avant l’interview;",
+		   "parmi les femmes de 15-49 ans enceintes, pourcentage qui, la nuit avant l’interview, ont dormi sous une MII,",
+		   "et parmi les femmes enceintes de 15-49 ans des ménages possédant, au moins, une MII,",
+		   "pourcentage ayant dormi sous une MII la nuit ayant précédé l’interview,",
+		   "selon certaines caractéristiques [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) p17u  urbrur+region+wealthq+total colpunw
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 17 Use of insecticide-treated nets by children and pregnant women (Number of unweighted cases)" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) p18  urbrur+region+wealthq+total fansidar livbirth+stlbirth+livstill
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 18 Use of intermittent preventive treatment (IPTp) by women during pregnancy","",
+           "Percentage of women age 15-49 with a live birth and/or a stillbirth in the 2 years",
+		   "preceding the survey who received one or more doses of SP/Fansidar, received two or more",
+		   "doses of SP/Fansidar, and received three or more doses of SP/Fansidar during the pregnancy",
+		   "that resulted in the last live birth or stillbirth, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 18  Utilisation du Traitement Préventif Intermittent (TPIg) par les femmes au cours de la grossesse","",
+           "Pourcentage de femmes de 15-49 ans ayant eu une naissance vivante et/ou un mort-né au cours des 2 années",
+		   "ayant précédé l'enquête qui ont reçu une dose ou plus de SP/Fansidar; pourcentage qui ont reçu deux doses",
+		   "ou plus de SP/Fansidar, et pourcentage en ayant reçu trois doses ou plus pendant la grossesse ayant abouti",
+		   "à la dernière naissance vivante ou mort-né, selon certaines caractéristiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) p18u  urbrur+region+wealthq+total total livbirth+stlbirth+livstill
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 18 Use of intermittent preventive treatment (IPTp) by women during pregnancy (Number of unweighted cases" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) p19  urbrur+region+wealthq+total chfever2+fevtreat+antimala
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 19 Children with fever and careseeking, diagnosis, and treatment of fever","",
+           "Percentage of children under age 5 with fever in the 2 weeks preceding the survey; among children under age 5",
+           "with fever, percentage for whom advice or treatment was sought, percentage who had blood taken from a finger",
+           "or heel; and among children under age 5 with fever who took any antimalarial drug, percentage who took any",
+           "artemisinin-based combination therapy (ACT), according to background characteristics, [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 19  Enfants ayant eu de la fièvre, recherche de soins, diagnostic et traitement contre la fièvre","",
+           "Pourcentage d'enfants de moins de 5 ans ayant eu de la fièvre au cours des 2 semaines ayant précédé l’interview;",
+		   "parmi les enfants de moins de 5 ans ayant eu de la fièvre, pourcentage pour lesquels on a recherché des conseils",
+		   "ou un traitement, pourcentage à qui on a prélevé du sang au doigt ou au talon; et parmi les enfants de moins",
+		   "de 5 ans ayant eu de la fièvre et ayant pris un antipaludique,",
+		   "pourcentage ayant pris une Combinaison Thérapeutique à base d'Atémisinine (CTA), selon certaines caractéristiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) p19u  urbrur+region+wealthq+total colpunw
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 19 Children with fever and careseeking, diagnosis, and treatment of fever (Number of unweighted cases" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) p20 urbrur+region+wealthq+total rdtmala+micrmala
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 20 Prevalence of malaria in children","",
+           "Percentage of children age 6-59 months classified in two tests as having malaria,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 20  Prévalence du paludisme chez les enfants","",
+           "Prévalence du paludisme chez les enfants de 6-59 mois selon les résultats de deux tests,",
+		   "en fonction de certaines caractéristiques, [Pays Enquête Année] " )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) p20u  urbrur+region+wealthq+total colpunw
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 20 Prevalence of malaria in children (Number of unweighted cases" )
+     stub( "Background Characteristic" );
+
+  crosstab float(1) p20w  urbrur+region+wealthq+total rdtmicr
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 20W Percentage of children tested for malaria (WORKING TABLE ONLY)","",
+           "Percentage of eligible children age 6-59 months who were tested for malaria, according to background",
+           "characteristics (unweighted), [Country Survey Year]" )
+     stub( "Background Characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 20W Pourcentage d'enfants test?s pour le paludisme (TABLEAU DE TRAVAIL SEULEMENT)","",
+           "Pourcentage d'enfant de 6-59 mois ?ligibles qui ont ?t? test's pour le paludisme, selon certaines",
+           "caract?ristiques sociod?mographiques (non pond?r?), Pays Enqu?te 2020" )
+     stub( "Caract?ristique sociod?mographique" );
+{FR}}
+
+  crosstab float(1) p21 age1524+mstat3+urbrur+region+educ+wealthq+tot1524 isex1*(hivprev+numwom+nummen)
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 21 Knowledge about HIV prevention methods among young people","",
+           "Percentage of young women and young men age 15-24 with knowledge about HIV prevention,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 21  Connaissance des moyens de prévention du VIH parmi les jeunes","",
+           "Pourcentage de jeunes femmes et de jeunes hommes de 15-24 ans connaissant",
+		   "les moyens de prévention du VIH, selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+{ES}}
+  crosstab float(0) p21u age1524+mstat3+urbrur+region+educ+wealthq+tot1524 isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 21 Knowledge about HIV prevention methods among young people (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p221 age10+mstat2+urbrur+region+educ+wealthq+total
+                         wsex12m+wpart12m+wsexoth+wsexever
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 22.1 Multiple sexual partners and higher-risk sexual intercourse in the last 12 months: Women", "",
+           "Among all women age 15-49, percentage who had sexual intercourse with more than one",
+           "sexual partner in the last 12 months, and percentage who had intercourse in the last",
+           "12 months with a person who was neither their husband nor lived with them; among those",
+           "having more than one partner in the last 12 months, percentage reporting that a condom",
+           "was used during last intercourse; among women age 15-49 who had sexual intercourse in",
+           "the last 12 months with a person who was neither their husband nor lived with them,",
+           "percentage who used a condom during last sexual intercourse with such a partner; and",
+           "among women who ever had sexual intercourse, mean number of sexual partners during their",
+           "lifetime, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 22.1  Partenaires sexuels multiples et rapports sexuels à hauts risques au cours des 12 derniers mois : Femme", "",
+           "Parmi toutes les femmes de 15-49 ans, pourcentage ayant eu des rapports sexuels",
+		   "avec plus d'un partenaire sexuel au cours des 12 derniers mois et pourcentage ayant eu des rapports",
+		   "sexuels au cours des 12 derniers mois avec une personne qui n'était ni leur mari, ni le partenaire",
+		   "avec qui elles vivaient ; parmi les femmes ayant eu, au cours des 12 derniers mois, plus d'un partenaire sexuel,",
+		   "pourcentage ayant déclaré qu'un condom avait été utilisé au cours des derniers rapports sexuels; parmi les femmes de 15-49 ans",
+		   "qui ont eu des rapports sexuels au cours des 12 derniers mois avec une personne qui n'était ni leur mari,",
+		   "ni le partenaire avec qui elles vivaient, pourcentage ayant déclaré qu'un condom avait été utilisé au cours des",
+		   "derniers rapports sexuels avec cette personne; Parmi les femmes ayant déjà eu des rapports sexuels, nombre moyen",
+		   "de partenaires sexuels sur la durée de vie, selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Table 22.1 Multiple sexual partners and higher-risk sexual intercourse in the last 12 months: Women", "",
+           "Among all women age 15-49, percentage who had sexual intercourse with more than one",
+           "sexual partner in the last 12 months, and percentage who had intercourse in the last",
+           "12 months with a person who was neither their husband nor lived with them; among those",
+           "having more than one partner in the last 12 months, percentage reporting that a condom",
+           "was used during last intercourse; among women age 15-49 who had sexual intercourse in",
+           "the last 12 months with a person who was neither their husband nor lived with them,",
+           "percentage who used a condom during last sexual intercourse with such a partner; and",
+           "among women who ever had sexual intercourse, mean number of sexual partners during their",
+           "lifetime, according to background characteristics, [Country Survey Year]" )
+     stub( "Caracter¡stica" );
+{ES}}
+  crosstab float(0) p221u age10+mstat2+urbrur+region+educ+wealthq+total colpunw
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 22.1 Multiple sexual partners in the last 12 months: Women (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p222 age10+mstat2+tunion+urbrur+region+educ+wealthq+tot1549+men5059+totmen
+                         msex12m+mpart12m+msexoth+msexever
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 22.2 Multiple sexual partners and higher-risk sexual intercourse in the last 12 months: Men","",
+           "Among all men age 15-49, percentage who had sexual intercourse with more than one sexual",
+           "partner in the last 12 months, and percentage who had intercourse in the last 12 months",
+           "with a person who was neither their wife nor lived with them; among those having more than",
+           "one partner in the last 12 months, percentage reporting that a condom was used during last",
+           "intercourse; among men age 15-49 who had sexual intercourse in the last 12 months with a",
+           "person who was neither their wife nor lived with them, percentage who used a condom during",
+           "last sexual intercourse with such a partner; and among men who ever had sexual intercourse,",
+           "mean number of sexual partners during their lifetime, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 22.2  Partenaires sexuels multiples et rapport sexuels à hauts risques au cours des 12 derniers mois : Homme","",
+           "Parmi tous les hommes de 15-49 ans, pourcentage ayant eu des rapports sexuels avec plus d'une partenaire sexuelle",
+		   "au cours des 12 derniers mois et pourcentage ayant eu des rapports sexuels au cours des 12 derniers mois avec une",
+		   "personne qui n'était ni leur épouse, ni la partenaire avec qui ils vivaient ; parmi ceux ayant eu plus d'une",
+		   "partenaire sexuelle au cours des 12 derniers mois, pourcentage ayant déclaré qu'un condom avait été utilisé",
+		   "au cours de ces derniers rapports sexuels ; parmi les hommes de 15-49 ans ayant eu des rapports sexuels au",
+		   "cours des 12 derniers mois avec une personne qui n'était ni leur épouse, ni la partenaire avec qui ils vivaient,",
+		   "pourcentage ayant déclaré qu'un condom avait été utilisé au cours des derniers rapports sexuels avec cette personne;",
+		   "parmi les hommes ayant déjà eu des rapports sexuels, nombre moyen de partenaires sur la durée de vie,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+{{ES}
+    title( "Table 22.2 Multiple sexual partners and higher-risk sexual intercourse in the last 12 months: Men","",
+           "Among all men age 15-49, percentage who had sexual intercourse with more than one sexual",
+           "partner in the last 12 months, and percentage who had intercourse in the last 12 months",
+           "with a person who was neither their wife nor lived with them; among those having more than",
+           "one partner in the last 12 months, percentage reporting that a condom was used during last",
+           "intercourse; among men age 15-49 who had sexual intercourse in the last 12 months with a",
+           "person who was neither their wife nor lived with them, percentage who used a condom during",
+           "last sexual intercourse with such a partner; and among men who ever had sexual intercourse,",
+           "mean number of sexual partners during their lifetime, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Caracter¡stica" );
+{ES}}
+  crosstab float(0) p222u age10+mstat2+tunion+urbrur+region+educ+wealthq+tot1549+men5059+totmen colpunw
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 22.2 Multiple sexual partners in the last 12 months: Men (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p231  age10+mstat1+urbrur+region+educ+wealthq+total
+                          whivstat+total+evertest+test12m+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 23.1 Coverage of prior HIV testing: Women","",
+           "Percent distribution of women age 15-49 by HIV testing status and by whether they received",
+		   "the results of the last test, percentage of women ever tested, and percentage of women who",
+		   "were tested in the last 12 months and received the results of the last test, according to",
+		   "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 23.1  Couverture du test du VIH antérieur à l’enquête : Femme","",
+           "Répartition (en %) des femmes de 15-49 ans selon qu’elles ont fait, ou non,",
+		   "un test du VIH et selon qu’elles ont reçu, ou non, les résultats du dernier test ;",
+		   "pourcentage de femmes de 15-49 ans ayant déjà fait un test du VIH et pourcentage de", 
+		   "femmes ayant fait un test du VIH au cours des 12 derniers mois et ayant reçu les",
+		   "résultats du dernier test, selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) p231u  age10+mstat1+urbrur+region+educ+wealthq+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 23.1 Coverage of prior HIV testing: Women (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) p232  age10+mstat1+urbrur+region+educ+wealthq+tot1549+men5059+totmen
+                          mhivstat+total+evertest+test12m+nummen
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 23.2 Coverage of prior HIV testing: Men","",
+           "Percent distribution of men age 15-49 by HIV testing status and by whether they received",
+		   "the results of the last test, percentage of men ever tested, and percentage of men who",
+		   "were tested in the last 12 months and received the results of the last test, according to"
+		   "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 23.2 Couverture du test du VIH antérieur à l'enquête: Homme","",
+           "Percent distribution of men age 15-49 by HIV testing status and by whether they received",
+		   "the results of the last test, percentage of men ever tested, and percentage of men who",
+		   "were tested in the last 12 months and received the results of the last test, according to"
+		   "background characteristics, [Country Survey Year]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+
+  crosstab float(0) p232u age10+mstat1+urbrur+region+educ+wealthq+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 23.2 Coverage of prior HIV testing: Men (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  { food given based on anything different from 2 & notappl (yes, DK, missing) }
+  function given1( xvar )
+    given1 = 0;
+    if !xvar in 2,notappl then
+      given1 = 1
+    endif;
+  end
+
+  { food given based only in yes answers }
+  function given2( xvar )
+    given2 = 0;
+    if xvar = 1 then
+      given2 = 1
+    endif;
+  end
+
+  { to properly handle missings for the combination of variables with units and two digit numbers }
+  function unitnumb( yunits, ynumbers );
+    if ynumbers = missing then
+      x = yunits * 100 + 99
+    else
+      x = yunits * 100 + ynumbers
+    endif;
+    unitnumb = x;
+  end
+
+  { to establish the limits for mortality table }
+  function limits(per);
+    limits = AINTC-period*per;
+  end;
+
+  { generates the age groups syntetic cohorts for mortality }
+  function AgeGrps(grp);
+    numeric ageg;
+    recode grp -> ageg;
+           0:1 -> grp;
+             2 -> 3;
+             3 -> 6;
+           4:7 -> (grp-3)*12;
+             8 -> 60;
+               -> (-1);
+    endrecode;
+    AgeGrps = ageg;
+  end;
+
+  { function to recode birth order }
+  function RecBorder( chi )
+    numeric z, ztemp;
+	{ first determine the childs's birth order excluding born dead/miscarriage/abortion }
+	ztemp = 0;
+	do k = 1 while k <= chi
+	  if A223(k) = 1 then
+	    ztemp = ztemp + 1
+      endif;
+    enddo;
+    { adjust multiple births to give the same order as that of the first of the multiples }
+    do j = chi - 1 while j > 0 & A220C(chi) = A220C(j) by (-1)
+	  if A223(j) = 1 then
+	    ztemp = ztemp - 1;
+      endif;
+    enddo;
+    recode ztemp -> z;
+             1   -> 0;
+            2:3  -> 1;
+            4:5  -> 2;
+                 -> 3;
+    endrecode;
+    RecBorder = z;
+  end;
+
+  function vsummary( vgiven, reset )
+    { reset is whether to reset counters for a series }
+    if reset then
+      xa = 0;
+    endif;
+    if vgiven in 1:3 then
+      xa = xa + 1;
+    endif;
+  end;
+
+  function accumulate( bas )
+    { bas = Whether a basic vaccination }
+    imm_a = imm_a + 1;
+    if bas then imm_b = imm_b+1 endif;
+  end
+
+  { check if vaccination was given }
+  function VacGiven( vyear, vreport )
+    numeric z = 0;
+    if vyear in 2000:2170,4444,6666,9997,9998 | vreport then
+      z = 1;
+    endif;
+    VacGiven = z;
+  end
+
+  { function to determine if a child/woman sleep in more than one net }
+  function IsDuplicated( xLine )
+    IsDuplicated = ( Duplicated(xLine) <> 0 );
+    Duplicated(xLine) = xLine;
+  end
+
+  // calculates adjustment to hemoglobin by altitude
+  function AdjustAltitude( alt )
+    numeric adjustment;   
+    Adjustment = (0.0056384 * alt + 0.00000033588 * alt * alt) / 10;        // divided by 10 to convert to deciliters
+    if adjustment < 0 | alt < 0 | alt = missing then adjustment = 0 endif;
+    AdjustAltitude = adjustment;
+  end;	
+
+  // calculates adjustment to hemoglobin by smoking
+  function AdjustSmoking( cigaret )
+    numeric adjustment; 
+    if cigaret in 0,notappl then
+      adjustment = 0;	
+    elseif cigaret in 1:80 then		  
+      if cigaret in 31:80 then cigaret = 30 endif;	
+      adjustment = (0.4565*cigaret - 0.0078*cigaret*cigaret) / 10;        // divided by 10 to convert to deciliters 		
+    else
+      adjustment = 0.3;
+    endif;
+    AdjustSmoking = adjustment;	
+  end;	
+  
+PROC CCIQ81_FF
+preproc
+
+  total    = 0;
+  total1   = 0;
+  numchi1  = 1;
+  numwom   = 1;
+  numchi2  = 1;
+  totalnum = 1;
+  totnum1  = 1;
+  emsample = 0;     { !!! 0-All women sample, 1-Ever married sample }
+  tot1524  = 1;
+  mensubs  = 100;   { !! subsample of men to determine the two most common misconceptions, 100% means no subsample }
+
+  ageprb   = notappl;
+  mortrate = notappl;
+  Period   = 60;    { Length of period - 60 = 5 year rates      }
+                    {                    12 = 1 year rates      }
+                    { value must be greater than or equal to 12 }
+
+  { Check permissible time periods for mortality }
+  if !Period in 12:60 then
+    errmsg("Period must be within 12 - 60 months for this algorithm");
+    stop(-1);
+  endif;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+  { vaccination table 10.2 - 10.4 }
+  { Age appropriate vaccines }
+  age_approp(1) =
+    ((vsched_hepb0  >= 0) * vnum_hepb0  ) +
+    ((vsched_bcg    >= 0) * vnum_bcg    ) +
+    ((vsched_penta  >= 0) * vnum_penta  ) +
+    ((vsched_polio0 >= 0) * vnum_polio0 ) +
+    ((vsched_polio  >= 0) * vnum_polio  ) +
+    ((vsched_ipv    >= 0) * vnum_ipv    ) +
+    ((vsched_pneumo >= 0) * vnum_pneumo ) +
+    ((vsched_rota   >= 0) * vnum_rota   );
+  age_approp(2) = age_approp(1);
+  { booster (penta 4) for children 24:35 }
+  if vsched_penta4 in 12:23 then
+    age_approp(2) = age_approp(2) + 1;
+  endif;
+  { Include MCV1 for age group 1 if before 12 months }
+  if vsched_mcv1 in 0:11 then
+    age_approp(1) = age_approp(1) + 1;
+    age_approp(2) = age_approp(2) + 1;
+  { Include MCV1 for age group 2 if 12 months or later and before 24 months }
+  elseif vsched_mcv1 in 12:23 then
+    age_approp(2) = age_approp(2) + 1;
+  endif;
+  { Include MCV2 for age group 2 if before 24 months for second age group }
+  if vsched_mcv2 in 0:23 then
+    age_approp(2) = age_approp(2) + 1;
+  endif;
+  errmsg("Age appropriate vaccines for %s = %d", getlabel(grpchild,1), age_approp(1));
+  errmsg("Age appropriate vaccines for %s = %d", getlabel(grpchild,2), age_approp(2));
+  errmsg("Including:");
+  if vsched_bcg    in  0:11 then  errmsg("%d BCG   ", vnum_bcg   ); endif;
+  if vsched_hepb0  in  0:11 then  errmsg("%d HepB0 ", vnum_hepb0 ); endif;
+  if vsched_penta  in  0:11 then  errmsg("%d Penta ", vnum_penta ); endif;
+  if vsched_penta4 in 12:23 then  errmsg("%d Penta4 in year 2", vnum_penta4); endif;
+  if vsched_polio0 in  0:11 then  errmsg("%d Polio0", vnum_polio0); endif;
+  if vsched_polio  in  0:11 then  errmsg("%d Polio ", vnum_polio ); endif;
+  if vsched_ipv    in  0:11 then  errmsg("%d IPV   ", vnum_ipv   ); endif;
+  if vsched_pneumo in  0:11 then  errmsg("%d Pneumo", vnum_pneumo); endif;
+  if vsched_rota   in  0:11 then  errmsg("%d Rota  ", vnum_rota  ); endif;
+  if vsched_mcv1   in  0:11 then  errmsg("%d MCV1  ", vnum_mcv1  ); endif;
+  if vsched_mcv2   in  0:11 then  errmsg("%d MCV2  ", vnum_mcv2  ); endif;
+  if vsched_mcv1   in 12:23 then  errmsg("%d MCV1  in year 2", vnum_mcv1  ); endif;
+  if vsched_mcv2   in 12:23 then  errmsg("%d MCV2  in year 2", vnum_mcv2  ); endif;
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 1 processing }
+  itot = tblrow( p01, hhrate );         { household response rate }
+  p01[itot,*] = p01[itot-1,*] * 100 / p01[itot-2,*];
+  itot = tblrow( p01, wrate );          { women response rate }
+  p01[itot,*] = p01[itot-1,*] * 100 / p01[itot-2,*];
+  itot = tblrow( p01, subrate );        { household response rate in subsample }
+  p01[itot,*] = p01[itot-1,*] * 100 / p01[itot-2,*];
+  itot = tblrow( p01, mrate );          { men response rate }
+  p01[itot,*] = p01[itot-1,*] * 100 / p01[itot-2,*];
+
+  { Table 2 processing }
+  itot = tblrow( p02, tot1549 = 1 );
+  do i = 0 while i <= itot
+    p02[i,0] = p02[i,1] * 100 / p02[itot,1];
+    p02[i,3] = p02[i,4] * 100 / p02[itot,4];
+  enddo;
+  { assign defaults/NA }
+  itot = tblrow( p02 );
+  p02[itot,  0:3] = NAcells;  { for row total 15-54[59] }
+  p02[itot-1,0:3] = NAcells;  { for row 50-54[59]       }
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p02", p02, tblcol(p02, isex=1 allindiv=1), itot, itot );
+  RowCheck2N("p02", p02, tblcol(p02, isex=2 allindiv=1), itot, itot );
+  RowCheck2N("p02", p02, tblcol(p02, isex=1 allindiv=2), itot, itot );
+  RowCheck2N("p02", p02, tblcol(p02, isex=2 allindiv=2), itot, itot );
+
+  { Table 3 processing }
+  imax = tblrow( p03, agegroup );
+  itfr = tblrow( p03, fert1 = 1 );
+  igfr = tblrow( p03, fert1 = 2 );
+  icbr = tblrow( p03, fert1 = 3 );
+  p03e  = p03e / 12;                                 { years of exposure   }
+  p03[1:imax,*] = p03b[1:imax,*] / p03e[1:imax,*];   { age specific rates  }
+  p03[itfr  ,*] = tblsum( row p03[1:imax,*] );       { total fertility rate }
+  p03[itfr  ,*] = p03[itfr,*]  * 5;
+  p03[igfr  ,*] = tblsum( row p03b[0:imax,  *] );    { general fertility rate }
+  p03[icbr  ,*] = tblsum( row p03e[1:imax-1,*] );
+  p03[igfr  ,*] = 1000 * p03[igfr,*] / p03[icbr,*];
+  p03[icbr  ,*] = 0;                                 { crude birth rate }
+  do i = 1 while i <= imax
+    p03[icbr,*] = p03[icbr,*] + ( (p03p[i+1,*] / p03p[0,*]) * p03[i,*] );
+  enddo;
+  p03[icbr,*] = p03[icbr,*] *  1000;
+  p03[0:imax,*] = 1000 * p03[0:imax,*];
+
+  { calculate ASFR for girls 10-14 }
+  { Adjust exposure and births }
+  itot = tblrow( p03ey );
+  do i = 0 while i < itot
+    recode i -> adjfact;
+           0 -> 6/5;     { adjustment for age 14 }
+           1 -> 6/3;     {                    13 }
+           2 -> 6/1;     {                    12 }
+           3 -> 0;       {                    11 }
+           4 -> 0;       {                    10 }
+    endrecode;
+    p03ey[i,*] = p03ey[i,*] * adjfact / 12;  { adjust and convert to years of exposure }
+    p03by[i,*] = p03by[i,*] * adjfact;
+  enddo;
+  p03ey = p03ey * 5/3;    { to compensate for exposure to women 10 and 11 years old }
+  p03ey[itot,*] = tblsum( row p03ey[0:itot-1,*] );
+  p03by[itot,*] = tblsum( row p03by[0:itot-1,*] );
+  { include ASFR for women 10-14 to table 3 }
+  p03[0,*] = p03by[itot,*] / p03ey[itot,*] * 1000;
+  { check unweighted N's }
+  { calculate total unweighted exposure }
+  imax = tblrow( p03u, agegroup );
+  p03u[imax+1,*] = tblsum( row p03u[0:imax,*] );
+  { calculate unweighted exposure in years }
+  p03u = p03u / 12;
+  FERTUnw( "p03", p03, p03u, tblrow(p03u), tblcol(p03u), 0 );
+
+  { Table 4 processing }
+  jtot = tblcol( p04 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    p04[*,j] = p04[*,j] * 100 / p04[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "p04", p04, 0, jtot-1, p04u, 0 );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p04", p04);
+  RowCheck2N("p04u", p04u);
+
+  { Table 5 processing }
+  itot = tblrow( p05 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    p05[i,*] = 100 * p05[i,*] / p05[itot,*];
+  enddo;
+  p05[itot-1,*] = tblsum(row p05[0:imax,*]);
+  { check unweighted N's }
+  Row2Dim( "p05", p05, 0, itot-2, p05u, 0 );
+  // check sum of N's in table body add up to total  
+  ColCheck2N("p05", p05);
+  ColCheck2N("p05u", p05u);
+
+  { Table 6 processing }
+  jtot = tblcol( p06 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    p06[*,j,*] = p06[*,j,*] * 100 / p06[*,jtot,*];
+  enddo;
+  p06[*,jmax+1,*] = tblsum( column p06[*, 0:jmax, *] );
+  any   = tblcol( p06, useany  );
+  nouse = tblcol( p06, nousing );
+  mod   = tblcol( p06, usemod  );
+  trad  = tblcol( p06, usetrad );
+  { total using any method }
+  p06[*, any,*] = tblsum( column p06[*, mod+1:nouse-1, *] );
+  { total using any modern method }
+  p06[*, mod,*] = tblsum( column p06[*, mod+1:trad-1, *] );
+  { total using any traditional or other method }
+  p06[*,trad,*] = tblsum( column p06[*,trad+1:nouse-1, *] );
+  { check unweighted N's }
+  Col3Dim( "p06", p06, 0, jtot-2, p06u, 0 );
+  // check sum of N's in table body add up to total  
+  RowCheck3N("p06", p06);
+  RowCheck3N("p06u", p06u);
+  // Suppress sexually active unmarried women data except for urban/rural and total
+  do i = 0 while i < tblrow(p06)
+    if !i in tblrow(p06, urbrur = 1),tblrow(p06, urbrur = 2) then
+      p06 [i,*,1] = default;
+      p06u[i,*,1] = default;
+	endif;
+  enddo;
+
+  { Table 7 processing }
+  jtot = tblcol( p07, numwom );
+  jmax = jtot - 1;
+  jtot1  = tblcol( p07, umetneed );                          { unmet need }
+  jtot2  = tblcol( p07, metneed );                           { met need using }
+  jtot3  = tblcol( p07, demandfp );                          { total demand }
+  jtot4  = tblcol( p07, demsatis );                          { % of demand  satisfied }
+  p07[*,jtot2-1,*] = p07[*,jtot2-1,*] + p07[*,jtot2,*];      { met need for all methods, sum of traditional + modern methods }
+  { calculates demand for FP as unmet need + using }
+  p07[*,jtot3  ,*] = p07[*,jtot1,  *] + p07[*,jtot2-1,*];    { total demand = unmet need + met need all methods }
+  p07[*,jtot4-1,*] = p07[*,jtot2-1,*] * 100 / p07[*,jtot3,*];  { % satisfied demand for all methods}
+  p07[*,jtot4  ,*] = p07[*,jtot2,*]   * 100 / p07[*,jtot3,*];  { % demand satisfied by modern methods }
+  do j = 0 while j <= jmax
+    p07[*,j,*] = p07[*,j,*] * 100 / p07[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "p07", p07, 0,      jtot-1, p07u, 0 );
+  Col3Dim( "p07", p07, jtot+1, jtot4,  p07u, 0 );
+  // check sum of N's in table body add up to total  
+  RowCheck3N("p07", p07, jtot);
+  RowCheck3N("p07u", p07u);
+  // Suppress sexually active unmarried women data except for urban/rural and total
+  do i = 0 while i < tblrow(p07)
+    if !i in tblrow(p07, urbrur = 1),tblrow(p07, urbrur = 2) then
+      p07 [i,*,1] = default;
+      p07u[i,*,1] = default;
+	endif;
+  enddo;
+
+  { Table 8 processing }
+  agedth = tblrow( p08w, agedth = 0 );
+  ageexp = tblrow( p08w, ageexp = 0 );
+  ageprb = tblrow( p08w, ageprb = 0 );
+
+  { Probabilities }
+  p08w[ageprb:ageprb+7,*] = p08w[agedth:agedth+7,*] / p08w[ageexp:ageexp+7,*];
+
+  { Rates }
+  NN   = tblrow( p08w, mortrate = 0 );
+  PNN  = tblrow( p08w, mortrate = 1 );
+  IMR  = tblrow( p08w, mortrate = 2 );
+  CMR  = tblrow( p08w, mortrate = 3 );
+  U5MR = tblrow( p08w, mortrate = 4 );
+
+  p08w[NN  ,*]   = p08w[ageprb,*];
+  p08w[IMR ,*]   = 1 - (1-p08w[ageprb  ,*]) * (1-p08w[ageprb+1,*]) * (1-p08w[ageprb+2,*]) * (1-p08w[ageprb+3,*]);
+  p08w[CMR ,*]   = 1 - (1-p08w[ageprb+4,*]) * (1-p08w[ageprb+5,*]) * (1-p08w[ageprb+6,*]) * (1-p08w[ageprb+7,*]);
+  p08w[U5MR,*]   = 1 - (1-p08w[IMR ,*])*(1-p08w[CMR,*]);
+  p08w[PNN ,*]   = p08w[IMR,*] - p08w[NN,*];
+  { Make probabilities and rates display per 1000 }
+  p08w[ageprb:U5MR,*] = 1000 * p08w[ageprb:U5MR,*];
+
+  { Put results in final table }
+  do i = 0 while i <= 2
+    p08[i,0:4] = p08w[NN:U5MR,i];
+  enddo;
+  { check un-weighted N's }
+  MORTUnw1( "p08", p08, p08u );
+
+  { Table 9 processing }
+  jtot1 = tblcol( p09, matcare1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    p09[*,j,*] = 100 * p09[*,j,*] / p09[*,jtot1,*];
+  enddo;
+  jtot2 = tblcol( p09, matcare2 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    p09[*,j,*] = 100 * p09[*,j,*] / p09[*,jtot2,*];
+  enddo;
+  jtot3 = tblcol( p09, matcare3 );
+  jmax  = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    p09[*,j,*] = 100 * p09[*,j,*] / p09[*,jtot3,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "p09", p09, 0,       jtot1-1, p09u, 0 );
+  Col3Dim( "p09", p09, jtot1+1, jtot2-1, p09u, 1 );
+  Col3Dim( "p09", p09, jtot2+1, jtot3-1, p09u, 2 );
+  // check sum of N's in table body add up to total  
+  RowCheck3N("p09", p09, jtot1);
+  RowCheck3N("p09", p09, jtot2);
+  RowCheck3N("p09", p09, jtot3);
+  RowCheck3N("p09u", p09u, 0);
+  RowCheck3N("p09u", p09u, 1);
+  RowCheck3N("p09u", p09u, 2);
+  
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( p09 );
+  p09[0:itot-1,*,1] = default;    // stillbirths
+  p09[0:itot-1,*,2] = default;    // live births and stillbirths
+  p09u[0:itot-1,*,1] = default;    // stillbirths
+  p09u[0:itot-1,*,2] = default;    // live births and stillbirths
+  j = tblcol(p09, matcare1 = 4);
+  p09(itot,j,1) = NAcells;
+  p09(itot,j,2) = NAcells;
+
+  { Table 10 processing }
+  jtot1 = tblcol( p10, vaccage1 = 0 allvacc );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    p10[*,j] = p10[*,j] * 100 / p10[*,jtot1];
+  enddo;
+  { 2nd panel }
+  jtot2 = tblcol( p10 );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    p10[*,j] = p10[*,j] * 100 / p10[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "p10", p10, 0,       jtot1-1, p10u, 0 );
+  Col2Dim( "p10", p10, jtot1+1, jtot2-1, p10u, 1 );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p10", p10, jtot1);
+  RowCheck2N("p10", p10, jtot2);
+  RowCheck2N("p10u", p10u, 0);
+  RowCheck2N("p10u", p10u, 1);
+
+  { Table 10w processing }
+  jtot = tblcol( p10w );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    p10w[*,j] = p10w[*,j] * 100 / p10w[*,jtot];
+  enddo;
+
+  { Table 11w processing }
+  itot = tblrow( p11w );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    p11w[i,*] = 100 * p11w[i,*] / p11w[itot,*];
+  enddo;
+
+  { Table 11 processing }
+  jtot1  = tblcol( p11, arisympt );
+  jmax   = jtot1 - 1;
+  do j = 0 while j <= jmax
+    p11[*,j] = 100 * p11[*,j] / p11[*,jtot1];
+  enddo;
+  jtot2  = tblcol( p11, chfever1 );
+  jmax   = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    p11[*,j] = 100 * p11[*,j] / p11[*,jtot2];
+  enddo;
+  jtot3  = tblcol( p11 );
+  jmax   = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    p11[*,j] = 100 * p11[*,j] / p11[*,jtot3];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "p11", p11, 0,       jtot1-1, p11u, 0 );
+  Col2Dim( "p11", p11, jtot1+1, jtot2-1, p11u, 1 );
+  Col2Dim( "p11", p11, jtot2+1, jtot3-1, p11u, 2 );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p11", p11, jtot1);
+  RowCheck2N("p11", p11, jtot2);
+  RowCheck2N("p11", p11, jtot3);
+  RowCheck2N("p11u", p11u, 0);
+  RowCheck2N("p11u", p11u, 1);
+  RowCheck2N("p11u", p11u, 2);
+
+  { Table 12 processing }
+  jtot1 = tblcol( p12, hghtage  );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+     if j <> 2 & j <> 7 & j <> 11 then
+       p12[*,j] = 100 * p12[*,j] / p12[*,jtot1];   { percents }
+     else
+       p12[*,j] = (p12[*,j] / p12[*,jtot1]) - 10;  { means }
+     endif;
+  enddo;
+  jtot2 = tblcol( p12, wghthght  );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+     if j <> 2 & j <> 7 & j <> 11 then
+       p12[*,j] = 100 * p12[*,j] / p12[*,jtot2];   { percents }
+     else
+       p12[*,j] = (p12[*,j] / p12[*,jtot2]) - 10;  { means }
+     endif;
+  enddo;
+  jtot3 = tblcol( p12, wghtage  );
+  jmax  = jtot3 - 1;
+  do j = jtot2+1 while j <= jmax
+     if j <> 2 & j <> 7 & j <> 11 then
+       p12[*,j] = 100 * p12[*,j] / p12[*,jtot3];   { percents }
+     else
+       p12[*,j] = (p12[*,j] / p12[*,jtot3]) - 10;  { means }
+     endif;
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "p12", p12,       0, jtot1-1, p12u, 0 );   { height for age }
+  Col2Dim( "p12", p12, jtot1+1, jtot2-1, p12u, 1 );   { weight for height }
+  Col2Dim( "p12", p12, jtot2+1, jtot3-1, p12u, 2 );   { weight for age }
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p12", p12, jtot1);
+  RowCheck2N("p12", p12, jtot2);
+  RowCheck2N("p12", p12, jtot3);
+  RowCheck2N("p12u", p12u, 0);
+  RowCheck2N("p12u", p12u, 1);
+  RowCheck2N("p12u", p12u, 2);
+
+  { Table 12w processing }
+  jtot = tblcol( p12w, missdat  );                        { missing data panel }
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+     p12w[*,j] = 100 * p12w[*,j] / p12w[*,jtot];
+  enddo;
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p12w", p12w, jtot);
+
+  jtot = tblcol( p12w, outrdat = 2 );                     { height for age }
+  p12w[*,jtot-1] = 100 * p12w[*,jtot-1] / p12w[*,jtot];
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p12w", p12w, jtot);
+
+  jtot = tblcol( p12w, outrdat = 4 );                     { weight for height }
+  p12w[*,jtot-1] = 100 * p12w[*,jtot-1] / p12w[*,jtot];
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p12w", p12w, jtot);
+
+  jtot = tblcol( p12w, outrdat = 6 );                     { weight for age }
+  p12w[*,jtot-1] = 100 * p12w[*,jtot-1] / p12w[*,jtot];
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p12w", p12w, jtot);
+
+  jmin = jtot+1;
+  jtot = tblcol( p12w, validat  );                        { valid data panel }
+  jmax = jtot - 1;
+  do j = jmin while j <= jmax
+     p12w[*,j] = 100 * p12w[*,j] / p12w[*,jtot];
+  enddo;
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p12w", p12w, jtot);
+  errmsg("Totals don't match in table 12 and 12W as mother's education is only available for women living in the household");
+
+  { Table 13 processing}
+  p13[0,0] = 100 * p13[0,0] / p13[1,0];
+  p13[2,0] = 100 * p13[2,0] / p13[3,0];
+  p13[4,0] = 100 * p13[4,0] / p13[5,0];
+  p13[6,0] = 100 * p13[6,0] / p13[7,0];
+  p13[8,0] = 100 * p13[8,0] / p13[9,0];
+ { check unweighted N's }
+  row2Dim( "P13", P13, 0, 0, P13u, 0 );
+  row2Dim( "P13", P13, 2, 2, P13u, 1 );
+  row2Dim( "P13", P13, 4, 4, P13u, 2 );
+  row2Dim( "P13", P13, 6, 6, P13u, 3 );
+  row2Dim( "P13", P13, 8, 8, P13u, 4 );
+
+  { Table 14 processing }
+  itot = tblrow( p14 );
+  jtot = tblcol( p14 );
+  jmax = jtot - 2;
+  p14[*,1] = tblsum( column p14[*,1:jmax] );        { calculates any anemia }
+  do j = 1 while j <= jmax
+     p14[*,j] = 100 * p14[*,j] / p14[*,jtot];
+  enddo;
+  p14[*,jmax+1] = p14[*,jmax+1] / p14[*,jtot];      // mean hemoglobin
+  // customize 1st column  
+  p14[*,0]    = default;  
+  p14(itot,0) = 0.0001;  
+  { check unweighted N's }
+  Col2Dim( "p14", p14, 1, jtot-1, p14u, 0 );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p14", p14);
+  RowCheck2N("p14u", p14u);
+
+  { Table 14w processing }
+  jtot = tblcol( p14w );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+     p14w[*,j] = 100 * p14w[*,j] / p14w[*,jtot];
+  enddo;
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p14w", p14w);
+
+  { Table 15 processing }
+  itot = tblrow( p15 );
+  jtot = tblcol( p15 );
+  jmax = jtot - 2;
+  p15[*,1] = tblsum( column p15[*,1:jmax] );        { calculates any anemia }
+  do j = 1 while j <= jmax
+     p15[*,j] = 100 * p15[*,j] / p15[*,jtot];
+  enddo;
+  p15[*,jmax+1] = p15[*,jmax+1] / p15[*,jtot];       // mean hemoglobin
+  // customize 1st column  
+  p15[*,0]    = default;  
+  p15(itot,0) = 0.0001;  
+  { check unweighted N's }
+  Col2Dim( "p15", p15, 1, jtot-1, p15u, 0 );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p15", p15);
+  RowCheck2N("p15u", p15u);
+
+  { Table 15w processing }
+  jtot = tblcol( p15w );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+     p15w[*,j] = 100 * p15w[*,j] / p15w[*,jtot];
+  enddo;
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p15w", p15w);
+
+  { Table 16 processing }
+  jtot1  = tblcol( p16, hhitn );
+  jmax   = jtot1 - 2;
+  p16[*,jtot1-1] = p16[*,jtot1-1] / p16[*,jtot1];    { mean number of ITNs per household }
+  do j = 0 while j <= jmax
+    p16[*,j] = 100 * p16[*,j] / p16[*,jtot1];
+  enddo;
+  jtot2  = tblcol( p16, persitn );
+  jmax   = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    p16[*,j] = 100 * p16[*,j] / p16[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "p16", p16, 0,       jtot1-1, p16u, 0 );
+  Col2Dim( "p16", p16, jtot1+1, jtot2-1, p16u, 1 );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p16", p16, jtot1);
+  RowCheck2N("p16", p16, jtot2);
+  RowCheck2N("p16u", p16u, 0);
+  RowCheck2N("p16u", p16u, 1);
+
+  { Table 17 processing }
+  jtot1  = tblcol( p17, chitn1 );
+  jmax   = jtot1 - 1;
+  do j = 0 while j <= jmax
+    p17[*,j] = 100 * p17[*,j] / p17[*,jtot1];
+  enddo;
+  jtot2  = tblcol( p17, chitn2 );
+  jmax   = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    p17[*,j] = 100 * p17[*,j] / p17[*,jtot2];
+  enddo;
+  jtot3  = tblcol( p17, pregitn1 );
+  jmax   = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    p17[*,j] = 100 * p17[*,j] / p17[*,jtot3];
+  enddo;
+  jtot4  = tblcol( p17, pregitn2 );
+  jmax   = jtot4 - 1;
+  do j = jtot3 + 1 while j <= jmax
+    p17[*,j] = 100 * p17[*,j] / p17[*,jtot4];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "p17", p17, 0,       jtot1-1, p17u, 0 );
+  Col2Dim( "p17", p17, jtot1+1, jtot2-1, p17u, 1 );
+  Col2Dim( "p17", p17, jtot2+1, jtot3-1, p17u, 2 );
+  Col2Dim( "p17", p17, jtot3+1, jtot4-1, p17u, 3 );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p17", p17, jtot1);
+  RowCheck2N("p17", p17, jtot2);
+  RowCheck2N("p17", p17, jtot3);
+  RowCheck2N("p17", p17, jtot4);
+  RowCheck2N("p17u", p17u, 0);
+  RowCheck2N("p17u", p17u, 1);
+  RowCheck2N("p17u", p17u, 2);
+  RowCheck2N("p17u", p17u, 3);
+
+  { Table 18 processing }
+  jtot   = tblcol( p18 );
+  jmax   = jtot - 1;
+  do j = 0 while j <= jmax
+    p18[*,j,*] = 100 * p18[*,j,*] / p18[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "p18", p18, 0, jtot-1, p18u, 0 );
+  // check sum of N's in table body add up to total  
+  RowCheck3N("p18", p18);
+  RowCheck3N("p18u", p18u);
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( p18 );
+  p18[0:itot-1,*,1] = default;    // stillbirths
+  p18[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table 19 processing }
+  jtot1  = tblcol( p19, chfever2 );
+  jmax   = jtot1 - 1;
+  do j = 0 while j <= jmax
+    p19[*,j] = 100 * p19[*,j] / p19[*,jtot1];
+  enddo;
+  jtot2  = tblcol( p19, fevtreat );
+  jmax   = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    p19[*,j] = 100 * p19[*,j] / p19[*,jtot2];
+  enddo;
+  jtot3  = tblcol( p19, antimala );
+  jmax   = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    p19[*,j] = 100 * p19[*,j] / p19[*,jtot3];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "p19", p19, 0,       jtot1-1, p19u, 0 );
+  Col2Dim( "p19", p19, jtot1+1, jtot2-1, p19u, 1 );
+  Col2Dim( "p19", p19, jtot2+1, jtot3-1, p19u, 2 );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p19", p19, jtot1);
+  RowCheck2N("p19", p19, jtot2);
+  RowCheck2N("p19", p19, jtot3);
+  RowCheck2N("p19u", p19u, 0);
+  RowCheck2N("p19u", p19u, 1);
+  RowCheck2N("p19u", p19u, 2);
+
+  { Table 20 processing }
+  jtot1  = tblcol( p20, rdtmala );
+  jmax   = jtot1 - 1;
+  do j = 0 while j <= jmax
+    p20[*,j] = 100 * p20[*,j] / p20[*,jtot1];
+  enddo;
+  jtot2  = tblcol( p20, micrmala );
+  jmax   = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    p20[*,j] = 100 * p20[*,j] / p20[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "p20", p20, 0,       jtot1-1, p20u, 0 );
+  Col2Dim( "p20", p20, jtot1+1, jtot2-1, p20u, 1 );
+
+  { Table 20w processing }
+  jtot   = tblcol( p20w );
+  jmax   = jtot - 1;
+  do j = 0 while j <= jmax
+    p20w[*,j] = 100 * p20w[*,j] / p20w[*,jtot];
+  enddo;
+
+  { Table 21 processing }
+  jtot1 = tblcol( p21, isex1 = 1 numwom = 1 );
+  jtot2 = tblcol( p21 );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p21", p21, jtot1);
+  RowCheck2N("p21", p21, jtot2);
+  RowCheck2N("p21u", p21u, 0);
+  RowCheck2N("p21u", p21u, 1);
+  { add age 15-19 & 20-24 }
+  imax  = tblrow( p21, age1524 = 1 );
+  p21[imax,*]  = p21[imax+1,*]  + p21[imax+2,*];
+  p21u[imax,*] = p21u[imax+1,*] + p21u[imax+2,*];
+  imax  = tblrow( p21, age1524 = 4 );
+  p21[imax,*]  = p21[imax+1,*]  + p21[imax+2,*];
+  p21u[imax,*] = p21u[imax+1,*] + p21u[imax+2,*];
+  { add marital status for never married }
+  imax  = tblrow( p21, mstat3 = 0 );
+  p21[imax,*]  = p21[imax+1,*]  + p21[imax+2,*];
+  p21u[imax,*] = p21u[imax+1,*] + p21u[imax+2,*];
+  { calculate percentages }
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    p21[*,j] = 100 * p21[*,j] / p21[*,jtot1];
+  enddo;
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    p21[*,j] = 100 * p21[*,j] / p21[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "p21", p21, 0,       jtot1-1, p21u, 0 );
+  Col2Dim( "p21", p21, jtot1+1, jtot2-1, p21u, 1 );
+
+  { Table 22.1 processing }
+  jtot1 = tblcol( p221, wsex12m );
+  jtot2 = tblcol( p221, wpart12m );
+  jtot3 = tblcol( p221, wsexoth );
+  jtot4 = tblcol( p221, wsexever );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p221", p221, jtot1);
+  RowCheck2N("p221", p221, jtot2);
+  RowCheck2N("p221", p221, jtot3);
+  RowCheck2N("p221", p221, jtot4);
+  RowCheck2N("p221u", p221u, 0);
+  RowCheck2N("p221u", p221u, 1);
+  RowCheck2N("p221u", p221u, 2);
+  RowCheck2N("p221u", p221u, 3);
+
+  { add age 15-24 }
+  imax  = tblrow( p221, age10 = 0 );
+  p221[imax,*]  = p221[imax+1,*]  + p221[imax+2,*];
+  p221u[imax,*] = p221u[imax+1,*] + p221u[imax+2,*];
+  { calculate percentages }
+  do j = 0 while j < jtot1
+    p221[*,j] = 100 * p221[*,j] / p221[*,jtot1];
+  enddo;
+  p221[*,jtot2-1] = 100 * p221[*,jtot2-1] / p221[*,jtot2];
+  p221[*,jtot3-1] = 100 * p221[*,jtot3-1] / p221[*,jtot3];
+  p221[*,jtot4-1] = p221[*,jtot4-1] / p221[*,jtot4];
+  { check unweighted N's }
+  Col2Dim( "p221", p221, 0,       jtot1-1, p221u, 0 );
+  Col2Dim( "p221", p221, jtot1+1, jtot2-1, p221u, 1 );
+  Col2Dim( "p221", p221, jtot2+1, jtot3-1, p221u, 2 );
+  Col2Dim( "p221", p221, jtot3+1, jtot4-1, p221u, 3 );
+
+  { Table 22.2 processing }
+  itot  = tblrow( p222 );
+  jtot1 = tblcol( p222, msex12m );
+  jtot2 = tblcol( p222, mpart12m );
+  jtot3 = tblcol( p222, msexoth );
+  jtot4 = tblcol( p222, msexever );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p222", p222, jtot1, itot-2, itot-2);
+  RowCheck2N("p222", p222, jtot2, itot-2, itot-2);
+  RowCheck2N("p222", p222, jtot3, itot-2, itot-2);
+  RowCheck2N("p222", p222, jtot4, itot-2, itot-2);
+  RowCheck2N("p222u", p222u, 0, itot-2, itot-2);
+  RowCheck2N("p222u", p222u, 1, itot-2, itot-2);
+  RowCheck2N("p222u", p222u, 2, itot-2, itot-2);
+  RowCheck2N("p222u", p222u, 3, itot-2, itot-2);
+
+  { add age 15-24 }
+  imax  = tblrow( p222, age10 = 0 );
+  p222[imax,*]  = p222[imax+1,*]  + p222[imax+2,*];
+  p222u[imax,*] = p222u[imax+1,*] + p222u[imax+2,*];
+  { calculate percentages }
+  do j = 0 while j < jtot1
+    p222[*,j] = 100 * p222[*,j] / p222[*,jtot1];
+  enddo;
+  p222[*,jtot2-1] = 100 * p222[*,jtot2-1] / p222[*,jtot2];
+  p222[*,jtot3-1] = 100 * p222[*,jtot3-1] / p222[*,jtot3];
+  p222[*,jtot4-1] = p222[*,jtot4-1] / p222[*,jtot4];
+  { check unweighted N's }
+  Col2Dim( "p222", p222, 0,       jtot1-1, p222u, 0 );
+  Col2Dim( "p222", p222, jtot1+1, jtot2-1, p222u, 1 );
+  Col2Dim( "p222", p222, jtot2+1, jtot3-1, p222u, 2 );
+  Col2Dim( "p222", p222, jtot3+1, jtot4-1, p222u, 3 );
+
+  { table 23.1 }
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p231", p231);
+  RowCheck2N("p231u", p231u);
+  iage = tblrow( p231, age10 = 0 );
+  p231[iage,*] = p231[iage+1,*] + p231[iage+2,*];
+  p231u[iage,*] = p231u[iage+1,*] + p231u[iage+2,*];
+  imar = tblrow( p231, mstat1 = 0 );
+  p231u[imar,*] = p231u[imar+1,*] + p231u[imar+2,*];
+  p231[imar,*] = p231[imar+1,*] + p231[imar+2,*];
+  jtot = tblcol( p231 );
+  do j = 0 while j < jtot
+    p231[*,j] = 100 * p231[*,j] / p231[*,jtot];
+  enddo;
+  { total for distribution, excludes column 0 }
+  jmax = tblcol( p231, total );
+  p231[*,jmax] = tblsum( column p231[*,0:jmax-1] );
+  { check unweighted N's }
+  Col2Dim( "p231", p231, 0,      jtot-4, p231u, 0 );          { percent distribution }
+  Col2Dim( "p231", p231, jtot-2, jtot-1, p231u, 0 );          { tested and receive results }
+
+  { table 23.2 }
+  itot = tblrow( p232 );
+  jtot = tblcol( p232 );
+  // check sum of N's in table body add up to total  
+  RowCheck2N("p232", p232, jtot, itot-2, itot-2);
+  RowCheck2N("p232u", p232u, 0, itot-2, itot-2);
+  iage = tblrow( p232, age10 = 0 );
+  p232[iage,*] = p232[iage+1,*] + p232[iage+2,*];
+  p232u[iage,*] = p232u[iage+1,*] + p232u[iage+2,*];
+  imar = tblrow( p232, mstat1 = 0 );
+  p232[imar,*] = p232[imar+1,*] + p232[imar+2,*];
+  p232u[imar,*] = p232u[imar+1,*] + p232u[imar+2,*];
+  do j = 0 while j < jtot
+    p232[*,j] = 100 * p232[*,j] / p232[*,jtot];
+  enddo;
+  { total for distribution, excludes column 0 }
+  jmax = tblcol( p232, total );
+  p232[*,jmax] = tblsum( column p232[*,0:jmax-1] );
+  { check unweighted N's }
+  Col2Dim( "p232", p232, 0,      jtot-4, p232u, 0 );          { percent distribution }
+  Col2Dim( "p232", p232, jtot-2, jtot-1, p232u, 0 );          { tested and receive results }
+
+PROC HOUSEHOLD
+preproc
+
+  urbrur  = AHTYPE;
+  region  = AHREGION;
+  wealthq = AHWLTHI;
+
+{ -------------------------------------------------------------------- }
+{ table 1 }
+
+  wresult  = notappl;
+  mresult  = notappl;
+  subresul = notappl;
+  { all households }
+  hhresult = 1;
+  xtab( p01);
+  if AHRESULT in 1,2,4,5,8 then
+     hhresult = 2;
+     xtab( p01 );
+     if AHRESULT = 1 then
+        hhresult = 3;
+        xtab( p01 );
+     endif;
+  endif;
+  hhresult  = notappl;
+  { households in subsample for men }
+  if AHELIGM = 1 then
+    subresul = 1;
+    xtab( p01);
+    if AHRESULT in 1,2,4,5,8 then
+       subresul = 2;
+       xtab( p01 );
+       if AHRESULT = 1 then
+          subresul = 3;
+          xtab( p01 );
+       endif;
+    endif;
+    subresul  = notappl;
+  endif;
+
+  i = 0;
+  while i <= 50 do           { stores women's age for the household }
+    agewomen(i) = 0;         { height/weight & anemia for children  }
+    i = i + 1;
+  enddo;
+
+  if AHRESULT <> 1 then skip case; endif;
+
+  if unweight then
+    rweight = 1
+  else
+    rweight = AHWEIGHT / 1000000;
+  endif;
+
+{ ------------------------------------------------------------------------ }
+{ --> table 3     to calculate proportion of women out of total population }
+
+  for i in AHSEC01_EDT do
+    if AH06 = 1 then
+      agegroup = notappl;
+      tothhpop = 1;
+      xtab( p03p, rweight );
+      if AH07 in 15:49 & AH04 = 2 then
+        tothhpop = notappl;
+        agegroup = int( AH07/5 ) - 2;
+        xtab( p03p, rweight );
+      endif;
+    endif;
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ Table 12, figure 5w for children }
+
+  { hemoglobin & anthropometrics for children in the household }
+  for i in ABSEC01_EDT do
+    agesingl = ACAGEM;     // calculated in FinImp as: int((ACCDCM-ACCDC)/DaysMonth)
+    ch       = AB102;
+    if AH06(ch) = 1 & agesingl < 60 then  { de-facto, < 60 children }
+      recode agesingl -> chage1;
+               0:5    -> 1;
+               6:11   -> 2;
+              12:23   -> 3;
+              24:35   -> 4;
+              36:47   -> 5;
+                      -> 6;
+      endrecode;
+      recode agesingl -> chage2;
+               0:23   -> 1;
+                      -> 2;
+      endrecode;
+      sex      = AH04(ch);
+      educmoth = notappl;
+      mothstat = notappl;
+	  recode AB113 -> measurer;     { !!! recode and adjust measurer code into codes 1 to 15(n) }
+	         1005  -> 1;
+			 1015  -> 2;
+			       -> 15;
+      endrecode;
+      if !special(ACMLN) & ACMLN < 900 then
+        mothstat = 1;                          { child's mother interviewed }
+        educmoth = ACED3;                      { mother's education }
+        if special(ACED3) then educmoth = 9 endif;
+      else                                     { mother was not interviewed }
+        live   = AH12(ch);
+        mother = AH13(ch);
+        recode   live   :: mother -> mothstat;
+            missing,8,2 ::        -> 3;                { mother not in household }
+                    1   ::   0    -> 3;                { mother alive but not in HH }
+                    1   ::  1:90  -> 2;                { mother lives in household }
+                        ::        -> 9;                { missing }
+        endrecode;
+        if mothstat = 2 then                   { mother lives in household }
+          recode AH17A(mother) -> educmoth;       { mother's education from HH, use same recode as QCED3 }
+                   notappl     -> 0;              { no education }
+                     1:3       -> AH17A(mother);  { primary, secondary, higher }
+                               -> 9;              { remaining (8,missing) as missing }
+          endrecode;
+        endif;
+      endif;
+
+{ ---------------------------------------------------------------------------- }
+{ Table 12 }
+
+      { children's anthropometry }
+      hghtage  = notappl;
+      wghthght = notappl;
+      wghtage  = notappl;
+      { height for age }
+      if !special(ACZSHA) & ACZSHA < 9990 then
+        hghtage  = 1;
+        if ACZSHA < (-300) then
+          xtab( p12, rweight );
+        endif;
+        hghtage  = 2;
+        if ACZSHA < (-200) then
+          xtab( p12, rweight );
+        endif;
+        hghtage  = 3;
+        zw = ACZSHA / 100 + 10;
+        xtab( p12, zw*rweight );
+        hghtage  = 4;
+        xtab( p12, rweight );
+        colpunw = 1;
+        xtab( p12u );
+        hghtage  = notappl;
+      endif;
+
+      { weight for height }
+      if !special(ACZSWH) & ACZSWH < 9990 then
+        wghthght = 1;
+        if ACZSWH < (-300) then
+          xtab( p12, rweight );
+        endif;
+        wghthght = 2;
+        if ACZSWH < (-200) then
+          xtab( p12, rweight );
+        endif;
+        wghthght = 3;
+        if ACZSWH > 200 then
+          xtab( p12, rweight );
+        endif;
+        wghthght = 4;
+        zw = ACZSWH / 100 + 10;
+        xtab( p12, zw*rweight );
+        wghthght = 5;
+        xtab( p12, rweight );
+        colpunw = 2;
+        xtab( p12u );
+        wghthght = notappl;
+      endif;
+
+      { weight for age }
+      if !special(ACZSWA) & ACZSWA < 9990 then
+        wghtage  = 1;
+        if ACZSWA < (-300) then
+          xtab( p12, rweight );
+        endif;
+        wghtage  = 2;
+        if ACZSWA < (-200) then
+          xtab( p12, rweight );
+        endif;
+        wghtage  = 3;
+        zw = ACZSWA / 100 + 10;
+        xtab( p12, zw*rweight );
+        wghtage  = 4;
+        xtab( p12, rweight );
+        colpunw = 3;
+        xtab( p12u );
+        wghtage  = notappl;
+      endif;
+
+{ --------------------------------------------------------------------------- }
+{ table 12w }
+
+      missdat  = notappl;
+      outrdat  = notappl;
+      validat  = notappl;
+      { height }
+      if special(AB108) | AB108 >= 999.0 then
+        missdat = 1;
+        xtab( p12w );
+      endif;
+      { weight }
+      if special(AB106) | AB106 >= 99.90 then
+        missdat = 2;
+        xtab( p12w );
+      endif;
+      { completeness of birth date }
+      if !ACFLG in 0,1 then
+        missdat = 3;
+        xtab( p12w );
+      endif;
+      { all children under 5 }
+      missdat = 4;
+      xtab( p12w );
+      missdat  = notappl;
+      { flagged height for age }
+      if ACZSHA >= 9990 then
+        outrdat = 1;
+        xtab( p12w );
+      endif;
+      { valid birth date and height }
+      if ACFLG in 0,1 & AB108 in 0:500.0 then
+        outrdat = 2;
+        xtab( p12w );
+      endif;
+      { flagged weight for height }
+      if ACZSWH >= 9990 then
+        outrdat = 3;
+        xtab( p12w );
+      endif;
+      { children with valid weight and height }
+      if AB106 in 0:50.0 & AB108 in 0:500.0 then
+        outrdat = 4;
+        xtab( p12w );
+      endif;
+      { flagged weight for age }
+      if ACZSWA >= 9990 then
+        outrdat = 5;
+        xtab( p12w );
+      endif;
+      { valid birth date and weight }
+      if ACFLG in 0,1 & AB106 in 0:50.0 then
+        outrdat = 6;
+        xtab( p12w );
+      endif;
+      outrdat  = notappl;
+      { valid height for age }
+      if !special(ACZSHA) & ACZSHA < 9990 then
+        validat = 1;
+        xtab( p12w );
+      endif;
+      { valid weight for height }
+      if !special(ACZSWH) & ACZSWH < 9990 then
+        validat = 2;
+        xtab( p12w );
+      endif;
+      { valid weight for age }
+      if !special(ACZSWA) & ACZSWA < 9990 then
+        validat = 3;
+        xtab( p12w );
+      endif;
+      { all children under 5 }
+      validat = 4;
+      xtab( p12w );
+      validat  = notappl;
+
+{ ---------------------------------------------------------------------------- }
+{ Table 14 & 14w for children }
+
+      { anemia for children 6-59 months who were given anemia test }
+      recode agesingl -> chage3;
+               6:11   -> 1;
+              12:23   -> 2;
+              24:35   -> 3;
+              36:47   -> 4;
+                      -> 5;
+      endrecode;
+      recode agesingl -> chage4;
+               6:23   -> 1;
+                      -> 2;
+      endrecode;
+      if AHELIHEM = 1 & agesingl > 5 then       { to determine coverage }
+        chanemia = 2;
+        xtab( p14w );
+      endif;
+      if AHELIHEM = 1 & agesingl > 5 & AB123 in 2:25.6 then
+        { adjust by altitude }
+        adjalt = AdjustAltitude( AHALTIT );
+        { hemoglobin adjusted by altitude }
+        { use when no decimals in data file
+        hemoadj  = int( ( AB123/10 - adjalt ) * 10 + 0.5);
+        }
+        anemean  = notappl;		
+        numchi2  = 1;		
+        hemoadj  = int( (AB123 - adjalt) * 10 + 0.5);
+        recode agesingl :: hemoadj -> anemiac;
+                        :: missing -> missing;
+                        ::   <70   -> 4;            // severe
+                 6:23   ::   <95   -> 3;            // moderate 
+                 6:23   ::   <105  -> 2;            // mild   
+                24:59   ::   <100  -> 3;            // moderate
+                24:59   ::   <110  -> 2;            // mild
+                        ::         -> notappl;
+        endrecode;
+        xtab( p14, rweight );
+        xtab( p14u );
+        // to calculate mean hemoglobin		
+        anemiac  = notappl;
+        numchi2  = notappl;		
+        anemean  = 1;		
+        xtab( p14, rweight*hemoadj/10 );
+        chanemia = 1;                           { for coverage }
+        xtab( p14w );
+      endif;                                   { anemia subsample }
+
+    endif;                 { end de-facto children }
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ table 15 & 15w for women }
+
+  { anemia for never married women in ever married samples }
+
+  if emsample then
+    numwom  = 1;
+    for i in ABSEC02_EDT do
+      lchild2  = 0;                               { no children }
+      pregstat = 2;                               { not pregnant }
+      age      = AH07(AB202);
+      recode age  -> age20;
+            15:19 -> 1;
+            20:29 -> 2;
+            30:39 -> 3;
+            40:49 -> 4;
+                  -> default;
+      endrecode;
+      hhi = AB202;
+      if AH08(hhi) = 4 & AH06(hhi) = 1 then       { never married & de-facto }
+        if AHELIHEM = 1 then                      { to determine coverage }
+          wmanemia = 2;
+          xtab( p15w );
+        endif;
+        if AHELIHEM = 1 & AB255 in 2.0:25.6 then        { woman tested for hemoglobin }
+          { adjust by altitude }
+          adjalt = AdjustAltitude( AHALTIT );
+          { hemoglobin adjusted by altitude, smoking not asked to never married women }
+          { use when no decimals in data file
+          hemoadj  = int( ( AB255/10 - adjalt ) * 10 + 0.5 );
+          }
+          numwom   = 1;		
+          anemean  = notappl;		
+          hemoadj  = int( (AB255 - adjalt) * 10 + 0.5 );
+          // never married women are not pregnant and no adjustment for smoking
+          recode hemoadj -> anemiaw;
+                 missing -> missing;
+                  <80    -> 4;        { severe }     
+                 <110    -> 3;        { moderate }
+                 <120    -> 2;        { mild }
+                         -> notappl;  
+          endrecode;
+          xtab( p15,rweight );
+          xtab( p15u );
+          // to calculate mean hemoglobin		
+          anemiaw  = notappl;
+          numwom   = notappl;		
+          anemean  = 1;		
+          xtab( p15, rweight*hemoadj/10 );
+          numwom   = 1;		
+          wmanemia = 1;                  { for coverage }
+          xtab( p15w );
+        endif;                          { end woman tested for hemoglobin }
+
+      endif;                  { end never married & de-facto }
+    enddo;
+  endif;               { end of ever married sample }
+
+  defacto = count( AHSEC01 where AH06 = 1 );      { number of defacto household members }
+
+  { Insecticide Treated Net (itn) }
+  { initialize arrays to check if a child/woman slept in more than one net              }
+  { the child/woman will be classifed according to the first net where he/she is found  }
+  do j = 1 while j <= 100
+    Duplicated(j) = 0;
+  enddo;
+  chld04  = 0;   { count children 0-4 under net }
+  chlditn = 0;   { count children 0-4 under itn }
+  prg1549 = 0;   { count pregnant women under net }
+  prgitn  = 0;   { count pregnant women undet itn }
+  totitn  = 0;   { count number of itn }
+  itn     = 0;
+  for i in AHSEC03_EDT do
+    { Insecticide Treated Net (ITN), defined as:
+      LLIN nets; Net obtained in mass campaign/ANC/Inmunization or obtained in a health facility }
+	itn = ( AH142 in 11:19 |  AH143 in 1:3 | AH144 in 1:2 );    { Cameron Taylor - 05/03/2019 - message in Outlook "Standard Applications" }
+
+    if itn then totitn = totitn + 1 endif; { Number of itn mosquit nets }
+
+    if AH145 = 1 then    { someone sleep under that net last night }
+
+      { first person in net }
+      pers = AH146A;
+      if pers in 1:AHMEMBER & AH06(pers) = 1 & !IsDuplicated(pers) then
+        if ML07I(pers) in 0:4       then  chld04  = chld04 + 1;  endif;
+        if itn & ML07I(pers) in 0:4 then  chlditn = chlditn + 1; endif;
+        if MLPREG(pers) = 1         then  prg1549 = prg1549 + 1; endif;
+        if MLPREG(pers) = 1 & itn   then  prgitn  = prgitn  + 1; endif;
+      endif;
+
+      { second person in net }
+      pers = AH146B;
+      if pers in 1:AHMEMBER & AH06(pers) = 1 & !IsDuplicated(pers) then
+        if ML07I(pers) in 0:4       then  chld04  = chld04 + 1;  endif;
+        if itn & ML07I(pers) in 0:4 then  chlditn = chlditn + 1; endif;
+        if MLPREG(pers) = 1         then  prg1549 = prg1549 + 1; endif;
+        if MLPREG(pers) = 1 & itn   then  prgitn  = prgitn  + 1; endif;
+      endif;
+
+      { third person in net }
+      pers = AH146C;
+      if pers in 1:AHMEMBER & AH06(pers) = 1 & !IsDuplicated(pers) then
+        if ML07I(pers) in 0:4       then  chld04  = chld04 + 1;  endif;
+        if itn & ML07I(pers) in 0:4 then  chlditn = chlditn + 1; endif;
+        if MLPREG(pers) = 1         then  prg1549 = prg1549 + 1; endif;
+        if MLPREG(pers) = 1 & itn   then  prgitn  = prgitn  + 1; endif;
+      endif;
+
+      { fourth person in net }
+      pers = AH146D;
+      if pers in 1:AHMEMBER & AH06(pers) = 1 & !IsDuplicated(pers) then
+        if ML07I(pers) in 0:4       then  chld04  = chld04 + 1;  endif;
+        if itn & ML07I(pers) in 0:4 then  chlditn = chlditn + 1; endif;
+        if MLPREG(pers) = 1         then  prg1549 = prg1549 + 1; endif;
+        if MLPREG(pers) = 1 & itn   then  prgitn  = prgitn  + 1; endif;
+      endif;
+
+      { !!! in case there is a fifth person
+      pers = AH146E;
+      if pers in 1:AHMEMBER & AH06(pers) = 1 & !IsDuplicated(pers) then
+        if ML07I(pers) in 0:4       then  chld04  = chld04 + 1;  endif;
+        if itn & ML07I(pers) in 0:4 then  chlditn = chlditn + 1; endif;
+        if MLPREG(pers) = 1         then  prg1549 = prg1549 + 1; endif;
+        if MLPREG(pers) = 1 & itn   then  prgitn  = prgitn  + 1; endif;
+      endif;
+      !!! }
+
+    endif;
+
+  enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 16 }
+
+  persitn = notappl;
+  hhitn = 3;
+  xtab( p16, rweight );
+  colpunw = 1;
+  xtab( p16u );
+  { ITN nets }
+  if totitn > 0 then
+    hhitn = 1;
+    xtab( p16, rweight );
+  endif;
+  { average number of ITN nets }
+  hhitn = 2;                                       { for mean number of any nets }
+  xtab( p16, totitn*rweight );
+  hhitn = notappl;
+  { households with at least one de-facto member }
+  if defacto then
+    persitn = 2;
+    xtab( p16, rweight );
+    colpunw = 2;
+    xtab( p16u );
+    if totitn / defacto >= 0.5 then                        { at least one net of any type for every two de-facto members }
+      persitn = 1;
+      xtab( p16, rweight );
+    endif;
+  endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 17 }
+
+  chitn1 = notappl;
+  chitn2 = notappl;
+  pregitn1 = notappl;
+  pregitn2 = notappl;
+  { counting  de-facto children under 5 }
+  ch5 = count( AHSEC01 where ML07I in 0:4 & AH06 = 1 );
+  { Children under 5 who slept under an ITN net the night before of the survey }
+  chitn1 = 2;
+  xtab( p17, ch5*rweight );
+  colpunw = 1;
+  xtab( p17u, ch5 );
+  if chlditn > 0 then
+    chitn1 = 1;
+    xtab( p17, chlditn*rweight );
+  endif;
+  chitn1 = notappl;
+
+  { Children under 5 who slept under an itn the night before of the survey in HH with ITNs }
+  if totitn > 0 then
+    chitn2 = 2;
+    xtab( p17, ch5*rweight );
+    colpunw = 2;
+    xtab( p17u, ch5 );
+    if chlditn > 0 then
+      chitn2 = 1;
+      xtab( p17, chlditn*rweight );
+    endif;
+  endif;
+  chitn2 = notappl;
+
+  { counting de-facto pregnant women }
+  pwom = count( AHSEC01 where AH06 = 1 & MLPREG = 1 );
+  { Pregnant women 15-49 under 5 who slept under a mosquito net the night before of the survey }
+  pregitn1 = 2;
+  xtab( p17, pwom*rweight );
+  colpunw = 3;
+  xtab( p17u, pwom );
+  if prgitn > 0 then
+    pregitn1 = 1;
+    xtab( p17, prgitn*rweight );
+  endif;
+  pregitn1 = notappl;
+
+  { Pregnant women 15-49 who slept under an itn the night before of the survey in HH with ITNs }
+  if totitn > 0 then
+    pregitn2 = 2;
+    xtab( p17, pwom*rweight);
+    colpunw = 4;
+    xtab( p17u, pwom );
+    if prgitn > 0 then
+      pregitn2 = 1;
+      xtab( p17, prgitn*rweight);
+    endif;
+  endif;
+  pregitn2 = notappl;
+
+{-----------------------------------------------------------------------------------------------}
+{ tables 20, 20w }
+
+  { households selected for malaria teesting }
+  if AHELIGM = 1 then
+    for i in ABSEC01_EDT do
+      agesingl = int( (ABINTCD - ACCDC) / DaysMonth );
+      ch       = AB102;
+      rdtmala = notappl;
+      micrmala = notappl;
+      if AH06(ch) = 1 & agesingl in 6:59 then  { de-facto children, 6:59 }
+        rdtmicr = 3;
+        xtab( p20w );
+        if ABM114 in 1,2 then
+          rdtmicr = 1;
+          xtab( p20w );
+          rdtmala = 2;
+          xtab( p20, rweight );
+          colpunw = 1;
+          xtab( p20u );
+          if ABM114 = 1 then               { RDT positive }
+            rdtmala = 1;
+            xtab( p20, rweight );
+          endif;
+          rdtmala = notappl;
+        endif;
+        if loadcase(TESTLOG_DICT, ABM112) & LFINRES in 0,1 then     // barcode found and test with valid result
+          rdtmicr = 2;
+          xtab( p20w );
+          micrmala = 2;
+          xtab( p20, rweight );
+          colpunw = 2;
+          xtab( p20u );
+          if LFINRES = 1 then       // microscopy positive
+            micrmala = 1;
+            xtab( p20, rweight );
+          endif;
+          micrmala = notappl;
+        endif;
+      endif;                 { end de-facto children }
+    enddo;
+  endif;
+
+PROC INDIVIDUAL
+preproc
+
+  if AH06(ALINE) <> 1 then skip case; endif;       { skip non-defacto individuals }
+
+  { these variables need to be set up again as they may be }
+  { changed to notappl for men 50+                         }
+  urbrur  = AHTYPE;
+  region  = AHREGION;
+  wealthq = AHWLTHI;
+
+{ -------------------------------------------------------------------- }
+{ table 1 continuation }
+  wresult  = notappl;
+  mresult  = notappl;
+  if AQTYPE = 2 then
+    wresult = 1;
+    xtab( p01 );
+    if ARESULT = 1 then
+      wresult = 2;
+      xtab( p01 );
+    endif;
+  elseif AQTYPE = 1 then
+    mresult = 1;
+    xtab( p01 );
+    if ARESULT = 1 then
+      mresult = 2;
+      xtab( p01 );
+    endif;
+  endif;
+
+  if ARESULT <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1
+  else
+    rweight = AWEIGHT/1000000;
+  endif;
+
+  if AQTYPE = 2 then                      { women tables }
+    isex    = 1;
+    isex1   = 1;
+    { men variables are set to NA }
+    men5059 = notappl;
+    totmen  = notappl;
+    tot1549 = 1;                          { to tally all women }
+    di      = AINTC;
+    db      = A110C;
+    age     = int( (di-db)/12 );
+    age5    = int( age/5 )-2;
+    agewomen(ALINE) = A111C;              { woman's age for table 11 }
+    fertwgt = rweight;
+    recode age  -> age10;
+          15:19 -> 1;
+          20:24 -> 2;
+          25:29 -> 3;
+          30:39 -> 4;
+          40:49 -> 5;
+                -> default;
+    endrecode;
+    recode age  -> age20;
+          15:19 -> 1;
+          20:29 -> 2;
+          30:39 -> 3;
+          40:49 -> 4;
+                -> default;
+    endrecode;
+    recode age  -> age1524;
+          15:17 -> 2;
+          18:19 -> 3;
+          20:22 -> 5;
+          23:24 -> 6;
+                -> default;
+    endrecode;
+    surv    = count( AWSEC2B where A224 = 1 );
+    survprg = surv + (A232 = 1);
+    recode surv -> lchild;
+            0   -> 0;
+           1:2  -> 1;
+           3:4  -> 2;
+                -> 3;
+    endrecode;
+    recode survprg -> lchild1;
+             0:6   -> survprg;
+                   -> 6;
+    endrecode;
+    recode A208 -> lchild2;
+            0:1 -> A208;
+            2:3 -> 2;
+            4:5 -> 3;
+                -> 4;
+    endrecode;
+    { pregnant/not pregnant }
+    pregstat = 2;
+    if A232 = 1 then
+      pregstat = 1
+    endif;
+    currmarr = ( A701 in 1,2 );
+
+    { definition of sexually active used for tables and also to define unmet need }
+    recode currmarr :: A723U :: A723N -> sexactv;   { Sexually active status }
+               1    ::       ::       -> 1;         { Currently married or }
+                    ::  1    ::  0:30 -> 1;         { Sex in last month or }
+                    ::  2    ::  0:4  -> 1;         { Sex in last 4 weeks (special code) }
+                    ::notappl::       -> 0;         { Never had sex }
+                    ::       ::       -> 2;         { Not currently married, and not had sex in last month }
+    endrecode;
+    recode A701 :: A702 :: A703 -> mstat;
+            1:2 ::      ::      -> A701;
+                ::  3   ::      -> 0;
+                ::      :: 2:3  -> 3;
+                ::      ::  1   -> 4;
+                ::      ::      -> 9;
+    endrecode;
+    recode mstat ::    A722   -> mstat1;
+             0   :: 0,missing -> 2;
+             0   ::           -> 1;
+            1:2  ::           -> 3;
+             9   ::           -> 9;
+                 ::           -> 4;
+    endrecode;
+    mstat3 = mstat1;
+    if mstat3 in 3,4 then mstat3 = 3 endif;
+    recode mstat -> mstat2;
+             0   -> 0;
+            1:2  -> 1;
+             9   -> 9;
+                 -> 2;
+    endrecode;
+    recode A113  ::  A114   -> educ;
+            2    ::         -> 0;
+        missing  ::         -> 9;
+                 :: missing -> 9;
+                 ::         -> A114;
+    endrecode;
+    educmoth = educ;
+    relig  = A130;
+    if relig  = missing then relig  =  9 endif;
+    ethnic = A131;
+    if ethnic = missing then ethnic =  9 endif;
+    healthst = A112;
+
+  { -------------------------------------------------------------------- }
+  { table 2 }
+
+    allindiv = 1;
+    xtab( p02, rweight );
+    allindiv = 2;
+    xtab( p02 );
+
+  { -------------------------------------------------------------------- }
+  { table 3 }
+
+    agegroup = age5;
+    higcm = di - 1;
+    lowcm = higcm - 35;
+    for i in AWSEC2B_EDT do
+      dc = A220C;
+      if A223 = 1 & dc >= lowcm & dc <= higcm then      // include only live births
+        agegroup = int( (dc-db)/60 ) - 2;
+        if agegroup < 0 then agegroup = 0 endif;
+        xtab( p03b, rweight );
+      endif;
+    enddo;
+
+    xurbrur = urbrur;
+    higage = int( (higcm-db) / 12 );
+    medcm = db + 12 * ( int( higage / 5 ) * 5 );
+    if medcm < lowcm then
+      medcm = lowcm;
+    endif;
+    higexp = higcm - medcm + 1;
+    lowexp = medcm - lowcm;
+    agegroup = int( higage / 5 ) - 2;
+    if agegroup in 0:7 then
+      if emsample then
+        total = 0;       urbrur = notappl;
+        fertwgt = rweight * AWFTOTAL / 100;
+      endif;
+      xtab( p03e, fertwgt*higexp );
+      xtab( p03u, higexp*fertwgt/rweight );
+      if emsample then
+        total = notappl; urbrur = xurbrur;
+        fertwgt = rweight * AWFTYPE / 100;
+        xtab( p03e, fertwgt*higexp );
+        xtab( p03u, higexp*fertwgt/rweight );
+      endif;
+    endif;
+    agegroup = agegroup - 1;
+    if agegroup in 0:7 then
+      if emsample then
+        total = 0;       urbrur = notappl;
+        fertwgt = rweight * AWFTOTAL / 100;
+      endif;
+      xtab( p03e, fertwgt*lowexp );
+      xtab( p03u, lowexp*fertwgt/rweight );
+      if emsample then
+        total = notappl; urbrur = xurbrur;
+        fertwgt = rweight * AWFTYPE / 100;
+        xtab( p03e, fertwgt*lowexp );
+        xtab( p03u, lowexp*fertwgt/rweight );
+      endif;
+    endif;
+    total  = 0;
+    urbrur = xurbrur;
+
+  { calculate exposure and births for girls 10-14       }
+  { exposure is calculated separately one age at a time }
+  higcm  = di - 1;                                        { High & ... }
+  lowcm  = higcm - 35;                                    { ... low limits }
+  do j = 10 while j <= 14
+    ageyoung = j;
+    lowage = A110C + ageyoung * 12;
+    higage = lowage + 11;
+    totexp = 0;
+    if lowage in lowcm:higcm then
+      totexp = higcm - lowage + 1;
+    elseif higage in lowcm:higcm then
+      totexp = higage - lowcm + 1;
+    endif;
+    if totexp > 12 then totexp = 12 endif;
+    if totexp then
+      if emsample then
+        urbrur = notappl; total = 0;
+        fertwgt = AWFTOTAL / 100 * rweight;
+      endif;
+      xtab( p03ey, totexp*fertwgt );
+      if emsample then
+        urbrur = xurbrur; total = notappl;
+        fertwgt = AWFTYPE / 100 * rweight;
+        xtab( p03ey, totexp*fertwgt );
+      endif;
+    endif;
+  enddo;
+  if emsample then
+    urbrur = xurbrur; total = 0;
+  endif;
+  { count Births }
+  for i in AWSEC2B_EDT do
+    if A223 = 1 & A220C in lowcm:higcm then      // include only live births
+      ageyoung = int( (A220C-A110C)/12 );               { Age at birth }
+      if ageyoung in 10:14 then
+        xtab( p03by, rweight );
+      endif;
+    endif;
+  enddo;
+
+  { -------------------------------------------------------------------- }
+  { table 4 }
+
+  xurbrur = urbrur;
+  xregion = region;
+  xeduc   = educ;
+  xwealth = wealthq;
+  if A111C in 15:19 then
+    numwom  = notappl;
+    ageteen = A111C;
+    if count( AWSEC2B where A223 = 1 ) then
+      pregteen = 1;
+      xtab( p04, rweight );
+	endif;
+    if count( AWSEC2B where A223 in 2:4 ) then
+      pregteen = 2;
+      xtab( p04, rweight );
+	endif;
+    if A232 = 1 then
+      pregteen = 3;
+      xtab( p04, rweight );
+    endif;
+    if A212W > 0 | A232 = 1 then
+      pregteen = 4;
+      xtab( p04, rweight );
+	endif;
+    numwom = 1;
+	pregteen = notappl;
+    xtab( p04, rweight );
+    xtab( p04u );
+    if emsample then
+      urbrur  = notappl; region = notappl;  wealthq = notappl;
+      educ = notappl; total = 0;
+      xtab( p04, rweight*(AWFTOTAL/100-1) );
+      xtab( p04u, AWFTOTAL/100-1 );
+      ageteen = notappl;
+      urbrur  = xurbrur; region = notappl;  wealthq = notappl;
+      educ    = notappl; total = notappl;
+      xtab( p04, rweight*(AWFTYPE/100-1) );
+      xtab( p04u, AWFTYPE/100-1 );
+      urbrur = notappl; region = xregion;  wealthq = notappl;
+      educ   = notappl; total = notappl;
+      xtab( p04, rweight*(AWFREG/100-1) );
+      xtab( p04u, AWFREG/100-1 );
+      urbrur = notappl; region = notappl;  wealthq = notappl;
+      educ   = xeduc;   total = notappl;
+      xtab( p04, rweight*(AWFEDUC/100-1) );
+      xtab( p04u, AWFEDUC/100-1 );
+      urbrur = notappl; region = notappl;  wealthq = xwealth;
+      educ   = notappl; total = notappl;
+      xtab( p04, rweight*(AWFWLTH/100-1) );
+      xtab( p04u, AWFWLTH/100-1 );
+      urbrur = xurbrur; region = xregion;  wealthq = xwealth;
+      educ   = xeduc;   total = 0;
+    endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 5 }
+
+    if currmarr then
+
+      if A803 <> notappl then
+        x803x804 = A803;
+      else
+        x803x804 = A804;
+      endif;
+
+      recode x803x804 :: A805U :: A805N -> desire;
+                1     ::   1   ::  0:23 -> 1;   { Wants within 2 years }
+                1     ::   1   ::   <93 -> 2;   { Wants after 2 years  }
+                1     ::   1   ::       -> 3;   { Wants unsure timing  }
+                1     ::   2   ::   0:1 -> 1;   { Wants within 2 years }
+                1     ::   2   ::   <93 -> 2;   { Wants after 2 years  }
+                1     ::   2   ::       -> 3;   { Wants unsure timing  }
+                1     ::   9   ::    93 -> 1;   { Wants within 2 years }
+                1     ::   9   ::    94 -> 7;   { Declared infecund    }
+                1     ::   9   ::    95 -> 3;   { Wants after marriage }
+                1     ::   9   ::       -> 3;   { Wants unsure timing  }
+                2     ::       ::       -> 5;   { Wants No More        }
+                3     ::       ::       -> 7;   { Declared infecund    }
+                8     ::       ::       -> 4;   { Undecided            }
+             missing  ::       ::       -> 9;   { Missing              }
+             notappl  ::       ::       -> 6;   { Sterilized           }
+                      ::       ::       -> default;
+      endrecode;
+      xtab( p05, rweight );
+      xtab( p05u )
+    endif;
+
+{ -------------------------------------------------------------------- }
+{ table 6 }
+
+    if currmarr | sexactv = 1 then
+      nousing  = notappl;
+      modmeth  = notappl;
+      tradmeth = notappl;
+      meth = A307N;
+      recode meth -> method;
+              1:2 -> meth;    { female/male sterilization }
+               3  -> 3;       { IUD }
+               4  -> 4;       { injectables }
+               5  -> 5;       { implants }
+               6  -> 6;       { pill }
+               7  -> 7;       { male condom }
+               8  -> 8;       { female condom }
+               9  -> 9;       { emergency contraception }
+              10  -> 10;      { SDM - standard days method }
+              11  -> 11;      { LAM }
+              95  -> 12;      { other modern }
+              12  -> 21;      { periodic abstinence }
+              13  -> 22;      { withdrawal }
+              96  -> 23;      { folk method }
+                  -> notappl;
+      endrecode;
+      if method = notappl then             { not using }
+        nousing = 1
+      elseif method <= 20 then             { using modern }
+        modmeth = method;
+      else                                 { using traditional & others }
+        tradmeth = method;
+      endif;
+      if currmarr then
+	    cmsau1 = 0;
+        xtab( p06, rweight );
+        xtab( p06u );
+      endif;
+      if !currmarr & sexactv = 1 then
+	    cmsau1 = 1;
+        xtab( p06, rweight );
+        xtab( p06u );
+      endif;
+    endif;
+
+{ -------------------------------------------------------------------- }
+{ tables 7 }
+
+    { unmet need variables }
+    V603  = notappl;
+    V625A = notappl;
+    if A307N in 1:2 then
+      V602 = 4
+    elseif A232 = 1 then
+      recode A803 -> V602;
+               1  -> 1;       { have another }
+               2  -> 3;       { no more }
+               8  -> 2;       { undecided/DK }
+                  -> missing;
+      endrecode;
+    else
+      recode A804 -> V602;
+               1  -> 1;       { have another }
+               2  -> 3;       { no more }
+               3  -> 5;       { says can't get pregnant }
+               8  -> 2;       { undecided/DK }
+                  -> missing;
+      endrecode;
+    endif;
+    { special adjustments }
+    if A805U = 9 & A805N = 94 then    { !! }  { Says can't get pregnant }
+      V602 = 5
+    elseif A804 = notappl & A722 = 0 then
+      V602 = 6
+    endif;
+    { Preferred waiting time }
+    if V602 = 1 then
+      V603 = unitnumb( A805U, A805N );
+      if V603 = 993 then V603 = 994                     { Soon/now }
+      elseif V603 = 994 then V603 = default             { Can't get pregnant }
+      elseif V603 = 995 then V603 = 993                 { After marriage }
+      endif
+    endif;
+    { Preferred waiting time (grpd) }
+    recode V603  -> V604;
+        notappl  -> notappl;
+        missing  -> missing;
+     199,299,999 -> missing;
+     198,298,998 -> 8;
+            994  -> 0;                      { Soon/Now }
+          >=990  -> 7;                      { Non-numeric }
+        100:171  -> int( (V603-100)/12 );
+        172:197  -> 6;
+        200:205  -> V603-200;
+        206:297  -> 6;
+                 -> default;
+    endrecode;
+    { Desire for more children }
+    recode V602 :: V604 -> V605;
+             1  ::  0:1 -> 1;
+             1  ::  2:6 -> 2;
+             1  ::      -> 3;
+             2  ::      -> 4;
+             3  ::      -> 5;
+             4  ::      -> 6;
+             5  ::      -> 7;
+             6  ::      -> 8;
+       missing  ::      -> missing;
+       notappl  ::      -> notappl;
+    endrecode;
+    pregnant = ( A232 = 1 );
+    amenor   = 0;
+    amenor24  = 0;
+    pregs5  = count( AWSEC2B where (AINTCD - A220CD) / DaysMonth < 60 );
+    if !pregnant & pregs5 then
+      for i in AWSEC04_EDT do
+        birthmts = int( (AINTCD - A220CD(A404)) / DaysMonth );
+        if birthmts < 60 & A476 = 2 then
+          amenor = 1;
+        endif;
+        if birthmts < 24 & A476 = 2 then
+          amenor24 = 1;
+        endif;
+      enddo;
+    endif;
+    xusing   = ( A307N in 1:96 );
+    whenwant = notappl;
+
+    cutoff   = 24;               { months between last pregnancy and interview - months }
+    lastpreg = notappl;
+    if A212W then
+      lastpreg = int( (AINTCD - A220CD(A212W)) / DaysMonth);
+    endif;
+
+    { Computation of last period }
+    a239x = unitnumb( A236U, A236N );
+    recode a239x :: pregs5 :: amenor -> lper3;
+        missing  ::        ::        -> 0;      { Considered fecund }
+           994   ::        ::        -> 9999;   { Hysterectomy - considered infecund (separate from 994 in some surveys) }
+           992   ::        ::        -> 9999;   { !!!! In menopause/hysterectomy - considered infecund }
+           996   ::   >0   ::        -> (-1);   { Never menstruated, but had a birth in the last five years - considered fecund }
+           996   ::        ::        -> 9999;   { Never menstruated - considered infecund }
+           995   ::   >0   ::        -> (-2);   { Before last birth, but had birth in last 5 years - considered fecund - flagged cases on V227 if not amenorrheic }
+           995   ::        ::        -> 9997;   { Considered infecund if last birth > than cutoff, otherwise should be caught as amenorrheic (although some are not - see V227 for flag) }
+          >990   ::        ::        -> 0;      { Special values not considered as infecund }
+       100:490   ::        ::    1   -> (-3);   { Amenorrheic 24-59 months - time since last birth duration given - considered fecund }
+       100:190   ::        ::        -> int((a239x-100)/30);	{ days   }
+       200:290   ::        ::        -> int((a239x-200)/4.3);	{ weeks  }
+       300:390   ::        ::        -> a239x-300;			    { months }
+       400:490   ::        ::        -> (a239x-400)*12;         { years  }
+                 ::        ::        -> (-4);	  { Other special values not considered as infecund }
+    endrecode;
+    { fixes for handling inconsistencies - only affects cases where not reported amenorrheic, reported time since last priod and this is before last birth, and birth in the last 5 years }
+    if !amenor24 & pregs5 & ( !totocc(AWSEC04) | A476(1) in missing ) & ( lper3 in 1:990 & lper3 > lastpreg | a239x = 995 )  then
+      amenor = 1;
+      if lastpreg < cutoff then amenor24 = 1 endif;
+    endif;
+
+    infec1   = 0;	{ married 5+ years ago, no children in last 5 years, not pregnant, and never used }
+    infec3   = 0;	{ "Can't get pregnant" on future intentions or "menopausal/hysterectomy" on {DHSVI} reason not currently using a contraceptive method/{DHSII-DHSV} reason not intending to use a contraceptive method in the future }
+    infec4   = 0;	{ Time since last birth >= 6 months or menopausal/hysterectomy or never menstruated or last period before last birth }
+
+    { Whether/when the current pregnancy or the last birth was wanted }
+    x = notappl;
+    if pregnant then                { Determines if current pregnancy wanted ... }
+      recode A234 -> x;
+               1  -> 1;
+               2  -> A235 + 1;
+                  -> A234;
+      endrecode;
+    elseif amenor24 then			{ ... or last birth was wanted }
+      recode A408(1) -> x;
+               1     -> 1;
+               2     -> A409(1) + 1;
+                     -> A408(1);
+      endrecode;
+    endif;
+    recode x   -> whenwant;
+       notappl -> notappl;
+         1:3   -> x;
+         4,8   -> 8;					{ Cases of don't know or "up to God treated as code 8 here }
+               -> 9;	                { Other codes treated as missing (instead of to space (2) as in the old version) }
+    endrecode;
+
+    { infec1 = married 5+ years ago, no pregnancies in last 5 years, not pregnant, and never used contraception }
+    if currmarr & AINTC-A715C >= 60 & !pregs5 & !pregnant & A320 = 2 then
+      infec1 = 1
+    endif;
+
+    { infec3 = Not pregnant and not amenorrheic (up to cutoff) and says
+               a) she can't get pregnant on future desires, or
+               b) she is menopausal or had hysterectomy on reason not using contraception (was reason not intending to use in the future in DHSII-V) }
+    if !pregnant & !amenor24 then
+      if V602 = 5 | pos( "D", A810 ) then     	{ Can't get pregnant }  { !!! code E not included - see email May 13, 2014 from Sarah Bradley }
+        infec3 = 1
+      endif;
+    endif;
+
+    { infec4 = Not pregnant and not amenorrheic (up to cutoff) and
+               a) she is menopausal or had hysterectomy on "time since last birth" (V215 = 994 [or 993]), or
+               b) she never menstruated on "time since last birth" (V215 = 996), or
+               c) last period was before last birth and last birth was more than 60 months ago, or
+               d) not amenorrheic 24-59 months and last period was 6+ months ago }
+    if !pregnant & !amenor24 then 			{ Determines infecundity based on last period }
+      if     lper3 >= 9990        then infec4 = 1	{ infec4a }
+      elseif lper3 >= 6 & !amenor then infec4 = 1 endif; { infec4b }
+
+    endif;	{ Not pregnant and not amenorrheic }
+
+    { combine infecundity groups }
+    infec = (infec1 | infec3 | infec4);
+
+    { Exposure (revised definition - Bradley/Croft/Fishel) }
+    recode pregnant :: amenor24 :: infec -> V625A;				{ Pregnant, Amenorrheic, Infecund, or Fecund }
+              1     ::          ::       -> 1;  { Pregnant }
+                    ::   1      ::       -> 2;  { Amenorrheic }
+                    ::          ::   1   -> 3;  { Infecund }
+                    ::          ::       -> 0;  { Fecund }
+    endrecode;
+
+    { Unmet need (revised definition - Bradley/Croft/Fishel) }
+    recode xusing :: sexactv :: V625A :: whenwant :: V605 -> V626A;
+             1    ::         ::       ::          ::  5:7 -> 4;   { Users - limit }
+             1    ::         ::       ::          ::      -> 3;   { Users - space }
+                  ::         ::  1,2  ::    2     ::      -> 1;   { P/A Need - space }
+                  ::         ::  1,2  ::    3     ::      -> 2;   { P/A Need - limit }
+                  ::         ::  1,2  ::    8     ::      -> 1;   { P/A Need - space - if 'not sure' on whenwant (some surveys) }
+                  ::         ::  1,2  ::    9     ::      -> 99;  { Missing }
+                  ::         ::  1,2  ::    1     ::      -> 7;   { P/A No need }
+                  ::    1    ::    0  ::          ::   2  -> 1;   { Need - space }
+                  ::    1    ::    0  ::          ::  3:4 -> 1;   { Need - space }
+                  ::    1    ::    0  ::          ::   5  -> 2;   { Need - limit }
+                  ::    1    ::    0  ::          ::   1  -> 7;   { No need }
+                  ::         ::    3  ::          ::      -> 9;   { Infecund }
+                  ::    0    ::       ::          ::      -> 0;   { Never had sex }
+                  ::    2    ::       ::          ::      -> 8;   { No sex last month }
+                  ::         ::       ::          ::   1  -> 7;   { No need }
+                  ::         ::       ::          ::      -> 999;
+    endrecode;
+    recode V626A -> umetneed;                    { unmet need }
+            1:2  -> 1;
+                 -> notappl;
+    endrecode;
+    modmeth = ( A307N in 1:11,95 );            { !!! check CS modern methods }
+    recode V626A :: modmeth -> metneed;           { currently using }
+            3:4  ::    1    -> 2;
+            3:4  ::         -> 1;
+                 ::         -> notappl;
+    endrecode;
+    numwom = 1;
+    demandfp = notappl;
+    demsatis = notappl;
+    if currmarr then
+	  cmsau4 = 0;
+      xtab( p07, rweight );
+      xtab( p07u );
+    endif;
+    if !currmarr & sexactv = 1 then
+	  cmsau4 = 1;
+      xtab( p07, rweight );
+      xtab( p07u );
+    endif;
+
+{ -------------------------------------------------------------------- }
+{ table 8 }
+
+    upplim = AINTC - 1;				 	{ Upper limit of all periods }
+
+    for ch in AWSEC2B_EDT do				{ Loop through all children }
+
+      if A223 <> 1 then next endif;         // include just live births
+
+      { Fixes for age at death exceeding maximum }
+      if A224 = 2 & A220C+A228C > AINTC then
+        errmsg("Reducing age at death for child %2d from %d to %d",ch,A228C,AINTC-A220C);
+        A228C = AINTC-A220C;
+      endif;
+
+      { Construct working variables for 8.4 here }
+
+      if A220C < limits(0) then				{ Exclude children born after upper limit }
+
+        { tabulates exposure }
+        perborn = int( (AINTC-A220C-1)/Period );	{ Period in child was born }
+        agedth = notappl;
+        { Loop through age groups - if child alive or died before following age group }
+        do grps = 0 while grps <= 7 &
+           A220C+agegrps(grps) < limits(0) &		{ Exposure before date of interview and ... }
+          (A224 = 1 or A228C >= AgeGrps(grps))		{ either alive or up until child died }
+
+          ageexp = grps;
+
+          { Find first period for this age group }
+          do p = perborn while p > 0 & A220C+agegrps(grps) >= limits(p) by (-1)
+          enddo;
+
+          { Assume cohort B }
+          iter = 1; n = 1;
+          { If next age is in the next period, then half in this period, half in next }
+          if A220C+agegrps(grps+1) >= limits(p) then
+            { Cohort A, C }
+            n = 0.5;
+            if p > 0 then	{ If not the most recent period, then place half in this period and the next }
+              iter = 2;
+            endif;
+          endif;
+
+    	  { Loop through periods for the tallying }
+          colper = p;
+          do k = 1 while k <= iter
+            if colper in 0:2 then			{ If period is in periods of interest - 0-4, 5-9, 10-14 }
+              xtab( p08w , n*rweight );    	{ Tally into exposure rows }
+              xtab( p08u , n         );    	{ Tally into exposure rows - unweighted }
+            endif;
+            if k < iter then
+              colper = colper - 1;			{ Next period for tallying }
+            endif;
+          enddo;
+
+          { Tabulate deaths }
+          { If child died and death was in this age group }
+          if A224 = 2 and A228C in AgeGrps(grps):AgeGrps(grps+1)-1 then
+            agedth = grps; ageexp = notappl;
+            if p = 0 and limits(p) = AINTC and n = 0.5 then n = 1 endif;  { Count deaths completely if period ends with date of interview }
+            colper = p;
+            do k = 1 while k <= iter
+              if colper in 0:2 then			{ If period is in periods of interest - 0-4, 5-9, 10-14 }
+                xtab( p08w , n*rweight );   { Tally into deaths rows }
+              endif;
+              if k < iter then
+                colper = colper - 1;		{ Next period for tallying }
+              endif;
+            enddo;
+          endif;
+
+        enddo;				{ End of loop for age groups }
+
+      endif;				{ End of condition for births after upper limit }
+    enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 9 }
+
+    lastone = 1;
+    for i in AWSEC04_EDT do
+      agemnth = int( (AINTCD - A220CD(A404)) / DaysMonth );
+      gage = int( (A220C(A404)-A110C-60)/180 );
+      livbirth = (A405 in 1,2);
+      stlbirth = (A405 in 3,4);
+      matcare1 = notappl;
+      matcare2 = notappl;
+      matcare3 = notappl;
+      if agemnth < 24 & A405 in 1,3 then     { last birth/stillbirth in last 2 years }
+        if lastone then livstill = 1 endif;
+        lastone = 0;
+
+        { prenatal care by health professional include: }
+        { doctor, nurse, midwife, auxiliary midwife, etc }
+        if poschar("ABC", A414) then
+          matcare1 = 1;
+          xtab( p09, rweight );
+        endif;
+
+        { 4+ ANC visits }
+        if A417 in 4:90 then
+          matcare1 = 2;
+          xtab( p09, rweight );
+        endif;
+
+        { received iron supplements }
+        if A428 in 1:998 then
+          matcare1 = 3;
+          xtab( p09, rweight );
+        endif;
+
+        matcare1 = 5;                      { number of women }
+        xtab( p09, rweight );
+        colpunw = 1;
+        xtab( p09u );
+        matcare1 = notappl;
+
+        { panel 3 }
+        matcare3 = 2;
+        xtab( p09, rweight );
+        colpunw = 3;
+        xtab( p09u );
+        xprovid = notappl;
+        xunit   = notappl;
+        xnumber = notappl;
+        if A435 in 21:46 then             // include NGOs
+          if A448 = 1 then
+            xprovid = A450;
+            xunit   = A449U;
+            xnumber = A449N;
+          elseif A455 = 1 then
+            xprovid = A457;
+            xunit   = A456U;
+            xnumber = A456N;
+          endif;
+        else
+          xprovid = A466;
+          xunit   = A465U;
+          xnumber = A465N;
+        endif;
+        recode xprovid :: xunit ::   xnumber  -> first2d;     { woman's checkup first two days }
+                11:29  ::   1   ::    0:71    -> 1;
+                11:29  ::   1   :: 98,missing -> 1;           { includes DK and missing for hours }
+                11:29  ::   2   ::     0:2    -> 1;
+                       ::       ::            -> 0;
+        endrecode;
+        if first2d then
+          matcare3 = 1;
+          xtab( p09, rweight );
+        endif;
+        matcare3 = notappl;
+
+        { tetanus protection only for last birth, not tallyed for stillbirths }
+        if A405 = 1 then                   { last birth only }
+
+          { calculate number of tetanus injections and time since last one }
+          totetan  = 0;              { total tetanus injections }
+          if A421 in 1:7 then totetan = A421 endif;   { during pregnancy }
+          if A424 in 1:7 then                      { before pregnancy }
+            totetan = totetan + A424;
+          endif;
+          { determine number of years since last injection }
+          lastinj = 99;
+          if A421 in 1:7 then
+            lastinj = 0;              { because last injection was given during pregnancy }
+          elseif A425 in 0:40 then
+            lastinj = A425 - int( agemnth/12 );
+            if lastinj < 0 then lastinj = 0 endif;
+          endif;
+          { last birth protected against TT during last pregnancy }
+          { -2+ injections during last pregnancy                  }
+          { -2+ the last within 3 years                           }
+          { -3+ the last within 5 years                           }
+          { -4+ the last within 10 years                          }
+          { -5+ in lifetime                                       }
+          if A421 in 2:7 |
+             totetan in 2:14 & lastinj in 0:2 |
+             totetan in 3:14 & lastinj in 0:4 |
+             totetan in 4:14 & lastinj in 0:9 |
+             totetan in 5:14 then
+            matcare1 = 4;
+            xtab( p09, rweight );
+          endif;
+		  matcare1 = notappl;
+        endif;
+
+      endif;                     // end last birth/stillbirth in last 2 years
+
+      livstill = 1;
+      { second panel for all births/stillbirths }
+      if agemnth < 24 & A405 in 1:4 then
+        { deliver by health professional include: }
+        { doctor, nurse, midwife, auxiliary midwife, etc }
+        if poschar("ABC", A434) then
+          matcare2 = 1;
+          xtab( p09, rweight );
+        endif;
+        { deliver in health facility include: }
+        { government and private health facilities }
+        if A435 in 21:46 then             // include NGOs
+          matcare2 = 2;
+          xtab( p09, rweight );
+        endif;
+        matcare2 = 3;                      { all births/stillbirths in last 2 years }
+        xtab( p09, rweight );
+        colpunw = 2;
+        xtab( p09u );
+        matcare2 = notappl;
+	  endif;                              { end all births/stillbirths in the last 2 years }
+      livstill = 0;
+
+    enddo;
+
+{ -------------------------------------------------------------------- }
+{ tables 10, 10w }
+
+    for i in AWSEC05_EDT do
+      agemnth = int( (AINTCD - A220CD(A503)) / DaysMonth );
+      sex = A219(A503);
+      border2 = RecBorder( A503 );          { birth order }
+
+      bcg     = notappl;
+      hepb0   = notappl;
+      penta   = notappl;
+      polio   = notappl;
+      ipv     = notappl;
+      pneumo  = notappl;
+      rota    = notappl;
+      mcv1    = notappl;
+      allvacc= notappl;
+      vacc2   = notappl;
+      cutoff  = 1;
+
+      if agemnth in 12:35 & A224(A503) = 1 then     { for living children }
+
+        imm_a  = 0;    // number of vaccinations given
+        imm_b  = 0;    // number of vaccinations given which are basic
+        recode agemnth -> grpchild;
+                12:23  -> 1;
+                       -> 2;
+        endrecode;
+        recode A507   ::  A504   ::  A505   -> cardseen;
+              missing ::         ::         -> 9;  { missing }
+                1:3   ::         ::         -> 1;  { seen }
+                 4    ::         ::         -> 2;  { not seen }
+                      ::    4    ::    1    -> 2;
+                      ::    4    ::    2    -> 3;  { no card }
+                      :: missing ::         -> 9;
+                      ::         :: missing -> 9;
+        endrecode;
+
+        { BCG }
+        xgiven1 = VacGiven( Y509B, (A514 = 1) );
+        if vsched_bcg >= 0 & xgiven1 then
+          bcg = 0;
+          accumulate( 1 );
+          if agemnth in 12:23 then xtab( p10, rweight ) endif;
+        endif;
+        bcg = notappl;
+
+        { HepB birth dose }
+        xgiven1 = VacGiven( Y509H, (A515 = 1) );
+        if vsched_hepb0 >= 0 & xgiven1 then
+          hepb0 = 0;
+          accumulate( 0 );
+          if agemnth in 12:23 then xtab( p10, rweight ) endif;
+        endif;
+        hepb0 = notappl;
+
+        { Penta summary - for children 12:23 }
+        if vsched_penta >= 0 then
+          xgiven1 = VacGiven( Y509D1, (A521 = 1) );
+          xgiven2 = VacGiven( Y509D2, (A522 in 2:6) );
+          xgiven3 = VacGiven( Y509D3, (A522 in 3:6) );
+          xgiven4 = VacGiven( Y509D4, (A522 in 4:6) );  // in case penta 1,2,3 are missing
+          vsummary( xgiven1, 1 );
+          vsummary( xgiven2, 0 );
+          vsummary( xgiven3, 0 );
+          vsummary( xgiven4, 0 );
+          { Penta tallying }
+          do y = 1 while y <= 3
+            penta = y;
+            if xa >= y then
+              accumulate( 1 );
+              if agemnth in 12:23 then xtab( p10, rweight ) endif;
+            endif;
+          enddo;
+        endif;
+        penta = notappl;
+
+        { Penta4 (booster) - for children 24:35 }
+        if vsched_penta4 >= 0 & agemnth in 24:35 & xa >= 4 then
+          accumulate( 0 );
+          vacc2 = 2;
+          xtab( p10, rweight );
+        endif;
+        vacc2 = notappl;
+
+        { Polio 0 }
+        xgiven1 = VacGiven( Y509P0, (A517 = 1 & A518 = 1) );
+        if vsched_polio0 >= 0 & xgiven1 then
+          polio = 0;
+          accumulate( 0 );
+          if agemnth in 12:23 then xtab( p10, rweight ) endif;
+        endif;
+
+        { Polio summary }
+        if vsched_polio >= 0 then
+          if !A519 in 1:6 then
+            if A517 = 1 & A518 = 2 then
+              npolio = 1
+            else
+              npolio = 0
+            endif;
+          else
+            npolio = A519;
+            if A518 = 1 then npolio = npolio - 1 endif;
+          endif;
+          xgiven1 = VacGiven( Y509P1, (npolio >= 1) );
+          xgiven2 = VacGiven( Y509P2, (npolio >= 2) );
+          xgiven3 = VacGiven( Y509P3, (npolio >= 3) );
+          vsummary( xgiven1, 1 );
+          vsummary( xgiven2, 0 );
+          vsummary( xgiven3, 0 );
+          { Polio tallying }
+          do y = 1 while y <= 3
+            polio = y;
+            if xa >= y then
+              accumulate( 1 );
+              if agemnth in 12:23 then xtab( p10, rweight ) endif;
+            endif;
+          enddo;
+		  npolio = xgiven1+xgiven2+xgiven3;
+        endif;
+        polio = notappl;
+
+        { IPV }
+        xgiven1 = VacGiven( Y509IPV, (A520 = 1) );
+        if vsched_ipv >= 0 & xgiven1 then
+          ipv = 0;
+          vsummary( xgiven1, 1 );
+          accumulate( 0 );
+          if agemnth in 12:23 then xtab( p10, rweight ) endif;
+		  // if 2 OPVs given and IPV given according to card and on a different date from the OPVs,
+		  // then count IPV as the 3rd polio towards the basic vaccinations
+		  if npolio = 2 & Y509IPV in 2000:2170 & !(A509IPV in A509P1,A509P2,A509P3) then 
+		    imm_b = imm_b+1
+		  endif;
+        endif;
+        ipv = notappl;
+
+        { Pneumococcal summary }
+        if vsched_pneumo >= 0 then
+          xgiven1 = VacGiven( Y509N1, (A523 = 1) );
+          xgiven2 = VacGiven( Y509N2, (A524 in 2:6) );
+          xgiven3 = VacGiven( Y509N3, (A524 in 3:6) );
+          vsummary( xgiven1, 1 );
+          vsummary( xgiven2, 0 );
+          vsummary( xgiven3, 0 );
+          { Pneumococcal tallying }
+          do y = 1 while y <= 3
+            pneumo = y;
+            if xa >= y then
+              accumulate( 0 );
+              if agemnth in 12:23 then xtab( p10, rweight ) endif;
+            endif;
+          enddo;
+        endif;
+        pneumo = notappl;
+
+        { Rotavirus summary }
+        if vsched_rota >= 0 then
+          xgiven1 = VacGiven( Y509R1, (A525 = 1) );
+          xgiven2 = VacGiven( Y509R2, (A526 in 2:6) );
+          xgiven3 = VacGiven( Y509R3, (A526 in 3:6) );
+          vsummary( xgiven1, 1 );
+          vsummary( xgiven2, 0 );
+          vsummary( xgiven3, 0 );
+          { Rotavirus tallying }
+          do y = 1 while y <= 3
+            rota = y;
+            if xa >= y then
+              accumulate( 0 );
+              if agemnth in 12:23 then xtab( p10, rweight ) endif;
+            endif;
+          enddo;
+        endif;
+        rota = notappl;
+
+        { Measles containing vaccine 1 }
+        if vsched_mcv1 >= 0 then
+          xgiven1 = VacGiven( Y509M1, (A527 = 1) );
+          xgiven2 = VacGiven( Y509M2, (A528 in 2:6) );
+          cutoff = 1+int(vsched_mcv1/12);
+          vsummary( xgiven1, 1 );
+          if !xgiven1 & xgiven2 then
+            vsummary( xgiven2, 0 );
+            errmsg("MCV2 given, but MCV1 not given. MCV2 treated as MCV1") summary;
+          endif;
+          if xa >= 1 & cutoff in 1,2 then
+            accumulate( 1 );
+            if agemnth in 12:23 & cutoff = 1 then      { first panel in 10 }
+              mcv1 = 1;
+              xtab( p10, rweight );
+            endif;
+          endif;
+          mcv1 = notappl;
+
+          { Measles containing vaccine 2 }
+          if vsched_mcv2 >= 0 & xgiven1 then	{ If MCV2 in schedule and not already counted as MCV1 }
+            cutoff = 1+int(vsched_mcv2/12);
+            vsummary( xgiven2, 1 );
+            if xa >= 1 then
+              if agemnth in 24:35 & cutoff = 2 then { second panel in table 10 }
+                vacc2 = 1;
+                accumulate( 0 );
+                xtab( p10, rweight );
+              endif;
+            endif;
+          endif;
+          vacc2 = notappl;
+        endif;
+
+        { All basic vaccinations }
+        numeric basic_vaccs = 8; { BCG, DPT 1-3, Polio 1-3, MCV1 }
+
+        if imm_b = basic_vaccs then
+          allvacc = 1;
+          if agemnth in 12:23 then xtab( p10, rweight ) endif;
+        endif;
+
+        { All age appropriate vaccinations }
+        if imm_a  > age_approp(grpchild) then errmsg("Too many vaccinations - found=%d, age appropriate=%d",imm_a,age_approp(grpchild)); endif;
+
+        if imm_a = age_approp(grpchild) then
+          allvacc = 2;
+          if agemnth in 24:35 then
+            vacc2 = 3;
+            allvacc = notappl;
+          endif;
+          xtab( p10, rweight );
+        endif;
+        allvacc = notappl;
+        vacc2    = notappl;
+
+        { No vaccinations }
+        if imm_a = 0 & agemnth in 12:23 then
+          allvacc = 3;
+          xtab( p10, rweight );
+        endif;
+
+        { Total children }
+        allvacc = 4;
+        if agemnth in 24:35 then
+          vacc2 = 4;
+          allvacc = notappl;
+        endif;
+        xtab( p10, rweight );
+        colpunw = 1;
+        if agemnth in 24:35 then colpunw = 2 endif;
+        xtab( p10u );
+
+        allvacc = notappl;
+        vacc2 = notappl;
+
+        { table 10w }
+        withcard = 3;
+        xtab( p10w, rweight );
+        if  A504 in 1:3 | A505 = 1 then
+          withcard = 1;
+          xtab( p10w, rweight );
+        endif;
+        if A507 in 1:3 then
+          withcard = 2;
+          xtab( p10w, rweight );
+        endif;
+
+      endif;                                { end living children >= 12 }
+    enddo;
+
+{ -------------------------------------------------------------------- }
+{ tables 11w & 11 }
+
+    percntag = 0;
+    for i in AWSEC6A_EDT do
+      agemnth = int( (AINTCD - A220CD(A603)) / DaysMonth );
+      if agemnth < 60 & A224(A603) = 1 then  { living children under 5 }
+        recode agemnth -> chage1;
+                 < 6   -> 1;
+                6:11   -> 2;
+               12:23   -> 3;
+               24:35   -> 4;
+               36:47   -> 5;
+                       -> 6;
+        endrecode;
+        sex = A219(A603);
+
+        if A622 = 1 & A623 in 1,3 then    { ARI symptoms }
+          illness = 1;
+          xtab( p11w, rweight );
+        endif;
+        if A618 = 1 then                  { fever }
+          illness = 2;
+          xtab( p11w, rweight );
+        endif;
+        if A608 = 1 then                  { diarrhea }
+          illness = 3;
+          xtab( p11w, rweight );
+        endif;
+        illness = 4;
+        xtab( p11w, rweight );
+
+        arisympt = notappl;
+        chfever1 = notappl;
+        chdiarrh = notappl;
+        { treatment for ARI/fever }
+        { !!! Include: Public medical sector, Private medical sector, NGO medical sector,
+                       Shop, Market, and Itinerant drug seller.
+              Exclude: Traditional practitioner, Other specify, Survey specific as friends/family, church }
+        hlthprv = poschar("ABCDEFGHIJKLMNOPQST", A626); // Excludes R, X
+        if A622 = 1 & A623 in 1,3 then    { ARI symptoms }
+          arisympt = 2;
+          xtab( p11, rweight );
+          colpunw = 1;
+          xtab( p11u );
+          if hlthprv then
+            arisympt = 1;
+            xtab( p11, rweight );
+          endif;
+        endif;
+        arisympt = notappl;
+        if A618 = 1 then                  { with fever }
+          chfever1 = 2;
+          xtab( p11, rweight );
+          colpunw = 2;
+          xtab( p11u );
+          if hlthprv then
+            chfever1 = 1;
+            xtab( p11, rweight );
+          endif;
+        endif;
+        chfever1 = notappl;
+        if A608 = 1 then                       { with diarrhea }
+          chdiarrh = 6;
+          xtab( p11, rweight );
+          colpunw = 3;
+          xtab( p11u );
+          { treatment for diarrhea }
+          { !!! Include: Public medical sector, Private medical sector, NGO medical sector,
+                         Shop, Market, and Itinerant drug seller.
+                Exclude: Traditional practitioner, Other specify, Survey specific as friends/family, church }
+          if poschar("ABCDEFGHIJKLMNOPQST", A612) then // Excludes R, X
+            chdiarrh = 1;
+            xtab( p11, rweight );
+          endif;
+          if A615A = 1 | A615B = 1 then        { ORS given }
+            chdiarrh = 2;
+            xtab( p11, rweight );
+          endif;
+          if A615C = 1 then                    { zinc given }
+            chdiarrh = 3;
+            xtab( p11, rweight );
+          endif;
+          if ( A615A = 1 | A615B = 1 ) & A615C = 1 then        { ORS & zinc }
+            chdiarrh = 4;
+            xtab( p11, rweight );
+          endif;
+          if ( A615A = 1 | A615B = 1 ) & A615C = 1 & A610 in 2:4 then   { ORS & zinc & continued feeding }
+            chdiarrh = 5;
+            xtab( p11, rweight );
+          endif;
+        endif                                  { end diarrhea }
+
+      endif;                         { end living children under 5 }
+    enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 13 }
+
+    { indicator put to breast within one hour }
+	idxbrf = 0;
+    for i in AWSEC04_EDT do
+      agemnth = int( (AINTCD - A220CD(A404)) / DaysMonth );
+	  if A405 in 1,2 & agemnth in 0:23 then    // children 0-23 months old
+	    iycfind = 2;
+		xtab( p13, rweight );
+        rowpunw = 1;
+        xtab( p13u );
+		if A482U in 0,1 & A482N = 0 then
+	      iycfind = 1;
+  		  xtab( p13, rweight );
+		endif;
+	  endif;
+	  if A404 = A635 then   // index of child selected for feeding practices to get breastfeeding status
+	    idxbrf = i
+      endif;
+	enddo;
+	{ age of the youngest child living with the mother }
+    agemnth = int( (AINTCD - A220CD(A635)) / DaysMonth );
+	{ indicator exclusive breasfeeding }
+	if agemnth in 0:5 then
+      iycfind = 4;
+      xtab( p13, rweight );
+      rowpunw = 2;
+      xtab( p13u );
+      liquids = ( given1(A636A)  | given1(A636B) | given1(A636C) |
+                  given1(A637AY) | given1(A636E) | given1(A636F) |
+		          given1(A636G)  | given1(A636H) | given1(A636I) |
+				  given1(A636J)  | given1(A636K) );
+      solids  = ( given1(A637A)  | given1(A637B) | given1(A637C) |
+                  given1(A637D)  | given1(A637E) | given1(A637F) |
+                  given1(A637G)  | given1(A637H) | given1(A637I) |
+                  given1(A637J)  | given1(A637K) | given1(A637L) |
+                  given1(A637M)  | given1(A637N) | given1(A637O) |
+				  given1(A637P)  | given1(A637Q) | given1(A637R) |
+				  given1(A637S)  | given1(A637T) | given1(A637U) |
+				  given1(A637V) );
+      if A485(idxbrf) = 1 & !liquids & !solids then
+        iycfind = 3;
+        xtab( p13, rweight );
+      endif;
+    endif;	                                     { end 0:5 months old }
+	{ indicator fed with at least 5 groups of foods }
+	if agemnth in 6:23 then
+      iycfind = 6;
+      xtab( p13, rweight );
+      rowpunw = 3;
+      xtab( p13u );
+      group1 = ( given2(A485(idxbrf)) );            // breastmilk
+      group2 = ( given2(A637B) | given2(A637D) );   // Grains, white/pale starchy roots, tubers, and plantains
+      group3 = ( given2(A637N) | given2(A637O) );   // Beans, peas, lentils, nuts and seeds
+      group4 = ( given2(A636B) | given2(A636C) | given2(A637AY) | given2(A637A) | given2(A637P) ); // Dairy products
+      group5 = ( given2(A637I) | given2(A637J) | given2(A637K)  | given2(A637L) );   // Flesh foods
+      group6 = ( given2(A637M) );                   // Eggs
+      group7 = ( given2(A637C) | given2(A637E) | given2(A637G) );  // Vitamin-A rich fruits and vegetables
+      group8 = ( given2(A637F) | given2(A637H) );   // Other fruits and vegetables
+      allgrp = group1 + group2 + group3 + group4 + group5 + group6 + group7 + group8;
+      if allgrp >= 5 then
+        iycfind = 5;
+        xtab( p13, rweight );
+	  endif;
+	endif;                                       { end 6:23 months old }
+	{ indicator given sweet beverages }
+	if agemnth in 6:23 then
+      iycfind = 8;
+      xtab( p13, rweight );
+      rowpunw = 4;
+      xtab( p13u );
+	  sweetdrk = ( given2(A636CA) | given2(A637AYA) | given2(A636EA) | given2(A636F) |
+                   given2(A636G)  | given2(A636H)   | given2(A636IA) | given2(A636KA) );
+      if sweetdrk then
+        iycfind = 7;
+        xtab( p13, rweight );
+      endif;
+    endif;                                       { end 6:23 months old }
+	{ indicator given unhealthy foods }
+	if agemnth in 6:23 then
+      iycfind = 10;
+      xtab( p13, rweight );
+      rowpunw = 5;
+      xtab( p13u );
+	  unhealthy = ( given2(A637R) | given2(A637S) | given2(A637T) );  // added sentinel sweet foods 4/20/2022
+      if unhealthy then
+        iycfind = 9;
+        xtab( p13, rweight );
+      endif;                                     { end 6:23 months old }
+    endif;
+
+{ ---------------------------------------------------------------------------- }
+{ Table 15 & 15w, for eligible women }
+
+    if AHELIHEM = 1 then      { household selected for hemoglobin }
+      sex     = notappl;
+      tested = 0;
+      for i in ABSEC02_EDT do
+        if ALINE = AB202 & AB255 in 2.0:25.6 then   { woman found and tested }
+          hemoglob = AB255;
+          tested = 1;
+          break;
+        endif;
+      enddo;
+      wmanemia = 2;                             { to determine coverage }
+      xtab( p15w );
+      if tested then
+        { adjust by altitude }
+        adjalt = AdjustAltitude( AHALTIT );
+        { adjust by smoking }
+        adjsmk = AdjustSmoking( A1107 );
+        { hemoglobin adjusted by altitude and smoking }
+        { use when no decimals used
+        hemoadj  = int( ( hemoglob/10 - adjalt - adjsmk ) * 10 + 0.5 );
+        }
+        hemoadj  = int( ( hemoglob - adjalt - adjsmk ) * 10 + 0.5 );
+        numwom   = 1;		
+        anemean  = notappl;		
+        preg     = (A232 = 1);
+        pregdur  = (AINTC - A233C);		
+        recode preg :: pregdur :: hemoadj -> anemiaw;
+                    ::         :: missing -> missing;
+                 1  ::         ::  <70    -> 4;        { severe }     // for pregnant women
+                 1  ::   0:3   ::  <100   -> 3;        { moderate }
+                 1  ::   0:3   ::  <110   -> 2;        { mild }
+                 1  ::   4:6   ::  <95    -> 3;        { moderate }
+                 1  ::   4:6   ::  <105   -> 2;        { mild }
+                 1  ::   7:11  ::  <100   -> 3;        { moderate }
+                 1  ::   7:11  ::  <110   -> 2;        { mild }
+                 1  ::         ::         -> notappl;  
+                    ::         ::  <80    -> 4;        { severe }     // for non-pregnant women
+                    ::         :: <110    -> 3;        { moderate }
+                    ::         :: <120    -> 2;        { mild }
+                    ::         ::         -> notappl;
+        endrecode;
+        xtab( p15,rweight );
+        xtab( p15u );
+        // to calculate mean hemoglobin		
+        anemiaw  = notappl;
+        numwom   = notappl;		
+        anemean  = 1;		
+        xtab( p15, rweight*hemoadj/10 );
+        numwom   = 1;		
+        wmanemia = 1;
+        xtab( p15w );                         { for coverage }
+      endif;
+    endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 18 }
+
+    livstill = 1;
+    for i in AWSEC04_EDT do
+      agemnth = int( (AINTCD-A220CD(A404)) / DaysMonth );
+      if agemnth < 24 & A405 in 1,3 then         { last birth/stillbirth in last 2 years }
+		livbirth = (A405 = 1);
+		stlbirth = (A405 = 3);
+
+        { Last birth }
+        fansidar = 4;
+        xtab( p18, rweight );
+        xtab( p18u );
+        { Took 1 or more doses of SP/Fansidar }
+        if A431 = 1 then
+          fansidar = 1;
+          xtab( p18, rweight );
+        endif;
+        { Took 2 or more doses of SP/Fansidar }
+        if A431 = 1 & A432 in 2:90 then
+          fansidar = 2;
+          xtab( p18, rweight );
+        endif;
+        { Took 3 or more doses of SP/Fansidar }
+        if A431 = 1 & A432 in 3:90 then
+          fansidar = 3;
+          xtab( p18, rweight );
+        endif;
+        livstill = 0;
+      endif;
+    enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 19 }
+
+    for i in AWSEC6A_EDT do
+      agemnth = int( (AINTCD-A220CD(A603)) / DaysMonth );
+      { Alive & under 5 years of age }
+      if agemnth < 60 & A224(A603) = 1 then
+
+        fevtreat = notappl;
+        antimala = notappl;
+        chfever2 = 2;
+        xtab( p19,rweight );
+        colpunw = 1;
+        xtab( p19u );
+        { Children with fever in the 2 weeks }
+        if A618 = 1 then
+          chfever2 = 1;
+          xtab( p19,rweight );
+          chfever2 = notappl;
+
+          fevtreat = 5;
+          xtab( p19,rweight );
+          colpunw = 2;
+          xtab( p19u );
+          { treatment for fever }
+          { !!! Include: Public medical sector, Private medical sector, NGO medical sector, 
+                         Shop, Market, and Itinerant drug seller. 
+                Exclude: Traditional practitioner, Other specify, Survey specific as friends/family, church }
+          if poschar("ABCDEFGHIJKLMNOPQST",A626) then // Excludes R, X
+            fevtreat = 1;
+            xtab( p19,rweight );
+          endif;
+          { blood taken from finger or heel }
+          if A619 = 1 then
+            fevtreat = 2;
+            xtab( p19,rweight );
+          endif;
+          fevtreat = notappl;
+
+          { !!! took any antimalarial drug }
+          if poschar("ABCDEFGHI",A631) then { antimalarial drugs }
+            antimala = 2;
+            xtab( p19,rweight );
+            colpunw = 3;
+            xtab( p19u );
+            { !! ACT any drug used in combination with artemisinin, make sure to include CS containig artemisinin }
+            if pos( "A", A631 ) then
+              antimala = 1;
+              xtab( p19,rweight );
+            endif;
+          endif;
+          antimala = notappl;
+
+        endif;  { end fever }
+      endif;  { end alive and under 5 }
+    enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 21 }
+
+    if age in 15:24 then
+      numwom = 1;
+      nummen = notappl;
+      hivprev = notappl;
+      xtab( p21, rweight );
+      xtab( p21u );
+      numwom = notappl;
+      { using condoms, sex with uninfected partner, health looking person can have AIDS, }
+	  { transmission by mosquito, and transmission by sharing food with infected people }
+      if A1005 = 1 & A1003 = 1 & A1007 = 1 & A1004 = 2 & A1006 = 2 then
+        hivprev = 1;
+        xtab( p21, rweight );
+      endif;
+	endif;
+
+{ -------------------------------------------------------------------- }
+{ table 22.1 }
+
+    nsexp = (A723U in 1:3) + (A731 = 1) + (A734 = 1);  { number of sexual partners last 12 months }
+    { sexual partners in last 12 months }
+    if A722 = 0 | A723U = 4 then  { never had sex/more than 1 year ago }
+      partners = 0;
+    elseif A723U = 9 then
+      partners = missing;
+    else  { partners in the last 12 months }
+      partners = nsexp;
+    endif;
+    recode A723U  :: A723N -> lastsex;    { !!! check meaning of codes 97, 98, 95, 96, etc and adjust accordingly }
+          notappl ::       -> notappl;
+              1   :: 00:98 -> int( A723N/30 );    { days }
+              2   :: 00:98 -> int( A723N/4.3 );   { weeks }
+              3   :: 00:98 -> A723N;              { months }
+              4   :: 00:50 -> A723N*12;           { years }
+                  ::       -> missing;
+    endrecode;
+    sexly = ( lastsex in 0:11 );
+    { sexual non-cohabiting partners in last 12 months }
+    sexrisk = (A730 in 3:6) + (A733 in 3:6) + (A736 in 3:6);
+    { condom used at last higher risk intercourse last 12 months }
+    condrisk = 0;                     { risk sex last 12 months }
+    if sexrisk then
+      if A730 in 3:6 then                          { exclude 1-spouse, 7-live-in partner }
+        if poschar("GH",A726) | A727 = 1 then
+          condrisk = 1;
+        endif;
+      elseif nsexp >= 2 & A733 in 3:6 then         { exclude 1-spouse, 7-live-in partner }
+        if A732 = 1 then
+          condrisk = 1;
+        endif;
+      elseif nsexp >= 3 & A736 in 3:6 then         { exclude 1-spouse, 7-live-in partner }
+        if A735 = 1 then
+          condrisk = 1;
+        endif;
+      endif;
+    endif;
+
+    { tallying }
+    wsex12m = notappl;
+    wpart12m = notappl;
+    wsexoth = notappl;
+    wsexever = notappl;
+    { for all women }
+    if sexly & partners in 2:95,98,missing then
+      wsex12m = 1;
+      xtab( p221, rweight );
+    endif;
+    if sexrisk then
+      wsex12m = 2;
+      xtab( p221, rweight );
+    endif;
+    wsex12m = 3;
+    xtab( p221, rweight );
+    colpunw = 1;
+    xtab( p221u );
+    wsex12m = notappl;
+
+    { 2+ partners in the last 12 months }
+    if sexly & partners in 2:95,98,missing then
+      if poschar("GH",A726) | A727 = 1 then
+        wpart12m = 1;
+        xtab( p221, rweight );
+      endif;
+      wpart12m = 2;
+      xtab( p221, rweight );
+      colpunw = 2;
+      xtab( p221u );
+      wpart12m = notappl;
+    endif;
+
+    { had intercourse with a non-cohabiting partenr }
+    if sexrisk then
+      wsexoth = 2;
+      xtab( p221, rweight );
+      colpunw = 3;
+      xtab( p221u );
+      if condrisk then
+        wsexoth = 1;
+        xtab( p221, rweight );
+      endif;
+      wsexoth = notappl;
+    endif;
+
+    { mean number of lifetime partners }
+    if A737 in 0:95 then
+      wsexever = 1;
+      xtab( p221, A737*rweight );
+      wsexever = 2;
+      xtab( p221, rweight );
+      colpunw = 4;
+      xtab( p221u );
+      wsexoth = notappl;
+    endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 23.1 }
+
+    { did get results from last test }
+    temp1 = notappl;
+    if A1027 <> notappl then
+      temp1 = A1027;            { from last test }
+    endif;
+    if A1027 = notappl & A1020 <> notappl then
+      temp1 = A1020;            { or since time went for delivery and before baby was born }
+    endif;
+    if A1027 = notappl & A1020 = notappl & A1017 <> notappl then
+      temp1 = A1017;            { or from antenatal if no other test given }
+    endif;
+    recode temp1 -> whivstat;
+            1:2  -> temp1;    { tested received results, tested didn't receive results }
+                 -> 3;        { never tested, missings }
+    endrecode;
+    { ever been tested for HIV }
+    evertest = ( A1015 = 1 | A1019 = 1 | A1024 = 1 );
+    { received results from test taken in last 12 months }
+    temp2  = notappl;
+    if A1022 = 1 | A1024 = 1 then
+      if A1025M in 1:12 & A1025Y in 2015:2040 then
+        temp2 = AINTC - cmcode(A1025M,A1025Y);
+        if temp2 >= 96 then temp2 = 96 endif;
+      else
+        temp2 = 98;
+      endif;
+    elseif A1022 = 2 then
+      if A1023M in 1:12 & A1023Y in 2015:2040 then
+        temp2 = AINTC - cmcode(A1023M,A1023Y);
+        if temp2 >= 96 then temp2 = 96 endif;
+      else
+        temp2 = 98;
+      endif;
+    endif;
+    test12m = ( whivstat = 1 & temp2 in 0:11 );
+    numwom = 1;
+    xtab( p231, rweight );
+    xtab( p231u );
+
+  elseif AQTYPE = 1 then                  { men's tables }
+
+    isex    = 2;
+    isex1   = 2;
+    di      = AINTC;
+    db      = AM110C;
+    age     = int( (di-db)/12 );
+    age5    = int( age/5 ) - 2;
+    totmen  = 1;
+    tot1549 = ( age in 15:49 );
+    men5059 = ( age in 50:59 );
+    recode age  -> age10;
+          15:19 -> 1;
+          20:24 -> 2;
+          25:29 -> 3;
+          30:39 -> 4;
+          40:49 -> 5;
+          50:59 -> 6;
+                -> default;
+    endrecode;
+    recode age  -> age1524;
+          15:17 -> 2;
+          18:19 -> 3;
+          20:22 -> 5;
+          23:24 -> 6;
+                -> default;
+    endrecode;
+    recode AM401 :: AM402 :: AM403 -> mstat;
+            1:2  ::       ::       -> AM401;
+                 ::   3   ::       -> 0;
+                 ::       ::  2:3  -> 3;
+                 ::       ::   1   -> 4;
+                 ::       ::       -> 9;
+    endrecode;
+    recode mstat ::    AM414  -> mstat1;
+             0   :: 0,missing -> 2;
+             0   ::           -> 1;
+            1:2  ::           -> 3;
+             9   ::           -> 9;
+                 ::           -> 4;
+    endrecode;
+    mstat3 = mstat1;
+    if mstat3 in 3,4 then mstat3 = 3 endif;
+    recode mstat -> mstat2;
+             0   -> 0;
+            1:2  -> 1;
+             9   -> 9;
+                 -> 2;
+    endrecode;
+    recode  AM113  ::  AM114  -> educ;
+              2    ::         -> 0;
+           missing ::         -> 9;
+                   :: missing -> 9;
+                   ::         -> AM114;
+    endrecode;
+    recode AM405 -> tunion;
+            1:2  -> AM405;
+         notappl -> 3;
+                 -> default;
+    endrecode;
+    relig  = AM130;
+    if relig  = missing then relig  =  9 endif;
+    ethnic = AM131;
+    if ethnic = missing then ethnic =  9 endif;
+    healthst = AM112;
+
+    { set variables to NA for men > 49 years old }
+    if age > 49 then
+      age5     = notappl;
+      age10    = notappl;
+      mstat    = notappl;
+      mstat1   = notappl;
+      mstat2   = notappl;
+      urbrur   = notappl;
+      region   = notappl;
+      educ     = notappl;
+      relig    = notappl;
+      ethnic   = notappl;
+      wealthq  = notappl;
+      tunion   = notappl;
+      healthst = notappl;
+    endif;
+
+{ -------------------------------------------------------------------- }
+{ table 2, continuation }
+
+    allindiv = 1;
+    xtab( p02, rweight );
+    allindiv = 2;
+    xtab( p02 );
+
+{ -------------------------------------------------------------------- }
+{ table 21, continuation }
+
+    if age in 15:24 then
+      numwom = notappl;
+      nummen = 1;
+      hivprev = notappl;
+      xtab( p21, rweight );
+      xtab( p21u );
+      nummen = notappl;
+
+      { using condoms & sex with uninfected partner & health looking person can have AIDS & }
+	  { not transmitted by mosquito & not transmitted by sharing food with infected people  }
+      if AM705 = 1 & AM703 = 1 & AM707 = 1 & AM704 = 2 & AM706 = 2 then
+        hivprev = 1;
+        xtab( p21, rweight );
+      endif;
+	endif;
+
+{ -------------------------------------------------------------------- }
+{ table 23.2 }
+
+    nsexp = (AM415U in 1:3) + (AM423 = 1) + (AM426 = 1);  { number of sexual partners last 12 months }
+    { sexual partners in last 12 months }
+    if AM414 = 0 | AM415U = 4 then  { never had sex/more than 1 year ago }
+      partners = 0;
+    elseif AM415U = 9 then
+      partners = missing;
+    else
+      partners = nsexp
+    endif;
+    recode AM415U :: AM415N -> lastsex;    { !!! check meaning of codes 97, 98, 95, 96, etc and adjust accordingly }
+          notappl ::        -> notappl;
+             1    ::  00:98 -> int( AM415N/30 );    { days }
+             2    ::  00:98 -> int( AM415N/4.3 );   { weeks }
+             3    ::  00:98 -> AM415N;              { months }
+             4    ::  00:50 -> AM415N*12;           { years }
+                  ::        -> missing;
+    endrecode;
+    sexly = ( lastsex in 0:11 );
+    { sexual non-cohabiting partners in last 12 months }
+    sexrisk = (AM422 in 3:6) + (AM425 in 3:6) + (AM428 in 3:6);
+    { condom used at last higher risk intercourse last 12 months }
+    condrisk = 0;                     { risk sex last 12 months }
+    if sexrisk then
+      if AM422 in 3:6 then                          { exclude 1-spouse, 7-live-in partner }
+        if poschar("GH",AM418) | AM419 = 1 then
+          condrisk = 1;
+        endif;
+      elseif nsexp >= 2 & AM425 in 3:6 then         { exclude 1-spouse, 7-live-in partner }
+        if AM424 = 1 then
+          condrisk = 1;
+        endif;
+      elseif nsexp >= 3 & AM428 in 3:6 then         { exclude 1-spouse, 7-live-in partner }
+        if AM427 = 1 then
+          condrisk = 1;
+        endif;
+      endif;
+    endif;
+
+    { tallying }
+    msex12m = notappl;
+    mpart12m = notappl;
+    msexoth = notappl;
+    msexever = notappl;
+    { for all men }
+    if sexly & partners in 2:95,98,missing then
+      msex12m = 1;
+      xtab( p222, rweight );
+    endif;
+    if sexrisk then
+      msex12m = 2;
+      xtab( p222,rweight );
+    endif;
+    msex12m = 3;
+    xtab( p222,rweight );
+    colpunw = 1;
+    xtab( p222u );
+    msex12m = notappl;
+
+    { 2+ partners in the last 12 months }
+    if sexly & partners in 2:95,98,missing then
+      if poschar("GH",AM418) | AM419 = 1 then
+        mpart12m = 1;
+        xtab( p222, rweight );
+      endif;
+      mpart12m = 2;
+      xtab( p222, rweight );
+      colpunw = 2;
+      xtab( p222u );
+      mpart12m = notappl;
+    endif;
+
+    { had intercourse with a non-cohabiting partenr }
+    if sexrisk then
+      msexoth = 2;
+      xtab( p222, rweight );
+      colpunw = 3;
+      xtab( p222u );
+      if condrisk then
+        msexoth = 1;
+        xtab( p222, rweight );
+      endif;
+      msexoth = notappl;
+    endif;
+
+    { mean number of lifetime partners }
+    if AM429 in 0:95 then
+      msexever = 1;
+      xtab( p222, AM429*rweight );
+      msexever = 2;
+      xtab( p222, rweight );
+      colpunw = 4;
+      xtab( p222u );
+      msexever = notappl;
+    endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 23.2 }
+
+    recode AM716 -> mhivstat;
+             1   -> 1;            { received results }
+             2   -> 2;            { didn't receive results }
+                 -> 3;
+    endrecode;
+    { ever been tested for HIV }
+    evertest = ( AM713 = 1 );
+    { received results and test taken in last 12 months }
+	temp2 = 999;
+	if AM713 = 1 then
+	  temp2 = AINTC - cmcode(AM714M,AM714Y);
+	endif;
+    test12m = ( AM716 = 1 & temp2 in 0:11 );
+    nummen = 1;
+    xtab( p232, rweight );
+    xtab( p232u );
+
+  endif;                    { end questionnaire type }

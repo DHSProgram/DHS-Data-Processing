@@ -1,0 +1,215 @@
+﻿
+  { function to check barcodes }
+  { barcode follows pattern: letter,digit,letter,digit,letter }
+  { return: 0-No errors, 1-error in missing, 2-error in code, 3-error in check digit }
+  function barcodeError( alpha(5) thisbarcode )
+     numeric isOK = 0, checkdig = 0, base = 26, k, z;
+    { check sequence of characters }
+    if !thisbarcode in "99994":"99996" then
+      if pos("?",thisbarcode) & length(strip(thisbarcode)) <> 1 then
+        isOK = 1;
+      elseif !pos("?",thisbarcode) then
+        do k = 1 until k > 5 by 2
+          z = pos( thisbarcode[k:1], "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+          if !z then
+            isOK = 1;
+            break;
+          elseif k < 5 then
+            checkdig = checkdig + z-1;
+          endif;
+          if k < 5 then
+            z = pos( thisbarcode[k+1:1], "0123456789" );
+            if !z then
+              isOK = 2;
+              break;
+            else
+              checkdig = checkdig + z-1;
+            endif;
+          endif;
+        enddo;
+        { Now validate the check digit }
+        if !isOK then
+          while checkdig >= base do
+            checkdig = int(checkdig/base)+checkdig%base;
+          enddo;
+          if thisbarcode[5:1] <> "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[checkdig+1:1] then
+            isOK = 3;
+          endif;
+        endif;
+      endif;
+    endif;
+    barcodeError = isOK;
+  end;
+
+  { Function to check entry of alpha string variables }
+  function alphachk( string alphavar, alphlen, string tail, string zsymbol );
+    numeric aok, zi, zx, totlen, alphsize;
+	string alphanew;
+    string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    { alphavar: the actual string to be checked }
+    { alphlen:  length of first consecutive part for the field, e.g. A-G is 7 }
+    { tail:     the last characters in the valid string }
+    alphanew = alphabet[1:alphlen];         { string of acceptable values }
+    alphanew = alphanew + tail;
+    totlen = length( alphanew );
+    { aok = 0 - string is bad, aok = 1 - string is good }
+    aok = 0;           { assume string is bad - for empty string }
+    alphsize = length( strip(alphavar) );
+    if alphsize then   { not empty string }
+      { check for "?" as only character }
+      aok = (alphavar[1:1] = "?" & alphsize = 1);
+      if !aok then     { if not a single "?", check string }
+        aok = 1;       { now assume string is good until we know otherwise }
+        zi = 1;         { l is position in string of acceptable values }
+        zx = 1;         { a is position in input string }
+        { loop while the string is still good and there are more letters }
+        while aok & zx <= alphsize do
+          aok = pos( alphavar[zx:1], alphanew[zi:totlen-zi+1] );
+          if aok then     { letter is acceptable }
+            zi = zi + aok;  { increment l to position after letter in string of acceptable values }
+            zx = zx + 1     { increment a to next letter in input string }
+          endif
+        enddo
+      endif
+    endif;
+	alphachk = (!aok);    { alphachk = 0 - if string is good, = 1 - if string is bad }
+  end;
+  
+  { function to sort alpha fields necessary when entering }
+  { values out of order using the keyboard                }
+  function string SortAlpha(string alphavar)
+    string alphatmp = " ";
+	alpha(1) onechar, tmpchar;
+	numeric k, z = 0;
+	{ remove blanks that may be present in the string }
+	do k = 1 while k <= length(strip(alphavar))
+	  if alphavar[k:1] <> " " then
+	    z = z + 1;
+		alphatmp[z:1] = alphavar[k:1];
+	  endif;
+    enddo;	
+	{ now sort the string }
+	alphavar = alphatmp;
+	do k = 1 while k <= length(strip(alphavar))
+	  onechar = alphavar[k:1];
+      do z = k+1 while z <= length(strip(alphavar))
+        if onechar > alphavar[z:1] then
+          tmpchar = onechar;
+          onechar = alphavar[z:1];
+          alphavar[z:1] = tmpchar;
+        endif;
+      enddo;
+      alphavar[k:1] = onechar;
+    enddo; 	  
+	SortAlpha = alphavar;
+	if !length(strip(alphavar)) then
+	  errmsg( 9981 );
+	  reenter
+	endif;  
+  end;
+
+
+  { Check special answers for questions with units and numbers }
+  { !!! make sure to correctly adjust the ranges of the        }
+  {     questions involved, for the function to work properly  }
+  function badspecial( units, number, string symb )
+    string symbn, symbu;
+    numeric z = 0;
+    if units  = 9 & number <> missing & number <> refused & number <  93 |
+       units <> 9 & number <> missing & number <> refused & number >= 93 |
+       units  > 1 & number = 0 |
+       units  = 0 & number <> 0 then
+      z = 1;
+    endif;
+    badspecial = z;
+    if z then
+      symb = symb[1:length(symb)-1];
+      symbu = symb+"U";
+      symbn = symb+"N";
+      errmsg( 9994 ) select( tr("Number"), symbn, tr("Unit"), symbu );
+    endif;
+  end;
+
+  { checks for the use of a major group category (ending in 0) and gives an error }
+  function majorgrp( xvar );
+    if xvar % 10 = 0 then
+      errmsg( 9980 );
+      reenter
+    endif;
+  end;
+  
+  { checks for the use of a major group category in an alpha variable (any numeric code) and gives an error }
+  function majorgrp_a( string avar );
+    if poschar("0123456789", avar) then
+      errmsg( 9980 );
+      reenter
+    endif;
+  end;
+
+  { function to close the interview }
+  function endmess( );
+    numeric zz = 2;
+    { Returns true if response is REVIEW }
+    if demode() = add then
+      zz = accept( tr("End of questionnaire, do you want to:"),
+                  tr("Review Interview"),
+                  tr("Finalize Interview") );
+    endif;
+    endmess = ( zz = 1 );
+  end;
+  
+  { get the application published date to dispay in menus }
+  function GetPubDate( zquest );
+    numeric zstamp, zdate, ztime;
+	array string xquest(2) = "CollectHH", "CollectIN";
+    if getos() = 20 then
+	  zstamp = publishdate();
+    else
+	  zstamp = filetime( pathname(application) + xquest(zquest) + ".apc" );
+	endif;  
+	zdate = sysdate("YYYYMMDD", zstamp);
+	ztime = systime("HHMM", zstamp);
+    errmsg( maketext( tr("Version: Date %d Time %d"), zdate, ztime) );
+  end;
+  
+  { function to determine if a blood pressure measurment has valid values }
+  function ValidBP( xvar, xtype )  
+    numeric z = 0;
+	if xtype = 1 & xvar in 50:300 then          // systolic valid range
+	  z = 1;
+	elseif xtype = 2 & xvar in 40:300 then      // diastolic valid range
+	  z = 1;
+    endif;
+    ValidBP = z;
+  end;	
+  
+  { function to determine the blood pressure test result }
+  function BloodResult( syst, diast )     
+    numeric z;
+    recode syst :: diast -> z; 
+          0:129 :: 0: 84 -> 1; 
+          0:139 :: 0: 89 -> 2; 
+          0:159 :: 0: 99 -> 3; 
+          0:179 :: 0:109 -> 4; 
+          0:209 :: 0:119 -> 5; 
+                ::       -> 6; 
+    endrecode;
+	BloodResult = z;
+  end;
+  
+  { displays blood pressure result for reporting form } 
+  function DisplayBloodResult( syst, diast, ires);    
+    array string BloodCat(6) = tr("Acceptable range"), tr("At the high end of acceptable range"),
+                               tr("Above acceptable range"), tr("Moderately high"), tr("High"), tr("Very high");
+    array string BloodCon(6) = tr("24 months"), tr("12 months"), tr("2 months"),
+                               tr("1 month"), tr("7 days"), tr("Today");
+    string textstr1;							   
+	textstr1 = tr("Read aloud to the respondent the following information: \n");
+    textstr1 = textstr1 + maketext(tr("Your final blood pressure is: Systolic=%d Diastolic=%d\n"), syst, diast);
+	textstr1 = textstr1 + maketext(tr("Your blood pressure category is: %s"), toupper(BloodCat(ires))) + " ";
+	textstr1 = textstr1 + maketext(tr("Consult with a health provider to check your blood pressure within: %s"), toupper(BloodCon(ires))); 
+	textstr1 = textstr1 + maketext(tr("\n\nRecord %d in the blood pressure reporting form and "), ires ); 
+	textstr1 = textstr1 + tr("then give the form to the respondent and answer any questions the respondent may have.");
+	putnote(textstr1);
+	textstr1 = editnote();
+  end;	

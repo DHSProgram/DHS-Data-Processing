@@ -1,0 +1,110 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=VCALwork
+Name=VCALWORK_DICT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=93EEAC7FFE5E1016C829828B32D0CD9113CF3BBB0D804688620FA5E9E33455D6
+
+[Level]
+Label=VCALwork questionnaire
+Name=VCALWORK_QUEST
+
+[IdItems]
+
+[Item]
+Label=VCALid
+Name=VCALID
+Start=1
+Len=1
+
+[Record]
+Label=VCALwork record
+Name=VCALWORK_REC
+RecordTypeValue=''
+RecordLen=6
+
+[Item]
+Label=Calendar 1
+Name=VCAL1
+Start=2
+Len=1
+DataType=Alpha
+
+[ValueSet]
+Label=Calendar 1
+Name=VCAL1_VS1
+Value='B';Birth
+Value='P';Pregnancy
+Value='T';Termination
+Value=0;Not using
+Value=1;Pill
+Value=2;IUD
+Value=3;Injections
+Value=4;Diaphragm/foam/jelly (not in DHS 7)
+Value=5;Condom
+Value=6;Female sterilization
+Value=7;Male sterilization
+Value=8;Periodic abstinence
+Value=9;Withdrawal
+Value='W';Other traditional
+Value='N';Implants/Norplant
+Value='L';Lactational amenorrhea (LAM)
+Value='C';Female condom
+Value='F';Foam or jelly (not in DHS 7)
+Value='E';Emergency contraception
+Value='S';Standard days method
+Value='M';Other modern method
+Value='?';Missing
+
+[Item]
+Label=Calendar 2
+Name=VCAL2
+Start=3
+Len=1
+DataType=Alpha
+
+[ValueSet]
+Label=Calendar 2
+Name=VCAL2_VS1
+Value=1;Became pregnant while using
+Value=2;Wanted to become pregnant
+Value=3;Husband disapproved
+Value=4;Side effects/health concerns
+Value=5;Health concerns (not in DHS 8 by itself)
+Value=6;Access/availability
+Value=7;Wanted a more effective method
+Value=8;Inconvenient to use
+Value=9;Infrequent sex/husband away
+Value='C';Cost too much
+Value='F';Up to God/fatalistic
+Value='A';Difficult to get pregnant/menopausal
+Value='D';Marital dissolution/separation
+Value='M';Changes in menstrual bleeding
+Value='W';Other
+Value='K';Don't know
+Value='?';Missing
+
+[Item]
+Label=Calendar 3
+Name=VCAL3
+Start=4
+Len=1
+DataType=Alpha
+
+[Item]
+Label=Calendar 4
+Name=VCAL4
+Start=5
+Len=1
+DataType=Alpha
+
+[Item]
+Label=Calendar 5
+Name=VCAL5
+Start=6
+Len=1
+DataType=Alpha

@@ -1,0 +1,62 @@
+[FormFile]
+Version=CSPro 2.6
+Name=CNULL_FF
+Label=browse_DBS
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+FieldEntryFont=0018 0000 0000 0000 0600 0000 0000 0000 0000 0000 0000 0000 0000 Courier New
+Type=SystemControlled
+  
+[Dictionaries]
+File=10/23/2004 1:56:00 PM,..\Dicts\Cnull.dcf
+  
+[Form]
+Name=FORM000
+Label=(Id Items)
+Level=1
+Size=549,951
+  
+Item=ID
+Item=CNULSAMP
+  
+[EndForm]
+  
+[Level]
+Name=LEVEL_1
+Label=LEVEL1
+  
+[Group]
+Required=Yes
+Name=IDS0_FORM
+Label=(Id Items)
+Form=1
+LogicControl=No
+Max=1
+  
+[Field]
+Name=ID
+Position=402,214,473,234
+Item=ID,CNULL
+Length=5
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=147,211,362,235
+Text=Lab identification code
+Font=-020 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+  
+[Field]
+Name=CNULSAMP
+Position=481,906,524,926
+Item=CNULSAMP,CNULL
+Length=3
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=318,909,391,925
+Text=CNULSAMP
+ 
+[EndGroup]
+  

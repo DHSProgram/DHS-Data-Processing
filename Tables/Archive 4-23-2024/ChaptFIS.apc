@@ -1,0 +1,371 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------------------+}
+{+                                                                                      +}
+{+   Guidelines October 26, 2022       -           Version 1.0.0 of 10/26/2022          +}
+{+                                                                                      +}
+{+   CHAPTER FIS.  EISTULA MODULE                                                       +}
+{+                                                                                      +}
+{+   F.1    Fistula experience and knowledge                                            +}
+{+   F.2    Reported causes of fistula symptoms                                         +}
+{+   F.3    Care-seeking for fistula symptoms                                           +}
+{+   F.4    Type of provider and result of treatment                                    +}
+{+   F.5    Reasons for not seeking treatment for fistula symptoms                      +}             
+{+                                                                                      +}
+{+--------------------------------------------------------------------------------------+}
+
+  numeric i, imax, itot, itot1, itot2, j, jmax, jtot, imax1, imax2;
+  numeric rweight;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for Fistula, Country survey 2020" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) tf1 v013w11+v102w+v101w+v106w+v190w+total knowfist+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table F.1  Fistula experience and knowledge","",
+           "Percentage of women age 15-49 who are currently experiencing fistula symptoms," 
+		   "percentage who are not currently but have experienced fistula symptoms," 
+		   "percentage who have ever experienced symptoms of fistula, and percentage who", 
+		   "have ever heard of fistula symptoms, according to background characteristics,",
+		   "Country survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tf1u v013w11+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table F.1  Fistula experience and knowledge (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tf2 causefis+totnum1+timebeg+totnumd pctwfis
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table F.2  Reported causes of fistula symptoms","",
+           "Among women age 15-49 who reported having fistula symptoms currently or in the past,", 
+		   "percent distributions by reported cause of fistula and by the number of days after", 
+		   "the causal event that symptoms began, Country survey 2020" )
+     stub( "Cause/timing" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tf2u total+total2 total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table F.2  Reported causes of fistula symptoms (Number of un-weighted cases)" )
+     stub( "Cause/timing" );
+
+  crosstab float(1) tf3 v102w+v106w+v190w+total treatop+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table F.3  Care-seeking for fistula symptoms","",
+           "Among women age 15-49 who reported having fistula symptoms currently or in the past,", 
+		   "percentage who have sought treatment and percentage who had an operation,", 
+		   "according to background characteristics, Country survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tf3u v102w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table F.3  Care-seeking for fistula symptoms (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tf4 fi10w+total+fi12w+totnum1 pctwfis
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table F.4  Type of provider and result of treatment","",
+           "Among women age 15-49 who are currently or have experienced symptoms of fistula", 
+		   "and sought treatment, the percent distribution by outcome of treatment,", 
+		   "and percentage who had an operation, according to background characteristics,",
+		   "Country survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tf4u total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table F.4  Type of provider and result of treatment (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tf5 notreat+tnumber pctwfis
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table F.5  Reasons for not seeking treatment for fistula symptoms","",
+           "Among women age 15-49 who reported  having fistula symptoms currently or", 
+		   "in the past and did not seek treatment, percentage by reasons for not", 
+		   "seeking treatment, Country survey 2020" )
+     stub( "Reasons{\super 1}" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tf5u total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table F.5  Reasons for not seeking treatment for fistula symptoms (Number of un-weighted cases)" )
+     stub( "Reasons" );
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  numwom   = 1;
+  totnum1  = 1;
+  totnum2  = 1;
+  totnumd  = 1;
+  pctwfis  = 1;
+  tnumber  = 1;
+  total2   = 0;
+  total    = 0;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 1 - run unweighted tables }
+
+postproc
+  { constructs table to determine whether run is weighted/unweighted }
+
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table tf.1 processing }
+  jtot = tblcol( tf1 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tf1[*,j] = tf1[*,j] * 100 / tf1[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tf1", tf1, 0, jtot-1, tf1u, 0 );
+
+  { Table tf.2 processing }
+  itot1 = tblrow( tf2, totnum1 );
+  imax1 = itot1 - 2;
+  do i = 0 while i <= imax1
+    tf2[i,*] = tf2[i,*] * 100 / tf2[itot1,*];
+  enddo;
+  itot2 = tblrow( tf2 );
+  imax2 = itot2 - 2;
+  do i = itot1 + 1 while i <= imax2
+    tf2[i,*] = tf2[i,*] * 100 / tf2[itot2,*];
+  enddo;
+  tf2[imax1+1,*] = tblsum( row tf2[0:imax1,*] );
+  tf2[imax2+1,*] = tblsum( row tf2[itot1+1:imax2,*] );
+  { check unweighted N's }
+  Row2Dim( "tf2", tf2, 0,       imax1-1, tf2u, 0 );
+  Row2Dim( "tf2", tf2, itot1+1, imax2-1, tf2u, 1 );
+  
+  { Table tf.3 processing }
+  jtot = tblcol( tf3 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tf3[*,j] = tf3[*,j] * 100 / tf3[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tf3", tf3, 0, jmax, tf3u, 0 );
+  
+  { Table tf.4 processing }
+  itot  = tblrow( tf4 );
+  imax2 = itot - 2;
+  do i = 0 while i <= imax2
+    tf4[i,*] = tf4[i,*] * 100 / tf4[itot,*];
+  enddo;
+  imax1 = tblrow( tf4, total );
+  tf4[imax1,*]   = tblsum( row tf4[0:imax1-1,*] );
+  tf4[imax2-1,*] = tblsum( row tf4[imax1+1:imax2,*] );
+  { check unweighted N's }
+  Row2Dim( "tf4", tf4, 0,       imax1-1, tf4u, 0 );
+  Row2Dim( "tf4", tf4, imax1+1, imax2,   tf4u, 0 );
+
+  { Table tf.5 processing }
+  itot  = tblrow( tf5 );
+  imax  = itot - 1;
+  do i = 0 while i <= imax
+    tf5[i,*] = tf5[i,*] * 100 / tf5[itot,*];
+  enddo;
+  { check unweighted N's }
+  Row2Dim( "tf5", tf5, 0, imax, tf5u, 0 );
+
+PROC WOMAN
+preproc
+  
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;   { if a subsample, use dv's weight variable }
+  endif;
+
+  { general variables }
+  v013w    = V013;
+  v102w    = V102;
+  v101w    = V101;
+  v106w    = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w    = V190;
+
+  { Age }
+  recode V012 -> V013w11;
+        15:19 -> 1;
+        20:24 -> 2;
+        25:29 -> 3;
+        30:39 -> 4;
+        40:49 -> 5;
+  endrecode;
+
+{ -------------------------------------------------------------------- }
+{ Table tf.1 }
+
+  numwom   = 1;
+  knowfist = notappl;
+  { all women }
+  xtab( tf1, rweight );
+  xtab( tf1u );
+  numwom = notappl;
+  if FI1 = 1 then                // currently experiencing fistula symptoms   
+    knowfist = 1;   
+    xtab( tf1, rweight );
+  endif;  
+  if FI2 = 1 then                // are not currently but had fistula symptoms in the past   
+    knowfist = 2;   
+    xtab( tf1, rweight );
+  endif;  
+  if 1 in FI1,FI2 then           // ever experienced symptoms of fistula
+    knowfist = 3;   
+    xtab( tf1, rweight );
+  endif;  
+  if 1 in FI1,FI2,FI3 then       // have ever heard of fistula symptoms
+    knowfist = 4;   
+    xtab( tf1, rweight );
+  endif;  
+  numwom = 1;
+
+{ -------------------------------------------------------------------- }
+{ Table tf.2 }
+
+  if FI1 = 1 | FI2 = 1 then 
+    recode  FI4 :: FI5 :: FI6 -> causefis;
+             1  ::  1  ::     -> 1;         // normal labor and delivery, born live  	
+             2  ::  1  ::     -> 2;         // normal labor and delivery, stillborn
+             1  ::     ::     -> 3;         // very difficult labor and delivery, born live  	
+             2  ::     ::     -> 4;         // very difficult labor and delivery, stillborn 
+             3  ::     ::  1  -> 5;         // pelvic surgery 
+             3  ::     ::  2  -> 6;         // sexual assult 
+             3  ::     ::  3  -> 7;         // other injury 
+             3  ::     ::  6  -> 96;        // other 
+             3  ::     ::  8  -> 98;        // Don't know
+                ::     ::     -> default;
+    endrecode;
+	timebeg = notappl;
+	totnumd = notappl;
+	total2  = notappl;
+	if FI6 <> 8 then           // note that this include notappl
+      recode  FI7 -> timebeg;
+	          0:1 -> 1;
+              2:4 -> 2;
+              5:7 -> 3;
+             8:90 -> 4;
+                  -> default;
+      endrecode;				
+	  totnumd = 1;
+	  total2  = 0;
+    endif;	  
+    xtab( tf2, rweight );
+    xtab( tf2u );
+  endif;	
+
+{ -------------------------------------------------------------------- }
+{ Table tf.3 }
+
+  if FI1 = 1 | FI2 = 1 then 
+    treatop = notappl;
+	numwom  = 1;
+    xtab( tf3, rweight );
+    xtab( tf3u );
+    numwom  = notappl;
+    if FI8 = 1 then             // sought treatment
+      treatop = 1;	
+      xtab( tf3, rweight );
+    endif;	  
+    if FI11 = 1 then            // had an operation 
+      treatop = 2;	
+      xtab( tf3, rweight );
+    endif;	  
+  endif;	
+  numwom  = 1;
+
+{ -------------------------------------------------------------------- }
+{ Table tf.4 }
+
+  if (FI1 = 1 | FI2 = 1) & FI8 = 1 then 
+    fi10w = FI10;
+	if special(FI10) then fi10w = 9 endif;
+    fi12w = FI12;
+	if special(FI12) then fi12w = 9 endif;
+    xtab( tf4, rweight );
+    xtab( tf4u );
+  endif;	
+
+{ -------------------------------------------------------------------- }
+{ Table tf.5 }
+
+  if (FI1 = 1 | FI2 = 1) & FI8 = 0  then 
+    tnumber = 1;
+	notreat = notappl;
+    xtab( tf5, rweight );
+    xtab( tf5u );
+    tnumber  = notappl;
+	if FI9A = 1 then           // did not know problem can be fixed
+      notreat = 1;	  
+      xtab( tf5, rweight );
+    endif;	  
+	if FI9B = 1 then           // did not know where to go
+      notreat = 2;	  
+      xtab( tf5, rweight );
+    endif;	  
+	if FI9C = 1 then           // too expensive 
+      notreat = 3;	  
+      xtab( tf5, rweight );
+    endif;	  
+	if FI9D = 1 then           // too far
+      notreat = 4;	  
+      xtab( tf5, rweight );
+    endif;	  
+	if FI9E = 1 then           // poor quality of care
+      notreat = 5;	  
+      xtab( tf5, rweight );
+    endif;	  
+	if FI9F = 1 then           // could not get permission
+      notreat = 6;	  
+      xtab( tf5, rweight );
+    endif;	  
+	if FI9G = 1 then           // embarrassment
+      notreat = 7;	  
+      xtab( tf5, rweight );
+    endif;	  
+	if FI9H = 1 then           // problem disappeared
+      notreat = 8;	  
+      xtab( tf5, rweight );
+    endif;	  
+	if FI9X = 1 then           // did not know problem can be fixed
+      notreat = 9;	  
+      xtab( tf5, rweight );
+    endif;	  
+  endif;	
+  tnumber = 1;

@@ -1,0 +1,2229 @@
+﻿PROC GLOBAL
+{+-----------------------------------------------------------------------------------------+}
+{+                                                                                         +}
+{+   Guidelines July 7, 2021          -                      Version 1.0.0 of 08/31/2021   +}
+{+                                                                                         +}
+{+   CHAPTER 13. HIV/AIDS RELATED KNOWLEDGE, ATTITUDES AND BEHAVIOR                        +}
+{+                                                                                         +}
+{+   13.0    Knowledge of HIV or AIDS                                                      +}
+{+   13.1    Knowledge of and attitudes about medicines to treat HIV or prevent            +}
+{+           HIV transmission                                                              +}
+{+   13.2    Discriminatory attitudes towards people living with HIV                       +}
+{+   13.3.1  Multiple sexual partners and higher-risk sexual intercourse in the            +}
+{+           last 12 months: Women                                                         +}
+{+   13.3.2  Multiple sexual partners and higher-risk sexual intercourse in the            +}
+{+           last 12 months: Men                                                           +}
+{+   13.4    Pregnant women tested for HIV                                                 +}
+{+   13.5.1  Coverage of prior HIV testing: Women                                          +}
+{+   13.5.2  Coverage of prior HIV testing: Men                                            +}
+{+   13.6    Number of times tested for HIV in lifetime                                    +}
+{+   13.7    Knowledge and coverage of self-testing for HIV                                +}
+{+   13.8.1  Disclosure, shame, and stigma experienced by people living with HIV: Women    +}
+{+   13.8.2  Disclosure, shame, and stigma experienced by people living with HIV: Men      +}
+{+   13.9    Male circumcision                                                             +}
+{+   13.10   Self-reported prevalence of sexually-transmitted infections (STIs) and        +}
+{+           STI symptoms                                                                  +}
+{+   13.11.1 Knowledge about HIV prevention among young people: Women                      +}
+{+   13.11.2 Knowledge about HIV prevention among young people: Men                        +}
+{+   13.12   Age at first sexual intercourse among young people                            +}
+{+   13.13   Premarital sexual intercourse among young people                              +}
+{+   13.14.1 Multiple sexual partners and higher-risk sexual intercourse in the            +}
+{+           last 12 months among young people: Women                                      +}
+{+   13.14.2 Multiple sexual partners and higher-risk sexual intercourse in the            +}
+{+           last 12 months among young people: Men                                        +}
+{+   13.15   Recent HIV tests among young people                                           +}
+{+                                                                                         +}
+{+-----------------------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, j, jmin, jmax, jtot, jtot1, jtot2, jtot3, jtot4, jtot5;
+  numeric rweight, imar, iage, ipub, lage, iprv, ioth, counsel, xtemp;
+  numeric lastsex, sexly, nsexpart, risksex1, risksex2, risksex3, risksex, sex10, cnt, compknow;
+  numeric circum;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 13, [Country Survey Year]" );
+{EN+}
+{{ES}
+    title( "Cuadros para el capítulo 13, [País Encuesta Año]" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 13, [Pays, Enquête, Année]" );
+{FR}}
+
+  crosstab float(1) t1300 v013w4+v501w4+v102w+v101w+v106w+v190w+tot1549+men5059+totmen
+                          isex*knowaids
+    exclude(totals,percents,specval)
+{+EN}
+    title("Working Table 13.0  Knowledge of HIV or AIDS","",
+          "Percentage of women and men age 15-49 who have heard of AIDS, by background",
+          "characteristics, [Country Survey Year]")
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title("Cuadro 13.0  Conocimiento sobre el SIDA","",
+          "Porcentaje de mujeres y hombres de 15 a 49 años que han escuchado sobre el SIDA, ",
+          "por características seleccionadas, [País Encuesta Año]" )
+    stub( "Característica" );
+{ES}}
+{{FR}
+    title("Tableau de travail 13.0.W  Connaissance du VIH ou du sida","",
+          "Pourcentage de femmes et d'hommes de 15-49 ans qui ont entendu parler",
+		  "du VIH ou du sida selon certaines caractéristiques sociodémographiques,",
+		  "[Pays, Enquête, Année]")
+    stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1300u v013w4+v501w4+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex
+    exclude(totals,percents,specval)
+    title("Table 13.0  Knowledge of AIDS (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) t1301 v013w4+v501w4+v102w+v106w+tot1549+men5059+totmen hivmedi+knowprep isex
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.1  Knowledge of and attitudes about medicines to treat HIV or prevent HIV transmission","",
+           "Percentage of women and men age 15-49 who have heard of antiretroviral medicines (ARVs)",
+		   "that treat HIV, percentage who know that the risk of mother to child transmission (MTCT)",
+		   "of HIV can be reduced by mother taking special drugs, and percentage who have heard of",
+		   "pre-exposure prophylaxis (PrEP), and among women and men age 15-49 who have heard of PrEP,",
+		   "percentage who approve of people who take PrEP to prevent getting HIV,",
+		   "according to background characteristics, [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 13.1  Connaissance et opinions concernant des médicaments pour traiter le VIH ou prèvenir sa transmission","",
+           "Pourcentage de femmes et d'hommes de 15-49 ans qui ont entendu parler",
+		   "des médicaments antirétroviraux (ARV) qui traitent le VIH,",
+		   "pourcentage qui savent que le risque de transmission du VIH de la mère à l'enfant (TME) peut être réduit",
+		   "si la mère prend des médicaments spéciaux et",
+		   "pourcentage qui ont entendu parler de la prophylaxie pré-exposition (PrEP),",
+		   "et parmi les femmes et les hommes de 15-49 ans qui ont entendu parler de la PrEP,",
+		   "pourcentage qui approuve les personnes qui utilisent la PrEP pour éviter de contracter le VIH,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1301u v013w4+v501w4+v102w+v106w+tot1549+men5059+totmen coltotu isex
+    exclude(totals,percents,specval)
+    title( "Table 13.1  Knowledge of and attitudes about medicines to treat HIV or prevent HIV transmission (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  { !!! check tab plan as this table has two versions depending on the presence/absence of V751/MV751   }
+  {     based on that change the title and label of denominator variables womhiv and menhiv accordingly }
+  crosstab float(1) t1302 v013w4+v501w4+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex*(discrim+womhiv+menhiv)
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.2  Discriminatory attitudes towards people living with HIV","",
+           "Among women and men age 15-49 who have heard of HIV or AIDS, percentage who do not think that children",
+           "living with HIV should be able to attend school with children who are HIV negative, percentage who would",
+           "not buy fresh vegetables from a shopkeeper who has HIV, and percentage with discriminatory attitudes",
+           "towards people living with HIV, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 13.2  Attitudes discriminatoires à l'égard des personnes vivant avec le VIH","",
+           "Parmi les femmes et des hommes de 15-49 ans qui ont entendu parler du VIH ou du sida,",
+           "pourcentage qui ne pense pas que les enfants vivant avec le VIH doivent pouvoir fréquenter l'école",
+           "avec les enfants qui sont VIH négatifs, pourcentage qui n'achèteraient pas des légumes frais à un",
+           "commerçant qui a le VIH et pourcentage ayant des attitudes discriminatoires à l'égard des",
+           "personnes vivant avec le VIH, selon certaines caractéristiques sociodémographiques",
+           "[Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1302u v013w4+v501w4+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex
+    exclude(totals,percents,specval)
+    title( "Table 13.2  Discriminatory attitudes towards people living with HIV (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t13031 v013w4+v501w2+v102w+v101w+v106w+v190w+tot1549 sexpart1+sexpart2+sexpart3+sexpart4
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.3.1  Multiple sexual partners and higher-risk sexual intercourse in the last 12 months: Women","",
+           "Among all women age 15-49, percentage who had sexual intercourse with more than one sexual partner in",
+           "the last 12 months, and percentage who had intercourse in the last 12 months with a person who was",
+           "neither their husband nor lived with them; among those having more than one partner in the last 12",
+           "months, percentage reporting that a condom was used during last intercourse; among women age 15-49 who",
+           "had sexual intercourse in the last 12 months with a person who was neither their husband nor lived with",
+           "them, percentage who used a condom during last sexual intercourse with such a partner; and among women",
+           "who ever had sexual intercourse, mean number of sexual partners during their lifetime, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 13.3.1  Partenaires sexuels multiples et rapport sexuels à hauts risques au cours des 12 derniers mois : Femme","",
+           "Parmi toutes les femmes de 15-49 ans, pourcentage ayant eu des rapports sexuels",
+		   "avec plus d'un partenaire sexuel au cours des 12 derniers mois et pourcentage ayant eu, au cours des 12 derniers mois,",
+		   "des rapports sexuels avec une personne qui n'était ni leur mari, ni le partenaire avec qui elles vivaient;",
+		   "parmi les femmes ayant eu, au cours des 12 derniers mois, plus d'un partenaire sexuel,",
+		   "pourcentage ayant déclaré qu'un condom avait été utilisé au cours des derniers rapports sexuels ;",
+		   "parmi les femmes de 15-49 ans qui ont eu, au cours des 12 derniers mois, des rapports sexuels  avec",
+		   "une personne qui n'était ni leur mari, ni le partenaire avec qui elles vivaient,",
+		   "pourcentage ayant déclaré qu'un condom avait été utilisé au cours",
+		   "des derniers rapports sexuels avec cette personne ;",
+		   "parmi les femmes ayant déjà eu des rapports sexuels, nombre moyen de partenaires sexuels sur la durée de vie,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t13031u v013w4+v501w2+v102w+v101w+v106w+v190w+tot1549 coltotu
+    exclude(totals,percents,specval)
+    title( "Table 13.3.1  Multiple sexual partners and higher-risk sexual intercourse in the last 12 months: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t13032 v013w4+v501w2+v505w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen
+                           sexpart5+sexpart6+sexpart7+sexpart8
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.3.2  Multiple sexual partners and higher-risk sexual intercourse in the last 12 months: Men","",
+           "Among all men age 15-49, percentage who had sexual intercourse with more than one sexual partner in",
+           "the last 12 months, and percentage who had intercourse in the last 12 months with a person who was",
+           "neither their wife nor lived with them; among those having more than one partner in the last 12 months,",
+           "percentage reporting that a condom was used during last intercourse; among men age 15-49 who had",
+           "sexual intercourse in the last 12 months with a person who was neither their wife nor lived with them,",
+           "percentage who used a condom during last sexual intercourse with such a partner; and among men who ever",
+           "had sexual intercourse, mean number of sexual partners during their lifetime, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 13.3.2  Partenaires sexuels multiples et rapport sexuels à hauts risques au cours des 12 derniers mois : Homme","",
+           "Parmi tous les hommes de 15-49 ans, pourcentage ayant eu des rapports sexuels",
+		   "avec plus d'une partenaire sexuelle au cours des 12 derniers mois et pourcentage ayant eu, au cours des 12 derniers mois,",
+		   "des rapports sexuels  avec une personne qui n'était ni leur épouse, ni la partenaire avec qui ils vivaient ;",
+		   "parmi les hommes ayant eu, au cours des 12 derniers mois, plus d'une partenaire sexuelle,",
+		   "pourcentage ayant déclaré qu'un condom avait été utilisé au cours des derniers rapports sexuels ;",
+		   "parmi les hommes de 15-49 ans qui ont eu, au cours des 12 derniers mois, des rapports sexuels avec une personne",
+		   "qui n'était ni leur épouse, ni la partenaire avec qui ils vivaient,",
+		   "pourcentage ayant déclaré qu'un condom avait été utilisé au cours des derniers rapports sexuels avec cette personne ;",
+		   "parmi les hommes ayant déjà eu des rapports sexuels, nombre moyen de partenaires sexuelles sur la durée de vie,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t13032u v013w4+v501w2+v505w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(totals,percents,specval)
+    title( "Table 13.3.2  Multiple sexual partners and higher-risk sexual intercourse in the last 12 months: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1304 v013w4+v501w2+v102w+v101w+v106w+v190w+tot1549 hivtest1+hivtest2+totalb
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.4  Pregnant women tested for HIV","",
+           "Among all women age 15-49 who gave birth in the 2 years preceding the survey, percentage",
+		   "who received an HIV test during antenatal care (ANC) for their most recent birth by",
+		   "whether they received their results and percentage who received an HIV test during",
+		   "ANC or labor for their most recent birth by whether they received their test results,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 13.4  Femmes enceintes ayant fait un test du VIH","",
+           "Parmi toutes les femmes de 15-49 ans ayant eu une naissance au cours des 2 années ayant précédé l'enquête,",
+		   "pourcentage ayant fait un test du VIH pendant une visite prénatale pour leur naissance la plus récente selon qu'elles ont reçu,",
+		   "ou non, le résultat et pourcentage ayant fait un test du VIH pendant une visite prénatale",
+		   "ou l'accouchement pour leur naissance la plus récente, selon qu'elles ont reçu ou non le résultat du test,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1304u v013w4+v501w2+v102w+v101w+v106w+v190w+tot1549 total
+    exclude(totals,percents,specval)
+    title( "Table 13.4  Pregnant women tested for HIV (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t13051 v013w4+v501w4+v102w+v101w+v106w+v190w+tot1549 hivpart1+total+hivpart3+hivpart4+numwom
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.5.1  Coverage of prior HIV testing: Women","",
+           "Percent distribution of women by HIV testing status and by whether they received the",
+		   "results of the last test, percentage of women ever tested, and percentage of women",
+		   "who were tested in the last 12 months and received the results of the last test,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 13.5.1  Cobertura de la prueba del VIH: Mujeres","",
+           "Distribución porcentual de mujeres de 15-49 años según si se han hecho o no la prueba",
+           "alguna vez y si recibieron los resultados de la última prueba; porcentaje de mujeres",
+           "que se han hecho la prueba; y porcentaje de mujeres de 15-49 años que se hicieron",
+           "la prueba en los últimos 12 meses y recibieron los resultados,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 13.5.1  Couverture du test du VIH antérieur à l'enquête : Femme","",
+           "Répartition (en %) des femmes de 15-49 ans selon qu’elles ont fait, ou non, un test du VIH et selon qu’elles ont reçu, ou non,",
+		   "les résultats du dernier test; pourcentage de femmes de 15-49 ans ayant déjà fait un test du VIH",
+		   "et pourcentage de femmes ayant fait un test du VIH au cours des 12 derniers mois",
+		   "et ayant reçu les résultats du dernier test,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t13051u v013w4+v501w4+v102w+v101w+v106w+v190w+tot1549 total
+    exclude(totals,percents,specval)
+    title( "Table 13.5.1  Coverage of prior HIV testing: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t13052 v013w4+v501w4+v102w+v101w+v106w+v190w+tot1549+men5059+totmen
+                           hivpart2+total+hivpart3+hivpart4+numman
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.5.2  Coverage of prior HIV testing: Men","",
+           "Percent distribution of men by HIV testing status and by whether they received the results",
+		   "of the last test, percentage of men ever tested, and percentage of men age 15-49 who were",
+		   "tested in the last 12 months and received the results of the last test,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 13.5.2  Cobertura de la prueba del VIH: Hombres","",
+           "Distribución porcentual de hombres de 15-49 años según si se han hecho o no la prueba",
+           "alguna vez y si recibieron los resultados de la última prueba; porcentaje de hombres",
+           "que se han hecho la prueba; y porcentaje de hombres de 15-49 años que se hicieron",
+           "la prueba en los últimos 12 meses y recibieron los resultados,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 13.5.2  Couverture du test du VIH antérieur à l'enquête : Homme","",
+           "Répartition (en %) des hommes de 15-49 ans selon qu’ils ont fait, ou non, un test du VIH et selon qu’ils ont reçu,",
+		   "ou non, les résultats du dernier test; pourcentage d’hommes de 15-49 ans ayant déjà fait un test du VIH",
+		   "et pourcentage d'hommes ayant fait un test au cours des 12 derniers mois et ayant reçu le résultat du dernier test,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays Enquête Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t13052u v013w4+v501w4+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(totals,percents,specval)
+    title( "Table 13.5.2  Coverage of prior HIV testing: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1306 v013w13+tot1549+men5059+totmen v864w+nevtest+numresp isex
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.6  Number of times tested for HIV in lifetime","",
+           "Percent distribution of women and men age 15-49 by number of times tested for HIV",
+		   "in their lifetime, according to age, [Country Survey Year]" )
+     stub( "Age" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 13.6  Nombre de fois testé pour le VIH au cours de la vie","",
+           "Répartition (en %) des femmes et des hommes de 15-49 ans par nombre de fois",
+		   "qu'ils ont effectué un test du VIH dans leur vie, selon l'âge, [Pays, Enquête, Année]" )
+     stub( "Age" );
+{FR}}
+  crosstab float(0) t1306u v013w13+tot1549+men5059+totmen total isex
+    exclude(totals,percents,specval)
+    title( "Table 13.6  Number of times tested for HIV in lifetime (Number of un-weighted cases)" )
+     stub( "Âge" );
+
+  crosstab float(1) t1307 v013w+v102w+v106w+v190w+tot1549+men5059+totmen hivkit1+hivkit2
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.7  Knowledge and coverage of self-testing for HIV","",
+           "Percentage of women and men age 15-49 who have ever heard of HIV self test kits,",
+           "and percentage who have ever used an HIV self test kit, according to background",
+           "characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 13.7  Connaissance et couverture de l'autotest de dépistage du VIH","",
+           "Pourcentage de femmes et d'hommes de 15-49 ans qui ont entendu parler des autotests",
+		   "de dépistage du VIH et pourcentage qui ont utilisé un autotest de dépistage du VIH,",
+		   "selon certaines caractéristiques socio-économiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1307u v013w+v102w+v106w+v190w+tot1549+men5059+totmen isex
+    exclude(totals,percents,specval)
+    title( "Table 13.7  Knowledge and coverage of self-testing for HIV (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t13081 v013w4+v501w2+v102w+v101w+v106w+v190w+tot1549 hivstig1+hivstig2+hivstig3+womhivp
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 13.8.1  Disclosure, shame, and stigma experienced by people living with HIV: Women","",
+	       "Among women age 15-49 who tested HIV positive in the survey and reported the result of their",
+		   "last HIV test as HIV positive, percentage who have ever disclosed their positive HIV status",
+		   "to anyone, percentage who feel ashamed because of their positive HIV status, and percentage",
+		   "who reported experiencing stigma in the past 12 months due to their HIV status,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 13.8.1  Divulgation des résultats du test, sentiment de honte et stigmatisation vécus par les personnes vivant avec le VIH : Femme","",
+	       "Parmi les femmes de 15-49 ans qui ont déclaré que le résultat de leur dernier test du VIH était positif,",
+		   "pourcentage ayant divulgué à quelqu'un leur statut de séropositivité au VIH, pourcentage qui ont éprouvé",
+		   "un sentiment de honte parce qu'elles sont séropositives au VIH et pourcentage ayant été confontées à des actes",
+		   "de stigmatisation dans la communauté et dans des services de santé au cours des 12 derniers mois parce qu'elles sont",
+		   "positives au VIH, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t13081u v013w4+v501w2+v102w+v101w+v106w+v190w+tot1549 total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 13.8.1  Disclosure, shame, and stigma experienced by people living with HIV: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t13082 v013w4+v501w2+v102w+v101w+v106w+v190w+tot1549+men5059+totmen
+                           hivstig1+hivstig2+hivstig3+menhivp
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 13.8.2  Disclosure, shame, and stigma experienced by people living with HIV: Men","",
+	       "Among men age 15-49 who tested HIV positive in the survey and reported the result of their",
+		   "last HIV test as HIV positive, percentage who have ever disclosed their positive HIV status",
+		   "to anyone, percentage who feel ashamed because of their positive HIV status, and percentage",
+		   "who reported experiencing stigma in the past 12 months due to their HIV status,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 13.8.2  Divulgation des résultats du test, sentiment de honte et stigmatisation vécus par les personnes vivant avec le VIH: Homme","",
+	       "Parmi les hommes de 15-49 ans qui ont déclaré que le résultat de leur dernier test du VIH était positif,",
+		   "pourcentage ayant divulgué à quelqu'un leur statut de séropositivité au VIH, pourcentage qui ont éprouvé",
+		   "un sentiment de honte parce qu'ils sont séropositifs au VIH et pourcentage ayant été confontés à des actes",
+		   "de stigmatisation dans la communauté et dans des services de santé au cours des 12 derniers mois parce qu'ils sont",
+		   "positifs au VIH, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t13082u v013w4+v501w2+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 13.8.2  Disclosure, shame, and stigma experienced by people living with HIV: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1309 v013w+v131w+v130w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen
+                          mcircum+total+circeith+circmed+numman
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.9  Male circumcision","",
+           "Percent distribution of men age 15-49 by circumcision status, and percentage", 
+		   "traditionally or medically circumcised, and percentage medically circumcised,",
+		   "according to background characteristics, [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 13.9  Circoncision","",
+           "Répartition (en %) d'hommes de 15-49 ans par statut vis-à-vis de la circoncision,",
+		   "et pourcentage circoncis traditionnellement ou médicalement,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristiques sociodémographique" );
+{FR}}
+  crosstab float(0) t1309u v013w+v131w+v130w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(totals,percents,specval)
+    title( "Table 13.9  Male circumcision (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1310 v013w4+v501w2+circums+v102w+v101w+v106w+v190w+tot1549+men5059+totmen
+                          headwom*(stiw1+stiw2)+headman*(stim1+stim2)
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.10  Self-reported prevalence of sexually-transmitted infections (STIs) and STIs symptoms","",
+           "Among women and men age 15-49 who ever had sexual intercourse,",
+           "percentage reporting having an STI and/or symptoms of an STI in the",
+           "last 12 months, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 13.10  Autoreporte de infecciones de transmisión sexual (ITS) y sus síntomas","",
+           "Entre mujeres y hombres de 15-49 años que han tenido relaciones sexuales, el porcentaje",
+           "que reportaron haber tenido alguna ITS y/o síntomas asociados a ITS en los 12 meses",
+           "antes de la encuesta, por características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 13.10  Prévalence déclarée des infections sexuellement transmissibles (IST) et symptômes déclarés d'IST","",
+           "Parmi les femmes et les hommes de 15-49 ans ayant déjà eu des rapports sexuels, pourcentage ayant déclaré avoir eu",
+           "une IST et/ou des symptômes d'IST au cours des 12 derniers mois, selon certaines caractéristiques sociodémographiques,",
+           "[Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1310u v013w4+v501w2+circums+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex
+    exclude(totals,percents,specval)
+    title( "Table 13.10  Self-reported prevalence of sexually-transmitted infections (STIs) and STIs symptoms (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t13111 v013w5+v501w5+v102w+v101w+v106w+v190w+tot1524 know*(hivprev1+hivprev2)+knowprev+numwom
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.11.1  Knowledge about HIV prevention among young people: Women","",
+           "Percentages of young women age 15-24 who, in response to prompted questions, say that",
+		   "people can reduce their risk of getting HIV by using condoms every time they have sexual",
+		   "intercourse and by having one sex partner who is not infected and has no other partners,",
+		   "that a healthy-looking person can have HIV, that HIV cannot be transmitted by mosquito",
+		   "bites, and that a person cannot get HIV by sharing food with a person who has HIV, and",
+		   "the percentage with knowledge about HIV prevention,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 13.11.1  Connaissance des moyens de prévention parmi les jeunes : Femme","",
+           "Pourcentages de jeunes femmes de 15-24 ans qui, en réponse à des questions déterminées,",
+		   "ont déclaré que les gens peuvent réduire leur risque de contracter le VIH en utilisant des condoms",
+		   "au cours de chaque rapport sexuel et en n'ayant des rapports sexuels qu'avec un seul partenaire sexuel",
+		   "qui n'a pas contracté le virus et qui n'a pas d'autres partenaires, qui savent aussi qu'une personne en bonne santé",
+		   "peut néanmoins avoir contracté le VIH, que le VIH ne peut pas être transmis par les piqûres de moustiques",
+		   "et qu'une personne ne peut pas contracter le VIH en partageant les repas d'une personne ayant le VIH,",
+		   "et pourcentage considéré comme ayant une connaissance des moyens de prévention du VIH,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année ]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t13111u v013w5+v501w5+v102w+v101w+v106w+v190w+tot1524 total
+    exclude(totals,percents,specval)
+    title( "Table 13.11.1  Knowledge about HIV prevention among young people: Women (Number of un-weighted cases)" )
+
+  crosstab float(1) t13112 v013w5+v501w5+v102w+v101w+v106w+v190w+tot1524 know*(hivprev1+hivprev2)+knowprev+numman
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.11.2  Knowledge about HIV prevention among young people: Men","",
+           "Percentages of young men age 15-24 who, in response to prompted questions, say that",
+		   "people can reduce their risk of getting HIV by using condoms every time they have sexual",
+		   "intercourse and by having one sex partner who is not infected and has no other partners,",
+		   "that a healthy-looking person can have HIV, that HIV cannot be transmitted by mosquito",
+		   "bites, and that a person cannot get HIV by sharing food with a person who has HIV, and",
+		   "the percentage with knowledge about HIV prevention,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 13.12.2  Connaissance des moyens de prévention du VIH parmi les jeunes: Homme","",
+           "Pourcentages de jeunes hommes de 15-24 ans qui, en réponse à des questions déterminées,",
+		   "ont déclaré que les gens peuvent réduire leur risque de contracter le VIH en utilisant",
+		   "des condoms au cours de chaque rapport sexuel et en n'ayant des rapports sexuels qu'avec",
+		   "un seul partenaire sexuel qui n'a pas contracté le virus et qui n'a pas d'autres partenaires,",
+		   "qui savent aussi qu'une personne en bonne santé peut néanmoins avoir contracté le VIH, que le VIH",
+		   "ne peut pas être transmis par les piqûres de moustiques et qu'une personne ne peut pas contracter le VIH",
+		   "en partageant les repas d'une personne ayant le VIH, et pourcentage considéré comme ayant une connaissance",
+		   "des moyens de prévention du VIH, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année ]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t13112u v013w5+v501w5+v102w+v101w+v106w+v190w+tot1524 total
+    exclude(totals,percents,specval)
+    title( "Table 13.11.2  Knowledge about HIV prevention among young people: Men (Number of un-weighted cases)" )
+
+  crosstab float(1) t1312 v013w5+v102w+v106w+total womage1+womage2+manage1+manage2
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.12  Age at first sexual intercourse among young people","",
+           "Percentage of young women and young men age 15-24 who had",
+           "sexual intercourse before age 15 and percentage of young women and",
+           "young men age 18-24 who had sexual intercourse before age 18,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 13.12  Edad a la primera relación sexual entre jóvenes","",
+           "Porcentaje de jóvenes de 15-24 años que han tenido relaciones sexuales antes",
+           "de los 15 años y porcentaje de jóvenes de 18-24 años que han tenido relaciones",
+           "sexuales antes de los 18 años, por características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 13.12  Âge aux premiers rapports sexuels parmi les jeunes","",
+           "Pourcentage de jeunes femmes et de jeunes hommes de 15-24 ans qui ont eu",
+           "des rapports sexuels avant l'âge de 15 ans et pourcentage de jeunes",
+           "femmes et de jeunes hommes de 18-24 ans qui ont eu des rapports sexuels",
+           "avant l'âge de 18 ans, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année ]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1312u v013w5+v102w+v106w+total coltotu
+    exclude(totals,percents,specval)
+    title( "Table 13.12  Age at first sexual intercourse among young people (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1313 v013w5+v102w+v106w+total sexmar1+sexmar2
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.13  Premarital sexual intercourse among young people","",
+           "Among never-married women and men age 15-24, percentage who have never had sexual intercourse,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 13.13  Relaciones sexuales pre-matrimoniales entre jóvenes","",
+           "características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 13.13  Rapports sexuels prénuptiaux parmi les jeunes","",
+           "Parmi les femmes et les hommes de 15-24 ans célibataires, pourcentage",
+           "qui n'ont jamais eu de rapports sexuels, selon certaines caractéristiques sociodémographiques,",
+           "[Pays, Enquête, Année ]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1313u v013w5+v102w+v106w+total isex
+    exclude(totals,percents,specval)
+    title( "Table 13.13  Premarital sexual intercourse among youth (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t13141 v013w5+v501w6+v102w+v106w+total1 sexpartw+sexconw1+sexconw2
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.14.1  Multiple sexual partners and higher-risk sexual intercourse in the last 12 months among young people: Women","",
+           "Among all young women age 15-24, percentage who had sexual intercourse with more than one sexual",
+           "partner in the last 12 months, and percentage who had intercourse in the last 12 months with a",
+           "person who was neither their husband nor lived with them; among those having more than one partner",
+           "in the last 12 months, percentage reporting that a condom was used during last intercourse; among",
+           "young women age 15-24 who had sexual intercourse in the last 12 months with a person who was neither",
+           "their husband nor lived with them, percentage who used a condom during last sexual intercourse with",
+           "such a partner, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 13.14.1  Partenaires sexuels multiples et rapports sexuels à hauts risques au cours des 12 derniers mois parmi les jeunes : Femme","",
+           "Parmi toutes les jeunes femmes de 15-24 ans, pourcentage ayant eu des rapports sexuels avec plus d'un partenaire sexuel au cours des 12 derniers mois;",
+		   "et pourcentage ayant eu, au cours des 12 derniers mois, des rapports sexuels avec une personne qui n'était ni leur mari,",
+		   "ni le partenaire avec qui elles vivaient; parmi les femmes ayant eu plus d'un partenaire sexuel au cours des 12 derniers mois,",
+		   "pourcentage ayant déclaré qu'un condom avait été utilisé pendant les derniers rapports sexuels;",
+		   "parmi les jeunes femmes de 15-24 ans qui ont eu, au cours des 12 derniers mois,",
+		   "des rapports sexuels  avec une personne qui n'était ni leur mari, ni le partenaire avec qui elles vivaient,",
+		   "pourcentage ayant déclaré qu'un condom avait été utilisé au cours des derniers rapports sexuels avec cette personne,",
+		   "selon certaines caractéristiques sociodémographiques [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t13141u v013w5+v501w6+v102w+v106w+total1 coltotu
+    exclude(totals,percents,specval)
+    title( "Table 13.14.1  Multiple sexual partners and higher-risk sexual intercourse in the last 12 months among young people: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t13142 v013w5+v501w6+v102w+v106w+total1 sexpartm+sexconm1+sexconm2
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.14.2  Multiple sexual partners and higher-risk sexual intercourse in the last 12 months among young people: Men","",
+           "Among all young men age 15-24, percentage who had sexual intercourse with more than one sexual",
+           "partner in the last 12 months, and percentage who had intercourse in the last 12 months with a",
+           "person who was neither their wife nor lived with them; among those having more than one partner",
+           "in the last 12 months, percentage reporting that a condom was used during last intercourse; among",
+           "men age 15-24 who had sexual intercourse in the last 12 months with a person who was neither",
+           "their wife nor lived with them, percentage who used a condom during last sexual intercourse with",
+           "such a partner, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 13.14.2  Partenaires sexuels multiples et rapports sexuels à hauts risques au cours des 12 derniers mois parmi les jeunes : Homme","",
+           "Parmi tous les jeunes hommes de 15-24 ans, pourcentage ayant eu des rapports sexuels avec plus d'une partenaire sexuelle",
+		   "au cours des 12 derniers mois, et pourcentage ayant eu, au cours des 12 derniers mois, des rapports sexuels",
+		   "avec une personne qui n'était ni leur épouse, ni la partenaire avec qui ils vivaient;",
+		   "parmi les hommes ayant eu plus d'un partenaire sexuel au cours des 12 derniers mois,",
+		   "pourcentage ayant déclaré qu'un condom avait été utilisé pendant les derniers rapports sexuels;",
+		   "parmi les jeunes hommes de 15-24 ans qui ont eu, au cours des 12 derniers mois, des rapports sexuels",
+		   "avec une personne qui n'était ni leur épouse, ni la partenaire avec qui ils vivaient,",
+		   "pourcentage ayant déclaré qu'un condom avait été utilisé au cours des derniers rapports sexuels avec cette personne,",
+		   "selon certaines caractéristiques sociodémographiques [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t13142u	 v013w5+v501w6+v102w+v106w+total1 coltotu
+    exclude(totals,percents,specval)
+    title( "Table 13.14.2  Multiple sexual partners and higher-risk sexual intercourse in the last 12 months among young people: Men (unweighted)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1315 v013w5+v501w6+tot1524 hivres1+hivres2
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 13.15  Recent HIV tests among young people","",
+           "Among young women and young men age 15-24 who have had sexual intercourse in ",
+           "the last 12 months, percentage who were tested for HIV in the last 12",
+           "months and received the results of the last test, according to background ",
+           "characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 13.15  Prueba reciente del VIH entre jóvenes","",
+           "Entre los jóvenes de 15-24 años que han tenido relaciones sexuales en los últimos ",
+           "12 meses, porcentaje que se hicieron la prueba del VIH en los últimos 12 meses",
+           "y que recibieron los resultados de la prueba, por características seleccionadas,",
+           "[País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 13.15  Tests du VIH récents parmi les jeunes","",
+           "Parmi les jeunes femmes et les jeunes hommes de 15-24 ans qui ont eu des rapports sexuels dans les 12 derniers mois,",
+		   "pourcentage ayant été testé pour le VIH au cours des 12 derniers mois et qui ont reçu les résultats du dernier test,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1315u v013w5+v501w6+total isex
+    exclude(totals,percents,specval)
+    title( "Table 13.15  Recent HIV tests among youth (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+  numwom   = 1;
+  numman   = 1;
+  numresp  = 1;
+  total1   = 0;
+  totmen   = 0;
+  tot1549  = 0;
+  tot1524  = 0;
+  totnum1  = 1;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { table 13.0 }
+  iage = tblrow( t1300, v013w4 = 1 );
+  t1300[iage,*] = t1300[iage+1,*] + t1300[iage+2,*];
+  imar = tblrow( t1300, v501w4 = 0 );
+  t1300[imar,*] = t1300[imar+1,*] + t1300[imar+2,*];
+  t1300[*,0] = 100 * t1300[*,0] / t1300[*,1];
+  t1300[*,2] = 100 * t1300[*,2] / t1300[*,3];
+  { check unweighted N's }
+  t1300u[iage,*] = t1300u[iage+1,*] + t1300u[iage+2,*];
+  t1300u[imar,*] = t1300u[imar+1,*] + t1300u[imar+2,*];
+  Col2Dim( "t1300", t1300, 0, 0, t1300u, 0 );                       { women }
+  Col2Dim( "t1300", t1300, 2, 2, t1300u, 1 );                       { men }
+  { assign NA to not applicable rows }
+  itot = tblrow( t1300 );
+  t1300[itot-1:itot,0:1] = NAcells;                                 { NA number for women 50-54[59] }
+
+  { table 13.1 }
+  iage = tblrow( t1301, v013w4 = 1 );
+  t1301[iage,*,*] = t1301[iage+1,*,*] + t1301[iage+2,*,*];
+  imar = tblrow( t1301, v501w4 = 0 );
+  t1301[imar,*,*] = t1301[imar+1,*,*] + t1301[imar+2,*,*];
+  jtot1 = tblcol( t1301, hivmedi );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1301[*,j,*] = 100 * t1301[*,j,*] / t1301[*,jtot1,*];
+  enddo;
+  jtot2 = tblcol( t1301 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    t1301[*,j,*] = 100 * t1301[*,j,*] / t1301[*,jtot2,*];
+  enddo;
+  { check unweighted N's }
+  t1301u[iage,*,*] = t1301u[iage+1,*,*] + t1301u[iage+2,*,*];
+  t1301u[imar,*,*] = t1301u[imar+1,*,*] + t1301u[imar+2,*,*];
+  Col3Dim( "t1301", t1301, 0,       jtot1-1, t1301u, 0 );
+  Col3Dim( "t1301", t1301, jtot1+1, jtot2-1, t1301u, 1 );
+  { assign default to not applicable rows }
+  itot = tblrow( t1301 );
+  t1301[itot-1:itot,*,0] = default;
+
+  { table 13.2 }
+  iage = tblrow( t1302, v013w4 = 1 );
+  t1302[iage,*] = t1302[iage+1,*] + t1302[iage+2,*];
+  imar = tblrow( t1302, v501w4 = 0 );
+  t1302[imar,*] = t1302[imar+1,*] + t1302[imar+2,*];
+  jtot1 = tblcol( t1302, isex = 1 womhiv );
+  jmax = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1302[*,j] = 100 * t1302[*,j] / t1302[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1302 );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t1302[*,j] = 100 * t1302[*,j] / t1302[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  t1302u[iage,*] = t1302u[iage+1,*] + t1302u[iage+2,*];
+  t1302u[imar,*] = t1302u[imar+1,*] + t1302u[imar+2,*];
+  Col2Dim( "t1302", t1302, 0,       jtot1-1, t1302u, 0 );
+  Col2Dim( "t1302", t1302, jtot1+1, jtot2-1, t1302u, 1 );
+  { assign NA to not applicable rows }
+  itot = tblrow( t1302 );
+  t1302[itot-1:itot,0:jtot1] = NACells;
+
+  { table 13.3.1 }
+  iage = tblrow( t13031, v013w4 = 1 );
+  t13031[iage,*] = t13031[iage+1,*] + t13031[iage+2,*];
+  jtot1 = tblcol( t13031, sexpart1 );
+  do j = 0 while j < jtot1
+    t13031[*,j] = 100 * t13031[*,j] / t13031[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t13031, sexpart2 );
+  do j = jtot1 + 1 while j < jtot2
+    t13031[*,j] = 100 * t13031[*,j] / t13031[*,jtot2];
+  enddo;
+  jtot3 = tblcol( t13031, sexpart3 );
+  do j = jtot2 + 1 while j < jtot3
+    t13031[*,j] = 100 * t13031[*,j] / t13031[*,jtot3];
+  enddo;
+  { mean of sexual partners }
+  jtot4 = tblcol( t13031, sexpart4 );
+  t13031[*,jtot4-1] = t13031[*,jtot4-1] / t13031[*,jtot4];
+  { check unweighted N's }
+  t13031u[iage,*] = t13031u[iage+1,*] + t13031u[iage+2,*];
+  Col2Dim( "t13031", t13031, 0,       jtot1-1, t13031u, 0 );        { all women }
+  Col2Dim( "t13031", t13031, jtot1+1, jtot2-1, t13031u, 1 );        { women with 2+ partners }
+  Col2Dim( "t13031", t13031, jtot2+1, jtot3-1, t13031u, 2 );        { women who have sex with a non-marital partner }
+  Col2Dim( "t13031", t13031, jtot3+1, jtot4-1, t13031u, 3 );        { women who have ver had sex }
+
+  { table 13.3.2 }
+  iage = tblrow( t13032, v013w4 = 1 );
+  t13032[iage,*] = t13032[iage+1,*] + t13032[iage+2,*];
+  jtot1 = tblcol( t13032, sexpart5 );
+  do j = 0 while j < jtot1
+    t13032[*,j] = 100 * t13032[*,j] / t13032[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t13032, sexpart6 );
+  do j = jtot1 + 1 while j < jtot2
+    t13032[*,j] = 100 * t13032[*,j] / t13032[*,jtot2];
+  enddo;
+  jtot3 = tblcol( t13032, sexpart7 );
+  do j = jtot2 + 1 while j < jtot3
+    t13032[*,j] = 100 * t13032[*,j] / t13032[*,jtot3];
+  enddo;
+  { mean of sexual partners }
+  jtot4 = tblcol( t13032, sexpart8 );
+  t13032[*,jtot4-1] = t13032[*,jtot4-1] / t13032[*,jtot4];
+  { check unweighted N's }
+  t13032u[iage,*] = t13032u[iage+1,*] + t13032u[iage+2,*];
+  Col2Dim( "t13032", t13032, 0,       jtot1-1, t13032u, 0 );        { all men }
+  Col2Dim( "t13032", t13032, jtot1+1, jtot2-1, t13032u, 1 );        { men with 2+ partners }
+  Col2Dim( "t13032", t13032, jtot2+1, jtot3-1, t13032u, 2 );        { men who have sex with a non-marital partner }
+  Col2Dim( "t13032", t13032, jtot3+1, jtot4-1, t13032u, 3 );        { men who have ver had sex }
+
+  { table 13.4 }
+  iage = tblrow( t1304, v013w4 = 1 );
+  t1304[iage,*] = t1304[iage+1,*] + t1304[iage+2,*];
+  jtot = tblcol( t1304 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1304[*,j] = 100 * t1304[*,j] / t1304[*,jtot];
+  enddo;
+  { check unweighted N's }
+  t1304u[iage,*] = t1304u[iage+1,*] + t1304u[iage+2,*];
+  Col2Dim( "t1304", t1304, 0, jtot-1, t1304u, 0 );
+
+  { table 13.5.1 }
+  iage = tblrow( t13051, v013w4 = 1 );
+  t13051[iage,*] = t13051[iage+1,*] + t13051[iage+2,*];
+  imar = tblrow( t13051, v501w4 = 0 );
+  t13051[imar,*] = t13051[imar+1,*] + t13051[imar+2,*];
+  jtot = tblcol( t13051 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t13051[*,j] = 100 * t13051[*,j] / t13051[*,jtot];
+  enddo;
+  jmax = tblcol( t13051, total );
+  t13051[*,jmax] = tblsum( column t13051[*,0:jmax-1] );
+  { check unweighted N's }
+  t13051u[iage,*] = t13051u[iage+1,*] + t13051u[iage+2,*];
+  t13051u[imar,*] = t13051u[imar+1,*] + t13051u[imar+2,*];
+  Col2Dim( "t13051", t13051, 0,      jmax-1, t13051u, 0 );
+  Col2Dim( "t13051", t13051, jmax+1, jtot-1, t13051u, 0 );
+
+  { table 13.5.2 }
+  iage = tblrow( t13052, v013w4 = 1 );
+  t13052[iage,*] = t13052[iage+1,*] + t13052[iage+2,*];
+  imar = tblrow( t13052, v501w4 = 0 );
+  t13052[imar,*] = t13052[imar+1,*] + t13052[imar+2,*];
+  jtot = tblcol( t13052 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t13052[*,j] = 100 * t13052[*,j] / t13052[*,jtot];
+  enddo;
+  jmax = tblcol( t13052, total );
+  t13052[*,jmax] = tblsum( column t13052[*,0:jmax-1] );
+  { check unweighted N's }
+  t13052u[iage,*] = t13052u[iage+1,*] + t13052u[iage+2,*];
+  t13052u[imar,*] = t13052u[imar+1,*] + t13052u[imar+2,*];
+  Col2Dim( "t13052", t13052, 0,      jmax-1, t13052u, 0 );
+  Col2Dim( "t13052", t13052, jmax+1, jtot-1, t13052u, 0 );
+
+  { table 13.6 }
+  iage = tblrow( t1306, v013w13 = 1 );
+  t1306[iage,*,*] = t1306[iage+1,*,*] + t1306[iage+2,*,*];
+  jtot = tblcol( t1306 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t1306[*,j,*] = 100 * t1306[*,j,*] / t1306[*,jtot,*];
+  enddo;
+  t1306[*,jmax+1,*] = tblsum( column t1306[*,0:jmax,*] );
+  { check unweighted N's }
+  t1306u[iage,*,*] = t1306u[iage+1,*,*] + t1306u[iage+2,*,*];
+  Col3Dim( "t1306", t1306, 0, jtot-2, t1306u, 0 );
+  { assign default to not applicable rows }
+  itot = tblrow( t1306 );
+  t1306[itot-1:itot,*,0] = default;
+
+  { table 13.7 }
+  jtot1 = tblcol( t1307, hivkit1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1307[*,j] = 100 * t1307[*,j] / t1307[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1307, hivkit2 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    t1307[*,j] = 100 * t1307[*,j] / t1307[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1307", t1307, 0,       jtot1-1, t1307u, 0 );           { women }
+  Col2Dim( "t1307", t1307, jtot1+1, jtot2-1, t1307u, 1 );           { men }
+  { assign NA to not applicable rows }
+  itot = tblrow( t1307 );
+  t1307[itot-1:itot,0:jtot1] = NACells;
+
+  { Table 13.8.1 }
+  iage = tblrow(t13081, v013w4 = 1 );
+  t13081[iage,*] = t13081[iage+1,*] + t13081[iage+2,*];
+  jtot = tblcol( t13081 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t13081[*,j] = t13081[*,j] * 100 / t13081[*,jtot];
+  enddo;
+  { check unweighted N's }
+  t13081u[iage,*] = t13081u[iage+1,*] + t13081u[iage+2,*];
+  Col2Dim( "t13081", t13081, 0, jtot-1, t13081u, 0 );
+
+  { Table 13.8.2 }
+  iage = tblrow(t13082, v013w4 = 1 );
+  t13082[iage,*] = t13082[iage+1,*] + t13082[iage+2,*];
+  jtot = tblcol( t13082 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t13082[*,j] = t13082[*,j] * 100 / t13082[*,jtot];
+  enddo;
+  { check unweighted N's }
+  t13082u[iage,*] = t13082u[iage+1,*] + t13082u[iage+2,*];
+  Col2Dim( "t13082", t13082, 0, jtot-1, t13082u, 0 );
+
+  { table 13.9 }
+  jtot = tblcol( t1309 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1309[*,j] = 100 * t1309[*,j] / t1309[*,jtot];
+  enddo;
+  t1309[*,jmax-2] = tblsum( column t1309[*,0:jmax-3] );
+  { check unweighted N's }
+  Col2Dim( "t1309", t1309, 0,      jtot-4, t1309u, 0 );
+  Col2Dim( "t1309", t1309, jtot-3, jtot-1, t1309u, 0 );
+
+  { table 13.10 }
+  jtot1 = tblcol( t1310, headwom = 0 stiw2 );
+  jtot2 = tblcol( t1310, headman = 0 stim2 );
+  itot = tblrow( t1310, tot1549 );
+  rowcheck2n("t1310" ,t1310 ,jtot1, itot);
+  rowcheck2n("t1310" ,t1310 ,jtot2, itot);
+  rowcheck2n("t1310u",t1310u,    0, itot);
+  rowcheck2n("t1310u",t1310u,    1, itot);
+  iage = tblrow( t1310, v013w4 = 1 );
+  t1310[iage,*] = t1310[iage+1,*] + t1310[iage+2,*];
+  circum = tblrow( t1310, circums = 1 );
+  t1310[circum,*] = tblsum(row t1310[circum+1:circum+4,*] );
+  do j = 0 while j < jtot1
+    t1310[*,j] = 100 * t1310[*,j] / t1310[*,jtot1];
+  enddo;
+  do j = jtot1 + 1 while j < jtot2
+    t1310[*,j] = 100 * t1310[*,j] / t1310[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  t1310u[iage,*]   = t1310u[iage+1,*] + t1310u[iage+2,*];
+  t1310u[circum,*] = tblsum(row t1310u[circum+1:circum+4,*] );
+  Col2Dim( "t1310", t1310, 0,       jtot1-1, t1310u, 0 );           { women }
+  Col2Dim( "t1310", t1310, jtot1+1, jtot2-1, t1310u, 1 );           { men }
+  { assign NA to not applicable rows }
+  itot = tblrow( t1310, circums = 1 );
+  t1310[itot:itot+5,0:jtot1] = NAcells;                            { NA circumcicion for women 50-54[59] }
+  itot = tblrow( t1310 );
+  t1310[itot-1:itot,0:jtot1] = NAcells;                            { NA number for women 50-54[59] }
+
+  { table 13.11.1 }
+  rowcheck2n("t13111" , t13111 );
+  rowcheck2n("t13111u", t13111u);
+  iage = tblrow( t13111, v013w5 = 1 );
+  t13111[iage,*] = t13111[iage+1,*] + t13111[iage+2,*];
+  lage = tblrow( t13111, v013w5 = 4 );
+  t13111[lage,*] = t13111[lage+1,*] + t13111[lage+2,*];
+  imar = tblrow( t13111, v501w5 = 0 );
+  t13111[imar,*] = t13111[imar+1,*] + t13111[imar+2,*];
+  jtot = tblcol( t13111 );
+  do j = 0 while j < jtot
+    t13111[*,j] = 100 * t13111[*,j] / t13111[*,jtot];
+  enddo;
+  { check unweighted N's }
+  t13111u[iage,*] = t13111u[iage+1,*] + t13111u[iage+2,*];
+  t13111u[lage,*] = t13111u[lage+1,*] + t13111u[lage+2,*];
+  t13111u[imar,*] = t13111u[imar+1,*] + t13111u[imar+2,*];
+  Col2Dim( "t13111", t13111, 0, jtot-1, t13111u, 0 );
+
+  { table 13.11.2 }
+  rowcheck2n("t13112" , t13112 );
+  rowcheck2n("t13112u", t13112u);
+  iage = tblrow( t13112, v013w5 = 1 );
+  t13112[iage,*] = t13112[iage+1,*] + t13112[iage+2,*];
+  lage = tblrow( t13112, v013w5 = 4 );
+  t13112[lage,*] = t13112[lage+1,*] + t13112[lage+2,*];
+  imar = tblrow( t13112, v501w5 = 0 );
+  t13112[imar,*] = t13112[imar+1,*] + t13112[imar+2,*];
+  jtot = tblcol( t13112 );
+  do j = 0 while j < jtot
+    t13112[*,j] = 100 * t13112[*,j] / t13112[*,jtot];
+  enddo;
+  { check unweighted N's }
+  t13112u[iage,*] = t13112u[iage+1,*] + t13112u[iage+2,*];
+  t13112u[lage,*] = t13112u[lage+1,*] + t13112u[lage+2,*];
+  t13112u[imar,*] = t13112u[imar+1,*] + t13112u[imar+2,*];
+  Col2Dim( "t13112", t13112, 0, jtot-1, t13112u, 0 );
+
+  { table 13.12 }
+  iage = tblrow( t1312, v013w5 = 1 );
+  t1312[iage,*] = t1312[iage+1,*] + t1312[iage+2,*];
+  lage = tblrow( t1312, v013w5 = 4 );
+  t1312[lage,*] = t1312[lage+1,*] + t1312[lage+2,*];
+  { for women }
+  jtot1 = tblcol( t1312, womage1 );
+  t1312[*,jtot1-1] = 100 * t1312[*,jtot1-1] / t1312[*,jtot1];
+  jtot2 = tblcol( t1312, womage2 );
+  t1312[*,jtot2-1] = 100 * t1312[*,jtot2-1] / t1312[*,jtot2];
+  { for men }
+  jtot3 = tblcol( t1312, manage1 );
+  t1312[*,jtot3-1] = 100 * t1312[*,jtot3-1] / t1312[*,jtot3];
+  jtot4 = tblcol( t1312, manage2 );
+  t1312[*,jtot4-1] = 100 * t1312[*,jtot4-1] / t1312[*,jtot4];
+  { check unweighted N's }
+  t1312u[iage,*] = t1312u[iage+1,*] + t1312u[iage+2,*];
+  t1312u[lage,*] = t1312u[lage+1,*] + t1312u[lage+2,*];
+  Col2Dim( "t1312", t1312, 0,       jtot1-1, t1312u, 0 );           { women 15-24 }
+  Col2Dim( "t1312", t1312, jtot1+1, jtot2-1, t1312u, 1 );           { women 18-24 }
+  Col2Dim( "t1312", t1312, jtot2+1, jtot3-1, t1312u, 2 );           { men 15-24 }
+  Col2Dim( "t1312", t1312, jtot3+1, jtot4-1, t1312u, 3 );           { men 18-24 }
+  { assign NA to not applicable rows }
+  t1312[0,jtot2-1:jtot2] = NACells;             { women 15-19 }
+  t1312[1,jtot2-1:jtot2] = NACells;             { women 15-17 }
+  t1312[0,jtot4-1:jtot4] = NACells;             { men 15-19 }
+  t1312[1,jtot4-1:jtot4] = NACells;             { men 15-17 }
+
+  { table 13.13 }
+  iage = tblrow( t1313, v013w5 = 1 );
+  t1313[iage,*] = t1313[iage+1,*] + t1313[iage+2,*];
+  lage = tblrow( t1313, v013w5 = 4 );
+  t1313[lage,*] = t1313[lage+1,*] + t1313[lage+2,*];
+  { for women }
+  jtot1 = tblcol( t1313, sexmar1 );
+  do j = 0 while j < jtot1
+    t1313[*,j] = 100 * t1313[*,j] / t1313[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1313 );
+  do j = jtot1 + 1 while j < jtot2
+    t1313[*,j] = 100 * t1313[*,j] / t1313[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  t1313u[iage,*] = t1313u[iage+1,*] + t1313u[iage+2,*];
+  t1313u[lage,*] = t1313u[lage+1,*] + t1313u[lage+2,*];
+  Col2Dim( "t1313", t1313, 0,       jtot1-1, t1313u, 0 );           { women }
+  Col2Dim( "t1313", t1313, jtot1+1, jtot2-1, t1313u, 1 );           { men }
+
+  { table 13.14.1 }
+  iage = tblrow( t13141, v013w5 = 1 );
+  t13141[iage,*] = t13141[iage+1,*] + t13141[iage+2,*];
+  lage = tblrow( t13141, v013w5 = 4 );
+  t13141[lage,*] = t13141[lage+1,*] + t13141[lage+2,*];
+  jtot1 = tblcol( t13141, sexpartw );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t13141[*,j] = 100 * t13141[*,j] / t13141[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t13141, sexconw1 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    t13141[*,j] = 100 * t13141[*,j] / t13141[*,jtot2];
+  enddo;
+  jtot3 = tblcol( t13141, sexconw2 );
+  jmax  = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    t13141[*,j] = 100 * t13141[*,j] / t13141[*,jtot3];
+  enddo;
+  { check unweighted N's }
+  t13141u[iage,*] = t13141u[iage+1,*] + t13141u[iage+2,*];
+  t13141u[lage,*] = t13141u[lage+1,*] + t13141u[lage+2,*];
+  Col2Dim( "t13141", t13141, 0,       jtot1-1, t13141u, 0 );        { women }
+  Col2Dim( "t13141", t13141, jtot1+1, jtot2-1, t13141u, 1 );        { women with 2+ partners }
+  Col2Dim( "t13141", t13141, jtot2+1, jtot3-1, t13141u, 2 );        { women had sex with non-marital partner }
+
+  { table 13.14.2 }
+  iage = tblrow( t13142, v013w5 = 1 );
+  t13142[iage,*] = t13142[iage+1,*] + t13142[iage+2,*];
+  lage = tblrow( t13142, v013w5 = 4 );
+  t13142[lage,*] = t13142[lage+1,*] + t13142[lage+2,*];
+  jtot1 = tblcol( t13142, sexpartm );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t13142[*,j] = 100 * t13142[*,j] / t13142[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t13142, sexconm1 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    t13142[*,j] = 100 * t13142[*,j] / t13142[*,jtot2];
+  enddo;
+  jtot3 = tblcol( t13142, sexconm2 );
+  jmax  = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    t13142[*,j] = 100 * t13142[*,j] / t13142[*,jtot3];
+  enddo;
+  { check unweighted N's }
+  t13142u[iage,*] = t13142u[iage+1,*] + t13142u[iage+2,*];
+  t13142u[lage,*] = t13142u[lage+1,*] + t13142u[lage+2,*];
+  Col2Dim( "t13142", t13142, 0,       jtot1-1, t13142u, 0 );        { men }
+  Col2Dim( "t13142", t13142, jtot1+1, jtot2-1, t13142u, 1 );        { men with 2+ partners }
+  Col2Dim( "t13142", t13142, jtot2+1, jtot3-1, t13142u, 2 );        { men had sex with non-marital partner }
+
+  { table 13.15 }
+  iage = tblrow( t1315, v013w5 = 1 );
+  t1315[iage,*] = t1315[iage+1,*] + t1315[iage+2,*];
+  lage = tblrow( t1315, v013w5 = 4 );
+  t1315[lage,*] = t1315[lage+1,*] + t1315[lage+2,*];
+  jtot1 = tblcol( t1315, hivres1 );
+  do j = 0 while j < jtot1
+    t1315[*,j] = 100 * t1315[*,j] / t1315[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1315, hivres2 );
+  do j = jtot1 + 1 while j < jtot2
+    t1315[*,j] = 100 * t1315[*,j] / t1315[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  t1315u[iage,*] = t1315u[iage+1,*] + t1315u[iage+2,*];
+  t1315u[lage,*] = t1315u[lage+1,*] + t1315u[lage+2,*];
+  Col2Dim( "t1315", t1315, 0,       jtot1-1, t1315u, 0 );           { women }
+  Col2Dim( "t1315", t1315, jtot1+1, jtot2-1, t1315u, 1 );           { men }
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+postproc
+
+{-----------------------------------------------------------------------------------------------}
+{ male tables }
+
+  for i in RECH1_EDT do
+    if HV118 = 1 then
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then { found & complete questionnaire }
+        isex = 2;
+        if unweight then
+          rweight = 1;
+        else
+          rweight = MV005/1000000;
+        endif;
+
+        { to tally all men regardless of age }
+        totmen   = 0;
+        { to tally all men 18-49, required for printing purposes }
+        totmen1  = 0;
+        { to tally total for men 15-49 }
+        tot1549  = 0;
+        { to tally total for men 18-49, required for printing purposes }
+        tot1849  = 0;
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:59 );
+        { set woman variables to NA }
+        numwom = notappl;
+
+        { general variables }
+        v102w  = MV102;
+        v101w  = MV101;
+        v106w  = MV106;
+        if MV106 in 8,missing then v106w = 9 endif;
+        v190w  = MV190;
+        v131w  = MV131;
+        if MV131 = missing then v131w = 99 endif;
+        v130w  = MV130;
+        if MV130 = missing then v130w =  9 endif;
+		v013w  = MV013;
+        headman = 0;          // for column heading in table 13.10
+        headwom = notappl;		
+		
+        { circumcision }
+        recode MV483 :: MV483D :: MV483E -> circums;
+         0,8,missing ::        ::        -> 6;       { not circumcised, DK }
+                     ::   1    ::   0    -> 2;       { traditional circumcised only }
+                     ::   0    ::   1    -> 3;       { medically circumcised only }
+                     ::   1    ::   1    -> 4;       { both traditional and medically circumcised }
+                     ::        ::        -> 5;       { others }
+        endrecode;
+
+        { currently pregnant }
+        v213w = notappl;
+
+        recode MV012 -> v013w4;
+               15:19 -> 2;
+               20:24 -> 3;
+               25:29 -> 4;
+               30:39 -> 5;
+                     -> 6;
+        endrecode;
+        v013w9  = v013w4;     { value sets are different than v013w4 }
+        v013w13 = v013w4;     { variable label "Age" not required for table 13.6 }
+        recode MV012 -> v013w5;
+               15:17 -> 2;
+               18:19 -> 3;
+               20:22 -> 5;
+               23:24 -> 6;
+                     -> notappl;
+        endrecode;
+        recode MV501 ::   MV525   -> v501w4;
+               1,2   ::           -> 3;
+               3:5   ::           -> 4;
+                     :: 0,missing -> 2;
+                     ::           -> 1;
+        endrecode;
+        recode MV501 ::   MV525   -> v501w5;
+               1:5   ::           -> 3;
+                     :: 0,missing -> 2;
+                     ::           -> 1;
+        endrecode;
+        recode MV501  -> v501w2;
+                 0    -> 0;
+                 1:2  -> 1;
+                 3:5  -> 2;
+                      -> 9;
+        endrecode;
+        recode MV501  -> v501w6;
+                 0    -> 0;
+                      -> 1;
+        endrecode;
+
+        { polygamy }
+        recode MV502 :: MV505 -> v505w1;
+                0,2  ::       -> 3;                       { not currently in union }
+                 1   ::  0,1  -> 2;                       { not in polygynous union - MV505 total number of wives }
+                 1   ::  2:20 -> 1;                       { in polygynous union }
+                     ::       -> 9;                       { DK/missing }
+        endrecode;
+
+        { the following background variables will be assigned NOTAPPL }
+        { in order to preperly tally tables where there is a line for }
+        { for men > 49 years old                                      }
+        if MV012 > 49 then
+		  v013w    = notappl;
+          v013w4   = notappl;
+          v013w5   = notappl;
+          v013w9   = notappl;
+          v013w13  = notappl;
+          v106w    = notappl;
+          v501w2   = notappl;
+          v501w4   = notappl;
+          v501w5   = notappl;
+          v501w6   = notappl;
+          v190w    = notappl;
+          v102w    = notappl;
+          v130w    = notappl;
+          v131w    = notappl;
+          v101w    = notappl;
+          v505w1   = notappl;
+          circums  = notappl;
+          tot1549  = notappl;
+          tot1849  = notappl;
+        endif;
+
+        { higher risk intercourse in last 12 months }
+        recode  MV527  -> lastsex;    { !!! check meaning of codes 197, 198, 995, 996, etc and adjust accordingly }
+               notappl -> notappl;
+               100:198 -> int( (MV527-100)/30 );    { days }
+               200:298 -> int( (MV527-200)/4.3 );   { weeks }
+               300:398 -> MV527-300;                { months }
+               400:450 -> (MV527-400)*12;           { years }
+                       -> missing;
+        endrecode;
+        sexly = ( lastsex in 0:11 );
+        { 2+ partners in last year, 98 and missing included because in this case it means that they had three or more partners }
+        nsexpart = ( sexly & MV766B in 2:98,missing );
+
+        risksex1 = ( MV767A in 2:6,8,96 );               { !!!! had sex with other than husband or live-in partner (last time) }
+        risksex2 = ( MV767B in 2:6,8,96 );               { !!!! had sex with other than husband or live-in partner (second to last) }
+        risksex3 = ( MV767C in 2:6,8,96 );               { !!!! had sex with other than husband or live-in partner (third to last)}
+        risksex  = ( risksex1 | risksex2 | risksex3 );      { had sex with other than husband or live-in partner }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.0 }
+
+        if MV751 = 1 then                      { ever heard of AIDS }
+          knowaids = 1;
+          xtab( t1300, rweight );
+        endif;
+        knowaids = 2;
+        xtab( t1300, rweight );
+        xtab( t1300u );
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.1 }
+
+        knowprep = notappl;
+        if MV837 = 1 then                        { heard of ARVs to treat HIV }
+          hivmedi = 1;
+          xtab( t1301, rweight );
+        endif;
+        if MV824 = 1 then                        { knows of medicine to reduce transmission to child }
+          hivmedi = 2;
+          xtab( t1301, rweight );
+        endif;
+        if MV859 in 1:3 then                     { heard of PrEP }
+          hivmedi = 3;
+          xtab( t1301, rweight );
+        endif;
+        hivmedi = 4;
+        xtab( t1301, rweight );
+		coltotu = 1;
+        xtab( t1301u );
+        hivmedi = notappl;
+        if MV859 in 1:3 then                     { heard of PrEP }
+          knowprep = 2;
+          xtab( t1301, rweight );
+          coltotu = 2;
+          xtab( t1301u );
+          if MV859 = 1 then                     { approve to take PrEP everyday }
+            knowprep = 1;
+            xtab( t1301, rweight );
+          endif;
+        endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.2 }
+
+        { !!!! if version 2 of the table is used, remove filter "if MV751" }
+        if MV751 = 1 then            { knows AIDS }
+          womhiv = notappl;
+          menhiv = notappl;
+          if MV857A = 0 then                        { Don't think that chidren with HIV should attend school }
+            discrim = 1;
+            xtab( t1302, rweight );
+          endif;
+          if MV825 = 0 then                         { Wouldn't buy vegetables from vendor with HIV }
+            discrim = 2;
+            xtab( t1302, rweight );
+          endif;
+          if MV857A = 0 | MV825 = 0 then            { Discriminatory attitudes towards people with HIV }
+            discrim = 3;
+            xtab( t1302, rweight );
+          endif;
+          discrim = notappl;
+          menhiv  = 1;
+          xtab( t1302, rweight );
+          xtab( t1302u );
+        endif;                       { end knows AIDS }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.3.2 }
+
+        sexpart5 = notappl;
+        sexpart6 = notappl;
+        sexpart7 = notappl;
+        sexpart8 = notappl;
+        { panel for all women }
+        sexpart5 = 3;
+        xtab( t13032, rweight );
+        coltotu = 1;
+        xtab( t13032u );
+        if nsexpart then        { two or more sexual partners }
+          sexpart5 = 1;
+          xtab( t13032, rweight );
+        endif;
+        if risksex then       { had sex with other than husband or live-in partner }
+          sexpart5 = 2;
+          xtab( t13032, rweight );
+        endif;
+        sexpart5 = notappl;
+        { panel for women with 2+ partners }
+        if nsexpart then        { two or more sexual partners }
+          sexpart6 = 2;
+          xtab( t13032, rweight );
+          coltotu = 2;
+          xtab( t13032u );
+          if MV761 = 1 then                        { Condom used during last sex with most recent partner  }
+            sexpart6 = 1;
+            xtab( t13032, rweight );
+          endif;
+        endif;
+        sexpart6 = notappl;
+        { panel for sex with non-marital partner }
+        if risksex then
+          sexpart7 = 2;
+          xtab( t13032, rweight );
+          coltotu = 3;
+          xtab( t13032u );
+          { used condom last time had sex with other than husband or live-in partner }
+          if risksex1 & MV761 = 1 | !risksex1 & risksex2 & MV761B = 1 | !risksex1 & !risksex2 & risksex3 & MV761C = 1 then
+            sexpart7 = 1;
+            xtab( t13032, rweight );
+          endif;
+        endif;
+        sexpart7 = notappl;
+        { mean number of lifetime partners }
+        if MV836 in 1:95 then
+          sexpart8 = 1;
+          xtab( t13032, MV836*rweight );
+          sexpart8 = 2;
+          xtab( t13032, rweight );
+          coltotu = 4;
+          xtab( t13032u );
+        endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.5.2 }
+
+        { know where to get HIV test }
+        numman = 1;
+        if  MV781 = 1 then                    { ever been tested for HIV }
+          recode  MV828 -> hivpart2;
+                   1    -> 1;            { received results }
+                        -> 2;            { didn't receive results }
+          endrecode;
+        else
+          hivpart2 = 3                        { never been tested include missings }
+        endif;
+        { ever been tested for HIV }
+        hivpart3 = ( MV781 = 1 );
+        { received results from test taken in last 12 months }
+        hivpart4 = ( MV828 = 1 & MV826A in 0:11 );
+        xtab( t13052, rweight );
+        xtab( t13052u );
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.6 }
+
+		v864w   = notappl;
+		nevtest = notappl;
+        if  MV781 = 1 then                    { ever been tested for HIV }
+          recode MV864 -> v864w;
+                  1:4  -> MV864;
+				  5:9  -> 5;
+				 10:19 -> 6;
+				 20:95 -> 7;
+               missing -> 9;
+                       -> default;
+          endrecode;
+        else
+          nevtest = 1;                      { never been tested include missings }
+        endif;
+        xtab( t1306, rweight );
+        xtab( t1306u );
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.7 }
+
+        hivkit1 = notappl;    { set women panel to notappl }
+        hivkit2 = 3;
+        xtab( t1307, rweight );
+        xtab( t1307u );
+        { Ever heard of HIV self test kits }
+        if MV856 in 1:3 then
+          hivkit2 = 1;
+          xtab( t1307, rweight );
+          { Ever used an HIV self test kit }
+          if MV856 = 1 then
+            hivkit2 = 2;
+            xtab( t1307, rweight );
+          endif;
+        endif;
+
+{--------------------------------------------------------------}
+{ table 13.8.2 }
+
+        hivstig1 = notappl;
+        hivstig2 = notappl;
+        hivstig3 = notappl;
+        if MV861 = 1 then                   // respondent declared most recent test positive
+          menhivp = 1;
+          xtab( t13082, rweight );
+          xtab( t13082u );
+          menhivp = notappl;
+          if MV865 = 1 then                 // disclosed HIV positive status
+            hivstig1 = 1;
+            xtab( t13082, rweight );
+          endif;
+          if MV866 = 1 then                 // feel ashamed because of HIV positive status
+            hivstig1 = 2;
+            xtab( t13082, rweight );
+          endif;
+          hivstig1 = notappl;
+          if MV867A = 1 then                // people talk badly
+            hivstig2 = 1;
+            xtab( t13082, rweight );
+          endif;
+          if MV867B = 1 then                // disclosed status
+            hivstig2 = 2;
+            xtab( t13082, rweight );
+          endif;
+          if MV867C = 1 then                // vebally insulted
+            hivstig2 = 3;
+            xtab( t13082, rweight );
+          endif;
+          if 1 in MV867A,MV867B,MV867C then   // any community stigma
+            hivstig2 = 4;
+            xtab( t13082, rweight );
+          endif;
+          hivstig2 = notappl;
+          if MV867D = 1 then                // health care workers talk badly
+            hivstig3 = 1;
+            xtab( t13082, rweight );
+          endif;
+          if MV867E = 1 then                // health care workers verbally abused
+            hivstig3 = 2;
+            xtab( t13082, rweight );
+          endif;
+        endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.9 }
+
+        mcircum = notappl;
+		circeith = notappl;
+		circmed  = notappl;
+        numman   = 1;
+        xtab( t1309, rweight );
+        xtab( t1309u );
+        numman   = notappl;
+        recode MV483 :: MV483D :: MV483E -> mcircum;
+                 1   ::   1    ::   0    -> 1;       // traditionnally circumcised only
+                 1   ::   0    ::   1    -> 2;       // medically circumcised only
+                 1   ::   1    ::   1    -> 3;       // both traditionally and medically circumcised
+                 1   ::        ::        -> 4;       // circumcised don't know type
+                 0   ::        ::        -> 5;       // not circumcised
+          8,missing  ::        ::        -> 6;       // don't know circumcision status
+                     ::        ::        -> default;
+        endrecode;             
+		circeith = ( MV483 = 1 );                    // traditionnally or medically circumcised
+		circmed  = ( MV483E = 1 );                   // medically circumcised
+        xtab( t1309, rweight );
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.10 }
+
+        if !MV525 in 0,missing then    { ever had sex }
+          stiw1  = notappl;
+          stiw2 = notappl;
+          stim1  = notappl;
+          stim2 = 0;
+          xtab( t1310, rweight );
+          xtab( t1310u );
+          stim2 = notappl;
+          if MV763A = 1 then                   { Had any STI in last 12 months }
+            stim1 = 1;
+            xtab( t1310, rweight );
+          endif;
+          if MV763C = 1 then                   { Had genital discharge in last 12 months }
+            stim1 = 2;
+            xtab( t1310, rweight );
+          endif;
+          if MV763B = 1 then                   { Had genital sore/ulcer in last 12 months }
+            stim1 = 3;
+            xtab( t1310, rweight );
+          endif;
+          if MV763A = 1 | MV763B = 1 | MV763C = 1 then
+            stim1 = 4;
+            xtab( t1310, rweight );
+          endif;
+        endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.11.2 }
+
+        if MV012 in 15:24 then
+          numman   = notappl;
+          knowprev = notappl;
+          hivprev2 = notappl;
+		  cnt      = 0;
+          if MV754CP = 1 then            // use condoms every time have sex
+            hivprev1 = 1;
+            xtab( t13112, rweight );
+		    cnt = cnt + 1;
+          endif;
+          if MV754DP = 1 then            // having sex with just with an unifected partner
+            hivprev1 = 2;
+            xtab( t13112, rweight );
+			cnt = cnt + 1;
+          endif;
+          hivprev1 = notappl;
+          if MV756 = 1 then              // healthy looking person can have HIV
+            hivprev2 = 1;
+            xtab( t13112, rweight );
+			cnt = cnt + 1;
+          endif;
+          if MV754JP = 0 then            // don't get HIV from mosquito bites
+            hivprev2 = 2;
+            xtab( t13112, rweight );
+			cnt = cnt + 1;
+          endif;
+          if MV754WP = 0 then            // don't get HIV by sharing food
+            hivprev2 = 3;
+            xtab( t13112, rweight );
+			cnt = cnt + 1;
+          endif;
+          hivprev2 = notappl;
+          if cnt = 5 then               // knowledge about prevention
+            knowprev = 1;
+            xtab( t13112, rweight );
+          endif;
+          knowprev = notappl;
+          numman   = 1;
+          xtab( t13112, rweight );
+          xtab( t13112u );
+        endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.12 }
+
+        womage1 = notappl;
+        womage2 = notappl;
+        manage2 = notappl;
+        if MV012 in 15:24 then { age 15-24 }
+          manage1 = 2;
+          xtab( t1312, rweight );
+          coltotu = 3;
+          xtab( t1312u );
+          if MV531 in 1:14 then             { age at first sex before 15 }
+            manage1 = 1;
+            xtab( t1312, rweight );
+          endif;
+          manage1 = notappl;
+          if MV012 >= 18 then
+            manage2 = 2;
+            xtab( t1312, rweight );
+            coltotu = 4;
+            xtab( t1312u );
+            if MV531 in 1:17 then           { age at first sex before 18 }
+              manage2 = 1;
+              xtab( t1312, rweight );
+            endif;
+          endif;
+        endif;              { end age 15-24 }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.13 }
+
+        if MV012 in 15:24 & MV501 = 0 then    { age 15-24 & never married }
+          sexmar1 = notappl;
+          sexmar2 = 2;
+          xtab( t1313, rweight );
+          xtab( t1313u );
+          if MV525 in 0,missing then             { haven't had sexual intercourse }
+            sexmar2 = 1 ;
+            xtab( t1313, rweight );
+          endif;
+        endif;            { end age 15-24 & never married }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.14.2 }
+
+        sexpartm = notappl;
+        sexconm1 = notappl;
+        sexconm2 = notappl;
+        if MV012 in 15:24 then                     { age 15-24 }
+          sexpartm = 3;
+          xtab( t13142, rweight );
+          coltotu = 1;
+          xtab( t13142u );
+          if nsexpart then                      { two or more sexual partners }
+            sexpartm = 1;
+            xtab( t13142, rweight );
+          endif;
+          if risksex then                       { had sex with other than husband/non living-in partner }
+            sexpartm = 2;
+            xtab( t13142, rweight );
+          endif;
+          sexpartm = notappl;
+          if nsexpart then                      { two or more sexual partners }
+            sexconm1 = 2;
+            xtab( t13142, rweight );
+            coltotu = 2;
+            xtab( t13142u );
+            if MV761 = 1 then                   { used condom at last sexual intercourse }
+              sexconm1 = 1;
+              xtab( t13142, rweight );
+            endif;
+          endif;
+          sexconm1 = notappl;
+          if risksex then                      { had sex with a non-marital/on-cohabiting partener }
+            sexconm2 = 2;
+            xtab( t13142, rweight );
+            coltotu = 3;
+            xtab( t13142u );
+            { used condom last time had sex with other than husband or live-in partner }
+            if risksex1 & MV761 = 1 | !risksex1 & risksex2 & MV761B = 1 | !risksex1 & !risksex2 & risksex3 & MV761C = 1 then
+              sexconm2 = 1;
+              xtab( t13142, rweight );
+            endif;
+          endif;
+          sexconm2 = notappl;
+        endif;            { end age 15-24 }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.15 }
+
+        hivres1 = notappl;    { set women panel to notappl }
+        if MV012 in 15:24 & sexly then    { age 15-24 & sex in last 12 months }
+          hivres2 = 2;
+          xtab( t1315, rweight );
+          xtab( t1315u );
+          { tested and receive results < 12 months }
+          if MV828 = 1 & MV826A in 0:11 then
+            hivres2 = 1;
+            xtab( t1315, rweight );
+          endif;
+        endif;            { end age 15-24 }
+
+      endif     { end loadcase & complete interview }
+    endif;
+  enddo;
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  isex = 1;
+  if unweight then
+    rweight = 1
+  else
+    rweight = V005/1000000
+  endif;
+
+  { totals for all men and men 50-54[59] set to NA }
+  totmen   = notappl;
+  totmen1  = notappl;
+  men5059  = notappl;
+  numman   = notappl;
+  v505w1   = notappl;
+  { all women are tallyied }
+  tot1549  = 0;
+  tot1849  = 0;
+  headwom  = 0;          // for column heading in table 13.10
+  headman  = notappl;		
+
+  { general variables }
+  v102w  = V102;
+  v101w  = V101;
+  v106w  = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w  = V190;
+  v013w  = V013;
+
+  { circumcision }
+  circums = notappl;
+
+  { currently pregnant }
+  recode V213 -> v213w;
+           0  -> 2;
+           1  -> 1;
+              -> 9;
+  endrecode;
+
+  recode  V012 -> v013w4;
+         15:19 -> 2;
+         20:24 -> 3;
+         25:29 -> 4;
+         30:39 -> 5;
+         40:49 -> 6;
+  endrecode;
+  v013w9  = v013w4;     { value sets are different than v013w4 }
+  v013w13 = v013w4;     { variable label "Age" not required for table 13.6 }
+  recode  V012 -> v013w5;
+         15:17 -> 2;
+         18:19 -> 3;
+         20:22 -> 5;
+         23:24 -> 6;
+               -> notappl;
+  endrecode;
+  recode V501 ::    V525   -> v501w4;
+         1,2  ::           -> 3;
+         3:5  ::           -> 4;
+              :: 0,missing -> 2;
+              ::           -> 1;
+  endrecode;
+  recode V501 ::    V525   -> v501w5;
+         1:5  ::           -> 3;
+              :: 0,missing -> 2;
+              ::           -> 1;
+  endrecode;
+  recode V501  -> v501w2;
+          0    -> 0;
+         1:2   -> 1;
+         3:5   -> 2;
+               -> 9;
+  endrecode;
+  recode V501  -> v501w6;
+           0   -> 0;
+               -> 1;
+  endrecode;
+
+  { higher risk intercourse in last 12 months }
+  recode   V527  -> lastsex;    { !!! check meaning of codes 197, 198, 995, 996, etc and adjust accordingly }
+         notappl -> notappl;
+         100:198 -> int( (V527-100)/30 );    { days }
+         200:298 -> int( (V527-200)/4.3 );   { weeks }
+         300:398 -> V527-300;                { months }
+         400:450 -> (V527-400)*12;           { years }
+                 -> missing;
+  endrecode;
+  sexly = ( lastsex in 0:11 );
+  { 2+ partners in last year, 98 and missing included because in this case it means that they had three or more partners }
+  nsexpart = ( sexly & V766B in 2:98,missing );
+
+  risksex1 = ( V767A in 2:6,8,96 );               { !!!! had sex with other than husband or live-in partner (last time) }
+  risksex2 = ( V767B in 2:6,8,96 );               { !!!! had sex with other than husband or live-in partner (second to last) }
+  risksex3 = ( V767C in 2:6,8,96 );               { !!!! had sex with other than husband or live-in partner (third to last)}
+  risksex  = ( risksex1 | risksex2 | risksex3 );      { had sex with other than husband or live-in partner }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.0 }
+
+  if V751 = 1 then                             { ever heard of AIDS }
+    knowaids = 1;
+    xtab( t1300, rweight );
+  endif;
+  knowaids = 2;
+  xtab( t1300, rweight );
+  xtab( t1300u );
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.1 }
+
+  knowprep = notappl;
+  if V837 = 1 then                        { heard of ARVs to treat HIV }
+    hivmedi = 1;
+    xtab( t1301, rweight );
+  endif;
+  if V824 = 1 then                        { knows of medicine to reduce transmission to child }
+    hivmedi = 2;
+    xtab( t1301, rweight );
+  endif;
+  if V859 in 1:3 then                     { heard of PrEP }
+    hivmedi = 3;
+    xtab( t1301, rweight );
+  endif;
+  hivmedi = 4;
+  xtab( t1301, rweight );
+  coltotu = 1;
+  xtab( t1301u );
+  hivmedi = notappl;
+  if V859 in 1:3 then                     { heard of PrEP }
+    knowprep = 2;
+    xtab( t1301, rweight );
+    coltotu = 2;
+    xtab( t1301u );
+    if V859 = 1 then                     { approve to take PrEP everyday }
+      knowprep = 1;
+      xtab( t1301, rweight );
+    endif;
+  endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.2 }
+
+  { !!!! if version 2 of the table is used, remove filter "if V751" }
+  if V751 = 1 then          { knows AIDS }
+    womhiv = notappl;
+    menhiv = notappl;
+    if V857A = 0 then                        { don't think that chidren with HIV should attend school }
+      discrim = 1;
+      xtab( t1302, rweight );
+    endif;
+    if V825 = 0 then                         { Wouldn't buy vegetables from vendor with HIV }
+      discrim = 2;
+      xtab( t1302, rweight );
+    endif;
+    if V857A = 0 | V825 = 0 then             { Discriminatory attitudes towards people with HIV }
+      discrim = 3;
+      xtab( t1302, rweight );
+    endif;
+    discrim = notappl;
+    womhiv  = 1;
+    xtab( t1302, rweight );
+    xtab( t1302u );
+  endif;                    { end knows AIDS }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.3.1 }
+
+  sexpart1 = notappl;
+  sexpart2 = notappl;
+  sexpart3 = notappl;
+  sexpart4 = notappl;
+  { panel for all women }
+  sexpart1 = 3;
+  xtab( t13031, rweight );
+  coltotu = 1;
+  xtab( t13031u );
+  if nsexpart then        { two or more sexual partners }
+    sexpart1 = 1;
+    xtab( t13031, rweight );
+  endif;
+  if risksex then       { had sex with other than husband or live-in partner }
+    sexpart1 = 2;
+    xtab( t13031, rweight );
+  endif;
+  sexpart1 = notappl;
+  { panel for women with 2+ partners }
+  if nsexpart then        { two or more sexual partners }
+    sexpart2 = 2;
+    xtab( t13031, rweight );
+    coltotu = 2;
+    xtab( t13031u );
+    if V761 = 1 then                        { Condom used during last sex with most recent partner  }
+      sexpart2 = 1;
+      xtab( t13031, rweight );
+    endif;
+  endif;
+  sexpart2 = notappl;
+  { panel for sex with non-marital partner }
+  if risksex then
+    sexpart3 = 2;
+    xtab( t13031, rweight );
+    coltotu = 3;
+    xtab( t13031u );
+    { used condom last time had sex with other than husband or live-in partner }
+    if risksex1 & V761 = 1 | !risksex1 & risksex2 & V761B = 1 | !risksex1 & !risksex2 & risksex3 & V761C = 1 then
+      sexpart3 = 1;
+      xtab( t13031, rweight );
+    endif;
+  endif;
+  sexpart3 = notappl;
+  { mean number of lifetime partners }
+  if V836 in 1:95 then
+    sexpart4 = 1;
+    xtab( t13031, V836*rweight );
+    sexpart4 = 2;
+    xtab( t13031, rweight );
+    coltotu = 4;
+    xtab( t13031u );
+  endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.4 }
+
+  hivtest1 = notappl;
+  hivtest2 = notappl;
+  totalb   = notappl;
+  if V201 <> 0 & B19(1) < 24 then    { births in last 2 years }
+    totalb  = 1;
+    if V840 = 1 then      { tested for HIV during antenatal care }
+      if V841 = 1 then
+	    hivtest1 = 1;        { received results }
+      else         
+	    hivtest1 = 2;        { everybody else including missing classified as didn't receive results }
+      endif;
+    endif;
+    if V840 = 1 | V840A = 1 then      { tested for HIV during ANC or before labor }
+      if V841 = 1 | V841A = 1 then
+        hivtest2 = 1;        { received results }
+      else
+        hivtest2 = 2;        { everybody else including missings classified as didn't receive results }
+      endif;
+    endif;
+    xtab( t1304, rweight );
+    xtab( t1304u );
+  endif;                                  { end births last 2 years }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.5.1 }
+
+  { know where to get HIV test }
+  numwom = 1;
+  if  V781 = 1 then                { ever been tested for HIV }
+    recode V828 -> hivpart1;
+            1   -> 1;        { received results }
+                -> 2;        { didn't receive results }
+    endrecode;
+  else
+    hivpart1 = 3                   { never tested include missings }
+  endif;
+  { ever been tested for HIV }
+  hivpart3 = ( V781 = 1 );
+  { received results from test taken in last 12 months }
+  hivpart4 = ( V828 = 1 & V826A in 0:11 );
+  xtab( t13051, rweight );
+  xtab( t13051u );
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.6 }
+
+  v864w   = notappl;
+  nevtest = notappl;
+  if V781 = 1 then                    { ever been tested for HIV }
+    recode  V864 -> v864w;
+            1:4  -> V864;
+		    5:9  -> 5;
+		   10:19 -> 6;
+		   20:95 -> 7;
+         missing -> 9;
+                 -> default;
+    endrecode;
+  else
+    nevtest = 1;                      { never been tested include missings }
+  endif;
+  xtab( t1306, rweight );
+  xtab( t1306u );
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.7 }
+
+  hivkit2 = notappl;    { set women panel to notappl }
+  hivkit1 = 3;
+  xtab( t1307, rweight );
+  xtab( t1307u );
+  { Ever heard of HIV self test kits }
+  if V856 in 1:3 then
+    hivkit1 = 1;
+    xtab( t1307, rweight );
+    { Ever used an HIV self test kit }
+    if V856 = 1 then
+      hivkit1 = 2;
+      xtab( t1307, rweight );
+    endif;
+  endif;
+
+  {--------------------------------------------------------------}
+  { table 13.8.1 }
+
+  hivstig1 = notappl;
+  hivstig2 = notappl;
+  hivstig3 = notappl;
+  if V861 = 1 then                   // respondent declared most recent test positive
+    womhivp = 1;
+    xtab( t13081, rweight );
+    xtab( t13081u );
+    womhivp = notappl;
+    if V865 = 1 then                 // disclosed HIV positive status
+      hivstig1 = 1;
+      xtab( t13081, rweight );
+    endif;
+    if V866 = 1 then                 // feel ashamed because of HIV positive status
+      hivstig1 = 2;
+      xtab( t13081, rweight );
+    endif;
+    hivstig1 = notappl;
+    if V867A = 1 then                // people talk badly
+      hivstig2 = 1;
+      xtab( t13081, rweight );
+    endif;
+    if V867B = 1 then                // disclosed status
+      hivstig2 = 2;
+      xtab( t13081, rweight );
+    endif;
+    if V867C = 1 then                // vebally insulted
+      hivstig2 = 3;
+      xtab( t13081, rweight );
+    endif;
+    if 1 in V867A,V867B,V867C then   // any community stigma
+      hivstig2 = 4;
+      xtab( t13081, rweight );
+    endif;
+    hivstig2 = notappl;
+    if V867D = 1 then                // health care workers talk badly
+      hivstig3 = 1;
+      xtab( t13081, rweight );
+    endif;
+    if V867E = 1 then                // health care workers verbally abused
+      hivstig3 = 2;
+      xtab( t13081, rweight );
+    endif;
+  endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.10 }
+
+  if !V525 in 0,missing then { ever had sex }
+    stim1 = notappl;
+    stim2 = notappl;
+    stiw1 = notappl;
+    stiw2 = 0;
+    xtab( t1310, rweight );
+    xtab( t1310u );
+    stiw2 = notappl;
+    if V763A = 1 then                { Had any STI in last 12 months }
+      stiw1 = 1;
+      xtab( t1310, rweight );
+    endif;
+    if V763C = 1 then                { Had genital discharge in last 12 months }
+      stiw1 = 2;
+      xtab( t1310, rweight );
+    endif;
+    if V763B = 1 then                { Had genital sore/ulcer in last 12 months }
+      stiw1 = 3;
+      xtab( t1310, rweight );
+    endif;
+    if V763A = 1 | V763B = 1 | V763C = 1 then
+      stiw1 = 4;
+      xtab( t1310, rweight );
+    endif;
+  endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.11.1 }
+
+  if V012 in 15:24 then
+    numwom   = notappl;
+    knowprev = notappl;
+	know     = 0;
+	hivprev2 = notappl;
+	cnt      = 0;
+    if V754CP = 1 then            // use condoms every time have sex
+      hivprev1 = 1;
+      xtab( t13111, rweight );
+	  cnt = cnt + 1;
+    endif;
+    if V754DP = 1 then            // having sex with just with an unifected partner
+      hivprev1 = 2;
+      xtab( t13111, rweight );
+	  cnt = cnt + 1;
+    endif;
+	hivprev1 = notappl;
+    if V756 = 1 then              // healthy looking person can have HIV
+      hivprev2 = 1;
+      xtab( t13111, rweight );
+	  cnt = cnt + 1;
+    endif;
+    if V754JP = 0 then            // don't get HIV from mosquito bites
+      hivprev2 = 2;
+      xtab( t13111, rweight );
+	  cnt = cnt + 1;
+    endif;
+    if V754WP = 0 then            // don't get HIV by sharing food
+      hivprev2 = 3;
+      xtab( t13111, rweight );
+	  cnt = cnt + 1;
+    endif;
+    hivprev2 = notappl;
+    if cnt = 5 then               // knowledge about prevention
+      knowprev = 1;
+      xtab( t13111, rweight );
+    endif;
+    knowprev = notappl;
+    numwom   = 1;
+    xtab( t13111, rweight );
+    xtab( t13111u );
+  endif;
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.12 }
+
+  manage1 = notappl;
+  manage2 = notappl;
+  womage2 = notappl;
+  if V012 in 15:24 then      { age 15-24 }
+    womage1 = 2;
+    xtab( t1312, rweight );
+    coltotu = 1;
+    xtab( t1312u );
+    if V531 in 1:14 then               { age at first sex before 15 }
+      womage1 = 1;
+      xtab( t1312, rweight );
+    endif;
+    womage1 = notappl;
+    if V012 >= 18 then
+      womage2 = 2;
+      xtab( t1312, rweight );
+      coltotu = 2;
+      xtab( t1312u );
+      if V531 in 1:17 then             { age at first sex before 18 }
+        womage2 = 1;
+        xtab( t1312, rweight );
+      endif;
+    endif;
+  endif;              { end age 15-24 }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.13 }
+
+  if V012 in 15:24 & V501 = 0 then    { age 15-24 & never married }
+    sexmar2 = notappl;
+    sexmar1 = 2;
+    xtab( t1313, rweight );
+    xtab( t1313u );
+    if V525 in 0,missing then                { haven't had sexual intercourse }
+      sexmar1 = 1;
+      xtab( t1313, rweight );
+    endif;
+  endif;           { end age 15-24 & never married }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.14.1 }
+
+  sexpartw = notappl;
+  sexconw1 = notappl;
+  sexconw2 = notappl;
+  if V012 in 15:24 then            { age 15-24 }
+    sexpartw = 3;
+    xtab( t13141, rweight );
+    coltotu = 1;
+    xtab( t13141u );
+    if nsexpart then            { two or more sexual partners }
+      sexpartw = 1;
+      xtab( t13141, rweight );
+    endif;
+    if risksex then             { have sex with other than husband/live-in partner }
+      sexpartw = 2;
+      xtab( t13141, rweight );
+    endif;
+    sexpartw = notappl;
+    if nsexpart then
+      sexconw1 = 2;
+      xtab( t13141, rweight );
+      coltotu = 2;
+      xtab( t13141u );
+      if V761 then              { used condom at last sexual intercourse }
+        sexconw1 = 1;
+        xtab( t13141, rweight );
+      endif;
+    endif;
+    sexconw1 = notappl;
+    if risksex then
+      sexconw2 = 2;
+      xtab( t13141, rweight );
+      coltotu = 3;
+      xtab( t13141u );
+      { used condom last time had sex with other than husband or live-in partner }
+      if risksex1 & V761 = 1 | !risksex1 & risksex2 & V761B = 1 | !risksex1 & !risksex2 & risksex3 & V761C = 1 then
+        sexconw2 = 1;
+        xtab( t13141, rweight );
+      endif;
+    endif;
+    sexconw2 = notappl;
+  endif;            { end age 15-24 }
+
+{-----------------------------------------------------------------------------------------------}
+{ table 13.15 }
+
+  hivres2 = notappl;    { set men panel to notappl }
+  if V012 in 15:24 & sexly then    { age 15-24 & sex in last 12 months }
+    hivres1 = 2;
+    xtab( t1315, rweight );
+    xtab( t1315u );
+    { tested and receive results < 12 months }
+    if V828 = 1 & V826A in 0:11 then
+      hivres1 = 1;
+      xtab( t1315, rweight );
+    endif;
+  endif;            { end age 15-24 }
+

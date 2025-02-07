@@ -1,0 +1,22 @@
+﻿language = EN  
+010 Duplicate individual %02d in household %d
+
+language = ES
+{ common strings used by the application }
+  ES ( "-Incomplete" ) -Incompleto
+  ES ( "-Partial" ) -Parcial
+  ES ( "-Complete" ) -Completo
+  ES ( "W-" ) M-
+  ES ( "M-" ) H-
+  ES ( "Not visited" ) No visitado
+  ES ( "Status for cluster: %s" ) Estado del segmento: %s
+  ES ( "Interviews collected in cluster" ) Entrevistas recolectadas en el segmento
+  ES ( "HH" ) Hogar
+  ES ( "Address/Name" ) Direccion/Nombre
+  ES ( "Result" ) Resultado
+  ES ( "Visits" ) Visitas
+  ES ( "Biomarkers" ) Biomarcador
+  ES ( "There are no households for the cluster in this machine" ) No hay hogares para el segmento en esta maquina
+  ES ( "Individual %02d in household %04d is part of a household that belongs to another interviewer" ) Individual %02d en hogar %d hace parte del hogar de otra entrevistadora
+
+010 Individual %02d duplicado en hogar %d

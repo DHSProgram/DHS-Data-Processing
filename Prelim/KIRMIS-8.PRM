@@ -1,0 +1,28 @@
+{
+decimals period;
+thousands comma;
+}
+
+tkmi footnote
+{+EN}
+* Adapt to the country specific strata which may be provinces, zones, malaria epidemiologic strata or other.~
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require any further treatment.
+   In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY], this was known as a long-lasting
+   insecticidal net (LLIN).~
+@2 Percentage of de facto household population who could sleep under an ITN if each ITN in the household
+   were used by up to two people~
+@3 Includes advice or treatment from the following sources: [PUBLIC SECTOR, PRIVATE MEDICAL SECTOR,
+   NGO MEDICAL SECTOR, SHOP, MARKET, AND ITINERANT DRUG SELLER]. Excludes advice or treatment from
+   a traditional practitioner~
+@4 ACT=artemisinin-based combination therapy
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+* Adaptez aux strates spécifiques du pays qui peuvent être des provinces, des régions, des zones, des strates épidémiologiques de paludisme ou autres.~
+@1 Une moustiquaire imprégnée d'insecticide (MII) est une moustiquaire qui a été imprégnée industriellement par le fabricant et qui ne nécessite pas de traitement supplémentaire. Dans [LISTER LES PRÉCÉDENTES DHS ET MIS DU PAYS QUI ONT INCLUS L'ACRONYME MIILDA], ce terme correspond à la moustiquaire imprégnée d'insecticide à longue durée d'action (MIILDA).~
+@2 Pourcentage de la population de fait des ménages qui aurait pu dormir sous une MII si chaque MII du ménage était utilisée par deux personnes au maximum.~
+@3 Sont inclus les conseils ou les traitements des sources suivantes : [SECTEUR PUBLIC, SECTEUR MÉDICAL PRIVÉ,  SECTEUR MÉDICAL ONG, BOUTIQUE, MARCHÉ ET VENDEUR AMBULANT DE MÉDICAMENTS ]. Sont exclus les conseils ou traitements d'un praticien traditionnel.~
+@4 CTA = Combinaison Thérapeutique à base d'Artémisinine
+{FR}}
+endfootnote;

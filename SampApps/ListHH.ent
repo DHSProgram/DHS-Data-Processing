@@ -1,0 +1,32 @@
+﻿[CSPro Application]
+Version=CSPro 7.5
+Label=ListHH
+Name=ListHH
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+CAPIFont1=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont2=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont1Color=0
+CAPIFont2Color=16711680
+[External Dictionaries]
+File=..\Dicts\HHListing.dcf
+File=..\Dicts\Clusters.dcf
+File=..\Dicts\GPS.dcf
+File=..\Dicts\Segment.dcf
+[AppCode]
+File=.\ListHH.apc
+Include=..\Library\HTMLFunctions.apc
+[Message]
+File=.\SampList.mgf
+[Help]
+File=.\ListHH.qsf
+[Forms]
+File=.\Cnull.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\Cnull.dcf,Input,.\Cnull.fmf
+Dict-Type=..\Dicts\HHListing.dcf,External
+Dict-Type=..\Dicts\Clusters.dcf,External
+Dict-Type=..\Dicts\GPS.dcf,External
+Dict-Type=..\Dicts\Segment.dcf,External

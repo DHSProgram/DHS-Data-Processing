@@ -1,0 +1,133 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=Households and individuals|Hogares e individuales
+Name=ELIGINDV
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=EB16F083D8033A61D3D54646E90DE2B846A88E39CD885F55CEF69C19B426546A
+
+[Languages]
+EN=English
+ES=Español
+
+[Level]
+Label=Households and individuals questionnaire|Cuestionarios de hogares e individuales
+Name=CASES_QUEST
+
+[IdItems]
+
+[Item]
+Label=Cluster|Segmento
+Name=ZCLUSTER
+Start=1
+Len=4
+ZeroFill=Yes
+
+[Item]
+Label=Household|Hogar
+Name=ZNUMBER
+Start=5
+Len=4
+ZeroFill=Yes
+
+[Item]
+Label=Individual line number|Numero de linea del individual
+Name=ZLINE
+Start=9
+Len=2
+ZeroFill=Yes
+
+[Record]
+Label=Households and individuals record|Registro de hogares e individuales
+Name=CASES_REC
+RecordTypeValue=''
+RecordLen=116
+
+[Item]
+Label=Questionnaire type|Tipo de cuestionario
+Name=ZQUEST
+Start=11
+Len=1
+
+[ValueSet]
+Label=Questionnaire type|Tipo de cuestionario
+Name=ZQUEST_EN
+Value=1;Household|Hogar
+Value=2;Individual|Individual
+
+[Item]
+Label=Interview result|resultado de la entrevista
+Name=ZRESULT
+Start=12
+Len=1
+
+[Item]
+Label=Address|Direccion
+Name=ZADDRESS
+Start=13
+Len=30
+DataType=Alpha
+
+[Item]
+Label=Individuals' name|Nombre de la persona
+Name=ZNAME
+Start=43
+Len=36
+DataType=Alpha
+
+[Item]
+Label=Alpha questionnaire type|Tipo de cuestionario alfabetico
+Name=ZQTYPEA
+Start=79
+Len=12
+DataType=Alpha
+
+[Item]
+Label=Individual questionnaire status|Estado del cuestionario individual
+Name=ZSTATUS
+Start=91
+Len=20
+DataType=Alpha
+
+[Item]
+Label=Status code|Codigo de estado
+Name=ZSTATUSC
+Start=111
+Len=1
+
+[ValueSet]
+Label=Status code|Codigo de estado
+Name=ZSTATUSC_EN
+Value=0;Not visited|Not visitado
+Value=1;Complete|Completo
+Value=2;Incomplete|Incompleto
+Value=3;Partial|Parcial
+
+[Item]
+Label=Household owner|Entrevistador a cargo del hogar
+Name=ZOWNER
+Start=112
+Len=4
+ZeroFill=Yes
+
+[ValueSet]
+Label=Household owner|Entrevistador a cargo del hogar
+Name=ZOWNER_VS1
+Value='    '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Person for biomarker|Persona para biomarcador
+Name=ZBPERSON
+Start=116
+Len=1
+
+[ValueSet]
+Label=Person for biomarker|Persona para biomarcador
+Name=ZBPERSON_EN
+Value=1;Children|Niños
+Value=2;Women|Mujeres
+Value=3;Men|Hombres

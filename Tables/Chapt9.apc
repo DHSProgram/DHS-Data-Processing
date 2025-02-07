@@ -1,0 +1,2324 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines July 7, 2021         -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                          +}
+{+   CHAPTER 9.  REPRODUCTIVE HEALTH                                        +}
+{+                                                                          +}
+{+   9.1   Antenatal care                                       (MALARIA)   +}
+{+   9.2   Number of antenatal care visits and                              +}
+{+         timing of first visit                                (MALARIA)   +}
+{+   9.3.1 Components of antenatal care among women receiving ANC           +}
+{+   9.3.2 Components of antenatal care among all women                     +}
+{+   9.4   Food/cash assistance, deworming, and iron-containing             +}
+{+         supplementation during pregnancy                                 +}
+{+   9.5   Source of iron-containing supplements                            +}
+{+   9.6   Tetanus toxoid injections                                        +}
+{+   9.7   Place of delivery                                                +}
+{+   9.8   Caesarean section                                                +}
+{+   9.9   Assistance during delivery                                       +}
+{+   9.10  Duration of stay in health facility after birth                  +}
+{+   9.11  Timing of first postnatal checkup  for the mother                +}
+{+   9.12  Type  of provider of first postnatal check for the mother        +}
+{+   9.13  Content of postnatal care for the mother                         +}
+{+   9.14  Timing of first postnatal checkup for the newborn                +}
+{+   9.15  Type of provider of first postnatal checkup for the newborn      +}
+{+   9.16  Content of postnatal care for newborns                           +}
+{+   9.17  Postnatal checks on mother and newborn                           +}
+{+   9.18  Men's involvement in maternal health care                        +}
+{+   9.19  Examinations for breast and cervical cancer                      +}
+{+   9.20  Problems in accessing health care                                +}
+{+   9.21  Distance from health care                                        +}
+{+                                                                          +}
+{+   Note: Tables 9.3.1, 9.3.2, 9.13, and 9.16 include the "Maternal        +}
+{+         Healthcare Indicators". No customization needed if the survey    +}
+{+         doesn't include the module, but be aware in case adjustments     +}
+{+         are needed                                                       +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, iage, jmax1, jmax2, j, jmax, jtot, jtot1, jtot2, jtot3, jtot4, jmin, kmax;
+  numeric rweight, maxvist, cnt, x, xtemp, deliv, age;
+  numeric totetan, lastinj, xtime, xprovid;
+  numeric public, private, ngo, others;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 9, [Country Survey Year]" );
+{EN+}
+{{ES}
+    title( "Cuadros para el Capítulo 9, [País Encuesta Año]" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 9, [Pays, Enquête, Année]" );
+{FR}}
+
+  crosstab float(1) t901 age3+border2+v102w+v101w+v106w+v190w+total
+                         ancprov+noanc+totnum7 livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 3.9 }
+{+EN}
+    title( "Table 9.1  Antenatal care"," ",
+           "Percent distribution of women age 15-49 who had a live birth and/or",
+		   "stillbirth in the 2 years preceding the survey by antenatal care (ANC)",
+		   "provider during pregnancy for the most recent live birth or stillbirth",
+		   "and percentage receiving antenatal care from a skilled provider for the",
+		   "most recent live birth or stillbirth, according to",
+		   "background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 9.1  Atención prenatal"," ",
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 9.1  Soins prénatals"," ",
+           "Répartition (en %) des femmes de 15-49 ans qui ont eu une naissance vivante et/ou un mort-né au cours des 2 années ayant précédé l'enquête",
+		   "par type de prestataire de soins prénatals vu durant la grossesse ayant abouti à la naissance vivante ou au mort-né le plus récent et pourcentage ayant reçu,",
+		   "pour la naissance vivante ou le mort-né le plus récent,",
+		   "des soins prénatals dispensés par un prestataire de santé qualifié,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]")
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t901u age3+border2+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.1  Antenatal care (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t902 age3+border2+v102w+v101w+v106w+v190w+total
+                         m14w1+total+anc4+m13w+total+numwom+mednum livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 3.10 }
+{+EN}
+    title( "Table 9.2  Number of antenatal care visits and timing of first visit"," ",
+           "Percent distribution of women age 15-49 who had a live birth and/or a stillbirth",
+		   "in the 2 years preceding the survey by number of antenatal care (ANC) visits",
+		   "during pregnancy for the most recent live birth or stillbirth, and by the timing",
+		   "of the first visit; and among women with ANC, median months pregnant at first visit,",
+		   "according to background characteristics, [Country Survey Year]" )
+	stub ( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 9.2  Número de visitas para atención prenatal y momento de la primera visita"," ",
+{ES}}
+{{FR}
+    title( "Tableau 9.2  Nombre de visites prénatales et stade de la grossesse à la première visite"," ",
+			"Répartition (en %) des femmes de 15-49 ans qui ont eu une naissance vivante et/ou un mort-né",
+			"au cours des 2 années ayant précédé l'enquête par nombre de visites prénatales durant la grossesse",
+			"ayant abouti à la naissance vivante ou au mort-né le plus récent",
+			"et en fonction du stade de la grossesse au moment de la première visite prénatale;",
+			"parmi les femmes qui ont eu des soins prénatals, nombre médian de mois de grossesse à la première visite,",
+			"selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]")
+	stub ( "Caractéristique sociodémographique" );
+
+
+{FR}}
+  crosstab float(1) t902w age3+border2+v102w+v101w+v106w+v190w+total vistmed livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval);
+  crosstab float(0) t902u age3+border2+v102w+v101w+v106w+v190w+total coltotu livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.2  Number of antenatal care visits and timing of first visit (Number of un-weighted cases)" )
+	stub ( "Background characteristic" );
+
+  crosstab float(1) t9031 age3+border2+v102w+v101w+v106w+v190w+total anctest+womanc livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.3.1  Components of antenatal care among women receiving ANC"," ",
+           "Among women age 15-49 receiving antenatal care (ANC) for the most recent live",
+		   "birth and/or stillbirth in the 2 years preceding the survey, percentage",
+		   "receiving specific antenatal services from a healthcare provider,",
+		   "according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 9.3.1  Composantes des soins prénatals parmi les femmes ayant reçu des soins prénatals"," ",
+           "Parmi les femmes de 51-49 ans ayant reçu des soins prénatals pour",
+		   "la naissance vivante et/ou le mort-né le plus récent ayant eu lieu au cours des 2 années ayant précédé l'enquête,",
+		   "pourcentage ayant reçu des services prénatals spécifiques dispensés par un prestataire de santé,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+
+{FR}}
+  crosstab float(0) t9031u age3+border2+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.3.1  Components of antenatal care among women receiving ANC (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t9032 age3+border2+v102w+v101w+v106w+v190w+total anctest+womprg livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.3.2  Components of antenatal care among all women"," ",
+           "Among all women age 15-49 with a live birth and/or stillbirth in the 2 years",
+		   "preceding the survey, percentage receiving specific antenatal services from a",
+		   "healthcare provider for their most recent live birth and/or stillbirth,",
+		   "according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 9.3.2  Composantes des soins prénatals parmi toutes les femmes"," ",
+           "Parmi toutes les femmes de 15-49 ans ayant eu une naissance vivante et/ou un mort-né",
+		   "au cours des 2 années ayant précédé l'enquête, pourcentage ayant reçu des services prénatals",
+		   "spécifiques dispensés par un prestataire de santé pour la naissance vivante et/ou le mort-né",
+		   "le plus récent, selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+
+{FR}}
+  crosstab float(0) t9032u age3+border2+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.3.2  Components of antenatal care among all women (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t904 age3+border2+v102w+v101w+v106w+v190w+total
+                         supplem+irontake+total+womprg livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.4  Food/cash assistance, deworming, and iron-containing supplementation during pregnancy"," ",
+           "Among women age 15-49 with a live birth or stillbirth in the 2 years preceding the survey,",
+		   "percentages who received food or cash assistance, took deworming medication, and took",
+		   "any iron-containing supplements during the pregnancy of the most recent live birth or",
+		   "stillbirth, and percent distribution of the number of days during which women age 15-49",
+		   "with a live birth or stillbirth in the 2 years preceding the survey took iron-containing",
+		   "supplements during pregnancy for the most recent live birth or stillbirth,",
+		   "according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 9.4  Assistance alimentaire/financière, déparasitage et supplémentation contenant du fer pendant la grossesse"," ",
+           "Parmi les femmes de 15-49 ans ayant eu une naissance vivante",
+		   "ou un mort-né au cours des 2 années ayant précédé l'enquête,",
+		   "pourcentage ayant reçu une assistance alimentaire ou financière,",
+		   "pourcentage ayant pris des médicaments pour le déparasitage et",
+		   "pourcentage ayant pris des suppléments contenant du fer",
+		   "pendant la grossesse de la naissance vivante ou du mort-né le plus récent,",
+		   "et répartition (en %) par nombre de jours pendant lesquels les femmes de 15-49 ans ayant eu une naissance vivante",
+		   "ou un mort-né dans les 2 années ayant précédé l'enquête ont pris des suppléments contenant du fer",
+		   "pendant la grossesse de la naissance vivante ou du mort-né le plus récent,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+
+{FR}}
+  crosstab float(0) t904u age3+border2+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.4  Food/cash assistance, deworming, and iron-containing supplementation during pregnancy (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t905 pubsect+prvsect+ngosect+othsect+othonly+numwom poutcome
+    exclude(colzero,rowzero,totals,percents,specval)
+{+EN}
+    title( "Table 9.5  Source of iron-containing supplements","",
+           "Among women age 15-49 who had a live birth and/or stillbirth in the 2 years preceding",
+		   "the survey who were given or bought iron-containing supplements during the pregnancy",
+		   "of the most recent live birth or stillbirth, percentage who obtained supplements,",
+		   "according to source, [Country Survey Year]" )
+    stub( "Source" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 9.5  Source des suppléments contenant du fer","",
+           "Parmi les femmes de 15-49 ans ayant eu une naissance vivante et/ou un mort-né",
+		   "au cours des 2 années ayant précédé l'enquête à qui on a donné ou qui ont acheté",
+		   "des suppléments contenant du fer au cours de la grossesse de la naissance vivante ou",
+		   "du mort-né le plus récent, pourcentage ayant obtenu ces auppléments,",
+		   "selon la source, [Pays, Enquête, Année]" )
+    stub( "Source" );
+
+{FR}}
+  crosstab float(0) t905u total poutcome
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 9.5  Source of iron-containing supplements (Number of un-weighted cases)" )
+    stub( "Source" );
+
+  crosstab float(1) t906 age3+border2+v102w+v101w+v106w+v190w+total tetanus
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.6  Tetanus toxoid injections"," ",
+           "Among women age 15-49 with a live birth in the 2 years preceding",
+           "the survey, percentage receiving two or more tetanus toxoid",
+           "injections during the pregnancy for the most recent live birth",
+           "and the percentage whose last live birth was protected against",
+           "neonatal tetanus, according to background characteristics,",
+           "[Country Survey Year]")
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 9.6  Vacuna contra el tétano neonatal"," ",
+           "Entre las de mujeres de 15-49 años con un nacido vivo en los cinco años que precedieron",
+           "la encuesta, porcentaje que recibieron dos o más vacunas del toxoide tetánico durante el",
+           "embarazo del nacimiento más reciente; y porcentaje de madres cuyo último nacimiento",
+           "estuvo protegido contra el tétano neonatal, según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 9.6  Vaccination antitétanique"," ",
+           "Parmi les femmes de 15-49 ans ayant eu une naissance vivante",
+		   "au cours des 2 années ayant précédé l'enquête,",
+		   "pourcentage ayant reçu deux injections antitétaniques",
+		   "ou plus au cours de la grossesse de la naissance vivante la plus récente",
+		   "et pourcentage dont la dernière naissance vivante a été protégée contre le tétanos néonatal,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t906u age3+border2+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.6  Tetanus toxoid injections (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t907 age3t+border2+m14w2+v102w+v101w+v106wt+v190w+total
+                         m15w1+m15w2+totbirt2 livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.7  Place of delivery"," ",
+           "Percent distribution of live births and/or stillbirths in the 2 years",
+           "preceding the survey by place of delivery and percentage",
+           "delivered in a health facility, according to",
+           "background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 9.7  Lugar del parto"," ",
+           "Distribución porcentual de nacidos vivos en los dos años que precedieron la",
+           "encuesta por lugar del parto; y porcentaje de nacimientos en institución de salud,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 9.7  Lieu de l'accouchement"," ",
+           "Répartition (en %) des naissances vivantes et/ou des mort-nés ayant eu lieu",
+		   "au cours des 2 années ayant précédé l'enquête par lieu de l'accouchement",
+		   "et pourcentage dont l'accouchement s'est déroulé dans un établissement de santé,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t907u age3t+border2+m14w2+v102w+v101w+v106wt+v190w+total total livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.7  Place of delivery (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t908 age3t+border2+m14w2+m15w4+v102w+v101w+v106wt+v190w+total
+                         m17w+numbirth livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.8  Caesarean section","",
+           "Percentage of live births and/or stillbirths in the 2 years preceding the survey",
+		   "delivered by Caesarean section (C-section), according to background characteristics,",
+           "[Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 9.8  Césarienne","",
+           "Pourcentage de naissances vivantes et/ou de mort-nés ayant eu lieu",
+		   "au cours des 2 années ayant précédé l'enquête accouchées par césarienne,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+
+{FR}}
+  crosstab float(0) t908u age3t+border2+m14w2+m15w4+v102w+v101w+v106wt+v190w+total total livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.8  Caesarean section (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t909 age3t+border2+m14w2+m15w4+v102w+v101w+v106wt+v190w+total
+                         deliver1+totalt+deliver2+numbist+deliver3 livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.9  Assistance during delivery"," ",
+           "Percent distribution of live births and/or stillbirths in the 2 years preceding",
+		   "the survey by person providing assistance during delivery and percentage assisted",
+		   "by a skilled provider; among most recent live births in the 2 years preceding the",
+		   "survey, percentage with skin-to-skin contact immediately after birth,",
+           "according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 9.9  Assistance au cours de l'accouchement"," ",
+           "Répartition (en %) des naissances vivantes et/ou des mort-nés ayant eu lieu au cours des 2 années ayant précédé l'enquête par catégorie de personnel",
+		   "ayant assisté l'accouchement et pourcentage de naissances dont l'accouchement a été assisté par un prestataire de santé qualifié;",
+		   "parmi les naissances vivantes les plus récentes ayant eu lieu au cours des",
+		   "2 années avant l'enquête, pourcentage qui ont eu le contact 'peau-à-peau' immédiatement après la naissance,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+
+{FR}}
+  crosstab float(0) t909u age3t+border2+m14w2+m15w4+v102w+v101w+v106wt+v190w+total
+                          coltotu livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.9  Assistance during delivery (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t910 birtype durstay+totnum2  livbirth+stlbirth+livestil
+    exclude(totals,percents,specval,rowzero,colzero)
+{+EN}
+    title( "Table 9.10  Duration of stay in health facility after birth","",
+           "Among women with a live birth and/or stillbirth in the 2 years preceding the survey",
+		   "who delivered their most recent live birth in a health facility, percent distribution",
+		   "by duration of stay in the health facility following their most recent live birth,",
+		   "according to type of delivery, [Country Survey Year]" )
+     stub( "Type of delivery" );
+{EN+}
+{{ES}
+    title( "Table 9.10  Duration of stay in health facility after birth","",
+           "Entre las mujeres con un nacido vivo en los dos años que precedieron la encuesta cuyo parto",
+           "ocurrió en una institución de salud, distribución porcentual por duración de la estadía",
+           "en el establecimiento de salud para el último nacimiento, según tipo de parto, [País Encuesta Año]" )
+     stub( "Tipo de parto" );
+{ES}}
+{{FR}
+    title( "Tableau 9.10  Durée du séjour dans l'établissement de santé après la naissance","",
+           "Parmi les femmes ayant eu une naissance vivante et/ou un mort-né au cours des 2 années",
+		   "ayant précédé l'enquête dont l'accouchement de la naissance la plus récente s'est déroulé dans un établissement de santé,",
+		   "répartition (en%) par durée de séjour dans l'établissement de santé suivant la naissance la plus récente,",
+		   "selon le type d'accouchement, [Pays, Enquête, Année]" )
+     stub( "Type d'accouchement" );
+{FR}}
+  crosstab float(0) t910u birtype total livbirth+stlbirth+livestil
+    exclude(totals,percents,specval,rowzero,colzero)
+    title( "Table 9.10  Duration of stay in health facility after birth (Number of un-weighted cases)")
+     stub( "Type of delivery" );
+
+  crosstab float(1) t911 age3+border2+m15w3+v102w+v101w+v106w+v190w+total
+                         wcheckup+wnocheck+wpnc2day+numwom livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.11  Timing of first postnatal check for the mother","",
+           "Among women age 15-49 with a live birth and/or stillbirth in the 2 years preceding",
+		   "the survey, percent distribution of the mother's first postnatal check for the most",
+		   "recent live birth or stillbirth by time after delivery, and percentage of women",
+		   "with a live birth or stillbirth during the 2 years preceding the survey who received",
+		   "a postnatal check in the first 2 days after giving birth,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 9.11  Momento del primer control postnatal"," ",
+           "Entre las mujeres de 15-49 años con nacimientos en los dos años que precedieron la encuesta,",
+           "distribución porcentual de las mujeres que tuvieron control postnatal para el nacimiento",
+           "más reciente, por momento del primer control postnatal; y porcentaje de mujeres con un nacido vivo",
+           "en los dos años que precedieron la encuesta que recibieron atención postnatal durante los primeros",
+           "dos días después del parto, según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 9.11 Moment où le premier examen postnatal a été dispensé à la mère","",
+           "Parmi les femmes de 15-49 ans ayant eu une naissance vivante et/ou un mort-né dans les 2 années ayant précédé l'enquête,",
+		   "répartition (en %) de la durée écoulée entre l'accouchement",
+		   "et le premier examen postnatal de la mère pour la naissance vivante ou le mort-né le plus récent",
+		   "et pourcentage de femmes ayant eu une naissance vivante ou un mort-né dans les 2 années ayant",
+		   "précédé l'enquête qui ont reçu un examen postnatal dans les 2 jours ayant suivi la naissance,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t911u age3+border2+m15w3+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.11 Timing of first postnatal check for the mother (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t912 age3+border2+m15w3+v102w+v101w+v106w+v190w+total
+                         wprovide+npnc2day+totnum2 livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.12  Type  of provider of first postnatal check for the mother", "",
+           "Among women age 15-49 a live birth and/or stillbirth in the 2 years preceding",
+		   "the survey, percent distribution by type of provider of the mother's first",
+		   "postnatal health check during the 2 days after the most recent live birth,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 9.12  Proveedor del primer control postnatal para la madre"," ",
+           "Entre las mujeres de 15-49 años con nacimientos en los dos años que precedieron ",
+           "la encuesta, distribución porcentual por persona que proporcionó el primer control ",
+           "postnatal a la madre en los primeros dos días después del parto del último nacido vivo,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 9.12  Type de prestataire de santé qui a dispensé le premier examen postnatal à la mère", "",
+           "Parmi les femmes de 15-49 ans ayant eu une naissance vivante et/ou un mort-né dans les 2 années ayant précédé l'enquête,",
+		   "répartition (en %) par type de prestataire de santé ayant dispensé le premier examen postnatal de la mère",
+		   "dans les 2 jours ayant suivi la dernière naissance, selon certaines caractéristiques sociodémographiques [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t912u age3+border2+m15w3+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.12  Type  of provider of first postnatal check for the mother (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t913 age3+border2+m15w4+v102w+v101w+v106wt+v190w+total
+                         m78w1+all78w3+numwom livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.13  Content of postnatal care for the mother","",
+           "Among women age 15-49 with a live birth and/or stillbirth in the 2 years preceding",
+		   "the survey, percentage for whom selected checks were performed during the first",
+		   "2 days after the most recent birth, according to background characteristics,",
+           "[Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 9.13  Contenu des soins postnatals dispensés à la mère ","",
+           "Parmi les femmes de 15-49 ans ayant eu une naissance vivante et/ou un mort-né au cours des 2 années ayant précédé l'enquête,",
+		   "pourcentage pour lesquelles certains examens ont été effectués dans les 2 jours ayant suivi la naissance la plus récente,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+
+{FR}}
+  crosstab float(0) t913u age3+border2+m15w4+v102w+v101w+v106wt+v190w+total total livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.13  Content of postnatal care for the mother (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t914 age3t+border2+m15w3+v102w+v101w+v106wt+v190w+total ccheckup+cnocheck+cpnc2day+numbirth
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.14  Timing of first postnatal check for the newborn","",
+           "Percent distribution of most recent live births in the 2 years preceding the survey by time after birth",
+           "of first postnatal check, and percentage of births with a postnatal check during the first 2",
+           "days after birth, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 9.14  Momento del primer control postnatal para el reción nacido"," ",
+           "Distribución porcentual de últimos nacimientos en los dos años que precedieron la encuesta",
+           "por momento del primer control postnatal después del nacimiento; y porcentaje de nacimientos",
+           "que recibieron control prenatal durante los primeros dos días después del parto,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 9.14  Moment où le premier examen postnatal a été dispensé au nouveau-né","",
+           "Répartition (en %) des naissances vivantes les plus récentes ayant eu lieu au cours des 2 années",
+		   "ayant précédé l'enquête par durée écoulée entre le premier examen postnatal et l'accouchement et",
+		   "pourcentage de naissances ayant eu un examen postnatal dans les 2 jours ayant suivi la naissance,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t914u age3t+border2+m15w3+v102w+v101w+v106wt+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.14  Timing of first postnatal check for the newborn (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t915 age3t+border2+m15w3+v102w+v101w+v106wt+v190w+total cprovide+npnc2day+totbirth
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.15  Type of provider of first postnatal check for the newborn", "",
+           "Percent distribution of most recent live birth in the 2 years preceding the survey by type of provider of",
+           "the newborn's first postnatal health check during the 2 days after the most recent live birth,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 9.15  Proveedor del primer control postnatal para el reción nacido"," ",
+           "Distribución porcentual de los últimos nacimientos en los dos años que precedieron la encuesta",
+           "por persona que proporcionó el primer control postnatal al reción nacido en los primeros ",
+           "dos días después del nacimiento, según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 9.15  Type de prestataire de santé qui a dispensé le premier examen postnatal au nouveau-né","",
+           "Répartition (en %) des naissances vivantes les récentes ayant eu lieu au cours des 2 années",
+		   "ayant précédé l'enquête par type de prestataire de santé qui a dispensé le premier examen postnatal au nouvau-né",
+		   "dans les 2 jours ayant suivi la naissance,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t915u age3t+border2+m15w3+v102w+v101w+v106wt+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.15  Type of provider of first postnatal check for the newborn (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t916 age3t+border2+m15w3+v102w+v101w+v106wt+v190w+total m78w2+signfun+numbirth
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.16  Content of postnatal care for newborns","",
+           "Among most recent live births in the 2 years preceding the survey, percentage for whom selected functions",
+           "were performed during the first 2 days after the birth and percentage with five signal functions performed",
+           "during the first 2 days after the birth, according to background characteristics [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 9.16  "," ",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 9.16  Contenu des examens postnatals dispensés aux nouveau-nés","",
+           "Parmi les naissances vivantes les plus récentes ayant eu lieu au cours des 2 années ayant précédé l'enquête,",
+		   "pourcentage pour lesquelles on a effectué certains actes/conseils au cours des 2 jours ayant suivi la naissance et",
+		   "pourcentage pour lesquelles cinq actes/conseils ont été effectués dans les 2 jours ayant suivi la naissance,",
+		   "selon certaines caractéristiques sociodémographiques [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t916u age3t+border2+m15w3+v102w+v101w+v106wt+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.16  Content of postnatal care for newborns (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t917 age3t+border2+m15w4+v102w+v101w+v106wt+v190w+total postchk2+numbirth
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.17  Postnatal checks on mother and newborn"," ",
+           "Among most recent live births in the 2 years preceding the survey, percentage",
+		   "for which the mother age 15-49 received a postnatal check during the first 2 days",
+		   "after birth, percentage for which the newborn who received a postnatal check during",
+		   "the first 2 days after birth, percentage for which both the mother and newborn",
+		   "received a postnatal check, and percentage for which neither the mother nor newborn",
+		   "received a postnatal check, according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 9.17  Soins postnatals dispensés à la mère et au nouveau-né"," ",
+           "Parmi les naissances vivantes les plus récentes ayant eu lieu au cours des 2 années ayant précédé l'enquête,",
+		   "pourcentage pour lesquelles les mère de 15-49 ans ont reçu un examen postnatal dans les 2 jours ayant suivi la naissance,",
+		   "pourcentage pour lesquelles les nouveau-nés ont reçu un examen postnatal dans les 2 jours ayant suivi la naissance,",
+		   "pourcentage pour lesquelles la mère et le nouveau-né ont reçu un examen postnatal et",
+		   "pourcentage pour lesquelles ni la mère, ni le nouveau-né n'ont reçu un examen postnatal,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub ( "Caractéristique sociodémographique" );
+
+{FR}}
+  crosstab float(0) t917u age3t+border2+m15w4+v102w+v101w+v106wt+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.17  Postnatal checks on mother and newborn (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t918 agef+mv201w+v102w+v101w+vm106wt+v190w+tot1549+men5059+totmen
+                         mv248w+mv249w+mv250w+mv253w
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.18  Men's involvement in maternal health care"," ",
+           "Among men age 15-49 with a youngest child age 0-2 years, percentage who report",
+		   "that the child's mother had any antenatal check-ups during the pregnancy with",
+		   "the child; among men for whom the mother of the youngest child age 0-2 years",
+		   "had any antenatal check-ups during the pregnancy with the child, percentage who",
+		   "were present for any antenatal check-up; among men with a child age 0-2 years,",
+		   "percentage who report their child was born in a health facility; and among men",
+		   "whose youngest child age 0-2 years was born in a health facility, percentage who",
+		   "went to the health facility with the mother, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 9.18  Implication des hommes dans les soins de santé maternelle "," ",
+           "Parmi les hommes de 15-49 ans dont l'enfant le plus jeune a 0-2 ans,",
+		   "pourcentage ayant déclaré que la mère de l'enfant avait effectué des consultations prénatales",
+		   "durant la grossesse de l'enfant ; parmi les hommes de 15-49 ans pour lesquels",
+		   "la mère du plus jeune enfant de 0-2 ans a effectué des consultations prénatales",
+		   "pendant la grossesse de cet enfant,",
+		   "pourcentage qui était toujours présent au moment d'une consultation ;",
+		   "parmi les hommes de 15-49 ans dont l'enfant le plus jeune a 0-2 ans,",
+		   "pourcentage ayant déclaré que l'enfant est né dans un établissement de santé;",
+		   "parmi les hommes dont l'enfant le plus jeune de 0-2 ans est né dans un établissement de santé,",
+		   "pourcentage qui se sont rendus dans l'établissement de santé avec la mère,",
+		   "selon certaines caractéristiques sociodémographiques [Pays, Enquête, année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t918u agef+mv201w+v102w+v101w+vm106wt+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.18  Men's involvement in maternal health care (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t919 age6+age2+v218w+v501w2+v741w1+v102w+v101w+v106w+v190w+total cervcan
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.19  Examinations for breast and cervical cancer"," ",
+           "Percentage of women age 15-49 ever examined by a doctor or healthcare worker",
+		   "for breast cancer and percentage ever tested by a doctor or healthcare worker",
+		   "for cervical cancer, according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 9.19  Examens pour le cancer du sein et pour le cancer du col de l'utérus"," ",
+           "Pourcentage de femmes de 15-49 ans qui ont déjà été examinées",
+		   "par un médecin ou du personnel de santé pour le cancer du sein et",
+		   "pourcentage ayant déjà été testées par un médecin ou du personnel de santé",
+		   "pour le cancer du col de l'utérus, selon certaines caractéristiques sociodémographiques,",
+		   "[Pays, Enquête, Année ]" )
+    stub ( "Caractéristique sociodémographique" );
+
+{FR}}
+  crosstab float(0) t919u age6+age2+v218w+v501w2+v741w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.19  Examinations for breast and cervical cancer (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) t920 age5+v218w+v501w2+v741w1+v102w+v101w+v106w+v190w+total hlthaccs
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.20  Problems in accessing health care","",
+           "Percentage of women age 15-49 who reported that they have serious problems in accessing",
+           "health care for themselves when they are sick, by type of problem, according to",
+           "background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 9.20  Problemas en el acceso a los servicios de salud"," ",
+           "Porcentaje de mujeres de 15-49 años que reportaron tener un problema serio en el acceso",
+           "a los servicios de salud para ellas mismas cuando están enfermas, por tipo de problema,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 9.20  Problèmes d'accès aux soins de santé","",
+           "Pourcentage de femmes de 15-49 ans qui ont déclaré qu'elles avaient des problèmes importants",
+		   "d'accès aux soins de santé quand elles étaient malades, par type de problèmes,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t920u age5+v218w+v501w2+v741w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.20  Problems in accessing health care (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t921 age5+v467dw+v483bw+v102w+v101w+v106w+v190w+total v483aw+totalt+v483bw+totalt+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 9.21  Distance from health care","",
+           "Percent distributions of women age 15-49 by travel time to nearest health facility",
+		   "and by means of transport to nearest health facility,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 9.21  Distance à l'établissement de soins de santé","",
+           "Répartition (en%) des femmes de 15-49 ans par durée de trajet",
+		   "pour atteindre l'établissement de santé le plus proche et",
+		   "par moyen de transport pour se rendre à l'établissement de santé le plus proche,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+
+{FR}}
+  crosstab float(0) t921u age5+v467dw+v483bw+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 9.21  Distance from health care (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  { function to recode birth order as it is used by several tables }
+  function RecBorder( chi )
+    xtemp = BORD(chi);
+    { adjust multiple births to give the same order as that of the first of the multiples }
+    if B0(chi) > 1 then xtemp = BORD(chi) - B0(chi) + 1 endif;
+    recode xtemp -> x;
+              1  -> 0;
+            2:3  -> 1;
+            4:5  -> 2;
+                 -> 3;
+    endrecode;
+    RecBorder = x;
+  end;
+
+  { function to recode mother's age as it is used by several tables }
+  function RecAge( chi )
+    age = int( (P3(chi)-V011)/12 );
+    recode  age  -> x;
+          <20 -> 0;
+        20:34 -> 1;
+              -> 2;
+    endrecode;
+    RecAge = x;
+  end;
+
+  { function to recode place of delivery it is used by several tables }
+  function RecPDel1( chi )
+    recode  M15(chi) -> x;
+             20:29   -> 2;        { public health facility }
+             30:39   -> 3;        { private health facility }
+             40:49   -> 4;        { private NGO facility }
+            missing  -> missing;
+			         -> 5;        { elsewhere }
+    endrecode;
+    RecPDel1 = x;
+  end;
+
+  { function to recode place of delivery it is used by several tables }
+  function RecPDel2( chi )
+    recode  M15(chi) -> x;
+             20:49   -> 1;        { health facility }
+           missing   -> 9;        { missing }
+                     -> 2;        { elsewehere  }
+    endrecode;
+    RecPDel2 = x;
+  end;
+
+  { function to recode antenatal care visits it is used by several tables }
+  function RecAntCare( chi )
+    recode  M14(chi) -> x;
+            notappl  -> notappl;
+                0    -> 0;
+              1:3    -> 1;
+             4:90    -> 2;
+                     -> 9;
+    endrecode;
+    RecAntCare = x;
+  end;
+
+  { facilitates tabulation of table 9.5 as every cell has to be tallied individually }
+  function tabt905( category )
+    if category = 1 then
+	  if M80 = 1 then            // live births
+        poutcome = 1;
+        xtab( t905, rweight );
+      endif;
+	  if M80 = 3 then            // stillbirths
+        poutcome = 2;
+        xtab( t905, rweight );
+      endif;
+	  if livestil then          // only last birth/stillbirth
+        poutcome = 3;
+        xtab( t905, rweight );
+      endif;
+    endif;
+  end;
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+  totalt   = 0;
+  percent  = 0;
+  numwom   = 1;
+  numchild = 1;
+  numbirth = 1;
+  numbist  = 1;
+  numhh    = 1;
+  totnum2  = 1;
+  totnum7  = 2;
+  totbirth = 1;
+  totbirt2 = 2;
+  mednum   = 0;
+  maxvist  = 10;
+  livbirth = 1;
+  stlbirth = 1;
+  livestil = 1;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 9.1 processing }
+  jtot = tblcol( t901 );
+  jmax = jtot - 3;
+  do j = 0 while j <= jmax
+    t901[*,j,*] = t901[*,j,*] * 100 / t901[*,jtot,*];
+  enddo;
+  t901[*,jmax+1,*]  = tblsum( column t901[*,0:jmax,*] );
+  { !! ANC by skilled provider, include first three categories }
+  t901[*,jmax+2,*] = tblsum( column t901[*,0:2,*] );
+  { check unweighted N's }
+  Col3Dim( "t901", t901, 0,      jtot-3, t901u, 0 );
+  Col3Dim( "t901", t901, jtot-1, jtot-1, t901u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t901 );
+  t901[0:itot-1,*,1]  = default;    // stillbirths
+  t901[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t901u[0:itot-1,*,1] = default;    // stillbirths 
+  t901u[0:itot-1,*,2] = default;    // live births and stillbirths 
+
+  { Table 9.2 processing }
+  jtot = tblcol( t902, numwom = 1 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t902[*,j,*] = t902[*,j,*] * 100 / t902[*,jtot,*];
+  enddo;
+  jmax1            = tblcol( t902, m14w1 ) + 1;    // use instead of total(1) because doesn't compile
+  t902[*,jmax1,*]  = tblsum( column t902[*,0:jmax1-1,*] );
+  jmax2            = tblcol( t902, m13w ) + 1;     // use instead of total(1) because doesn't compile
+  t902[*,jmax2,*]  = tblsum( column t902[*,jmax1+2:jmax2-1,*] );
+  jmax             = tblcol( t902, mednum = 0 );
+  t902[*,jmax,*]   = tblmed( column t902w[*,0:maxvist,*]  intervals(highest default) );
+  { check unweighted N's }
+  Col3Dim( "t902", t902, 0,       jmax1-1, t902u, 0 );
+  Col3Dim( "t902", t902, jmax1+1, jtot-2,  t902u, 0 );
+  Col3Dim( "t902", t902, jtot+1,  jtot+1,  t902u, 1 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t902 );
+  t902[0:itot-1,*,1]  = default;    // stillbirths
+  t902[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t902u[0:itot-1,*,1] = default;    // stillbirths
+  t902u[0:itot-1,*,2] = default;    // live births and stillbirths
+  t902w[0:itot-1,*,1] = default;    // stillbirths
+  t902w[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table 9.3.1 processing }
+  jtot = tblcol( t9031 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t9031[*,j,*] = t9031[*,j,*] * 100 / t9031[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "t9031", t9031, 0, jtot-1, t9031u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t9031 );
+  t9031[0:itot-1,*,1]  = default;    // stillbirths
+  t9031[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t9031u[0:itot-1,*,1] = default;    // stillbirths
+  t9031u[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table 9.3.2 processing }
+  jtot = tblcol( t9032 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t9032[*,j,*] = t9032[*,j,*] * 100 / t9032[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "t9032", t9032, 0, jtot-1, t9032u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t9032 );
+  t9032[0:itot-1,*,1]  = default;    // stillbirths
+  t9032[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t9032u[0:itot-1,*,1] = default;    // stillbirths
+  t9032u[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table 9.4 processing }
+  jtot = tblcol( t904 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t904[*,j,*] = t904[*,j,*] * 100 / t904[*,jtot,*];
+  enddo;
+  jmin = tblcol( t904, supplem );
+  t904[*,jmax+1,*] = tblsum( column t904[*,jmin+1:jmax,*] );
+  { check unweighted N's }
+  Col3Dim( "t904", t904, 0, jtot-2, t904u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t904 );
+  t904[0:itot-1,*,1]  = default;    // stillbirths
+  t904[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t904u[0:itot-1,*,1] = default;    // stillbirths
+  t904u[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table 9.5 processing }
+  itot = tblrow( t905 );
+  imax = itot - 1;
+  do i = 0 while i <= imax by 1
+    t905[i,*] = 100 * t905[i,*]/t905[itot,*];
+  enddo;
+  { check unweighted N's }
+  Row2Dim( "t905", t905, 0, itot-1, t905u, 0 );
+
+  { Table 9.6 processing }
+  jtot = tblcol( t906 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t906[*,j] = t906[*,j] * 100 / t906[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t906", t906, 0, jtot-1, t906u, 0 );
+
+  { Table 9.7 processing }
+  jtot = tblcol( t907 );
+  jmax = jtot - 3;
+  do j = 0 while j <= jmax
+    t907[*,j,*] = t907[*,j,*] * 100 / t907[*,jtot,*];
+  enddo;
+  t907[*,jmax+1,*] = tblsum( column t907[*,0:jmax,*] );
+  { delivered in a health facility }
+  jmax = tblcol( t907, m15w1 );
+  t907[*,jtot-1,*] = tblsum( column t907[*,0:jmax,*] );
+  { check unweighted N's }
+  Col3Dim( "t907", t907, 0,      jtot-3, t907u, 0 );
+  Col3Dim( "t907", t907, jtot-1, jtot-1, t907u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t907 );
+  t907[0:itot-1,*,1]  = default;    // stillbirths
+  t907[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t907u[0:itot-1,*,1] = default;    // stillbirths
+  t907u[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table 9.8 processing }
+  deliv = tblrow( t908, m15w4 = 1 );
+  t908[deliv,*,*] = t908[deliv+1,*,*] + t908[deliv+2,*,*] + t908[deliv+3,*,*];  { total public + private + NGO }
+  jtot = tblcol( t908 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t908[*,j,*] = t908[*,j,*] * 100 / t908[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  t908u[deliv,*,*] = t908u[deliv+1,*,*] + t908u[deliv+2,*,*] + t908u[deliv+3,*,*];  { total public + private + NGO }
+  Col3Dim( "t908", t908, 0, jtot-1, t908u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t908 );
+  t908[0:itot-1,*,1]  = default;    // stillbirths
+  t908[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t908u[0:itot-1,*,1] = default;    // stillbirths
+  t908u[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table 9.9 processing }
+  deliv = tblrow( t909, m15w4 = 1 );
+  t909[deliv,*,*] = t909[deliv+1,*,*] + t909[deliv+2,*,*] + t909[deliv+3,*,*];  { total public + private + NGO }
+  jtot1 = tblcol( t909, numbist );
+  jmax  = jtot1 - 3;
+  do j = 0 while j <= jmax
+    t909[*,j,*] = t909[*,j,*] * 100 / t909[*,jtot1,*];
+  enddo;
+  t909[*,jmax+1,*] = tblsum( column t909[*,0:jmax,*] );
+  { !! delivered by skilled provider, include first three categories }
+  t909[*,jmax+2,*] = tblsum( column t909[*,0:2,*] );
+  jtot2 = tblcol( t909 );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t909[*,j,*] = t909[*,j,*] * 100 / t909[*,jtot2,*];
+  enddo;
+  { check unweighted N's }
+  t909u[deliv,*,*] = t909u[deliv+1,*,*] + t909u[deliv+2,*,*] + t909u[deliv+3,*,*];  { total public + private + NGO }
+  Col3Dim( "t909", t909, 0,       jtot1-3, t909u, 0 );
+  Col3Dim( "t909", t909, jtot1-1, jtot1-1, t909u, 0 );
+  Col3Dim( "t909", t909, jtot2-1, jtot2-1, t909u, 1 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t909 );
+  t909[0:itot-1,*,1]  = default;    // stillbirths
+  t909[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t909u[0:itot-1,*,1] = default;    // stillbirths
+  t909u[0:itot-1,*,2] = default;    // live births and stillbirths
+  { assign NA to layers stillbirths and total births/stillbirths }
+  t909[itot,jtot2-1:Jtot2,1]  = NACells;    // stillbirths
+  t909[itot,jtot2-1:jtot2,2]  = NACells;    // live births and stillbirths
+  { write out SDG indicators }
+  itot   = tblrow( t909 );
+  jmax   = tblcol( t909, deliver2 = 1 );
+  kmax   = tbllay( t909, livbirth = 1 );
+  SDGIndicator( "3.1.2", NACells, NACells, t909(itot,jmax,kmax) );
+
+  { Table 9.10 }
+  jtot = tblcol( t910 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t910[*,j,*] = t910[*,j,*] * 100 / t910[*,jtot,*];
+  enddo;
+  t910[*,jmax+1,*] = tblsum( column t910[*,0:jmax,*] );
+  { check unweighted N's }
+  Col3Dim( "t910", t910, 0, jtot-2, t910u, 0 );
+
+  { Table 9.11 processing }
+  jtot = tblcol( t911 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t911[*,j,*] = t911[*,j,*] * 100 / t911[*,jtot,*];
+  enddo;
+  jtot1 = tblcol( t911, wnocheck = 2 );
+  t911[*,jtot1,*] = tblsum( column t911[*,0:jtot1-1,*] );
+  { check unweighted N's }
+  Col3Dim( "t911", t911, 0,      jtot-3, t911u, 0 );
+  Col3Dim( "t911", t911, jtot-1, jtot-1, t911u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t911 );
+  t911[0:itot-1,*,1]  = default;    // stillbirths
+  t911[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t911u[0:itot-1,*,1] = default;    // stillbirths
+  t911u[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table 9.12 processing }
+  jtot = tblcol( t912 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t912[*,j,*] = t912[*,j,*] * 100 / t912[*,jtot,*];
+  enddo;
+  t912[*,jmax+1,*] = tblsum( column t912[*,0:jmax,*] );
+  { check unweighted N's }
+  Col3Dim( "t912", t912, 0, jtot-2, t912u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t912 );
+  t912[0:itot-1,*,1]  = default;    // stillbirths
+  t912[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t912u[0:itot-1,*,1] = default;    // stillbirths
+  t912u[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table 9.13 processing }
+  deliv = tblrow( t913, m15w4 = 1 );
+  t913[deliv,*,*] = t913[deliv+1,*,*] + t913[deliv+2,*,*] + t913[deliv+3,*,*];  { total public + private + NGO }
+  jtot = tblcol( t913 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t913[*,j,*] = t913[*,j,*] * 100 / t913[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  t913u[deliv,*,*] = t913u[deliv+1,*,*] + t913u[deliv+2,*,*] + t913u[deliv+3,*,*];  { total public + private + NGO }
+  Col3Dim( "t913", t913, 0, jtot-1, t913u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( t913 );
+  t913[0:itot-1,*,1]  = default;    // stillbirths
+  t913[0:itot-1,*,2]  = default;    // live births and stillbirths
+  t913u[0:itot-1,*,1] = default;    // stillbirths
+  t913u[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table 9.14 processing }
+  jtot = tblcol( t914 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t914[*,j] = t914[*,j] * 100 / t914[*,jtot];
+  enddo;
+  t914[*,jmax-1] = tblsum( column t914[*,0:jmax-2,] );
+  { check unweighted N's }
+  Col2Dim( "t914", t914, 0,      jtot-3, t914u, 0 );
+  Col2Dim( "t914", t914, jtot-1, jtot-1, t914u, 0 );
+
+  { Table 9.15 processing }
+  jtot = tblcol( t915 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t915[*,j] = t915[*,j] * 100 / t915[*,jtot];
+  enddo;
+  t915[*,jmax+1] = tblsum( column t915[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t915", t915, 0, jtot-2, t915u, 0 );
+
+  { Table 9.16 processing }
+  jtot = tblcol( t916 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t916[*,j] = t916[*,j] * 100 / t916[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t916", t916, 0, jtot-1, t916u, 0 );
+
+  { Table 9.17 processing }
+  deliv = tblrow( t917, m15w4 = 1 );
+  t917[deliv,*] = t917[deliv+1,*] + t917[deliv+2,*] + t917[deliv+3,*];  { total public + private + NGO }
+  jtot = tblcol( t917 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    t917[*,j] = t917[*,j] * 100 / t917[*,jtot];
+  enddo;
+  { check unweighted N's }
+  t917u[deliv,*] = t917u[deliv+1,*] + t917u[deliv+2,*] + t917u[deliv+3,*];  { total public + private + NGO }
+  Col2Dim( "t917", t917, 0, jtot-1, t917u, 0 );
+
+  { Table 9.18 processing }
+  jtot1 = tblcol( t918, mv248w );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t918[*,j] = t918[*,j] * 100 / t918[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t918, mv249w );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t918[*,j] = t918[*,j] * 100 / t918[*,jtot2];
+  enddo;
+  jtot3 = tblcol( t918, mv250w );
+  jmax  = jtot3 - 1;
+  do j = jtot2+1 while j <= jmax
+    t918[*,j] = t918[*,j] * 100 / t918[*,jtot3];
+  enddo;
+  jtot4 = tblcol( t918, mv253w );
+  jmax  = jtot4 - 1;
+  do j = jtot3+1 while j <= jmax
+    t918[*,j] = t918[*,j] * 100 / t918[*,jtot4];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t918", t918, 0,       jtot1-1, t918u, 0 );
+  Col2Dim( "t918", t918, jtot1+1, jtot2-1, t918u, 1 );
+  Col2Dim( "t918", t918, jtot2+1, jtot3-1, t918u, 2 );
+  Col2Dim( "t918", t918, jtot3+1, jtot4-1, t918u, 3 );
+
+  { Table 9.19 processing }
+  itot = tblrow( t919, age6 = 2 );   // calculate age 30:49
+  t919[itot,*]  = tblsum( row t919[itot+1:itot+4,*] );
+  t919u[itot,*] = tblsum( row t919u[itot+1:itot+4,*] );
+  iage = tblrow( t919, age2 = 1 );   // calculate age 30:44 & 40:49
+  t919[iage,*]    = tblsum( row t919[itot+1:itot+3,*] );
+  t919u[iage,*]   = tblsum( row t919u[itot+1:itot+3,*] );
+  t919[iage+1,*]  = tblsum( row t919[itot+3:itot+4,*] );
+  t919u[iage+1,*] = tblsum( row t919u[itot+3:itot+4,*] );
+  jtot = tblcol( t919 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t919[*,j] = t919[*,j] * 100 / t919[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t919", t919, 0, jtot-1, t919u, 0 );
+
+  { Table 9.20 processing }
+  jtot = tblcol( t920 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t920[*,j] = t920[*,j] * 100 / t920[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t920", t920, 0, jtot-1, t920u, 0 );
+
+  { Table 9.21 processing }
+  jtot2 = tblcol( t921 );
+  jmax  = jtot2 - 1;
+  do j = 0 while j <= jmax
+    t921[*,j] = t921[*,j] * 100 / t921[*,jtot2];
+  enddo;
+  jtot1 = tblcol( t921, v483aw );
+  t921[*,jtot1+1] = tblsum( column t921[*,0:jtot1] );
+  t921[*,jtot2-1] = tblsum( column t921[*,jtot1+2:jtot2-2] );
+  { check unweighted N's }
+  Col2Dim( "t921", t921, 0,       jtot1,   t921u, 0 );
+  Col2Dim( "t921", t921, jtot1+2, jtot2-2, t921u, 0 );
+  { assign NA to means of transport for second panel }
+  itot = tblrow( t921, v483bw = 1 );
+  t921[itot:itot+2,jtot1+2:jtot2-1] = NACells;
+
+PROC HOUSEHOLD
+postproc
+
+{-----------------------------------------------------------------------------------------------}
+{ male tables }
+
+  for i in RECH1_EDT do
+    if HV118 = 1 then                                   { if eligible for male interview }
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then { found & complete questionnaire }
+
+        if unweight then
+          rweight = 1;
+        else
+          rweight = MV005/1000000;
+        endif;
+
+        { to tally total for all men regardless of age }
+        totmen   = 0;
+        { to tally total for men 15-49 }
+        tot1549  = 0;
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:59 );
+		{ totals women/men for table 3.16 }
+		man1549  = 1;
+
+        { general variables }
+        v102w   = MV102;
+        v101w   = MV101;
+        vm106wt = MV106;
+        if MV106 in 8,missing then vm106wt = 9 endif;
+        v190w  = MV190;
+        recode  MV012 -> agef;
+                 0:19 -> 1;
+                20:34 -> 2;
+                35:49 -> 3;
+                      -> 9;
+        endrecode;
+
+        { number of children fathered }
+        recode MV201 -> mv201w;
+                 0   -> 0;
+                 1   -> 1;
+               2:3   -> 2;
+			   4:5   -> 3;
+               6:50  -> 4;
+			         -> default;
+        endrecode;
+
+        { to properly tabulate men, variables for men 50 and above are set to NotAppl }
+        if MV012 > 49 then
+          tot1549  = notappl;
+          v102w    = notappl;
+          v101w    = notappl;
+          vm106wt  = notappl;
+          v190w    = notappl;
+          agef     = notappl;
+          mv201w   = notappl;
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 9.18 }
+
+        mv248w = notappl;
+        mv249w = notappl;
+        mv250w = notappl;
+        mv253w = notappl;
+        if MV247 in 0:2 then
+          mv248w = 2;          
+          xtab( t918, rweight );
+          coltotu = 1;
+          xtab( t918u );
+          if MV248 = 1 then
+            mv248w = 1;          
+            xtab( t918, rweight );
+          endif;
+          mv248w = notappl;          
+          if MV248 = 1 then
+            mv249w = 2;          
+            xtab( t918, rweight );
+            coltotu = 2;
+            xtab( t918u );
+            if MV249 = 1 then
+              mv249w = 1;          
+              xtab( t918, rweight );
+            endif;
+          endif;
+          mv249w = notappl;
+          mv250w = 2;          
+          xtab( t918, rweight );
+          coltotu = 3;
+          xtab( t918u );
+          if MV250 = 1 then
+            mv250w = 1;          
+            xtab( t918, rweight );
+          endif;
+          mv250w = notappl;          
+          if MV250 = 1 then
+            mv253w = 2;          
+            xtab( t918, rweight );
+            coltotu = 4;
+            xtab( t918u );
+            if MV253 = 1 then
+              mv253w = 1;          
+              xtab( t918, rweight );
+            endif;
+          endif;
+          mv253w = notappl;
+        endif;
+      endif        { end loadcase & complete interview }
+    endif;      { end eligible for men interview }
+  enddo;
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  { general variables }
+  v101w = V101;
+  v102w = V102;
+  v106w = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v106wt = v106w;
+  v190w  = V190;
+
+  { marital status }
+  recode  V501  -> v501w2;
+         0   -> 0;
+        1:2  -> 1;
+        3:5  -> 2;
+             -> 9;
+  endrecode;
+  { living children }
+  recode  V218  -> v218w;
+            0   -> 0;
+           1:2  -> 1;
+           3:4  -> 2;
+                -> 3;
+  endrecode;
+  { employed last 12 months }
+  recode  V741  -> v741w1;
+        notappl -> 0;
+          1:2   -> 1;
+          0,3   -> 2;
+                -> 9;
+  endrecode;
+  { age }
+  recode  V012  -> age5;
+          15:19 -> 1;
+          20:34 -> 2;
+                -> 3;
+  endrecode;
+
+
+{ --------------------------------------------------------------------------- }
+{ Tables 9.1 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    if M80 in 1,3 & P19(MIDXP) < 24 then  // last birth/stillbirth in the last 2 years
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+	  endif;
+      age3    = RecAge( MIDXP );           { mother's age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      ancprov = notappl;
+      if     M2A = 1                     then ancprov = 1    { doctor }
+      elseif M2B = 1                     then ancprov = 2    { nurse/midwife }
+      elseif M2C = 1                     then ancprov = 3    { auxiliary nurse/midwife }
+      elseif M2H = 1                     then ancprov = 4    { community health worker }
+      elseif M2D = 1 | M2E = 1 | M2F = 1 then ancprov = 5    { other health worker }
+      elseif M2G = 1                     then ancprov = 6    { include trained and traditional birth attendant }
+      elseif M2I = 1 | M2J = 1 | M2K = 1 |
+             M2L = 1 | M2M = 1           then ancprov = 7    { other, not health professional }
+      elseif M2A = missing               then ancprov = 9    { missing }
+      endif;
+      noanc = ( M2N = 1 );                                   { no one }
+      xtab( t901, rweight );
+      xtab( t901u );
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.2 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    if M80 in 1,3 & P19(MIDXP) < 24 then  // last birth/stillbirth in the last 2 years
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3    = RecAge( MIDXP );           { mother's age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      recode M14  -> m14w1;
+                0 -> 0;
+                1 -> 1;
+              2:3 -> 2;
+              4:7 -> 3;
+             8:90 -> 4;
+                  -> 9;
+      endrecode;
+	  anc4 = ( M14 in 4:90 );
+      recode M13  -> m13w;
+          notappl -> 0;
+               <4 -> 1;
+              4:6 -> 2;
+             7:90 -> 3;
+                  -> 9;
+      endrecode;
+      mednum = 1;                                { count number of women with antenatal care }
+      if M2N <> 0 then mednum = notappl endif;
+      xtab( t902, rweight );
+      coltotu = 1;
+      xtab( t902u );
+      if M13 in 0:90 then
+         vistmed = M13;
+         if M13 > maxvist then vistmed = maxvist endif;
+         xtab( t902w, rweight );
+         coltotu = 2;
+         xtab( t902u );
+      endif;
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.3.1, 9.3.2 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    if M80 in 1,3 & P19(MIDXP) < 24 then  // last birth/stillbirth in the last 2 years
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3    = RecAge( MIDXP );           { mother's age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      anctest = notappl;
+      womanc  = 1;
+	  womprg  = 1;
+	  if M2N = 0 then
+        xtab( t9031, rweight );
+        xtab( t9031u );
+	  endif;
+      xtab( t9032, rweight );
+      xtab( t9032u );
+      womanc  = notappl;
+	  womprg  = notappl;
+      if M42C = 1 then
+        anctest  = 1;                   { blood pressure }
+        if M2N = 0 then xtab( t9031, rweight ) endif;
+        xtab( t9032, rweight );
+      endif;
+      if M42D = 1 then
+        anctest  = 2;                   { urine sample  }
+        if M2N = 0 then xtab( t9031, rweight ) endif;
+        xtab( t9032, rweight );
+      endif;
+      if M42E = 1 then
+        anctest  = 3;                   { blood sample }
+        if M2N = 0 then xtab( t9031, rweight ) endif;
+        xtab( t9032, rweight );
+      endif;
+      if M42F = 1 then
+        anctest  = 4;                   { listen to baby heartbeat }
+        if M2N = 0 then xtab( t9031, rweight ) endif;
+        xtab( t9032, rweight );
+      endif;
+      if M42G = 1 then
+        anctest  = 5;                   { counseling about baby diet }
+        if M2N = 0 then xtab( t9031, rweight ) endif;
+        xtab( t9032, rweight );
+      endif;
+      if M42H = 1 then
+        anctest  = 6;                   { talk about breastfeeding }
+        if M2N = 0 then xtab( t9031, rweight ) endif;
+        xtab( t9032, rweight );
+      endif;
+      if M42I = 1 then
+        anctest  = 7;                   { vaginal bleeding }
+        if M2N = 0 then xtab( t9031, rweight ) endif;
+        xtab( t9032, rweight );
+      endif;
+      if M42A = 1 then
+        anctest  = 8;                   { measure weight }
+        if M2N = 0 then xtab( t9031, rweight ) endif;
+        xtab( t9032, rweight );
+      endif;
+      if M42J = 1 then
+        anctest  = 9;                   { baby due date }
+        if M2N = 0 then xtab( t9031, rweight ) endif;
+        xtab( t9032, rweight );
+      endif;
+      if M42K = 1 then
+        anctest  = 10;                   { attention to baby movements }
+        if M2N = 0 then xtab( t9031, rweight ) endif;
+        xtab( t9032, rweight );
+      endif;
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.4 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    if M80 in 1,3 & P19(MIDXP) < 24 then  // last birth/stillbirth in the last 2 years
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3    = RecAge( MIDXP );           { mother's age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+	  womprg  = 1;
+	  supplem = notappl;
+	  recode M45 ::   M46   -> irontake;   // number of iron tablets/syrup
+	         0,8 ::         -> 1;
+	             ::    0    -> 1;
+	             ::   1:59  -> 2;
+	             ::  60:89  -> 3;
+	             ::  90:179 -> 4;
+	             :: 180:990 -> 5;
+                 ::         -> 6;
+      endrecode;
+      xtab( t904, rweight );
+      xtab( t904u );
+	  womprg   = notappl;
+	  irontake = notappl;
+	  if M82 = 1 then                      // received food or cash
+        supplem = 1;
+        xtab( t904, rweight );
+      endif;
+	  if M60 = 1 then                      // took deworming
+        supplem = 2;
+        xtab( t904, rweight );
+      endif;
+	  if M46 in 1:998 then                 // took iron supplements
+        supplem = 3;
+        xtab( t904, rweight );
+      endif;
+      livestil = 0;
+    endif;
+  enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ tables 9.5 }
+
+  { !!! note that for the most part variables M81A to M81X hold country specific sources for iron tablets/syrup }
+  {     make sure to properly change the labels for working variables PUBSECT, PRVSECT, NGOSECT & OTHSECT       }
+  {     for purposes of this application, sources from question A612 in the core questionnaire are used         }
+
+  livestil = 1;
+  for i in REC41_EDT do
+
+    if M80 in 1,3 & P19(MIDXP) < 24 & M45 = 1 then  // last birth/stillbirth with iron given/bought
+      pubsect  = notappl;
+      prvsect  = notappl;
+      ngosect  = notappl;
+      othsect  = notappl;
+      othonly  = notappl;
+      { tally women }
+      numwom = 1;
+      tabt905( 1 );
+      numwom = notappl;
+      if M80 = 1 then
+        poutcome = 1;
+        xtab( t905u );
+      endif;
+      if M80 = 3 then
+        poutcome = 2;
+        xtab( t905u );
+      endif;
+	  if livestil then
+        poutcome = 3;
+        xtab( t905u );
+      endif;
+      { tally public sector institutions/places }
+      public = ( M81A = 1 | M81B = 1 | M81C = 1 | M81D = 1 | M81E = 1 |
+                 M81F = 1 | M81G = 1 | M81H = 1 | M81I = 1 );
+      pubsect  = 1;                      { any public sector }
+      tabt905( public );
+      pubsect  = 2;                      { public hospital }
+      tabt905( M81A );
+      pubsect  = 3;                      { public health center }
+      tabt905( M81B );
+      pubsect  = 4;                      { health post }
+      tabt905( M81C );
+      pubsect  = 5;                      { mobile clinic }
+      tabt905( M81D );
+      pubsect  = 6;                      { fieldworker }
+      tabt905( M81E );
+      pubsect  = 7;                      { other public }
+      tabt905( M81F );
+      pubsect  = 8;                      { CS public }
+      tabt905( M81G );
+      pubsect  = 9;                      { CS public }
+      tabt905( M81H );
+      pubsect  = 10;                     { CS public }
+      tabt905( M81I );
+      pubsect  = notappl;
+      { tally private sector institutions/places }
+      private = ( M81J = 1 | M81K = 1 | M81L = 1 | M81M = 1 | M81N = 1 |
+                  M81O = 1 | M81P = 1 | M81Q = 1 | M81R = 1 );
+      prvsect  = 1;                      { any private }
+      tabt905( private );
+      prvsect  = 2;                      { private hospital }
+      tabt905( M81J );
+      prvsect  = 3;                      { privte clinic }
+      tabt905( M81M );
+      prvsect  = 4;                      { pharmacy }
+      tabt905( M81K );
+      prvsect  = 5;                      { private doctor }
+      tabt905( M81L );
+      prvsect  = 6;                      { mobile clinic }
+      tabt905( M81N );
+      prvsect  = 7;                      { fieldworker/CHW }
+      tabt905( M81O );
+      prvsect  = 8;                      { other private }
+      tabt905( M81P );
+      prvsect  = 9;                      { CS private }
+      tabt905( M81Q );
+      prvsect  = 10;                     { CS private }
+      tabt905( M81R );
+      prvsect  = notappl;
+      { tally NGO sector institutions/places }
+      ngo = ( M81NA = 1 | M81NB = 1 | M81NC = 1 | M81ND = 1 | M81NE = 1 );
+      ngosect  = 1;                      { any NGO }
+      tabt905( ngo );
+      ngosect  = 2;                      { NGO hospital }
+      tabt905( M81NA );
+      ngosect  = 3;                      { NGO clinic }
+      tabt905( M81NB );
+      ngosect  = 4;                      { NGO other }
+      tabt905( M81NC );
+      ngosect  = 5;                      { NGO CS }
+      tabt905( M81ND );
+      ngosect  = 6;                      { NGO CS }
+      tabt905( M81NE );
+      ngosect  = notappl;
+      { tally other places }
+      others = ( M81S = 1 | M81T = 1 | M81U = 1 | M81V = 1 | M81W = 1 );
+      othsect  = 1;                      { any other }
+      tabt905( others );
+      othsect  = 2;                      { shop }
+      tabt905( M81S );
+      othsect  = 3;                      { CS other }
+      tabt905( M81T );
+      othsect  = 4;                      { CS other }
+      tabt905( M81U );
+      othsect  = 5;                      { CS other }
+      tabt905( M81V );
+      othsect  = 6;                      { CS other }
+      tabt905( M81W );
+      othsect  = notappl;
+      othonly  = 1;                      { other }
+      tabt905( M81X );
+      othonly  = notappl;
+
+      livestil = 0;
+    endif;            { end last alive & with fever }
+
+  enddo;
+  numwom = 1;
+
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.6 }
+
+  for i in REC41_EDT do
+    if M80 = 1 & P19(MIDXP) < 24 then   // last birth in the last 2 years
+      border2 = RecBorder( MIDX );         { birth order }
+      age3    = RecAge( MIDXP );           { mother's age at birth }
+
+      { calculate number of tetanus injections and time since last one }
+      totetan  = 0;              { total tetanus injections }
+      if M1 in 1:7 then totetan = M1 endif;   { during pregnancy }
+      if M1A in 1:7 then                      { before pregnancy }
+        totetan = totetan + M1A;
+      endif;
+      { determine number of years since last injection }
+      lastinj = 99;
+      if M1 in 1:7 then
+       lastinj = 0;               { because last injection was given during pregnancy }
+      elseif M1D in 0:20 then
+        lastinj = M1D - int( B19(MIDX)/12 );
+        if lastinj < 0 then lastinj = 0 endif;
+      endif;
+      { two or more injections during last pregnancy }
+      if M1 in 2:7 then
+        tetanus = 1;
+        xtab( t906, rweight );
+      endif;
+      { last birth protected against TT during last pregnancy }
+      { -2+ injections during last pregnancy                  }
+      { -2+ the last within 3 years                           }
+      { -3+ the last within 5 years                           }
+      { -4+ the last within 10 years                          }
+      { -5+ in lifetime                                       }
+      if M1 in 2:7 |
+         totetan in 2:14 & lastinj in 0:2 |
+         totetan in 3:14 & lastinj in 0:4 |
+         totetan in 4:14 & lastinj in 0:9 |
+         totetan in 5:14 then
+        tetanus = 2;
+        xtab( t906, rweight );
+      endif;
+      tetanus = 9;
+      xtab( t906, rweight );
+      xtab( t906u );
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.7 }
+
+  for i in REC41_EDT do
+    if M80 in 1:4 & P19(MIDXP) < 24 then  // all births/stillbirths last 2 years, excludes miscarriages abortions
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t    = RecAge( MIDXP );           { mother's age at birth }
+	  livbirth = ( M80 in 1,2 );
+	  stlbirth = ( M80 in 3,4 );
+      livestil = 1;
+
+      m14w2   = RecAntCare( MIDXP );        { antenatal care visits }
+      recode  M15  -> m15w1;
+             20:29 -> 1;        { public sector }
+             30:39 -> 2;        { private sector }
+             40:49 -> 3;        { NGO sector }
+                   -> notappl;
+      endrecode;
+      recode  M15  -> m15w2;
+             10:19 -> 1;        { home }
+             50:98 -> 2;        { other }
+           missing -> 9;        { missing }
+                   -> notappl;
+      endrecode;
+      xtab( t907, rweight );
+      xtab( t907u );
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.8 }
+
+  numbirth = 1;
+  for i in REC41_EDT do
+    if M80 in 1:4 & P19(MIDXP) < 24 then  // all births/stillbirths last 2 years, excludes miscarriages abortions
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t   = RecAge( MIDXP );           { mother's age at birth }
+	  livbirth = ( M80 in 1,2 );
+	  stlbirth = ( M80 in 3,4 );
+      livestil = 1;
+
+      m15w4   = RecPDel1( MIDXP );           { place of delivery }
+      if !M15 in 20:49 then m15w4 = notappl endif;
+      m14w2   = RecAntCare( MIDXP );         { antenatal care visits }
+      m17w    = ( M17 = 1 );
+      xtab( t908, rweight );
+      xtab( t908u );
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.9 }
+
+  for i in REC41_EDT do
+    if M80 in 1:4 & P19(MIDXP) < 24 then  // all births/stillbirths last 2 years, excludes miscarriages abortions
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t   = RecAge( MIDXP );           { mother's age at birth }
+	  livbirth = ( M80 in 1,2 );
+	  stlbirth = ( M80 in 3,4 );
+      livestil = 1;
+
+      numbist  = 1;
+      m15w4    = RecPDel1( MIDXP );          { place of delivery }
+      m14w2    = RecAntCare( MIDXP );        { antenatal care visits }
+      deliver2 = notappl;
+	  deliver3 = notappl;
+      if     M3A = 1                     then deliver1 = 1         { doctor }
+      elseif M3B = 1                     then deliver1 = 2         { nurse/midwife }
+      elseif M3C = 1                     then deliver1 = 3         { auxiliary/midwife }
+      elseif M3G = 1                     then deliver1 = 4         { trained and traditional birth attendant }
+      elseif M3D = 1 | M3E = 1 | M3F = 1 |
+             M3H = 1 | M3I = 1 | M3J = 1 |
+             M3K = 1 | M3L = 1 | M3M = 1 then deliver1 = 5         { relative/other }
+      elseif M3N = 1                     then deliver1 = 6         { no one }
+      else                                    deliver1 = notappl   { DK/missing }
+      endif;
+      xtab( t909, rweight );
+	  coltotu = 1;
+      xtab( t909u );
+      numbist  = notappl;
+	  deliver1 = notappl;
+	  if M80 = 1 then
+	    deliver3 = 2;
+        xtab( t909, rweight );
+        coltotu  = 2;
+        xtab( t909u );
+        if M77 = 1 & M77A in 0 then
+	      deliver3 = 1;
+          xtab( t909, rweight );
+        endif;
+      endif;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.10 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+	// last birth/stillbirth in the last 2 years born in a health facility
+    if M80 in 1,3 & P19(MIDXP) < 24 & M15 in 21:49 then
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      { born by caesarean section }
+      recode M17 -> birtype;
+       	      0  -> 1;                        { vaginal birth }
+	          1  -> 2;                        { caesarean section }
+	             -> 9;                        { missing }
+      endrecode;
+      { time stay in health facility after delivery }
+      recode     M61      -> durstay;
+               missing    -> 9;               { DK/missing }
+              199,299,399 -> 9;
+              198,298,398 -> 9;
+                   998    -> 9;
+               100:105    -> 1;               {   <6 hours }
+               106:111    -> 2;               { 6 to 11 hours }
+               112:123    -> 3;               { 4 to 23 hours }
+               200        -> 3;               { assume 4-23 hours }
+               124:171    -> 4;               { 1-2 days }
+               201:202    -> 4;               { 1-2 days }
+               172:197    -> 5;               { 3+ days  }
+               203:297    -> 5;               { 3+ days  }
+               301:397    -> 5;               { 3+ days  }
+                          -> notappl;         { other responses }
+      endrecode;
+      xtab( t910, rweight );
+      xtab( t910u );
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.11 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    if M80 in 1,3 & P19(MIDXP) < 24 then  // last birth/stillbirth in the last 2 years
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3    = RecAge( MIDXP );           { mother's age at birth }
+      m15w3   = RecPDel2( MIDXP );         { place of delivery }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      wcheckup = notappl;
+      wnocheck = notappl;
+      wpnc2day = notappl;
+      if M62 = 1 | M66 = 1  then
+        xprovid  = 99;
+        xtime    = 999;
+        if M64 in 11:29 then
+          xtime   = M63;
+          xprovid = M64;
+        elseif M68 in 11:29 then
+          xtime   = M67;
+          xprovid = M68;
+        endif;
+        { time to respondent's first checkup }
+        recode xprovid ::    xtime     -> wcheckup;
+                 99    ::              -> notappl;         { defined as no check up }
+                       ::   missing    -> 9;               { DK/missing }
+                       :: 199,299,399  -> 9;
+                       :: 198,298,398  -> 9;
+                       ::         998  -> 9;
+                       ::     100:103  -> 1;               { less than 4 hours }
+                       ::     104:123  -> 2;               { 4 to 23 hours }
+                       ::     200      -> 2;               { assume 4-23 hours }
+                       ::     124:171  -> 3;               { 1-2 days }
+                       ::     201:202  -> 3;               { 1-2 days }
+                       ::     172:197  -> 4;               { 3-6 days new }
+                       ::     203:206  -> 4;               { 3-6 days new }
+                       ::     207:241  -> 5;               { 7-41 days new }
+                       ::     300:305  -> 5;               { 7-41 days new }
+                       ::             -> notappl;         { other responses }
+        endrecode;
+        { no check-up includes women who received check-up after 41 days }
+        { or Women not receiving check-up from health professional       }
+        wnocheck = ( wcheckup = notappl );
+
+        { checkup in the first two days by a health professional }
+        wpnc2day = ( xtime in 100:171,198:199,200:202 & xprovid in 11:29 );   { include DK/missing hours }
+      else
+        { didn't receive postnatal care }
+        wnocheck = 1;
+      endif;
+      xtab( t911, rweight );
+      xtab( t911u );
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.12 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    if M80 in 1,3 & P19(MIDXP) < 24 then  // last birth/stillbirth in the last 2 years
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3    = RecAge( MIDXP );           { mother's age at birth }
+      m15w3   = RecPDel2( MIDXP );         { place of delivery }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      npnc2day = notappl;
+      wprovide = notappl;
+      xprovid  = 99;
+      xtime    = 999;
+      if M64 in 11:29 then
+        xtime   = M63;
+        xprovid = M64;
+      elseif M68 in 11:29 then
+        xtime   = M67;
+        xprovid = M68;
+      endif;
+
+      { for women with a checkup in the first two days by a health professional }
+      if xtime in 100:171,198:199,200:202 & xprovid in 11:29  then   { include DK/missing hours }
+        { respondent's first checkup provider }
+        recode  xprovid -> wprovide;
+                11:12   -> 1;               { doctor, nurse/midwife }
+                  13    -> 2;               { auxiliary/midwife }
+                  22    -> 3;               { community health worker/fieldworker }
+                14:19   -> 3;
+                  21    -> 4;               { traditional birth attendant }
+                        -> notappl;         { other - non health workers taken out below! }
+        endrecode;
+      else
+        { didn't receive postnatal care }
+        npnc2day = 1;
+      endif;
+      xtab( t912, rweight );
+      xtab( t912u );
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.13 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    if M80 in 1,3 & P19(MIDXP) < 24 then  // last birth/stillbirth in the last 2 years
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3    = RecAge( MIDXP );           { mother's age at birth }
+      m15w4   = RecPDel1( MIDXP );         { place of delivery }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+	  all78w3 = notappl;
+	  m78w1   = notappl;
+	  numwom  = 1;
+      xtab( t913, rweight );
+      xtab( t913u );
+	  numwom  = notappl;
+	  cnt = 0;
+	  if M78F = 1 then              // Measured blood pressure
+	    m78w1 = 1;
+        xtab( t913, rweight );
+		cnt = cnt + 1;
+	  endif;
+	  if M78G = 1 then              // Discussed vaginal bleeding
+	    m78w1 = 2;
+        xtab( t913, rweight );
+		cnt = cnt + 1;
+	  endif;
+	  if M78H = 1 then              // Discussed family planning
+	    m78w1 = 3;
+        xtab( t913, rweight );
+		cnt = cnt + 1;
+	  endif;
+	  m78w1   = notappl;
+	  if cnt = 3 then               // all three tests performed
+	    all78w3 = 1;
+        xtab( t913, rweight );
+	  endif;
+      livestil = 0;
+	endif;
+  enddo;
+  numwom = 1;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.14 }
+
+  for i in REC41_EDT do
+    if M80 = 1 & P19(MIDXP) < 24 then  // last birth in the last 2 years
+      border2 = notappl;
+	  if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t   = RecAge( MIDXP );           { mother's age at birth }
+      m15w3   = RecPDel2( MIDXP );         { place of delivery }
+
+      ccheckup = notappl;
+      cnocheck = notappl;
+      cpnc2day = notappl;
+	  numbirth = 1;
+      if M74 = 1 | M70 = 1 then
+        xprovid  = 99;
+        xtime    = 999;
+        if M76 in 11:29 then
+          xtime   = M75;
+          xprovid = M76;
+        elseif M72 in 11:29 then
+          xtime   = M71;
+          xprovid = M72;
+        endif;
+        { time to respondent's first checkup }
+        recode xprovid ::    xtime    -> ccheckup;
+                 99    ::             -> notappl;         { defined as no check up }
+                       ::  missing    -> 9;               { DK/missing }
+                       :: 199,299,399 -> 9;
+                       :: 198,298,398 -> 9;
+                       ::      998    -> 9;
+                       ::  100        -> 1;               { less than 1 hour }
+                       ::  101:103    -> 2;               { 1 to 3 hours }
+                       ::  104:123    -> 3;               { 4 to 23 hours }
+                       ::  200        -> 3;               { assume 4-23 hours }
+                       ::  124:171    -> 4;               { 1-2 days }
+                       ::  201:202    -> 4;               { 1-2 days }
+                       ::  172:197    -> 5;               { 3-6 days new }
+                       ::  203:206    -> 5;               { 3-6 days new }
+                       ::             -> notappl;         { other responses }
+        endrecode;
+        { no-checkup includes children who received check-up after 6 days }
+        { or children not receiving check-up from health professional       }
+        cnocheck = ( ccheckup = notappl );
+
+        { child checkup in the first two days by a health professional }
+        cpnc2day = ( xtime in 100:171,198:199,200:202 & xprovid in 11:29 );   { include DK/missing hours }
+      else
+        { didn't receive postnatal care }
+        cnocheck = 1;
+      endif;
+      xtab( t914, rweight );
+      xtab( t914u );
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.15 }
+
+  for i in REC41_EDT do
+    if M80 = 1 & P19(MIDXP) < 24 then  // last birth in the last 2 years
+      border2 = notappl;
+	  if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t   = RecAge( MIDXP );           { mother's age at birth }
+      m15w3   = RecPDel2( MIDXP );         { place of delivery }
+
+      npnc2day = notappl;
+      cprovide = notappl;
+      xprovid  = 99;
+      xtime    = 999;
+      if M76 in 11:29 then
+        xtime   = M75;
+        xprovid = M76;
+      elseif M72 in 11:29 then
+        xtime   = M71;
+        xprovid = M72;
+      endif;
+      { for children with a  checkup in the first two days by a health professional }
+      if xtime in 100:171,198:199,200:202 & xprovid in 11:29 then   { include DK/missing hours }
+        { child's first checkup provider }
+        recode  xprovid -> cprovide;
+                11:12   -> 1;               { doctor, nurse/midwife }
+                  13    -> 2;               { auxiliary, nurse/midwife }
+                  22    -> 3;               { community health/field worker }
+                14:19   -> 3;
+                  21    -> 4;               { traditional birth attendant }
+        endrecode;
+      else
+        { didn't receive postnatal care }
+        npnc2day = 1;
+      endif;
+      xtab( t915, rweight );
+      xtab( t915u );
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.16 }
+
+  for i in REC41_EDT do
+    if M80 = 1 & P19(MIDXP) < 24 then  // last birth in the last 2 years
+      border2 = notappl;
+	  if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t   = RecAge( MIDXP );           { mother's age at birth }
+      m15w3   = RecPDel2( MIDXP );         { place of delivery }
+
+      cnt = 0;
+      signfun  = notappl;
+      m78w2    = notappl;
+      numbirth = 1;
+      xtab( t916, rweight );
+      xtab( t916u );
+      numbirth = notappl;
+      if M78A = 1 then                // Examined the cord
+        cnt = cnt + 1;
+        m78w2 = 1;
+        xtab( t916, rweight );
+      endif;
+      if M78B = 1 then                // Measured temperature
+        cnt = cnt + 1;
+        m78w2 = 2;
+        xtab( t916, rweight );
+      endif;
+      if M78C = 1 then                // Mother told how to recognize if the baby needs immediate medical attention
+        cnt = cnt + 1;
+        m78w2 = 3;
+        xtab( t916, rweight );
+      endif;
+      if M78D = 1 then                // Mother counseled on breastfeeding
+        m78w2 = 4;
+        xtab( t916, rweight );
+      endif;
+      if M78E = 1 then                // Observed breastfeeding
+        m78w2 = 5;
+        xtab( t916, rweight );
+      endif;
+	  cnt = cnt + (M78D = 1 | M78E = 1);
+      if M78D = 1 & M78E = 1 then     // Mother both counseled on breastfeeding and observed breastfeeding
+        m78w2 = 6;
+        xtab( t916, rweight );
+      endif;
+      if M78I = 1 then                // Mother told where she could get help with breastfeeding
+        m78w2 = 7;
+        xtab( t916, rweight );
+      endif;
+      if M19A in 1:2 then             // Weighed
+        cnt = cnt + 1;
+        m78w2 = 8;
+        xtab( t916, rweight );
+      endif;
+      m78w2 = notappl;
+      if cnt = 5 then                 // With five signal functions performed during the first 2 days after birth
+        signfun = 1;
+        xtab( t916, rweight );
+      endif;
+      numbirth = 1;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.17 }
+
+  for i in REC41_EDT do
+    if M80 = 1 & P19(MIDXP) < 24 then  // last birth in the last 2 years
+      border2 = notappl;
+	  if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t   = RecAge( MIDXP );           { mother's age at birth }
+      m15w4   = RecPDel1( MIDXP );         { place of delivery }
+
+      postchk2 = notappl;
+	  numbirth = 1;
+      xtab( t917, rweight );
+      xtab( t917u );
+	  numbirth = notappl;
+	  numeric checkw = 0, checkc = 0;
+      { women with a checkup in the first two days }
+	  xtime = notappl;
+      if M62 = 1 then
+        xtime   = M63;
+        xprovid = M64;
+      elseif M66 = 1 then
+        xtime   = M67;
+        xprovid = M68;
+      endif;
+      if xtime in 100:171,198:199,200:202 & xprovid in 10:29 then   { include DK/missing hours }
+	    checkw = 1;
+		postchk2 = 1;
+        xtab( t917, rweight );
+      endif;
+      { children with a checkup in the first two days }
+	  xtime = notappl;
+      if M74 = 1 then
+        xtime   = M75;
+        xprovid = M76;
+      elseif M70 = 1 then
+        xtime   = M71;
+        xprovid = M72;
+      endif;
+      if xtime in 100:171,198:199,200:202 & xprovid in 10:29 then   { include DK/missing hours }
+	    checkc = 1;
+		postchk2 = 2;
+        xtab( t917, rweight );
+      endif;
+      if checkw = 1 & checkc = 1 then
+		postchk2 = 3;
+        xtab( t917, rweight );
+      endif;
+      if checkw = 0 & checkc = 0 then
+		postchk2 = 4;
+        xtab( t917, rweight );
+      endif;
+	  numbirth = 1;
+	endif;
+
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.19 }
+
+  recode V012 -> age6;
+        15:29 -> 1;
+		30:34 -> 3;
+		35:39 -> 4;
+		40:44 -> 5;
+		45:49 -> 6;
+		      -> default;
+  endrecode;
+
+  cervcan = 3;
+  xtab( t919, rweight );
+  xtab( t919u );
+  if V484A = 1 then
+    cervcan = 1;
+    xtab( t919, rweight );
+  endif;
+  if V484B = 1 then
+    cervcan = 2;
+    xtab( t919, rweight );
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.20 }
+
+  cnt = 0;
+  { permission to go }
+  if V467B = 1 then
+    hlthaccs = 1;
+    xtab( t920, rweight );
+    cnt = cnt + 1;
+  endif;
+  { getting money }
+  if V467C = 1 then
+    hlthaccs = 2;
+    xtab( t920, rweight );
+    cnt = cnt + 1;
+  endif;
+  { distance to health facility }
+  if V467D = 1 then
+    hlthaccs = 3;
+    xtab( t920, rweight );
+    cnt = cnt + 1;
+  endif;
+  { go alone }
+  if V467F = 1 then
+    hlthaccs = 4;
+    xtab( t920, rweight );
+    cnt = cnt + 1;
+  endif;
+  { at least one problem }
+  if cnt then
+    hlthaccs = 9;
+    xtab( t920, rweight );
+  endif;
+  { all women }
+  hlthaccs = 10;
+  xtab( t920, rweight );
+  xtab( t920u );
+
+{ --------------------------------------------------------------------------- }
+{ Table 9.21 }
+
+  numwom = 1;
+  recode V483A -> v483aw;
+         0:29  -> 1;
+        30:59  -> 2;
+        60:119 -> 3;
+	   120:900 -> 4;
+               -> default;
+  endrecode;
+  recode V483B -> v483bw;
+         11:19 -> 1;
+         21:29 -> 2;
+           96  -> 3;
+               -> default;
+  endrecode;
+  recode V467D -> v467dw;
+           0   -> 2;
+               -> V467D;
+  endrecode;
+  xtab( t921, rweight );
+  xtab( t921u );

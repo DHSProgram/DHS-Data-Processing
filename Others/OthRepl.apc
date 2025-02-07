@@ -1,0 +1,1059 @@
+﻿PROC GLOBAL
+
+  numeric e, x, i, j, wline, ret, qi, zz, z, codenew, codew, codex, codey, codez;
+  numeric calint, calbegy, calbeg, calendy, calend, callen, xrow, stermeth, methoth, m, currmeth;
+  numeric curqj, qj, tot1, tot2, tot3, tot4, tot5, oldA435, births2;
+
+  string letcode;
+  string methcode;
+  string disccode;
+  string sorccode;
+  string ccode;
+  string xcode;
+  string minval;
+  string curval;
+  
+  alpha(10) wothid;                   { !!! adjust according country ID lenght }
+  alpha(10) wothques;
+  alpha(2)  wothocc;
+  alpha(1)  onemeth;
+
+  { Questionnaire version 8.3 with revisions }
+  array arrquest(500,4);
+  array string arralph(500);
+  numeric quests = 500;
+  
+  function summarize(error, coderet, origval, string questname)
+    do qi = 1 while qi <= quests & length(strip(arralph(qi))) & arralph(qi) <> questname
+    enddo;
+	if qi <= quests then
+	  if !length(strip(arralph(qi))) then
+        arralph(qi) = questname;
+	  endif;
+      arrquest(qi,1) = arrquest(qi,1) + 1;
+      if !error then
+        arrquest(qi,2) = arrquest(qi,2) + 1;
+      endif;
+      if coderet <> 0 & coderet <> origval then
+        arrquest(qi,3) = arrquest(qi,3) + 1;
+      else
+        arrquest(qi,4) = arrquest(qi,4) + 1;
+      endif;
+	endif;
+  end
+
+  { Function to return update code for "Other" answers }
+  function retother( qvar, alpha(10) questnum, questocc );
+    { Create alpha id for other answers file }
+    wothid   = edit("9999",AHCLUST) + edit("9999",AHNUMBER) + edit("99",wline);       // for use with CAPI surveys 
+    wothques = questnum;                   { question number }
+    wothocc  = edit( "Z9", questocc );     { occurrence for multiple section/group or
+                                            multipart question }
+    ret = qvar;
+    e = 0;
+    if !loadcase( OTHERS ) | compare( OTHID, wothid ) | OTHQUES <> wothques | OTHOCC <> questocc then
+      if !loadcase( OTHERS, wothid, wothques, wothocc ) then
+         e = errmsg( 1, wothid, wothques, wothocc );
+      endif
+    endif;
+    if !e & OTHCODE <> 0 then
+      ret = OTHCODE
+    endif;
+	summarize( e, ret, qvar, wothques );
+    retother = ret;
+  end;
+
+  { remove a code from a variable }
+  function string removecode(string thisvar, string thiscode)
+    numeric l, k;
+	string newvar = "";
+    l = 0;
+    do k = 1 while k <= length(thisvar)
+      if thisvar[k:1] <> thiscode then
+	    l = l + 1;
+	    newvar[l:1] = thisvar[k:1];
+	  endif;
+	enddo;
+	removecode = newvar;
+  end;
+
+  { removes alpha codes for origcode and inserts alpha code n in aphavar }  
+  function string addcode(string alphavar, n, origcode)
+    string wrkvar = "";
+    ccode = letcode[n:1];                 { New code }
+    xcode = letcode[origcode:1];          { Original code }
+    zz = pos(xcode,alphavar);             { Original code found in string }
+    if zz then
+      { Remove original code from variable }
+      alphavar = removecode(alphavar,xcode);
+      z = length(strip(alphavar));                { Length of original string }
+      { if resulting string is not empty }
+      if z then
+        { if new code already exists, leave the variable without the other answer }
+		{ otherise insert code }
+        if !pos(ccode,alphavar) then
+          { Find where new code goes in string }
+          do zz = 1 while zz <= z & alphavar[zz:1] < ccode
+		    wrkvar[zz:1] = alphavar[zz:1];
+          enddo;
+          wrkvar   = wrkvar + ccode + alphavar[zz:z-zz+1];
+		  alphavar = wrkvar;
+        endif;
+      else
+        { Resulting string is empty - just put new code in string }
+        alphavar = ccode;
+      endif;
+    { Could not find original code in string }
+    else
+      errmsg( 9, xcode, alphavar );
+    endif;
+	addcode = alphavar;
+  end;
+  
+  function valid( xvar )
+    valid = ( !special(xvar) & xvar <= 96 )
+  end;
+
+  function valid2( xvar )
+    valid2 = ( !special(xvar) & xvar <= 95 )
+  end;
+
+  function cmcrow( xcmc )
+    if xcmc < calbeg | xcmc > calend then
+      xrow = 0
+    else
+      xrow = calend - xcmc + 1
+    endif;
+    cmcrow = xrow;
+  end;
+
+PROC CCIQ81_FF
+preproc
+
+  letcode  = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+  methcode = "123456789JKLMXY";
+  sorccode = "123456789ABCDEFX";
+  disccode = "12345678FADXZ******0";
+  stermeth = 1;   { code for sterilization }
+  methoth  = 14;  { Code for other method in table }
+  codew    = pos("W",letcode);
+  codex    = pos("X",letcode);
+  codey    = pos("Y",letcode);
+  codez    = pos("Z",letcode);
+  calendy  = 2020;      { !!! Year of end of calendar }
+  calbegy  = 2015;      { !!! Year of start of calendar }
+  calend   = cmcode(12,calendy);{ !!! last date of calendar }
+  calbeg   = cmcode( 1,calbegy);{ !!! first date of calendar }
+  callen   = calend-calbeg+1;   { length of calendar }
+  
+  { initilize array used to summarize the run }
+  do qi = 1 while qi <= quests
+    arralph(qi)    = "";       { Question number }
+    arrquest(qi,1) = 0;        { # of times requested }
+    arrquest(qi,2) = 0;        { # of times successfully read }
+    arrquest(qi,3) = 0;        { # of times recoded }
+    arrquest(qi,4) = 0;        { # of times un-recoded }
+  enddo;
+
+  open( OTHERS );
+
+postproc
+
+  close( OTHERS );
+
+  { display summary of the run }
+  do qi = 1 while qi <= quests & length(strip(arralph(qi)))
+  enddo;
+  tot1 = qi - 1;  
+  errmsg( 20, tot1 );
+  minval = " ";
+  curqj  = 0;
+  do qi = 1 while qi <= quests & length(strip(arralph(qi)))
+    curval = "ZZZZZZZZZZ";
+    do qj = 1 while qj <= quests & length(strip(arralph(qj)))
+      if minval < arralph(qj) & arralph(qj) < curval then
+        curval = arralph(qj);
+        curqj  = qj;
+      endif;
+    enddo;
+    tot2 = tot2 + arrquest(curqj,1);
+    tot3 = tot3 + arrquest(curqj,2);
+    tot4 = tot4 + arrquest(curqj,3);
+    tot5 = tot5 + arrquest(curqj,4);
+    errmsg( 21, arralph(curqj), arrquest(curqj,1), arrquest(curqj,2), arrquest(curqj,3), arrquest(curqj,4) );
+    minval = arralph(curqj);
+  enddo;
+  errmsg( 22, tot1, tot2, tot3, tot4, tot5 );
+
+PROC HOUSEHOLD
+
+  wline = 0;
+{ For CAPI
+  for i in AHCONTVISIT000 do
+    if AHVRESULT =  9 then
+       AHVRESULT = retother( AHVRESULT, "AHVRESULT", i );
+       if AHVRESULT = 1 then
+          errmsg( 3, edit("9",AHVRESULT), "AHVRESULT" );
+          AHVRESULT = 9
+       endif;
+    endif;
+  enddo;
+}
+  if AHRESULT =  9 then
+//   AHRESULT = retother( AHRESULT, "AHVRESULT", totocc(AHCONTVISIT000) ); // For CAPI following ccIN70.dcf
+     AHRESULT = retother( AHRESULT, "AHRESULT", 0 ); // For paper version following core7.dcf
+     if AHRESULT = 1 then
+        errmsg( 3, edit("9",AHRESULT), "AHRESULT" );
+        AHRESULT = 9
+     endif;
+  endif;
+{ For CAPI
+  if AHRESULT <> AHVRESULT(totocc(AHCONTVISIT000) ) then
+    errmsg("AHRESULT=%d AHVRESULT=%d",AHRESULT,AHVRESULT(totocc(AHCONTVISIT000)) );
+  endif;
+}
+
+  if AHRESULT = 1 then
+    if AH101 = 96 then
+      AH101 = retother( AH101, "AH101", 0 );
+      if AH101 in 11,12,13 then
+        errmsg( 2, "NotAppl", "AH103, AH104, AH105" );
+        AH103 = NotAppl;
+        AH104 = NotAppl;
+        AH105 = NotAppl;
+      elseif AH101 = 91 then
+        errmsg( 2, "Missing", "AH102" );
+        AH102 = Missing;
+      endif;
+    endif;
+
+    if AH102 = 96 then
+      AH102 = retother( AH102, "AH101", 1 );
+      if AH101 in 11,12,13 then
+        errmsg( 2, "NotAppl", "AH103, AH104, AH105" );
+        AH103 = NotAppl;
+        AH104 = NotAppl;
+        AH105 = NotAppl;
+      endif;
+    endif;
+
+    if pos("X",AH108) then
+      x = retother( 0, "AH108", 0 );
+      if x & x <> codex then
+        AH108 = addcode(AH108,x,codex);
+        { Need to drop Z if some other code given as well }
+        if pos("Z",AH108) & length(strip(AH108)) > 1 then
+          AH108 = removecode(AH108,"Z");
+        endif;
+      endif
+    endif;
+
+    if AH109   = 96 then
+      AH109   = retother( AH109, "AH109", 0 );
+      if AH109 = 61 then
+        errmsg( 2, "NotAppl", "AH110, AH111, AH112, AH114, AH115, AH116" );
+        AH110 = notappl;
+        AH111 = notappl;
+        AH112 = notappl;
+        AH114 = notappl;
+        AH115 = notappl;
+        AH116 = notappl;
+      endif;
+	  if AH109 in 12,13,21,22,23,31 then
+        errmsg( 2, "Missing", "AH114" );
+		AH114 = missing;
+      endif;		
+    endif;
+	
+    if AH116 =  6 then AH116 = retother( AH116, "AH116", 0 ) endif;
+	
+    if AH117 = 96 then
+      AH117 = retother( AH117, "AH117", 0 );
+      if AH117 in 1,2,3,4,5 then
+        errmsg( 2, "NotAppl", "AH120" );
+        AH120 = notappl;
+      elseif AH117 in 7,8 then
+        errmsg( 2, "Missing", "AH118, AH119" );
+        AH118 = missing;
+      elseif AH117 in 95 then
+        errmsg( 2, "NotAppl", "AH120, AH121, AH122" );
+        AH120 = notappl;
+        AH121 = notappl;
+        AH122 = notappl;
+      endif;
+    endif;
+	
+    if AH120 = 96 then AH120 = retother( AH120, "AH120", 0 ) endif;
+
+    if AH121 =  6 then
+      AH121 = retother( AH121, "AH121", 0 );
+      if AH121 = 1 then
+        errmsg( 2, "Missing", "AH122" );
+        AH122 = missing;
+      endif;
+    endif;
+	
+    if AH123 = 96 then
+      AH123 = retother( AH123, "AH123", 0 );
+      if AH123 in 2:5 then
+        errmsg( 2, "Missing", "AH124" );
+        AH124 = missing;
+      elseif AH123 in 95 then
+        errmsg( 2, "NotAppl", "AH125" );
+        AH125 = notappl;
+      endif;
+    endif;
+	
+    if AH125 = 96 then AH125 = retother( AH125, "AH125", 0 ) endif;
+    if AH126 = 96 then AH126 = retother( AH126, "AH126", 0 ) endif;
+	
+	for i in AHSEC03 do
+      if AH147 = 96 then AH147 = retother( AH147, "AH147", i ) endif;
+	enddo;
+
+    if AH152 = 96 then AH152 = retother( AH152, "AH152", 0 ) endif;
+    if AH153 = 96 then AH153 = retother( AH153, "AH153", 0 ) endif;
+    if AH154 = 96 then AH154 = retother( AH154, "AH154", 0 ) endif;
+
+    if AH155 =  6 then AH155 = retother( AH155, "AH155", 0 ) endif;
+
+  endif;
+
+PROC INDIVIDUAL
+preproc
+
+  wline = ALINE;
+{ For CAPI
+  for i in ACONTVIST000 do
+    if AVRESULT = 7 then
+       AVRESULT = retother( AVRESULT, "AVRESULT", i );
+       if AVRESULT = 1 then
+          errmsg( 3, edit("9",AVRESULT), "AVRESULT" );
+          AVRESULT = 9
+       endif;
+    endif;
+  enddo;
+}
+  if ARESULT = 7 then
+    ARESULT = retother( ARESULT, "ARESULT", 0 );  // For paper
+    if ARESULT = 1 then
+      errmsg( 3, edit("9",ARESULT), "ARESULT" );
+      ARESULT = 7
+    endif;
+  endif;
+{ For CAPI
+  if ARESULT <> AVRESULT(totocc(ACONTVIST000) ) then
+    errmsg("ARESULT=%d AVRESULT=%d",ARESULT,AVRESULT(totocc(ACONTVIST000)) );
+  endif;
+}
+
+  if ARESULT = 1 then
+
+    if AQTYPE = 2 then     { Women's questionnaire }
+
+      if A109 = 96 then A109 = retother( A109, "A109", 0 ) endif;
+	  if A130 = 96 then A130 = retother( A130, "A130", 0 ) endif;
+      if A131 = 96 then A131 = retother( A131, "A131", 0 ) endif;
+
+      if pos("X",A238) then
+        x = retother( 0, "A238", 0 );
+        if x & x <> codex then
+          A238 = addcode(A238,x,codex);
+          { Need to drop Z if some other code given as well }
+          if pos("Y",A238) & length(strip(A238)) > 1 then
+            A238 = removecode(A238,"Y");
+          endif;
+        endif
+      endif;
+
+      if A242 =  6 then A242 = retother( A242, "A242", 0 ) endif;
+
+      do i = methoth while i <= noccurs(AWSEC31_GRP) 
+        if A301N(i) in methoth:methoth+1 & A301(i) = 1 then 
+          A301N(i) = retother( A301N(i), "A301OT", i ); 
+          if A301N(i) <> i then // code for other method has changed 
+            if     i = methoth   then if pos("AB",A301OT) then A301OT = "B" else A301OT = "Y" endif; 
+            elseif i = methoth+1 then if pos("AB",A301OT) then A301OT = "A" else A301OT = "Y" endif; 
+            endif; 
+          endif; 
+        endif; 
+      enddo; 
+      { Now loop through and check contraceptive table } 
+      { Done in second loop, as some re ordering is done in here } 
+      do i = methoth while i <= noccurs(AWSEC31_GRP) 
+        x = A301N(i); 
+        A301N(i) = i; 
+        if x < methoth & A301(i) = 1 then 
+          errmsg(10,x,i) summary; 
+          A301(x) = 1; 
+        endif; 
+      enddo;
+
+      if A310 = 96 then A310 = retother( A310, "A310", 0 ) endif;
+      if A311 = 96 then A311 = retother( A311, "A311", 0 ) endif;
+      if A312 in 16,26,36,96 then
+        x = int(A312/10);
+        A312 = retother( A312, "A312", 0 );
+        if x <> 9 & x <> int(A312/10) then
+          errmsg( 5, x, int(A312/10), "A312" );
+          errmsg( 6, OTHRESP );
+        endif;
+      endif;
+      if A322 in 16,27,36,96 then
+        x = int(A322/10);
+        A322 = retother( A322, "A322", 0 );
+        if x <> 9 & x <> int(A322/10) then
+          errmsg( 5, x, int(A322/10), "A322" );
+          errmsg( 6, OTHRESP );
+        endif;
+      endif;
+      if A330 in 16,27,36,96 then
+        x = int(A330/10);
+        A330 = retother( A330, "A330", 0 );
+        if x <> 9 & x <> int(A330/10) then
+          errmsg( 5, x, int(A330/10), "A330" );
+          errmsg( 6, OTHRESP );
+        endif;
+      endif;
+
+      for i in AWSEC04_EDT do
+
+        if pos("X",A414) then
+          x = retother( 0, "A414", i );
+          if x & x <> codex then
+            A414 = addcode(A414,x,codex);
+          endif
+        endif;
+
+        if pos("F",A415) then
+          x = retother( 0, "A415", 10*i+1 );
+          if x & x <> pos("F",letcode) then
+            A415 = addcode(A415, x,pos("F",letcode));
+          endif
+        endif;
+        if pos("I",A415) then
+          x = retother( 0, "A415", 10*i+2 );
+          if x & x <> pos("I",letcode) then
+            A415 = addcode(A415,x,pos("I",letcode));
+          endif
+        endif;
+        if pos("L",A415) then
+          x = retother( 0, "A415", 10*i+3 );
+          if x & x <> pos("L",letcode) then
+            A415 = addcode(A415,x,pos("L",letcode));
+          endif
+        endif;
+        if pos("X",A415) then
+          x = retother( 0, "A415", 10*i+4 );
+          if x & x <> codex then
+            A415 = addcode(A415,x,codex);
+          endif
+        endif;
+
+        if pos("F",A427) then
+          x = retother( 0, "A427", 10*i+1 );
+          if x & x <> pos("F",letcode) then
+            A427 = addcode(A427, x,pos("F",letcode));
+          endif
+        endif;
+        if pos("M",A427) then
+          x = retother( 0, "A427", 10*i+2 );
+          if x & x <> pos("M",letcode) then
+            A427 = addcode(A427,x,pos("M",letcode));
+          endif
+        endif;
+        if pos("P",A427) then
+          x = retother( 0, "A427", 10*i+3 );
+          if x & x <> pos("P",letcode) then
+            A427 = addcode(A427,x,pos("P",letcode));
+          endif
+        endif;
+        if pos("X",A427) then
+          x = retother( 0, "A427", 10*i+4 );
+          if x & x <> codex then
+            A427 = addcode(A427,x,codex);
+          endif
+        endif;
+
+        if pos("X",A434) then
+          x = retother( 0, "A434", i );
+          if x & x <> codex then
+            A434 = addcode(A434,x,codex);
+            { Need to drop Y if some other code given as well }
+            if pos("Y",A434) & length(strip(A434)) > 1 then
+              A434 = removecode(A434, "Y");
+            endif;
+          endif
+        endif;
+
+        oldA435 = A435;
+        if A435 in 26,36,46,96 then
+          x = int(A435/10);
+          A435 = retother( A435, "A435", i );
+          if x <> 9 & x <> int(A435/10) then
+            errmsg( 5, x, int(A435/10), "A435" );
+            errmsg( 6, OTHRESP );
+          endif;
+          if oldA435 <> 96 & A435 in 11,12 then
+		    errmsg( 2, "Notappl", "A436");
+			A436 = notappl;
+            if A405 in 1,3 then 
+			  errmsg( 2, "Notappl", "A447 to A463" );
+              A447U = notappl;
+              A447N = notappl;
+              A448  = notappl;
+              A449U = notappl;
+              A449N = notappl;
+              A450  = notappl;
+              A452  = notappl;
+              A453U = notappl;
+              A453N = notappl;
+              A454  = notappl;
+              A455  = notappl;
+              A456U = notappl;
+              A456N = notappl;
+              A457  = notappl;
+              A458  = notappl;
+              A460  = notappl;
+              A461U = notappl;
+              A461N = notappl;
+              A462  = notappl;
+              A463  = notappl;
+			  errmsg( 2, "Missing", "A464 to A472" );
+              A464  = missing;
+              A465U = missing;
+              A465N = missing;
+              A466  = missing;
+              A467  = missing;
+              A469  = missing;
+              A470U = missing;
+              A470N = missing;
+              A471  = missing;
+              A472  = missing;
+            endif;
+	      endif
+        endif;
+
+        if A450 = 96 then A450 = retother( A450, "A450", i ) endif;
+        if A454 = 96 then A454 = retother( A454, "A454", i ) endif;
+        if A457 = 96 then A457 = retother( A457, "A457", i ) endif;
+
+        if A458 in 26,36,46,96 then
+          x = int(A458/10);
+          A458 = retother( A458, "A458", i );
+          if x <> 9 & x <> int(A458/10) then
+            errmsg( 5, x, int(A458/10), "A458" );
+            errmsg( 6, OTHRESP );
+          endif;
+        endif;
+
+        if A462 = 96 then A462 = retother( A462, "A462", i ) endif;
+
+        if A463 in 26,36,46,96 then
+          x = int(A463/10);
+          A463 = retother( A463, "A463", i );
+          if x <> 9 & x <> int(A463/10) then
+            errmsg( 5, x, int(A463/10), "A463" );
+            errmsg( 6, OTHRESP );
+          endif;
+        endif;
+
+        if A466 = 96 then A466 = retother( A466, "A466", i ) endif;
+
+        if A467 in 26,36,46,96 then
+          x = int(A467/10);
+          A467 = retother( A467, "A467", i );
+          if x <> 9 & x <> int(A467/10) then
+            errmsg( 5, x, int(A467/10), "A467" );
+            errmsg( 6, OTHRESP );
+          endif;
+        endif;
+
+        if A471 = 96 then A471 = retother( A471, "A471", i ) endif;
+
+        if A472 in 26,36,46,96 then
+          x = int(A472/10);
+          A472 = retother( A472, "A472", i );
+          if x <> 9 & x <> int(A472/10) then
+            errmsg( 5, x, int(A472/10), "A472" );
+            errmsg( 6, OTHRESP );
+          endif;
+        endif;
+
+      enddo;
+
+      for i in AWSEC05_EDT do
+        if A510 = 96 then A510 = retother( A510, "A510", i ) endif;
+        if A529 in 16,27,36,96 then
+          x = int(A529/10);
+          A529 = retother( A529, "A529", i );
+          if x <> 9 & x <> int(A529/10) then
+            errmsg( 5, x, int(A529/10), "A529" );
+            errmsg( 6, OTHRESP );
+          endif;
+        endif;
+      enddo;
+
+      for i in AWSEC6A_EDT do
+
+        if pos("F",A612) then
+          x = retother( 0, "A612", 10*i+1 );
+          if x & x <> pos("F",letcode) then
+            A612 = addcode(A612,x,pos("F",letcode));
+            if A614 = "F" then
+              A614 = letcode[x:1];
+            endif;
+          endif
+        endif;
+        if pos("M",A612) then
+          x = retother( 0, "A612", 10*i+2 );
+          if x & x <> pos("M",letcode) then
+            A612 = addcode(A612,x,pos("M",letcode));
+            if A614 = "M" then
+              A614 = letcode[x:1];
+            endif;
+          endif
+        endif;
+        if pos("P",A612) then
+          x = retother( 0, "A612", 10*i+3 );
+          if x & x <> pos("P",letcode) then
+            A612 = addcode(A612,x,pos("P",letcode));
+            if A614 = "P" then
+              A614 = letcode[x:1];
+            endif;
+          endif
+        endif;
+        if pos("X",A612) then
+          x = retother( 0, "A612", 10*i+4 );
+          if x & x <> codex then
+            A612 = addcode(A612,x,codex);
+            if A614 = "X" then
+              A614 = letcode[x:1];
+            endif;
+          endif
+        endif;
+
+        if pos("X",A617) then
+          x = retother( 0, "A617", i );
+          if x & x <> codex then
+            A617 = addcode(A617,x,codex);
+          endif
+        endif;
+
+        if A623 = 6 then A623 = retother( A623, "A623", i ) endif;
+
+        if pos("F",A626) then
+          x = retother( 0, "A626", 10*i+1 );
+          if x & x <> pos("F",letcode) then
+            A626 = addcode(A626,x,pos("F",letcode));
+            if A628 = "F" then
+              A628 = letcode[x:1];
+            endif;
+          endif
+        endif;
+        if pos("M",A626) then
+          x = retother( 0, "A626", 10*i+2 );
+          if x & x <> pos("M",letcode) then
+            A626 = addcode(A626,x,pos("M",letcode));
+            if A628 = "M" then
+              A628 = letcode[x:1];
+            endif;
+          endif
+        endif;
+        if pos("P",A626) then
+          x = retother( 0, "A626", 10*i+3 );
+          if x & x <> pos("P",letcode) then
+            A626 = addcode(A626,x,pos("P",letcode));
+            if A628 = "P" then
+              A628 = letcode[x:1];
+            endif;
+          endif
+        endif;
+        if pos("X",A626) then
+          x = retother( 0, "A626", 10*i+4 );
+          if x & x <> codex then
+            A626 = addcode(A626,x,codex);
+            if A628 = "X" then
+              A628 = letcode[x:1];
+            endif;
+          endif
+        endif;
+
+        if pos("I",A631) then
+          x = retother( 0, "A631", 10*i+1 );
+          if x & x <> pos("I",letcode) then
+            A631 = addcode(A631,x,pos("I",letcode));
+            { Need to drop Z if some other code given as well }
+            if pos("Z",A631) & length(strip(A631)) > 1 then
+              A631 = removecode(A631,"Z");
+            endif;
+          endif;
+          if pos("A",A631) & A633 = notappl then
+            A633 = missing;
+            errmsg( 2, "missing", "A633");
+          endif;
+        endif;
+        if pos("X",A631) then
+          x = retother( 0, "A631", 10*i+2 );
+          if x & x <> codex then
+            A631 = addcode(A631,x,codex);
+            { Need to drop Z if some other code given as well }
+            if pos("Z",A631) & length(strip(A631)) > 1 then
+              A631 = removecode(A631,"Z");
+            endif;
+          endif;
+          if pos("A",A631) & A633 = notappl then
+            A633 = missing;
+            errmsg( 2, "missing", "A633");
+          endif;
+        endif;
+
+      enddo;
+
+      if A642  = 96 then A642  = retother( A642, "A642", 0 ) endif;
+      if A728  = 96 then A728  = retother( A728, "A728", 0 ) endif;
+      if A729 in 16,27,36,96 then A729 = retother( A729, "A729", 0 ) endif;
+
+      if A730  =  6 then A730  = retother( A730, "A730", 0 ) endif;
+      if A733  =  6 then A733  = retother( A733, "A730", 1 ) endif;
+      if A736  =  6 then A736  = retother( A736, "A730", 2 ) endif;
+
+      if A805N = 96 then
+        x = retother( A805N, "A805N", 0 );
+        if x < 100 then
+          A805N = x
+        else
+          A805U = int(x/100);
+          A805N = x%100
+        endif;
+        if A805U = 9 & A805N = 94 then
+          if length(strip(A810)) <> 0 then
+            errmsg(2, "NotAppl", "A812");
+            A812 = notappl;
+          endif;
+        elseif A805U in 1,2 then
+          if A232 <> 1 then
+           	if A307N <> notappl Then
+              errmsg(2,"NotAppl","A812");
+      	      A812 = notappl;
+      	    elseif (A805U = 1 & A805N >= 24) | (A805U = 2 & A805N >= 2) then
+      	      if A723U in 1:3 then
+                errmsg(2,"?","A810");
+        	    A810 = "?";
+        	  endif;
+            endif;
+      	   endif;
+        endif;
+      endif;
+
+      if pos("X",A810) then
+        x = retother( 0, "A810", 0 );
+        if x & x <> codex then
+          A810 = addcode(A810,x,codex);
+          { Need to drop Z if some other code given as well }
+          if pos("Z",A810) & length(strip(A810)) > 1 then
+            A810 = removecode(A810,"Z");
+          endif;
+        endif
+      endif;
+
+      if A813  = 96 then 
+	    A813  = retother( A813, "A813", 0 );
+        if valid(A813) & A813 > 0 & A813 < 95 then
+          errmsg(2,"Missing","A814A, A814B, A814C");
+          A814A = missing;
+          A814B = missing;
+          A814C = missing;
+        endif;
+      endif;
+
+      if A814C = 96 then A814C = retother( A814C, "A814C", 0 ) endif;
+      { !! Need to check consistency of A814A,B,C with A813 }
+      if (valid2(A814A) <=> !valid2(A814B)) |
+         (valid2(A814A) <=> !valid2(A814C)) |
+         (valid2(A814A) & A813 <> A814A+A814B+A814C) then
+        errmsg(15,"A813", A813, "A814A", A814A, A814B, A814C )
+      endif;
+
+      if A818 = 6 then 
+	    A818  = retother( A818, "A818", 0 ); 
+        if A818 = 3 then
+          errmsg( 2, "Missing", " A819" );
+          A819 = missing;
+        endif;
+	  endif;
+
+      if A908  = 96 then A908  = retother( A908, "A908", 0 ) endif;
+      if A913  = 96 then A913  = retother( A913, "A908", 1 ) endif;
+      if A919  =  6 then A919  = retother( A919, "A919", 0 ) endif;
+      if A921  =  6 then A921  = retother( A921, "A921", 0 ) endif;
+
+      if A1016 in 18,27,36,96 then
+        x = int(A1016/10);
+        A1016 = retother( A1016, "A1016", 0 );
+        if x <> 9 & x <> int(A1016/10) then
+          errmsg( 5, x, int(A1016/10), "A1016" );
+          errmsg( 6, OTHRESP );
+        endif;
+      endif;
+	  
+	  { code to check if A435 changed }
+      births2 = 0;
+      do i = 1 while i <= totocc(AWSEC04)
+        if A405(i) = 1 then
+          births2 = i;
+          break;
+        endif;
+      enddo;
+      if births2 & A435(births2) in 21:46 & A1019 = notappl then
+        errmsg( 2, "Missing", "A1019, A1020" );
+        A1019 = missing;
+        A1020 = missing;
+      endif;
+
+      if A1026 in 18,27,36,96 then
+        x = int(A1026/10);
+        A1026 = retother( A1026, "A1026", 0 );
+        if x <> 9 & x <> int(A1026/10) then
+          errmsg( 5, x, int(A1026/10), "A1026" );
+          errmsg( 6, OTHRESP );
+        endif;
+      endif;
+
+      if A1102  = 96 then A1102  = retother( A1102, "A1102", 0 ) endif;
+
+      if pos("X",A1109) then
+        x = retother( 0, "A1109", 0 );
+        if x & x <> codex then
+          A1109 = addcode(A1109,x,codex);
+        endif
+      endif;
+
+      if pos("X",A1115) then
+        x = retother( 0, "A1115", 0 );
+        if x & x <> codex then
+          A1115 = addcode(A1115,x,codex);
+        endif
+      endif;
+
+      calint = cmcrow(AINTC);
+	  i = callen;
+	  While i >= calint do
+	    if ACAL(1)[i:1] in "X","Y" then
+		  onemeth = ACAL(1)[i:1]; 
+          j = retother( 0, "ACAL1", i );		// ACAL1 in ccEntry8.app
+          while j & i >= calint & onemeth = ACAL(1)[i:1] do
+            ACAL(1)[i:1] = methcode[j:1];
+            i = i - 1;
+          enddo;
+     	else
+          i = i - 1;
+        endif;
+      enddo; 		
+
+{ *** this instructions are replaced by the loop before  
+      i = pos("X",ACAL(1));
+      if i then
+        j = retother( 0, "ACAL1", i );		// ACALCOL1 in ccEntry8.app
+        while i & j & j <> pos("X",methcode) do
+          ACAL(1)[i:1] = methcode[j:1];
+          i = pos("X",ACAL(1));
+        enddo
+      endif;
+
+      i = pos("Y",ACAL(1));
+      if i then
+        j = retother( 0, "ACAL1", i );
+        while i & j & j <> pos("Y",methcode) do
+          ACAL(1)[i:1] = methcode[j:1];
+          i = pos("Y",ACAL(1));
+        enddo
+      endif;
+ *** }
+ 
+      do i = 1 while i <= callen
+        m = pos(ACAL(1)[i:1],strip(methcode));
+        if m &
+          ((m  < methoth & (A301(m) <> 1 {! A302(m) <> 1})) |
+           (m >= methoth &
+            !((A301N(methoth  ) = m & (A301(methoth  ) = 1 {& A302(methoth  ) = 1})) |
+              (A301N(methoth+1) = m & (A301(methoth+1) = 1 {& A302(methoth+1) = 1})))
+           )) then
+          errmsg(13,i,ACAL(1)[i:1],m,methoth,A301N(methoth),methoth+1,A301N(methoth+1){,Z302(m)})
+        endif;
+        currmeth = m; 
+        if m = methoth then 
+		  currmeth = 95
+        elseif m = methoth+1 then 
+		  currmeth = 96
+        endif;
+        if i = calint & A307N <> currmeth then
+          errmsg(14,i,ACAL(1)[i:1],A307);
+        endif;
+      enddo;
+
+      if totocc( AWSEC2C_EDT ) >= 2 then
+        i = pos("X",ACAL(2));
+        if i then
+          j = retother( 0, "ACAL2", i );	// ACALCOL2 in ccEntry8.app
+          while i & j & j <> pos("X",disccode) do
+            ACAL(2)[i:1] = disccode[j:1];
+            i = pos("X",ACAL(2));
+          enddo
+        endif;
+      endif;
+
+      if pos("X",DV21) then
+        x = retother( 0, "DV21", 0 );
+        if x & x <> codex then
+          DV21 = addcode(DV21,x,codex);
+        endif
+      endif;
+
+      if pos("X",DV23) then
+        x = retother( 0, "DV23", 0 );
+        if x & x <> codex then
+          DV23 = addcode(DV23,x,codex);
+        endif
+      endif;
+
+      if pos("X",DV29) then
+        x = retother( 0, "DV29", 0 );
+        if x & x <> codex then
+          DV29 = addcode(DV29,x,codex);
+        endif
+      endif;
+
+      if pos("X",DV33) then
+        x = retother( 0, "DV33", 0 );
+        if x & x <> codex then
+          DV33 = addcode(DV33,x,codex);
+        endif
+      endif;
+
+    elseif AQTYPE = 1 then    { Men's questionnaire }
+
+      if AM109 = 96 then AM109 = retother( AM109, "AM109", 0 ) endif;
+      if AM130 = 96 then AM130 = retother( AM130, "AM130", 0 ) endif;
+      if AM131 = 96 then AM131 = retother( AM131, "AM131", 0 ) endif;
+
+      do i = methoth while i <= noccurs(AMSEC31_GRP000)
+        if AM3N(i) in methoth:methoth+1 & AM301(i) = 1 then
+           AM3N(i) = retother( AM3N(i), "A301OT", methoth+(i-methoth)+10 )
+        endif;
+      enddo;
+      { Now loop through and check contraceptive table }
+      { Done in second loop, as some re ordering is done in here }
+      do i = methoth while i <= noccurs(AMSEC31_GRP000)
+        x = AM3N(i);
+        if x < methoth & AM301(i) = 1 then
+          errmsg(10,x,i);
+          AM301(x) = 1;
+          do j = i while j < noccurs(AMSEC31_GRP000)
+            AM3N (j) = AM3N (j+1);
+            AM301(j) = AM301(j+1);
+          enddo;
+          AM3N (j) = methoth;
+          AM301(j) = 2;       { should this be notappl? }
+        endif;
+      enddo;
+
+      if AM305 =  6 then AM305 = retother(AM305,"AM305",0) endif;
+      if AM420 = 96 then AM420 = retother(AM420 ,"AM420",0) endif;
+
+
+      if AM421 in 16,27,36,96 then
+        x = int(AM421/10);
+        AM421 = retother( AM421, "AM421", 0 );
+        if x <> 9 & x <> int(AM421/10) then
+          errmsg( 5, x, int(AM421/10), "AM421" );
+          errmsg( 6, OTHRESP );
+        endif;
+      endif;
+
+      if AM422 = 6 then AM422  = retother( AM422, "A730", 10 ) endif;
+      if AM425 = 6 then AM425  = retother( AM425, "A730", 11 ) endif;
+      if AM428 = 6 then AM428  = retother( AM428, "A730", 12 ) endif;
+
+      if AM506N = 96 then
+        x = retother( AM506N, "A805N", 10 );
+        if x < 100 then
+          AM506N = x
+        else
+          AM506U = int(x/100);
+          AM506N = x%100
+        endif;
+      endif;
+
+      if AM508N = 96 then
+        x = retother( AM508N, "A805N", 11 ); 	
+        if x < 100 then
+          AM508N = x
+        else
+          AM508U = int(x/100);
+          AM508N = x%100
+        endif;
+      endif;
+
+      if AM511N = 96 then
+        x = retother( AM511N, "A805N", 12 ); 	
+        if x < 100 then
+          AM511N = x
+        else
+          AM511U = int(x/100);
+          AM511N = x%100
+        endif;
+      endif;
+
+      if AM513N = 96 then
+        x = retother( AM513N, "A805N", 13 ); 	
+        if x < 100 then
+          AM513N = x
+        else
+          AM513U = int(x/100);
+          AM513N = x%100
+        endif;
+      endif;
+
+      if AM514  = 96 then 
+	    AM514  = retother( AM514, "AM514", 0 );
+        if valid(AM514) & AM514 > 0 & AM514 < 95 then
+          errmsg(2,"Missing","AM515A, AM51B, AM515C");
+          AM515A = missing;
+          AM515B = missing;
+          AM515C = missing;
+        endif;
+      endif;
+
+      if AM515A = 96 then AM515A = retother( AM515A, "AM515A", 0 ) endif;
+      if AM515B = 96 then AM515B = retother( AM515B, "AM515B", 0 ) endif;
+      if AM515C = 96 then AM515C = retother( AM515C, "AM515C", 0 ) endif;
+      { !! Need to check consistency of AM515A,B,C with AM514 }
+      if (valid2(AM515A) <=> !valid2(AM515B)) |
+         (valid2(AM515A) <=> !valid2(AM515C)) |
+         (valid2(AM515A) & AM514 <> AM515A+AM515B+AM515C) then
+        errmsg(15,"AM514", AM514, "AM515A", AM515A, AM515B, AM515C)
+      endif;
+
+      if AM604 = 96 then AM604  = retother(AM604 ,"A908" ,2) endif;
+      if AM609 =  6 then AM609  = retother(AM609 ,"AM609",0) endif;
+
+      if AM715 in 16,27,36,96 then
+        x = int(AM715/10);
+        AM715 = retother( AM715, "AM715", 0 );
+        if x <> 9 & x <> int(AM715/10) then
+          errmsg( 5, x, int(AM715/10), "A1016" );
+          errmsg( 6, OTHRESP );
+        endif;
+      endif;
+
+      if pos("X",AM818) then
+        x = retother( 0, "AM818", 0 );
+        if x & x <> codex then
+          AM818 = addcode(AM818,x,codex);
+        endif
+      endif;
+
+    endif;                    { End of questionnaire type }
+
+  endif;                      { End of ARESULT = 1 }

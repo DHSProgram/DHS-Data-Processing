@@ -1,0 +1,124 @@
+[Dictionary]
+Version=CSPro 4.1
+Label=HIV test data description DHS 2016
+Name=HIVTESTDAT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=HIVData questionnaire
+Name=TEST
+
+[IdItems]
+
+[Item]
+Label=Cluster
+Name=HIVCLUST
+Start=1
+Len=6
+
+[Item]
+Label=Household
+Name=HIVNUMB
+Start=7
+Len=6
+
+[Item]
+Label=Line
+Name=HIVLINE
+Start=13
+Len=3
+
+[Record]
+Label=HIVData record
+Name=HIVREC
+RecordTypeValue=''
+RecordLen=39
+
+[Item]
+Label=Bar code
+Name=HIV01
+Start=16
+Len=6
+DataType=Alpha
+
+[Item]
+Label=Lab number
+Name=HIV02
+Start=22
+Len=6
+
+[Item]
+Label=Blood test result
+Name=HIV03
+Start=28
+Len=1
+
+[ValueSet]
+Label=Blood test result
+Name=HIV03_VS1
+Value=0;HIV negative
+Value=1;HIV  positive
+Value=2;HIV2 positive
+Value=3;HIV1 & HIV2 positive
+Value=4;ERROR : V-, W+, M+
+Value=5;ERROR : V-, W+, M-
+Value=6;ERROR : V-, W-, M+
+Value=7;Indeterminate
+Value=8;Not enough samples to complete protocol
+Value=9;Inconclusive
+Value=' '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Sample weight
+Name=HIV05
+Start=29
+Len=8
+
+[Item]
+Label=Assay 1 result
+Name=HIV06
+Start=37
+Len=1
+
+[ValueSet]
+Label=Assay 1 result
+Name=HIV06_VS1
+Value=0;HIV negative
+Value=1;HIV  positive
+Value=' '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Assay 2 result
+Name=HIV07
+Start=38
+Len=1
+
+[ValueSet]
+Label=Assay 2 result
+Name=HIV07_VS1
+Value=0;HIV negative
+Value=1;HIV  positive
+Value=' '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Assay 3 result
+Name=HIV08
+Start=39
+Len=1
+
+[ValueSet]
+Label=Assay 3 result
+Name=HIV08_VS1
+Value=0;HIV negative
+Value=1;HIV  positive
+Value=7;Indeterminate
+Value=9;Inconclusive
+Value=' '
+Name=NOTAPPL,Special

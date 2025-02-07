@@ -1,0 +1,211 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 250-499 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 250 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+tmm1 columns mort = 0 nodec
+             mort = 1 nodec
+             mort = 2 2;
+tmm1 footnote
+{+US}
+@1 Expressed per 1,000 population~
+@a Age-adjusted rate
+{US+}
+{{SP}
+@1 Expresado por 1,000 personas-años de exposición~
+@a Tasa ajustada por edad
+{SP}}
+{{FR}
+@1 Exprimé pour 1 000~
+@a Taux ajusté par âge
+{FR}}
+endfootnote;
+
+tmm2 footnote
+{+US}
+@1 The probability of dying between exact ages 15 and 50, expressed per 1,000 persons at age 15
+{US+}
+{{SP}
+@1 La probabilidad de morir entre las edades exactas de 15 y 50 años, expresada por cada 1,000 persona a los edad de 15 años
+{SP}}
+{{FR}
+@1 Probabilité de décéder entre les âges exacts 15 et 50, exprimé pour 1 000 personnes à l’âge de 15 
+{FR}}
+endfootnote;
+
+tmm3 columns deathex = 1 1
+             deathex = 2 nodec
+             deathex = 3 nodec
+             deathex = 4 2;
+tmm3 footnote
+{+US}
+@1 A maternal death is defined as the death of a woman while pregnant or within 42 days of
+   termination of pregnancy, from any cause except accidents or violence~
+@2 Expressed per 1,000 woman-years of exposure~
+@a Age-adjusted rate
+{US+}
+{{SP}
+@1 Una muerte materna se define como la muerte de una mujer mientras está embarazada o dentro
+   de los 42 días siguientes a la terminación del embarazo, por cualquier causa, salvo accidentes o la violencia~
+@2 Expresado por 1,000 mujer-años de exposición~
+@a Tasa ajustada por edad
+{SP}}
+{{FR}
+@1 Est considéré comme un décès maternel, le décès d’une femme qui se produit pendant la grossesse ou dans
+   les 42 jours qui suivent la fin de grossesse, quelle qu’en soit la cause, excepté les accidents ou les actes de violence.~
+@2 Exprimé pour 1 000 femmes années d’exposition~
+@a Taux ajusté par âge
+{FR}}
+endfootnote;
+
+tmm4 rows  raterisk = 0 1
+           raterisk = 3 3;
+tmm4 footnote
+{+US}
+CI: Confidence interval~
+@1 Age-adjusted rate expressed per 1,000 women age 15-49~
+@2 Expressed per 100,000 live births; calculated as the age-adjusted maternal
+   mortality rate (shown in Table MM.3) times 100 divided by the age-adjusted general fertility rate~
+@3 Calculated as 1-(1-MMR){\super TFR} where TFR represents the total fertility
+   rate for the seven years preceding the survey
+{US+}
+{{SP}
+IC: Intervalo de confianza~
+@1 Tasa ajustada por edad expresado por 1,000 mujeres de 15-49 años de edad~
+@2 Expresado por cada 100,000 nacidos vivos; calculado como la tasa de mortalidad materna ajustada por
+   edad (muestra en Cuadro MM.3) multiplicado por 100, dividido por la tasa general de fecundidad ajustada por edad~
+@3 Calculado como 1-(1-RMM){\super TGF} donde TGF representa la tasa global de fecundidad para los siete años anteriores a la encuesta
+{SP}}
+{{FR}
+@1 Taux ajusté par âge exprimé pour 1 000 femmes de 15-49 ans.~
+@2 Exprimé pour 100 000 naissances vivantes ; calculé comme suit [Taux de mortalité maternelle ajusté par
+   âge (présenté au Tableau MM.3) x 100 / TGFG ajusté par âge.~
+@3 Calculé à partir de la formule suivante : 1-(1-RMM){\super ISF} ou l’ISF est l’indice synthétique
+   de fécondité pour la période de 7 ans précédant l’enquête.
+{FR}}
+endfootnote;
+
+tc8 columns numpcta = 1 nodec
+            numpctb = 1 nodec
+            numpctc = 1 nodec;
+
+tmw rows    deaths  = 2 nodec;
+tmw footnote
+{+US}
+Note: Restricted to sisters who died during the seven years preceding the survey
+{US+}
+{{SP}
+Note: Restringido para las hermanas que murieron en los siete años anteriores a la encuesta
+{SP}}
+endfootnote;
+
+tc17 footnote
+{+US}
+@1 Includes the respondent~
+@2 Excludes the respondent
+{US+}
+{{SP}
+@1 Incluye la entrevistada~
+@2 Excluye la entrevistada
+{SP}}
+{{FR}
+@1 Y compris l’enquêtée~
+@2 Non compris l’enquêtée
+{FR}}
+endfootnote;
+{
+tc17w noprint;
+}
+
+tc18 rows  fertmm = 0 1
+           fertmm = 1 0
+           fertmm = 2 0
+           fertmm = 3 0
+           fertmm = 4 0
+           fertmm = 5 3;
+tc18 footnote
+{+US}
+@1 Pregnancy-related mortality is defined as the death of a woman while pregnant or within 2 months of termination of pregnancy, from any cause including accidents or violence~
+@2 Expressed per 1,000 woman-years of exposure~
+@3 Age-adjusted rate expressed per 1,000 women age 15-49~
+@4 Expressed per 100,000 live births; calculated as the age-adjusted pregnancy-related mortality rate times 100 divided by the age-adjusted general fertility rate~
+@5 Calculated as 1-(1-PRMR){\super TFR} where TFR represents the total fertility rate for the seven years preceding the survey~
+@a Age-adjusted rate
+{US+}
+{{SP}
+@1 Mortalidad en relacion con el embarazo se define como la muerte de una mujer mientras está embarazada o dentro de los 2 meses de la terminación del embarazo, por cualquier causa, incluyendo accidentes o la violencia~
+@2 Expresado por 1,000 mujer-años de exposición~
+@3 Tasa ajustada por edad expresado por 1,000 mujeres de 15-49 años de edad~
+@4 Expresado por cada 100,000 nacidos vivos; calculado como la tasa de mortalidad relacionada con el embarazo ajustada por edad multiplicado por 100, dividido por la tasa global de fecundidad ajustada    por edad~
+@5 Calculado como 1-(1-RMRE){\super TGF} donde TGF representa la tasa global de fecundidad para los siete años anteriores a la encuesta~
+@a Tasa ajustada por edad
+{SP}}
+{{FR}
+@1 Est défini comme étant lié à la grossesse, tout décès de femme qui se produit pendant la grossesse ou dans les 2 mois qui suivent la fin de la grossesse,
+   quelle qu’en soit la cause y compris les accidents ou les actes de violence~
+@2 Exprimé pour 1 000 femmes années d’exposition~
+@3 Taux ajusté par âge exprimé pour 1 000 femmes de 15-49 ans~
+@4 Exprimé pour 100 000 naissances vivantes ; calculé comme suit [Taux de mortalité liée à la grossesse standardisé par âge x 100 / TGFG ajusté par âge~
+@5 Calculé à partir de la formule suivante : 1-(1-RMG){\super ISF} ou l’ISF est l’indice synthétique de fécondité pour la période de 7 ans précédant l’enquête~
+@a Taux ajustés par âge
+{FR}}
+endfootnote;
+
+tc18w columns pctexpmm = 1 1
+              pctexpmm = 2 nodec
+              pctexpmm = 3 nodec
+              pctexpmm = 4 2;
+tc18w footnote
+{+US}
+@1 Pregnancy-related mortality is defined as the death of a woman while pregnant or within 2 months of termination of pregnancy, from any cause including accidents or violence~
+@2 Expressed per 1,000 woman-years of exposure~
+@a Age-adjusted rate
+{US+}
+{{SP}
+@1 Mortalidad en relacion con el embarazo se define como la muerte de una mujer mientras está embarazada o dentro de los 2 meses de la terminación del embarazo, por cualquier causa, incluyendo accidentes o la violencia~
+@2 Expresado por 1,000 mujer-años de exposición~
+@a Tasa ajustada por edad
+{SP}}
+endfootnote;
+
+{ tables F1W, MMTW, PMTW, AMMW and AMFW are necessary to do the calculation but they don't need to be printed }
+{ if analysts request to print them out, just delete the lines with the tables' NOPRINT instructions    }
+f1w columns  fert = 0 nodec
+             fert = 1 nodec;
+
+amfw columns mort = 0 nodec
+             mort = 1 nodec;
+
+ammw columns mort = 0 nodec
+             mort = 1 nodec;
+
+mmtw columns mort = 0 nodec
+             mort = 1 nodec;
+
+pmtw columns mort = 0 nodec
+             mort = 1 nodec;
+{
+f1w  noprint;
+ammw noprint;
+amfw noprint;
+mmtw noprint;
+pmtw noprint;
+agedis noprint;
+}

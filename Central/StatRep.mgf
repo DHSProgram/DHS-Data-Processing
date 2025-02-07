@@ -1,0 +1,14 @@
+﻿Language = ES
+{ common string used by application }
+  ES ( "Status report for DHS survey, Country: XXXX" ) Reporte del estado de la encuesta DHS, pais: XXXX
+  ES ( "Report Date: %s (dd/mm/yyyy)" ) Fecha del reporte: %s (dd/mm/aaaa)
+  ES ( "Cluster" ) Segmento
+  ES ( "Date started" ) Fecha inicio
+  ES ( "Supervisor" ) Supervisor(a)
+  ES ( "Date accepted" ) Fecha acepto
+  ES ( "No. edits" ) No. ediciones
+  ES ( "Households" ) Hogares
+  ES ( "Individuals" ) Individuales
+  ES ( "Date closed" ) Fecha cerrado
+  ES ( "SUMMARY" ) RESUMEN
+  ES ( "Totals" ) Totales

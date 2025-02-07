@@ -1,0 +1,40 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=Transmittal sheet to use when merging lab and DHS
+Name=NEWTRANS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=NewTrans questionnaire
+Name=NEWTRANS_QUEST
+
+[IdItems]
+
+[Item]
+Label=Barcode
+Name=NBARCODE
+Start=1
+Len=5
+DataType=Alpha
+
+[Record]
+Label=NewTrans record
+Name=NEWTRANS_REC
+RecordTypeValue=''
+RecordLen=12
+
+[Item]
+Label=Cluster number
+Name=NCLUSTER
+Start=6
+Len=4
+
+[Item]
+Label=Line number in transmittal sheet
+Name=NLINE
+Start=10
+Len=3

@@ -1,0 +1,152 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=Sample selection|Seleccion de muestra
+Name=SAMPSEL
+RecordTypeStart=5
+RecordTypeLen=1
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=664B1469BAA30E2DA95CD2EB4F70506F54A26C8ED92400A45E1785E991BE14C4
+
+[Languages]
+EN=English
+ES=Español
+
+[Level]
+Label=Households selected for sample|Hogares seleccionados para la muestra
+Name=SAMPSEL_QUES
+
+[IdItems]
+
+[Item]
+Label=Cluster number|Numero de segmento
+Name=XCLUSTER
+Start=1
+Len=4
+ZeroFill=Yes
+
+[Record]
+Label=Cluster general information|Informacion general del segmento
+Name=SAMREC1
+RecordTypeValue='1'
+RecordLen=17
+
+[Item]
+Label=Total household in cluster|No. de hogares totales en el segmento
+Name=XTOTAL
+Start=6
+Len=3
+
+[Item]
+Label=Date cluster household data was entered|Fecha de ingreso de hogares en el segmento
+Name=XCLDATE
+Start=9
+Len=8
+
+[Item]
+Label=Changes to households originally selected|Cambios a hogares seleccionados originalmente
+Name=XCHANGE
+Start=17
+Len=1
+
+[ValueSet]
+Label=Changes to households originally selected|Cambios a hogares seleccionados originalmente
+Name=XCHANGE_VS1
+Value=1;See table of assignments|Ver tabla de asignacion
+Value=2;Assign interviewers|Asignar entrevistadoras(es)
+Value=3;Change household addresses|Cambio direcciones hogares
+Value=4;Change household head names|Cambio nombres de jefes de hogar
+Value=5;Add a household|Adicionar un hogar
+Value=6;Change selection for men survey|Cambio seleccion hombres
+Value=9;Return to main menu|Regresar al menu principal
+
+[Record]
+Label=Record for households selected|Registro de hogares seleccionados
+Name=SAMREC2
+RecordTypeValue='2'
+Required=No
+MaxRecords=60
+RecordLen=98
+
+[Item]
+Label=Household number|Numero de hogar
+Name=XNUMBER
+Start=6
+Len=4
+
+[Item]
+Label=Structure number|Numero de estructura
+Name=XSTRUCT
+Start=10
+Len=4
+
+[Item]
+Label=Household address|Direccion del hogar
+Name=XADDRESS
+Start=14
+Len=40
+DataType=Alpha
+
+[Item]
+Label=Name of household head|Nombre del jefe del hogar
+Name=XNAME
+Start=54
+Len=30
+DataType=Alpha
+
+[Item]
+Label=Household selected for male survey|Hogar seleccionado para encuesta de hombres
+Name=XMALE
+Start=84
+Len=1
+
+[ValueSet]
+Label=Household selected for male survey|Hogar seleccionado para encuesta de hombres
+Name=XMALE_VS1
+Value=1;Yes|Si
+Value=2;No|No
+
+[Item]
+Label=Household selected for anemia testing|Hogar seleccionado para prueba de anemia
+Name=XANEMIA
+Start=85
+Len=1
+
+[ValueSet]
+Label=Household selected for anemia testing|Hogar seleccionado para prueba de anemia
+Name=XANEMIA_VS1
+Value=1;Yes|Si
+Value=2;No|No
+
+[Item]
+Label=Interviewer assigned to household|Entrevistador(a) asignado al hogar
+Name=XINTCODE
+Start=86
+Len=4
+
+[Item]
+Label=Data household assigned to interviewer|Fecha se asigno el hogar al entrevistador(a)
+Name=XINTDATE
+Start=90
+Len=8
+
+[Item]
+Label=Household result an whether collected or not|Resultado del hogar y si se ha recolectado
+Name=XRESULT
+Start=98
+Len=1
+
+[ValueSet]
+Label=Household result an whether collected or not|Resultado del hogar y si se ha recolectado
+Name=XRESULT_VS1
+Value=0;Not visited yet|Aun no visitado
+Value=1;Completed|Completo
+Value=2;No HH member at home|No hay miembros en el hogar
+Value=3;Absent|Ausente
+Value=4;Postponed|Postpuesto
+Value=5;Refused|Rechazo
+Value=6;Dwelling vacant|Vivienda desocupada
+Value=7;Dwelling destroyed|Vivienda destruida
+Value=8;Dwelling not found|Vivienda no encontrada
+Value=9;Other|Otro

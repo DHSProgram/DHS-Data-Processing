@@ -1,0 +1,139 @@
+﻿PROC GLOBAL
+  { DHS-V transmittal sheet entry application   version 1.0.0  03/24/06 }
+
+  numeric  i, n, x, checkdig, base, err, maxcodes, first, xcluster, oldtbcodes;
+
+  { setup basic user bar }
+  function userbase();
+    userbar( clear );
+    userbar( add button, "<",    do("PreviousField") );
+    userbar( add button, ">",    do("NextField") );
+    userbar( add button, ">>|",  do("AdvanceToEnd") );
+    userbar( add button, "Lang", do("ChangeLanguage") );
+  end;
+
+  { set value sets based on language }
+  function OnChangeLanguage()
+    SetLanguage( getlanguage() );
+  end;
+
+PROC TRANSMIT_FF
+preproc
+  xcluster = tonumber( sysparm()[1:4] );
+  SetLanguage( getlanguage() );
+
+  setproperty(TRANSMIT, "ShowExtendedControlTitle", "No");
+
+  { set up minimal user bar }
+  userbase();
+  userbar( show );
+
+  maxcodes = 99;       { !! adjust this constant and number of ocurrences if more than 99 }
+
+postproc
+  stop(-1);
+
+PROC TRANSMIT_QUEST
+  stop(-1);
+
+PROC TCLUSTER
+preproc
+  if demode() = add then
+    $ = xcluster;
+  endif;
+
+PROC TBCODES
+preproc
+  if demode() = add & visualvalue($) = notappl then
+    $ = 0;
+  endif;
+
+postproc
+  oldtbcodes = $;
+
+PROC TAUXILIAR
+  n = totocc( TRECORD2_ROSTER );
+  if $ = 1 then                       { add a new household }
+    advance to TLINE(n+1);
+  elseif $ = 2 then                   { delete a household }
+    if n = 0 then
+      errmsg( 0005 );
+      reenter
+    else
+      set attributes( TLINE ) autoskip;
+      set attributes( TBARCODE, TMORE ) protect;
+    endif;
+  elseif n = 0 then                   { exit household listing }
+    stop(-1)
+  else
+    advance to TLINE(n+1);
+  endif;
+
+PROC TLINE
+preproc
+  { errmsg( "%s", getlabel( TAUXILIAR_SPA, TAUXILIAR ) ); }
+  n = curocc();
+  if visualvalue($(n)) = notappl & curocc() = 1 then
+    $ = 1
+  elseif visualvalue($(n)) = notappl & TAUXILIAR = 1 then
+    $ = $(n-1) + 1
+  endif;
+
+postproc
+  if TAUXILIAR = 2 & $ = 0 then
+    if curocc() = oldtbcodes then
+      TBCODES = curocc() - 1;
+      $ = notappl;
+      endlevel;
+    endif;
+    do i = curocc() while i < totocc( TRECORD2_ROSTER )
+      TLINE(i)    = visualvalue( TLINE(i+1) ) - 1;
+      TBARCODE(i) = TBARCODE(i+1);
+      TMORE(i)    = visualvalue( TMORE(i+1) );
+    enddo;
+    TLINE(i)    = notappl;
+    TBARCODE(i) = " ";
+    TMORE(i)    = notappl;
+    advance to  TMORE(i-1);
+  elseif curocc() <> $ then
+    errmsg( 0486, curocc() );
+    $ = curocc();
+    reenter TAUXILIAR
+  endif;
+  TBCODES = curocc();
+
+PROC TBARCODE
+  { check for duplicates }
+  n = curocc();
+  for i in TRECORD2_ROSTER do
+    if TLINE <> TLINE(n) & $ = $(n) then
+      errmsg( 0485, i );
+      reenter
+    endif;
+  enddo;
+  { check barcode composition }
+  x = BarCodeError( $ );
+  if x = 1 then
+    { missing should be one "?" in first position }
+    errmsg( 0494, $ );
+    reenter;
+  elseif x = 2 then
+    { sequence of characters incorrect }
+    errmsg( 0495, $ );
+    reenter
+  elseif x = 3 then
+    { check digit incorrect }
+    errmsg( 0496, $ );
+    reenter
+  endif;
+
+PROC TMORE
+preproc
+  if curocc() = totocc( TRECORD2_ROSTER ) & TAUXILIAR = 1 then
+    $ = 1
+  endif;
+
+postproc
+  if $ <> 1 | curocc() > maxcodes then
+    endlevel;
+  endif;

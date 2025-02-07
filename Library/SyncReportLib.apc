@@ -1,0 +1,1702 @@
+﻿  //SyncCloud Web reports tabulation library
+  //Version 1.0.5 - 2022-04-26
+  //CSPro version - 7.7
+
+  //abbreviations
+  // Sc_  SyncCloud reporting tool element
+  // Ds_  Data source
+
+  //constants for column types
+  numeric Sc_int = 0;		// contains integer
+  numeric Sc_float = 1;	// contains floating point number
+  numeric Sc_string = 2;	// contains strings
+  numeric Sc_branch = 10;	// contains a branch
+    
+  string Sc_separator = ","; //cell value separator character - used when writing out XML
+
+  List string Spl;
+  //Splits a string delimited by 'splitChar' into a list of substrings 'Spl'
+  //Returns count of split strings
+  function Split(string input, alpha(1) splitChar, optional maxCount = 0)
+    Spl.Clear();
+    string gv_line;
+    numeric gv_p = pos(splitChar, input);
+	while gv_p & (!maxCount | Spl.Length() < maxCount - 1) do
+	  Spl.Add(input[1:gv_p - 1]);
+	  input = input[gv_p + 1:length(strip(input)) - gv_p];
+	  gv_p = pos(splitChar, input);
+    enddo;
+	Spl.Add(input);
+	
+	Split = Spl.Length();
+  end;
+
+   //Hash maps to store data source IDs, labels, and global context
+   HashMap string Sc_DataSources default("");
+   HashMap Sc_DataSourceGlobalContext default(default);
+   HashMap Sc_DataSourceGlobalContextFactor default(6);
+
+   //Sets the data source label for a data source ID
+   function SetDataSource(dsId, string dsLabel, optional globalContext = default, globalContextFactor = 6)
+     Sc_DataSources(dsId) = dsLabel;
+	 if !special(globalContext) then
+	   Sc_DataSourceGlobalContext(dsId) = globalContext;
+	   Sc_DataSourceGlobalContextFactor(dsId) = globalContextFactor;
+	 endif;
+     SetDataSource = dsId;
+   end;
+   
+   function SetDsGlobalContext(dsId, globalContext, optional globalContextFactor = 6)
+     if length(Sc_DataSources(dsId)) then
+	   Sc_DataSourceGlobalContext(dsId) = globalContext;
+	   Sc_DataSourceGlobalContextFactor(dsId) = globalContextFactor;
+	 endif;
+   end;
+   
+   function SetGlobalContext(globalContext, optional globalContextFactor = 6)
+     List string dsKeys;
+	 Sc_DataSources.GetKeys(dsKeys);
+	 
+     do numeric i = 1 while i <= dsKeys.Length() by 1
+	   SetDsGlobalContext(tonumber(dsKeys(i)), globalContext, globalContextFactor);
+	 enddo;   
+   end;
+   
+   //Data source columns
+   List Sc_Ds_ColumnIndex;
+   List string Sc_Ds_ColumnParentAddress;
+   List string Sc_Ds_ColumnLabel;
+   List Sc_Ds_ColumnType;
+   List Sc_Ds_ColumnDataSourceId;
+   List string Sc_Ds_ColumnFullAddress; //full column address in format (dsId:parentAddress/columnIndex)
+   List Sc_Ds_ColumnParentAbsIndex; //pointer to parent absolute index
+   
+   //Adds a column to the data source and returns address
+   function string AddDsColumn(dsId, string columnLabel, optional columnType = 0, optional string parentAddress = "")
+	 numeric c = Sc_Ds_ColumnIndex.Length();
+	 numeric nextIdx = 0;
+	 
+     do numeric i = c while i >= 1 by (-1)
+	   if Sc_Ds_ColumnDataSourceId(i) = dsId & Sc_Ds_ColumnParentAddress(i) = parentAddress then
+	     nextIdx = Sc_Ds_ColumnIndex(i) + 1;
+	     break;
+	   endif;
+     enddo;	 
+	 
+     string pAddr = parentAddress;
+     if length(pAddr) then
+       pAddr = pAddr + "/";
+     endif;	 
+	 
+	 Sc_Ds_ColumnIndex.Add(nextIdx);
+	 Sc_Ds_ColumnParentAddress.Add(parentAddress);
+	 Sc_Ds_ColumnLabel.Add(columnLabel);
+	 Sc_Ds_ColumnType.Add(columnType);
+	 Sc_Ds_ColumnDataSourceId.Add(dsId);
+	 Sc_Ds_ColumnFullAddress.Add(MakeText("%d:%s%d", dsId, pAddr, nextIdx));
+	 
+     //setting parent absolute index
+	 Sc_Ds_ColumnParentAbsIndex.Add(Sc_Ds_ColumnFullAddress.Seek(maketext("%d:%s", dsId, parentAddress)));
+	 
+	 AddDsColumn = MakeText("%s%d", pAddr, nextIdx);
+   end;
+   
+   //for testing the 
+   function testArrays()
+     do numeric i = 1 while i <= Sc_Ds_ColumnIndex.Length() by 1
+	   write("%d,%s,%s,%d,%d,%s,%d", 
+	         Sc_Ds_ColumnIndex(i), 
+			 Sc_Ds_ColumnParentAddress(i), 
+			 Sc_Ds_ColumnLabel(i), 
+			 Sc_Ds_ColumnType(i), 
+			 Sc_Ds_ColumnDataSourceId(i), 
+			 Sc_Ds_ColumnFullAddress(i), 
+			 Sc_Ds_ColumnParentAbsIndex(i));
+	 enddo;
+   end;
+
+   //Context list - typically row variables in a table
+   List Sc_Context;
+   List Sc_ContextDataSourceId;
+   List string Sc_ContextFullAddress;
+   
+   //Gets or adds a context to the context list and returns absolute context index
+   function SetContext(dsId, contextId)
+     //appending contextID to the global context
+	 numeric gc = Sc_DataSourceGlobalContext(dsId);
+	 if !special(gc) then
+	  numeric factor = Sc_DataSourceGlobalContextFactor(dsId);
+	  if factor then
+	    contextId = gc * 10 ^ factor + contextId;
+	  endif;
+	 endif;
+   
+     string contextAddr = maketext("%d:%d", dsId, contextId);
+     numeric res = Sc_ContextFullAddress.Seek(contextAddr);
+	 
+     if res = 0 then
+	   Sc_Context.Add(contextId);
+	   Sc_ContextDataSourceId.Add(dsId);
+	   Sc_ContextFullAddress.add(contextAddr);
+       res = Sc_Context.Length();
+     endif;	 
+	 
+	 SetContext = res;
+   end;
+
+   //--- dates management
+   
+   //hash map for dates and times for data sources
+   HashMap Sc_DsDates default(default) ;
+   HashMap Sc_DsTimes default(0) ;
+   
+   //creates time stamp string from a date and time
+   function string GetTimeStamp(date, time)
+     GetTimeStamp = maketext("%sT%s.0000000", edit("9999-99-99", date), edit("99:99:99", time));
+   end;
+   
+   function string GetCurrentUDateTime()
+     GetCurrentUDateTime = GetTimeStamp(sysdate("YYYYMMDD"), systime());
+   end;
+
+   //gets a date for a data source
+   //if no date set, returns current date
+   function string GetDsUDateTime(dsId)
+	 if special(Sc_DsDates(dsId)) then
+	   exit GetCurrentUDateTime();
+	 endif;
+	 
+	 GetDsUDateTime = GetTimeStamp(Sc_DsDates(dsId), Sc_DsTimes(dsId));
+   end;
+   
+   //checks for a valid date - returns 1 if valid, 0 if not valid
+   function ValidDate(year, month, day)
+     recode year % 4 :: month                 :: day   -> numeric res;
+	                 :: 1, 3, 5, 7, 8, 10, 12 :: 1:31  -> 1;
+			         :: 4, 6, 9, 11           :: 1:30  -> 1;
+			         :: 2                     :: 1:28  -> 1;
+			  0      :: 2                     :: 29    -> 1;
+			                                           -> 0;
+	 endrecode;
+	 
+	 ValidDate = res;
+   end;   
+   
+   //Setting date for the data source
+   function setDsUDate(dsId, year, month, day)
+     //checking if valid date
+     if !validDate(year, month, day) then
+	   errmsg("Invalid date (%04D/%02D/%02D)", year, month, day);
+       exit;
+     endif;	 
+   
+     Sc_DsDates(dsId) = year * 10000 + month * 100 + day;
+   end;
+   
+   //Setting date for all data sources
+   function setUDate(year, month, day)
+     List string dsKeys;
+	 Sc_DataSources.GetKeys(dsKeys);
+	 
+     do numeric i = 1 while i <= dsKeys.Length() by 1
+	   setDsUDate(tonumber(dsKeys(i)), year, month, day)
+	 enddo;   
+   end;
+   
+   //checks for a valid time - returns 1 if valid, 0 if not valid
+   function validTime(hours, minutes)
+     recode hours :: minutes -> numeric res;
+	        0:23  :: 0:59    -> 1;
+			      ::         -> 0;
+	 endrecode;
+	 
+	 validTime = res;
+   end;   
+   
+   //Setting time for the data source
+   function setDsUTime(dsId, hours, minutes)
+     //checking if valid time
+	 if !validTime(hours, minutes) then
+	   errmsg("Invalid time (%02D:%02D)", hours, minutes);
+       exit;
+     endif;	 
+   
+     Sc_DsTimes(dsId) = hours * 100 + minutes;
+   end;
+
+   //Setting time for all data sources
+   function setUTime(hours, minutes)
+     List string dsKeys;
+	 Sc_DataSources.GetKeys(dsKeys);
+	 
+     do numeric i = 1 while i <= dsKeys.Length() by 1
+	   setDsUTime(tonumber(dsKeys(i)), hours, minutes)
+	 enddo;   
+   end;
+
+   //hash map for dates and times for contexts (row variables)
+   HashMap Sc_ContextDates default(default) ;
+   HashMap Sc_ContextTimes default(0) ;
+   
+   //get a date for a context
+   //if no context set, returns data source date
+   function string GetContextUDateTime(dsId, contextId)
+     //getting context index
+	 string contextAddr = maketext("%d:%d", dsId, contextId);
+     numeric contextAbsIdx = Sc_ContextFullAddress.Seek(contextAddr);
+	 
+	 //if no such context, returns data source date
+	 //if no such data source or data source date not set, returns current date
+	 if contextAbsIdx = 0 then
+	   exit GetDsUDateTime(dsId);
+	 endif;
+	 
+	 //if context exists but no date is set, returns data source date
+	 //if no such data source or data source date not set, returns current date
+	 if special(Sc_ContextDates(contextAbsIdx)) then
+	   exit GetDsUDateTime(dsId);
+	 endif;
+	 
+	 GetContextUDateTime = GetTimeStamp(Sc_ContextDates(contextAbsIdx), Sc_ContextTimes(contextAbsIdx));
+   end;
+   
+   //Setting date for the context
+   function SetContextUDate(dsId, contextId, year, month, day)
+     //getting context index
+	 string contextAddr = maketext("%d:%d", dsId, contextId);
+     numeric contextAbsIdx = Sc_ContextFullAddress.Seek(contextAddr);
+	 
+	 //checking if context exists
+	 if contextAbsIdx = 0 then
+	   errmsg("Context %d not found in data source %d", contextId, dsId);
+	   exit;
+	 endif;
+	 
+     //checking if valid date
+     if !validDate(year, month, day) then
+	   errmsg("Invalid date (%04D/%02D/%02D)", year, month, day);
+       exit;
+     endif;	 
+   
+     Sc_ContextDates(contextAbsIdx) = year * 10000 + month * 100 + day;
+   end;
+   
+   //Setting time for the context
+   function SetContextUTime(dsId, contextId, hours, minutes)
+     //getting context index
+	 string contextAddr = maketext("%d:%d", dsId, contextId);
+     numeric contextAbsIdx = Sc_ContextFullAddress.Seek(contextAddr);
+	 
+	 //checking if context exists
+	 if contextAbsIdx = 0 then
+	   errmsg("Context %d not found in data source %d", contextId, dsId);
+	   exit;
+	 endif;
+	 
+     //checking if valid time
+	 if !validTime(hours, minutes) then
+	   errmsg("Invalid time (%02D:%02D)", hours, minutes);
+       exit;
+     endif;	 
+   
+     Sc_ContextTimes(contextAbsIdx) = hours * 100 + minutes;
+   end;
+
+   //--- Tabulation
+
+   //data matrices for holding numeric and string data
+   array Sc_DataMatrix (999, 3000);
+   array string Sc_DataMatrixString (9999, 9999);
+   
+   function ClearDataMatrix()
+     Sc_DataMatrix.Clear();
+	 Sc_DataMatrixString.Clear();
+	 
+	 Sc_Context.Clear();
+     Sc_ContextDataSourceId.Clear();
+     Sc_ContextFullAddress.Clear();
+   end;
+   
+   //Tabulating numeric data
+   function Ztab(dsId, contextId, columnIndex, optional string parentColumnAddress = "", optional weighting = 1) 
+     //dsId - Data Source ID, similar to a table number
+	 //contextId - similar to a row variable category
+	 //columnIndex - similar to a column variable category
+	 //parentColumnAddress - used when there are branches in the columns
+	 //weight - the weight variable used when tallying the numbers
+	 
+	 if special(contextId) then exit; endif;
+	 
+     //finding absolute column index
+	 string pAddr = parentColumnAddress;
+     if length(pAddr) then
+       pAddr = pAddr + "/";
+     endif;	 
+	 string colAddr = MakeText("%d:%s%d", dsId, pAddr, columnIndex); // construct the column address
+	 
+	 numeric colAbsIdx = Sc_Ds_ColumnFullAddress.Seek(colAddr); // find the column full address for this column
+	 
+	 if colAbsIdx = 0 then
+	   errmsg("Column with address %s not found", pAddr);
+	   exit;
+	 endif;
+	 
+	 //we don't tabulate branches directly
+	 numeric colType = Sc_Ds_ColumnType(colAbsIdx);
+	 if colType = Sc_branch then
+	   errmsg("Column address %s points to a branch. Cannot tabulate branches directly", pAddr);
+	   exit;
+	 elseif colType = Sc_string then //neither do we tabulate strings with this function
+	   errmsg("Column address %s points to a string cell. Cannot tabulate strings with 'Ztab' function. Use 'Stab' function instead", pAddr);
+	   exit;
+	 endif;
+	 
+	 //finding matrix row index (setting context if needed)
+	 numeric contextAbsIdx = SetContext(dsId, contextId);
+	 
+	 //tallying the values in the data matrix once we have the row and column
+	 inc(Sc_DataMatrix(contextAbsIdx, colAbsIdx), weighting);
+   end;
+   
+   //Tabulating strings
+   function Stab(string value, dsId, contextId, columnIndex, optional string parentColumnAddress = "") 
+     //dsId - Data Source ID, similar to a table number
+	 //contextId - similar to a row variable category
+	 //columnIndex - similar to a column variable category
+	 //parentColumnAddress - used when there are branches in the columns
+	 
+	 if special(contextId) then exit; endif;
+	 
+     //finding absolute column index
+	 string pAddr = parentColumnAddress;
+     if length(pAddr) then
+       pAddr = pAddr + "/";
+     endif;	 
+	 string colAddr = MakeText("%d:%s%d", dsId, pAddr, columnIndex); // construct the column address
+	 
+	 numeric colAbsIdx = Sc_Ds_ColumnFullAddress.Seek(colAddr); // find the column full address for this column
+	 
+	 if colAbsIdx = 0 then
+	   errmsg("Column with address %s not found", pAddr);
+	   exit;
+	 endif;
+	 
+	 //we don't tabulate branches directly
+	 numeric colType = Sc_Ds_ColumnType(colAbsIdx);
+	 if colType = Sc_branch then
+	   errmsg("Column address %s points to a branch. Cannot tabulate branches directly", pAddr);
+	   exit;
+	 elseif colType = Sc_string then //neither we tabulate numeric values with this function
+	   errmsg("Column address %s points to a non-string cell. Cannot tabulate non-strings with 'Stab' function. Use 'Ztab' function instead", pAddr);
+	   exit;
+	 endif;
+	 
+	 //finding matrix row index (setting context if needed)
+	 numeric contextAbsIdx = SetContext(dsId, contextId);
+	 
+	 //setting the cell value to the string, once we have the row and column
+	 Sc_DataMatrixString(contextAbsIdx, colAbsIdx) = value;
+   end;   
+
+
+
+   //---functions to write data source to CSV file
+   
+  function string FormatAddress(string addr)
+    numeric p = pos("/", addr);
+	if p then
+	  if p = 1 then
+	    addr = "," + addr[2:length(addr)-1];
+	  elseif p = length(addr) then
+	    addr = addr[1:length(addr)-1] + ",";
+	  else
+	    addr = addr[1:p-1] + "," + addr[p+1:length(addr) - p];
+	  endif;
+	  
+	  addr = FormatAddress(addr);
+	endif;
+	FormatAddress = addr;
+  end;
+   
+   //building column tree
+   List Sc_ColumnLevel; // a list of the levels for the columns
+   List Sc_ColumnAbsIndex; // a list of the absolute indexes of the columns
+   List Sc_ColumnParentAbsIndex; // a list of parent absolute indexes 
+   numeric Sc_ColumnMaxLevel = 0; // total number of levels
+
+   //recursively construct the column levels and the absolute indexes
+   function getChildrenColumns(dsId, optional parentIndex = 0, optional lv = 0)
+     do numeric i = parentIndex + 1 while i <= Sc_Ds_ColumnIndex.Length() by 1
+       //skipping if wrong data source
+       if Sc_Ds_ColumnDataSourceId(i) = dsId then
+		   //find the right parent index, if not then skip this index
+		   numeric pAbsIdx = Sc_Ds_ColumnParentAbsIndex(i);
+		   if pAbsIdx = parentIndex then		   
+			   // add the index and the level
+			   Sc_ColumnAbsIndex.Add(i);
+			   Sc_ColumnLevel.Add(lv);
+			   Sc_ColumnParentAbsIndex.Add(parentIndex);
+			   
+			   // update the maximum level if needed
+			   if Sc_ColumnMaxLevel < lv then
+				 Sc_ColumnMaxLevel = lv;
+			   endif;
+			   
+			   //recursively adding children (only if branch)
+			   if Sc_Ds_ColumnType(i) = Sc_branch then
+				 getChildrenColumns(dsId, i, lv + 1);
+			   endif;
+		   endif;
+	   endif;
+	 enddo;
+   end;   
+   
+   function testColumnTree()
+     do numeric i = 1 while i <= Sc_ColumnAbsIndex.Length() by 1
+	   write("%d,%d", Sc_ColumnLevel(i), Sc_ColumnAbsIndex(i));
+	 enddo;
+	 write("---");
+   end;
+
+   //writes out the data source header as a CSV
+   List string colHeaderString;
+   function writeDsHeader(dsId)
+     string dsLabel = Sc_DataSources(dsId); // label for the data source
+
+     //write label, ID and date of data source
+     write(dsLabel);
+	 write("ID: %d", dsId);
+	 if !special(Sc_DsDates(dsId)) then
+	   write("Date: %s", edit("9999/99/99", Sc_DsDates(dsId)));
+	 endif;
+	 write("---");
+	 
+	 //building colummn tree for the data source
+	 Sc_ColumnLevel.Clear();
+	 Sc_ColumnAbsIndex.Clear();
+	 Sc_ColumnParentAbsIndex.Clear();
+	 getChildrenColumns(dsId);
+	 
+	 //writing colummn headers
+	 colHeaderString.Clear();
+	 do numeric i = 0 while i <= Sc_ColumnMaxLevel by 1
+	   if i = Sc_ColumnMaxLevel then
+	     colHeaderString.Add("Context,");
+	   else
+	     colHeaderString.Add(",");
+	   endif;
+	 enddo;
+	 
+	 numeric curCol = 0;
+	 do numeric i = 1 while i <= Sc_ColumnAbsIndex.Length() by 1
+	   //adding commas to each row (only if previous level more or equal to current one)
+	   if i > 1 then
+	     if Sc_ColumnLevel(i - 1) >= Sc_ColumnLevel(i) then
+           do numeric j = 1 while j <= colHeaderString.Length() by 1
+	         colHeaderString(j) = colHeaderString(j) + ",";
+	       enddo;
+		   inc(curCol);
+	     endif;
+	   endif;
+	   
+	   //adding the value to the column header string
+	   string separator = "";
+	   if Sc_Ds_ColumnParentAbsIndex(Sc_ColumnAbsIndex(i)) then
+	     separator = ",";
+	   endif;
+	   colHeaderString(Sc_ColumnLevel(i) + 1) = colHeaderString(Sc_ColumnLevel(i) + 1) + 
+	                                            maketext('"(%s%s%d) %s"', 
+												         FormatAddress(Sc_Ds_ColumnParentAddress(Sc_ColumnAbsIndex(i))), 
+														 separator, 
+														 Sc_Ds_ColumnIndex(Sc_ColumnAbsIndex(i)), 
+														 Sc_Ds_ColumnLabel(Sc_ColumnAbsIndex(i)));
+	 enddo;
+	 
+	 //writing the column header string to the file
+	 do numeric i = 1 while i <= colHeaderString.Length() by 1
+	   write("%s", colHeaderString(i));
+	 enddo;
+   end;
+
+   //constructs the value of the cell to be written to the CSV file, depending on he type of the value
+   function string writeCellValue(recIdx, colIdx)
+     string res = "";
+	 
+	 if Sc_Ds_ColumnType(colIdx) = Sc_int then
+	   res = maketext("%d", Sc_DataMatrix(recIdx, colIdx));
+	 elseif Sc_Ds_ColumnType(colIdx) = Sc_float then
+	   res = maketext("%f", Sc_DataMatrix(recIdx, colIdx));
+	 elseif Sc_Ds_ColumnType(colIdx) = Sc_string then
+	   res = maketext('"%s"', Sc_DataMatrixString(recIdx, colIdx));
+	 endif;
+	 
+	 writeCellValue = res;
+   end;
+
+   //writes the data source record 
+   function writeDsRecord(recIdx)
+     //context ID
+	 string rs = maketext("%d", Sc_Context(recIdx));
+     
+     //record values (only for leaves of the trees, not branches)
+	 if Sc_ColumnAbsIndex.Length() then
+       do numeric i = 1 while i < Sc_ColumnAbsIndex.Length() by 1
+	     if Sc_ColumnLevel(i + 1) <= Sc_ColumnLevel(i) then
+		   rs = rs + maketext(",%s", writeCellValue(recIdx, Sc_ColumnAbsIndex(i)));
+		 endif;
+	   enddo;
+	   
+	   //adding the last leaf
+	   rs = rs + maketext(",%s", writeCellValue(recIdx, Sc_ColumnAbsIndex(Sc_ColumnAbsIndex.Length())));
+	 endif;
+	 
+	 //writing record out
+	 write("%s", rs);
+   end;
+
+   //populates sorted index for a context list
+   List Sc_SortedContextIndex;
+   function getContextSortedIndex()
+     Sc_SortedContextIndex.Clear();
+	 do numeric i = 1 while i <= Sc_Context.Length() by 1
+	   Sc_SortedContextIndex.Add(i);
+	 enddo;
+	 
+	 //sorting
+	 do numeric i = 1 while i < Sc_SortedContextIndex.Length() by 1
+	   do numeric j = i + 1 while j <= Sc_SortedContextIndex.Length() by 1
+	     numeric doSwitch = Sc_ContextDataSourceId(Sc_SortedContextIndex(j)) < Sc_ContextDataSourceId(Sc_SortedContextIndex(i)) |
+		                    (Sc_ContextDataSourceId(Sc_SortedContextIndex(j)) = Sc_ContextDataSourceId(Sc_SortedContextIndex(i)) & Sc_Context(Sc_SortedContextIndex(j)) < Sc_Context(Sc_SortedContextIndex(i)));
+							
+         if doSwitch then
+		   numeric zz = Sc_SortedContextIndex(i);
+		   Sc_SortedContextIndex(i) = Sc_SortedContextIndex(j);
+		   Sc_SortedContextIndex(j) = zz;
+		 endif;
+	   enddo;
+	 enddo;
+   end;
+
+   //writes all of the data source records for this context
+   function writeDsRecords(dsId)
+     do numeric i = 1 while i <= Sc_SortedContextIndex.Length() by 1
+	   if Sc_ContextDataSourceId(Sc_SortedContextIndex(i)) = dsId then
+	     writeDsRecord(Sc_SortedContextIndex(i));
+	   endif;
+	 enddo;
+   end;
+
+   //write out data source table
+   function WriteDataSource(dsId)
+     getContextSortedIndex();
+	 
+     writeDsHeader(dsId);
+	 
+	 writeDsRecords(dsId);
+	 
+	 write("---");
+	 write("");
+   end;
+
+   //writing data sources
+   function WriteCsv()
+	 List string dsKeys;
+	 Sc_DataSources.GetKeys(dsKeys);
+	 
+     do numeric i = 1 while i <= dsKeys.Length() by 1
+	   WriteDataSource(tonumber(dsKeys(i)));
+	 enddo;   
+   end;
+   
+   //---functions to write data sources to XML file  
+   file Sc_XmlOutput;
+
+   //writes data source records in XML
+   function writeDsRecordXml(rowIdx)
+     string dateTime = getContextUDateTime(Sc_ContextDataSourceId(rowIdx), Sc_Context(rowIdx));
+	 
+     filewrite(Sc_XmlOutput, maketext('<Record tid="%d" rcontext="%d" date="%s">', Sc_ContextDataSourceId(rowIdx), Sc_Context(rowIdx), dateTime));
+	 
+     //writing record content
+	 string rec = "";
+	 //loo through the columns adding content to build the record to write
+	 do numeric i = 1 while i <= Sc_ColumnAbsIndex.Length() by 1
+	   // start with an empty separator, but change it to separator (,) as we build the record
+       string sep = "";
+	   if Sc_Ds_ColumnIndex(Sc_ColumnAbsIndex(i)) > 0 then
+	     sep = Sc_separator;
+	   endif;	 
+	 
+	   //if we have a branch
+	   if Sc_Ds_ColumnType(Sc_ColumnAbsIndex(i)) = Sc_branch then
+	     rec = rec + maketext("%s(", sep);
+		 
+		 //if empty branch then closing parenthesis immediately
+		 if i = Sc_ColumnAbsIndex.Length() then
+		   rec = rec + ")";
+		 elseif Sc_Ds_ColumnType(Sc_ColumnAbsIndex(i + 1)) = Sc_branch &
+                Sc_ColumnLevel(i + 1) <= Sc_ColumnLevel(i) then
+		   rec = rec + ")";
+		 endif;
+		 
+	   else
+	     //adding the value to the record
+		 rec = rec + maketext("%s%s", sep, writeCellValue(rowIdx, Sc_ColumnAbsIndex(i)));
+	   endif;
+	   
+	   //adding the closing brackets until all levels are closed
+	   numeric lLim = 0;
+	   if i < Sc_ColumnAbsIndex.Length() then
+	     lLim = Sc_ColumnLevel(i + 1);
+	   endif;
+	   numeric pCount = Sc_ColumnLevel(i) - lLim;
+	   while pCount > 0 do
+	     rec = rec + ")";
+		 inc(pCount, (-1));
+	   enddo;
+	   
+	 enddo;
+	 
+	 //write the XML data record
+	 if length(rec) then
+	   filewrite(Sc_XmlOutput, "<Data>" + rec + "</Data>");
+	 endif;
+	 
+	 //close the record
+	 filewrite(Sc_XmlOutput, '</Record>');
+   end;
+   
+   function WriteDataSourceXml(dsId)
+     //building column tree for the data source
+	 Sc_ColumnLevel.Clear();
+	 Sc_ColumnAbsIndex.Clear();
+	 getChildrenColumns(dsId);
+	 
+	 //for each context in the data source formatting and writing a record
+	 do numeric i = 1 while i <= Sc_SortedContextIndex.Length() by 1
+	   if Sc_ContextDataSourceId(Sc_SortedContextIndex(i)) = dsId then
+	     writeDsRecordXml(Sc_SortedContextIndex(i));
+	   endif;
+	 enddo;
+	 
+   end;
+   
+   //write the XML header
+   function StartWriteXml(string fName)
+     //getContextSortedIndex();
+	 
+     close(Sc_XmlOutput);
+	 setfile(Sc_XmlOutput, fName, create);
+	 open(Sc_XmlOutput);
+	 
+     //writing XML header and root element
+     filewrite(Sc_XmlOutput, '<?xml version="1.0" encoding="utf-8"?>');
+	 filewrite(Sc_XmlOutput, '<Report>');
+   end;
+   
+   //write the XML closing element
+   function EndWriteXml()
+     filewrite(Sc_XmlOutput, '</Report>');
+	 
+	 close(Sc_XmlOutput);
+   end;
+
+   //Appends data sources to the currently started XML file
+   //Needs to be called beteween StartWriteXML() and EndWriteXml() calls
+   function AppendXml()
+     getContextSortedIndex();
+     //writing data sources
+	 List string dsKeys;
+	 Sc_DataSources.GetKeys(dsKeys);
+	 
+     do numeric i = 1 while i <= dsKeys.Length() by 1
+	   WriteDataSourceXml(tonumber(dsKeys(i)));
+	 enddo;
+   end;
+
+   //write the XML file, headers first, then the records, then the closing element
+   function WriteXml(string fName)
+     StartWriteXml(fName);
+	 
+     //writing data sources
+	 AppendXml();
+	 
+	 EndWriteXml();
+   end;
+   
+   
+
+
+   //Resets all data sources to empty structures
+   function ClearAllDataSources()
+     Sc_DataSources.Clear();
+
+     //clearing columns	 
+	 Sc_Ds_ColumnIndex.Clear();
+     Sc_Ds_ColumnParentAddress.Clear();
+     Sc_Ds_ColumnLabel.Clear();
+     Sc_Ds_ColumnType.Clear();
+     Sc_Ds_ColumnDataSourceId.Clear();
+     Sc_Ds_ColumnFullAddress.Clear();
+     Sc_Ds_ColumnParentAbsIndex.Clear();
+
+     Sc_ColumnLevel.Clear();
+     Sc_ColumnAbsIndex.Clear();
+     Sc_ColumnMaxLevel = 0;
+	 
+	 colHeaderString.Clear();
+	 
+	 //clearing context
+	 Sc_Context.Clear();
+     Sc_ContextDataSourceId.Clear();
+     Sc_ContextFullAddress.Clear();
+	 
+	 //clearing data
+	 Sc_DataMatrix.Clear();
+     Sc_DataMatrixString.Clear();
+	 
+	 //clearing dates
+     Sc_DsDates.Clear();
+     Sc_DsTimes.Clear();
+	 Sc_ContextDates.Clear();
+     Sc_ContextTimes.Clear();
+   end;
+
+
+  //!!Declarations for tabulating data sources using dictionary items
+  pff sc_CurrentPff; //Handler to load application PFF information
+  numeric sc_MaxValuesPerItem = 1000; //maximum number of values per item to be parsed. 1000 by default. Zero = no limit
+  
+  //Itmes metadata
+  HashMap sc_Items(string) default(default); //maps itmes names(keys) to item index within items metadata lists
+  
+  List string sc_ItemsNames;
+  List string sc_ItemsLabels;
+  List sc_ItemsValuesIndexStart;
+  List sc_ItemsValuesIndexLen;
+  
+  List sc_Values;
+  List string sc_ValueLabels;
+  List sc_ValueItemIndexes;
+  
+  //maps item index and value to the absolute index of a value in sc_Values list
+  //Key 1 - item absolute index in sc_ItemsNames list
+  //Key 2 - actual value
+  //Return value - value absolute index in sc_Values list
+  HashMap sc_ValueAbsIndex(numeric, numeric) default(default);
+  
+  //link between DS column address and a value absolute index
+  //Key 1 - Data source ID
+  //Key 2 - Parent branch address
+  //Key 3 - Value absolute index
+  //Return value - Local column index
+  HashMap sc_ValueColumnLink(numeric, string, numeric) default(default);
+  
+  List sc_DsItems;      //List of all items linked to data sources
+  List sc_DsItemsDsIds; //data source IDs for every item linked to a data source
+  List string sc_DsItemsBranchAddr; //branch addresses for every item included into data sources
+  List string sc_DsLayerItems; //a comma delimited string of all parent layer items for the DS item
+  
+  List string sc_DsItemsPbItem; //Persistent branch item for every item linked to a data source
+  List sc_DsItemsPbItemValue; //Persistent branch item value for every item linked to a data source
+  
+  numeric curItemsValuesCount = 0;
+  
+  //the following it used for optimization of layer parent items addressing during the iTab call
+  HashMap sc_LayerItemsIndex(numeric) default(default); //tracks the start index of the first layer item for an DS item
+  List string sc_AllLayerItems; //layer items for all DS items
+  List sc_AllLayerItemValues; //layer item values for all DS items
+  List sc_AllLayerCount; //number of nested layers for the DS item
+  
+  Hashmap sc_LayerCount(numeric) default(0); //keeps track of layers count for each data source
+  List string sc_LayerItems; //items declared on the layer
+  List sc_LayerItemsLevel;   //Layer level on the item
+  List sc_LayerItemsDsIds;      //Data source ID of the layer item
+  
+  function AddDsLayerItem(dsId, string iName)
+    //No layer exists in this data source yet
+	//Call 'AddDsLayer' function to add layers
+    if sc_LayerCount(dsId) = 0 then
+	  exit;
+	endif;
+	
+    iName = ToUpper(iName);
+    if !sc_Items.Contains(iName) then
+	  errmsg("Item %s does not exist", iName);
+	  exit;
+	endif;
+	
+	sc_LayerItems.Add(iName);
+	sc_LayerItemsLevel.Add(sc_LayerCount(dsId));
+	sc_LayerItemsDsIds.Add(dsId);
+  end;
+
+  //Adding new layer and adding multiple items to it
+  function AddDsLayer(dsId, string item1,
+                            optional string item2 = "",
+                            optional string item3 = "",
+							optional string item4 = "",
+							optional string item5 = "",
+							optional string item6 = "",
+							optional string item7 = "",
+							optional string item8 = "",
+							optional string item9 = "",
+							optional string item10 = "")
+
+    List string items;
+	items.Add(item1);
+	if Length(Strip(item2)) then items.Add(item2); endif;
+	if Length(Strip(item3)) then items.Add(item3); endif;
+	if Length(Strip(item4)) then items.Add(item4); endif;
+	if Length(Strip(item5)) then items.Add(item5); endif;
+	if Length(Strip(item6)) then items.Add(item6); endif;
+	if Length(Strip(item7)) then items.Add(item7); endif;
+	if Length(Strip(item8)) then items.Add(item8); endif;
+	if Length(Strip(item9)) then items.Add(item9); endif;
+	if Length(Strip(item10)) then items.Add(item10); endif;
+	
+    //adding a layer	
+	inc(sc_LayerCount(dsId));
+	
+	do numeric i = 1 while i <= items.Length() by 1
+	  AddDsLayerItem(dsId, Strip(items(i)));
+	enddo;
+  end;
+  
+  //Removing all data source layers
+  function ClearDsLayers(dsId)
+    do numeric i = sc_LayerItems.Length() while i > 0 by (-1)
+	  if sc_LayerItemsDsIds(i) = dsId then
+	    sc_LayerItems.Remove(i);
+		sc_LayerItemsLevel.Remove(i);
+		sc_LayerItemsDsIds.Remove(i);
+	  endif;
+	enddo;
+	sc_LayerCount(dsid) = 0;
+  end;
+
+  //private variables and functions to build tree of layers for a data source.
+  //called inside AddItemsToDataSource() function
+  List string sc_LayerTreeItems;
+  List sc_LayerTreeItemsLevel;
+  List string sc_LayerTreeLeavesAddr;
+  List string sc_LayerTreeParentItems;
+  List string sc_LayerTreeParentItemValues;
+  
+  function buildDsLayerTree(dsId, optional treeLevel = 1)
+    if treeLevel > sc_LayerCount(dsId) then
+	  exit;
+	endif;
+  
+    if treeLevel = 1 then
+      sc_LayerTreeItems.Clear();
+	  sc_LayerTreeItemsLevel.Clear();
+	  
+	  sc_LayerTreeLeavesAddr.clear();
+	  sc_LayerTreeParentItems.Clear();
+	  sc_LayerTreeParentItemValues.Clear();
+	endif;
+	
+	do numeric i = 1 while i <= sc_LayerItems.Length() by 1
+      if dsId = sc_LayerItemsDsIds(i) then	
+		  if sc_LayerItemsLevel(i) = treeLevel then
+			//adding item on the current level to the tree
+			sc_layerTreeItems.Add(sc_LayerItems(i));
+			sc_LayerTreeItemsLevel.Add(treeLevel);
+			
+			//recursively adding higher level branches to the tree;
+			buildDsLayerTree(dsid, treeLevel + 1);
+		  elseif sc_LayerItemsLevel(i) > treeLevel then
+			break;
+		  endif;
+	  endif;
+	enddo;
+  end;
+
+  function string GetItemLabel(string itemName)
+    itemName = ToUpper(itemName);
+    numeric idx = sc_Items(itemName);
+	if !special(idx) then
+	  exit sc_ItemsLabels(idx);
+	endif;
+  end;
+  
+  function AddLayerBranchesToDataSource(dsId, optional itemIndex = 1, optional string parentAddress = "", optional string parentItems = "", optional string parentItemsValues = "")
+    //add branch for the item
+	string bAddr = AddDsColumn(dsId, GetItemLabel(sc_LayerTreeItems(itemIndex)), Sc_branch, parentAddress);
+	
+	//adding branches for values
+	string itemName = ToUpper(sc_LayerTreeItems(itemIndex));
+	numeric idx =   sc_Items(itemName);
+    numeric s = sc_ItemsValuesIndexStart(idx);
+    numeric e = sc_ItemsValuesIndexStart(idx) + sc_ItemsValuesIndexLen(idx);
+	
+	do numeric i = s while i < e by 1
+	  string a = AddDsColumn(dsId, maketext("%d:%s", sc_Values(i), sc_ValueLabels(i)), Sc_branch, bAddr);
+
+      //memoizing addresses and item names for leaves so we can add actual columns to them later
+	  if sc_LayerTreeItemsLevel(itemIndex) = sc_LayerCount(dsId) then
+	    sc_LayerTreeLeavesAddr.Add(a);
+		
+		string fpb = parentItems + "," + itemName;
+		sc_LayerTreeParentItems.Add(fpb[2:length(fpb) - 1]);
+		
+		string fpbv = MakeText("%s,%d", parentItemsValues, sc_Values(i));
+		sc_LayerTreeParentItemValues.Add(fpbv[2:length(fpb) - 1]);
+	  endif;
+	  
+	  //adding nested layers for each value
+	  do numeric j = itemIndex + 1 while j <= sc_LayerTreeItems.Length() by 1
+	    if sc_LayerTreeItemsLevel(j) = sc_LayerTreeItemsLevel(itemIndex) + 1 then
+		  //processing next level
+		  AddLayerBranchesToDataSource(dsId, j, a, parentItems + "," + itemName, MakeText("%s,%d", parentItemsValues, sc_Values(i)));
+		elseif sc_LayerTreeItemsLevel(j) <= sc_LayerTreeItemsLevel(itemIndex) then
+		  break;
+		endif;
+	  enddo;
+	enddo;
+  end;
+  
+  //Parses value string and adds values to list
+  //Parameters:
+  // inputStr:string //input value string in format ###[:###][;$$$]
+  // itemIndex:numeric //index of an item the value is to be attached
+  //Returns 1 if successfull, 0 if unsuccessfull.
+  function parseValue(string inputStr, optional itemIndex = 0)
+    if sc_MaxValuesPerItem & curItemsValuesCount > sc_MaxValuesPerItem then
+	  exit 0;
+	endif;
+  
+    numeric ePos = pos("=", inputStr);
+    if !ePos then
+      exit 0;
+    endif;	
+	
+    inputStr = Strip(inputStr[ePos+1:length(inputStr)]);
+  
+    numeric sVal = default, eVal = default;
+	string label = "";
+	
+	string valStr = inputStr;
+	numeric scPos = pos(";", inputStr);
+	if scPos then
+	  valStr = Strip(inputStr[1:scPos-1]);
+	  label = Strip(inputStr[scPos + 1:length(inputStr)]);
+	endif;
+	
+    //parsing value
+    numeric cPos = pos(":", valStr);
+    if cPos then
+      sVal = ToNumber(valStr[1:cPos - 1]);
+	  eVal = ToNumber(valStr[cPos + 1:length(valStr)]);
+    else
+	  sVal = ToNumber(valStr);
+	  eVal = sVal;
+    endif;	
+	
+	if special(sVal) | special(eVal) then
+	  exit 0;
+	endif;
+	
+    do numeric i = sVal while i <= eVal by 1
+	  if sc_MaxValuesPerItem & curItemsValuesCount > sc_MaxValuesPerItem then
+	    break;
+	  endif;
+	  sc_Values.Add(i);
+	  sc_ValueLabels.Add(label);
+	  sc_ValueItemIndexes.Add(itemIndex);
+	  
+	  sc_ValueAbsIndex(itemIndex, i) = sc_Values.Length();
+	  
+	  inc(curItemsValuesCount);
+    enddo;
+	
+	parseValue = 1;
+  end;
+  
+  //Reads a single dictionary and builds item/value matrices
+  //Parameters:
+  //  fName - path to dictionary file
+  //Returns 1 if successfull, 0 if not successfull
+  function ReadDict(string fName)
+    if !fileexist(fName) then
+	  errmsg("File '%s' does not exsit.", fName);
+	  exit 0;
+	endif;
+	
+	string dictName = "";
+    file ff1;
+	SetFile(ff1, fName);
+	open(ff1);
+	  string str;	
+	  numeric readTag = 0;
+	  while FileRead(ff1, str) do
+        if readTag = 1 & pos("Name=", str) = 1 then
+          dictName = ToUpper(Strip(str[pos("=", str) + 1:length(str)]));
+		elseif readTag = 2 then
+		  //setting item properties
+		  if pos("Label=", str) = 1 then
+		    sc_ItemsLabels(sc_ItemsLabels.Length()) = Strip(str[pos("=", str) + 1:length(str)]);
+		  elseif pos("Name=", str) = 1 then
+            string iName = ToUpper(Strip(str[pos("=", str) + 1:length(str)]));
+			
+			//adding dictionary qualifier if ambigious item name
+			if sc_Items.Contains(iName) then
+			  iName = makeText("%s.%s", dictName, iName);
+			endif;
+		  
+		    sc_ItemsNames(sc_ItemsNames.Length()) = iName;
+			
+			//adding item to hash map
+			sc_Items(iName) = sc_ItemsNames.Length();
+		  endif;
+        elseif readTag = 3 then
+		  //parsing values
+		  if pos("Value=", str) then
+		    parseValue(str, sc_ItemsNames.Length());
+		  endif;
+        endif;
+	  
+	    if pos("[Dictionary]", str) = 1 then
+		  readTag = 1; //reading dictionary properties
+		elseif pos("[Item]", str) = 1 then
+		  readTag = 2; //reading items properties
+		  sc_ItemsNames.Add("");
+		  sc_ItemsLabels.Add("");
+		  sc_ItemsValuesIndexStart.Add(default);
+		  sc_ItemsValuesIndexLen.Add(default);
+		  
+		  if sc_ItemsValuesIndexLen.Length() > 1 then
+		    sc_ItemsValuesIndexLen(sc_ItemsValuesIndexLen.Length() - 1) = sc_Values.Length() - sc_ItemsValuesIndexStart(sc_ItemsValuesIndexStart.Length() - 1) + 1;
+		  endif;
+		elseif pos("[ValueSet]", str) = 1 then
+		  curItemsValuesCount = 0;//resetting values counter
+		  
+		  //only doing it for the first value set
+		  if !special(sc_ItemsValuesIndexStart(sc_ItemsValuesIndexStart.Length())) then
+		    readTag = 0;
+		  else
+		    readTag = 3;
+		    //start index for item values 
+		    sc_ItemsValuesIndexStart(sc_ItemsValuesIndexStart.Length()) = sc_Values.Length() + 1;
+		  endif;
+	    elseif pos("[", str) = 1 then
+		  readTag = 0;
+		endif;
+	  enddo;
+	close(ff1);
+	
+	//adding last value index len value
+	sc_ItemsValuesIndexLen(sc_ItemsValuesIndexStart.Length()) = sc_Values.Length() - sc_ItemsValuesIndexStart(sc_ItemsValuesIndexStart.Length()) + 1;
+	
+  end;  
+  
+  function SaveDictionaryItems(string fName)
+    file ff1;
+	SetFile(ff1, fName, create);
+	open(ff1);
+	
+    do numeric i = 1 while i <= sc_ItemsNames.Length() by 1
+	  filewrite(ff1, 'i,"%s","%s"', sc_ItemsNames(i), sc_ItemsLabels(i));
+	  
+	  //values
+	  do numeric j = sc_ItemsValuesIndexStart(i) while j < sc_ItemsValuesIndexStart(i) + sc_ItemsValuesIndexLen(i) by 1
+	    filewrite(ff1, 'v,"%d","%s"', sc_Values(j), sc_ValueLabels(j));
+	  enddo;
+	enddo;
+	
+	close(ff1);
+  end;
+  
+  //Loads dictionary items and their value sets from metadata file
+  function LoadDictionaryItems(string fName)
+    if !FileExist(fName) then
+	  exit 0;
+	endif;
+	
+    file ff1;
+	SetFile(ff1, fName);
+	open(ff1);
+
+	string xx_line;
+	while fileread(ff1, xx_line) do
+	  if length(xx_line) >= 3 then
+	    
+	  
+		  if xx_line[1:2] = "i," then //item
+			split(xx_line, ",", 3);
+			if Spl.Length() > 1 then
+			  string iName = Spl(2)[2:length(Spl(2)) - 2];
+			  sc_ItemsNames.Add(iName);
+			  sc_ItemsLabels.Add("");
+			  sc_ItemsValuesIndexStart.Add(sc_Values.Length() + 1);
+			  sc_ItemsValuesIndexLen.Add(0);
+			  
+			  //adding item to hash map
+			  sc_Items(iName) = sc_ItemsNames.Length();
+			endif;
+			
+			if Spl.Length() > 2 then
+			  if Length(Spl(3)) > 2 then
+				sc_ItemsLabels(sc_ItemsLabels.Length()) = Spl(3)[2:length(Spl(3)) - 2];
+			  endif;
+			endif;
+		  elseif xx_line[1:2] = "v," then //value
+			split(xx_line, ",", 3);
+			
+			if Spl.Length() > 1 then
+			  numeric val = tonumber(Spl(2)[2:length(Spl(2)) - 2]);
+			  
+			  sc_Values.Add(val);
+			  sc_ValueLabels.Add("");
+			  sc_ValueItemIndexes.Add(sc_ItemsNames.Length());
+		  
+			  sc_ValueAbsIndex(sc_ItemsNames.Length(), val) = sc_Values.Length();
+			  
+			  inc(sc_ItemsValuesIndexLen(sc_ItemsValuesIndexLen.Length()));
+			endif;
+			
+			if Spl.Length() > 2 then
+			  if Length(Spl(3)) > 2 then
+				sc_ValueLabels(sc_ValueLabels.Length()) = Spl(3)[2:length(Spl(3)) - 2];
+			  endif;
+			endif;
+		  endif;
+	  endif;
+	enddo;
+	
+	close(ff1);
+	
+	LoadDictionaryItems = 1;
+  end;
+  
+  //Reads application dictionaries and builds item/value matrices
+  function ReadDicts(optional string dictsMetadataFile = "")
+    //getting application file from PFF
+    string appFile = sc_CurrentPff.GetProperty("Application");
+	
+	numeric readFromCsv = 1;
+	if FileExist(appFile) then
+	  inc(readFromCsv, (-1));
+	  file ff1;
+	  SetFile(ff1, appFile);
+	  open(ff1);
+	    string str;
+	    numeric readStep = 0;
+	    while(FileRead(ff1, str)) do	  
+	      //reading dictionary path
+		  if readStep = 1 and pos("Dict-Type=", str) = 1 then
+		    numeric startPos = pos("=", str) + 1;
+		    numeric endPos = pos(",", str);
+
+            if endPos > startPos then
+		      //reading dictionary
+			  string dName = Path.Concat(application, str[startPos:(endPos - startPos)]);
+			  inc(readFromCsv);
+			  if fileexist(dName) then
+			    ReadDict(Path.Concat(application, str[startPos:(endPos - startPos)]));
+				inc(readFromCsv, (-1));
+			  endif;
+            endif;
+		  endif;
+		
+		  if str = "[Dictionary Types]" then
+		    readStep = 1;
+		  elseif pos("[", str) = 1 then
+		    readStep = 0;
+		  endif;
+	    enddo;
+	  close(ff1);
+	  
+	  //saving metadata
+	  if !readFromCsv then
+	    if length(dictsMetadataFile) then
+	      SaveDictionaryItems(dictsMetadataFile);
+		endif;
+	  endif;
+	endif;
+	
+	//if items were not read from dictionaries, then attempting to read from the metadata
+	if readFromCsv then
+	  if length(dictsMetadataFile) then
+	    LoadDictionaryItems(dictsMetadataFile);
+	  endif;
+	endif;
+  end;
+
+  
+  
+  //creates a branch to the columns list of a data source
+  //returns address to the newly created branch
+  function string AddDsItemColumns(dsId, string iName, optional columnType = 0, optional string parentAddress = "", optional string layerParentItems = "", optional string layerParentItemValues = "", optional string pbItem = "", optional pbItemValue = default)
+    iName = ToUpper(iName);
+    if !sc_Items.Contains(iName) then
+	  errmsg("Item %s does not exist", iName);
+	  exit "";
+	endif;
+	
+	//creating a branch for the item
+	string bAddr = AddDsColumn(dsId, GetItemLabel(iName), Sc_branch, parentAddress);
+	
+	sc_DsItems.Add(sc_Items(iName));
+	sc_DsItemsDsIds.Add(dsId);
+	sc_DsItemsBranchAddr.Add(bAddr);
+	sc_DsLayerItems.Add(layerParentItems);
+	
+	sc_DsItemsPbItem.Add(pbItem);
+	sc_DsItemsPbItemValue.Add(pbItemValue);
+	
+	//optimization for iTab
+	//Instead of parsing and splitting the parent items string for each iTab call, we create indexing list here
+	//with a hash table pointing to the first item in the list for each DS item
+	if length(layerParentItems) then
+	  sc_LayerItemsIndex(sc_DsItems.Length()) = sc_AllLayerItems.Length() + 1;
+	  split(layerParentItems, ",");
+	  do numeric i = 1 while i <= Spl.Length() by 1
+	    sc_AllLayerItems.Add(Spl(i));
+	  enddo;
+	  
+	  split(layerParentItemValues, ",");
+	  do numeric i = 1 while i <= Spl.Length() by 1
+	    sc_AllLayerItemValues.Add(ToNumber(Spl(i)));
+		sc_AllLayerCount.Add(Spl.Length());
+	  enddo;
+	endif;
+	
+	//adding values as leaves
+	numeric idx =   sc_Items(ToUpper(iName));
+    numeric s = sc_ItemsValuesIndexStart(idx);
+    numeric e = sc_ItemsValuesIndexStart(idx) + sc_ItemsValuesIndexLen(idx);
+  
+    numeric j = -1;
+    do numeric i = s while i < e by 1
+	  string a = AddDsColumn(dsId, maketext("%d:%s", sc_Values(i), sc_ValueLabels(i)), columnType, bAddr);
+	  
+	  //linking column address to the item value ABS index
+	  sc_ValueColumnLink(dsId, bAddr, i) = inc(j);
+    enddo;
+	
+	AddDsItemColumns = bAddr;
+  end;
+  
+  //Adds up to 10 items to a particular parent branch in a data source
+  function string AddItemsToBranch(dsId, columnType, string layerParentItems, string layerParentItmesValues, string parentAddress, string pbItem, pbValue, string item1, 
+                                       optional string item2 = "",
+                                       optional string item3 = "",
+									   optional string item4 = "",
+									   optional string item5 = "",
+									   optional string item6 = "",
+									   optional string item7 = "",
+									   optional string item8 = "",
+									   optional string item9 = "",
+									   optional string item10 = "")
+
+    List string items;
+	items.Add(item1);
+	if Length(Strip(item2)) then items.Add(item2); endif;
+	if Length(Strip(item3)) then items.Add(item3); endif;
+	if Length(Strip(item4)) then items.Add(item4); endif;
+	if Length(Strip(item5)) then items.Add(item5); endif;
+	if Length(Strip(item6)) then items.Add(item6); endif;
+	if Length(Strip(item7)) then items.Add(item7); endif;
+	if Length(Strip(item8)) then items.Add(item8); endif;
+	if Length(Strip(item9)) then items.Add(item9); endif;
+	if Length(Strip(item10)) then items.Add(item10); endif;
+	
+	string res = "";
+	do numeric i = 1 while i <= items.Length() by 1
+	  res = res + AddDsItemColumns(dsId, Strip(items(i)), columnType, parentAddress, layerParentItems, layerParentItmesValues, pbItem, pbValue) + ";";
+	enddo;
+	
+	AddItemsToBranch = res;
+  end;
+  
+  //keeps track of branches linked to items and values
+  //Key 1 - DS ID
+  //Key 2 - item absolute index in the sc_ItemsNames list
+  //Key 3 - actual value
+  //Return value - branch address
+  HashMap string sc_ItemBranches(numeric, numeric, numeric) default("");
+  
+  List sc_BranchItems; //list of all items used as persistent branches. Value is item's absolute index.
+  List sc_BranchItemsDsIdx; //Data source IDs for persistent branch items
+
+  //Adds a persistent branch to a data source based on item and its values
+  function AddItemBranchToDataSource(dsId, string iName, optional string parentAddress)
+    iName = ToUpper(iName);
+    if !sc_Items.Contains(iName) then
+	  errmsg("Item %s does not exist", iName);
+	  exit;
+	endif;
+	
+	//add branch for the item
+	string bAddr = AddDsColumn(dsId, iName, Sc_branch, parentAddress);
+		
+    //adding branches for values
+	numeric idx =   sc_Items(iName);
+    numeric s = sc_ItemsValuesIndexStart(idx);
+    numeric e = sc_ItemsValuesIndexStart(idx) + sc_ItemsValuesIndexLen(idx);
+	
+	//memoizing item as being used for persistent branch in a data source
+	sc_BranchItems.Add(idx);
+	sc_BranchItemsDsIdx.Add(dsId);
+	
+	do numeric i = s while i < e by 1
+	  string a = AddDsColumn(dsId, maketext("%d:%s", sc_Values(i), sc_ValueLabels(i)), Sc_branch, bAddr);
+	  
+	  //populating sc_ItemBranches address hash map
+	  sc_ItemBranches(dsId, idx, sc_Values(i)) = a;
+	enddo;
+  end;
+  
+    //Adding up to 10 items to the root branch of the data source or to the declared layers
+  function AddItemsToDataSourceBranch(dsId, columnType, string pbAddr, string pbItem, pbItemValue, string item1, 
+                                       optional string item2 = "",
+                                       optional string item3 = "",
+									   optional string item4 = "",
+									   optional string item5 = "",
+									   optional string item6 = "",
+									   optional string item7 = "",
+									   optional string item8 = "",
+									   optional string item9 = "",
+									   optional string item10 = "")
+
+    //getting layers
+	if sc_LayerCount(dsId) then
+	  buildDsLayerTree(dsId);
+	
+	  //adding layer branches
+	  sc_LayerTreeLeavesAddr.Clear();
+	  do numeric i = 1 while i <= sc_LayerTreeItems.Length() by 1
+	    if sc_LayerTreeItemsLevel(i) = 1 then
+	      AddLayerBranchesToDataSource(dsId, i, pbAddr);
+	    endif;
+	  enddo;
+	
+	  //adding items to every layer leaf branch
+	  do numeric i = 1 while i <= sc_LayerTreeLeavesAddr.Length() by 1
+        //errmsg("Layer items/values: %s; %s", sc_LayerTreeParentItems(i), sc_LayerTreeParentItemValues(i));
+		
+	    string res = AddItemsToBranch(dsId, columnType, sc_LayerTreeParentItems(i), sc_LayerTreeParentItemValues(i), sc_LayerTreeLeavesAddr(i), pbItem, pbItemValue, item1, item2, item3, item4, item5, item6, item7, item8, item9, item10);
+	  enddo;
+	
+	  //removing layer definitions
+	  clearDsLayers(dsId);
+	else
+	  string res = AddItemsToBranch(dsId, columnType, "", "", pbAddr, pbItem, pbItemValue, item1, item2, item3, item4, item5, item6, item7, item8, item9, item10);
+	endif;
+	
+  end;
+
+  
+  //Adding up to 10 items to the root branch of the data source or to the declared layers
+  function AddItemsToDataSource(dsId, columnType, string item1, 
+                                       optional string item2 = "",
+                                       optional string item3 = "",
+									   optional string item4 = "",
+									   optional string item5 = "",
+									   optional string item6 = "",
+									   optional string item7 = "",
+									   optional string item8 = "",
+									   optional string item9 = "",
+									   optional string item10 = "")
+									   
+    
+	numeric pbCount = 0;
+	do numeric pbi = 1 while pbi <= sc_BranchItems.Length() by 1
+	  if sc_BranchItemsDsIdx(pbi) = dsId then
+		  inc(pbCount);
+		  
+		  //getting address of persistant branches
+		  string iName = sc_ItemsNames(sc_BranchItems(pbi));
+		  numeric itemVal = GetValue(iName);
+		  string pbAddr = sc_ItemBranches(dsId, sc_BranchItems(pbi), itemVal);
+
+		  AddItemsToDataSourceBranch(dsId, columnType, pbAddr, iName, itemVal, item1, item2, item3, item4, item5, item6, item7, item8, item9, item10);
+	  endif;
+	enddo;
+	
+	//if processed persistent branches, no more adding columns to the root
+	if pbCount then 
+	  exit;
+	endif;
+	
+	//otherwise, adding columns to the root
+	AddItemsToDataSourceBranch(dsId, columnType, "", "", default, item1, item2, item3, item4, item5, item6, item7, item8, item9, item10);
+  end;
+  
+  //Returns true(1)/false(0) if DS item is to be tabulated based on its position on a persistent branch
+  function ITableBranchFilter(dsItemIdx)
+    string pbItemName = sc_DsItemsPbItem(dsItemIdx);
+	
+    //if there is no persistent branch for this item, we tabulate it
+	if !length(pbItemName) then
+	  exit 1;
+	endif;
+
+	ITableBranchFilter = (GetValue(pbItemName) = sc_DsItemsPbItemValue(dsItemIdx));
+  end;  
+  
+  //Returns true(1)/false(0) if DS item is to be tabulated based on the layer items values
+  function ITabLayerFilter(dsItemIdx)
+    numeric lIdx = sc_LayerItemsIndex(dsItemIdx);
+	
+	//if there are no layer for this DS item, we tabulate it
+	if special(lIdx) then
+	  exit 1;
+	endif;
+	
+	string firstItem = sc_AllLayerItems(lIdx);
+	
+	numeric iCount = 0;
+	numeric iEqual = 0;
+	
+	
+	do numeric i = 1 while i <= sc_AllLayerCount(lIdx) by 1
+	  inc(iCount);
+	  
+	  //checking if value is equal to assigned item value
+	  numeric itemVal = GetValue(sc_AllLayerItems(lIdx));
+	  numeric destVal = sc_AllLayerItemValues(lIdx);
+	  inc(iEqual, itemVal = destVal);
+	
+	  inc(lIdx);
+	  if lIdx > sc_AllLayerCount.Length() then
+	    break;
+	  endif;
+	enddo;
+	
+	//Tabulating if all layer values are equal to actual item values
+	ITabLayerFilter = (iCount = iEqual);
+  end;
+  
+  //Tabulating data source
+  function Itab(dsId, contextId, optional weighting = 1)
+    do numeric i = 1 while i <= sc_DsItems.Length() by 1
+	  if sc_DsItemsDsIds(i) = dsId &
+	    ITableBranchFilter(i) & //filtering for persistent branches
+	    ITabLayerFilter(i) then //filtering for Layer items/values
+	  	  
+		  //Branch address for the item
+		  string itemAddr = sc_DsItemsBranchAddr(i);
+		  
+		  //getting item value
+		  numeric itemVal = GetValue(sc_ItemsNames(sc_DsItems(i)));
+		  
+		  if !special(itemVal) then
+			  //getting value absolute index based on value
+			  numeric valIdx = sc_ValueAbsIndex(sc_DsItems(i), itemVal);
+			  if !special(valIdx) then
+				  //getting value local index within the item branch
+				  numeric colIdx = sc_ValueColumnLink(dsId, itemAddr, valIdx);
+				  if !special(colIdx) then
+					//tabulating
+				    Ztab(dsId, contextId, colIdx, itemAddr, weighting);
+				  endif;
+			  endif;
+		  endif;
+	  endif;
+	enddo;
+  end;
+  
+  //HTML output
+  file Sc_HtmlOutput;
+
+  function WriteCss()
+    filewrite(Sc_HtmlOutput, '<style>');
+    filewrite(Sc_HtmlOutput, '  body {');
+    filewrite(Sc_HtmlOutput, '    font: 400 15px Lato, sans-serif;');
+    filewrite(Sc_HtmlOutput, '    line-height: 1.8;');
+    filewrite(Sc_HtmlOutput, 'background:#ffe;');
+    filewrite(Sc_HtmlOutput, '  }');
+    filewrite(Sc_HtmlOutput, '  ');
+    filewrite(Sc_HtmlOutput, '  div.dsContainer {');
+    filewrite(Sc_HtmlOutput, '    border:1px solid #bbb;');
+    filewrite(Sc_HtmlOutput, 'background:white;');
+    filewrite(Sc_HtmlOutput, 'padding:8px 16px;');
+    filewrite(Sc_HtmlOutput, 'margin:24px 8px;');
+    filewrite(Sc_HtmlOutput, 'box-shadow: 0px 0px 12px rgba(0, 0, 0, .3);');
+    filewrite(Sc_HtmlOutput, 'border-radius:8px;');
+    filewrite(Sc_HtmlOutput, '  }');
+    filewrite(Sc_HtmlOutput, '  h1 {');
+    filewrite(Sc_HtmlOutput, '    font-size:16px;');
+    filewrite(Sc_HtmlOutput, 'color:#777;');
+    filewrite(Sc_HtmlOutput, '  }');
+    filewrite(Sc_HtmlOutput, '  ');
+    filewrite(Sc_HtmlOutput, '  h2 {');
+    filewrite(Sc_HtmlOutput, '    color: #224;');
+    filewrite(Sc_HtmlOutput, 'font-style: italic;');
+    filewrite(Sc_HtmlOutput, 'font-size: 16px;');
+    filewrite(Sc_HtmlOutput, '  }');
+    filewrite(Sc_HtmlOutput, '  ');
+    filewrite(Sc_HtmlOutput, '  .tableRow1:hover {');
+    filewrite(Sc_HtmlOutput, '    background-color: #eee !important;');
+    filewrite(Sc_HtmlOutput, '  }');
+    filewrite(Sc_HtmlOutput, '  ');
+    filewrite(Sc_HtmlOutput, '  table th {');
+    filewrite(Sc_HtmlOutput, '    background-color: #eee;');
+    filewrite(Sc_HtmlOutput, 'border-bottom:1px solid #999;');
+    filewrite(Sc_HtmlOutput, '  }');
+	filewrite(Sc_HtmlOutput, '  span.addr {');
+    filewrite(Sc_HtmlOutput, '    padding: 2px !important;');
+	filewrite(Sc_HtmlOutput, '    color: blue;');
+	filewrite(Sc_HtmlOutput, '    text-decoration: underline;');
+    filewrite(Sc_HtmlOutput, '  }');
+    filewrite(Sc_HtmlOutput, '</style>');
+  end;
+
+  //write the HTML header
+  function StartWriteHtml(string fName)
+    getContextSortedIndex();
+  
+    close(Sc_HtmlOutput);
+	setfile(Sc_HtmlOutput, fName, create);
+	open(Sc_HtmlOutput);
+	 
+    //writing XML header and root element
+    filewrite(Sc_HtmlOutput, '<!DOCTYPE html>');
+    filewrite(Sc_HtmlOutput, '<html lang="en">');
+    filewrite(Sc_HtmlOutput, '<head>');
+  
+    filewrite(Sc_HtmlOutput, '<title>SyncCloud data source schema</title>');
+    filewrite(Sc_HtmlOutput, '<meta charset="utf-8">');
+    filewrite(Sc_HtmlOutput, '<meta name="viewport" content="width=device-width, initial-scale=1">');
+  
+    filewrite(Sc_HtmlOutput, '<script src="jquery-3.3.1.min.js"></script>');
+    filewrite(Sc_HtmlOutput, '<link href="jquery.treetable.css" rel="stylesheet" type="text/css" />');
+    filewrite(Sc_HtmlOutput, '<link href="jquery.treetable.theme.default.css" rel="stylesheet" type="text/css" />');
+
+    filewrite(Sc_HtmlOutput, '<script src="jquery.treetable.js"></script>');
+	
+    WriteCss();
+  
+    filewrite(Sc_HtmlOutput, '</head>');
+    filewrite(Sc_HtmlOutput, '<body>');
+	
+    filewrite(Sc_HtmlOutput, '<div><h1>SyncCloud Data Source Schema</h1></div>');
+	filewrite(Sc_HtmlOutput, '<div><h2>%s</h2></div>', fName);
+  end;
+   
+  //write the HTML closing elements
+  function EndWriteHtml()
+    filewrite(Sc_HtmlOutput, '</body>');
+	filewrite(Sc_HtmlOutput, '</html>');
+	 
+	close(Sc_HtmlOutput);
+  end;
+  
+  function WriteHtmlDsHeader(dsId)
+    filewrite(Sc_HtmlOutput, '<div>');
+	filewrite(Sc_HtmlOutput, '<div><h3>%s</h3></div>', Sc_DataSources(dsId));
+	filewrite(Sc_HtmlOutput, '<div>ID:%d</div>', dsId);
+	if !special(Sc_DataSourceGlobalContext(dsId)) then
+	  filewrite(Sc_HtmlOutput, '<div>Global context:%d</div>', Sc_DataSourceGlobalContext(dsId));
+	endif;
+	filewrite(Sc_HtmlOutput, '</div>');
+  end;
+  
+  function WriteHtmlDsTable(dsId)
+	//getting number of columns  
+	List columnIdx;
+	do numeric i = 1 while i <= Sc_SortedContextIndex.Length() by 1
+	  if Sc_ContextDataSourceId(Sc_SortedContextIndex(i)) = dsId then
+	    columnIdx.Add(Sc_SortedContextIndex(i));
+	  endif;
+	enddo;
+	
+	numeric gcf = default;
+	if !special(Sc_DataSourceGlobalContext(dsId)) then
+	  gcf = 10 ^ Sc_DataSourceGlobalContextFactor(dsId);
+	endif;
+  
+    //filewrite(Sc_HtmlOutput, 'columnIdx.Length() = %d', columnIdx.Length());
+	//filewrite(Sc_HtmlOutput, 'Sc_Context(columnIdx(1)) = %d', Sc_Context(columnIdx(1)));
+    filewrite(Sc_HtmlOutput, '<div><table id="t%D">', dsId);
+	
+	//column headers
+	if columnIdx.Length() then
+	  filewrite(Sc_HtmlOutput, '<tr><th rowspan="2">Tree</th>');
+	  filewrite(Sc_HtmlOutput, '<th colspan="%d">Context</th>', columnIdx.Length());
+	else
+	  filewrite(Sc_HtmlOutput, '<tr><th>Tree</th>');
+	endif;
+	filewrite(Sc_HtmlOutput, '</tr>');
+	
+	filewrite(Sc_HtmlOutput, '</tr>');
+	
+	do numeric i = 1 while i <= columnIdx.Length() by 1
+	  if !special(gcf) then
+	    filewrite(Sc_HtmlOutput, '<th>%d</th>', Sc_Context(columnIdx(i)) % gcf);
+	  else
+	    filewrite(Sc_HtmlOutput, '<th>%d</th>', Sc_Context(columnIdx(i)));
+	  endif;
+	enddo;
+
+	filewrite(Sc_HtmlOutput, '</tr>');
+	
+	//building colummn tree for the data source
+	Sc_ColumnLevel.Clear();
+	Sc_ColumnAbsIndex.Clear();
+	Sc_ColumnParentAbsIndex.Clear();
+	getChildrenColumns(dsId);
+	
+	do numeric i = 1 while i <= Sc_ColumnAbsIndex.Length() by 1
+	  string trDef = MakeText('<tr class="tableRow1" data-tt-id="%d"', Sc_ColumnAbsIndex(i));
+	  if Sc_ColumnParentAbsIndex(i) then
+	    trDef = trDef + MakeText(' data-tt-parent-id="%d"', Sc_ColumnParentAbsIndex(i));
+	  endif;
+	  trDef = trDef + '>';
+	
+      filewrite(Sc_HtmlOutput, '%s', trDef);
+	
+	  //row header
+	  string separator = "";
+	  if Sc_Ds_ColumnParentAbsIndex(Sc_ColumnAbsIndex(i)) then
+	    separator = ",";
+	  endif;
+	  filewrite(Sc_HtmlOutput, '<td><span class="addr">[%s%s%d]</span> %s</td>', FormatAddress(Sc_Ds_ColumnParentAddress(Sc_ColumnAbsIndex(i))), 
+	                                    separator, 
+									    Sc_Ds_ColumnIndex(Sc_ColumnAbsIndex(i)), 
+									    Sc_Ds_ColumnLabel(Sc_ColumnAbsIndex(i)));
+										
+	  //row values
+	  do numeric j = 1 while j <= columnIdx.Length() by 1
+	    filewrite(Sc_HtmlOutput, '<td style="text-align:center;">%s</td>', writeCellValue(columnIdx(j), Sc_ColumnAbsIndex(i)));
+	  enddo;
+	
+	  filewrite(Sc_HtmlOutput, '</tr>');
+	enddo;
+	
+	filewrite(Sc_HtmlOutput, '</table></div>');
+	
+	//JS
+	filewrite(Sc_HtmlOutput, '<script id="dxss_ew%d">', dsId);
+	filewrite(Sc_HtmlOutput, '$("#t%d").treetable({ expandable: true });', dsId);
+	filewrite(Sc_HtmlOutput, '$("#t%d").treetable("expandAll");', dsId);
+	filewrite(Sc_HtmlOutput, '</script>');
+  end;
+  
+  function WriteHtmlDataSource(dsId)
+    filewrite(Sc_HtmlOutput, '<div class="dsContainer">');
+
+    //data source header
+    WriteHtmlDsHeader(dsId);	
+	
+	//table
+    WriteHtmlDsTable(dsId);
+	
+	filewrite(Sc_HtmlOutput, '</div>');
+  end;
+   
+  function WriteHtml(string fName)
+    StartWriteHtml(fName);
+	
+	List string dsKeys;
+	Sc_DataSources.GetKeys(dsKeys);
+	
+	do numeric i = 1 while i <= dsKeys.Length() by 1
+	  WriteHtmlDataSource(ToNumber(dsKeys(i)));
+	enddo;
+  
+    EndWriteHtml();
+  end;

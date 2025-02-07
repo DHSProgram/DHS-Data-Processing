@@ -1,0 +1,55 @@
+﻿Language = ES
+{ common strings used by the application }
+  ES ( "Households Eligible for Selection for Cluster: %04d Enumerator %04d" ) Hogares Elegibles para Seleccion en Segmento: %04d Enumerador %04d
+  ES ( "Date: %s" ) Fecha: %s
+  ES ( "HH" ) Hogar
+  ES ( "Structure" ) Estructura
+  ES ( "Household address" ) Direccion del hogar
+  ES ( "Head of household" ) Jefe del hogar
+  ES ( "Observations" ) Observaciones
+  ES ( "Households expected in cluster %d, households listed %d" ) Hogares esperados en el segmento %d, hogares listados %d
+  ES ( "Cluster was already declared finalized by enumerator" ) El segmento fue ya declarado como finalizado por el enumerador
+  ES ( "Cluster Segmentation" ) Segmentacion del Conglomerado
+  ES ( "Segment" ) Segmento
+  ES ( "Households" ) Hogares
+  ES ( "Cummulative" ) Acumulado
+  ES ( "Percent" ) Porcentaje
+  ES ( "Segment selected %d, Number of households in selected segment %d" ) Segmento seleccionado %d, Numero de hogares en el segmento seleccionado %d 
+  ES ( "Cluster Coordinates" ) Coordenadas del Segmento
+  ES ( "Reading" ) Lectura
+  ES ( "Latitude" ) Latitud
+  ES ( "Longitude" ) Longitud
+  ES ( "Altitude" ) Altitud
+  ES ( "Satellites" ) Satelites
+  ES ( "Accuraccy" ) Precision
+  ES ( "Cluster coordinates based on average from households" ) Coordenadas del segmento con base en el promedio de hogares
+  ES ( "There are no valid GPS coordinates for cluster %04d" ) No hay coordenadas GPS validas para el segmento %04d
+  ES ( "There was a change in enumerators: first enumerator %04d current enumerator %04d" ) Hubo un cambio de enumerador: Primer enumerador %04d numerador actual %04d
+
+Language = FR
+  FR ( "Households Eligible for Selection for Cluster: %04d Enumerator %04d" ) Ménages de la grappe %04d éligibles à la sélection Enumerator %04d 
+  FR ( "Date: %s" ) Data: %s
+  FR ( "HH" ) MG
+  FR ( "Structure" ) Structure
+  FR ( "Household address" ) Adresse du ménage
+  FR ( "Head of household" ) Chef de ménage
+  FR ( "Observations" ) Observations
+  FR ( "Households expected in cluster %d, households listed %d" )Households expected in cluster %d, households listed %d
+  FR ( "Cluster was already declared finalized by enumerator" )  Cluster was already declared finalized by enumerator
+  FR ( "Cluster Segmentation" ) Segmentation de Grappe
+  FR ( "Segment" ) Segment
+  FR ( "Households" ) Menages
+  FR ( "Cummulative" ) Cummulative
+  FR ( "Percent" ) Percentage
+  FR ( "Segment selected %d, Number of households in selected segment %d" ) Segment tire %d, nombre de menages dans le segment tire %d  
+  FR ( "Cluster Coordinates" ) Coordonnes de la Grappe
+  FR ( "Reading" ) Numero
+  FR ( "Latitude" ) Latitude
+  FR ( "Longitude" ) Longitude
+  FR ( "Altitude" ) Altitude
+  FR ( "Satellites" ) Satellites
+  FR ( "Accuraccy" ) Accuraccy
+  FR ( "Cluster coordinates based on average from households" ) Coordonnes de la Grappe based on average from menages
+  FR ( "There are no valid GPS coordinates for cluster %04d" ) Il n'y a pas de coordonnées GPS valides pour grappe %04d
+  FR ( "There was a change in enumerators: first enumerator %04d current enumerator %04d" ) There was a change in enumerators: first enumerator %04d current enumerator %04d
+  

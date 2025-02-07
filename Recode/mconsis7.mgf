@@ -1,0 +1,196 @@
+{* Men *}
+{* Husband and Wife *}
+0010 Wife (MV034(%02d)=%02d) does not exist in the women's recode data file
+0011 Wife (MV034(%02d)=%02d) not eligible (Hhv117(%02d)=%01d) does not exist in the woman's data file
+0012 Wife (MV034(%02d)=%02d) has an incomplete questionnaire (Wv015=%02d)
+0013 Wife (MV034(%02d)=%02d) not married to this man (Wv034=%02d)
+0014 Wife (MV034B(%02d)=%02d) has different age (Wv012=%02d)
+
+0020 Household (Wcaseid=%15s) does not exist in the woman's recode data file
+
+{* Men *}
+0100 MV005=%08d MV015=%01d
+0101 MV006=%02d MV007=%02d MV008=%04d
+0102 MV009=%02d MV010=%02d MV011=%04d
+0103 MV008=%04d MV011=%04d MV012=%02d
+0104 MV012=%02d MV013=%01d
+0105 MV015=%01d MV009=%02d MV010=%02d MV011=%04d MV012=%02d MV013d=%01d MV014=%01d
+0106 MV016=%02d MV006=%02d MV007=%02d
+
+0111 MV024=%02d MV101=%02d MV025=%01d MV102=%01d MV026=%01d MV134=%01d
+
+0112 Wife/partner (MV034(%02d)=%02d) inconsistent MV003=%02d MV136=%02d
+0113 Wife/partner (MV034(%02d)=%02d) HV104(%02d)=%01d HV105(%02d)=%02d
+
+0114 Wife/partner=%02d MV034=%02d MV034A=%01d
+0115 MV505=%02d number of MV034=%02d MV035=%02d
+
+1101 MV012=%02d MV104=%02d
+1102 MV104=%02d MV105=%02d
+1103 MV012=%02d MV133=%02d
+1104 MV106=%01d MV107=%02d
+
+0105?V012=%02d V013=%01d
+
+1108 MV138=%02d MV136=%02d
+
+
+1115 MV149=%01d MV106=%01d
+
+1120 MV155=%01d MV106=%01d
+1121 MV156=%01d MV106=%01d
+1122 MV106=%01d MV157=%01d MV156=%01d
+1123 MV167=%01d MV168=%01d
+1124 MV201=%02d MV202=%02d MV203=%02d MV204=%02d MV205=%02d MV206=%02d MV207=%02d
+1125 MV217=%02d MV202=%02d MV203=%02d MV204=%02d MV205=%02d
+1126 MV201=%02d MV212=%02d
+1127 MV201=%02d MV245=%01d
+1128 MV201=%02d MV246=%01d
+1129 MV502=%01d MV305(7)=%01d MV213=%01d
+1130 MV225=%01d MV213=%01d
+1131 Number of living children is=%02d but MV247=%02d
+1132 MV247=%02d MV248=%01d MV250=%01d MV252=%01d
+1133 MV247=%02d MV248=%01d MV249=%01d
+1134 MV247=%02d MV250=%01d MV251=%02d
+
+3101 MV301=%01d Check=%01d
+3102 MV302=%01d Check=%01d
+3104 Method=%02d MV304=%01d MV305=%01d
+3105 Method=%02d MV304A=%01d
+3106 Method=%02d MV305=%01d MV307=%01d
+3107 Method=%02d MV305=%01d
+
+3203 MV312=%02d MV767A=%01d MV767B=%01d MV767C=%01d MV213=%01d
+3204 MV312=%02d MV305=%01d
+3205 MV313=%01d MV312=%02d
+3206 MV312=%02d MV305(MV312)=%01d
+3207 MV312=%02d MV305(6)=%01d MV305(7)=%01d
+
+4263 MV463Z=%01d MV463A-G:Counts of Yes=%1d Missing=%1d NA=%1d
+4264 MV464=%02d MV463A=%1d
+4265 MV465=%02d Children < 5 liMVing with respondent = %1d
+4266 MV466=%01d LiMVing children with Resp.= %1d
+4267 x=%01d MV471A..G=%01d %01d %01d %01d %01d %01d %01d
+4268 x=%01d MV472A..U=%01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d 
+4269 MV474Z=%01d MV474A-G:Counts of Yes=%01d Missing=%01d NA=%01d
+4270 MV474=%01d MV475=%01d
+4271 MV474=%01d MV476=%01d
+4272 MV477=%02d MV478=%02d
+4273 MV477=%02d MV478=%02d MV479=%02d
+4274 MV479=%02d MV480=%01d
+4275 MV481A..X count of NA=%02d
+4276 MV482A=%01d
+4277 MV482B=%01d MV482C=%01d
+
+5101 MV501=%01d MV502=%01d
+5102 MV501=%01d MV502=%01d MV503=%01d MV507=%02d MV508=%02d MV509=%04d MV510=%01d MV511=%02d MV512=%02d MV513=%01d
+5103 MV502=%01d MV505=%02d
+5105 MV507=%02d MV508=%02d MV509=%04d
+5106 MV509=%04d MV008=%04d MV011=%04d Marital dur=%03d Min age at mar=%03d Age at mar=%03d
+5107 MV509=%04d MV511=%02d MV011=%04d
+5108 MV509=%04d MV512=%02d MV008=%04d
+5109 MV512=%02d MV513=%01d
+5116 MV525=%02d MV201=%02d MV501=%01d
+5117 MV525=%02d MV527=%03d MV531=%02d MV532=%01d
+5118 MV525=%02d MV212=%02d MV012=%02d MV531=%02d MV532=%01d
+5123 MV525=%02d MV531=%02d Check=%02d MV532=%01d
+5126 MV535=%1d MV502=%1d
+5127 MV536=%1d Check=%1d MV525=%02d MV527=%03d
+5128 MV502=%1d MV504=%1d
+5130 MV525=%02d MV013=%01d MV541=%01d
+
+6101 MV602=%1d MV305(7)=%01d
+6104 MV602=%01d MV603=%03d
+6105 MV603=%03d MV604=%01d
+6106 MV605=%01d MV602=%01d MV604=%01d
+6109 MV613=%02d MV614=%01d
+6110 MV616=%03d MV602=%01d
+6113 MV621=%01d MV502=%01d MV305(7)=%01d MV631=%01d
+6115 MV627=%02d MV628=%02d MV629=%02d MV613=%02d
+6116 MV627=%02d MV628=%02d MV629=%02d MV613=%02d
+6119 MV631=%01d MV502=%01d MV605=%02d MV213=%01d
+
+7105 MV716=%03d MV717=%02d
+7106 MV716=%03d MV717=%02d MV731=%01d
+7107 MV731=%01d MV714=%01d
+7108 MV719=%01d MV721=%01d MV731=%01d
+7109 MV731=%01d MV732=%01d
+7111 MV716=%03d MV717=%02d MV740=%01d
+7112 MV741=%03d MV731=%02d
+
+7502 MV761=%01d MV525=%02d MV527=%03d
+7503 MV750=%01d Check=%01d MV751=%01d MV785=%01d
+7507 MV756=%01d MV751=%01d
+7508 MV785=%03d count of notappl=%01d count of answers=%01d
+7509 MV766B=%02d MV761=%01d MV761B=%01d MV761C=%01d
+7510 MV766B=%02d MV767A=%02d MV767B=%02d MV767C=%02d
+7512 MV767A=%02d MV768A=%03d MV767B=%02d MV768B=%3d MV767C=%02d MV768C=%03d
+7513 MV762AZ=%01d MV762AA-AX:Counts of Yes=%1d Missing=%1d NA=%1d
+7514 MV762BZ=%01d MV762BA-BX:Counts of Yes=%1d Missing=%1d NA=%1d
+7515 MV763A=%01d MV763B=%01d MV763C=%01d MV763D=%01d MV763E=%01d MV763F=%01d MV763G=%01d MV525=%02d
+7516 MV762AZ=%01d MV769=%01d
+7517 MV762BZ=%01d MV769A=%01d
+7518 MV763A=%01d MV763B=%01d MV763C=%01d MV763D=%01d MV763E=%01d MV763F=%01d MV763G=%01d MV77%1d=%01d
+7519 MV770=%01d MV770A=%01d
+7520 Entry=%01d MV770X=%03d count of notappl=%01d count of answers=%01d
+7524 MV775=%01d MV751=%01d
+7526 MV777=%01d MV778=%01d MV779=%01d MV780=%01d MV781=%01d MV751=%01d
+7527 MV751=%01d MV781=%01d MV783=%01d
+7532 Entry=%01d MV784X=%03d count of notappl=%01d count of answers=%01d
+7533 MV525=%02d MV767A=%01d MV767B=%01d MV767C=%01d MV793=%01d MV793A=%01d
+7534 MV793A=%01d MV793B=%01d
+7535 OUT??? MV767A=%01d MV767B=%01d MV767C=%01d MV793B=%01d
+7536 MV525=%02d MV761=%01d MV372A=%01d
+7537 MV3A09B=%01d MV325B=%03d
+
+
+8101 MV801=%04d MV802=%04d MV803=%02d MV027=%01d
+8102 MV801=%04d MV802=%04d MV803=%02d check=%04d MV027=%01d
+
+8210 MV525=%02d MV013=%01d MV820=%02d
+8211 MV751=%01d MV785=%02d
+8212 MV849=%03d count of notappl=%01d count of answers=%01d
+8230 MV832B=%03d MV832C=%03d MV833A=%01d MV833B=%01d MV833C=%01d MV835A=%01d MV835B=%01d MV835C=%01d
+8231 MV761=%01d  MV835A=%01d
+8232 MV832B=%03d MV835B=%01d
+8233 MV832C=%03d MV835C=%01d
+8240 MV761=%01d  MV833A=%01d
+8241 MV761B=%01d MV833B=%01d
+8242 MV761C=%01d MV833C=%01d
+8243 MV525=%02d MV836=%02d
+8251 V751=%01d V837=%01d
+8255 MV751=%01d MV825=%01d MV826=%01d MV828=%01d MV844=%01d
+8256 MV781=%01d MV826=%01d MV827=%01d MV828=%01d MV829=%02d
+8257 MV844=%01d MV845=%01d MV846=%01d
+8258 MV844=%01d MV845=%01d MV846=%01d MV775=%01d
+
+{* Household *}
+
+10008 MV003=%02d MV136=%02d
+
+12011 Special value for variable(s) in %s
+12012 Entry=%01d Special value for variable(s) in %s
+
+{* Statistics *}
+
+20003 %05d cases where MV801 < 0
+20004 %05d cases where MV801 > 180
+
+20014 %05d cases where Respondent reported never having sex, but has been married
+
+{* Husband and wife *}
+
+20034 %05d cases where the husband is not in file because of ineligibility
+20035 %05d cases where husband has incomplete questionnaire (result <> 1)
+
+20037 %05d cases where wife not eligibles and not in the data file
+20038 %05d cases where wife has incomplete questionnaire
+
+{* Household statistics *}
+20054 %05d cases where the ultimate area unit is not the cluster
+20055 %05d cases where the sampling unit is not the cluster
+20056 %05d cases where the sample stratum is equation of the cluster
+20057 %05d cases where the sample domain is national
+
+20096 Number of men...................:%06d
+20098 Number of complete men..........:%06d

@@ -1,0 +1,3083 @@
+﻿PROC GLOBAL
+{+-----------------------------------------------------------------------------+}
+{+                                                                             +}
+{+   Guidelines July 7, 2021            -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                             +}
+{+   CHAPTER 11. INFANT FEEDING AND CHILDHOOD AND MATERNAL NUTRITION           +}
+{+                                                                             +}
+{+   11.1     Nutritional status of children                                   +}
+{+   11.1W    Remeasurement response rate (WORKING TABLE ONLY)                 +}
+{+   11.1a    Mean of nutritional status variables for children (working table)+}
+{+   11.2     Child growth monitoring                                          +}
+{+   11.3     Early breastfeeding                                              +}
+{+   11.4     Breastfeeding status according to age                            +}
+{+   11.5     Infant feeding practices by age                                  +}
+{+   11.6     Liquids consumed by children in the day or night preceding       +}
+{+            the interview                                                    +}
+{+   11.7     Foods consumed by children in the day or night preceding         +}
+{+            the interview                                                    +}
+{+   11.8     Minimum dietary diversity, minimum meal frequency,               +}
+{+            and minimum acceptable diet among children                       +}
+{+   11.9     Egg and/or flesh food consumption and unhealthy feeding          +}
+{+            practices among children age 6-23 months                         +}
+{+   11.10    Infant and young child feeding (IYCF) indicators                 +}
+{+   11.11    Infant and young child feeding counseling                        +}
+{+   11.12W   Coverage of testing for anemia in children (WORKING TABLE ONLY)  +}
+{+   11.12    Prevalence of anemia in children                                 +}
+{+   11.13    Micronutrient supplementation and deworming among children       +}
+{+   11.14.1  Nutritional status of women age 20-49                            +}
+{+   11.14.2  Nutritional status of adolescent women age 15-19                 +}
+{+   11.14.3  Nutritional status of men age 20-49                              +}
+{+   11.14.4  Nutritional status of adolescent men age 15-19                   +}
+{+   11.15    Foods and liquids consumed by women in the day or night          +}
+{+            preceding the interview                                          +}
+{+   11.16    Minimum dietary diversity and unhealthy food and beverage        +}
+{+            consumption among women                                          +}
+{+   11.17.1W Coverage of testing for anemia in women (WORKING TABLE ONLY)     +}
+{+   11.17.1  Prevalence of anemia in women                                    +}
+{+   11.17.2W  Coverage of testing for anemia in men (WORKING TABLE ONLY)      +}
+{+   11.17.2  Prevalence of anemia in men                                      +}
+{+   11.18    Presence of iodized salt in household                            +}
+{+                                                                             +}
+{+-----------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, j, jmax, jmax1, jmax2, jmax3, jtot, jtot1, jtot2, jtot3, jtot4, k, ktot, kmax, i1;
+  numeric l, ncases, jmin, imin, acum, movmed, imea, iage, preg, bfdg, sdgsex;
+  numeric rweight, mother, ybmi, xbmi, zw, hhi, minfeedb, feedings, minfeedn, lastva;
+  numeric xwght, xhght, ywght, yhght, womelig, lastch, ageatb;
+  numeric months, chline, plnwat, watbase, milk, milky, totmilkf, timesfed, fruitva, meats;
+  numeric group1, group2, group3, group4, group5, group6, group7, group8, group9, group10, allgrp;
+  numeric gavefood, eb, med1st, emsample, maxhght, maxwght, minhght, minwght, medmin, medmax;
+  numeric altit, adjalt, x453, xtemp, xb53, xb57, day;
+  numeric liquid, noliquid, food, nofood, anyDK, yngst;
+  numeric DaysMonth = 30.4375;
+
+  array childvar(100);  { to store child's size at birth }
+  array mothcmc(100);   { to store mother's CMC of birth }
+  array mothelig(100);  { to store mother's pregnancy/postpartum status at the woman's level }
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 11, [Country Survey Year]" );
+{EN+}
+{{ES}
+    title( "Cuadros para el capítulo 11, [País Encuesta Año]" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 11, [Pays, Enquête, Année]" );
+{FR}}
+
+  crosstab float(1) t1101 chage2+chage3+sex2+pinter2+bsize+mothstat+mothage1+mothbmi+v102w+v101w+v106wt+v190w+total
+                       hghtage+wghthght+wghtage
+    exclude(rowzero,colzero,totals,percents,specval)
+{+EN}
+    title( "Table 11.1  Nutritional status of children"," ",
+           "Percentage of children under age 5 classified as",
+           "malnourished according to three anthropometric indices of",
+           "child growth: height-for-age, weight-for-height, and",
+           "weight-for-age, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 11.1  Estado de nutrición de los niños/as"," ",
+           "Porcentaje de los menores de cinco años clasificados como",
+           "desnutridos según tres índices antropométricos de nutrición:",
+           "talla para la edad, peso para la talla, y peso para la edad, según",
+           "características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 11.1  État nutritionnel des enfants"," ",
+           "Pourcentage d'enfants de moins de 5 ans considérés comme atteints de malnutrition",
+		   "selon les 3 indices anthropométriques de mesure de la croissance de l'enfant : la taille-pour-âge,",
+		   "le poids-pour-taille et le poids-pour-âge,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1101u chage2+chage3+sex2+pinter2+bsize+mothstat+mothage1+mothbmi+v102w+v101w+v106wt+v190w+total coltotu
+    exclude(rowzero,colzero,totals,percents,specval)
+    title( "Table 11.1  Nutritional status of children (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1101w total remeas
+    exclude(rowzero,colzero,totals,percents,specval)
+    title( "Table 11.1W  Remeasurement response rate (WORKING TABLE ONLY)","",
+           "Among children under age 5 (0-59 months) selected for remeasurement, percentage whose",
+		   "height and weight were remeasured (unweighted), [Country Survey Year]" );
+
+  crosstab float(2) t1101a agesingl meanscor
+    exclude(rowzero,colzero,totals,percents,specval)
+    title( "Table 11.1a  Mean height-for-age, weight-for-age, and weight-for-height",
+           "compared to international standards (working table), [Country Survey Year]" );
+
+  crosstab float(1) t1102 chage2+chage3+sex2+mothage2+v102w+v101w+v106wt+v190w+total h70w
+    exclude(rowzero,colzero,totals,percents,specval)
+{+EN}
+    title( "Table 11.2  Child growth monitoring"," ",
+           "Percentage of children under age 5 who had selected measurements performed by a",
+		   "healthcare provider in the 3 months preceding the survey,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.2  Suivi de la croissance de l'enfant"," ",
+           "Pourcentage d'enfants de moins de 5 ans pour lesquels",
+		   "un prestataire de santé a effectué certaines mesures dans les 3 mois ayant précédé l'enquête,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1102u chage2+chage3+sex2+mothage2+v102w+v101w+v106wt+v190w+total total
+    exclude(rowzero,colzero,totals,percents,specval)
+    title( "Table 11.2  Child growth monitoring (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1103 sex2+m42hw+adeliv+m15w+birtype1+m78dw+m78ew+v102w+v101w+v106wt+v190w+total brfedst1
+    exclude(rowzero,colzero,totals,percents,specval)
+{+EN}
+    title( "Table 11.3  Early breastfeeding"," ",
+           "Percentage of children born in the last 2 years who were ever breastfed, percentage who",
+		   "were put to the breast within 1 hour of birth, and percentage who were",
+		   "exclusively breastfed for the first 2 days after birth,",
+           "according to background characteristics, [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.3  Allaitement initial"," ",
+           "Pourcentage d'enfants  nés au cours des 2 dernières années ayant déjà été allaités,",
+		   "pourcentage ayant commencé à être allaité dans l'heure qui a suivi la naissance et",
+		   "pourcentage ayant été exclusivement allaité pendant les 2 premiers jours après la naissance,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub( "Background characteristic" );
+{FR}}
+  crosstab float(0) t1103u sex2+m42hw+adeliv+m15w+birtype1+m78dw+m78ew+v102w+v101w+v106wt+v190w+total total
+    exclude(rowzero,colzero,totals,percents,specval)
+    title( "Table 11.3  Early breastfeeding (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) t1104  agemnth0+sex2+v102w+v101w+v106wt+v190w+total brfedst2+currbrf+usenipp
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.4  Breastfeeding status according to age"," ",
+           "Among youngest children age 0-5 months living with their mother, percentage",
+		   "exclusively breastfeeding and percentage receiving mixed milk feeding; and among all",
+		   "children age 12-23 months, percentage currently breastfeeding; and among all children",
+		   "age 0-23 months, percentage using a bottle with a nipple,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.4  Allaitement selon l'âge"," ",
+           "Parmi les plus jeunes enfants de 0-5 mois vivant avec leur mère, pourcentage exclusivement allaité",
+		   "et pourcentage recevant une alimentation mixte lactée ; et, parmi tous les enfants de 12-23 mois,",
+		   "pourcentage actuellement allaité; et, parmi tous les enfants de 0-23 mois, pourcentage nourri avec un biberon,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1104u  agemnth0+sex2+v102w+v101w+v106wt+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 11.4  Breastfeeding status according to age (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1105 agemnth1+agemnth2 brfedst3
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.5  Infant feeding practices by age"," ",
+           "Percent distribution of youngest children age 0-5 months living with their mother,",
+		   "by feeding category, according to age in months, [Country Survey Year]" )
+     stub( "Age group in months" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.5  Type d'allaitement selon l'âge "," ",
+           "Répartition (en %) des plus jeunes enfants de 0-5 mois vivant avec leur mère,",
+		   "par catégorie d'alimentation, selon l'âge en mois, [Pays, Enquête, Année]" )
+     stub( "Âge en mois" );
+{FR}}
+  crosstab float(0) t1105u agemnth1+agemnth2 total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 11.5  Infant feeding practices by age (Number of un-weighted cases)" )
+     stub( "Age group in months" );
+
+  crosstab float(1) t1106 agemnth3+agemnth4+agemnth5+total
+                          liquid1+milkdrk+yogurt+soymilk+liquid2+teacoffe+liquid3+otherl+numch2 breastfd
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.6  Liquids consumed by children in the day or night preceding the interview"," ",
+           "Percentage of youngest children under age 2 living with their mother by type of liquids",
+		   "consumed in the day or night preceding the interview, according to age and",
+		   "breastfeeding status, [Country Survey Year]" )
+     stub( "Age in months" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 11.6  Liquides consommés par les enfants le jour ou la nuit ayant précédé l'interview"," ",
+           "Pourcentage d'enfants derniers-nés de moins de 2 ans vivant avec leur mère,",
+		   "par type de liquides consommés le jour ou la nuit ayant précédé l'interview,",
+		   "selon l'âge et selon qu'ils sont, ou non, allaités [Pays, Enquête, Année]" )
+     stub( "Âge en mois" );
+{FR}}
+  crosstab float(0) t1106u  agemnth3+agemnth4+agemnth5+total total breastfd
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 11.6  Liquids consumed by children in the day or night preceding the interview (Number of un-weighted cases)" )
+     stub( "Age in months" );
+
+  crosstab float(1) t1107 agemnth3+agemnth4+agemnth5+total solfood+numch2 breastfd
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.7  Foods consumed by children in the day or night preceding the interview"," ",
+           "Percentage of youngest children under age 2 living with their mother by type of foods",
+		   "consumed in the day or night preceding the interview, according to age and",
+		   "breastfeeding status, [Country Survey Year]" )
+     stub( "Age in months" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.7  Aliments consommés par les enfants le jour ou la nuit ayant précédé l'interview"," ",
+           "Pourcentage d'enfants derniers-nés de moins de 2 ans vivant avec leur mère,",
+		   "par type d'aliments consommés le jour ou la nuit ayant précédé l'interview,",
+		   "selon l'âge et selon qu'ils sont, ou non, allaités [Pays, Enquête, Année]" )
+     stub( "Âge en mois" );
+{FR}}
+  crosstab float(0) t1107u  agemnth3+agemnth4+agemnth5+total total breastfd
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 11.7  Foods consumed by children in the day or night preceding the interview (Number of un-weighted cases)" )
+     stub( "Age in months" );
+
+  crosstab float(1) t1108  agemnth6+sex2+v102w+v101w+v106wt+v190w+total brfmin+nbrfmin+allmin
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.8  Minimum dietary diversity, minimum meal frequency, and minimum acceptable diet among children","",
+           "Percentage of youngest children age 6-23 months living with their mother who are",
+           "fed a minimum acceptable diet based on breastfeeding status, number of food groups,",
+           "and times they are fed during the day or night preceding the survey,",
+           "according to background characteristics, [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.8  Diversification alimentaire minimum, nombre minimum de repas et apport alimentaire minimum acceptable parmi les enfants","",
+           "Pourcentage des plus jeunes enfants de 6-23 mois vivant avec leur mère qui ont reçu,",
+		   "durant le jour ou la nuit ayant précédé l'interview, la diversité alimentaire minimale, la fréquence minimale des repas",
+		   "et l'apport alimentaire minimum acceptable, par statut d'allaitement,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1108u  agemnth6+sex2+v102w+v101w+v106wt+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 11.8  Minimum dietary diversity, minimum meal frequency, and minimum acceptable diet among children (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) t1109  agemnth6+sex2+brfeed1+v102w+v101w+v106wt+v190w+total eggflsh+unhealth+numch3
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.9  Egg and/or flesh food consumption and unhealthy feeding practices among children age 6-23 months","",
+           "Percentage of youngest children age 6-23 months living with their mother who consumed egg",
+		   "and/or flesh food, and percentage who experienced each various specified unhealthy feeding",
+		   "practice, during the day or night preceding the survey,",
+           "according to background characteristics, [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.9  Consommation d'oeuf et/ou de produits d'originale animale et pratiques alimentaires malsaines parmi les enfants de  6-23 mois","",
+           "Pourcentage d'enfants les plus jeunes de 6-23 mois vivant avec leur mère et qui ont consommé des oeufs",
+		   "et/ou des produits carnés, et pourcentage ayant eu des pratiques alimentaires malsaines spécifiées,",
+		   "durant le jour ou la nuit ayant précédé l'interview,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1109u  agemnth6+sex2+brfeed1+v102w+v101w+v106wt+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 11.9  Egg and/or flesh food consumption and unhealthy feeding practices among children age 6-23 months (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) t1110 rowfood numpct
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.10  Infant and young child feeding (IYCF) indicators","",
+           "Percentage of children fed according to various IYCF practices,",
+           "[Country Survey Year]" )
+     stub( "Indicator" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 11.10  Indicateurs d'évaluation des Pratiques d'Alimentation du Nourrisson et du Jeune Enfant  (PANJE)","",
+           "Pourcentage d'enfants nourris en suivant les différentes pratiques PANJE, [Pays, Enquête, Année]" )
+     stub( "Indicateur" );
+{FR}}
+
+  crosstab float(1) t1111  agemnth7+sex1+v013w2+v102w+v101w+v106w+v190w+total counself
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.11  Infant and young child feeding counseling","",
+           "Among women age 15-49 whose youngest child age 6-23 months is living with them,",
+		   "percentage who talked with a healthcare provider or community health worker about",
+		   "how or what to feed their child in the last 6 months, according to",
+           "background characteristics, [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.11  Conseil sur l'alimentation du nourrisson et du jeune enfant  ","",
+           "Parmi les femmes de 15-49 ans dont l'enfant le plus jeune de 6-23 mois vit avec elles,",
+		   "pourcentage ayant parlé, dans les 6 derniers mois,",
+		   "avec un prestataire de santé ou un agent de santé communautaire de la façon ou de quoi nourrir leur enfant,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+    stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1111u  agemnth7+sex1+v013w2+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 11.11  Infant and young child feeding counseling (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) t1112w chage4+chage5+sex2+mothstat+v102w+v101w+v106wt+v190w+total tanemiac
+     exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+   title( "Table 11.12W  Coverage of testing for anemia in children (WORKING TABLE ONLY)"," ",
+          "Percentage of eligible children age 6-59 months tested for anemia,",
+		  "according to background characteristics (unweighted), [Country Survey Year]" )
+   stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+   title( "Tableau 11.12W  Couverture du test d'anémie des enfants (TABLEAU DE TRAVAIL SEULEMENT)"," ",
+          "Pourcentage d’enfants de 6-59 mois éligible testés pour l'anémie, selon certaines", 
+		  "caractéristiques sociodémographiques, (non pondéré), [Pays Enquête Année]" )
+   stub( "Caractéristique sociodémographique" );
+{FR}}
+
+  crosstab float(1) t1112 chage4+chage5+sex2+mothstat+v102w+v101w+v106wt+v190w+total anemxtrc+anemiac+anemean+chanemia
+     exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+   title( "Table 11.12  Prevalence of anemia in children"," ",
+          "Percentage of children age 6-59 months classified as having anemia, and mean hemoglobin level,",
+          "according to background characteristics, [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+   title( "Cuadro 11.12  Prevalencia de anemia en niños/as"," ",
+          "Porcentaje de niños/as de 6-59 meses de edad que tienen anemia,",
+          "por características seleccionadas, [País Encuesta Año]" )
+    stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 11.12  Prévalence de l'anémie chez les enfants"," ",
+           "Pourcentage d'enfants de 6-59 mois considérés comme étant atteints d’anémie, et niveaux moyens d'hémoglobine,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1112u chage4+chage5+sex2+mothstat+v102w+v101w+v106wt+v190w+total total
+     exclude(rowzero,colzero,percents,totals,specval)
+   title( "Table 11.12  Prevalence of anemia in children (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) t1113 chage6+chage5+sex2+brfeed+mothage2+v102w+v101w+v106wt+v190w+total consump1+consump2
+    exclude(rowzero,colzero,totals,percents,specval)
+{+EN}
+    title( "Table 11.13  Micronutrient supplementation and deworming among children"," ",
+           "Among children age 6-59 months, percentages who were given iron tablets or syrups,",
+		   "micronutrient powders, and iron-containing supplements in the last 12 months, and",
+		   "percentage who were given vitamin A supplements in the last 6 months; and among children",
+		   "age 12-59 months, percentage who were given deworming medication in the last 6 months,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.13  Suppléments en micronutriments et déparasitage parmi les enfants"," ",
+           "Parmi les enfants de 6-59 mois, pourcentage à qui on a donné, dans les 12 derniers mois,",
+		   "du fer, en comprimés ou en sirop, des micronutriments en poudre",
+		   "et des suppléments contenant du fer et pourcentage à qui on a donné,",
+		   "dans les 6 derniers mois, des suppléments de vitamine A ; parmi les enfants de 12-59 mois,",
+		   "pourcentage à qui on a donné, dans les 6 derniers mois, des médicaments pour le déparasitage,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1113u chage6+chage5+sex2+brfeed+mothage2+v102w+v101w+v106wt+v190w+total coltotu
+    exclude(rowzero,colzero,totals,percents,specval)
+    title( "Table 11.13  Micronutrient supplementation and deworming among children (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t11141 v013w2+v102w+v101w+v106w+v190w+total height1+bmiw
+    exclude(colzero,rowzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.14.1  Nutritional status of women age 20-49","",
+           "Among women age 20-49, percentage with height below 145 cm, mean",
+		   "body mass index (BMI), and percentage with specific BMI levels,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.14.1  État nutritionnel des femmes de 20-49 ans","",
+           "Parmi les femmes de 20-49 ans, pourcentage ayant une taille inférieure à 145 cm,",
+		   "Indice de Masse Corporelle (IMC) moyen et pourcentage ayant certains niveaux d'IMC,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t11141u v013w2+v102w+v101w+v106w+v190w+total coltotu
+    exclude(colzero,rowzero,percents,totals,specval)
+    title( "Table 11.14.1  Nutritional status of women age 20-49 (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t11142 v102w+v101w+v106w+v190w+total heighage+bmiw2
+    exclude(colzero,rowzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.14.2  Nutritional status of adolescent women age 15-19","",
+           "Among women age 15-19, percentage with height-for-age below -2",
+		   "standard deviations (SD), mean body mass index (BMI) for age Z-score,",
+		   "and percentage with specific BMI-for-age levels,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.14.2  État nutritionnel des femmes adolescentes de 15-19 ans","",
+           "Parmi les femmes de 15-19 ans, pourcentage dont la taille-pour-âge est inférieure à -2 écart type (ET),",
+		   "Z-score moyen de l'Indice de Masse Corporelle (IMC) pour- âge,",
+		   "et pourcentage avec des niveaux spécifiques d'IMC pour l'âge,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t11142u v102w+v101w+v106w+v190w+total coltotu
+    exclude(colzero,rowzero,percents,totals,specval)
+    title( "Table 11.14.2  Nutritional status of adolescent women age 15-19 (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t11143 v013w2+v102w+v101w+v106w+v190w+tot2049+men5059+totmen1 bmim
+    exclude(colzero,rowzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.14.3  Nutritional status of men age 20-49","",
+           "Among men age 20-49, mean body mass index (BMI), and percentage with specific BMI levels,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.14.3  État nutritionnel des hommes de 20-49 ans","",
+           "Parmi les hommes de 15-19 ans, Z-score moyen de l'Indice de Masse Corporelle (IMC)-pour-âge,",
+		   "et pourcentage avec des niveaux spécifiques d'IMC pour l'âge,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Background characteristic" );
+{FR}}
+  crosstab float(0) t11143u v013w2+v102w+v101w+v106w+v190w+tot2049+men5059+totmen1 total
+    exclude(colzero,rowzero,percents,totals,specval)
+    title( "Table 11.14.3  Nutritional status of men age 20-49 (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t11144 v102w+v101w+v106w+v190w+total bmim2
+    exclude(colzero,rowzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.14.4  Nutritional status of adolescent men age 15-19","",
+           "Among men age 15-19, mean body mass index (BMI) for age Z-score, and percentage",
+		   "with specific BMI-for-age levels, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.14.4  État nutritionnel des hommes adolescents de 15-19 ans","",
+           "Parmi les hommes de 15-19 ans, Z-score moyen de l'Indice de Masse Corporelle (IMC)-pour-âge,",
+		   "et pourcentage avec des niveaux spécifiques d'IMC pour l'âge,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t11144u v102w+v101w+v106w+v190w+total coltotu
+    exclude(colzero,rowzero,percents,totals,specval)
+    title( "Table 11.14.4  Nutritional status of adolescent men age 15-19 (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1115 v013w2+v213w+v102w+v101w+v106w+v190w+total foodsw
+    exclude(colzero,rowzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.15  Foods and liquids consumed by women in the day or night preceding the interview","",
+           "Percentage of women age 15-49 by type of foods and liquids consumed in the day",
+		   "or night preceding the interview, according to background characteristics,"
+		   "[Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.15  Aliments et liquides consommés par les femmes le jour ou la nuit ayant précédé l'interview ","",
+           "Pourcentage de femmes de 15-49 ans par type d'aliments et de liquides consommés",
+		   "le jour ou la nuit ayant précédé l'interview,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1115u v013w2+v213w+v102w+v101w+v106w+v190w+total total
+    exclude(colzero,rowzero,percents,totals,specval)
+    title( "Table 11.15  Foods and liquids consumed by women in the day or night preceding the interview (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1116 v013w2+v213w+v102w+v101w+v106w+v190w+total foodsw2
+    exclude(colzero,rowzero,percents,totals,specval)
+{+EN}
+    title( "Table 11.16  Minimum dietary diversity and unhealthy food and beverage consumption among women","",
+           "Percentage of women age 15-49 consuming sweet beverages, percentage consuming sentinel",
+		   "unhealthy foods, and percentage achieving minimum dietary diversity for women,",
+		   " according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 11.16  Diversification alimentaire minimum et consommation d'aliments et de boissons malsaines parmi les femmes ","",
+           "Pourcentage de femmes de 15-49 ans qui consomment des boissons sucrées,",
+		   "pourcentage qui consomment des aliments malsains sentinelles et",
+		   "pourcentage dont l'alimentation correspond aux critère de la diversification alimentaire minimum pour les femmes,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1116u v013w2+v213w+v102w+v101w+v106w+v190w+total total
+    exclude(colzero,rowzero,percents,totals,specval)
+    title( "Table 11.16  Minimum dietary diversity and unhealthy food and beverage consumption among women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t11171w v013w2+parity+v213w1+useiud+v102w+v101w+v106w+v190w+total tanemiaw
+     exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+   title( "Table 11.17.1W  Coverage of testing for anemia in women (WORKING TABLE ONLY)"," ",
+          "Percentage of eligible women age 15-49 years tested for anemia,", 
+		  "according to background characteristics (unweighted), [Country Survey Year]" )
+   stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+   title( "Tableau 11.17.1W  Couverture du test d'anémie des femmes (TABLEAU DE TRAVAIL SEULEMENT)"," ",
+          "Pourcentage de femmes de 15-49 ans éligible testées pour l'anémie,", 
+		  "selon certaines caractéristiques sociodémographiques, (non pondéré), [Pays Enquête Année]" )
+   stub( "Caractéristique sociodémographique" );
+{FR}}
+
+  crosstab float(1) t11171 v013w2+parity+v213w1+useiud+v102w+v101w+v106w+v190w+total anemxtrw+anemiaw+anemean+numwom
+     exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+   title( "Table 11.17.1  Prevalence of anemia in women"," ",
+          "Percentage of women age 15-49 classified as having anemia, and mean hemoglobin level,",
+		  "according to background characteristics, [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+   title( "Cuadro 11.17.1  Prevalencia de anemia en mujeres"," ",
+          "Porcentaje de mujeres de 15-49 años con anemia,",
+          "según características seleccionadas, [País Encuesta Año]" )
+    stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 11.17.1  Prévalence de l'anémie chez les femmes"," ",
+           "Pourcentage de femmes de 15-49 ans considérés comme étant atteintes d’anémie, et niveaux moyens d'hémoglobine,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t11171u v013w2+parity+v213w1+useiud+v102w+v101w+v106w+v190w+total total
+     exclude(rowzero,colzero,percents,totals,specval)
+   title( "Table 11.17.1  Prevalence of anemia in women (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) t11172w v013w2+v102w+v101w+v106w+v190w+tot1549+men5059+totmen tanemiam
+     exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+   title( "Table 11.17.2W  Coverage of testing for anemia in men (WORKING TABLE ONLY)"," ",
+          "Percentage of eligible men age 15-49 years tested for anemia,", 
+		  "according to background characteristics (unweighted), [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+   title( "Tableau 11.17.2W  Couverture du test d'anémie des hommes (TABLEAU DE TRAVAIL SEULEMENT)"," ",
+          "Pourcentage de hommes de 15-49 ans éligible testées pour l'anémie,", 
+		  "selon certaines caractéristiques sociodémographiques, (non pondéré), [Pays Enquête Année]" )
+    stub( "Caractéristique sociodémographique" );
+{FR}}
+
+  crosstab float(1) t11172 v013w2+v102w+v101w+v106w+v190w+tot1549+men5059+totmen anemiam+anemean+numman
+     exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+   title( "Table 11.17.2  Prevalence of anemia in men"," ",
+          "Percentage of men age 15-49 classified as having anemia, and mean hemoglobin level,",
+		  "according to background characteristics, [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+   title( "Cuadro 11.17.2  Prevalencia de anemia en hombres"," ",
+          "Porcentaje de hombres de 15-49 años con anemia,",
+          "según características seleccionadas, [País Encuesta Año]" )
+    stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 11.17.2  Prévalence de l'anémie chez les hommes"," ",
+           "Pourcentage d'hommes de 15-49 ans considérés comme étant atteints d'anémiés, et niveaux moyens d'hémoglobine,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t11172u v013w2+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+     exclude(rowzero,colzero,percents,totals,specval)
+   title( "Table 11.17.2  Prevalence of anemia in men (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) t1118 v102w+v101w+v190w+total salt1+salt2
+    exclude(rowzero,colzero,totals,percents,specval)
+{+EN}
+    title( "Table 11.18  Presence of iodized salt in household", " ",
+           "Among all households, percentage with salt tested for iodine content, percentage with",
+           "salt in the household but the salt was not tested, and percentage with no salt in the",
+           "household; and among households with salt tested, percentage with iodized salt,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Table 11.18  Presence of iodized salt in household", " ",
+           "Among all households, percentage with salt tested for iodine content, percentage with",
+           "salt in the household but the salt was not tested, and percentage with no salt in the",
+           "household; and among households with salt tested, percentage with iodized salt,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 11.18  Présence de sel iodé dans le ménage", " ",
+           "Parmi tous les ménages, pourcentage dont le sel a été testé pour la présence d'iode,",
+		   "pourcentage disposant de sel mais dont le sel n'a pas été testé et ",
+		   "pourcentage ne disposant pas de sel dans le ménage et, parmi les ménages dont le sel a été testé,",
+		   "pourcentage ayant du sel iodé selon certaines caractéristiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1118u v102w+v101w+v190w+total coltotu
+    exclude(rowzero,colzero,totals,percents,specval)
+    title( "Table 11.18  Presence of iodized salt in household (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  { to find out if a type of food was given to a child }
+  function given( xvar )
+    given = 0;
+    if xvar = 1 then
+      given = 1
+    endif;
+  end
+
+  { to find out if a type of food was not given to a child }
+  function notgiven( xvar )
+    notgiven = 0;
+    if xvar = 0 then
+      notgiven = 1
+    endif;
+  end
+
+  { to find out if a type of food was given to a child }
+  function DKgiven( xvar )
+    DKgiven = 0;
+    if xvar = 8 then
+      DKgiven = 1
+    endif;
+  end
+
+  { to determine the types of food consumed by children the day before }
+  function FoodConsumption()
+      plnwat   = ( given(V409) );                                 { plain water }
+      { !!! don't include yogurt as a drink (V413A), but include CS liquids and foods }
+      liquid  = ( given(V413B) | given(V413C) | given(V410)  | given(V413D) |
+	              given(V410A) | given(V412C) | given(V413) );
+      food   = ( given(V414V) & !given(V413A) |   // yogurt considered food if not taken as a drink
+	             given(V414E) | given(V414I)  | given(V414F) | given(V414J) |
+                 given(V414A) | given(V414K)  | given(V414L) | given(V414M) | given(V414B) |
+                 given(V414H) | given(V414G)  | given(V414N) | given(V414O) | given(V414C) |
+                 given(V414P) | given(V414D)  | given(V414R) | given(V414T) | given(V414U) |
+                 given(V414S) | given(V414W)  );
+      { !!! include CS animal milk if part of the survey }
+      milk   = ( given(V411)  | given(V411A) );
+      { milk here includes yogurt as needed by table 11.5 }
+      milky  = ( milk | given(V413A) );
+	  { !!! determine if unknowns for liquids or solids. Include any CS }
+	  anyDK  = ( DKgiven(V409)  | DKgiven(V411A) | DKgiven(V411)  | DKgiven(V413A) | DKgiven(V413B) |
+	             DKgiven(V413C) | DKgiven(V410)  | DKgiven(V413D) | DKgiven(V410A) | DKgiven(V412C) |
+                 DKgiven(V413)  |
+                 DKgiven(V414V) | DKgiven(V414E) | DKgiven(V414I) | DKgiven(V414F) | DKgiven(V414J) |
+                 DKgiven(V414A) | DKgiven(V414K) | DKgiven(V414L) | DKgiven(V414M) | DKgiven(V414B) |
+                 DKgiven(V414H) | DKgiven(V414G) | DKgiven(V414N) | DKgiven(V414O) | DKgiven(V414C) |
+                 DKgiven(V414P) | DKgiven(V414D) | DKgiven(V414R) | DKgiven(V414T) | DKgiven(V414U) |
+                 DKgiven(V414S) | DKgiven(V414W) );
+  end;
+
+  { to determine food groups consumed by children the day before }
+  function FoodGroups()
+    group1  = ( M4 = 95);                                                 { breast milk }
+    group2  = given(V414E) + given(V414F);                                { Grains, white/pale starchy roots, tubers, and plantains }
+    group3  = given(V414O) + given(V414C);                                { Beans, peas, lentils, nuts and seeds }
+    group4  = given(V411A) + given(V411)  + given(V413A) +
+	          given(V414V) + given(V414P);                                { Dairy products  }
+    group5  = given(V414M) + given(V414B) + given(V414H) + given(V414N);  { Flesh foods }                                                     { other fruits and vegetables }
+    group6  = given(V414G);                                               { eggs }
+    group7  = given(V414I) + given(V414J) + given(V414K);                 { Vitamin-A rich fruits and vegetables }
+    group8  = given(V414A) + given(V414L);                                { Other fruits and vegetables }
+    allgrp  = (group1 > 0) + (group2 > 0) + (group3 > 0) + (group4 > 0) +
+              (group5 > 0) + (group6 > 0) + (group7 > 0) + (group8 > 0);
+  end;
+
+  { determine Minimum meal frequency for breastfed and non-breastfed children }
+  function MinimumFeed()
+    numeric totmilkf1;
+    totmilkf = 0;
+    if V469F in 1:7 then totmilkf = totmilkf + V469F endif;             // infant formula
+    if V469E in 1:7 then totmilkf = totmilkf + V469E endif;             // fresh milk
+    if V413A = 1 & V469X in 1:7 then totmilkf = totmilkf + V469X endif; // yogurt liquid
+    // if the times gave yogurt as a liquid is asked separately from times gave yogurt as a solid,
+    // e.g. as Q636D for example, then replace above with:
+    // if V413A = 1 & S636DN in 1:7 then totmilkf = totmilkf + S636DN endif; // yogurt liquid
+
+    totmilkf1 = totmilkf; // captured before solid yogurt is counted
+    // yogurt as a solid - included in minimum milk feeding frequency, but not in minimum meal frequency
+    if V413A <> 1 & V469X in 1:7 then totmilkf = totmilkf + V469X endif; // yogurt solid
+
+    { define minimum feeding times for breastfed children }
+    recode M4 :: months :: M39 -> minfeedb;
+           95 ::  6:8   :: 2:7 -> 1;         { for currently breastfed children }
+           95 ::  9:23  :: 3:7 -> 1;
+              ::        ::     -> 0;
+    endrecode;
+    { define minimum feedings for non-breastfeeding children }
+    feedings = totmilkf1;
+    if M39 in 1:7 then feedings = feedings + M39 endif;
+    minfeedn = ( M4 <> 95 & feedings >= 4 & M39 in 1:7 );    { 4+ feedings at least one of solid or semi-solid }
+  end;
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  eb       = 0;
+  total    = 0;
+  numwom   = 1;
+  numman   = 1;
+  numhh    = 1;
+  numchild = 1;
+  numchil1 = 1;
+  med1st   = 1;    { up to DHS6 it was 0.75 but due to change in calculation of age now using days the midpoint of the 0-1 }
+  emsample = 0;         { 0 - All woman sample, 1 - Ever married woman sample }
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+  maxhght  = 2200;  { maximum height 220 cms            }
+  maxwght  = 2000;  { maximum weight 200 Kgs            }
+  minhght  = 1300;  { minimum height 130 cms            }
+  minwght  = 350;   { minimum weight 35  Kgs            }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 11.1 processing }
+  jtot1 = tblcol( t1101, hghtage  );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+     if j <> 2 & j <> 7 & j <> 11 then
+       t1101[*,j] = 100 * t1101[*,j] / t1101[*,jtot1];    { percents }
+     else
+       t1101[*,j] = (t1101[*,j] / t1101[*,jtot1]) / 100;  { means }
+     endif;
+  enddo;
+  jtot2 = tblcol( t1101, wghthght  );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+     if j <> 2 & j <> 7 & j <> 11 then
+       t1101[*,j] = 100 * t1101[*,j] / t1101[*,jtot2];    { percents }
+     else
+       t1101[*,j] = (t1101[*,j] / t1101[*,jtot2]) / 100;  { means }
+     endif;
+  enddo;
+  jtot3 = tblcol( t1101, wghtage  );
+  jmax  = jtot3 - 1;
+  do j = jtot2+1 while j <= jmax
+     if j <> 2 & j <> 7 & j <> 11 then
+       t1101[*,j] = 100 * t1101[*,j] / t1101[*,jtot3];    { percents }
+     else
+       t1101[*,j] = (t1101[*,j] / t1101[*,jtot3]) / 100;  { means }
+     endif;
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1101", t1101,       0, jtot1-2, t1101u, 0 );   { height for age }
+  Col2Dim( "t1101", t1101, jtot1+1, jtot2-2, t1101u, 1 );   { weight for height }
+  Col2Dim( "t1101", t1101, jtot2+1, jtot3-2, t1101u, 2 );   { weight for age }
+  { handle Mean BMI (which can be negative) separately }
+  j = tblcol(t1101, hghtage  = 3);
+  k = tblcol(t1101, wghthght = 4);
+  l = tblcol(t1101, wghtage  = 3);
+  do i = 0 while i <= tblrow(t1101)
+    if t1101u(i,0) < 25 then
+      t1101(i,j) = asterisk
+    endif;
+    if t1101u(i,1) < 25 then
+      t1101(i,k) = asterisk
+    endif;
+    if t1101u(i,2) < 25 then
+      t1101(i,l) = asterisk
+    endif;
+  enddo;
+  { write out SDG indicators }
+  itot   = tblrow( t1101 );
+  sdgsex = tblrow( t1101, sex2 = 1 );
+  jtot   = tblcol( t1101, hghtage = 2 );                      { stunting < -2 SD }
+  SDGIndicator( "2.2.1", t1101(sdgsex,jtot),    t1101(sdgsex+1,jtot),  t1101(itot,jtot) );
+  jtot1  = tblcol( t1101, wghthght = 2 );                     { wasting < -2 SD }
+  SDGIndicator( "2.2.2.a", t1101(sdgsex,jtot1), t1101(sdgsex+1,jtot1), t1101(itot,jtot1) );
+  jtot2  = tblcol( t1101, wghthght = 3 );                     { overweight > +2 SD }
+  SDGIndicator( "2.2.2.b", t1101(sdgsex,jtot2), t1101(sdgsex+1,jtot2), t1101(itot,jtot2) );
+  { malnutrition, sum of wasting and overweight }
+  SDGIndicator( "2.2.2", t1101(sdgsex,jtot1)+t1101(sdgsex,jtot2),
+                         t1101(sdgsex+1,jtot1)+t1101(sdgsex+1,jtot2),
+                         t1101(itot,jtot1)+t1101(itot,jtot2) );
+
+  { Table 11.1w processing }
+  t1101w[*,0] = t1101w[*,0] * 100 / t1101w[*,1];
+
+  { Table 11.1a processing }
+  jtot = tblcol( t1101a );
+  do j = 0 while j <= jtot by 2
+    t1101a[*,j] = ( t1101a[*,j] / t1101a[*,j+1] ) - 10;
+  enddo;
+
+  { Table 11.2 processing }
+  jtot = tblcol( t1102 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1102[*,j] = 100 * t1102[*,j] / t1102[*,jtot];
+  enddo;
+  Col2Dim( "t1102", t1102, 0, jtot-1, t1102u, 0 );
+
+  { Table 11.3 processing }
+  jtot = tblcol( t1103 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    t1103[*,j] = 100 * t1103[*,j] / t1103[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1103", t1103, 0, jtot-1, t1103u, 0 );
+
+  { Table 11.4 processing }
+  jtot1 = tblcol( t1104, brfedst2 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+     t1104[*,j] = 100 * t1104[*,j] / t1104[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1104, currbrf );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+     t1104[*,j] = 100 * t1104[*,j] / t1104[*,jtot2];
+  enddo;
+  jtot3 = tblcol( t1104, usenipp );
+  jmax  = jtot3 - 1;
+  do j = jtot2+1 while j <= jmax
+     t1104[*,j] = 100 * t1104[*,j] / t1104[*,jtot3];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1104", t1104, 0,       jtot1-1, t1104u, 0 );
+  Col2Dim( "t1104", t1104, jtot1+1, jtot2-1, t1104u, 1 );
+  Col2Dim( "t1104", t1104, jtot2+1, jtot3-1, t1104u, 2 );
+  { assign NAs to cells not applicable in the table }
+  itot = tblrow( t1104, agemnth0 = 4 );
+  t1104[itot:itot+3,0:jtot1]  = NAcells;
+  t1104[0:itot,jtot1+1:jtot2] = NAcells;
+
+  { Figure 11.5 processing }
+  jtot  = tblcol( t1105 );
+  jmax  = jtot - 2;
+  do j = 0 while j <= jmax
+     t1105[*,j] = 100 * t1105[*,j] / t1105[*,jtot];
+  enddo;
+  t1105[*,jmax+1] = tblsum( column t1105[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t1105", t1105, 0, jtot1-2, t1105u, 0 );
+
+  { Table 11.6 processing }
+  jtot = tblcol( t1106 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1106[*,j,*] = 100 * t1106[*,j,*] / t1106[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "t1106", t1106, 0, jtot-1, t1106u, 0 );
+
+  { Table 11.7 processing }
+  jtot = tblcol( t1107 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1107[*,j,*] = 100 * t1107[*,j,*] / t1107[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "t1107", t1107, 0, jtot-1, t1107u, 0 );
+
+  { Table 11.8  processing }
+  { aggregate to determine age 6-11 }
+  iage = tblrow( t1108, agemnth6 = 0 );
+  t1108[iage,*] = t1108[iage+1,*] + t1108[iage+2,*];
+  jtot1 = tblcol( t1108, brfmin );
+  jmax = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1108[*,j] = 100 * t1108[*,j] / t1108[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1108, nbrfmin );
+  jmax = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t1108[*,j] = 100 * t1108[*,j] / t1108[*,jtot2];
+  enddo;
+  jtot3 = tblcol( t1108, allmin );
+  jmax = jtot3 - 1;
+  do j = jtot2+1 while j <= jmax
+    t1108[*,j] = 100 * t1108[*,j] / t1108[*,jtot3];
+  enddo;
+  { check unweighted N's }
+  t1108u[iage,*] = t1108u[iage+1,*] + t1108u[iage+2,*];
+  Col2Dim( "t1108", t1108, 0,       jtot1-1, t1108u, 0 );  { breastfed children }
+  Col2Dim( "t1108", t1108, jtot1+1, jtot2-1, t1108u, 1 );  { non-breastfed children }
+  Col2Dim( "t1108", t1108, jtot2+1, jtot3-1, t1108u, 2 );  { all children }
+
+  { Table 11.9  processing }
+  { aggregate to determine age 6-11 }
+  iage = tblrow( t1109, agemnth6 = 0 );
+  t1109[iage,*] = t1109[iage+1,*] + t1109[iage+2,*];
+  jtot = tblcol( t1109 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1109[*,j] = 100 * t1109[*,j] / t1109[*,jtot];
+  enddo;
+  { check unweighted N's }
+  t1109u[iage,*] = t1109u[iage+1,*] + t1109u[iage+2,*];
+  Col2Dim( "t1109", t1109, 0, jtot-1, t1109u, 0 );
+
+  { table 11.10 processing }
+  t1110[*,0] = 100 * t1110[*,0] / t1110[*,1];
+
+  { table 11.11 processing }
+  jtot = tblcol( t1111 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1111[*,j] = 100 * t1111[*,j] / t1111[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1111", t1111, 0, jtot-1, t1111u, 0 );
+
+  { Table 11.12w processing }
+  jtot = tblcol( t1112w );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1112w[*,j] = 100 * t1112w[*,j] / t1112w[*,jtot];
+  enddo;
+
+  { Table 11.12 processing }
+  itot = tblrow( t1112 );
+  jtot = tblcol( t1112 );
+  jmax = jtot - 2;
+  t1112[*,1] = tblsum( column t1112[*,1:jmax] );        { calculates any anemia }
+  do j = 1 while j <= jmax
+    t1112[*,j] = 100 * t1112[*,j] / t1112[*,jtot];
+  enddo;
+  t1112[*,jmax+1] = t1112[*,jmax+1] / t1112[*,jtot];    // mean hemoglobin
+  // customize 1st column  
+  t1112[*,0]    = default;  
+  t1112(itot,0) = 0.0001;  
+  { check unweighted N's }
+  Col2Dim( "t1112", t1112, 1, jtot-1, t1112u, 0 );
+
+  { Table 11.13 processing }
+  jtot1 = tblcol( t1113, consump1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1113[*,j] = 100 * t1113[*,j] / t1113[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1113 );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t1113[*,j] = 100 * t1113[*,j] / t1113[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1113", t1113, 0,       jtot1-1, t1113u, 0 );
+  Col2Dim( "t1113", t1113, jtot1+1, jtot2-1, t1113u, 1 );
+  { assign NA to not applicable rows }
+  itot = tblrow( t1113, chage6 = 1 );
+  t1113[itot:itot+1,jtot1+1:jtot2] = NAcells;                    { NA number for children's age 24-59 }
+
+  { Table 11.14.1 processing }
+  jtot1 = tblcol( t11141, height1 );
+  t11141[*,0]  = t11141[*,0]  * 100 / t11141[*,jtot1];   { Percent < 145 cms }
+  jtot2 = tblcol( t11141 );
+  jmax  = jtot2 - 1;
+  j     = jtot1 + 1;
+  t11141[*,j]  = t11141[*,j]  / t11141[*,jtot2];         { mean bmi }
+  do j = j + 1 while j <= jmax
+    t11141[*,j]  = t11141[*,j]  * 100 / t11141[*,jtot2];
+  enddo;
+  jtot = tblcol( t11141, bmiw = 3 );               { calculate below 18.5 }
+  t11141[*,jtot] = t11141[*,jtot+1] + t11141[*,jtot+2];
+  jtot = tblcol( t11141, bmiw = 6 );               { calculate >= 25.0   }
+  t11141[*,jtot] = t11141[*,jtot+1] + t11141[*,jtot+2];
+  { check unweighted N's }
+  Col2Dim( "t11141", t11141, 0,       jtot1-1, t11141u, 0 );  { women measured }
+  Col2Dim( "t11141", t11141, jtot1+2, jtot2-1, t11141u, 1 );  { women measured and weighted }
+  { handle Mean BMI (which can be negative) separately }
+  j = tblcol(t11141, bmiw = 1);
+  do i = 0 while i <= tblrow(t11141)
+    if t11141u(i,1) < 25 then
+      t11141(i,j) = asterisk
+    endif;
+  enddo;
+
+  { Table 11.14.2 processing }
+  jtot1 = tblcol( t11142, heighage );
+  t11142[*,0]  = t11142[*,0]  * 100 / t11142[*,jtot1];   { height for age below 2 SD }
+  jtot2 = tblcol( t11142 );
+  jmax  = jtot2 - 1;
+  j     = jtot1 + 1;
+  t11142[*,j]  = (t11142[*,j] / t11142[*,jtot2]) / 100;  { mean bmi z-score divided by 100 because implicit decimals }
+  do j = j + 1 while j <= jmax
+    t11142[*,j]  = t11142[*,j]  * 100 / t11142[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t11142", t11142, 0,       jtot1-1, t11142u, 0 );  { women measured }
+  Col2Dim( "t11142", t11142, jtot1+2, jtot2-1, t11142u, 1 );  { women measured and weighted }
+  { handle Mean BMI (which can be negative) separately }
+  j = tblcol(t11142, bmiw2 = 1);
+  do i = 0 while i <= tblrow(t11142)
+    if t11142u(i,1) < 25 then
+      t11142(i,j) = asterisk
+    endif;
+  enddo;
+
+  { Table 11.14.3 processing }
+  jtot = tblcol( t11143 );
+  jmax = jtot - 1;
+  t11143[*,0]  = t11143[*,0]  / t11143[*,jtot];        { mean bmi }
+  do j = 1 while j <= jmax
+    t11143[*,j]  = t11143[*,j]  * 100 / t11143[*,jtot];
+  enddo;
+  jtot1 = tblcol( t11143, bmim = 3 );               { calculate below 18.5 }
+  t11143[*,jtot1] = t11143[*,jtot1+1] + t11143[*,jtot1+2];
+  jtot1 = tblcol( t11143, bmim = 6 );               { calculate >= 25.0   }
+  t11143[*,jtot1] = t11143[*,jtot1+1] + t11143[*,jtot1+2];
+  { check unweighted N's }
+  Col2Dim( "t11143", t11143, 1, jtot-1, t11143u, 0 );
+  { handle Mean BMI (which can be negative) separately }
+  j = tblcol(t11143, bmim = 1);
+  do i = 0 while i <= tblrow(t11143)
+    if t11143u(i,0) < 25 then
+      t11143(i,j) = asterisk
+    endif;
+  enddo;
+
+  { Table 11.14.4 processing }
+  jtot  = tblcol( t11144 );
+  jmax  = jtot - 1;
+  t11144[*,0]  = (t11144[*,0]  / t11144[*,jtot]) / 100;   { mean bmi z-score divided by 100 because implicit decimals }
+  do j = 1 while j <= jmax
+    t11144[*,j]  = t11144[*,j]  * 100 / t11144[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t11144", t11144, 1, jmax, t11144u, 0 );
+  { handle Mean BMI (which can be negative) separately }
+  j = tblcol(t11144, bmim2 = 1);
+  do i = 0 while i <= tblrow(t11144)
+    if t11144u(i,0) < 25 then
+      t11144(i,j) = asterisk
+    endif;
+  enddo;
+
+  { Table 11.15 processing }
+  jtot  = tblcol( t1115 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    t1115[*,j]  = t1115[*,j]  * 100 / t1115[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1115", t1115, 0, jtot-1, t1115u, 0 );
+
+  { Table 11.16 processing }
+  jtot  = tblcol( t1116 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    t1116[*,j]  = t1116[*,j]  * 100 / t1116[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1116", t1116, 0, jtot-1, t1116u, 0 );
+
+  { Table 11.17.1w processing }
+  jtot = tblcol( t11171w );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t11171w[*,j] = 100 * t11171w[*,j] / t11171w[*,jtot];
+  enddo;
+
+  { Table 11.17.1 processing }
+  itot = tblrow( t11171 );
+  jtot = tblcol( t11171 );
+  jmax = jtot - 2;
+  t11171[*,1] = tblsum( column t11171[*,1:jmax] );        { calculates any anemia }
+  do j = 1 while j <= jmax
+    t11171[*,j] = 100 * t11171[*,j] / t11171[*,jtot];
+  enddo;
+  t11171[*,jmax+1] = t11171[*,jmax+1] / t11171[*,jtot];    // mean hemoglobin
+  // customize 1st column  
+  t11171[*,0]    = default;  
+  t11171(itot,0) = 0.0001;  
+  { check unweighted N's }
+  Col2Dim( "t11171", t11171, 0, jtot-1, t11171u, 0 );
+  { write out SDG indicators }
+  SDGIndicator( "2.2.3", default, default, default );        { to provide a header for these indicators }
+  jtot   = tblcol( t11171, anemiaw = 1 );
+  imax   = tblrow( t11171, v213w1 = 1 );
+  SDGIndicator( "2.2.3.b", NACells, t11171(imax,jtot), NACells );     // pregnant women
+  SDGIndicator( "2.2.3.a", NACells, t11171(imax+1,jtot), NACells );   // non-pregnant women
+
+  { Table 11.17.2w processing }
+  jtot = tblcol( t11172w );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t11172w[*,j] = 100 * t11172w[*,j] / t11172w[*,jtot];
+  enddo;
+
+  { Table 11.17.2 processing }
+  jtot = tblcol( t11172 );
+  jmax = jtot - 2;
+  t11172[*,0] = tblsum( column t11172[*,0:jmax] );        { calculates any anemia }
+  do j = 0 while j <= jmax
+    t11172[*,j] = 100 * t11172[*,j] / t11172[*,jtot];
+  enddo;
+  t11172[*,jmax+1] = t11172[*,jmax+1] / t11172[*,jtot];    // mean hemoglobin
+  { check unweighted N's }
+  Col2Dim( "t11172", t11172, 0, jtot-1, t11172u, 0 );
+
+  { Table 11.18 processing }
+  jtot1 = tblcol( t1118, salt1 );
+  jmax   = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1118[*,j] = 100 * t1118[*,j] / t1118[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1118 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    t1118[*,j] = 100 * t1118[*,j] / t1118[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1118", t1118, 0,       jtot1-1, t1118u, 0 );  { all households }
+  Col2Dim( "t1118", t1118, jtot1+1, jtot2-1, t1118u, 1 );  { households with salt tested }
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+  { level 2 variables to be used in household level postproc }
+  do i = 0 while i <= HV009
+    childvar(i) = notappl;   { child's size at birth                     }
+    mothelig(i) = 0;         { to find out if mother: was measured, isn't pregnant or postpartum }
+	mothcmc(i)  = 0;
+  enddo;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = HV005 / 1000000;
+  endif;
+
+  v102w  = HV025;
+  v101w  = HV024;
+  v190w  = HV270;
+
+{ ---------------------------------------------------------------------------- }
+{ Tables 11.1, 11.1a, 11.1b, 11.1c, 11.12w, 11.12 }
+
+  { hemoglobin & anthropometrics for children in the household }
+  for i in RECH6_EDT do
+    if HV103(HC0) = 1 then      { de-facto children }
+      agesingl = HC1;
+      recode agesingl -> chage2;
+              0:5     -> 1;
+              6:11    -> 2;
+             12:23    -> 3;
+             24:35    -> 4;
+             36:47    -> 5;
+                      -> 6;
+      endrecode;
+      recode agesingl -> chage3;
+              0:23    -> 1;
+                      -> 2;
+      endrecode;
+      sex2     = HC27;
+      pinter2  = notappl;
+      bsize    = notappl;
+      mothstat = notappl;
+      mothage1 = notappl;
+      mothbmi  = notappl;
+      v106wt   = notappl;
+      mother   = HV112(HC0);
+      if HC60 in 1:HV009 then
+        mothstat = 1;                          { child's mother interviewed }
+        v106wt   = HC61;                       { mother's education }
+        if HC61 in 8,missing then v106wt = 9 endif;
+        recode   HC63 -> pinter2;                { birth interval }
+              notappl -> 1;
+                 <24  -> 2;
+                24:47 -> 3;
+                      -> 4;
+        endrecode;
+        if childvar(HC0) <> notappl then      { size at birth }
+          bsize = childvar(HC0);
+          recode bsize -> bsize;
+                   5   -> 1;
+                   4   -> 2;
+                  1:3  -> 3;
+                       -> 9;
+          endrecode;
+        endif;
+		ageatb = int((HC32-mothcmc(HC60))/12);
+		recode ageatb -> mothage1;
+		        <20   -> 1;
+			   20:34  -> 2;
+                      -> 3;
+        endrecode;
+      else                                     { mother was not interviewed }
+        recode   mother -> mothstat;
+                   0    -> 3;                 { mother not in household }
+          missing,98,97 -> 9;                 { missing }
+                        -> 2;                 { mother lives in household }
+        endrecode;
+        if mother in 1:HV009 then              { mother lives in household }
+          v106wt = HV106(mother);              { mother's education from HH }
+          if HV106(mother) in 8,missing then v106wt = 9 endif;
+        endif;
+      endif;
+
+      { finding mother in RECH5 for BMI }
+      if mother in 1:HV009 & mothelig(mother) then       { mother interviewed and neither pregnant nor postpartum }
+        do j = 1 while j <= soccurs( RECH5 )
+          if mother = HA0(j) then
+            if HA40(j) in 1200:6000 then                 { mother measured }
+              ybmi  = HA40(j) / 100;
+              xbmi  = int( ybmi*10 );
+              recode  xbmi  -> mothbmi;
+                    120:184 -> 1;      { underweight }
+                    185:249 -> 2;      { normal     }
+                    250:600 -> 3;      { overweight }
+                            -> 9;
+              endrecode;
+            endif;
+            break;
+          endif;
+        enddo;
+      endif;
+
+{ --------------------------------------------------------------------------- }
+{ table 11.1 }
+
+      { children's anthropometry }
+      numchild = notappl;
+      hghtage  = notappl;
+      wghthght = notappl;
+      wghtage  = notappl;
+      { height for age }
+      if !special(HC70) & HC70 <= 9990 then
+        hghtage  = 1;
+        if HC70 < (-300) then
+          xtab( t1101, rweight );
+        endif;
+        hghtage  = 2;
+        if HC70 < (-200) then
+          xtab( t1101, rweight );
+        endif;
+        hghtage  = 3;
+        xtab( t1101, HC70*rweight );
+        hghtage  = 4;
+        xtab( t1101, rweight );
+        coltotu = 1;
+        xtab( t1101u );
+        hghtage  = notappl;
+      endif;
+
+      { weight for height }
+      if !special(HC72) & HC72 < 9990 then
+        wghthght = 1;
+        if HC72 < (-300) then
+          xtab( t1101, rweight );
+        endif;
+        wghthght = 2;
+        if HC72 < (-200) then
+          xtab( t1101, rweight );
+        endif;
+        wghthght = 3;
+        if HC72 > 200 then
+          xtab( t1101, rweight );
+        endif;
+        wghthght = 4;
+        xtab( t1101, HC72*rweight );
+        wghthght = 5;
+        xtab( t1101, rweight );
+        coltotu = 2;
+        xtab( t1101u );
+        wghthght = notappl;
+      endif;
+
+      { weight for age }
+      if !special(HC71) & HC71 < 9990 then
+        wghtage  = 1;
+        if HC71 < (-300) then
+          xtab( t1101, rweight );
+        endif;
+        wghtage  = 2;
+        if HC71 < (-200) then
+          xtab( t1101, rweight );
+        endif;
+        wghtage  = 3;
+        xtab( t1101, HC71*rweight );
+        wghtage  = 4;
+        xtab( t1101, rweight );
+        coltotu = 3;
+        xtab( t1101u );
+        wghtage  = notappl;
+      endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 11.1w }
+
+      { if child remeasured }
+      if HC35 in 1:3 then
+        remeas = 2;
+        xtab( t1101w );
+        if HC2B in 10:2000 & HC3B in 100:2000 then  // children with valid weight and height
+          remeas = 1;
+          xtab( t1101w );
+        endif;
+      endif;
+
+{ --------------------------------------------------------------------------- }
+{ Table 11.1a }
+
+      if !special(HC70) & HC70  <= 9990 then
+        zw = HC70 / 100 + 10;
+        meanscor = 1;
+        xtab( t1101a, rweight*zw );
+        meanscor = 2;
+        xtab( t1101a, rweight );
+      endif;
+      if !special(HC71) & HC71  <= 9990 then
+        zw = HC71 / 100 + 10;
+        meanscor = 3;
+        xtab( t1101a, rweight*zw );
+        meanscor = 4;
+        xtab( t1101a, rweight );
+      endif;
+      if !special(HC72) & HC72  <= 9990 then
+        zw = HC72 / 100 + 10;
+        meanscor = 5;
+        xtab( t1101a, rweight*zw );
+        meanscor = 6;
+        xtab( t1101a, rweight );
+      endif;
+
+{ --------------------------------------------------------------------------- }
+{ table 11.12w }
+
+      { children 6-59 months eligible for anemia }
+      if HV042 = 1 & HC1 in 6:59 then
+        recode agesingl -> chage4;
+                6:11    -> 1;
+               12:23    -> 2;
+               24:35    -> 3;
+               36:47    -> 4;
+               48:59    -> 5;
+                        -> notappl;
+        endrecode;
+        recode agesingl -> chage5;
+                6:23    -> 1;
+               24:59    -> 2;
+                        -> notappl;
+        endrecode;
+        tanemiac = 2;                { all children }
+        xtab( t1112w );
+        if HC55 = 0  then            { tested for anemia }
+          tanemiac = 1;
+          xtab( t1112w );
+        endif;
+      endif;                                   { anemia subsample }
+
+{ --------------------------------------------------------------------------- }
+{ table 11.12 }
+
+      // children 6-59 months tested for anemia and with a plausible value for hemoglobin
+      if HV042 = 1 & HC1 in 6:59 & HC56A in 20:256 then
+        recode agesingl -> chage4;
+                6:11    -> 1;
+               12:23    -> 2;
+               24:35    -> 3;
+               36:47    -> 4;
+               48:59    -> 5;
+                        -> notappl;
+        endrecode;
+        recode agesingl -> chage5;
+                6:23    -> 1;
+               24:59    -> 2;
+                        -> notappl;
+        endrecode;
+        anemean  = notappl;
+        chanemia = 1;             
+        recode HC57A -> anemiac;         // anemia level
+                 3   -> 2;     // mild 
+                 2   -> 3;     // moderate
+                 1   -> 4;     // severe
+                     -> notappl;
+        endrecode;
+        xtab( t1112, rweight );
+        xtab( t1112u );
+        // to calculate mean hemoglobin		
+        anemiac  = notappl;
+        chanemia = notappl;
+        anemean  = 1;		
+        xtab( t1112, rweight*HC56A/10 );
+      endif;                                   { anemia subsample }
+
+    endif;                 { end de-facto children }
+  enddo;
+
+{ maternal anthropometry and anemia tables for never married }
+{ women in ever married samples                              }
+{ ---------------------------------------------------------------------------- }
+{ tables 11.12a, 11.12aw, 11.12b, 11.12.1 11.13.1 continuation }
+
+  if emsample then
+    for i in RECH5_EDT do
+      hhi = HA0;
+      v013w = int( HV105(hhi)/5 ) - 2;
+      v106w = HV106(hhi);
+      if HV106(hhi) in missing,8 then v106w = 9 endif;
+      v106wt = v106w;
+      recode  HA1 -> v013w2;
+            15:19 -> 1;
+            20:29 -> 2;
+            30:39 -> 3;
+                  -> 4;
+      endrecode;
+
+
+{ ---------------------------------------------------------------------------- }
+{ Table 11.12 }
+
+      if HV115(hhi) = 0 & HV103(hhi) = 1 then   { never married & de-facto }
+        if HA13 = 0 then            { height/weight measured }
+          xwght   = HA2;
+          xhght   = HA3;
+
+          womelig = 1;               { all never married women are eligible }
+          if womelig then            { if respondent eligible }
+            if HA40 in 0:9990 then
+              ybmi  = HA40 / 100;
+              xbmi  = int( ybmi*10 );
+            else
+              xbmi = missing;
+            endif;
+          endif;                     { end respondent eligible }
+
+{ ---------------------------------------------------------------------------- }
+{ Table 11.14.1 }
+
+          bmiw = notappl;
+          if HA1 >= 20 & xhght in minhght:maxhght then
+            yhght = xhght / 10;
+            if yhght < 145 then
+              height1 = 1;
+              xtab( t11141, rweight );
+            endif;
+            height1 = 2;
+            xtab( t11141, rweight );
+            coltotu = 1;
+            xtab( t11141u );
+          endif;
+
+          height1 = notappl;
+          if HA1 >= 20 & womelig then
+            if !special( xbmi ) then
+              bmiw = 1;
+              xtab( t11141, ybmi*rweight );
+              recode   xbmi -> bmiw;
+                       <170 -> 5;
+                    170:184 -> 4;
+                    180:249 -> 2;
+                    250:299 -> 7;
+                    300:600 -> 8;
+                            -> notappl;
+              endrecode;
+              xtab( t11141, rweight );
+              bmiw = 9;
+              xtab( t11141, rweight );
+              coltotu = 2;
+              xtab( t11141u );
+            endif;
+          endif;
+
+{ ---------------------------------------------------------------------------- }
+{ Table 11.14.2 }
+
+          if HA1 in 15:19 then
+            bmiw2 = notappl;
+            { height for age }
+            if !special(HA70) & HA70 <= 9990 then
+              heighage = 2;
+              xtab( t11142, rweight );
+              coltotu = 1;
+              xtab( t11142u );
+              if HA70 < (-200) then
+                heighage = 1;
+                xtab( t11142, rweight );
+              endif;
+            endif;
+
+            heighage = notappl;
+            if womelig & !special(HA73) & HA73 <= 9990 then
+              bmiw2 = 1;
+              xtab( t11142, HA73*rweight );
+			  if HA73 in (-100):100 then
+                bmiw2 = 2;
+                xtab( t11142, rweight );
+              endif;
+			  if HA73 < (-100) then
+                bmiw2 = 3;
+                xtab( t11142, rweight );
+              endif;
+			  if HA73 in (-200):(-101) then
+                bmiw2 = 4;
+                xtab( t11142, rweight );
+              endif;
+			  if HA73 < (-200) then
+                bmiw2 = 5;
+                xtab( t11142, rweight );
+              endif;
+			  if HA73 > 100 then
+                bmiw2 = 6;
+                xtab( t11142, rweight );
+              endif;
+			  if HA73 in 101:200 then
+                bmiw2 = 7;
+                xtab( t11142, rweight );
+              endif;
+			  if HA73 > 200 then
+                bmiw2 = 8;
+                xtab( t11142, rweight );
+              endif;
+              bmiw2 = 9;
+              xtab( t11142, rweight );
+              coltotu = 2;
+              xtab( t11142u );
+            endif;
+          endif;
+
+        endif;                             { end height/weight measured }
+
+{ ---------------------------------------------------------------------------- }
+{ Table 11.17.1w }
+
+        if HV042 = 1 then               { woman eligible for hemoglobin }
+          parity  = notappl;
+          v213w1  = notappl;
+          useiud  = notappl;
+          recode  HA1 -> v013w2;
+                15:19 -> 1;
+                20:29 -> 2;
+                30:39 -> 3;
+                      -> 4;
+          endrecode;
+          v106w = HA66;
+          if HA66 in 8,missing then v106w = 9 endif;
+          tanemiaw = 2;                 { all women }
+          xtab( t11171w );
+          if HA55 = 0 then              { tested for anemia }
+            tanemiaw = 1;
+            xtab( t11171w );
+          endif;
+        endif;                          { end woman tested for hemoglobin }
+
+{ ---------------------------------------------------------------------------- }
+{ Table 11.17.1 }
+
+        // woman tested for anemia and with a plausible value for hemoglobin 
+        if HV042 = 1 & HA56A in 20:256 then   
+          parity  = notappl;
+          v213w1  = notappl;
+          useiud  = notappl;
+          recode  HA1 -> v013w2;
+                15:19 -> 1;
+                20:29 -> 2;
+                30:39 -> 3;
+                      -> 4;
+          endrecode;
+          v106w = HA66;
+          if HA66 in 8,missing then v106w = 9 endif;
+          anemean = notappl;		  
+          numwom  = 1;                 
+          recode HA57A -> anemiaw;     
+                   3   -> 2;        // mild 
+                   2   -> 3;        // moderate
+                   1   -> 4;        // severe
+                       -> notappl;
+          endrecode;
+          xtab( t11171, rweight );
+          xtab( t11171u );
+          // to calculate mean hemoglobin		
+          anemiaw  = notappl;
+          numwom   = notappl;
+          anemean  = 1;		
+          xtab( t11171, rweight*HA56A/10 );
+          numwom  = 1;                 { all women }
+        endif;                          { end woman tested for hemoglobin }
+
+      endif;             { end never married & de-facto }
+    enddo;
+  endif;               { end of ever married sample }
+
+{ ---------------------------------------------------------------------------- }
+{ Tables 11.18 }
+
+  salt2 = notappl;
+  salt1 = 4;
+  xtab( t1118, rweight );
+  coltotu = 1;
+  xtab( t1118u );
+  recode HV234A -> salt1;
+           0,1  ->  1;      { salt tested }
+             6  ->  2;      { salt not tested, was available but wasn't tested }
+                ->  3;      { salt not tested/no salt in household/missing }
+  endrecode;
+  xtab( t1118, rweight );
+  salt1 = notappl;
+  { for households with salt tested }
+  if HV234A in 0,1 then
+    salt2 = 2;
+    xtab( t1118, rweight );
+    coltotu = 2;
+    xtab( t1118u );
+    if HV234A = 1 then
+      salt2 = 1;
+      xtab( t1118, rweight );
+    endif;
+  endif;
+
+{ nutritional status & anemia for men are calculated at the individual level   }
+{ ---------------------------------------------------------------------------- }
+{ Table 11.12.2, 11.12.2a, 11.13.2 }
+
+  if HV042 = 1 then        { household selected for hemoglobin }
+    for i in RECH1_EDT do
+      if HV118 = 1 then
+        MCASEID = concat( HHID, edit("ZZ9", HVIDX) );
+        if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then { found & complete questionnaire }
+
+          if unweight then
+            rweight = 1;
+          else
+            rweight = MV005/1000000;
+          endif;
+
+          { to tally total for all men regardless of age }
+          totmen   = 0;
+          totmen1  = 0;
+          { to tally total for men 15-49 }
+          tot1549  = 0;
+          tot2049  = 0;
+          { to tally men 50-54[59] }
+          men5059  = ( MV012 in 50:59 );
+
+          { general variables }
+          v102w  = MV102;
+          v101w  = MV101;
+          v106w  = MV106;
+          if MV106 in 8,missing then v106w = 9 endif;
+          v190w  = MV190;
+          recode MV013 -> v013w2;
+                   1   -> 1;
+                  2:3  -> 2;
+                  4:5  -> 3;
+                       -> 4;
+          endrecode;
+
+          { to properly tabulate men, variables for men 50 and above are set to NotAppl }
+          if MV012 > 49 then
+            tot1549 = notappl;
+            tot2049 = notappl;
+            v102w   = notappl;
+            v101w   = notappl;
+            v106w   = notappl;
+            v190w   = notappl;
+            v013w2  = notappl;
+          endif;
+
+          { find man in HH record with hemoglobin data }
+          do j = 1 while j <= soccurs( RECHMA )
+            if MV003 = HB0(j) then                    { man found }
+
+              { ---------------------------------------------------------------------- }
+              { Table 11.14.3 }
+
+              if HB40(j) in 0:9990 & HB1(j) in 20:59 then
+                ybmi  = HB40(j) / 100;
+                xbmi  = int( ybmi*10 );
+                bmim = 1;
+                xtab( t11143, ybmi*rweight );
+                recode   xbmi -> bmim;
+                         <170 -> 5;
+                      170:184 -> 4;
+                      180:249 -> 2;
+                      250:299 -> 7;
+                      300:600 -> 8;
+                              -> notappl;
+                endrecode;
+                xtab( t11143, rweight );
+                bmim = 9;
+                xtab( t11143, rweight );
+                xtab( t11143u );
+              endif;
+
+              { ---------------------------------------------------------------------- }
+              { Table 11.14.4 }
+
+              if HB1(j) in 15:19 & !special(HB73(j)) & HB73(j) <= 9990 then
+                bmim2 = 1;
+                xtab( t11144, HB73(j)*rweight );
+                if HB73(j) in (-100):100 then
+                  bmim2 = 2;
+                  xtab( t11144, rweight );
+                endif;
+                if HB73(j) < (-100) then
+                  bmim2 = 3;
+                  xtab( t11144, rweight );
+                endif;
+                if HB73(j) in (-200):(-101) then
+                  bmim2 = 4;
+                  xtab( t11144, rweight );
+                endif;
+		 	    if HB73(j) < (-200) then
+                  bmim2 = 5;
+                  xtab( t11144, rweight );
+                endif;
+			    if HB73(j) > 100 then
+                  bmim2 = 6;
+                  xtab( t11144, rweight );
+                endif;
+			    if HB73(j) in 101:200 then
+                  bmim2 = 7;
+                  xtab( t11144, rweight );
+                endif;
+			    if HB73(j) > 200 then
+                  bmim2 = 8;
+                  xtab( t11144, rweight );
+                endif;
+                bmim2 = 9;
+                xtab( t11144, rweight );
+				coltotu = 1;
+                xtab( t11144u );
+              endif;
+
+              { ---------------------------------------------------------------------- }
+              { Table 11.17.2w }
+
+              tanemiam = 2;               { all men eligible for anemia }
+              xtab( t11172w );
+			  if HB55(j) = 0 then         { tested for anemia }
+                tanemiam = 1;             
+                xtab( t11172w );
+			  endif;
+
+              { ---------------------------------------------------------------------- }
+              { Table 11.17.2 }
+
+              // man tested for anemia and with a plausible value for hemoglobin 
+              if HB56A(j) in 20:256 then           
+                anemean = notappl;			  
+                numman  = 1; 
+                recode HB57A(j) -> anemiam;
+                          3     -> 2; 	    // mild 
+                          2     -> 3;       // moderate 
+                          1     -> 4;       // severe
+						        -> notappl;
+				endrecode;
+                xtab( t11172, rweight );
+                xtab( t11172u );
+                // to calculate mean hemoglobin		
+                anemiam  = notappl;
+                numman   = notappl;
+                anemean  = 1;		
+                xtab( t11172, rweight*HB56A(j)/10 );
+                numman   = 1;                 
+              endif;                           { end man tested for hemoglobin }
+              break;
+            endif;                          { end man found }
+          enddo;                       { end loop to locate a man }
+
+        endif;                   { end loadcase & complete interview }
+      endif;                { end man eligible }
+    enddo;               { end loop over HH members }
+
+  endif;            { end HH selected for hemoglobin }
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  { general variables }
+  v101w = V101;
+  v102w = V102;
+  v013w = V013;
+  recode V013 -> v013w2;
+           1  -> 1;
+          2:3 -> 2;
+          4:5 -> 3;
+              -> 4;
+  endrecode;
+  v106w = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v106wt = v106w;
+  v190w  = V190;
+  recode V213 -> v213w;
+           1  -> 1;
+              -> 2;
+  endrecode;
+  v213w1 = v213w;  
+  mothcmc(V003) = V011;   { store CMC of birth to be used in table 11.1 }
+
+  { store child size at birth to be used at level 1 by table 11.1   }
+  { if there are children duplicated, the last one takes precedence }
+  for i in REC41_EDT  do
+    if MIDX <> 0 then
+      chline = B16(MIDX);
+      if chline in 1:HV009 then
+        childvar( chline ) = M18
+      endif;
+    endif;
+  enddo;
+
+  { find last child < 24 living with mother for tables 11.3, 11.5, 11.6, 11.8, 11.9 11.10, 11.11 }
+  lastch  = 0;
+  for i in REC41_EDT  do
+    if MIDX <> 0 & B19(MIDX) < 24 & B9(MIDX) = 0 then
+      lastch = MIDX;
+      break;
+    endif;
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ tables 11.2 }
+
+  for i in REC4A_EDT  do
+    sex2     = B4(HIDXA);
+    months   = B19(HIDXA);
+	ageatb   = int((B3(HIDXA)-V011)/12);
+	recode ageatb -> mothage2;
+	       15:19  -> 1;
+		   20:29  -> 2;
+		   30:39  -> 3;
+		          -> 4;
+    endrecode;
+    recode months -> chage2;
+            0:5   -> 1;
+            6:11  -> 2;
+           12:23  -> 3;
+           24:35  -> 4;
+           36:47  -> 5;
+                  -> 6;
+    endrecode;
+    recode months -> chage3;
+            0:23  -> 1;
+                  -> 2;
+    endrecode;
+	if H70A = 1 then
+	  h70w = 1;
+      xtab( t1102, rweight );
+    endif;
+	if H70B = 1 then
+	  h70w = 2;
+      xtab( t1102, rweight );
+    endif;
+	if H70C = 1 then
+	  h70w = 3;
+      xtab( t1102, rweight );
+    endif;
+	if H70A = 1 & H70B = 1 then
+	  h70w = 4;
+      xtab( t1102, rweight );
+    endif;
+	if H70A = 1 & H70B = 1 & H70C = 1 then
+	  h70w = 5;
+      xtab( t1102, rweight );
+    endif;
+    h70w = 6;
+    xtab( t1102, rweight );
+    xtab( t1102u );
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ tables 11.3 }
+
+  for i in REC41_EDT  do
+    months = P19(MIDXP);
+	if M80 in 1,2 & months < 24 then     // children born in the last 2 years
+      sex2     = B4(MIDX);
+      { assistance at delivery }
+      if     M3A = 1 | M3B = 1 | M3C = 1 |
+             M3D = 1 | M3E = 1              then adeliv = 1    { medical }
+      elseif M3F = 1 | M3G = 1              then adeliv = 2    { birth attendant }
+      elseif M3H = 1 | M3I = 1 | M3J = 1 |
+             M3K = 1 | M3L = 1 | M3M = 1    then adeliv = 3    { other }
+      elseif M3N = 1                        then adeliv = 4    { no one }
+      else                                       adeliv = 9    { missing }
+      endif;
+
+      { place of delivery }
+      recode  M15   -> m15w;
+            missing -> 9;         { missing }
+              20:49 -> 1;         { health facility public/private/NGO }
+              11:19 -> 2;         { home }
+                    -> 3;         { other }
+      endrecode;
+      { delivery by caesarean section }
+      recode M17  -> birtype1;
+               0  -> 1;         // vaginal birth
+               1  -> 2;         // caesarean section
+                  -> M17;
+      endrecode;
+      { counseling on breastfeeding ANC }
+      recode M42H -> m42hw;
+          notappl -> 3;
+             0,8  -> 2;
+                  -> M42H;
+      endrecode;
+      { counseling on breastfeeding PNC }
+      recode M78D -> m78dw;
+             0,8  -> 2;
+                  -> M78D;
+      endrecode;
+      { counseling on breastfeeding PNC }
+      recode M78E -> m78ew;
+             0,8  -> 2;
+                  -> M78E;
+      endrecode;
+      brfedst1 = 4;
+      xtab( t1103, rweight );
+      xtab( t1103u );
+      if !M4 in 94,missing then                { ever breastfed }
+        brfedst1 = 1;
+        xtab( t1103, rweight );
+        if M34 in 0,100 then         { breastfed within one hour }
+          brfedst1 = 2;
+          xtab( t1103, rweight );
+        endif;
+        if M55 = 0 then              { exclusive breastfed first two days }
+          brfedst1 = 3;
+          xtab( t1103, rweight );
+        endif;
+      endif;
+    endif;
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ tables 11.4 }
+
+  yngst = 1;
+  for i in REC41_EDT do
+	if M80 in 1,2 & B5(MIDX) = 1 then
+      months   = B19(MIDX);
+      sex2     = B4(MIDX);
+      recode months -> agemnth0;
+               0:1  ->   1;
+               2:3  ->   2;
+               4:5  ->   3;
+               6:11 ->   4;
+              12:15 ->   5;
+              16:19 ->   6;
+              20:23 ->   7;
+                    -> notappl;
+      endrecode;
+      FoodConsumption();
+
+	  { table 11.4 }
+      brfedst2 = notappl;
+      currbrf  = notappl;
+      usenipp  = notappl;
+      if months in 0:5 & B9(MIDX) = 0 & yngst then      { 0-5 months, living with the mother }
+        yngst = 0;
+        brfedst2 = 3;
+        xtab( t1104, rweight );
+        coltotu = 1;
+        xtab( t1104u );
+	    if M4 = 95 & !anyDK & !plnwat & !liquid & !milky & !food then
+          brfedst2 = 1;
+          xtab( t1104, rweight );
+        endif;
+        if M4 = 95 & milk then
+          brfedst2 = 2;
+          xtab( t1104, rweight );
+        endif;
+      endif;
+      brfedst2 = notappl;
+      if months in 12:23 then
+        currbrf = 2;
+        xtab( t1104, rweight );
+        coltotu = 2;
+        xtab( t1104u );
+        if M4 = 95 then
+          currbrf = 1;
+          xtab( t1104, rweight );
+        endif;
+      endif;
+      currbrf  = notappl;
+      if months in 0:23 then
+        usenipp = 2;
+        xtab( t1104, rweight );
+        coltotu = 3;
+        xtab( t1104u );
+        if M38 = 1 then
+          usenipp = 1;
+          xtab( t1104, rweight );
+        endif;
+      endif;
+    endif;
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ tables 11.5 }
+
+  yngst = 1;
+  for i in REC41_EDT do
+    months = P19(MIDXP);
+	if M80 in 1,2 & months in 0:5 & B9(MIDX) = 0 & yngst then   //0-5 months, living with mother
+      yngst = 0;
+      sex2  = B4(MIDX);
+      recode months -> agemnth1;
+               0:1  ->   1;
+               2:3  ->   2;
+               4:5  ->   3;
+                    -> notappl;
+      endrecode;
+      agemnth2 = 1;
+      nobreast = ( M4 <> 95 );           { not breastfeeding }
+      brfedst3 = 9;
+      xtab( t1105, rweight );
+      xtab( t1105u );
+
+      FoodConsumption();
+      if nobreast then
+        brfedst3 = 6;
+      elseif anyDK then
+        brfedst3 = 7;
+      else
+        recode plnwat :: liquid :: milky :: food -> brfedst3;
+                  0   ::   0    ::  0    ::  0   -> 1;        { Breastfeed only (exclusive breastfeeding) }
+                  1   ::   0    ::  0    ::  0   -> 2;        { Plain water only }
+                      ::   1    ::  0    ::  0   -> 3;        { water based liquids }
+                      ::        ::  1    ::  0   -> 4;        { milk }
+                      ::        ::       ::  1   -> 5;        { complementary food }
+                      ::        ::       ::      -> default;  { everybody else missing }
+        endrecode;
+      endif;
+      xtab( t1105, rweight );
+    endif;
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ tables 11.6 }
+
+  { !!! application based on standard categories }
+  { please check with SM to clasify CS liquids   }
+  for i in REC41_EDT  do
+    months   = P19(MIDXP);
+    if M80 in 1,2 & months < 24 & lastch = MIDX then     { last born under 2 living with mother }
+      recode months -> agemnth3;
+               0:1  ->   1;
+               2:3  ->   2;
+               4:5  ->   3;
+               6:8  ->   4;
+               9:11 ->   5;
+              12:17 ->   6;
+              18:23 ->   7;
+                    -> notappl;
+      endrecode;
+      recode months -> agemnth4;
+              0:5   -> 1;
+              6:11  -> 2;
+             12:23  -> 3;
+                    -> notappl;
+      endrecode;
+      recode months -> agemnth5;
+              6:23  -> 1;
+                    -> notappl;
+      endrecode;
+      recode M4 -> breastfd;
+             95 -> 1;                { breastfeeding }
+                -> 2;                { not breastfeeding }
+      endrecode;
+
+      liquid1  = notappl;
+      milkdrk  = notappl;
+      yogurt   = notappl;
+      soymilk  = notappl;
+      liquid2  = notappl;
+      teacoffe = notappl;
+      liquid3  = notappl;
+      otherl   = notappl;
+      numch2   = notappl;
+
+      { plain water }
+      gavefood = given(V409);
+      if gavefood then
+        liquid1 = 1;
+        xtab( t1106, rweight );
+      endif;
+      { baby formula }
+      gavefood = given(V411A);
+      if gavefood then
+        liquid1 = 2;
+        xtab( t1106, rweight );
+      endif;
+	  liquid1 = notappl;
+      { tinned, powered and milk from animals }
+      gavefood = given(V411);
+      if gavefood then
+        milkdrk = 1;
+        xtab( t1106, rweight );
+		if V411S = 1 then
+          milkdrk = 2;
+          xtab( t1106, rweight );
+        endif;
+      endif;
+      milkdrk = notappl;
+      { yogurt }
+      gavefood = given(V413A);
+      if gavefood then
+        yogurt = 1;
+        xtab( t1106, rweight );
+		if V413AS = 1 then
+          yogurt = 2;
+          xtab( t1106, rweight );
+        endif;
+      endif;
+      yogurt = notappl;
+      { soymilk }
+      gavefood = given(V413B);
+      if gavefood then
+        soymilk = 1;
+        xtab( t1106, rweight );
+		if V413BS = 1 then
+          soymilk = 2;
+          xtab( t1106, rweight );
+        endif;
+      endif;
+      soymilk = notappl;
+      { juice and fruit flavored drinks }
+      gavefood  = given(V410);
+      if gavefood then
+        liquid2 = 1;
+        xtab( t1106, rweight );
+      endif;
+      { sodas, malt, sport, energy drinks }
+      gavefood  = given(V413D);
+      if gavefood then
+        liquid2 = 2;
+        xtab( t1106, rweight );
+      endif;
+      liquid2 = notappl;
+      { tea, coffee }
+      gavefood = given(V410A);
+      if gavefood then
+        teacoffe = 1;
+        xtab( t1106, rweight );
+		if V410AS = 1 then
+          teacoffe = 2;
+          xtab( t1106, rweight );
+        endif;
+      endif;
+      teacoffe = notappl;
+      { clear broth, soup }
+      gavefood  = given(V412C);
+      if gavefood then
+        liquid3 = 1;
+        xtab( t1106, rweight );
+      endif;
+      liquid3 = notappl;
+      { other liquids }
+      gavefood = given(V413C) + given(V413);
+      if gavefood then
+        otherl = 1;
+        xtab( t1106, rweight );
+		if V413S = 1 then
+          otherl = 2;
+          xtab( t1106, rweight );
+        endif;
+      endif;
+      otherl = notappl;
+      { number of children }
+      numch2 = 1;
+      xtab( t1106, rweight );
+      xtab( t1106u );
+    endif;                           { end last born under 2 living with mother }
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ tables 11.7 }
+
+  { !!! application based on standard categories }
+  { please check with SM to clasify CS foods     }
+  for i in REC41_EDT  do
+    months   = P19(MIDXP);
+    if M80 in 1,2 & months < 24 & lastch = MIDX then     { last born under 2 living with mother }
+      recode months -> agemnth3;
+               0:1  ->   1;
+               2:3  ->   2;
+               4:5  ->   3;
+               6:8  ->   4;
+               9:11 ->   5;
+              12:17 ->   6;
+              18:23 ->   7;
+              24:35 ->   8;
+                    -> notappl;
+      endrecode;
+      recode months -> agemnth4;
+              0:5   -> 1;
+              6:11  -> 2;
+             12:23  -> 3;
+                    -> notappl;
+      endrecode;
+      recode months -> agemnth5;
+              6:23  -> 1;
+                    -> notappl;
+      endrecode;
+      recode M4 -> breastfd;
+             95 -> 1;                { breastfeeding }
+                -> 2;                { not breastfeeding }
+      endrecode;
+
+      numch2 = notappl;
+      { foods made from grains }
+      gavefood = given(V414E);
+      if gavefood then
+        solfood = 1;
+        xtab( t1107, rweight );
+      endif;
+      { White/pale starchy roots, tubers, and plantains }
+      gavefood = given(V414F);
+      if gavefood then
+        solfood = 2;
+        xtab( t1107, rweight );
+      endif;
+      { Beans, peas, lentils, nuts, and seeds }
+      gavefood = given(V414O) + given(V414C);
+      if gavefood then
+        solfood = 3;
+        xtab( t1107, rweight );
+      endif;
+      { Cheese and yogurt }
+      gavefood =  (given(V414V) & !given(V413A)) + given(V414P);
+      if gavefood then
+        solfood = 4;
+        xtab( t1107, rweight );
+      endif;
+      { Meat, fish, poultry, organ meats }
+      gavefood = given(V414M) + given(V414B) + given(V414H) + given(V414N);
+      if gavefood then
+        solfood = 5;
+        xtab( t1107, rweight );
+      endif;
+      { eggs }
+      gavefood = given(V414G);
+      if gavefood then
+        solfood = 6;
+        xtab( t1107, rweight );
+      endif;
+      { Vitamin A-rich fruits and vegetables }
+      gavefood = given(V414I) + given(V414J) + given(V414K);
+      if gavefood then
+        solfood = 7;
+        xtab( t1107, rweight );
+      endif;
+      { Other fruits and vegetables }
+      gavefood = given(V414A) + given(V414L);
+      if gavefood then
+        solfood = 8;
+        xtab( t1107, rweight );
+      endif;
+	  { Insects and other small protein foods }
+      gavefood = given(V414D);
+      if gavefood then
+        solfood = 9;
+        xtab( t1107, rweight );
+      endif;
+	  { Red palm oil }
+      gavefood = given(V414U);
+      if gavefood then
+        solfood = 10;
+        xtab( t1107, rweight );
+      endif;
+	  { Sweet foods such as chocolates, candies, pastries, cakes, biscuits, ice cream, popsicles }
+      gavefood = given(V414R) + given(V414W);
+      if gavefood then
+        solfood = 11;
+        xtab( t1107, rweight );
+      endif;
+	  { Fried and salty foods such as chips, crisps, puffs, french fries, fried dough }
+      gavefood = given(V414T);
+      if gavefood then
+        solfood = 12;
+        xtab( t1107, rweight );
+      endif;
+	  { Other solid, semi-solid, and soft food }
+      gavefood = given(V414S);
+      if gavefood then
+        solfood = 13;
+        xtab( t1107, rweight );
+      endif;
+	  solfood = notappl;
+      { count all children }
+      numch2 = 1;
+      xtab( t1107, rweight );
+      xtab( t1107u );
+    endif;                           { end last born under 3 living with mother }
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ tables 11.8 }
+
+  { !!! table 11.8 is based on the standard categories defined in the }
+  { core questionnaire.  If there are country specific questions SM   }
+  { should specify where they should be tallied.                      }
+  for i in REC41_EDT  do
+    months   = P19(MIDXP);
+    if M80 in 1,2 & months in 6:23 & lastch = MIDX then     { last child 6-23 months living with mother }
+      sex2     = B4(MIDX);
+      recode months -> agemnth6;
+               6:8  ->   1;
+               9:11 ->   2;
+              12:17 ->   3;
+              18:23 ->   4;
+                    -> notappl;
+      endrecode;
+
+      brfmin  = notappl;
+      nbrfmin = notappl;
+      allmin  = notappl;
+	  FoodGroups();
+	  MinimumFeed();
+      if M4 = 95 then      { currently breastfeeding }
+        brfmin = 4;
+        xtab( t1108, rweight );
+        coltotu = 1;
+        xtab( t1108u );
+        if allgrp >= 5 then              { 5+ food groups }
+          brfmin = 1;
+          xtab( t1108, rweight );
+        endif;
+        if minfeedb then
+          brfmin = 2;
+          xtab( t1108, rweight );
+        endif;
+        { both 5+ & minimum times }
+        if allgrp >= 5 & minfeedb then
+          brfmin = 3;
+          xtab( t1108, rweight );
+        endif;
+        brfmin = notappl;
+      else             { not currently breastfeeding }
+        nbrfmin = 5;
+        xtab( t1108, rweight );
+        coltotu = 2;
+        xtab( t1108u );
+        { milk or milk products given 2+ times }
+        if totmilkf >= 2 then
+          nbrfmin = 1;
+          xtab( t1108, rweight );
+        endif;
+        { 5+ food groups }
+        if allgrp >= 5 then
+          nbrfmin = 2;
+          xtab( t1108, rweight );
+        endif;
+        { 4+ times or more at least one a solid, semisolid food }
+        if minfeedn then
+          nbrfmin = 3;
+          xtab( t1108, rweight );
+        endif;
+        { with 3 appropriate IYCF practices }
+        if allgrp >= 5 & totmilkf >= 2 & minfeedn then
+          nbrfmin = 4;
+          xtab( t1108, rweight );
+        endif;
+        nbrfmin = notappl;
+      endif;                               { end currently breastfeeding }
+      { all children breastfed and non-breastfed }
+      allmin = 4;
+      xtab( t1108, rweight );
+      coltotu = 3;
+      xtab( t1108u );
+      { 5+ food groups including all }
+      if allgrp >= 5 then
+        allmin = 1;
+        xtab( t1108, rweight );
+      endif;
+      { minimum times or more for breastfed and non-breastfed }
+      if minfeedb | minfeedn then
+        allmin = 2;
+        xtab( t1108, rweight );
+      endif;
+      { with 3 IYCF practices }
+      if M4 = 95  & minfeedb & allgrp >= 5 |                       { IYCF for breastfed children }
+         M4 <> 95 & allgrp >= 5 & totmilkf >= 2 & minfeedn then   { IYCF for non-breastfed children }
+        allmin = 3;
+        xtab( t1108, rweight );
+      endif;
+    endif;                        { end last child 6-23 living with mother }
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ tables 11.9 }
+
+  { !!! table 11.9 is based on the standard categories defined in the }
+  { core questionnaire.  If there are country specific questions SM   }
+  { should specify where they should be tallied.                      }
+  for i in REC41_EDT  do
+    months   = P19(MIDXP);
+    if M80 in 1,2 & months in 6:23 & lastch = MIDX then     { last child 6-23 months living with mother }
+      sex2     = B4(MIDX);
+      recode months -> agemnth6;
+               6:8  ->   1;
+               9:11 ->   2;
+              12:17 ->   3;
+              18:23 ->   4;
+                    -> notappl;
+      endrecode;
+      recode  M4 -> brfeed1;
+              95 -> 1;
+         missing -> 9;
+                 -> 2;
+      endrecode;
+      eggflsh  = notappl;
+      unhealth = notappl;
+      numch3   = notappl;
+      { eggs, flesh food }
+      if given(V414G) | given(V414M) | given(V414B) | given(V414H) | given(V414N) then
+        eggflsh = 1;
+        xtab( t1109, rweight);
+      endif;
+      eggflsh  = notappl;
+      { sweet beverage }
+      if given(V411S) | given(V413AS) | given(V413BS) | given(V413C) | given(V410) |
+         given(V413D) | given(V410AS) | given(V413S) then
+        unhealth = 1;
+        xtab( t1109, rweight);
+      endif;
+      { unhealthy food }
+      if given(V414R) | given(V414W) | given(V414T) then
+        unhealth = 2;
+        xtab( t1109, rweight);
+      endif;
+      { Zero vegetable or fruit }
+      if notgiven(V414I) & notgiven(V414J) & notgiven(V414K) & notgiven(V414A) & notgiven(V414L) then
+        unhealth = 3;
+        xtab( t1109, rweight);
+      endif;
+      unhealth = notappl;
+      numch3 = 1;
+      xtab( t1109, rweight );
+      xtab( t1109u );
+    endif;                        { end last child 6-23 living with mother }
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ table 11.10 }
+
+  for i in REC41_EDT  do
+    months   = P19(MIDXP);
+    if M80 in 1,2 & months < 24 then     // children born in the last 2 years
+      FoodConsumption();				 // call functions to generate variables used by several indicators
+      FoodGroups();
+	  MinimumFeed();
+	  rowfood = 1;    // Ever breastfed
+      numpct  = 2;
+      xtab( t1110, rweight );
+	  if M4 <> 94 then
+        numpct  = 1;
+        xtab( t1110, rweight );
+      endif;
+	  rowfood = 2;    // Early initiation of breastfeeding
+      numpct  = 2;
+      xtab( t1110, rweight );
+      if M34 in 0,100 then
+        numpct  = 1;
+        xtab( t1110, rweight );
+      endif;
+	  rowfood = 3;    // Exclusively breastfed for the first 2 days after birth
+      numpct  = 2;
+      xtab( t1110, rweight );
+      if M55 = 0 then
+        numpct  = 1;
+        xtab( t1110, rweight );
+      endif;
+      if lastch = MIDX & months in 0:5 then
+        rowfood = 4;    // Exclusive breastfeeding under 6 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+	    if M4 = 95 & !anyDK & !plnwat & !liquid & !milky & !food then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if lastch = MIDX & months in 0:5 then
+        rowfood = 5;    // Mixed milk feeding under 6 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+	    if M4 = 95 & milk then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if B5(MIDX) = 1 & months in 12:23 then
+        rowfood = 6;    // Continued breastfeeding 12-23 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+	    if M4 = 95 then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if lastch = MIDX & months in 6:8 then
+        rowfood = 7;   // Introduction of solid, semi-solid or soft foods 6-8 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+	    if food then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if lastch = MIDX & months in 6:23 then
+        rowfood = 8;   // Minimum dietary diversity 6-23 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+	    if allgrp >= 5 then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if lastch = MIDX & months in 6:23 then
+        rowfood = 9;   // Minimum meal frequency 6-23 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+	    if minfeedb | minfeedn then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if M4 <> 95 & lastch = MIDX & months in 6:23 then
+        rowfood = 10;   // Minimum milk feeding frequency for non-breastfed children 6-23 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+		xtemp = 0;
+	    if totmilkf >= 2 then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if lastch = MIDX & months in 6:23 then
+        rowfood = 11;   // Minimum acceptable diet 6-23 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+        if M4 = 95  & minfeedb & allgrp >= 5 |
+           M4 <> 95 & allgrp >= 5 & totmilkf >= 2 & minfeedn then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if lastch = MIDX & months in 6:23 then
+        rowfood = 12;   // Egg and/or flesh food consumption 6-23 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+        if given(V414G) | given(V414M) | given(V414B) | given(V414H) | given(V414N) then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if lastch = MIDX & months in 6:23 then
+        rowfood = 13;   // Sweet beverage consumption 6-23 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+        if given(V411S) | given(V413AS) | given(V413BS) | given(V413C) | given(V410) |
+           given(V413D) | given(V410AS) | given(V413S) then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if lastch = MIDX & months in 6:23 then
+        rowfood = 14;   // Unhealthy food consumption 6-23 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+        if given(V414R) | given(V414T) | given(V414W) then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if lastch = MIDX & months in 6:23 then
+        rowfood = 15;   // Zero vegetable or fruit consumption 6-23 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+        if notgiven(V414I) & notgiven(V414J) & notgiven(V414K) & notgiven(V414A) & notgiven(V414L) then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+      if B5(MIDX) = 1 & months in 0:23 then
+        rowfood = 16;   // Bottle feeding 0-23 months
+        numpct  = 2;
+        xtab( t1110, rweight );
+        if M38 = 1 then
+          numpct  = 1;
+          xtab( t1110, rweight );
+        endif;
+      endif;
+
+    endif;
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ table 11.11 }
+
+  for i in REC41_EDT  do
+    months   = P19(MIDXP);
+    if M80 in 1,2 & months in 6:23 & lastch = MIDX then
+      sex1     = B4(MIDX);
+      recode months -> agemnth7;
+               6:11 ->   2;
+              12:23 ->   3;
+                    -> notappl;
+      endrecode;
+      counself = 2;
+      xtab( t1111, rweight );
+      xtab( t1111u );
+      if V486 = 1 then
+        counself = 1;
+        xtab( t1111, rweight );
+      endif;
+    endif;
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ tables 11.13 }
+
+  for i in REC4A_EDT  do
+    months   = B19(HIDXA);
+	if months in 6:59 then
+      sex2     = B4(HIDXA);
+      recode months -> chage6;
+               6:8  -> 1;
+               9:11 -> 2;
+              12:17 -> 3;
+              18:23 -> 4;
+              24:35 -> 5;
+              36:47 -> 6;
+              48:59 -> 7;
+                    -> notappl;
+      endrecode;
+      recode months -> chage5;
+               6:23 -> 1;
+              24:59 -> 2;
+                    -> notappl;
+      endrecode;
+      recode  V012 -> mothage2;                { mother's age }
+               <20 -> 1;
+             20:29 -> 2;
+             30:39 -> 3;
+                   -> 4;
+      endrecode;
+	  brfeed = notappl;
+	  do j = 1 while j <= soccurs(REC41)
+	    if MIDX(j) = HIDXA then
+          recode M4(j) -> brfeed;
+                  95   -> 1;                { breastfeeding }
+               missing -> 9;                { missing }
+                       -> 2;                { not breastfeeding }
+          endrecode;
+		  break;
+        endif;
+      enddo;
+
+      consump2 = notappl;
+      consump1 = 5;
+      xtab( t1113, rweight );
+      coltotu = 1;
+      xtab( t1113u );
+	  if H42 = 1 then               // iron tablets/syrups
+        consump1 = 1;
+        xtab( t1113, rweight );
+      endif;
+	  if H80A = 1 then              // micronutrient powders
+        consump1 = 2;
+        xtab( t1113, rweight );
+      endif;
+	  if H42 = 1 | H80A = 1 then    // iron tablets/syrups or  micronutrient powders
+        consump1 = 3;
+        xtab( t1113, rweight );
+      endif;
+      lastva = 0;
+      if soccurs(REC43) >= i & H33M(i) in 1:12 & H33Y(i) in 2010:2030 then
+        day = H33D(i); if !day in 1:31 then day = 15 endif;
+        lastva = ( int((V008A-CDCode(H33Y(i),H33M(i),day))/DaysMonth) < 6 );
+      endif;
+	  if H34 = 1 | lastva then    // Vitamin A supplements in last 6 months4
+        consump1 = 4;
+        xtab( t1113, rweight );
+      endif;
+      consump1 = notappl;
+
+      if months in 12:59 then
+        consump2 = 2;
+        xtab( t1113, rweight );
+        coltotu = 2;
+        xtab( t1113u );
+        if H43 = 1 then            // Given deworming medication in last 6 months
+          consump2 = 1;
+          xtab( t1113, rweight );
+        endif;
+      endif;          { end last child 6-35 months & living with respondent }
+    endif;
+  enddo;
+
+{ ---------------------------------------------------------------------------- }
+{ tables 11.14.1 }
+
+    { definition of eligibility for BMI, used by tables 11.14.1 & 11.14.2 }
+    if v208 > 0 then
+      womelig = ( V213 <> 1 & B19(1) > 1 );
+    else
+      womelig = ( V213 <> 1 );
+    endif;
+    mothelig(V003) = womelig;  { store mother's eligibility for BMI in table 11.1 }
+
+  { maternal anthropometry tables for eligible women interviewed. }
+  { never married women if ever married samples are tallied in    }
+  { level 1                                                       }
+  if V012 >= 20 & V437 <> notappl then   { respondent's age >= 20 & measured }
+
+    xwght   = V437;
+    xhght   = V438;
+
+    if womelig then            { if respondent eligible }
+      if V445 in 0:9990 then
+        ybmi  = V445 / 100;
+        xbmi  = int( ybmi*10 );
+      else
+        xbmi = missing;
+      endif;
+    endif;                     { end respondent eligible }
+
+{ ---------------------------------------------------------------------------- }
+{ Table 11.14.1 }
+
+    bmiw = notappl;
+    if xhght in minhght:maxhght then
+      yhght = xhght / 10;
+      if yhght < 145 then
+        height1 = 1;
+        xtab( t11141, rweight );
+      endif;
+      height1 = 2;
+      xtab( t11141, rweight );
+      coltotu = 1;
+      xtab( t11141u );
+    endif;
+
+    height1 = notappl;
+    if womelig then
+      if !special( xbmi ) then
+        bmiw = 1;
+        xtab( t11141, ybmi*rweight );
+        recode    xbmi -> bmiw;
+                  <170 -> 5;
+               170:184 -> 4;
+               185:249 -> 2;
+               250:299 -> 7;
+               300:600 -> 8;
+                       -> notappl;
+        endrecode;
+        xtab( t11141, rweight );
+        bmiw = 9;
+        xtab( t11141, rweight );
+        coltotu = 2;
+        xtab( t11141u );
+      endif;
+    endif;
+
+  endif;             { end respondent measured }
+
+{ ---------------------------------------------------------------------------- }
+{ Table 11.14.2 }
+
+   if V012 in 15:19 then
+     bmiw2 = notappl;
+     { height for age }
+     if !special(V446A) & V446A <= 9990 then
+       heighage = 2;
+       xtab( t11142, rweight );
+       coltotu = 1;
+       xtab( t11142u );
+       if V446A < (-200) then
+         heighage = 1;
+         xtab( t11142, rweight );
+       endif;
+     endif;
+
+     heighage = notappl;
+     if womelig & !special(V446D) & V446D <= 9990 then
+       bmiw2 = 1;
+       xtab( t11142, V446D*rweight );
+       if V446D in (-100):100 then
+         bmiw2 = 2;
+         xtab( t11142, rweight );
+       endif;
+       if V446D < (-100) then
+         bmiw2 = 3;
+         xtab( t11142, rweight );
+       endif;
+       if V446D in (-200):(-101) then
+         bmiw2 = 4;
+         xtab( t11142, rweight );
+       endif;
+       if V446D < (-200) then
+         bmiw2 = 5;
+         xtab( t11142, rweight );
+       endif;
+       if V446D > 100 then
+         bmiw2 = 6;
+         xtab( t11142, rweight );
+       endif;
+       if V446D in 101:200 then
+         bmiw2 = 7;
+         xtab( t11142, rweight );
+       endif;
+       if V446D > 200 then
+         bmiw2 = 8;
+         xtab( t11142, rweight );
+       endif;
+       bmiw2 = 9;
+       xtab( t11142, rweight );
+       coltotu = 2;
+       xtab( t11142u );
+     endif;
+   endif;
+
+{ ---------------------------------------------------------------------------- }
+{ Table 11.15 }
+
+  foodsw = 20;
+  xtab( t1115, rweight );
+  xtab( t1115u );
+  { Foods made from grains }
+  if given(V472E) then
+    foodsw = 1;
+    xtab( t1115, rweight );
+  endif;
+  { White/pale starchy roots, tubers, and plantains }
+  if given(V472F) then
+    foodsw = 2;
+    xtab( t1115, rweight );
+  endif;
+  { Beans, peas, lentils }
+  if given(V472O) then
+    foodsw = 3;
+    xtab( t1115, rweight );
+  endif;
+  { Nuts and seeds }
+  if given(V472C) then
+    foodsw = 4;
+    xtab( t1115, rweight );
+  endif;
+  { Milk, cheese, yogurt, other milk products }
+  if given(V472P) then
+    foodsw = 5;
+    xtab( t1115, rweight );
+  endif;
+  { Meat, fish, poultry, organ meats }
+  if given(V472M) | given(V472B) | given(V472H) | given(V472N) then
+    foodsw = 6;
+    xtab( t1115, rweight );
+  endif;
+  { Eggs }
+  if given(V472G) then
+    foodsw = 7;
+    xtab( t1115, rweight );
+  endif;
+  { Dark green leafy vegetables }
+  if given(V472J) then
+    foodsw = 8;
+    xtab( t1115, rweight );
+  endif;
+  { Other vitamin A-rich fruits and vegetables }
+  if given(V472I) | given(V472K) then
+    foodsw = 9;
+    xtab( t1115, rweight );
+  endif;
+  { Other vegetables }
+  if given(V472A) then
+    foodsw = 10;
+    xtab( t1115, rweight );
+  endif;
+  { Other fruits }
+  if given(V472L) then
+    foodsw = 11;
+    xtab( t1115, rweight );
+  endif;
+  { Insects and other small protein foods }
+  if given(V472D) then
+    foodsw = 12;
+    xtab( t1115, rweight );
+  endif;
+  { Red palm oil }
+  if given(V472U) then
+    foodsw = 13;
+    xtab( t1115, rweight );
+  endif;
+  { Sweet foods such as chocolates, candies, pastries, cakes, biscuits, ice cream, popsicles }
+  if given(V472R) | given(V472W) then
+    foodsw = 14;
+    xtab( t1115, rweight );
+  endif;
+  { Fried and salty foods such as chips, crisps, puffs, french fries, fried dough }
+  if given(V472T) then
+    foodsw = 15;
+    xtab( t1115, rweight );
+  endif;
+  { Fruit juice and fruit-flavored drinks }
+  if given(V471E) then
+    foodsw = 16;
+    xtab( t1115, rweight );
+  endif;
+  { Sodas, malt drinks, sports drinks, and energy drinks }
+  if given(V471D) then
+    foodsw = 17;
+    xtab( t1115, rweight );
+  endif;
+  { Sweetened tea, coffee, herbal drinks and other sweetened beverages }
+  if given(V472V) | given(V471CS) then
+    foodsw = 18;
+    xtab( t1115, rweight );
+  endif;
+
+{ ---------------------------------------------------------------------------- }
+{ Table 11.16 }
+
+  group1  = given(V472E) + given(V472F);                               { Grains, white/pale starchy roots, tubers, and plantains }
+  group2  = given(V472O);                                              { Beans, peas, lentils }
+  group3  = given(V472C);                                              { Nuts and seeds }
+  group4  = given(V472P);                                              { Dairy }
+  group5  = given(V472M) + given(V472B) + given(V472H) + given(V472N); { Meat, fish, poultry, organ meats }
+  group6  = given(V472G);                                              { Eggs }
+  group7  = given(V472J);                                              { Dark green leafy vegetables }
+  group8  = given(V472I) + given(V472K);                               { Other vitamin A-rich fruits and vegetable }
+  group9  = given(V472A);                                              { Other vegetables }
+  group10 = given(V472L);                                              { Other fruits }
+  allgrp  = (group1 > 0) + (group2 > 0) + (group3 > 0) + (group4 > 0) +
+            (group5 > 0) + (group6 > 0) + (group7 > 0) + (group8 > 0) +
+            (group9 > 0) + (group10 > 0);
+
+  foodsw2 = 5;
+  xtab( t1116, rweight );
+  xtab( t1116u );
+  { Minimum dietary diversity for women }
+  if allgrp >= 5 then
+    foodsw2 = 1;
+    xtab( t1116, rweight );
+  endif;
+  { Sweet beverage consumption }
+  if given(V471E) | given(V471D) | given(V472V) | given(V471CS) then
+    foodsw2 = 2;
+    xtab( t1116, rweight );
+  endif;
+  { Unhealthy food consumption }
+  if given(V472R) | given(V472T) | given(V472W) then
+    foodsw2 = 3;
+    xtab( t1116, rweight );
+  endif;
+
+{ ---------------------------------------------------------------------------- }
+{ Table 11.17.1w }
+
+  { variables "parity and useiud" used for tables 11.17.1w & 11.17.1 }
+    recode V201 -> parity;
+             0  -> 0;
+             1  -> 1;
+            2,3 -> 2;
+            4,5 -> 3;
+                -> 4;
+    endrecode;
+    recode V312 -> useiud;
+             2  -> 1;
+                -> 2;
+    endrecode;
+
+  { HH selected for hemoglobin (anemia) }
+  if V042 = 1 then
+    tanemiaw = 2;                { all women }
+    xtab( t11171w );
+    if V455 = 0 then             { tested for anemia }
+      tanemiaw = 1;
+      xtab( t11171w );
+    endif;
+  endif;
+
+{ ---------------------------------------------------------------------------- }
+{ Table 11.17.1 }
+
+  // women tested for anemia and with a plausible value for hemoglobin 
+  if V042 = 1 & V456A in 20:256 then
+    anemean = notappl;		  
+    numwom  = 1;                 
+    recode V457A -> anemiaw;     { anemia level }
+             3   -> 2;        { mild }
+             2   -> 3;        { moderate }
+             1   -> 4;        { severe }
+                 -> notappl;
+    endrecode;
+    xtab( t11171, rweight );
+    xtab( t11171u );
+    // to calculate mean hemoglobin		
+    anemiaw  = notappl;
+    numwom   = notappl;
+    anemean  = 1;		
+    xtab( t11171, rweight*V456A/10 );
+    numwom  = 1;                 { all women }
+  endif;

@@ -1,0 +1,174 @@
+﻿{ Application 'TREPORTS' }
+PROC GLOBAL
+
+  string  labelfin;
+  string  header1, header2;
+  string  linehd;
+  string  s1, s2, s3, g1, g2, g3;
+  string  str1, testres;
+
+  numeric reptype, linecount, pagecount, maxlines, ok;
+  numeric value1, value2, value3;
+  numeric t1, t2, t3, t4, t5, t6, t7, t8, t9, idx, discrep;
+
+  { verify if first and second readings are discordant }
+  function discordant()
+    numeric discord1, discord2, discord3, discord4, pctaden;
+    discord1 = ( LRESULT1 in 0,1 & LRESULT2 in 0,1 & LRESULT1 <> LRESULT2 );  { one positive the other negative }
+    discord2 = ( LGAMETO1 in 0,1 & LGAMETO2 in 0,1 & LGAMETO1 <> LGAMETO2 );  { gametocytes are different }
+	discord3 = ( LRESULT1 in 0,1 & LRESULT2 in 0,1 & LSPECIE1 <> LSPECIE2 );  { parasites are different }
+    if LRESULT1 = 1 & LRESULT2 = 1 then                                       { for positives }
+      pctaden = (LDENSITY1-LDENSITY2)*100 / LDENSITY1;
+      if abs(pctaden) > 25 then              { asexual density difference is more than 25% }
+        discord4 = 1
+      endif;
+    endif;
+//    errmsg("LabId=%04d Discord=%d%d%d%d pctaden=%10.3f", LABID, discord1, discord2, discord3, discord4, pctaden );
+    discordant = ( discord1 | discord2 | discord3 | discord4 );
+  end;
+
+PROC TESTLOG_FF
+preproc
+
+  { set language at start of the program, defaulting to language passed by menu }
+  setlanguage( getlanguage() );
+
+  reptype   = tonumber( sysparm()[1:1] );
+  str1      = "NPXXXXO";
+  linecount = 1;
+  pagecount = 1;
+  maxlines  = 65;  { # lines in a page }
+  if reptype <> 9 then  
+    header1 = tr("Lab            Date          1st Reading                 2d Reading                  Discordants       ");
+    header2 = tr("ID   Barcode Scanned  Res Density Gam Spec Tech  Res Density Gam Spec Tech  Res Density Gam Spec Tech ");
+    linehd  = "--------------------------------------------------------------------------------------------------------";
+    { reptype to show : 0 : summary stats, 1: all, 2: no final result, 3-6 : levels 1-4 }
+  else 
+    header1 = tr("DBS Samples selected for external quality Control (QC)");
+    header2 = tr("Lab-ID  Bar Code");
+    linehd  = "---------------------------------------------------------";
+  endif;	
+  write( "%s", strip(header1) );
+  write( "%s", strip(header2) );
+  write( "%s", strip(linehd) );
+
+postproc
+
+  write( " " );
+  write( " " );
+  write( tr("               MALARIA TESTING SUMMARY") );
+  write( "--------------------------------------------------------"  );
+  write( " " );
+  write( tr("Total samples scanned                             %6d"), t1 );
+  write( tr("Samples processed for first reading               %6d"), t2 );
+  write( tr("Samples processed for second reading              %6d"), t3 );
+  write( tr("Samples discordant                                %6d"), t4 );
+  write( tr("Samples discordant proccessed                     %6d"), t5 );
+  write( tr("Samples with tests completed                      %6d"), t6 );
+  write( tr("Samples with final result other                   %6d"), t7 );
+  write( tr("Samples taken into account for EQC                %6d"), t8 );
+  write( tr("Samples selected for EQC                          %6d"), t9 );
+
+PROC LEVEL1
+preproc
+
+  { count totals for summary report }
+  t1 = t1 + 1;              { total samples scanned }
+  { samples processed for first reading }
+  if LRESULT1 in 0,1,6 then
+    t2 = t2 + 1;
+  endif;
+  { samples processed for second reading }
+  if LRESULT2 in 0,1,6 then
+    t3 = t3 + 1
+  endif;
+  { samples requiring reading for discordant }
+  discrep = discordant();
+  if discrep then
+    t4 = t4 + 1;
+    { samples processed for discordant reading }
+    if LRESULT3 in 0,1 then
+      t5 = t5 + 1
+    endif;
+  endif;
+  { samples completed the test }
+  if !discrep & LRESULT1 in 0,1,6 & LRESULT2 in 0,1,6 | discrep & LRESULT3 in 0,1 then
+    t6 = t6 + 1;
+  endif;
+  if LFINRES = 6 then
+    t7 = t7 + 1;
+  endif;	
+  { taken into account for EQC }
+  if LEXT in 0,1 then
+    t8 = t8 + 1;
+  endif;	
+  { selected for EQC }
+  if LEXT = 1 then
+    t9 = t9 + 1;
+  endif;	
+
+  { select samples according to the selected report }
+  recode reptype :: LRESULT1 :: LRESULT2 :: discrep :: LRESULT3 -> ok;
+            1    ::          ::          ::         ::          ->  1;   { all samples }
+            2    :: missing  ::          ::         ::          ->  1;   { waiting for first reading }
+            3    ::          ::  missing ::         ::          ->  1;   { waiting for second reading }
+            4    ::          ::          ::    1    :: missing  ->  1;   { waiting for discordant reading }
+            5    ::   0,1,6  ::          ::         ::          ->  1;   { first reading proccessed }
+            6    ::          ::   0,1,6  ::         ::          ->  1;   { second reading proccessed }
+            7    ::          ::          ::    1    ::   0,1    ->  1;   { discordant reading proccessed }
+            8    ::   0,1,6  ::   0,1,6  ::    0    ::          ->  1;   { completed !discordant and reading 1 and 2 proccessed }
+            8    ::   0,1    ::   0,1    ::    1    ::   0,1    ->  1;   { completed discordant and all readings proccessed }
+            9    ::          ::          ::         ::          ->  1;   { samples selected for EQC }
+                 ::          ::          ::         ::          ->  0;   { sample will not be included in the report }
+  endrecode;
+  if !ok then skip case endif;
+
+  s1 = " ";
+  s2 = " ";
+  s3 = " ";
+  g1 = " ";
+  g2 = " ";
+  g3 = " ";
+  if LRESULT1 in 0,1,6 then
+    s1 = str1[LRESULT1+1:1];
+  endif;
+  if LRESULT2 in 0,1,6 then
+    s2 = str1[LRESULT2+1:1];
+  endif;
+  if LRESULT3 in 0,1 then
+    s3 = str1[LRESULT3+1:1];
+  endif;
+  if LGAMETO1 in 0,1 then
+    g1 = str1[LGAMETO1+1:1];
+  endif;
+  if LGAMETO2 in 0,1 then
+    g2 = str1[LGAMETO2+1:1];
+  endif;
+  if LGAMETO3 in 0,1 then
+    g3 = str1[LGAMETO3+1:1];
+  endif;
+  if reptype <> 9 then		
+    { format should agree for the most part }
+    write( "%05d %5s  %8d  %s  %8.2f %s  %-4s  %02d    %s  %8.2f %s  %-4s  %02d    %s  %8.2f %s  %-4s  %02d",
+           LABID, LBAR, LDATE, s1, LDENSITY1, g1, LSPECIE1, LABTECH1, 
+           s2, LDENSITY2, g2, LSPECIE2, LABTECH2, s3, LDENSITY3, g3, LSPECIE3, LABTECH3 );
+  elseif reptype = 9 & LEXT = 1 then    // to list samples selected for EQC
+    if LFINRES = 1 then		
+	  testres = tr("Positive")
+    elseif LFINRES = 0 then		
+	  testres = tr("Negative")
+    endif;		  
+    write( "%6d    %s    %s", LABID, LBAR, testres  );
+  endif;	
+  linecount=linecount+1;
+
+  if linecount = maxlines then
+    linecount = 1;
+    pagecount = pagecount + 1;
+    write( " " );
+    write( "                                         Page %3d", pagecount );
+    write( "%s", strip(header1) );
+    write( "%s", strip(header2) );
+    write( "%s", strip(linehd) );
+    write( " " );
+  endif;

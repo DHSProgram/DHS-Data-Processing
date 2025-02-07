@@ -1,0 +1,471 @@
+﻿PROC GLOBAL
+
+  crosstab float(1) whostd  chage1+sex+urbrur+region+total
+                      hghtage+wghthght+wghtage
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Nutritional status of children according to WHO standards"," ",
+           "Percentage of children under five years classified as",
+           "malnourished according to three anthropometric indices of",
+           "nutritional status: height-for-age, weight-for-height,",
+           "and weight-for-age, by background characteristics,",
+           "Country 2015" )
+     stub( "Background characteristic" );
+
+  numeric sd3pos, sd23pos, sd3neg, sd23neg, agechild;
+  numeric hwmy, hwmm, hwmd, i, x, y, xdays1, xdays2;
+  numeric hhsx, hwbych, hwbmch, hwbdch, weightch, lengthch, lystand;
+  numeric uselngth, interp, abslen, lnhelow, lnhehigh;
+  numeric ratio, n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10;
+  numeric zhaz, bmi, zbmi, zwaz, zwhz, zwhzlw, zwhzhg;
+  numeric j, jtot1, jtot2, jtot3, jmax, agesingl, rweight;
+  numeric validw, validh, validza, validwh, zwhztmp, zhaztmp, zwaztmp;
+  numeric DaysMonth = 30.4375;
+
+  { function to calculate child's age in days }
+  function agedays( xhwbd, xhwbm, xhwby, xhwmd, xhwmm, xhwmy )
+    xdays1 = CDcode( xhwby,xhwbm,xhwbd );
+    xdays2 = CDCode( xhwmy,xhwmm,xhwmd );
+    agedays = xdays2 - xdays1;
+  end
+
+  { assing special values to the new WHO z-scores.  Values are: }
+  { Notappl - When there is no height and weight data           }
+  { missing - if either the height or weight is missing         }
+  { 9998    - flagged cases                                     }
+  { 9997    - if a key isn't found in one of the look-up tables }
+  { 9996    - if a length not found in look-up tables }
+  { xtype     1-all score values }
+  {           2-weight, bmi }
+  {           3-height, bmi }
+  {           4-weight/height/bmi by age }
+  {           5-weight for height        }
+  function whospec( ch, xvalue, xtype )
+    if xtype in 1,3,4   then zhaz = xvalue endif;
+    if xtype in 1,2,4   then zwaz = xvalue endif;
+    if xtype in 1,2,3,5 then zwhz = xvalue endif;
+    if xtype in 1,2,3,4 then zbmi = xvalue endif;
+    if xtype in 1,2,3,4 then bmi  = xvalue endif;
+  end
+
+  { function to calculate general Z-score }
+  function genstdev( measure, l, m, s )
+    genstdev = ( ( (measure/m) ^ l) - 1 ) / ( s*l );
+  end
+
+  { function to adjust std dvs when > 3 std }
+  function stdpos3( measure, l, m, s )
+    sd3pos  = m * ( (1+l*s*3) ^ (1/l) );
+    sd23pos = sd3pos - m * ( (1+l*s*2) ^ (1/l) );
+    stdpos3  = 3 + ( (measure - sd3pos) / sd23pos );
+  end
+
+  { function to adjust std dvs when < 3 std }
+  function stdneg3( measure, l, m, s )
+    sd3neg  = m *( (1+l*s*(-3)) ^ ( 1/l ) );
+    sd23neg = m *( (1+l*s*(-2)) ^ ( 1/l ) ) - sd3neg;
+    stdneg3 = (-3) - ( (sd3neg - measure) / sd23neg );
+  end
+
+PROC CCIQ81_FF
+preproc
+
+  n0 = 0;
+  n1 = 0;
+  n2 = 0;
+  n3 = 0;
+  n4 = 0;
+  n5 = 0;
+  n6 = 0;
+  n7 = 0;
+  n8 = 0;
+  n9 = 0;
+ n10 = 0;
+
+postproc
+
+  { Table processing }
+  jtot1 = tblcol( whostd, hghtage );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    whostd[*,j] = 100 * whostd[*,j] / whostd[*,jtot1];
+  enddo;
+  jtot2 = tblcol( whostd, wghthght );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    whostd[*,j] = 100 * whostd[*,j] / whostd[*,jtot2];
+  enddo;
+  jtot3 = tblcol( whostd, wghtage );
+  jmax  = jtot3 - 1;
+  do j = jtot2 + 1 while j <= jmax
+    whostd[*,j] = 100 * whostd[*,j] / whostd[*,jtot3];
+  enddo;
+
+  { print run summary }
+  write( " " );
+  write( "Summary" );
+  write( "=======" );
+  write( "Children in the data file                                 %05d", n0 );
+  write( "Observations with notappl for weight and height           %05d", n1 );
+  write( "Observations with missing for weight                      %05d", n2 );
+  write( "Observations with missing for height                      %05d", n3 );
+  write( "Observations not found in look-up table for age           %05d", n4 );
+  write( "Observations not found in look-up table for length        %05d", n5 );
+  write( "Children with full date of birth (not imputed)            %05d", n6 );
+  write( "Flagged for weight for height                             %05d", n7 );
+  write( "Flagged for height for age                                %05d", n8 );
+  write( "Flagged for weight for age                                %05d", n9 );
+  write( "Flagged for BMI                                           %05d", n10 );
+
+PROC HOUSEHOLD
+preproc
+
+  { variables used by table WHOSTD }
+  rweight = AHWEIGHT/1000000;
+  urbrur  = AHTYPE;
+  region  = AHREGION;
+
+  { Calculating WHO scores for children }
+
+  for i in ABSEC01_EDT do
+
+    { child's date of measurement }
+    hwmy = AB109Y;
+    hwmm = AB109M;
+    hwmd = AB109D;
+
+    n0 = n0 + 1;
+    hhsx = AH04(AB102);
+    { Get imputed date of birth (from mother's questionnaire or as declared in biomarker section) }
+    hwbych = ACYBR;
+    hwbmch = ACMBR;
+    hwbdch = ACDBR;
+    { !!! following instructions used to run filed check tables }
+    { **** comment these instructions when generating scores for final data file 
+    hwbych = AB103Y;
+    hwbmch = AB103M;
+    hwbdch = AB103D;
+    ACFLG  = ( AB103Y in 2010:2026 & AB103M in 1:12 );
+    ACFLG  = ACFLG - 1;
+    if !hwbdch in 1:31 then hwbdch = 15 endif;
+     ****  end comment of instructions used for check field tables }
+
+    { height, weight and how child was measured variables }
+    weightch = AB106;
+    lengthch = AB108;
+    lystand  = AB110;
+    { !!!! change weight, height and date of remeasurement based on reason for remeasurement }
+    if ABRTYPE in 2,3 & !ABWEIGHT in 99.90:99.98,missing,notappl & !ABHEIGHT in 999.0:999.8,missing,notappl then
+      weightch = ABWEIGHT;
+      lengthch = ABHEIGHT;
+      lystand  = ABLYNSTN;
+      hwmy     = ABRYEAR;
+      hwmm     = ABRMONTH;
+      hwmd     = ABRDAY;
+    endif;
+    validw   = 1;         { valid weight }
+    validh   = 1;         { valid height }
+
+    { Age of child in days }
+    agechild = agedays( hwbdch, hwbmch, hwbych, hwmd, hwmm, hwmy );
+
+	{ adjustment changed on 11/19/2019, according to an e-mail sent by trevor 
+        lystand = 1 & agechild > 1095 |       { lying and 3+ years (3*365 = 1095) }
+       lystand = 2 & agechild < 240 then     { standing and child < 8 months (8*30 = 240) }
+	}
+    { disregard how child was measured if: }
+    if lystand in missing,notappl |          { missing, not applicable }
+       lystand = 2 & agechild < 9*DaysMonth then     { standing and child < 9 months }
+      lystand = 9
+    endif;
+
+    { if standing under 2 or lying over 2 }
+    if lystand = 2 & agechild <  731 then                      { standing & age < 24 months }
+      lengthch = lengthch + 0.7
+    endif;
+    if lystand = 1 & agechild >= 731 then                      { lying & age >= 24 months }
+      lengthch = lengthch - 0.7
+    endif;
+
+    { set uselngth to decide what standard (look-up table) to use: length or height }
+    { uselngth = 1 will use length, uselngth = 2 will use height                    }
+    recode lystand :: agechild -> uselngth;
+              1    ::   < 731  ->    1;  { lying & age < 24 months              }
+              1    ::          ->    2;  { lying & age >= 24 months             }
+              2    ::   < 731  ->    1;  { standing & age < 24 months           }
+              2    ::          ->    2;  { standing & age >= 24 moths           }
+              9    ::   < 731  ->    1;  { missing/not plausible & < 24 months  }
+              9    ::          ->    2;  { missing/not plausible & >= 24 months }
+    endrecode;
+
+    { **** determine if length is of 2 decimals significance **** }
+    interp = 0;
+    abslen = lengthch - lengthch*10 / 10;
+    if abslen < 0 then abslen = abslen * (-1) endif;
+    if abslen > 0.001 then interp = 1 endif;
+    { to find lower and upper level on LMS chart }
+    if interp = 1 then
+      lnhelow  = int(lengthch*10+0.01); { 0.01 to avoid a rounding problem }
+      lnhehigh = int(lengthch*10+0.01); { 0.01 to avoid a rounding problem }
+    else
+      lnhelow  = int(lengthch*10+0.01); { 0.01 to avoid a rounding problem }
+      lnhehigh = int(lengthch*10+0.01); { 0.01 to avoid a rounding problem }
+    endif;
+
+    { check if Height and Weight given and not missing }
+    if weightch = notappl & lengthch = notappl then
+      whospec( i, notappl, 1 );
+      validw = 0;
+      validh = 0;
+      n1 = n1 + 1;
+    endif;
+    if weightch in 99.94:99.98,missing then
+      whospec( i, missing, 2 );
+      validw = 0;
+      n2 = n2 + 1;
+    endif;
+    if lengthch in 999.4:999.8,missing then
+      whospec( i, missing, 3 );
+      validh = 0;
+      n3 = n3 + 1;
+    endif;
+    { assign variables for look-up tables }
+    SEXLMS  = hhsx;
+    AGEDLMS = agechild;
+    if uselngth = 1 then
+      LENWH1 = lnhelow;
+    else
+      LENWH2 = lnhelow;
+    endif;
+    { load look-up tables }
+    { LMS variables for Height/Age, BMI/Age, Weight/Age }
+    validza = 1;
+    if ( validw | validh ) & !loadcase( LMSVARS, SEXLMS, AGEDLMS ) then
+      errmsg( "HAZ Child %d not found for sex %d age %04d", AB102, SEXLMS, AGEDLMS );
+      whospec( i, 9997, 4 );
+      validza = 0;
+      n4 = n4 + 1;
+    endif;
+    validwh = 1;
+    { LMS variables for Weight/Length }
+    if validh & uselngth = 1 & !loadcase( WFLLMS, SEXLMS, LENWH1 ) then
+      errmsg( "Length: Child %d not found for sex %d length %5.1f", AB102, SEXLMS, lengthch );
+      whospec( i, 9996, 5 );
+      validwh = 0;
+      n5 = n5 + 1;
+    { LMS variables for Weight/Height }
+    elseif validh & uselngth = 2 & !loadcase( WFHLMS, SEXLMS, LENWH2 ) then
+      errmsg( "Height: Child %d not found for sex %d height %5.1f", AB102, SEXLMS, lengthch );
+      whospec( i, 9996, 5 );
+      validwh = 0;
+      n5 = n5 + 1;
+    endif;
+
+    { calculate height for age, for valid height and found in zcores by age  }
+    if validh & validza then
+      zhaz = genstdev( lengthch, LHA, MHA, SHA );
+    endif;
+
+    { calculate BMI, for valid weight, height and found in zcores by age }
+    if validw & validh & validza then
+      bmi   = weightch*10000 / (lengthch*lengthch);
+      zbmi  = genstdev( bmi, LBM, MBM, SBM );
+      if zbmi > 3 then
+        zbmi = stdpos3( bmi, LBM, MBM, SBM );
+      elseif zbmi < (-3) then
+        zbmi = stdneg3( bmi, LBM, MBM, SBM )
+      endif;
+    endif;
+
+    { calculate weight for age, for valid weight and found in zcores by age  }
+    if validw & validza then
+      { calculate weight for age }
+      zwaz = genstdev( weightch, LWA, MWA, SWA );
+      if zwaz > 3 then
+        zwaz = stdpos3( weightch, LWA, MWA, SWA );
+      elseif zwaz < (-3) then
+        zwaz = stdneg3( weightch, LWA, MWA, SWA );
+      endif;
+    endif;
+
+    { calculate either length or height for weight }
+    if validh & validw & validwh then
+      if uselngth = 1 then
+        { length for weight }
+        { first using length low }
+        zwhzlw = genstdev( weightch, LWH1, MWH1, SWH1 );
+        if zwhzlw > 3 then
+          zwhzlw = stdpos3( weightch, LWH1, MWH1, SWH1 );
+        elseif zwhzlw < (-3) then
+          zwhzlw = stdneg3( weightch, LWH1, MWH1, SWH1 );
+        endif;
+
+        { now using length high }
+        LENWH1 = lnhehigh;
+        if !loadcase( WFLLMS, SEXLMS, LENWH1 ) then
+          errmsg( "Length: Child %d not found for sex %d length %5.1f", AB102, SEXLMS, lengthch );
+          whospec( i, 9996, 5 );
+          n5 = n5 + 1;
+          validwh = 0;
+        else
+          zwhzhg = genstdev( weightch, LWH1, MWH1, SWH1 );
+          if zwhzhg > 3 then
+            zwhzhg = stdpos3( weightch, LWH1, MWH1, SWH1 )
+          elseif zwhzhg < (-3) then
+            zwhzhg = stdneg3( weightch, LWH1, MWH1, SWH1 );
+          endif;
+        endif;
+      { calculate height for weight }
+      else
+        { first using height low }
+        zwhzlw = genstdev( weightch, LWH2, MWH2, SWH2 );
+        if zwhzlw > 3 then
+          zwhzlw = stdpos3( weightch, LWH2, MWH2, SWH2 );
+        elseif zwhzlw < (-3) then
+          zwhzlw = stdneg3( weightch, LWH2, MWH2, SWH2 );
+        endif;
+
+        { now using height high }
+        LENWH2 = lnhehigh;
+        if !loadcase( WFHLMS, SEXLMS, LENWH2 ) then
+          errmsg( "Height: Child %d not found for sex %d height %5.1f", AB102, SEXLMS, lengthch );
+          whospec( i, 9996, 5 );
+          n5 = n5 + 1;
+          validwh = 0;
+        else
+          zwhzhg = genstdev( weightch, LWH2, MWH2, SWH2 );
+          if zwhzhg > 3 then
+            zwhzhg = stdpos3( weightch, LWH2, MWH2, SWH2 );
+          elseif zwhzhg < (-3) then
+            zwhzhg = stdneg3( weightch, LWH2, MWH2, SWH2 );
+          endif;
+        endif;
+      endif;         { end calculate either length or heigth }
+      if validwh then      { found length or height }
+        { compute weight for height }
+        ratio = ( lengthch - lnhelow/10 ) / 0.1;
+        zwhz  = zwhzlw - ( (zwhzlw-zwhzhg) * ratio );
+      endif;
+    endif;
+
+    if ACFLG in 0,1 then                     { if day, month and year or month and year of birth given }
+      n6 = n6 + 1;
+      zwhztmp = zwhz;
+      zhaztmp = zhaz;
+      zwaztmp = zwaz;
+      if validw & validh & validwh then
+        if zwhz < -5.00 | zwhz > 5.00 then      { w/h or BMI out of range }
+          zwhz = 9998;
+          n7 = n7 + 1;
+        else
+          zwhz  = int( zwhz * 100 + 0.5 );
+        endif;
+      endif;
+      if validh & validza then
+        if zhaz < -6.00 | zhaz > 6.00 then      { h/a out of range }
+          n8 = n8 + 1;
+          zhaz = 9998
+        else
+          zhaz  = int( zhaz * 100 + 0.5 );
+        endif;
+      endif;
+      if validw & validza then
+        if zwaz < -6.00 | zwaz > 5.00 then      { w/a out of range }
+          n9 = n9 + 1;
+          zwaz = 9998;
+        else
+          zwaz  = int( zwaz * 100 + 0.5 );
+        endif;
+      endif;
+      if validw & validh & validza then
+        if zbmi < -5.00 | zbmi > 5.00  then     { BMI out of range }
+          zbmi = 9998;
+          n10 = n10 + 1;
+        else
+          zbmi  = int( zbmi * 100 + 0.5 );
+          bmi   = int( bmi  * 100 + 0.5 );
+        endif;
+      endif;
+    else
+      whospec( i, missing, 4 );
+      if validw & validh & validwh then
+        if zwhz < -5.00 | zwhz > 5.00 then      { w/h out of range }
+          zwhz  = 9998;
+          n5 = n5 + 1;
+        else
+          zwhz  = int( zwhz * 100 + 0.5 );
+        endif;
+      endif;
+    endif;                 { end month and year of birth given }
+    { finally assign z-scores to dictionary variables }
+    ACZSHA = zhaz;
+    ACZSWA = zwaz;
+    ACZSWH = zwhz;
+    ACZSBM = zbmi;
+    { ***
+    if zwhz in 9990:9998,missing,notappl <=> !zwaz in 9990:9998,missing,notappl | !zhaz in 9990:9998,missing,notappl then
+      errmsg( "Sex=%d age=%04d flag=%d ly/stan=%d weight=%8.2f length=%8.1f zhaz=%5d zwaz=%5d zwhz=%5d zbmi=%5d",
+          SEX, AGECHILD, ACFLG, lystand, weightch, lengthch, zhaz, zwaz, zwhz, zbmi );
+    endif;
+    *** }
+
+    { table based on WHO standards for children in the household }
+    agesingl = ( ABINTCD - ACCDC ) / DaysMonth;
+    if AH06(AB102) = 1 & agesingl < 60 then  { de-facto, < 60 children }
+      recode agesingl -> chage1;
+               0:5    -> 1;
+               6:8    -> 2;
+               9:11   -> 3;
+              12:17   -> 4;
+              18:23   -> 5;
+              24:35   -> 6;
+              36:47   -> 7;
+                      -> 8;
+      endrecode;
+      sex      = AH04(AB102);
+
+      { children's anthropometry }
+      hghtage  = notappl;
+      wghthght = notappl;
+      wghtage  = notappl;
+      if !special(zhaz) & zhaz < 9990 then
+        hghtage  = 1;
+        if zhaz < (-300) then
+          xtab( whostd, rweight );
+        endif;
+        hghtage  = 2;
+        if zhaz < (-200) then
+          xtab( whostd, rweight );
+        endif;
+        hghtage  = 4;
+        xtab( whostd, rweight );
+        hghtage  = notappl;
+      endif;
+      if !special(zwhz) & zwhz < 9990 then
+        wghthght = 1;
+        if zwhz < (-300) then
+          xtab( whostd, rweight );
+        endif;
+        wghthght = 2;
+        if zwhz < (-200) then
+          xtab( whostd, rweight );
+        endif;
+        wghthght = 5;
+        xtab( whostd, rweight );
+        wghthght = notappl;
+      endif;
+      if !special(zwaz) & zwaz < 9990 then
+        wghtage  = 1;
+        if zwaz < (-300) then
+          xtab( whostd, rweight );
+        endif;
+        wghtage  = 2;
+        if zwaz < (-200) then
+          xtab( whostd, rweight );
+        endif;
+        wghtage  = 5;
+        xtab( whostd, rweight );
+        wghtage  = notappl;
+      endif;
+
+    endif;                 { end de-facto children }
+  enddo;

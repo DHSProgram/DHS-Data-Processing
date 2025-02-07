@@ -1,0 +1,37 @@
+﻿{ common strings used by application }
+
+  ES ( "Do you want to enter more fieldwork personnel?" ) Desea ingresar mas personal de campo?
+  ES ( "1-Yes" ) 1-Si
+  ES ( "2-No" ) 2-No
+  ES ( "Do you want to enter another fieldwork questionnaire?" ) Desea ingresar otro cuestionario de trabajador de campo?
+  ES ( "Is %s the correct name for this fieldworker?" ) Es %s el nombre correcto para este trabajador de campo
+  ES ( "Mother's tongue is not spoken by interviewer, is that correct?" ) La lengua materna no la habla el trabajador de campo, es esto correcto?
+  ES ( "Do you want to enter households for another cluster?" ) Desea ingresar hogares para otro segmento?
+  ES ( "Do you want to change the total number of households?" ) Desea cambiar el numero total de hogares?
+  
+ 
+Language = EN
+100 Cluster %d added
+101 Cluster %d couldn't be added
+110 A valid name for the supervisor/interviewer is required
+111 Make sure that the team number agrees with the supervisor/interviewer code
+120 Code %04d not defined as a fieldworker in the CAPI system
+121 Sex %d for %s in CAPI survey diferent than sex defined in fieldworker questionnaire
+150 This cluster is not part of the sample
+151 Total number of households different from those defined in the clusters file (%d)
+152 Household %d duplicated, already entered in postion %d
+153 The name of the household head is mandatory and must start in the first position
+998 Codes given for alpha variable not acceptable
+
+Language = ES
+100 Segmento %d adicionado
+101 Segmento %d no pudo ser adicionado
+110 Es necesario ingresar un nombre valido para supervisor(a)/entrevistador(a)
+111 Asegursese que el codigo de equipo de trabajo corresponde con el codigo del supervisor(a)/intrevistador(a)
+120 Codigo %04d no se encuentra definido como trabajador de campo en els sistema CAPI
+121 Sexo %d de %s en el archivo CAPI diferente de el sexo definido en el cuestionario de trabajdor de campo
+150 Este conglomerado no hace parte de la muestra
+151 Numero total de hogares diferente del numero definido en el archivo de clusters (%d)
+152 Hogar %d duplicado, ya se ingreso en posicion %d
+153 El nombre del jefe del hogar es obligatorio y debe empezar en la primera posicion
+998 Codigos para variables alfabeticas no son validos

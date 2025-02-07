@@ -1,0 +1,27 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.5
+
+[LANGUAGES]
+EN=English
+ES=Español
+
+[QUESTION]
+Field=MENU_DICT.WFINAL
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue255;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\qc\cf1\f0\fs24\lang1033 Welcome to the\par
+EN=\cf2 Demographic & Health Survey Program\par
+EN=\cf1 Menu for Prepartion of Auxiliary Data FIles for CAPI Surveys\cf3\par
+EN=\fs16 Press Enter key and Select an option from the list to be displayed\f1\par
+EN=\fs24\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue255;\red0\green0\blue255;\red0\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\qc\cf1\f0\fs24 Bienvenido al\par
+ES=\cf2 Programa de Encuestas de Demografia y Salud\par
+ES=\cf1 Menu para Preparacion de Archivos Auxiliares para Encuestas CAPI\par
+ES=\cf3\fs16 Oprima la Tecla Enter y Seleccione una opcion de la lista que se despliega\f1\par
+ES=}
+

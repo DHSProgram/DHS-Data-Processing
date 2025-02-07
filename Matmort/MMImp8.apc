@@ -1,0 +1,1032 @@
+﻿PROC GLOBAL
+{*****************************************************************************}
+{                                                                             }
+{  Version   1.0.0   12/03/2020 Based on Module in Basic Doc. 8 (Nov. 1994)   }
+{                                                                             }
+{  Imputation of Dates of Birth and Death for respondent's siblings           }
+{                                                                             }
+{            Variables imputed:                                               }
+{                                                                             }
+{               AMM16C : CMC date of birth of sibling.                        }
+{               AMM17C : CMC date of death of sibling.                        }
+{                                                                             }
+{*****************************************************************************}
+
+  numeric i, j, k, l, x, un, intC, intCM, evMar, AgeD;
+  numeric xxcmcl, xxcmcd, xxcmcu, xxord, xxunkn, xxtwin, indk, xcmcl, cmcxxx, cmcxxy, cmcDL, cmcDU;
+  numeric xpreg, pregD, pregA, pregW;
+  numeric xxagd, xxyod, xxyrd, dmax, nmax, bint;
+  numeric respNo, respAd, yint, mmadj, error, rweight, DOBrc, DOBrcm, defint, minInt, maxInt, BestInt;
+  numeric maxRND, sAge, sMax;
+  numeric jmin, kmin, kmax;
+  numeric yearDT, yearSD;
+  numeric nSecMM, nSecM, survStat, nbp;
+
+  string line;           { for printing purposes }
+  array binttab(999);    { siblings birth interval frequency }
+  array rndtab(50);      { count imputed age at death when both years since and age at death not known }
+  array rearc(50,50);    { count cases rearranged         }
+  array adarray(50);     { store cumulative age at death distribution when years since death not known }
+  { MM working table elements }
+  array cmcl(20);        { lower CMC }
+  array cmcd(20);        { upper CMC }
+  array cmcu(20);        { upper CMC }
+  array ord(20);         { sibling order }
+  array unkn(20);        { if age, years are unknown }
+  array twin(20);        { if sibling is a twin }
+  array xalv(20);        { surviving status }
+  array xyod(20);        { year of date if asked in country }
+  array xyrd(20);        { year of death }
+  array xagd(20);        { age at death }
+  array xpregd(20);      { died when delivering }
+  array xpregw(20);      { died when pregnant }
+  array xprega(20);      { died after delivering }
+  array xpregc(20);      { died of pregnancy complications }
+  array xnbp(20);        { number of births }
+
+  { Move sibling entry indi into sibling entry indj, sliding other siblings }
+  Function rearr( indi, indj )
+    xxcmcl = cmcl(indi);        { store temporary values for entry indi }
+    xxcmcd = cmcd(indi);
+    xxcmcu = cmcu(indi);
+    xxord  = ord (indi);
+    xxunkn = unkn(indi);
+    xxtwin = twin(indi);
+    { moves entries from indj up to indi one entry at a time }
+    do indk = indi while indk > indj by (-1)
+      cmcl(indk) = cmcl(indk-1);
+      cmcd(indk) = cmcd(indk-1);
+      cmcu(indk) = cmcu(indk-1);
+      ord(indk)  = ord(indk-1);
+      unkn(indk) = unkn(indk-1);
+      twin(indk) = twin(indk-1);
+    enddo;
+    { store entry indi into entry indj }
+    cmcl(indj) = xxcmcl;
+    cmcd(indj) = xxcmcd;
+    cmcu(indj) = xxcmcu;
+    ord (indj) = xxord;
+    unkn(indj) = xxunkn;
+    twin(indj) = xxtwin;
+    { update respondent's order number within her siblings }
+    if respno >= indj & respno < indi then
+      respno = respno + 1
+    elseif respno = indi then
+      respno = indj
+    endif;
+  end;
+
+  { function to check if a two digits variable has a vlaid value }
+  Function valid(xvar);
+    valid = (!special(xvar) & xvar <= 96)
+  end;
+
+  { function to check if a valid year }
+  function validyr(xvar);
+    validyr = (!special(xvar) & xvar <= 9996)
+  end;
+
+  { function to convert year to a 1900 base to properly calculate CMCs }
+  function convyear( year );
+    if validyr( year ) then
+      convyear = year - 1900;
+    else
+      convyear = 0;
+    endif;
+  end;
+
+{ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
+
+PROC CCIQ81_FF
+preproc
+  smax   = 20;     { Max. siblings allowed }
+  maxrnd = 49;     { Max. entries in distribution used for random numbers }
+  defint = 27;     { Default birth interval }
+  yint   = 2020;   { !!! Year of interview }
+  mmadj  = 0;      { !!! to adjust when used a calendar other than the western }
+
+  do i = 0 while i <= maxrnd
+    recode i -> j;      { !!! Replace right hand side with CUMULATIVE distribution from application MMDIST }
+         0 ->  850;   {     Age of sibling at death (variable AMM18)                                     }
+         1 -> 1077;
+         2 -> 1242;
+         3 -> 1360;
+         4 -> 1418;
+         5 -> 1475;
+         6 -> 1511;
+         7 -> 1511;    { *** since there are no cases for age at death 7, the cumulative from previous age 6 is assigned }
+         8 -> 1575;
+         9 -> 1601;
+        10 -> 1632;
+        11 -> 1641;
+        12 -> 1659;
+        13 -> 1667;
+        14 -> 1678;
+        15 -> 1696;
+        16 -> 1703;
+        17 -> 1717;
+        18 -> 1728;
+        19 -> 1728;    { *** since there are no cases for age at death 19, the cumulative from previous age 18 is assigned }
+        20 -> 1750;
+        21 -> 1759;
+        22 -> 1766;
+        23 -> 1773;
+        24 -> 1778;
+        25 -> 1789;
+        26 -> 1792;
+        27 -> 1797;
+        28 -> 1803;
+        29 -> 1806;
+        30 -> 1828;
+        31 -> 1829;
+        32 -> 1830;
+        33 -> 1830;    { *** since there are no cases for age at death 33, the cumulative from previous age 32 is assigned }
+        34 -> 1834;
+        35 -> 1846;
+        36 -> 1849;
+        37 -> 1851;
+        38 -> 1853;
+        39 -> 1855;
+        40 -> 1875;
+        41 -> 1876;
+        42 -> 1878;
+        43 -> 1879;
+        44 -> 1880;
+        45 -> 1884;
+        46 -> 1885;
+        47 -> 1886;
+        48 -> 1887;
+        49 -> 1888;
+    endrecode;
+    adarray(i+1) = j;
+  enddo;
+
+postproc
+  { print summaries }
+  write( "" );
+  write( "" );
+  write( "Following tables are helpful in analyzing the imputation" );
+  { print birth interval array }
+  write( "" );
+  write( "Birth interval among siblings" );
+  write( "  Months  Frequency" );
+  write( "-----------------------------" );
+  do i = 0 while i <= 999
+    if binttab(i) then
+      write( "  %4d    %5d ", i, binttab(i) );
+    endif;
+  enddo;
+
+  { print age at death imputed array }
+  write( "" );
+  write( "Age at death imputed when year of death not known" );
+  write( "  Age     Frequency" );
+  write( "-------------------------------------------------" );
+  do i = 0 while i <= 50
+    if rndtab(i) then
+      write( "  %4d    %5d ", i, rndtab(i) );
+    endif;
+  enddo;
+
+  { print array describing the rearrangements required }
+  write( "" );
+  write( "Siblings requiring rearrangements from (rows) to (columns)" );
+  write( "From       1     2     3     4     5     6     7     8     9    10    11    12    13    14    15    16    17    18    19    20" );
+  write( "------------------------------------------------------------------------------------------------------------------------------" );
+  do i = 1 while i <= 20
+    do j = 1 while j <= 20           { check if at least one valid value in row }
+      if rearc(i,j) then break endif;
+    enddo;
+    if j <= 20 then
+      line = "";
+      do j = 1 while j <= 20
+        line = concat( strip(line), edit("ZZZZZ9",rearc(i,j)) );
+      enddo;
+      write( "%4d  %s", i, line );
+    endif;
+  enddo;
+
+{ =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= }
+
+PROC INDIVIDUAL
+  nsecmm = soccurs(AWSECM3);              { Number of siblings }
+  nsecm  = nsecmm + 1;                    { Number of siblings, plus respondent }
+  if nsecmm = 0 then nsecm = 0 endif;
+  error  = 0;
+  rweight= 1;
+
+  if ARESULT = 1 & nsecmm then
+
+    if AQTYPE = 2 then
+      dobrc = A110C;              {* CMC Date of Birth of Respondent *}
+    else
+      dobrc = AM110C;             {* CMC Date of Birth of Male Respondent *}
+    endif;
+
+    dobrcm = dobrc + mmadj;       {* Adjustment if needed because of calendar *}
+    intc   = AINTC;               {* Adjustment is usually zero, but if using *}
+    intcm  = AINTC + mmadj;       {* non-Western calendar, maybe value such as*}
+                                  {* 600 (ie 50 years), to avoid any negative *}
+                                  {* CMC values                               *}
+
+    { initialize MM working table to NA }
+    do i = 1 while i <= smax
+      ord(i)    = notappl;
+      cmcl(i)   = notappl;
+      cmcd(i)   = notappl;
+      cmcu(i)   = notappl;
+      ord(i)    = notappl;
+      unkn(i)   = notappl;
+      twin(i)   = notappl;
+      xalv(i)   = notappl;
+      xyod(i)   = notappl;
+      xyrd(i)   = notappl;
+      xagd(i)   = notappl;
+      xpregw(i) = notappl;
+      xpregd(i) = notappl;
+      xprega(i) = notappl;
+      xpregc(i) = notappl;
+      xnbp(i)   = notappl;
+    enddo;
+
+    { Set up initial ranges }
+    do i = 1 while i <= nsecmm
+      survstat = AMM15(i);        { 1: Alive; 2: Dead  }
+      cmcl(i)  = -999;
+      cmcd(i)  = NotAppl;
+      cmcu(i)  = intcm;
+      ord (i)  = i;
+      twin(i)  = 0;
+      unkn(i)  = 4;  { 0: Age of Sibling Known }
+                     { 1: Years Since Death and Age at Death Known }
+                     { 2: Years Since Death not Known and Age at Death Known }
+                     { 3: Years Since Death Known and Age at Death Not Known }
+                     { 4: Age of Sibling or Years Since Death and Age at Death Not Known }
+
+      { Set up initial range for date of birth for living sibling }
+      if survstat = 1 then
+        sage = AMM16(i);          { Age of Sibling     }
+        if valid(sage) then
+          if sage > convyear(yint) then
+            cmcu(i) = intc - convyear(yint) * 12;
+            cmcl(i) = 1;
+            errmsg( 18, i, cmcu(i), i, cmcl(i), yint, intc );
+            error = 18;
+          else
+            cmcu(i) = cmcu(i) - sage * 12;
+            cmcl(i) = cmcu(i) - 11;
+          endif;
+          unkn(i) = 0;
+        endif;
+
+      { Set maximum for date of birth of dead sibling based on years since death }
+      elseif survstat = 2 then
+        yeardt = notappl;           { Year of Death }
+        yearsd = AMM17(i);          { Years Since Death }
+        aged   = AMM18(i);          { Age at Death }
+        evmar  = 0;                 { Not usually applicable }
+        pregw  = ( AMM19(i) = 1 );  { Died while pregnant }
+        pregd  = ( AMM20(i) = 1 );  { Died during delivery }
+        prega  = ( AMM21(i) = 1 );  { Died after delivery  }
+        nbp    = notappl;           { Total children ever born }
+        xpreg  = (pregw = 1 | pregd = 1 | prega = 1);
+        xcmcl  = 0;
+
+        if validyr(yeardt) then
+          cmcu(i) = convyear(yeardt) * 12 + 12 + mmadj;
+          if cmcu(i) > intcm then cmcu(i) = intcm endif;
+          xcmcl = convyear(yeardt) * 12 + 1 + mmadj;
+          unkn(i) = 3;
+        endif;
+
+        if valid(yearsd) then
+          cmcu(i) = intcm - yearsd * 12;
+          xcmcl = cmcu(i) - 11;
+          if cmcu(i) <= 0 then
+            cmcu(i) = intc - convyear(yint) * 12;
+            cmcl(i) = 1;
+            xcmcl = 0;
+            errmsg( 22, i, cmcu(i), i, cmcl(i), yearsd, intc, yint );
+            error = 22;
+          endif;
+          unkn(i) = 3;
+        endif;
+
+        { Adjust maximum for date of birth of dead sibling based on age at death }
+        if valid(aged) then
+  {*      if aged = yeardt then aged = 0; Q909(i) = 0 endif;       *FIX*}
+          cmcu(i) = cmcu(i) - aged * 12;
+          if cmcu(i) <= 0 then
+            errmsg( 23, i, cmcu(i), i, cmcl(i), aged, intc, yint );
+            error = 23;
+            cmcu(i) = intc - convyear(yint) * 12;
+          endif;
+          { Set minimum for date of birth if age at and years since death given }
+          if unkn(i) < 4 then
+            if xcmcl then
+              cmcl(i) = xcmcl - aged * 12 - 11;
+              if cmcl(i) <= 0 then
+                errmsg( 23, i, cmcu(i), i, cmcl(i), aged, intc, yint );
+                error = 23;
+                cmcl(i) = 1;
+              endif;
+            endif;
+          endif;
+          unkn(i) = unkn(i) - 2;
+
+        else
+          if valid(nbp) & nbp > 0 then    { (15*12)+(Def.Interval*Births) }
+            cmcu(i) = cmcu(i) - (180 + (nbp-1)*defint);
+          elseif xpreg then               { Ever pregnant }
+            cmcu(i) = cmcu(i) - 180;      { 15 * 12 }
+            if cmcl(i) < cmcu(i) - 420 then
+              cmcl(i) = cmcu(i) - 420;
+            endif;
+          elseif evmar = 1 then           { Ever married }
+            cmcu(i) = cmcu(i) - 120;      { 10 * 12 }
+          endif;
+          if cmcu(i) <= 0 then
+            cmcu(i) = intc - convyear(yint) * 12;
+            errmsg( 24, i, cmcl(i), cmcu(i), evmar, nbp, xpreg );
+            error = 24;
+          endif;
+
+        endif     { End of age at death processing }
+
+      endif;      { End of survival status code }
+    { **
+      if cmcl(i) = -999 & cmcu(i) = intc then
+        errmsg( 25, i, cmcu(i), i, cmcl(i), survstat );
+        error = 25;
+      endif;
+    ** }
+    enddo; { Init. Range }
+
+    { Check for twins }
+    do i = 2 while i <= nsecmm
+      j = i - 1;                            { Previous sibling }
+      if unkn(i) <= 1 & unkn(j) <= 1 then
+        if cmcl(i) < cmcu(j) &
+          abs(cmcu(i) - cmcu(j)) <= 6 &
+          abs(cmcl(i) - cmcl(j)) <= 12 then
+          twin(i) = 1;
+          twin(j) = 1;
+          if cmcl(i) < cmcl(j) then
+            cmcl(i) = cmcl(j)
+          else
+            cmcl(j) = cmcl(i)
+          endif;
+          if cmcu(i) > cmcu(j) then
+            cmcu(i) = cmcu(j)
+          else
+            cmcu(j) = cmcu(i)
+          endif
+        endif
+      endif;
+    enddo;
+    do i = nsecmm while i > 1 by (-1)
+      j = i - 1;                            { Previous sibling }
+      if unkn(i) <= 1 & unkn(j) <= 1 then
+        if cmcl(i) < cmcu(j) &
+          abs(cmcu(i) - cmcu(j)) <= 6 &
+          abs(cmcl(i) - cmcl(j)) <= 12 then
+          twin(i) = 1;
+          twin(j) = 1;
+          if cmcl(i) < cmcl(j) then
+            cmcl(i) = cmcl(j)
+          else
+            cmcl(j) = cmcl(i)
+          endif;
+          if cmcu(i) > cmcu(j) then
+            cmcu(i) = cmcu(j)
+          else
+            cmcu(j) = cmcu(i)
+          endif
+        endif
+      endif;
+    enddo;
+
+    { First rearrangement }
+    i    =    1;
+    j    =    0;
+    dmax = 9999;
+    while i <= nsecmm do
+      l = ord(i);
+      survstat = AMM15(l);        { 1: Alive; 2: Dead  }
+      nmax = 0;                   { Age if Alive }
+      k    = 0;    { k = 0; Years Since Death and Age at Death Not Known }
+                   { k = 1; Years Since Death Or Age at Death Known      }
+                   { k = 2; Years Since Death and Age at Death Known     }
+
+      if survstat = 1 then
+        sage = AMM16(l);          { Age of Sibling     }
+        if valid(sage) then
+          if sage * 12 > intc then
+            nmax = convyear(yint);
+            errmsg( 27, i, l, nmax, sage );
+            error = 27;
+          else
+            nmax = sage;
+          endif;
+          if nmax > dmax then
+            rearc(i,j) = rearc(i,j) + rweight;
+            x = rearr( i, j );
+            i = 0;
+            j = 0;
+            dmax = 9999;
+          else
+            dmax = nmax;
+            j = i;
+          endif
+        endif
+
+      elseif survstat = 2 then
+        yeardt = notappl;          { Year of Death }
+        yearsd = AMM17(l);         { Years Since Death }
+        aged   = AMM18(l);         { Age at Death }
+        evmar  = 0;                { Not usually applicable }
+        pregw  = ( AMM19(l) = 1 );
+        pregd  = ( AMM20(l) = 1 );
+        prega  = ( AMM21(l) = 1 );
+        nbp    = notappl;
+        xpreg  = (pregw = 1 | pregd = 1 | prega = 1);
+
+        if validyr(yeardt) then
+          nmax = convyear(yint) - convyear(yeardt);
+          k = 1;
+        endif;
+        if valid(yearsd) then
+          nmax = yearsd;
+          k = 1;
+        endif;
+        if valid(aged) then
+          nmax = nmax + aged;
+          k = k + 1
+        else
+          if valid(nbp) & nbp > 0 then
+            nmax = nmax + 15 + (nbp-1)*2;
+          elseif xpreg then
+            nmax = nmax + 15
+          elseif evmar = 1 then
+            nmax = nmax + 10
+          endif
+        endif;
+
+        if nmax > convyear(yint) then
+          errmsg( 26, i, l, aged, yearsd, yeardt, nbp, nmax, yint );
+          error = 26;
+          nmax = convyear(yint)
+        endif;
+
+        if nmax > dmax then
+          rearc(i,j) = rearc(i,j) + rweight;
+          x = rearr( i, j );
+          i = 0;
+          j = 0;
+          dmax = 9999;
+        elseif k = 2 then
+          dmax = nmax;
+          j = i;
+        endif
+
+      endif;
+      i = i + 1
+    enddo; { First Rearr. }
+
+    { Adjust ranges to avoid overlaps, and reorder as necessary }
+    { Index i increased by 1 }
+    i = 2;
+    while i <= nsecmm do
+      j = i - 1;
+      { i-1th birth date known, ith unknown }
+      if unkn(j) <= 1 & unkn(j) <= unkn(i) then
+
+        { twins - probably -- usually taken care of earlier }
+        if cmcu(j) = cmcu(i) then
+          if !twin(i) then
+            twin(i) = 1;
+            twin(j) = 1;
+            if cmcl(i) < cmcl(j) then
+              cmcl(i) = cmcl(j)
+            else
+              cmcl(j) = cmcl(i)
+            endif
+          endif
+        { avoid overlap of birth dates }
+        elseif cmcu(i) > cmcu(j) then
+          if cmcl(i) <= cmcu(j) then
+            cmcl(i) = cmcu(j)+1
+          endif
+        else
+          { siblings out of order }
+          errmsg( 4, j, cmcl(j), cmcu(j), i, cmcl(i), cmcu(i) );
+          error = 4;
+          rearc(i,j) = rearc(i,j) + rweight;
+          x = rearr( i, j );
+          i = 1;
+        endif;
+
+      { i-1th birth date unknown, ith known }
+      elseif unkn(i) <= 1 & unkn(i) <= unkn(j) then
+
+        { twins - probably - should be taken care of earlier }
+        if cmcu(j) = cmcu(i) & unkn(j) = 1 then
+          if !twin(i) then
+            twin(i) = 1;
+            twin(j) = 1;
+            if cmcl(i) < cmcl(j) then
+              cmcl(i) = cmcl(j)
+            else
+              cmcl(j) = cmcl(i)
+            endif
+          endif
+        { avoid overlap of birth dates }
+        elseif cmcu(i) >= cmcu(j) then
+          if cmcu(j) >= cmcl(i) then
+            cmcu(j) = cmcl(i)-1
+          endif
+        elseif cmcl(j) <= cmcl(i) then
+          cmcu(j) = cmcl(i)-1
+        else
+          { siblings out of order }
+          errmsg( 5, j, cmcl(j), cmcu(j), i, cmcl(i), cmcu(i) );
+          error = 5;
+          rearc(i,j) = rearc(i,j) + rweight;
+          x = rearr( i, j );
+          i = 1;
+        endif;
+
+      elseif unkn(i) > 1 & unkn(j) > 1 then
+
+        if cmcu(i) < cmcl(j)+9 then
+          rearc(i,j) = rearc(i,j) + rweight;
+          x = rearr( i, j );
+          errmsg( 3, i, j );
+          i = 1;
+          error=3
+        else
+          if cmcu(i) < cmcu(j)+9 & cmcu(i) <> intcm then
+            cmcu(j) = cmcu(i)-9;
+          endif;
+          if cmcl(i) < cmcl(j)+9 & cmcl(j) <> -999 then
+            cmcl(i) = cmcl(j)+9
+          endif;
+        endif;
+
+      endif;
+      i = i + 1;
+    enddo; { Adjust Ranges }
+
+    { Recheck twins to have same ranges - forward checking }
+    do i = 2 while i <= nsecmm
+      j = i - 1;
+      if twin(i) & twin(j) & cmcl(i) <= cmcu(j) then
+        if cmcl(i) < cmcl(j) then
+          cmcl(i) = cmcl(j)
+        else
+          cmcl(j) = cmcl(i)
+        endif
+      endif;
+    enddo;
+
+    { Recheck twins to have same ranges - backward checking }
+    do i = nsecmm while i > 1 by (-1)
+      j = i - 1;
+      if twin(i) & twin(j) & cmcl(i) <= cmcu(j) then
+        if cmcu(i) > cmcu(j) then
+          cmcu(i) = cmcu(j)
+        else
+          cmcu(j) = cmcu(i)
+        endif
+      endif;
+    enddo;
+
+    { Find where to put in the respondent }
+    i = 1;
+    j = 0;
+    k = 0; l = 0;
+    while i <= nsecmm do
+      if cmcu(i) > dobrcm & unkn(i) <= 1 then
+        if cmcl(i) > dobrcm then
+          j = i;
+        else
+          if cmcu(i) > dobrcm + 9 then
+            j = i;
+          elseif cmcl(i) >= dobrcm - 9 then
+            j = i;
+            twin(i) = 1;
+            cmcl(i) = dobrcm;
+            cmcd(i) = dobrcm;
+            cmcu(i) = dobrcm;
+            unkn(i) = 0;
+          endif;
+        endif;
+      endif;
+
+      if j then
+        i = nsecm
+      else
+        if unkn(i) > 1 & !k then k = i endif;
+        if unkn(i) <= 1 | cmcu(i) <= dobrcm then k = 0; l = 0 endif;
+        if k then l = l + 1 endif;
+        i = i + 1;
+      endif
+
+    enddo; { Where to put the Resp. }
+
+    respno = j;
+    if !respno then respno = nsecm endif;
+
+    { Respondent goes in a run of unknown information }
+    if respno = k+l then
+      { All have no information }
+      if k = 1 & l = nsecmm then
+        respno = int( l/2 ) + 1;
+      { Run at the beginning }
+      elseif k = 1 then
+        cmcxxx = int( (cmcl(respno)+cmcu(respno))/2 );
+        respad = int( (cmcxxx - dobrcm)/defint );
+        if respad < 0 then
+          respad = 0
+        elseif respad > l then
+          respad = l
+        endif;
+        respno = respno - respad;
+      { Run at the end }
+      elseif k + l > nsecmm then
+        cmcxxx = int( (cmcl(k-1)+cmcu(k-1))/2 );
+        maxint = defint;
+        if (intcm - cmcxxx)/(l+1) < maxint then
+          maxint = int( (intcm - cmcxxx)/(l+1) )
+        endif;
+        respad = int( (dobrcm - cmcxxx)/maxint );
+        if respad < 0 then
+          respad = 0
+        elseif respad > l then
+          respad = l
+        endif;
+        respno = k + respad;
+      { Run in the middle }
+      else
+        cmcxxx = int( ( cmcl(k-1)+cmcu(k-1) ) / 2 );
+        cmcxxy = int( ( cmcl(k+l)+cmcu(k+l) ) / 2 );
+        maxint = int( ( cmcxxy - cmcxxx ) / (l+1) );
+        respad = int( ( cmcxxy - dobrcm ) / maxint );
+        if respad < 0 then
+          respad = 0
+        elseif respad > l then
+          respad = l
+        endif;
+        respno = respno - respad;
+      endif;
+
+      if respno < 1 then
+        respno = 1
+      elseif respno > nsecm then
+        respno = nsecm
+      endif
+
+    endif;  { Respondent goes in a run of Unknown Information }
+
+    { Now add in the respondent at the right spot }
+    i = nsecm;
+    cmcl(i) = dobrcm;
+    cmcd(i) = dobrcm;
+    cmcu(i) = dobrcm;
+    ord (i) = 0;
+    unkn(i) = 0;
+    twin(i) = 0;
+    j = respno;
+    respno = i;
+    if i > j then
+      { rearc(i,j) = rearc(i,j) + rweight; }
+      x = rearr( i, j );
+    endif;
+
+    do i = respno while i > 1 & cmcu(i) < cmcu(i-1)+9 by (-1)
+      if !twin(i) then
+        if cmcu(i) - 9 >= cmcl(i-1) then
+          cmcu(i-1) = cmcu(i)-9;
+        else
+          twin(i) = 1;
+          if cmcl(i-1) < cmcu(i) & unkn(i-1) > 1 then
+             cmcl(i-1) = cmcu(i)
+          elseif cmcl(i) < cmcl(i-1) & unkn(i) > 1 then
+             cmcl(i) = cmcl(i-1)
+          endif;
+          if cmcu(i) > cmcu(i-1) & unkn(i) > 1 then
+             cmcu(i) = cmcu(i-1)
+          elseif cmcu(i-1) > cmcu(i) & unkn(i-1) > 1 then
+             cmcu(i-1) = cmcu(i)
+          endif;
+          un = unkn(i-1);
+          if unkn(i) < un then
+            if unkn(i) = 3 & un = 2 | unkn(i) = 2 & un = 3 then
+              un = 1;
+            else
+              un = unkn(i);
+            endif
+          endif;
+          unkn(i)   = un;
+          unkn(i-1) = un;
+        endif
+      endif;
+    enddo;
+
+    do i = respno while i <= nsecmm & cmcl(i) > cmcl(i+1)-9
+      if !twin(i+1) then
+        if cmcl(i) + 9 <= cmcu(i+1) then
+          cmcl(i+1) = cmcl(i)+9;
+        else
+          twin(i+1) = 1;
+          if cmcl(i) < cmcu(i+1) & unkn(i) > 1 then
+             cmcl(i) = cmcu(i+1)
+          elseif cmcl(i+1) < cmcl(i) & unkn(i+1) > 1 then
+             cmcl(i+1) = cmcl(i)
+          endif;
+          if cmcu(i+1) > cmcu(i) & unkn(i+1) > 1 then
+             cmcu(i+1) = cmcu(i)
+          elseif cmcu(i) > cmcu(i+1) & unkn(i) > 1 then
+             cmcu(i) = cmcu(i+1)
+          endif;
+          un = unkn(i+1);
+          if unkn(i) < un then
+            if (unkn(i) = 3 & un = 2) | (unkn(i) = 2 & un = 3) then
+              un = 1;
+            else
+              un = unkn(i);
+            endif
+          endif;
+          unkn(i)   = un;
+          unkn(i+1) = un;
+        endif
+      endif;
+    enddo;
+
+    { Recheck twins to have same ranges - forward checking }
+    do i = 2 while i <= nsecmm
+      j = i - 1;
+      if twin(i) & twin(j) & cmcl(i) <= cmcu(j) then
+        if cmcl(i) < cmcl(j) then
+          cmcl(i) = cmcl(j)
+        else
+          cmcl(j) = cmcl(i)
+        endif
+      endif;
+    enddo;
+
+    { Recheck twins to have same ranges - backward checking }
+    do i = nsecmm while i > 1 by (-1)
+      j = i - 1;
+      if twin(i) & twin(j) & cmcl(i) <= cmcu(j) then
+        if cmcu(i) > cmcu(j) then
+          cmcu(i) = cmcu(j)
+        else
+          cmcu(j) = cmcu(i)
+        endif
+      endif;
+    enddo;
+
+    { Impute values using midpoint imputation }
+    k = 0;
+    l = 0;
+    do i = 1 while i <= nsecm
+      if unkn(i) > 1 & !k then k = i endif;
+
+      if unkn(i) <= 1 then
+        cmcd(i) = int((cmcl(i)+cmcu(i))/2);
+        maxint = cmcd(i);
+
+        if k > 1 then
+          if cmcu(i-1) < maxint then maxint = cmcu(i-1) endif;
+          minint = cmcd(k-1);
+          if cmcl(k) > minint then minint = cmcl(k) endif;
+          bestint = int( (maxint - minint)/(l+1) )
+        elseif k = 1 then
+          bestint = defint
+        endif;
+
+        if k >= 1 then
+          do j = i - 1 while j >= k by (-1)
+            cmcd(j) = maxint - bestint;
+            while cmcd(j) > cmcu(j) & k = 1 do
+               cmcd(j) = cmcd(j) - bestint
+            enddo;
+            if cmcd(j) < cmcl(j) or cmcd(j) > cmcu(j) then
+              errmsg( 9, j, cmcd(j), cmcl(j), cmcu(j) );
+              error = 9;
+            endif;
+            maxint = cmcd(j);
+          enddo;
+        endif; { k >= 1 }
+
+        k = 0;
+        l = 0
+      endif;
+
+      if k then l = l + 1 endif;
+    enddo;
+
+    if k > 1 then
+      minint = cmcd(k-1);
+      if cmcl(k) > minint then minint = cmcl(k) endif;
+      maxint = int( (cmcu(nsecm) - minint)/l );
+      if maxint > defint then maxint = defint endif;
+      do j = k while j < i
+        cmcd(j) = minint + maxint;
+        if cmcd(j) < cmcl(j) or cmcd(j) > cmcu(j) then
+          errmsg( 9, j, cmcd(j), cmcl(j), cmcu(j) );
+          error = 9;
+        endif;
+        minint = cmcd(j);
+      enddo;
+    endif;
+
+    k = 0;
+    do i = 1 while i <= nsecm
+
+      if unkn(i) <= 1 then
+        if k > 0 then
+          bint = int((cmcd(i) - cmcd(k))/(i-k));
+          if bint > 999 | special(bint) then
+            errmsg( 12, bint, i, cmcd(i), k, cmcd(k) );
+            error = 12;
+            bint = 999;
+          elseif bint < 0 then
+            errmsg( 12, bint, i, cmcd(i), k, cmcd(k) );
+            error = 12;
+            bint = - bint
+          endif;
+          binttab(bint) = binttab(bint) + 1;
+        endif;
+        k = i;
+      endif;
+
+      j = ord(i);
+      if j > 0 then
+        yeardt = notappl;            { Year of Death }
+        yearsd = AMM17(j);           { Years Since Death }
+        aged   = AMM18(j);           { Age at Death }
+        pregw  = ( AMM19(j) = 1 );
+        pregd  = ( AMM20(j) = 1 );
+        prega  = ( AMM21(j) = 1 );
+        xpreg  = (pregw = 1 | pregd = 1 | prega = 1);
+        if ((!validyr(yeardt) & !valid(yearsd)) | !valid(aged)) & xpreg then
+          error = 1
+        endif;
+      endif;
+    enddo;
+
+    do i = 1 while i <= nsecm
+      j = ord(i);
+      if j then
+        xalv(i)   = AMM15(j);
+        xyod(i)   = notappl;
+        xyrd(i)   = AMM17(j);
+        xagd(i)   = AMM18(j);
+        xpregw(i) = AMM19(j);
+        xpregd(i) = AMM20(j);
+        xprega(i) = AMM21(j);
+        xpregc(i) = notappl;
+        xnbp(i)   = notappl;
+      endif;
+    enddo;
+    do i = 1 while i <= nsecm
+      l = ord(i);
+      if l then
+        AMM16C(l) = cmcd(i)-mmadj;
+        if AMM16C(l) <= 0 then
+          errmsg( 13, i, l, AMM16C(l) );
+          error = 13;
+        endif;
+        AMM17C(l) = NotAppl;
+        if xalv(i) = 2 then
+          if !validyr(xyod(i)) & !valid(xyrd(i)) & !valid(xagd(i)) then
+            kmin = 1;
+            jmin = 0;
+            kmax = int(adarray(maxrnd+1));
+            if xpregd(i) = 1 | xpregw(i) = 1 | xprega(i) = 1 | xpregc(i) = 1 |
+               valid(xnbp(i)) & xnbp(i) > 0 then
+              jmin = 15;
+              kmin = int( adarray(jmin+1) );
+            endif;
+            x = random(kmin,kmax);
+            do j = jmin while j <= maxrnd
+              if x <= adarray(j+1) then
+                if j > 0 & cmcd(i) + j*12+6 > intcm then
+                  x = random(kmin,kmax);
+                  j = jmin - 1;
+                else
+                  xagd(i) = j;
+                  rndtab(j) = rndtab(j) + 1;
+                  break;
+                endif;
+              endif;
+            enddo;
+          endif;
+
+          cmcdl = cmcd(i);
+          cmcdu = intcm;
+
+          if valid(xagd(i)) then
+            xxagd = xagd(i)*12;
+            if (cmcdl + xxagd > intcm) | (cmcdu - xxagd <= 0)  then
+              errmsg( 7, i, cmcd(i), xyod(i), xyrd(i), xagd(i), cmcdl, cmcdu, intcm );
+              error = 7;
+            else
+              cmcdl = cmcdl + xxagd;
+              cmcdu = cmcdl +{xxagd +}11; {*or :cmcdu = cmcdl + 11;*} {????}
+              if cmcdu > intcm then
+                cmcdu = intcm
+              endif
+            endif
+          endif;
+
+          if validyr(xyod(i)) then
+            xxyod = convyear(xyod(i))*12+1+mmadj;
+            if cmcdl > xxyod+11 | cmcdu < xxyod then
+              errmsg( 8, i, cmcd(i), xyod(i), xyrd(i), xagd(i), cmcdl, cmcdu, intcm );
+              error = 8;
+            else
+              if cmcdl < xxyod then
+                cmcdl = xxyod;
+              endif;
+              if cmcdu > xxyod+11 then
+                cmcdu = xxyod+11
+              endif;
+            endif;
+          endif;
+
+          if valid(xyrd(i)) then
+            xxyrd = xyrd(i)*12;
+            if cmcdl > intcm - xxyrd | cmcdu < intcm - xxyrd - 11 then
+              errmsg( 8, i, cmcd(i), xyod(i), xyrd(i), xagd(i), cmcdl, cmcdu, intcm );
+              error = 8;
+            else
+              if cmcdu > intcm - xxyrd then
+                 cmcdu = intcm - xxyrd
+              endif;
+              if cmcdl < intcm - xxyrd - 11 then
+                 cmcdl = intcm - xxyrd - 11
+              endif;
+            endif;
+          endif;
+
+          AMM17C(l) = int((cmcdl+cmcdu) / 2) - mmadj;
+          if AMM17C(l) <= 0 | cmcdl <= 0 | cmcdu <= 0 | AMM17C(l) > intc then
+            errmsg( 14, l, AMM17C(l), cmcdl, cmcdu );
+            error = 14;
+          endif;
+        endif;
+      else
+  {    errmsg( 15, i, ord(i) ); }
+      endif;
+    enddo;
+
+    {* Check imputed values are reasonable *}
+    for i in AWSECM3_EDT do
+      if valid(AMM16) then
+        if int((AINTC - AMM16C) / 12) <> AMM16 then
+          errmsg( 30, i, AMM16, AMM16C, AINTC );
+          error = 30;
+        endif
+      endif;
+  {{ Include when year of death is given }
+      yod = notappl;      {* Year of death *}
+      if validyr(yod) then
+        if int((AMM17C - 1) / 12) <> convyear(yod) then
+          errmsg( 31, i, yod, AMM17C );
+          error = 31;
+        endif
+      endif;
+  {}}
+      if valid(AMM17) then
+        if int((AINTC - AMM17C) / 12) <> AMM17 then
+          errmsg( 32, i, AMM17, AMM17C, AINTC );
+          error = 32;
+        endif
+      endif;
+      if valid(AMM18) then
+        if int((AMM17C - AMM16C) / 12) <> AMM18 then
+          errmsg( 33, i, AMM18, AMM16C, AMM17C );
+          error = 33;
+        endif
+      endif;
+    enddo;
+
+   { print maternal mortality table if errors }
+    if error then
+      write( "" );
+      write( "Cluster %d  Household %d  Respondent line %d", ACLUSTER, ANUMBER, ALINE );
+      write( "Interview(CMC) %d Respondent DOB(CMC) %d  Age %d  Respondent order %d",
+             intcm, dobrcm, int((intcm-dobrcm)/12), respno );
+      write( "" );
+      write( "AMM13  AMM14  AMM15  AMM16  AMM17  AMM18  AMM19  AMM20  AMM21  AMM22" );
+      write( "--------------------------------------------------------------------" );
+      for i in AWSECM3_EDT do
+        write( "  %02d     %d      %d     %02d     %02d     %02d      %d      %d      %d     %02d",
+               AMM13, AMM14, AMM15, AMM16, AMM17, AMM18, AMM19, AMM20, AMM21, AMM22 );
+      enddo;
+    endif;
+
+  endif;                  { end of ARESULT = 1 & nsecmm > 0 }

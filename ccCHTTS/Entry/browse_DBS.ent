@@ -1,0 +1,22 @@
+[CSPro Application]
+Version=CSPro 3.3
+Label=BROWSE_DBS
+Name=BROWSE_DBS
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+[External Dictionaries]
+File=..\dicts\plate.dcf
+[AppCode]
+File=.\browse_DBS.apc
+[Message]
+File=.\browse_DBS.mgf
+[Help]
+File=.\browse_DBS.qsf
+[Forms]
+File=.\cnull.fmf
+File=.\view_samples.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Cnull.dcf,Input,.\Cnull.fmf
+Dict-Type=..\Dicts\testlog.dcf,External,.\view_samples.fmf
+Dict-Type=..\dicts\plate.dcf,External

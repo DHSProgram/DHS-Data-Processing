@@ -1,0 +1,558 @@
+﻿[Dictionary]
+Version=CSPro 6.3
+Label=plate
+Name=PLATE_DICT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=plate questionnaire
+Name=PLATE_QUEST
+
+[IdItems]
+
+[Item]
+Label=plate identification
+Name=PLATE_ID
+Start=1
+Len=7
+DataType=Alpha
+
+[Record]
+Label=plate record
+Name=PLATE_REC
+RecordTypeValue=''
+RecordLen=1772
+
+[Item]
+Label=Operator code
+Name=TOPCODE
+Start=8
+Len=2
+DataType=Alpha
+
+[Item]
+Label=Type of test
+Name=TESTTYPE
+Start=10
+Len=1
+
+[ValueSet]
+Label=Type of test
+Name=TESTTYPE_VS1
+Value=1;Murex HIV Ag/Ab Combination
+Value=2;Genscreen™ HIV-1/2 Version 2
+Value=3;Murex HIV Ag/Ab Combination (Repeat)
+Value=4;Genscreen™ HIV-1/2 Version 2  (Repeat)
+
+[Item]
+Label=Type of test
+Name=TEST_TYPE
+Start=11
+Len=32
+DataType=Alpha
+
+[Item]
+Label=Date of test
+Name=TCDATE
+Start=43
+Len=8
+ZeroFill=Yes
+
+[Item]
+Label=Plate created : day
+Name=TCDATED
+Start=43
+Len=2
+ItemType=SubItem
+ZeroFill=Yes
+
+[Item]
+Label=Plate created : month
+Name=TCDATEM
+Start=45
+Len=2
+ItemType=SubItem
+ZeroFill=Yes
+
+[Item]
+Label=Plate created : year
+Name=TCDATEY
+Start=47
+Len=4
+ItemType=SubItem
+ZeroFill=Yes
+
+[Item]
+Label=Test level
+Name=TSTAGE
+Start=51
+Len=1
+
+[ValueSet]
+Label=Test level
+Name=TSTAGE_VS1
+Value=1;Initial test
+Value=2;Confirmatory
+Value=3;Repeat tests
+
+[Item]
+Label=Date of test
+Name=TDATE
+Start=52
+Len=8
+ZeroFill=Yes
+
+[Item]
+Label=Date of test : day
+Name=TDATED
+Start=52
+Len=2
+ItemType=SubItem
+ZeroFill=Yes
+
+[Item]
+Label=Date of test : month
+Name=TDATEM
+Start=54
+Len=2
+ItemType=SubItem
+ZeroFill=Yes
+
+[Item]
+Label=Date of test : year
+Name=TDATEY
+Start=56
+Len=4
+ItemType=SubItem
+ZeroFill=Yes
+
+[Item]
+Label=Time of test : minutes
+Name=TTIMEM
+Start=60
+Len=2
+
+[Item]
+Label=Time of test : hours
+Name=TTIMEH
+Start=62
+Len=2
+
+[Item]
+Label=Filter setting
+Name=FILTER
+Start=64
+Len=3
+
+[Item]
+Label=RESID
+Name=RESID
+Start=67
+Len=40
+DataType=Alpha
+Occurrences=12
+
+[Item]
+Label=Sample ID Row A
+Name=ID_A
+Start=67
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=ID Row B
+Name=ID_B
+Start=72
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=ID Row C
+Name=ID_C
+Start=77
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=ID Row D
+Name=ID_D
+Start=82
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=ID Row E
+Name=ID_E
+Start=87
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=ID Row F
+Name=ID_F
+Start=92
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=ID Row G
+Name=ID_G
+Start=97
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=ID Row H
+Name=ID_H
+Start=102
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Bar codes
+Name=BAR
+Start=547
+Len=40
+DataType=Alpha
+Occurrences=12
+
+[Item]
+Label=Bar code Row A
+Name=BAR_A
+Start=547
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Bar code Row B
+Name=BAR_B
+Start=552
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Bar code Row C
+Name=BAR_C
+Start=557
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Bar code Row D
+Name=BAR_D
+Start=562
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Bar code Row E
+Name=BAR_E
+Start=567
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Bar code Row F
+Name=BAR_F
+Start=572
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Bar code Row G
+Name=BAR_G
+Start=577
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Bar code Row H
+Name=BAR_H
+Start=582
+Len=5
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=PLATE_MES
+Name=MES
+Start=1027
+Len=56
+DataType=Alpha
+Occurrences=12
+
+[Item]
+Label=Measurement Row A
+Name=MES_A
+Start=1027
+Len=6
+ItemType=SubItem
+Decimal=3
+DecimalChar=Yes
+
+[Item]
+Label=Result Row A
+Name=RES_A
+Start=1033
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Measurement Row B
+Name=MES_B
+Start=1034
+Len=6
+ItemType=SubItem
+Decimal=3
+DecimalChar=Yes
+
+[Item]
+Label=Result Row B
+Name=RES_B
+Start=1040
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Measurement Row C
+Name=MES_C
+Start=1041
+Len=6
+ItemType=SubItem
+Decimal=3
+DecimalChar=Yes
+
+[Item]
+Label=Result Row C
+Name=RES_C
+Start=1047
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Measurement Row D
+Name=MES_D
+Start=1048
+Len=6
+ItemType=SubItem
+Decimal=3
+DecimalChar=Yes
+
+[Item]
+Label=Result Row D
+Name=RES_D
+Start=1054
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Measurement Row E
+Name=MES_E
+Start=1055
+Len=6
+ItemType=SubItem
+Decimal=3
+DecimalChar=Yes
+
+[Item]
+Label=Result Row E
+Name=RES_E
+Start=1061
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Measurement Row F
+Name=MES_F
+Start=1062
+Len=6
+ItemType=SubItem
+Decimal=3
+DecimalChar=Yes
+
+[Item]
+Label=Result Row F
+Name=RES_F
+Start=1068
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Measurement Row G
+Name=MES_G
+Start=1069
+Len=6
+ItemType=SubItem
+Decimal=3
+DecimalChar=Yes
+
+[Item]
+Label=Result Row G
+Name=RES_G
+Start=1075
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Measurement Row H
+Name=MES_H
+Start=1076
+Len=6
+ItemType=SubItem
+Decimal=3
+DecimalChar=Yes
+
+[Item]
+Label=Result Row H
+Name=RES_H
+Start=1082
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=NCx
+Name=TNCX
+Start=1699
+Len=6
+Decimal=4
+DecimalChar=Yes
+
+[Item]
+Label=CCx
+Name=TCCX
+Start=1705
+Len=6
+Decimal=4
+DecimalChar=Yes
+
+[Item]
+Label=Cutoff
+Name=TCUTOFF
+Start=1711
+Len=6
+Decimal=4
+DecimalChar=Yes
+
+[Item]
+Label=Quality control flag
+Name=TFLAG
+Start=1717
+Len=1
+
+[ValueSet]
+Label=Plate flag
+Name=TFLAG_VS2
+Value=0;No flag
+Value=1;Plate controls invalid
+Value=2;DBS controls invalid
+
+[Item]
+Label=Row/Column all positive
+Name=TWARN
+Start=1718
+Len=1
+
+[ValueSet]
+Label=Row/Column all positive
+Name=TWARN_VS1
+Value=1;DBS controls invalid
+Value=2;Abnormally high % of positive results
+Value=3;Clustering of positive cases
+
+[Item]
+Label=Plate accepted
+Name=TACCEPT
+Start=1719
+Len=1
+
+[ValueSet]
+Label=Plate accepted
+Name=TACCEPT_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Plate accepted
+Name=ACCEPTED
+Start=1720
+Len=3
+DataType=Alpha
+
+[ValueSet]
+Label=Plate accepted
+Name=ACCEPTED_VS1
+Value='0  ';No
+Value='1  ';Yes, plate accepted
+
+[Item]
+Label=Percentage positive cases in plate
+Name=TPOS
+Start=1723
+Len=3
+
+[Item]
+Label=Action
+Name=ACTION
+Start=1726
+Len=1
+
+[ValueSet]
+Label=Action
+Name=ACTION_VS1
+Value=1;Save and Exit
+Value=2;Quit WITHOUT SAVING
+
+[Item]
+Label=Plate canceled
+Name=TCANCEL
+Start=1727
+Len=1
+
+[Item]
+Label=Confirmatory entry of plate id
+Name=TCONFIRM
+Start=1728
+Len=7
+DataType=Alpha
+
+[Item]
+Label=Cells with clustering of positive results
+Name=TCLUST
+Start=1735
+Len=32
+DataType=Alpha
+
+[Item]
+Label=Cutoff (before subtraction of mean blank absorbancy - Anilab only)
+Name=TCUTRAW
+Start=1767
+Len=6
+Decimal=4
+DecimalChar=Yes

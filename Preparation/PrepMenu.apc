@@ -1,0 +1,354 @@
+﻿PROC GLOBAL
+
+  FILE      piffile;                           { PFF file for applications }
+
+  string TheCommand;
+  string CSPro;                                { CSPro executables directory }
+  string AppName;                              { application name }
+  string opid;                                 { operator ID }
+  string wrkprj, wrkref, wrkpii, prepare;      { directories }
+  string dicts;
+
+  numeric    i, j, x, action;
+
+  { set value sets based on language }
+  function OnChangeLanguage()
+    SetLanguage( getlanguage() );
+    savesetting("Language", getlanguage());
+  end;
+
+  { setup basic user bar }
+  function userbase();
+    userbar(clear);
+    userbar( add button, "Lang", do("ChangeLanguage") );
+    userbar( add button, "<",    do("PreviousField") );
+    userbar( add button, ">",    do("NextField") );
+    userbar( add button, ">>|",  do("AdvanceToEnd") );
+  end;
+
+  { check if a file exist and deletes it }
+  function fdel( alpha(90) thisfile )
+    if FileExist( strip(thisfile) ) then
+      FileDelete( strip(thisfile) )
+    endif;
+  end;
+
+  { since all applications are of data entry type the first lines are the same for all of them }
+  function InitPFF()
+    setfile( piffile, prepare + "\" + AppName + ".pff" );
+    FileDelete( piffile );
+    FileWrite( piffile, "[Run Information]" );
+    FileWrite( piffile, "Version=CSPro 7.5" );
+    FileWrite( piffile, "AppType=Entry" );
+    FileWrite( piffile, "[DataEntryInit]" );
+    FileWrite( piffile, "OperatorID=" + opid );
+  end;
+
+  { runs an Application from a given directory }
+  function RunPFF()
+    ExecPff( AppName + ".pff", maximized, wait );
+  end;
+
+  { use assciiviewer to list a given text file }
+  function DispFile( string thisfile )
+    if FileExist( thisfile ) then
+      TheCommand = cspro + "\TextView.exe " + thisfile;
+      ExecSystem( TheCommand, maximized, wait );
+    endif;
+  end;
+
+  { constructs PFF file to entry Clusters file }
+  function ClustersEntry( type )
+    InitPFF();
+    if type = 1 then
+      FileWrite( piffile, "StartMode=ADD" );
+      FileWrite( piffile, "Fullscreen=Yes" );
+    else
+      FileWrite( piffile, "StartMode=MODIFY" );
+      FileWrite( piffile, "Fullscreen=No" );
+    endif;
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + prepare + "\" + AppName + ".ent" );
+    FileWrite( piffile, "InputData="   + wrkref  + "\Clusters.dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    close( piffile );
+  end;
+
+  { PFF file to entry FieldWork personnel into Interv.dat file }
+  function FieldWKCAPI( type )
+    InitPFF();
+    if type = 1 then
+      FileWrite( piffile, "StartMode=ADD" );
+      FileWrite( piffile, "Fullscreen=Yes" );
+    else
+      FileWrite( piffile, "StartMode=MODIFY" );
+      FileWrite( piffile, "Fullscreen=No" );
+    endif;
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + prepare + "\" + AppName + ".ent" );
+    FileWrite( piffile, "InputData="   + wrkref  + "\Interv.dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    close( piffile );
+  end;
+
+  { PFF file to entry FieldWork personnel for Filedworker questionnaire }
+  function FieldWKQuest( type )
+    InitPFF();
+    if type = 1 then
+      FileWrite( piffile, "StartMode=ADD" );
+      FileWrite( piffile, "Fullscreen=Yes" );
+    else
+      FileWrite( piffile, "StartMode=MODIFY" );
+      FileWrite( piffile, "Fullscreen=No" );
+    endif;
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + prepare + "\" + AppName + ".ent" );
+    FileWrite( piffile, "InputData="   + wrkref  + "\Fieldworker.dat" );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "OTHERS=" + wrkref + "\OthersFW.dat" );
+    FileWrite( piffile, "INTERV=" + wrkref + "\Interv.dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    close( piffile );
+  end;
+
+  { PFF file to entry households selected by cluster }
+  function SelHHEnt( type )
+    InitPFF();
+    if type = 1 then
+      FileWrite( piffile, "StartMode=ADD" );
+      FileWrite( piffile, "Fullscreen=Yes" );
+    else
+      FileWrite( piffile, "StartMode=MODIFY" );
+      FileWrite( piffile, "Fullscreen=No" );
+    endif;
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + prepare + "\" + AppName + ".ent" );
+    FileWrite( piffile, "InputData="   + wrkref  + "\Sampsel.dat" );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "Clusters=" + wrkref + "\Clusters.dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    close( piffile );
+  end;
+
+  { PFF file to create the central office control file }
+  function CClear()
+    setfile( piffile, prepare + "\" + AppName + ".pff" );
+    FileDelete( piffile );
+    FileWrite( piffile, "[Run Information]" );
+    FileWrite( piffile, "Version=CSPro 7.5" );
+    FileWrite( piffile, "AppType=Batch" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + prepare + "\" + AppName + ".bch" );
+    FileWrite( piffile, "InputData="   + wrkref  + "\Clusters.dat" );
+    FileWrite( piffile, "Listing=.\cclear.lst" );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "CONTROL=" + wrkref + "\Control.dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "ViewListing=Always" );
+    FileWrite( piffile, "ViewResults=Yes" );
+    FileWrite( piffile, "ListingWidth=80" );
+    FileWrite( piffile, "MessageWrap=No" ) ;
+    FileWrite( piffile, "ErrmsgOverride=No" );
+    close( piffile );
+  end;
+
+  { PFF file to create control file for supervisors }
+  function SClear()
+    setfile( piffile, prepare + "\" + AppName + ".pff" );
+    FileDelete( piffile );
+    FileWrite( piffile, "[Run Information]" );
+    FileWrite( piffile, "Version=CSPro 7.5" );
+    FileWrite( piffile, "AppType=Batch" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + prepare + "\" + AppName + ".bch" );
+    FileWrite( piffile, "InputData="   + wrkref  + "\Clusters.dat" );
+    FileWrite( piffile, "Listing=.\sclear.lst" );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "CONTSUP=" + wrkref + "\SupervXXXX.dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "ViewListing=Always" );
+    FileWrite( piffile, "ViewResults=Yes" );
+    FileWrite( piffile, "ListingWidth=80" );
+    FileWrite( piffile, "MessageWrap=No" ) ;
+    FileWrite( piffile, "ErrmsgOverride=No" );
+    close( piffile );
+  end;
+
+  { PFF file to generate reports }
+  function PrepReports( typerep )
+    setfile( piffile, prepare + "\" + AppName + ".pff" );
+    FileDelete( piffile );
+    FileWrite( piffile, "[Run Information]" );
+    FileWrite( piffile, "Version=CSPro 7.5" );
+    FileWrite( piffile, "AppType=Batch" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + prepare + "\" + AppName + ".bch" );
+    FileWrite( piffile, "InputData=|type=None" );
+    FileWrite( piffile, "Listing="     + prepare + "\reports.lst" );
+    FileWrite( piffile, "WriteData="   + prepare + "\reports.wrt" );
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "Clusters=" + wrkref + "\Clusters.dat" );
+    FileWrite( piffile, "INTERV="   + wrkref + "\Interv.dat" );
+    FileWrite( piffile, "Sampsel="  + wrkref + "\Sampsel.dat" );
+    FileWrite( piffile, "FIELDWKQ=" + wrkref + "\Fieldwork.dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "ViewListing=Never" );
+    FileWrite( piffile, "ViewResults=No" );
+    FileWrite( piffile, "Parameter=" + edit("9",typerep) );
+    close( piffile );
+  end;
+
+PROC FL_MENU
+PreProc
+
+  CSPro = PathName( CSPro );
+  setfont( ValueSets, "Arial", 18, bold );
+
+  { Operator ID }
+  opid="Anyone";                         { this could be an ID set on each machine }
+
+  { work project }
+  wrkprj = "C:\CC81";                 { !!! adjusted to survey }
+  wrkpii = wrkprj + "\Pii";                    { subdirecory to store data with PII }
+  { set up minimal user bar }
+  userbase();
+  userbar( show );
+  { set the language at the start of the program, defaulting to English }
+  setlanguage(loadsetting("Language", "EN"));
+  SetLanguage( getlanguage() );
+
+  dicts    = wrkprj + "\Dicts";        { survey's dictionaries }
+  wrkref   = wrkpii + "\Ref";          { reference directory for CAPI auxiliary files  }
+  prepare  = wrkprj + "\Preparation";  { directory for applications for preparation }
+
+PROC MENU_LEVEL
+PreProc
+
+  setproperty(MENU_DICT, "ShowExtendedControlTitle", "No");
+ 
+PostProc
+  { PostProc of level 0 }
+  stop(1);
+
+PROC WFINAL
+postproc
+  if GetLanguage() = "EN" then
+    action = accept( "Menu for Preparation of Auxiliary Data Files for CAPI Surveys",
+               { 1} "1 Enter Clusters Included in the Sample",
+               { 2} "2 Modify Clusters Included in the Sample",
+               { 3} "-------------------------------------",
+               { 4} "4 Enter FieldWork Personnel for CAPI",
+               { 5} "5 Modify FieldWork Personnel for CAPI",
+               { 6} "-------------------------------------",
+               { 7} "7 Enter Households Selected for the Sample",
+               { 8} "8 Modify Households Selected for the Sample",
+               { 9} "-------------------------------------",
+               {10} "A Enter FieldWork Personnel Questionnaire",
+               {11} "M Modify FieldWork Personnel Questionnaire",
+               {12} "-------------------------------------",
+               {13} "C Create/Reset Control File for Central Office",
+               {14} "S Create/Reset Control File for Supervisors",
+               {15} "-------------------------------------",
+               {16} "R Generate reports for Survey supporting files",
+               {17} "Q Exit system" );
+  elseif GetLanguage() = "ES" then
+    action = accept( "Menu para la Preparacion de Archivos Auxiliares para Encuestas CAPI",
+               { 1} "1 Ingresar Segmentos de la muestra",
+               { 2} "2 Modificar Segmentos de la muestra",
+               { 3} "-------------------------------------",
+               { 4} "4 Ingresar personal de campo para CAPI",
+               { 5} "5 Modificar personal de campo para CAPI",
+               { 6} "-------------------------------------",
+               { 7} "7 Ingresar Hogares seleccionados para la muestra",
+               { 8} "8 Modificar Hogares seleccionados para la muestra",
+               { 9} "-------------------------------------",
+               {10} "A Ingresar personal de campo para CAPI",
+               {11} "M Modificar personal de campo para CAPI",
+               {12} "-------------------------------------",
+               {13} "C Generar/Inicializar archivo de control para oficina central",
+               {14} "S Generar/Inicializar archivo de control para supervisoras",
+               {15} "-------------------------------------",
+               {16} "R Generar reportes de los archivos auxiliares",
+               {17} "Q Salir del sistema" );
+  endif;
+  if !action | action = 17 then
+    { clean files not needed }
+    FileDelete( wrkref + "\*.lst" );
+    FileDelete( wrkref + "\*.cslog" );
+    FileDelete( wrkref + "\*.csnot" );
+    FileDelete( wrkref + "\*.sts" );
+    stop(1)
+  endif;
+  if action in 3,6,9,12,15 then    { no action selected - reenter }
+    reenter
+  elseif action in 1,2 then        { add/modify clusters file }
+    AppName = "ClustersEntry";
+    ClustersEntry( action = 1 );
+    runPFF();
+    reenter;
+  elseif action in 4,5 then        { add/modify fieldwork personnel for CAPI surveys }
+    AppName = "FieldWKCAPI";
+    FieldWKCAPI( action = 4 );
+    runPFF();
+    reenter;
+  elseif action in 7,8 then        { add/modify households selected }
+    AppName = "SelHHEnt";
+    SelHHEnt( action = 7 );
+    runPFF();
+    reenter;
+  elseif action in 10,11 then      { add/modify fieldwork personnel questionnaire }
+    AppName = "FieldWKQuest";
+    FieldWKQuest( action = 10 );
+    runPFF();
+    reenter;
+  elseif action in 13  then        { generate/reset central office control file }
+    FileDelete( wrkref + "\Control.*" );
+    AppName = "CClear";
+    CClear();
+    runPFF();
+    reenter;
+  elseif action in 14  then      { generate/reset control file for supervisors }
+    FileDelete( wrkref + "\SupervXXXX.*" );
+    AppName = "SClear";
+    SClear();
+    runPFF();
+    reenter;
+  elseif action in 16  then      { generate reports for clusters, fieldwork personnel or households selected }
+    AppName = "PrepReports";
+    x = accept( tr("Do you want to generate reports for:"), 
+	            tr("1-Clusters in the sample"), tr("2-Fieldwork personnel CAPI"), 
+	            tr("3-Households selected for cluster"), tr("4-Fieldwork personnel Questionnaire"),
+                tr("9-Return to Main Menu") );
+    if x in 1:4 then
+      PrepReports( x );
+      runPFF();
+      DispFile( prepare + "\reports.wrt" );
+    endif;
+    reenter;
+  endif;
+

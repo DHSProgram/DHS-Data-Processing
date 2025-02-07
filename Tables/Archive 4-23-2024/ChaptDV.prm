@@ -1,0 +1,281 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+dvw1 rows totnum2 = 1 nodec;
+
+dvw2 columns imarr = 1 dvnum = 2 nodec
+             imarr = 1 dvnum = 3 nodec
+             imarr = 2 dvnum = 2 nodec
+             imarr = 2 dvnum = 3 nodec;
+dvw2 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+dv01 columns numwom = 1 nodec;
+dv01 footnote
+{+EN}
+@1 Includes physical violence in the last 12 months. For women who were married
+   or living together before age 15 and reported violence only by their husband
+   and for never married women who had an intimate partner before age 15 and
+   reported violence only by their intimate partner, the violence could have
+   occurred before age 15.~
+@2 Includes women for whom frequency in the last 12 months is not known
+{EN+}
+{{ES}
+@2 Includes women for whom frequency in the last 12 months is not known
+{ES}}
+{{FR}
+@2 Compris les femmes pour lesquelles la fr�quence des actes de violence au cours des 12 mois n�est pas connue
+{FR}}
+endfootnote;
+
+dv02 rows numwom3 = 1 nodec;
+dv02 footnote
+{+EN}
+Notes: The term husband includes a partner with whom a woman is living as if married.
+       Percentages may add to more than 100% since women can report more than one perpetrator.~
+na = Not applicable
+{EN+}
+{{ES}
+na = No aplicable
+{ES}}
+{{FR}
+na : Non applicable
+{FR}}
+endfootnote;
+
+dv03 columns pregviol = 2 nodec;
+
+dv04 columns numwom = 1 nodec;
+dv04 footnote
+{+EN}
+@Includes experience of sexual violence in the last 12 months
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+dv05 rows numwom4 = 1 nodec;
+dv05 footnote
+{+EN}
+Notes: The term husband includes a partner with whom a woman is living as 
+       if married. Percentages may add to more than 100% since women can report 
+       more than one perpetrator.~
+na = Not applicable
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+dv06 columns numwom = 1 nodec;
+dv06 footnote
+{+EN}
+Note: The term husband includes a partner with whom a woman is living as if married.~
+@1 Includes experience of violence in the last 12 months
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+dv07 columns numwom = 1 nodec;
+dv07 footnote
+{+EN}
+Note: The term husband includes a partner with whom a woman is living as if married.~
+na = Not applicable
+@1 Includes only ever-married women and never married women who have ever had 
+   an intimate partner~
+@2 Includes all women   
+{EN+}
+{{ES}
+na = No aplicable
+{ES}}
+{{FR}
+na = Non applicable
+{FR}}
+endfootnote;
+
+dv08 columns formviol = 5 nodec;
+
+dv09 rows emwoman = 1 nodec;
+dv09 footnote
+{+EN}
+Notes: The term husband includes a partner with whom a woman is living as 
+       if married. Husband/intimate partner refers to the current husband 
+       for currently married women, the most recent husband for divorced, 
+       separated or widowed women, the current intimate partner for never 
+       married women who currently have an intimate partner, and the most 
+       recent intimate partner for never married women who do not currently 
+       have an intimate partner but had one in the past.~
+na = Not available
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+dv10 columns husbcont = 9 nodec;
+dv10 footnote
+{+EN}
+Notes: The term husband includes a partner with whom a woman is living as if married. 
+       Husband/intimate partner refers to the current husband for currently married women, 
+       the most recent husband for divorced, separated or widowed women, the current 
+       intimate partner for never married women who currently have an intimate partner, 
+       and the most recent intimate partner for never married women who do not currently 
+       have an intimate partner but had one in the past.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+dv11 columns spouvio4 = 8 nodec;
+dv11 footnote
+{+EN}
+Notes: The term husband includes a partner with whom a woman is living as if married. 
+       Husband/intimate partner refers to the current husband for currently married women, 
+       the most recent husband for divorced, separated or widowed women, the current 
+       intimate partner for never married women who currently have an intimate partner, 
+       and the most recent intimate partner for never married women who do not currently 
+       have an intimate partner but had one in the past.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+dv12 columns spouvio4 = 8 nodec;
+dv12 footnote
+{+EN}
+Notes: The term husband includes a partner with whom a woman is living as if married. 
+       Husband/intimate partner refers to the current husband for currently married women, 
+       the most recent husband for divorced, separated or widowed women, the current 
+       intimate partner for never married women who currently have an intimate partner, 
+       and the most recent intimate partner for never married women who do not currently 
+       have an intimate partner but had one in the past.~
+@1 Includes only currently married women~
+@2 According to the wife's report. Includes only currently married women. 
+   See [Table 15.8.1] for list of decisions.~
+@3 According to the woman's report. See [Table DV9] for list of behaviors.~
+@4 According to the woman's report. See [Table 15.9.1] for list of reasons. 
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+dv13 columns husbviol = 8 nodec;
+dv13 footnote
+{+EN}
+ Note: The term husband includes a partner with whom a woman is living as if married. 
+       Any husband/intimate partner includes all current, most recent, and former husbands 
+       for ever-married women and all current, most recent, or former intimate partners 
+       for never married women.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+dv14 columns phsviol = 1 nodec;
+dv14 footnote
+{+EN}
+Notes: The term husband includes a partner with whom a woman is living as if married. 
+       Husband/intimate partner refers to the current husband for currently married women, 
+       the most recent husband for divorced, separated or widowed women, the current 
+       intimate partner for never married women who currently have an intimate partner, 
+       and the most recent intimate partner for never married women who do not currently 
+       have an intimate partner but had one in the past.~
+@1 Excludes women who reported violence only in response to a direct question
+   on violence during pregnancy~
+@2 Includes in the last 12 months
+{EN+}
+{{ES}
+@1 Excluye mujeres que reportaron violencia solamente en respuesta a la pregunta
+   sobre violencia durante el embarazo~
+@2 Incluye los 12 �ltimos meses
+{ES}}
+{{FR}
+@1 Ne comprend pas les femmes qui ont d�clar� avoir subi des actes de violence uniquement en r�ponse 
+   � une question directe sur la violence pendant la grossesse~
+@2 Y compris dans les 12 derniers mois
+{FR}}
+endfootnote;
+
+dv15 columns emwoman1 = 1 nodec;
+dv15 footnote
+{+EN}
+Notes: The term husband includes a partner with whom a woman is living as if married. 
+       Husband/intimate partner refers to the current husband for currently married women, 
+       the most recent husband for divorced, separated or widowed women, the current 
+       intimate partner for never married women who currently have an intimate partner, 
+       and the most recent intimate partner for never married women who do not currently 
+       have an intimate partner but had one in the past.~
+@1 Includes in the last 12 months
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Y compris dans les 12 derniers mois
+{FR}}
+endfootnote;
+
+dv16 columns emwoman1 = 1 nodec;
+dv16 footnote
+{+EN}
+Notes: The term husband includes a partner with whom a woman is living as if married. 
+       Husband/intimate partner refers to the current husband for currently married women, 
+       the most recent husband for divorced, separated or widowed women, the current 
+       intimate partner for never married women who currently have an intimate partner, 
+       and the most recent intimate partner for never married women who do not currently 
+       have an intimate partner but had one in the past.~
+@1 Includes in the last 12 months~
+@2 Includes only currently married women~
+@3 According to the wife's report. Includes only currently married women. 
+   See [Table 15.8.1] for list of decisions.~
+@4 According to the woman's report. See [Table DV9] for list of behaviors.~ 
+@5 According to the woman's report. See [Table 15.9.1] for list of reasons.  
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+dv17 columns twviol = 1 nodec;
+
+dv18 rows sourhelp = 13 nodec;
+dv18 footnote
+{+EN}
+Note: Women can report more than one source from which they sought help.
+{EN+}
+{{ES}
+Nota: Las mujeres pueden reportar mas de una fuente donde buscaron ayuda.
+{ES}}
+{{FR}
+Note : Les enqu�t�s peuvent d�clarer plus d�une source/personne aupr�s de laquelle ils ont recherch� de l�aide. 
+{FR}}
+endfootnote;
+

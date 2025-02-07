@@ -1,0 +1,128 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=Segmentation|Segmentacion
+Name=SEGMENT_DCT
+RecordTypeStart=5
+RecordTypeLen=1
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=AF782ABA3E1F8388881ECDE00EBBC75AAAD0E6ED779F6EA7A983725CCE8124D7
+
+[Languages]
+EN=English
+ES=Español
+FR=French
+
+[Level]
+Label=Segmentation level|Nivel segmentacion
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=Cluster number|Numero del conglomerado
+Name=SCLUSTER
+Start=1
+Len=4
+ZeroFill=Yes
+
+[Record]
+Label=Segmentation summary|Resumen del segmento
+Name=SEGREC1
+RecordTypeValue='1'
+RecordLen=19
+
+[Item]
+Label=Option|Opcion
+Name=SOPTION
+Start=6
+Len=1
+
+[ValueSet]
+Label=Option|Opcion
+Name=SOPTION_VS1
+Value=1;Enter households for segments|Ingresar hogares pora segmentos|Entrer le nombre de menage pour le segment
+Value=2;Return to main menu|Regresar al menu principal|Revenir ou menu principal
+
+[Item]
+Label=Auxiliar for segment selection|Auxiliar para seleccion de segmento|Auxiliar for segment selection
+Name=SAUXILIAR
+Start=7
+Len=1
+
+[ValueSet]
+Label=Auxiliar for segment selection|Auxiliar para seleccion de segmento|Auxiliar for segment selection
+Name=SAUXILIAR_VS1
+Value=1;Yes|Si|Oui
+Value=2;No|No|Non
+
+[Item]
+Label=Segment selected|Segmento seleccionado
+Name=SSEGNUM
+Start=8
+Len=2
+
+[Item]
+Label=Households in selected segment|Hogares en el segmento seleccionado
+Name=SSEGHH
+Start=10
+Len=4
+
+[Item]
+Label=Total households in the cluster based on segmentation|Total de hogares en el segmento con base en la segmentacion
+Name=STOTHH
+Start=14
+Len=5
+
+[Item]
+Label=Handler to finalize|Campo para la finalizacion
+Name=SFINAL
+Start=19
+Len=1
+DataType=Alpha
+
+[Record]
+Label=Segmentation|Segmentacion
+Name=SEGREC2
+RecordTypeValue='2'
+MaxRecords=20
+RecordLen=23
+
+[Item]
+Label=Segment number|Numero de segmento
+Name=SEGNUM
+Start=6
+Len=2
+
+[Item]
+Label=Number of households in segment|Hogares en el segmento
+Name=SHHNUMB
+Start=8
+Len=5
+
+[Item]
+Label=Cummulative of households|Acumulado de hogares
+Name=SCUMMUL
+Start=13
+Len=5
+
+[Item]
+Label=Percentage of hosueholds in the segment|Porcentaje de hogares en el segmento
+Name=SPERCENT
+Start=18
+Len=5
+Decimal=1
+DecimalChar=Yes
+
+[Item]
+Label=More segments|Mas segmentos|More segments
+Name=SMORE
+Start=23
+Len=1
+
+[ValueSet]
+Label=More segments|Mas segmentos|More segments
+Name=SMORE_VS1
+Value=1;Yes|Si|Oui
+Value=2;No|No|Non

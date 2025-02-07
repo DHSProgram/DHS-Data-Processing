@@ -1,0 +1,87 @@
+[FormFile]
+Version=CSPro 2.6
+Name=TESTLOG_FF
+Label=Scanids
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+FieldEntryFont=-043 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0049 Courier New
+Type=SystemControlled
+  
+[Dictionaries]
+File=5/21/2009 11:04:14 AM,..\Dicts\testlog.dcf
+  
+[Form]
+Name=FORM000
+Label=Log for HIV test samples
+Level=1
+Size=934,373
+  
+Item=LBAR
+Item=LABID
+Item=LDATE
+  
+  
+[Text]
+Name=TEXT000
+Position=61,25,643,57
+Text=Demographic and Health Surveys - Lab Data
+Form=1
+Font=-027 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+[EndForm]
+  
+[Level]
+Name=LEVEL1
+Label=Log for HIV test samples
+  
+[Group]
+Required=Yes
+Name=LEVEL1_FORM
+Label=Log for HIV test samples
+Form=1
+LogicControl=No
+Max=1
+  
+[Field]
+Name=LBAR
+Position=415,108,561,159
+Item=LBAR,TESTLOG_DICT
+Length=5
+UseEnterKey=Yes
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=106,112,216,144
+Text=Barcode
+Font=-027 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+  
+[Field]
+Name=LABID
+Position=415,190,561,241
+Item=LABID,TESTLOG_DICT
+Length=5
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=106,194,269,226
+Text=Lab Number
+Font=-027 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+  
+[Field]
+Name=LDATE
+Position=334,297,567,348
+Item=LDATE,TESTLOG_DICT
+Length=8
+UseEnterKey=Yes
+Form=1
+  
+[Text]
+Position=106,302,287,334
+Text=Date Scanned
+Font=-027 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+[EndGroup]
+  

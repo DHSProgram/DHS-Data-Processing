@@ -1,0 +1,128 @@
+﻿PROC GLOBAL
+
+  { Notes:                                                                                          }
+  { The scrambling of IDs should be done after all other processing of data has been tested         }
+  { The scrambling will be applied to the raw data file and to any other associated data file       }
+  { that may require being matched to the data at a future time, such as the GIS dataset.           }
+  { To ensure reproducibility of cluster numbers and household numbers,                             }
+  { ensure that the maximum values are kept the same between all runs.                              }
+  { Also ensure that the order of generating random numbers is kept the same across runs.           }
+  { When the ID data has been scrambled, remember to sort the data according to the new ID numbers. }
+
+  alpha(2) cc;                             { !! Country code }
+  { Random value tables - allow for max entries }
+  array done                      (9999);
+  array newTemp                   (9999);
+  array newCL                     (700);   { !! change to maximum cluster number }
+  array newHH                     (469);   { !! change to maximum household number }
+
+  numeric xvar, x, xcluster, maxCL, i, maxHH;
+
+  { Add similar array for any other geographic variables that need to be scrambled }
+  {
+  array newGeo                    (???);   { !! change to maximum number for this geography }
+  }
+
+  function newcodes(maxnum);
+    do xvar = 1 while xvar <= maxnum
+      newTemp(xvar) = 0;
+      done(xvar) = 0;
+    enddo;
+    do xvar = 1 while xvar <= maxnum
+      x = 0;
+      while !x | done(x) do
+        x = random(1,maxnum);
+      enddo;
+      newTemp(xvar) = x;
+      done(x) = xvar;
+    enddo;
+  end;
+
+PROC CCIQ81_FF
+preproc
+
+  xcluster = 0;
+  { Use this code to seed based on country code --    }
+  { if need to reproduce across more than one dataset }
+  { such as GIS dataset                               }
+  cc = "cc";      { country code (uppercase) used as seed for random number generator }
+  seed((pos(cc[1:1],"ABCDEFGHIJKLMNOPQRSTUVWXYZ")-1)*26
+      +(pos(cc[2:1],"ABCDEFGHIJKLMNOPQRSTUVWXYZ")-1));
+
+  { Use this code to seed based on seconds part of system time             }
+  { Generally this should be used if there is only one file to scramble    }
+  { -- if there is more than one, use the code above                       }
+  {
+  seed(systime() % 10000);        { Use seconds part of system time as seed }
+  }
+
+  maxCL = 320;                    { !! change to maximum cluster number }
+  newcodes(maxCL);                { generate new cluster numbers }
+  do i = 1 while i <= maxCL
+    newCL(i) = newTemp(i);
+    write("Cluster %03d -> %03d",i,newTemp(i)); { This output is used by GIS to scramble the coordinates }
+  enddo;
+
+  { Add similar logic for any other geographic variables that need to be scrambled }
+  {
+  maxGeo = ???;                   { !! change to maximum number for this geography }
+  newcodes(maxGeo);               { generate new numbers for this geography }
+  do i = 1 while i <= maxGeo
+    newGeo(i) = newTemp(i);
+  { write("Geocode %03d -> %03d",i,newTemp(i)); -- FOR TESTING ONLY }
+  enddo;
+  }
+
+  maxHH = 469;                     { !! change to maximum household number }
+
+PROC HOUSEHOLD
+preproc
+
+  { Re-randomize the household numbers for every new cluster }
+  if xcluster <> AHCLUST then
+    if AHCLUST < xcluster then
+      errmsg( "Data must be sorted by cluster and household number before scrambling" );
+      stop;
+    endif;
+    { Reseed the random function to ensure reproducibility
+      if applied to datasets that do not contain all clusters }
+    seed(AHCLUST);
+
+    newcodes(maxHH);              { generate new household numbers for this cluster }
+    do i = 1 until i > maxHH
+      newHH(i) = newTemp(i);
+    { write("HH num. %03d -> %03d",i,newTemp(i)); -- FOR TESTING ONLY }
+    enddo;
+    xcluster = AHCLUST;
+  endif;
+  { assign scrmbled numbers }
+  AHCLUST  = newCL(AHCLUST);
+  AHNUMBER = newHH(AHNUMBER);
+
+  { Add similar logic for any other geographic variables that need to be scrambled }
+  {
+  XHGEO    = newGeo(XHGEO);
+  }
+
+
+  { **** Blank out names from household if they exist
+  { Blank out the household head's name if it was collected }
+  AHNAME = "";
+  { Blank out the household member's names if they were collected }
+  for i in AHSEC02_EDT do
+    AH02 = "";
+  end;
+  **** }
+
+PROC INDIVIDUAL
+preproc
+
+  ACLUSTER = AHCLUST;
+  ANUMBER  = AHNUMBER;
+
+  { Add similar logic for any other geographic variables that need to be scrambled }
+  {
+  XGEO     = XHGEO;
+  }
+
+  { Remember to sort the resulting dataset according to the new cluster and household numbers }

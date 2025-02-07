@@ -1,0 +1,23 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=INPUTRESULTS
+Name=INPUTRESULTS
+AppType=DataEntry
+CAPI=Yes
+[External Dictionaries]
+File=..\dicts\LabIndex.dcf
+File=..\dicts\users.dcf
+[AppCode]
+File=.\InputResults.apc
+[Message]
+File=.\InputResults.mgf
+[Help]
+File=.\InputResults.qsf
+[Forms]
+File=.\cnull.fmf
+File=.\InputResult.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Cnull.dcf,Input,.\cnull.fmf
+Dict-Type=..\dicts\testlog.dcf,External,.\InputResult.fmf
+Dict-Type=..\dicts\LabIndex.dcf,External
+Dict-Type=..\dicts\users.dcf,External

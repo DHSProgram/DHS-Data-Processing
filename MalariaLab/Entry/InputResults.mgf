@@ -1,0 +1,39 @@
+﻿Language = EN
+100 The lab ID number doesn't exist in data file
+110 The barcode %s doesn't exist in the lab data file, something is awfully wrong
+120 This option can't be used because the result for the first reading was already entered
+125 This option can’t be used because to be able to modify reading one it is necessary to enter it first 
+130 This option can’t be used because to enter/modify reading two it is necessary to first enter reading one 
+135 This option can't be used because the result for the second reading was already entered
+140 This option can't be used because the result for the second reading hasn't been entered
+145 This option can't be used because the result for the first or second reading hasn't been entered
+150 This option can't be used because the result for the discordant reading was already entered
+155 This option can't be used because the result for the discordant reading hasn't been entered
+160 This option can't be used because the first and second readings are not discordant
+
+200 The test should be classified as positive or negative
+201 The count of asexual parasites can't be zero
+202 For asexual count less than 100 the number of WBC has to be at least 500
+205 For asexual count greater or equal to 100 the number of WBC has to be at least 200
+210 Invalid code for the parasite
+220 Select a valid technician code
+230 Lab technicians for the first and second readings should be different
+240 Lab technicians for the first and second readings should be different than the one reading the discordant
+245 An explanation is needed when the sample is declared as unusable 
+250 If result for the first reading is other the second has to be other and visceversa 
+
+Language = ES
+{ common strings used by application }
+  ES ( "Do you want to enter more test results?" ) Desea ingresar mas resultados de las muestras
+  ES ( "Laboratory code pasted on sample?" ) Pego el codigo de laboratorio a la muestra? 
+  ES ( "Yes" ) Si
+  ES ( "No" ) No
+  ES ( "Are you sure you want to change from a valid result into 'Not analyzed yet'?" ) Esta seguro de cambiar un resultado valido a como si fuera 'No analizado aun'?
+  ES ( "Yes change it" ) Si desea cambiarlo
+  ES ( "Enter results for first reading" ) Ingresar resultados de la primera lectura
+  ES ( "Modify results for first reading" ) Modificar resultados de la primera lectura
+  ES ( "Enter results for second reading" ) Ingresar resultados de la segunda lectura
+  ES ( "Modify results for second reading" ) Modificar resultados de la segunda lectura
+  ES ( "Enter results for third reading" ) Ingresar resultados de la tercera lectura
+  ES ( "Modify results for third reading" ) Modificar resultados de la tercera lectura
+  ES ( "Cancel (return to main menu)" ) Cancelar (volver al menu principal)

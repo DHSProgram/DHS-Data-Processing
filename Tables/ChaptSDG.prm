@@ -1,0 +1,83 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+thousands none;
+
+tsdg1 columns tabnum = 0 1;
+tsdg1 cellsize = 840 stubsize = 7000;
+tsdg1 footnote
+{+EN}
+na = Not applicable~
+@1 Persons living in households that report the primary source of lighting is electricity.~
+@2 Persons living in households that report no cooking, no space heating, or no lighting
+   are not excluded from the numerator.~
+@3 Expressed in terms of maternal deaths per 100,000 live births in the 7-year period preceding the survey~
+@4 Expressed in terms of deaths per 1,000 live births for the 5-year period preceding the survey~
+@5 Calculated per 100,000 population~
+@6 Equivalent to the age-specific fertility rate for girls age 10-14 for the 3-year period
+   preceding the survey, expressed in terms of births per 1,000 girls age 10-14~
+@7 Equivalent to the age-specific fertility rate for women age 15-19 for the 3-year period
+   preceding the survey, expressed in terms of births per 1,000 women age 15-19~
+@8 Data are not age-standardized and are available for women and men age 15-49 only.~
+@9 The percentage of children age 12-23 months who received three doses of [DPT CONTAINING VACCINE]~
+@1{\super 0} The percentage of children age 24-35 months who received two doses of [MEASLES CONTAINING VACCINE]~
+@1{\super 1} The percentage of children age 12-23 months who received a [THREE/TWO] doses of [PNEUMOCOCCAL CONJUGATE VACCINE]~
+@1{\super 2} The percentage of women age 15-17 who received [TWO] doses of human papillomavirus (HPV) vaccine
+@1{\super 3} Data are available for women age 15-49 who have ever been in union only.~
+@1{\super 4} In the DHS, psychological violence is termed emotional violence.~
+@1{\super 5} Data are available for women age 15-49 only.~
+@1{\super 6} Data are available for currently married women only.~
+@1{\super 7} Data are available for women and men age 15-49 only.~
+@1{\super 8} Data are available for children age 1-14 only.~
+@1{\super 9} Data are available for women only.~
+@2{\super 0} Data are available for women and men age 15-49 who have used the Internet in the last 12 months.~
+@a The total is calculated as the simple arithmetic mean of the percentages in the columns for males and females.
+{EN+}
+{{FR}
+na = Non applicable~
+1 Personnes vivant dans des ménages déclarant que leur source d'éclairage principale est l'électricité.~
+2 Personnes vivant dans des ménages qui déclarent pas de cuisine, pas de radiateur ou pas d'éclairage ne sont pas exclues du numérateur.~
+3 Exprimés en terme de mortalité maternelle par 100 000 naissances vivantes durant la periode de 7 ans précédent l'enquête~
+4 Exprimés en terme de mortalité par 1 000 naissances vivantes pour la periode de 5 ans précédent l'enquête~
+5 Calculé pour 100 000 habitants~
+6 Equivalent au taux de fecondité par age pour les filles âgées de 10-14 ans durant la période de 3 ans précédent l'enquête, exprimés en terme de naissances par 1 000 filles âgées de 10-14 ans~
+7 Equivalent au taux de fecondité par âge des femmes âgées de 15-19 ans durant la période des 3 années précédent l'enquête, exprimés en terme de naissances par 1 000 filles âgées de 15-19 ans~
+8 Les données ne sont pas standardisées pour l'âge et sont disponibles pour seulement les femmes et hommes de 15-49 ans.~
+9 Pourcentage d'enfants de 12-23 mois qui ont reçu les trois doses de [DTC-CONTENANT VACCIN]~
+10 Pourcentage d'enfants de 24-35 mois qui ont reçu les deux doses de [VACCIN CONTENANT UN ANTIGÈNE CONTRE LA ROUGEOLE]~
+11 Pourcentage d'enfants de 12-23 mois qui ont reçu les [TROIS/DEUX] doses de vaccin contre le pneumocoque~
+12 Pourcentage de femmes âgées de 15-17 ans qui ont reçu [DEUX] doses de vaccin contre le virus du papillome humain (VPH)~
+13 Les données sont disponibles seulement pour les femmes âgées de 15-49 ans qui ont déjà été en union.~
+14 Dans la DHS, la violence psychologique est appelée violence émotionelle.~
+15 Données disponibles seulement pour les femmes âgées de 15-49 ans~
+16 Données disponibles seulement pour les femmes actuellement en union~
+17 Données disponibles seulement pour les hommes et les femmes âgés de 15-49 ans~
+18 Données disponibles seulement pour les enfants âgés de 1-14 ans~
+19 Données disponibles seulement pour les femmes~
+20 Les données sont disponibles pour les femmes et les hommes âgés de 15-49 ans qui ont utilisé l'Internet dans les 12 mois précédents.~
+a Le total est calculé comme une moyenne arithmetique simple des pourcentages des colonnes hommes et femmes.~
+{FR}}
+endfootnote;
+
+tsdg2 columns tabnum = 0 1;
+tsdg2 cellsize = 840 stubsize = 7000;
+

@@ -1,0 +1,662 @@
+﻿{Application 'CentSampMenu' }
+PROC GLOBAL
+
+  FILE      piffile;                       { data entry PFF file for the AppNamelication }
+
+  string   CSPro;                          { CSPro executables directory }
+  string   AppName;                        { Application name }
+  string   wrkprj, wrkpii, backup;         { directories }
+  string   wrkref, work;                   { contains reference data for clusters, sample, teams }
+  string   central, entry, SampData, utility;
+  string   xfilenum, executable;
+  string   opid;                           { operator ID }
+  string   fname;                          { filenames for various files }
+  config   CSWebURL, CSWebUser, CSWebPIN, CSWebSurvey;   { to handle access to CSWeb }
+
+  alpha(4) xcluster, xenumerat;            { Cluster/enumerator numbers }
+  string   strtail;                        { to customize the report on clusters arrived to central office }
+  string   dirbkp, heading, TheCommand;
+
+  list string FileListing;
+  list string NewClusters;
+  array ClustDuplicated(5000);
+  array string EnumDupForClust(20);
+  numeric i, l, w, m, t, numdup, action, temp, Enumerator, ncluster;
+  numeric datestr, timestr;                 { to get dates and time coming from files coming from the field by utility GetFiles }
+
+  { setup basic user bar }
+  function userbase();
+    userbar( clear );
+    userbar( add button, "Lang", do("ChangeLanguage") );
+  end;
+
+  { set value sets based on language }
+  function OnChangeLanguage()
+    SetLanguage( getlanguage() );
+    savesetting("Language", getlanguage());
+  end;
+
+  { check that files for households and individuala exist in a given directory }
+  function files_in( string directory )
+    numeric exist = 0;
+    if FileExist( directory + "\L" + xfilenum + ".dat" ) then
+      exist = 1;
+    endif;
+    files_in = exist;
+  end;
+
+  { Runs a .PFF for any type of Application.  Note that this function was introduced in CSPro 6.0 }
+  function RunPFF()
+    ExecPff( AppName + ".pff", maximized, wait );
+  end;
+  
+  { collpase cluster data into just one file for households, GPS and segmentation }
+  function CollapseFiles()
+    FileConcat( work + "\AllHouseholds.dat", sampdata + "\L????????.dat" );      { Households }
+    FileConcat( work + "\AllGPS.dat", sampdata + "\G????????.dat" );             { GPS }
+    FileConcat( work + "\AllSegments.dat", sampdata + "\S????????.dat" );        { Segmentation }
+  end;
+
+  { checks if a cluster has already been closed or not }
+  function GetEnumerator()
+    numeric z = 0;
+    open( CONTROL );
+    CSAMPLE = WCLUSTER;
+    if !loadcase( CONTROL, CSAMPLE ) then
+      errmsg( 007, CSAMPLE );
+    elseif CSUPERV <> 0 then
+      z = CSUPERV;
+    endif;
+    close( CONTROL );
+    GetEnumerator = z;
+  end;
+
+  { updates the control file after it is accepted and it was decided to close it }
+  function CloseCluster()
+    open( CONTROL );
+    numeric Updt = 1;
+    CSAMPLE = WCLUSTER;
+    if !loadcase( CONTROL, CSAMPLE ) then
+      Updt = 0;
+      errmsg( 007, CSAMPLE );
+    elseif !CDATEBEG then
+      Updt = 0;
+      errmsg( 009, CSAMPLE );
+    elseif !CACCEPT then
+      Updt = 0;
+      errmsg( 012, CSAMPLE );
+    elseif !CGPSAVAIL then
+      Updt = 0;
+      errmsg( 010, CSAMPLE );
+    elseif CFINDATE <> 0 then
+      errmsg( 008, CSAMPLE );
+      Updt = ( accept(tr("Make sure you review the modified HH Listing. Do you want to change the update date"), tr("Yes"), tr("No") ) = 1 );
+    endif;
+    if Updt then
+      CFINDATE = sysdate( "YYYYMMDD" );
+      writecase( CONTROL );
+      errmsg( 080, CSAMPLE );
+    endif;
+    close( CONTROL );
+  end;
+
+  { writes pif files headings }
+  function InitPFF( CSmod );
+    if     CSmod = 1 then executable = "Batch"
+    elseif CSmod = 2 then executable = "Entry"
+    elseif CSmod = 3 then executable = "Sort"
+    endif;
+    setfile( piffile, central + "\" + AppName + ".pff" );
+    FileDelete( piffile );
+    FileWrite( piffile, "[Run Information]" );
+    FileWrite( piffile, "Version=CSPro 7.5" );
+    FileWrite( piffile, "AppType=" + executable );
+  end;
+
+  { generates the PFF file needed to run AppNamelication LSTCLSUT }
+  function ListClust()
+  { whatdir - 1 to list and check clusters from arrived directory }
+  {           2 to check clusters from CLOSED directory           }
+    InitPFF(1);
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + central  + "\"  + AppName  + ".bch" );
+    FileWrite( piffile, "InputData="   + SampData + "\L" + xfilenum + ".dat" );
+    FileWrite( piffile, "Listing="     + central  + "\"  + AppName  + ".lst" );
+    FileWrite( piffile, "WriteData="   + central  + "\"  + AppName  + ".wrt" );
+
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "CONTROL="     + wrkref  + "\LControl.dat" );
+{{GPS}	
+    FileWrite( piffile, "GPS_DCT="     + SampData + "\G" + xfilenum + ".dat" );
+{GPS}}	
+    FileWrite( piffile, "SEGMENT_DCT=" + SampData + "\S" + xfilenum + ".dat" );
+    FileWrite( piffile, "[Parameters]" );    
+    FileWrite( piffile, "Language="  + GetLanguage() );
+	FileWrite( piffile, "Parameter=" + xfilenum );
+    FileWrite( piffile, "ViewListing=OnError" );
+    FileWrite( piffile, "ViewResults=No" );
+    FileWrite( piffile, "ListingWidth=120" );
+    close( piffile );
+  end;
+
+  { generates the PFF file for the data collection status report AppNamelication }
+  function ListStatus()
+    InitPFF(1);
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + central + "\" + AppName + ".bch" );
+    FileWrite( piffile, "InputData="   + wrkref  + "\LControl.dat" );
+    FileWrite( piffile, "Listing="     + central + "\" + AppName + ".lst" );
+    FileWrite( piffile, "WriteData="   + central + "\" + AppName + ".wrt" );
+
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "INTERV=" + wrkref + "\Interv.dat" );
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "ViewListing=OnError" );
+    FileWrite( piffile, "ViewResults=No" );
+    close( piffile );
+  end;
+
+  { prepares PIF file to list households in a cluster }
+  function SampList()
+    InitPFF(2);
+
+    FileWrite( piffile, "[DataEntryInit]" );
+    FileWrite( piffile, "StartMode=MODIFY;" + xfilenum );
+    FileWrite( piffile, "Lock=Add, Verify" );
+    FileWrite( piffile, "Fullscreen=Yes" );
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + entry    + "\"  + AppName  + ".ent" );
+    FileWrite( piffile, "InputData="   + SampData + "\L" + xfilenum + ".dat" );
+    FileWrite( piffile, "Listing="     + SampData + "\L" + xfilenum + ".lst" );
+
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "CLUSTERS="    + wrkref   + "\Clusters.dat" );
+{+GPS}	
+    FileWrite( piffile, "GPS_DCT="     + sampData + "\H" + xfilenum + ".dat" );
+{GPS+}	
+    FileWrite( piffile, "SEGMENT_DCT=" + sampData + "\S" + xfilenum + ".dat" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "Parameter=" + xfilenum );
+    close( piffile );
+  end;
+
+  { prepares PIF file for AppNamelication to report on missing files on the HH listing operation }
+  function ReportMiss()
+    InitPFF(1);
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + central + "\" + AppName + ".bch" );
+    FileWrite( piffile, "InputData="   + work    + "\AllHouseholds.dat" );
+    FileWrite( piffile, "Listing="     + central + "\" + AppName + ".lst" );
+    FileWrite( piffile, "WriteData="   + central + "\" + AppName + ".wrt" );
+
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "CONTROL=" + wrkref + "\LControl.dat" );
+    FileWrite( piffile, "GPS_DCT=" + work   + "\AllGPS.dat" );
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "ViewListing=OnError" );
+    FileWrite( piffile, "ViewResults=No" );
+    close( piffile );
+  end;
+
+  { prepares PIF file to select households for all clusters in the survey }
+  function SelectHH()
+    InitPFF(1);
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + central + "\" + AppName + ".bch" );
+    FileWrite( piffile, "InputData="   + work    + "\AllHouseholds.dat" );
+    FileWrite( piffile, "Listing="     + central + "\" + AppName + ".lst" );
+    FileWrite( piffile, "WriteData="   + central + "\" + AppName + ".wrt" );
+
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "CLUSTERS="    + wrkref + "\Clusters.dat" );
+    FileWrite( piffile, "SAMPSEL="     + wrkref + "\SampSel.dat" );
+    FileWrite( piffile, "GPS_DCT="     + work   + "\AllGPS.dat" );
+    FileWrite( piffile, "SEGMENT_DCT=" + work   + "\AllSegments.dat" );
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    FileWrite( piffile, "ViewListing=OnError" );
+    FileWrite( piffile, "ViewResults=No" );
+    close( piffile );
+  end;
+
+  { chack a version available for the next bac-up.  It is a Round-robin system made of up to 10 versions  }
+  function backupn()
+    numeric n, x;
+    do n = 0 while n <= 9 & FileExist( backup + "\" + dirbkp + "_" + edit("9",n) + ".zip" )
+    enddo;
+    { open space for next back-up }
+    x = n + 1;
+    if n = 9 then x = 0 endif;
+    fname = backup + "\" + dirbkp + "_" + edit("9",x) + ".zip";
+    if FileExist(fname) then
+      FileDelete(fname);
+    endif;
+    backupn = n;
+  end;
+
+  { finds the drive letter where the flash memory is located }
+  function searchdrive()
+    numeric found = 0;
+    do i = 1 while i <= 4 & !found
+      backup = "DEFGH"[i:1] + ":\" + dirbkp;
+      if DirExist(backup) then
+        found = 1;
+      endif;
+    enddo;
+    searchdrive = found;
+  end;
+
+  { back-ups data to hard drive and memory flash }
+  function backupf()
+    numeric nextbkp, j;
+    { back-up SAMPDATA and REF directories }
+    do j = 1 while j <= 2
+      dirbkp = "SAMPDATA";
+      if j = 2 then dirbkp = "REF" endif;
+      if !searchdrive() | !DirExist(backup) then
+        errmsg( 070, backup );
+        searchdrive();
+      endif;
+      if DirExist(backup) then
+        { handle round robin back-up number }
+        nextbkp = backupn();
+        TheCommand = Utility + "\UpgradePc\7za.exe a -w" + work + " -i!" + wrkprj +  "\" + dirbkp + "\*.* " +
+                     backup + "\" + dirbkp + "_" + edit("9",nextbkp) + ".zip";
+        ExecSystem(TheCommand, maximized, wait );
+        errmsg( 072, dirbkp, backup );
+      else
+        errmsg( 071, strip(backup) );
+        break;
+      endif;
+    enddo;
+  end;
+
+  { get cluster number and arrival date and time }
+  function AnalizeArrival( k )
+    numeric j;
+    do j = length(NewClusters(k)) while NewClusters(k)[j:1] <> "\" by (-1) enddo;
+    ncluster   = tonumber( NewClusters(k)[j+2:4] );
+    enumerator = tonumber( NewClusters(k)[j+6:4] );
+    datestr    = sysdate("YYYYMMDD", FileTime(NewClusters(k)));
+    timestr    = systime("HHMMSS",   FileTime(NewClusters(k)));
+//	errmsg( "ncluster=%d, enumerator=%d, date=%d, time=%d", ncluster, enumerator, datestr, timestr );
+    AnalizeArrival = Datestr;
+  end;
+
+  { delete clusters arrived from the field in directory SampData, but that came empty }
+  function DeleteEmptyArrived()
+    numeric FirstCluster = 1;
+	NewClusters.clear();
+	DirList( NewClusters, SampData, "L????????.dat" );
+    do i = 1 while i <= NewClusters.length()
+      if FileEmpty(NewClusters(i)) then
+        if FirstCluster then
+          HTML_Paragraph( " " );
+          HTML_ParagraphS( tr("LIST OF FILES DELETED BECAUSE THEY CAME EMPTY") );
+          HTML_Paragraph( " " );
+          FirstCluster = 0;
+        endif;
+        HTML_Paragraph( NewClusters(i) );
+		FileDelete( NewClusters(i) );
+      endif;
+    enddo;
+    DeleteEmptyArrived = (FirstCluster = 0);
+  end;
+
+  { list new clusters arrived from the field in directory SampData }
+  function NewClustersArrived()
+    numeric FirstCluster = 1;
+    open( CONTROL );
+	NewClusters.clear();
+	DirList( NewClusters, SampData, "L????????.dat" );
+    do i = 1 while i <= NewClusters.length()
+      AnalizeArrival(i);
+	  CSAMPLE = ncluster;
+      if loadcase(CONTROL, CSAMPLE) & !CDATEBEG then
+        if FirstCluster then
+          HTML_Paragraph( " " );
+          HTML_ParagraphS( tr("LIST OF NEW CLUSTERS THAT ARRIVED FROM THE FIELD AS OF TODAY") );
+          HTML_Paragraph( " " );
+          FirstCluster = 0;
+        endif;
+        HTML_Paragraph(tr("Cluster:") + " " + edit("9999",CSAMPLE) + " " + tr("Arrived on:") + " " + 
+		               edit("9999/99/99",datestr) + " " + edit("99:99:99",timestr) );
+        CDATEBEG = sysdate( "YYYYMMDD" );
+        CSUPERV  = enumerator;
+        writecase( CONTROL );
+      endif;
+    enddo;
+    close( CONTROL );
+    NewClustersArrived = (FirstCluster = 0);
+  end;
+
+  { list clusters clusters arrived from the field in directory SampData   }
+  { that were previously received or that came for a different enumerator }
+  function ModifiedClustersArrived()
+    numeric newdate = 0, FirstCluster = 1, j;
+    open( CONTROL );
+    do i = 1 while i <= NewClusters.length()
+      newdate = AnalizeArrival(i);
+      CSAMPLE    = ncluster;
+      if loadcase(CONTROL, CSAMPLE) & (CDATEBEG & newdate > CDATEBEG | CSUPERV <> Enumerator) then
+        if FirstCluster then
+          HTML_Paragraph( " " );
+          HTML_ParagraphS( tr("LIST OF CLUSTERS THAT ARRIVED PREVIOUSLY BUT WERE MODIFIED OR ENUMERATOR CHANGED") );
+		  HTML_Paragraph( " " );
+          HTML_ParagraphS( tr("Duplicated files are displayed and only one of them must be left") );
+          HTML_Paragraph( " " );
+          FirstCluster = 0;
+        endif;
+        if CDATEBEG & newdate > CDATEBEG then
+          strtail = " " + tr("and arrived previously on:") + " " + edit("9999/99/99",CDATEBEG);
+          HTML_Paragraph(tr("Cluster:") + " " + edit("9999",CSAMPLE) + " " + tr("Arrived on:") + " " + 
+		                 edit("9999/99/99",datestr) + " " + edit("99:99:99",timestr) + " " + strtail );
+          CDATEBEG  = sysdate("YYYYMMDD");
+        endif;
+        if CSUPERV <> Enumerator then
+          HTML_Paragraph(tr("Cluster:") + " " + edit("9999",CSAMPLE) + " " + tr("Previous Enumerator:") + " " + edit("9999",CSUPERV) + " " 
+		                + tr("New Enumerator:") + edit("9999",Enumerator) + " " + tr("Delete incorrect file") );
+          do j = 1 while j <= 5000
+            if ClustDuplicated(j) = CSAMPLE then
+              break
+            elseif ClustDuplicated(j) = 0 then
+              ClustDuplicated(j) = CSAMPLE;
+              break;
+            endif;
+          enddo;
+        endif;
+        writecase( CONTROL );
+      endif;
+    enddo;
+    close( CONTROL );
+    ModifiedClustersArrived = (FirstCluster = 0)
+  end;
+
+  { list clusters arrived from the field that were already closed by the central office }
+  function ClosedClustersArrived()
+    numeric newdate = 0, FirstCluster = 1;
+    open( CONTROL );
+    do i = 1 while i <= NewClusters.length()
+      newdate = AnalizeArrival(i);
+      CSAMPLE    = ncluster;
+      if loadcase(CONTROL, CSAMPLE) & CFINDATE & newdate > CFINDATE then
+        if FirstCluster then
+          HTML_Paragraph( " " );
+          HTML_ParagraphS( tr("LIST OF CLUSTERS CLOSED THAT CAME BACK AGAIN FROM THE FIELD") );
+          HTML_Paragraph( " " );
+          FirstCluster = 0;
+        endif;
+        strtail = " " + tr("but already closed on:") + " " + edit("9999/99/99", CFINDATE);
+        HTML_Paragraph(tr("Cluster:") + " " + edit("9999",CSAMPLE) + " " + tr("Arrived on:") + " " + 
+                       edit("9999/99/99",datestr) + " " + edit("99:99:99",timestr) + " " + strtail );
+      endif;
+    enddo;
+    close( CONTROL );
+    ClosedClustersArrived = (FirstCluster = 0);
+  end;
+
+  { list files that are duplicated due to enumerators entering the wrong cluster number }
+  function DuplicateFiles( cluster )
+    numeric k;
+	do k = 1 while k <= 20
+	  EnumDupForClust(k) = "";  // store enumerators with duplicated clusters
+	enddo;
+    dirlist( FileListing, SampData, "L"+edit("9999",cluster)+"????.dat" );
+    do k = 1 while k <= FileListing.length()
+      errmsg( 115, k, FileListing(k), cluster );
+      TheCommand = '"' + strip(cspro) + '\TextView.exe"' + ' "' + FileListing(k) + '"';
+      ExecSystem( TheCommand, maximized, wait );
+	  EnumDupForClust(k) = FileListing(k);
+    enddo;
+    heading = tr("Select the correct file/enumerator for cluster:") + " " + edit("9999",cluster);
+    EnumDupForClust(k) = tr("Will Decide Later");
+  end;
+
+  { calls repair program to modify cluster and/or interviewer number }
+  function FixIds()
+    TheCommand = utility + "\DataRepPc\DataRepairPc.exe HHListingRepair.xml";
+    ExecSystem( TheCommand, normal, wait );
+  end;
+
+PROC FL_MENU
+PreProc
+
+  CSPro  = PathName( CSPro );
+
+  setfont( ValueSets, "Arial", 18, bold );
+
+  { set up minimal user bar }
+  userbase();
+  userbar( show );
+  { set the language at the start of the program, defaulting to English }
+  SetLanguage(loadsetting("Language", "EN"));
+
+  { Operator ID }
+  opid="Anyone";                        { this could be an ID set on each machine }
+
+  wrkprj  = "C:\CC81";
+  wrkpii  = wrkprj + "\Pii";            { subdirecory to store data with PII }
+
+  entry    = wrkprj + "\SampApps";      { data entry programs }
+  central  = wrkprj + "\CentralSamp";   { central office programs }
+  utility  = wrkprj + "\Utility";       { directory where auxiliary utilities are stored }
+  wrkref   = wrkpii + "\Ref";           { reference directory for clusters, sample and teams files  }
+  SampData = wrkpii + "\SampData";      { store household listing files }
+  work     = wrkpii + "\Work";          { working directory }
+
+  backup = "E:\SAMPDATA";                                 { drive and directory to backup data }
+
+PostProc
+  stop(1);
+
+PROC MENU_LEVEL
+PreProc
+
+  set attributes( MENU_DICT ) assisted off (variable (title));
+
+  { set the name for the HTML file }
+  HTML_InitAlign();
+  HTMLname = "FromField.HTML";
+  if FileExist( HTMLname ) then
+    FileDelete( HTMLname )
+  endif;
+  setfile( HTMLFile, HTMLname, create );
+  { initialize the report headings }
+  zstring1 = tr("Clusters arrived from the field since last time the central office system was executed");
+  HTML_Header( CellAlign, zstring1 );  // generates a general HTML header
+  
+  { Synchronize to CSWeb when data is coming from Android tablets }
+  numeric android = 1;  //!!! 0-data coming through IFSS for windows tablets 1-data coming through CSWeb from android tablets
+  if android then
+    if SyncConnect ( CSWeb, CSWebURL, CSWebUser, CSWebPIN ) then   {commented out post data collection }
+	  errmsg( 300, CSWebURL );
+      SyncFile( GET, CSWebSurvey + "SampData\*.*",      SampData ); 
+      SyncFile( GET, CSWebSurvey + "Logs\SyncLog*.txt", work ); 
+      SyncDisconnect();
+	else
+	  errmsg( 301, CSWebURL );
+    endif;
+  endif;	
+  
+  { check/list files that arrived empty }
+  numeric delempty = DeleteEmptyArrived();
+  
+  { list newly arrived files }
+  numeric newClust = NewClustersArrived();
+  do i = 1 while i <= 5000
+    ClustDuplicated(i) = 0
+  enddo;
+  
+  { list clusters that arrived as a result of modifications }
+  numeric modclust = ModifiedClustersArrived();
+  numeric clsclust = ClosedClustersArrived();
+  
+  { list clusters that arrived and were already closed }
+  HTML_End();
+  if delempty | newclust | modclust | clsclust then
+    view( "file://" + pathname(application) +  HTMLName );
+  endif;
+  
+  open( CONTROL );
+  { list duplicated clusters and update control file with correct enumerator }
+  do i = 1 while i <= 5000 & ClustDuplicated(i) <> 0
+    DuplicateFiles( ClustDuplicated(i) );
+	w = showarray( heading, EnumDupForClust );               // decide who is the correct enumerator for the cluster
+	{ update control file with correct enumerator code }
+	do m = 1 while m <= 20 & length(EnumDupForClust(m))
+	enddo;
+	numdup = m - 2;
+	if w & w <= numdup then
+	  do l = 1 while l <= numdup
+        if l = w then
+          CSAMPLE = ClustDuplicated(i);
+          if loadcase( CONTROL, CSAMPLE ) then
+            m = length(EnumDupForClust(l)) - 7; 
+            CSUPERV = tonumber( EnumDupForClust(l)[m:4] );
+            writecase( CONTROL );
+          endif;
+        else
+	      FileDelete( EnumDupForClust(l) );
+		  errmsg( 110, EnumDupForClust(l) );
+        endif;
+      enddo;
+	endif;
+  enddo;
+  close( CONTROL );
+
+PROC WINTRO
+onfocus
+  skip to WCLUSTER;
+
+PROC WCLUSTER
+onfocus
+  $ = tonumber( loadsetting("Cluster") );
+  if action <> 7 then
+    advance to WFINAL;
+  endif;
+
+postproc
+  if !loadcase( CLUSTERS, $ ) then
+    errmsg( 001, WCLUSTER );
+    reenter;
+  endif;
+  SaveSetting( "Cluster", edit("9999",$) );
+
+  WURBRUR    = GetLabel( YURBRUR, YURBRUR );
+  WREGIONN   = YREGIONN;
+  WDISTRICTN = YDISTRICTN;
+  WSTATEN    = YSTATEN;
+  WCITYN     = YCITYN;
+
+  xcluster = edit("9999", WCLUSTER);                 { Cluster number }
+
+  { get enumerator from control file }
+  temp = GetEnumerator();
+  xenumerat = "";
+  if !temp then
+    errmsg( 011, $ );
+  else
+    xenumerat = edit("9999", temp);
+  endif;
+  xfilenum = xcluster + xenumerat;
+
+PROC WFINAL
+  heading = tr("Central Office Menu, Cluster:") + " " + xcluster;
+  if getlanguage() = "EN" then
+    action = accept( heading,
+                { 1} "1 Status of clusters arrived in central office               ",
+                { 2} "2 Display/receive households listed in cluster               ",
+                { 3} "3 Modify households listed in the cluster                    ",
+                { 4} "4 Close household listing for cluster                        ",
+                { 5} "5 Modify/change/Delete: File/Cluster/Enumerator              ",
+                { 6} "6 Report missing clusters/GPS/not reviewed                   ",
+                { 7} "7 Change cluster number                                      ",
+                { 8} "8 Data back-up                                               ",
+                { 9} "9 Create sample file of households to be selected for survey ",
+                {10} "X Exit (Esc)                                                 " );
+  elseif getlanguage() = "ES" then
+    action = accept( heading,
+                { 1} "1 Estado de segmento que han llegado a la ofcina central     ",
+                { 2} "2 Listar/recibir hogares listados en el segmento             ",
+                { 3} "3 Modificar hogares listados en el segmento                  ",
+                { 4} "4 Cerrar la operacion de listado para el segmento            ",
+                { 5} "5 Modificar/cambiar/borrar: Archivo/Segmento/Enumerador      ",
+                { 6} "6 Reporte de Segmentos/GPS no recibidos o no revisados       ",
+                { 7} "7 Cambiar de segmento                                        ",
+                { 8} "8 Hacer copia de resplado                                    ",
+                { 9} "9 Crear archivo de hogares a ser seleccionados para la encuesta",
+                {10} "X Salir (Esc)                                                " );
+  endif;
+  if !action | action = 10 then stop(1) endif;
+
+  if action = 7 then          { change cluster number }
+    reenter WCLUSTER
+
+  elseif action = 1 then                  { status report }
+    AppName = "ListStatus";
+    ListStatus();
+    runpff();
+    reenter WFINAL;
+
+  elseif action = 2 then                  { list/receive cluster }
+    if files_in( SampData ) then
+      AppName = "ListClust";
+      ListClust();
+      runpff();
+    else
+      errmsg( 102, WCLUSTER, SampData );
+    endif;
+    reenter WFINAL;
+
+  elseif action in 3 then                  { modify household listing }
+    if files_in( SampData ) then
+      AppName = "SampList";
+      SampList();
+      runpff();
+    else
+      errmsg( 102, WCLUSTER, SampData );
+    endif;
+    reenter WFINAL;
+
+  elseif action = 4 then                  { close cluster }
+    if files_in( SampData ) then
+      closecluster();
+    else
+      errmsg( 102, WCLUSTER, SampData );
+    endif;
+    reenter WFINAL;
+
+  elseif action = 5 then                 { fix identifiers (cluster, interviewers) or delete files }
+    FixIds();
+    reenter WFINAL;
+
+  elseif action = 6 then                 { report missing clusters or GPS coordinates }
+    CollapseFiles();
+    AppName = "ReportMiss";
+    ReportMiss();
+    runpff();
+    reenter WFINAL;
+
+  elseif action = 7 then                  { change cluster number }
+    reenter WCLUSTER;
+
+  elseif action = 8 then                  { make a data back-up }
+    backupf();
+    reenter WFINAL;
+
+  elseif action = 9 then                 { sample selection of households for the survey }
+    CollapseFiles();
+    AppName = "SelectHH";
+    SelectHH();
+    runpff();
+    reenter WFINAL;
+
+  endif;

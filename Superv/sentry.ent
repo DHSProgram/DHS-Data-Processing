@@ -1,0 +1,18 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=SENTRY
+Name=SENTRY
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[AppCode]
+File=.\sentry.apc
+[Message]
+File=.\sentry.mgf
+[Help]
+File=.\sentry.qsf
+[Forms]
+File=.\contsup.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\contsup.dcf,Input,.\contsup.fmf

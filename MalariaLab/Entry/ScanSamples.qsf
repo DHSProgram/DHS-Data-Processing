@@ -1,0 +1,47 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.5
+
+[LANGUAGES]
+EN=English
+ES=Español
+FR=French
+
+[QUESTION]
+Field=TESTLOG_DICT.LABID
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\fs24 This is the Lab ID assigned by the system.  Changing it may cause problems\cf2\fs16\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs24 Este es el numero de laboratorio asignado por el sistema.  Cambiarlo puede causar problemas\par
+ES=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LBAR
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Scan the barcode attached to the sample\cf2\fs16\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs24 Escanee el codigo de barras de la muestra\cf2\fs16\par
+ES=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LDATE
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Please confirm the scanned date by pressing the ENTER key.\cf2\fs16\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs24 Por favor confirme la fecha de escaneo oprimiendo la tecla ENTER\par
+ES=}
+

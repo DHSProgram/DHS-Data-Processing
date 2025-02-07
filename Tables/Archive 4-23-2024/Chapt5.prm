@@ -1,0 +1,297 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+t501   rows    fert1 = 1 1
+               fert1 = 3 1;
+t501 footnote
+{+EN}
+Notes: Age-specific fertility rates are per 1,000 women. Estimates in brackets are truncated. Rates are
+       for the period 1-36 months preceding the interview. Rates for the 10-14 age group are based on
+       retrospective data from women age 15-17.~
+TFR:  Total fertility rate expressed per woman~
+GFR:  General fertility rate expressed per 1,000 women age 15-44~
+CBR:  Crude birth rate, expressed per 1,000 population
+{EN+}
+{{ES}
+Notas: Las tasas espec?ficas de fecundidad por edad est?n expresadas por 1,000 mujeres.
+ Las tasas para el grupo 45-49 pueden estar ligeramente sesgadas debido
+ a truncamiento. Las tasas son para el per?odo 1-36 meses antes de la encuesta.~
+La tasa global de fecundidad: expresada en nacimientos por mujer~
+La tasa general de fecundidad: expresada en nacimientos por 1,000 mujeres en edad 15-44~
+La tasa bruta de natalidad: expresada en nacimientos por 1,000 habitantes
+{ES}}
+{{FR}
+Notes : Les taux sont exprimés pour 1 000 femmes. Les taux entre crochets sont tronqués.
+      Les taux correspondent à la période de 1-36 mois précédant l'enquête. Les taux pour le 
+      groupe d'âges 10-14 ans sont basés sur des données rétrospectives provenant des femmes 
+      âgées de 15-17 ans.~
+ISF : Indice Synthétique de Fécondité exprimé pour une femme~
+TGFG : Taux Global de Fécondité Générale exprimé pour 1 000 femmes âgées de 15-44 ans~
+TBN : Taux Brut de Natalité exprimé pour 1 000 individus
+{FR}}
+endfootnote;
+{t501e  noprint;}
+{t501b  noprint;}
+{t501p  noprint;}
+
+t502 footnote
+{+EN}
+Note: Total fertility rates are for the period 1-36 months prior to interview.
+{EN+}
+{{ES}
+Nota: Las tasas globales de fecundidad se refieren al per?odo de 1-36 meses que precedieron la encuesta.
+{ES}}
+{{FR}
+Note : L'Indice Synthétique de Fécondité correspond à la période de 1-36 mois précédant l'enquête.
+{FR}}
+endfootnote;
+{t502f  noprint;}
+{t502e  noprint;}
+{t502b  noprint;}
+{t502p  noprint;}
+
+t503 footnote
+{+EN}
+Notes: Age-specific fertility rates are per 1,000 women. Estimates in brackets are truncated.
+       Rates exclude the month of interview. For the 0-4 year period, rates for the 10-14 age
+       group are based on retrospective data from women age 15-19.
+{EN+}
+{{ES}
+Nota: Las tasas espec?ficas de fecundidad por edad est?n expresadas por 1,000 mujeres.
+      Las tasas entre corchetes est?n truncadas.
+      Las tasas excluyen el mes de la entrevista. Rates for women age 10-14 for the 0-4 year
+      period are based on retrospective.
+{ES}}
+{{FR}
+Notes : Les taux de fécondité par âge sont exprimés pour 1 000 femmes. Les taux entre crochets
+       sont tronqués. Les taux excluent le mois de l'interview. Pour la période 0-4 ans, les taux pour
+       le groupe d'âges 10-14 ans sont basées sur des données retrospectives provenant des femmes
+       âgées de 15-19 ans.
+{FR}}
+endfootnote;
+
+{t503e  noprint;}
+{t503b  noprint;}
+
+t504 columns v201w = all 1
+             totnum2 = 0 1
+             totnum2 = 1 nodec;
+
+t505 columns totmednu = 1 nodec;
+t505 footnote
+{+EN}
+Note:  First-order live births are excluded.  The interval for multiple births is
+       the number of months since the preceding pregnancy that
+       ended in a live birth.
+{EN+}
+{{ES}
+Nota:  Se excluyen los nacimientos de primer orden. El intervalo para nacimientos
+       m?ltiples es el n?mero de meses desde el embarazo anterior que culmin?
+       en un nacido vivo.
+{ES}}
+{{FR}
+Note : Les naissances vivantes de rang 1 sont exclues. L'intervalle pour les naissances
+       multiples est le nombre de mois écoulés depuis la grossesse précédente qui a
+       abouti à une naissance vivante.
+{FR}}
+endfootnote;
+{t505w  noprint;}
+
+t506 columns numbirth = 1 nodec;
+t506 footnote
+{+EN}
+Note:  Estimates are based on status at the time of the survey.~
+na = Not applicable~
+@1 Includes live births and stillbirths for which mothers are either still
+   amenorrheic or still abstaining (or both) following birth~
+@2 Includes live birth and stillbirths
+{EN+}
+{{ES}
+Nota:  Las estimaciones est?n basadas en el estatus al momento de la entrevista.~
+na = No aplicable~
+@1 Incluye nacimientos y mortinatos para los cuales las madres est n en amenorrea
+   de postparto, en abstinencia de postparto, o ambas
+{ES}}
+{{FR}
+Note : Les estimations sont basées sur le statut au moment de l'enquête.~
+na = Non applicable~
+@1 Y compris les naissances vivantes et les mort-nés pour lesquels les mères sont
+   encore, soit en aménorrhée, soit en abstinence, (ou les deux), à la suite d'une naissance~
+@2 Y compris les naissances vivantes et les mort-nés
+{FR}}
+endfootnote;
+{t506w  noprint;}
+
+t507 footnote
+{+EN}
+Note:  Medians are based on the status at the time of the survey (current status).~
+@1 Includes births for which mothers are either still amenorrheic or
+   still abstaining (or both) following birth
+{EN+}
+{{ES}
+Nota:  Las medianas est?n basadas en el estatus al momento de la encuesta (estatus actual).~
+@1 Incluye nacimientos para los cuales las madres est?n en amenorrea de postparto,
+   en abstinencia de postparto o ambas
+{ES}}
+{{FR}
+Note : Les médianes sont basées sur le statut au moment de l'enquête (statut actuel).~
+@1 Y compris les naissances vivantes et les mort-nés pour lesquelles les mères sont encore,
+   soit en aménorrhée, soit en abstinence, (ou les deux), à la suite d'une naissance
+{FR}}
+endfootnote;
+{t507w  noprint;}
+{t507s  noprint;}
+
+t508 columns totmean8 = 1 nodec
+             totmean8 = 3 nodec;
+t508 footnote
+{+EN}
+@1 Number of women who gave a numeric response
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Effectif de femmes ayant donné une réponse numérique
+{FR}}
+endfootnote;
+
+
+t509 columns menopa = 2 nodec;
+t509 footnote
+{+EN}
+@1 Percentage of women who 1) are not pregnant, and 2) have had a birth in the past 5 years and
+   are not postpartum amenorrheic, and 3) for whom one of the following additional conditions
+   applies: a) whose last menstrual period occurred 6 or more months preceding the survey,
+   or b) declared that they are in menopause or have had a hysterectomy, or c) have never
+   menstruated
+{EN+}
+{{ES}
+@1 Percentage of women who 1) are not pregnant, and 2) have had a birth in the past 5 years and
+   are not postpartum amenorrheic, and 3) for whom one of the following additional conditions
+   applies: a) whose last menstrual period occurred 6 or more months preceding the survey,
+   or b) declared that they are in menopause or have had a hysterectomy, or c) have never
+   menstruated
+{ES}}
+{{FR}
+@1 Le pourcentage de femmes qui 1) ne sont pas enceintes, 2) ont eu une naissance dans les
+   5 dernières années et ne sont pas en aménorrhée post-partum et 3) celles qui présentent les
+   caractéristiques suivantes : a) les dernières règles ont eu lieu 6 mois ou plus avant l'interview
+   ou b) elles ont déclaré qu'elles étaient en ménopause ou qu'elles avaient eu une hystérectomie ou
+   c) elles n'avaient jamais eu de régles
+{FR}}
+endfootnote;
+
+t510 columns nummed   = 1 nodec;
+t510 footnote
+{+EN}
+na = Not applicable due to censoring~
+a = Omitted because less than 50% of women had a birth before reaching
+    the beginning of the age group
+{EN+}
+{{ES}
+na = No aplicable debido a truncamiento~
+a = Se omite porque menos del 50 por ciento de las mujeres han tenido un nacimiento
+    antes del comienzo del grupo de edad
+{ES}}
+{{FR}
+na = Non applicable pour cause de troncature~
+a = Sans objet parce que moins de 50 % des femmes ont donné naissance avant d'atteindre
+    le début du groupe d'âges
+{FR}}
+endfootnote;
+{t510w  noprint;}
+
+t511 footnote
+{+EN}
+a = Omitted because less than 50% of the women had a birth before reaching
+    the beginning of the age group
+{EN+}
+{{ES}
+a = Se omite porque menos del 50 por ciento de las mujeres han tenido un
+ nacimiento antes del comienzo del grupo de edad
+{ES}}
+{{FR}
+a = Sans objet parce que moins de 50 % des femmes ont donné naissance avant 
+    d'atteindre le début du groupe d'âges
+{FR}}
+endfootnote;
+{t511w  noprint;}
+
+t512 columns numwom   = 1 nodec;
+t512 footnote
+{+EN}
+@1 Stillbirth, miscarriage, or abortion
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Grossesse n'ayant pas abouti à la naissance d'un enfant vivant. Inclut les mort-nés,
+   les fausses-couches ou les avortements
+{FR}}
+endfootnote;
+
+t513 columns befage15 = 5 nodec;
+t513 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+na = Non applicable
+{FR}}
+endfootnote;
+
+t514 columns pregtot = 1 nodec;
+t514 footnote
+{+EN}
+@1 Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks.
+   When pregnancy duration is reported in months, stillbirths are fetal
+   death in pregnancies lasting 7 or more months.~
+@2 Miscarriages are fetal deaths in pregnancies lasting less than 28 weeks.
+   When pregnancy duration is reported in months, miscarriages are fetal 
+   death in pregnancies lasting less than 7 months.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Les mortinaissances sont des décès foetaux qui se sont produits à 28 
+   semaines de grossesse ou plus. Quand la durée de la grossesse est 
+   déclarée en mois, les mortinaissances sont des décès foetaux qui 
+   se sont produits à 7 mois de grossesse ou plus.~
+@2 Les fausses couches sont des décès foetaux qui se sont produits au 
+   cours de grossesses qui ont duré moins de 28 semaines. Quand la durée 
+   de la grossesse est déclarée en mois, les fausses couches sont des décès 
+   foetaux qui se sont produits au cours de grossesses qui ont duré moins de 7 mois.   
+{FR}}
+endfootnote;
+   
+   
+t515 rows abortr = 1 1
+          abortr = 3 suppress;
+t515 footnote
+{+EN}
+Notes: Age-specific induced abortion rates are per 1,000 women. Estimates in
+       brackets are truncated. Rates are for the period 1-36 months preceding
+	   the interview. Rates for the 10-14 age group are based on retrospective
+	   data from women age 15-17.~
+TAR: Total induced abortion rate expressed per woman~
+GAR: General induced abortion rate expressed per 1,000 women age 15-44	   
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Notes: Les taux recours à l'IVG, par âge spécifique, sont exprimés pour 1 000 femmes.
+       Les taux entre crochets sont tronqués. Les taux correspondent à la période 1-36 mois
+       précédant l'enquête. Les taux pour le groupe d'âges 10-14 ans sont basés sur des
+       données rétrospectives provenant des femmes âgées de 15-17 ans.~
+ICA: Indice Conjoncturel d'Avortement  est exprimé pour une femme.~	 
+TGRIVG: Taux Global de recours à l'IVG, exprimé pour 1 000 femmes de 15-44 ans.  
+{FR}}
+endfootnote;

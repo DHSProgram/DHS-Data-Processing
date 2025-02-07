@@ -1,0 +1,948 @@
+[Dictionary]
+Version=CSPro 4.1
+Label=FieldCk
+Name=FieldCk
+RecordTypeStart=2
+RecordTypeLen=2
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+
+[Level]
+Label=LEVEL1
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=Level1 Identification
+Name=LEVEL1ID
+Start=1
+Len=1
+DataType=Alpha
+
+[Record]
+Label=Working variables
+Name=FIELDCKW
+RecordTypeValue='AA'
+RecordLen=85
+
+[Item]
+Label=Team
+Name=FTEAMS
+Start=4
+Len=2
+
+[ValueSet]
+Label=Team
+Name=FTEAMS_VS1
+Value=1;Team 1
+Value=2;Team 2
+Value=3;Team 3
+Value=4;Team 4
+Value=5;Team 5
+Value=6;Team 6
+Value=7;Team 7
+Value=8;Team 8
+Value=9;Team 9
+Value=10;Team 10
+
+[Item]
+Label=Interviewer number
+Name=FINTNUM
+Start=6
+Len=4
+
+[ValueSet]
+Label=Interviewer number
+Name=FINTNUM_VS1
+Value=1000:1010;!!!!! Assign the correct valu sets
+Value=1100:1110
+
+[Item]
+Label=.
+Name=URBRUR
+Start=10
+Len=1
+
+[ValueSet]
+Label=.
+Name=URBRUR_VS1
+Value=1;Urban
+Value=2;Rural
+
+[Item]
+Label=.
+Name=FTOTAL
+Start=11
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTAL_VS1
+Value=1;All teams
+
+[Item]
+Label=.
+Name=FTOTALB
+Start=12
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALB_VS1
+Value=1;Number of births
+
+[Item]
+Label=.
+Name=FTOTALD
+Start=13
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALD_VS1
+Value=1;Total 8-16 months (including '1 year')
+
+[Item]
+Label=.
+Name=FTOTALM
+Start=14
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALM_VS1
+Value=1;Number of men
+
+[Item]
+Label=.
+Name=FTOTALN
+Start=15
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALN_VS1
+Value=0;Percent
+Value=1;Number
+
+[Item]
+Label=.
+Name=FTOTALW
+Start=16
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALW_VS1
+Value=1;Number of women
+
+[Item]
+Label=.
+Name=FTOTALB9
+Start=17
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALB9_VS1
+Value=1;Total births
+
+[Item]
+Label=.
+Name=FTOTALC2
+Start=18
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALC2_VS1
+Value=0;Total
+Value=1;Number of children < 5
+
+[Item]
+Label=.
+Name=FTOTALC3
+Start=19
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALC3_VS1
+Value=1;Children <5 with valid weight data
+
+[Item]
+Label=.
+Name=FTOTALC4
+Start=20
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALC4_VS1
+Value=1;Children 6-59 m. with hemoglobin valid
+
+[Item]
+Label=.
+Name=FTOTALC5
+Start=21
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALC5_VS1
+Value=0;Total
+Value=1;Number of children 6-59 months
+
+[Item]
+Label=.
+Name=FTOTPC1
+Start=22
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTPC1_VS1
+Value=0;Total
+Value=1;Percent with 1st decimal = 0 or 5
+
+[Item]
+Label=.
+Name=FTOTPC2
+Start=23
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTPC2_VS1
+Value=0;Total
+Value=1;Percent with 2nd decimal = 0 or 5
+
+[Item]
+Label=.
+Name=FTOTALW2
+Start=24
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALW2_VS1
+Value=0;Total
+Value=1;Number  of women
+
+[Item]
+Label=.
+Name=FTOTALW3
+Start=25
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALW3_VS1
+Value=1;Number of women with valid data
+
+[Item]
+Label=.
+Name=FTOTALM2
+Start=26
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALM2_VS1
+Value=0;Total
+Value=1;Number  of men
+
+[Item]
+Label=.
+Name=FTOTALM3
+Start=27
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTOTALM3_VS1
+Value=1;Number of men with valid data
+
+[Item]
+Label=.
+Name=FTARGET
+Start=28
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTARGET_VS1
+Value=1;Target not met
+
+[Item]
+Label=Households
+Name=FHHMEAN
+Start=29
+Len=1
+
+[ValueSet]
+Label=Households
+Name=FHHMEAN_VS1
+Value=0;Number of completed households
+Value=1;Number of de facto eligible women in those HHs
+Value=2;Mean number of de facto eligible women per HH
+Value=3;Target not met
+
+[Item]
+Label=Households
+Name=FHHMEANM
+Start=30
+Len=1
+
+[ValueSet]
+Label=Households
+Name=FHHMEANM_VS1
+Value=0;Number completed households
+Value=1;Number of de facto eligible men in those HHs
+Value=2;Mean number of de facto eligible men per HH
+Value=3;Target not met
+
+[Item]
+Label=Women's age (12 - 18 years)
+Name=FAGE
+Start=31
+Len=2
+
+[ValueSet]
+Label=Women's age (12 - 18 years)
+Name=FAGE_VS1
+Value=12:18
+
+[Item]
+Label=Men's age (12 - 18 years)
+Name=FAGEM
+Start=33
+Len=2
+
+[ValueSet]
+Label=Men's age (12 - 18 years)
+Name=FAGEM_VS1
+Value=12:18
+
+[Item]
+Label=Age at death (in months)
+Name=FAGED
+Start=35
+Len=1
+
+[ValueSet]
+Label=Age at death (in months)
+Name=FAGED_VS1
+Value=0;8 m.
+Value=1;9 m.
+Value=2;10 m.
+Value=3;11 m.
+Value=4;12 m.
+Value=5;Reported as "1 year"
+Value=6;13 m.
+Value=7;14 m.
+Value=8;15 m.
+Value=9;16 m.
+
+[Item]
+Label=Age at death in months for children who died
+Name=FAGED9
+Start=36
+Len=1
+
+[ValueSet]
+Label=Age at death in months for children who died
+Name=FAGED9_VS1
+Value=1;< 1 month
+Value=2;1-11 months
+Value=3;12+ months
+Value=4;Missing
+Value=5;Total dead
+
+[Item]
+Label=.
+Name=FRATIO
+Start=37
+Len=1
+
+[ValueSet]
+Label=.
+Name=FRATIO_VS1
+Value=1;Age ratio (women 15/ women 14)
+
+[Item]
+Label=.
+Name=FRATIOB
+Start=38
+Len=1
+
+[ValueSet]
+Label=.
+Name=FRATIOB_VS1
+Value=1;!!!! Birth year ratio (2010/2009)
+
+[Item]
+Label=.
+Name=FRATIOM
+Start=39
+Len=1
+
+[ValueSet]
+Label=.
+Name=FRATIOM_VS1
+Value=0;Age ratio (men 15/ men 14)
+
+[Item]
+Label=.
+Name=FRATIO9
+Start=40
+Len=1
+
+[ValueSet]
+Label=.
+Name=FRATIO9_VS1
+Value=1;Ratio of neonatal to infant
+Value=2;Infant deaths to total births (per thousand)
+
+[Item]
+Label=.
+Name=FRATIOD
+Start=41
+Len=1
+
+[ValueSet]
+Label=.
+Name=FRATIOD_VS1
+Value=1;12 months ratio (including "1 year")
+
+[Item]
+Label=Completeness of reporting
+Name=FCOMPL
+Start=42
+Len=1
+
+[ValueSet]
+Label=Completeness of reporting
+Name=FCOMPL_VS1
+Value=1;Year and month of birth
+Value=2;Year of birth and age
+Value=3;Year of birth only
+Value=4;Age only
+Value=5;Other/ No data
+
+[Item]
+Label=Completeness of reporting
+Name=FCOMPD
+Start=43
+Len=1
+
+[ValueSet]
+Label=Completeness of reporting
+Name=FCOMPD_VS1
+Value=1;Year and month of birth
+Value=2;Year of birth only
+Value=3;Month of birth only
+Value=4;No data
+
+[Item]
+Label=Year of birth
+Name=FYEARB
+Start=44
+Len=4
+
+[ValueSet]
+Label=Year of birth
+Name=FYEARB_VS1
+Value=2006:2020
+Value=9999;Missing
+
+[Item]
+Label=.
+Name=FCEB
+Start=48
+Len=1
+
+[ValueSet]
+Label=.
+Name=FCEB_VS1
+Value=1;Number of ALL women with a completed interview
+Value=2;Total number of children ever born
+Value=3;Mean CEB
+
+[Item]
+Label=.
+Name=FALIVE
+Start=49
+Len=1
+
+[ValueSet]
+Label=.
+Name=FALIVE_VS1
+Value=1;Still alive
+
+[Item]
+Label=.
+Name=FCARDR
+Start=50
+Len=1
+
+[ValueSet]
+Label=.
+Name=FCARDR_VS1
+Value=1;Percent of children reported to have a vaccination card or other document
+Value=2;Percent of children whose vaccination card or document was seen by interviewer
+Value=3;Number of children
+
+[Item]
+Label=.
+Name=FCARDP
+Start=51
+Len=1
+
+[ValueSet]
+Label=.
+Name=FCARDP_VS1
+Value=1;Proportion of cards seen
+
+[Item]
+Label=Result of children's weight measurment
+Name=FWC11
+Start=52
+Len=1
+
+[ValueSet]
+Label=Result of children's weight measurment
+Name=FWC11_VS1
+Value=1;Measured
+Value=2;Child not present
+Value=3;Refused
+Value=6;Other
+Value=9;Missing
+
+[Item]
+Label=.
+Name=FTARGET2
+Start=53
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTARGET2_VS1
+Value=1;Children with valid data %{\super 1}
+Value=2;Target 1 not met
+Value=3;Weight for Height Z-score out of range
+Value=4;Target 2 not met
+
+[Item]
+Label=Result of children's height measurment
+Name=FHC11
+Start=54
+Len=1
+
+[ValueSet]
+Label=Result of children's height measurment
+Name=FHC11_VS1
+Value=1;Measured
+Value=2;Child not present
+Value=3;Refused
+Value=6;Other
+Value=9;Missing
+
+[Item]
+Label=Among children measured
+Name=FHWC
+Start=55
+Len=1
+
+[ValueSet]
+Label=Among children measured
+Name=FHWC_VS1
+Value=1;Out of range (%)
+Value=2;Date of birth incomplete (%)
+
+[Item]
+Label=.
+Name=FTARGET3
+Start=56
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTARGET3_VS1
+Value=1;Children with valid data %{\super 1}
+Value=2;Target 1 not met
+Value=3;Height for age Z-score out of range
+Value=4;Target 2 not met
+
+[Item]
+Label=Percent distribution of 1st decimal
+Name=FDEC1
+Start=57
+Len=1
+
+[ValueSet]
+Label=Percent distribution of 1st decimal
+Name=FDEC1_VS1
+Value=0:9
+
+[Item]
+Label=Percent distribution of 2nd decimal
+Name=FDEC2
+Start=58
+Len=1
+
+[ValueSet]
+Label=Percent distribution of 2nd decimal
+Name=FDEC2_VS1
+Value=0:9
+
+[Item]
+Label=Result of weight measurement
+Name=FWW11
+Start=59
+Len=1
+
+[ValueSet]
+Label=Result of weight measurement
+Name=FWW11_VS1
+Value=1;Measured
+Value=2;Woman not present
+Value=3;Woman refused
+Value=6;Other
+Value=9;Missing
+
+[Item]
+Label=Result of height measurement
+Name=FHW11
+Start=60
+Len=1
+
+[ValueSet]
+Label=Result of height measurement
+Name=FHW11_VS1
+Value=1;Measured
+Value=2;Woman not present
+Value=3;Woman refused
+Value=6;Other
+Value=9;Missing
+
+[Item]
+Label=.
+Name=FHWW
+Start=61
+Len=1
+
+[ValueSet]
+Label=.
+Name=FHWW_VS1
+Value=1;Among women measured, out of range
+
+[Item]
+Label=.
+Name=FTARGET4
+Start=62
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTARGET4_VS1
+Value=1;Women with valid data (%){\super 1}
+Value=2;Target not met
+
+[Item]
+Label=Result of weight measurement
+Name=FWM11
+Start=63
+Len=1
+
+[ValueSet]
+Label=Result of weight measurement
+Name=FWM11_VS1
+Value=1;Measured
+Value=2;Man not present
+Value=3;Man refused
+Value=6;Other
+Value=9;Missing
+
+[Item]
+Label=Result of height measurement
+Name=FHM11
+Start=64
+Len=1
+
+[ValueSet]
+Label=Result of height measurement
+Name=FHM11_VS1
+Value=1;Measured
+Value=2;Man not present
+Value=3;Man refused
+Value=6;Other
+Value=9;Missing
+
+[Item]
+Label=.
+Name=FTARGET5
+Start=65
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTARGET5_VS1
+Value=1;Men with valid data (%){\super 1}
+Value=2;Target not met
+
+[Item]
+Label=.
+Name=FHWM
+Start=66
+Len=1
+
+[ValueSet]
+Label=.
+Name=FHWM_VS1
+Value=1;Among men measured, out of range
+
+[Item]
+Label=Result of anemia testing
+Name=FAC12
+Start=67
+Len=1
+
+[ValueSet]
+Label=Result of anemia testing
+Name=FAC12_VS1
+Value=1;Measured
+Value=2;Child not present
+Value=3;Refused
+Value=6;Other
+Value=9;Missing
+
+[Item]
+Label=.
+Name=FANC
+Start=68
+Len=1
+
+[ValueSet]
+Label=.
+Name=FANC_VS1
+Value=1;Among children measured, hemo- globin level out of range (%)
+
+[Item]
+Label=.
+Name=FTARGET6
+Start=69
+Len=1
+
+[ValueSet]
+Label=.
+Name=FTARGET6_VS1
+Value=1;Children with valid hemoglobin data %{\super 1}
+Value=2;Target not met
+
+[Item]
+Label=Result of anemia testing
+Name=FAW12
+Start=70
+Len=1
+
+[ValueSet]
+Label=Result of anemia testing
+Name=FAW12_VS1
+Value=1;Measured
+Value=2;Woman not present
+Value=3;Refused
+Value=6;Other
+Value=9;Missing
+
+[Item]
+Label=.
+Name=FANW
+Start=71
+Len=1
+
+[ValueSet]
+Label=.
+Name=FANW_VS1
+Value=1;Among women measured, hemo- globin level out of range
+
+[Item]
+Label=Result of anemia testing
+Name=FAM12
+Start=72
+Len=1
+
+[ValueSet]
+Label=Result of anemia testing
+Name=FAM12_VS1
+Value=1;Measured
+Value=2;Man not present
+Value=3;Refused
+Value=6;Other
+Value=9;Missing
+
+[Item]
+Label=.
+Name=FANM
+Start=73
+Len=1
+
+[ValueSet]
+Label=.
+Name=FANM_VS1
+Value=1;Among men measured, hemo- globin level out of range
+
+[Item]
+Label=Result of HIV testing
+Name=FDBS
+Start=74
+Len=1
+
+[ValueSet]
+Label=Result of HIV testing
+Name=FDBS_VS1
+Value=1;BDS collected
+Value=2;Refuse to provide blood
+Value=3;Absent at time of blodd collection
+Value=6;Other
+Value=9;Missing
+
+[Item]
+Label=Interviewed/not interviewed
+Name=FINDINT
+Start=75
+Len=1
+
+[ValueSet]
+Label=Interviewed/not interviewed
+Name=FINDINT_VS1
+Value=1;Interviewed
+Value=2;Not interviewed
+
+[Item]
+Label=All decesaed sisters
+Name=FCOL14A
+Start=76
+Len=1
+
+[ValueSet]
+Label=All decesaed sisters
+Name=FCOL14A_VS1
+Value=1;Number
+Value=2;Missing age at death
+Value=3;Percen- tage
+
+[Item]
+Label=Sisters who died at age 12+
+Name=FCOL14B
+Start=77
+Len=1
+
+[ValueSet]
+Label=Sisters who died at age 12+
+Name=FCOL14B_VS1
+Value=1;Number
+Value=2;Missing infor- mation on death during pregnancy & during delivery & after delivery
+Value=3;Percen- tage
+
+[Item]
+Label=Sisters who died at age 12+
+Name=FCOL14C
+Start=78
+Len=1
+
+[ValueSet]
+Label=Sisters who died at age 12+
+Name=FCOL14C_VS1
+Value=1;Number
+Value=2;Missing infor- mation on "years ago" of death
+Value=3;Percen- tage
+
+[Item]
+Label=.
+Name=RESDV
+Start=79
+Len=1
+
+[ValueSet]
+Label=.
+Name=RESDV_VS1
+Value=1;Total number of women eligible for domestic violence module and interviewed
+Value=2;Percentage of eligible women not interviewed because privacy not obtained
+
+[Item]
+Label=.
+Name=FSUMM1
+Start=80
+Len=2
+
+[ValueSet]
+Label=.
+Name=FSUMM1_VS1
+Value=0;FC-1U
+Value=1;FC-1R
+Value=2;FC-2W
+Value=3;FC-2M
+Value=4;FC-3WU
+Value=5;FC-3WR
+Value=6;FC-3MU
+Value=7;FC-3MR
+Value=8;FC-4W
+Value=9;FC-4M
+Value=10;FC-5
+Value=11;FC-6
+Value=12;FC-7L
+Value=13;FC-7D
+Value=14;FC-8
+Value=15;FC-10
+Value=16;FC-14 target 1
+Value=17;FC-14 target 2
+Value=18;FC-14 target 3
+Value=19;FC-15
+Value=98;Total target not met
+Value=99;% target not met
+
+[Item]
+Label=.
+Name=FSUMM2
+Start=82
+Len=2
+
+[ValueSet]
+Label=.
+Name=FSUMM2_VS1
+Value=0;FC-11C wt target 1
+Value=1;FC-11C wt target 2
+Value=2;FC-11C wt 1dec or 2 dec
+Value=3;FC-11C ht target 1
+Value=4;FC-11C ht target 2
+Value=5;FC-11W wt
+Value=6;FC-11W wt 1dec or 2 dec
+Value=7;FC-11W ht
+Value=8;FC-11M wt
+Value=9;FC-11M wt 1dec or 2 dec
+Value=10;FC-11M ht
+Value=11;FC-12C hb
+Value=12;FC-12C hb 1dec
+Value=13;FC-12W hb
+Value=14;FC-12W hb 1dec
+Value=15;FC-12M hb
+Value=16;FC-12M hb 1dec
+Value=17;FC-13W
+Value=18;FC-13M
+Value=98;Total target not met
+Value=99;% target not met
+
+[Item]
+Label=.
+Name=FSUMM3
+Start=84
+Len=2
+
+[ValueSet]
+Label=.
+Name=FSUMM3_VS1
+Value=98;Total target not met
+Value=99;% target not met

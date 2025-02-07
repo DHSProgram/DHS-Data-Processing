@@ -1,0 +1,79 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+tmh01 columns numresp = 1 nodec;
+
+tmh021 columns numwom = 1 nodec;
+tmh021 footnote
+{+EN}
+@1 Respondents with a score of 6 or higher on GAD-7
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmh022 columns numman = 1 nodec;
+tmh022 footnote
+{+EN}
+@1 Respondents with a score of 6 or higher on GAD-7
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmh03 columns numresp = 1 nodec;
+
+tmh041 columns numwom = 1 nodec;
+tmh041 footnote
+{+EN}
+@1 Respondents with a score of 10 or higher on PHQ-9
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmh042 columns numman = 1 nodec;
+tmh042 footnote
+{+EN}
+@1 Respondents with a score of 10 or higher on PHQ-9
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmh051 columns anxdepw1 = 1 nodec
+               anxdepw2 = 1 nodec;
+
+tmh052 columns anxdepm1 = 1 nodec
+               anxdepm2 = 1 nodec;
+			   
+tmh06 columns pctsympw = 3 nodec			   
+              pctsympm = 3 nodec;
+tmh06 footnote
+{+EN}
+@1 Respondents with a score of 6 or higher on GAD-7 or reported 
+   taking medicine prescribed by a doctor or other healthcare 
+   worker for depression or anxiety during the last 2 weeks~
+@2 Respondents with a score of 10 or higher on PHQ-9 or reported 
+   taking medicine prescribed by a doctor or other healthcare 
+   worker for depression or anxiety during the last 2 weeks
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;

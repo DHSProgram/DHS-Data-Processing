@@ -1,0 +1,61 @@
+[FormFile]
+Version=CSPro 2.6
+Name=FL_CNULL
+Label=Header dictionary for Control
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0001 Arial
+FieldEntryFont=0018 0000 0000 0000 0600 0000 0000 0000 0000 0000 0000 0000 0001 Courier New
+Type=SystemControlled
+
+[Dictionaries]
+File=9/13/2008 2:57:49 PM,..\dicts\Cnull.dcf
+
+[Form]
+Name=CNULLF
+Label=CNULLF
+Level=1
+Size=433,218
+
+Item=CNULSAMP,1
+Item=ID
+
+
+[Text]
+Name=FT000000
+Position=316,144,397,160
+Text=PSU Number
+Form=1
+
+[EndForm]
+
+[Level]
+Name=LEVEL_1
+Label=LEVEL1
+
+[Group]
+Required=Yes
+Name=CNULLS
+Label=CNULLS
+Form=1
+LogicControl=No
+Max=1
+
+[Field]
+Name=CNULSAMP
+Position=333,173,376,193
+Item=CNULSAMP,CNULL
+Occurrence=1
+Length=3
+Form=1
+
+
+[Field]
+Name=ID
+Position=1,2,16,22
+Item=ID,CNULL
+Length=1
+Protected=Yes
+Verify=No
+Form=1
+
+[EndGroup]
+

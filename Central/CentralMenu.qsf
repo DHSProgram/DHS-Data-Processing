@@ -1,0 +1,46 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.5
+
+[LANGUAGES]
+EN=English
+ES=Español
+
+[QUESTION]
+Field=MENU_DICT.WCLUSTER
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\b\fs24 Entre el numero del segmento en el que va a trabajar
+ES=\par }
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\b\fs24\lang1033 Enter the number of the Cluster where you are going to work\par
+EN=}
+
+[QUESTION]
+Field=MENU_DICT.WFINAL
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\b\fs24\lang1033 Oprima la tecla Enter y seleccione una opcion del menu que se desplegara a continuacion.\par
+ES=}
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\b\fs24\lang1033 Press the Enter key and select an option from the menu to be displayed\cf2\b0\par
+EN=}
+
+[QUESTION]
+Field=MENU_DICT.WSUPER
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue128;\red255\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\b\fs24\lang1033 Seleccione la l\'ednea donde aparece el nombre de la supervisora responsable del segmento\cf2\par
+ES=}
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue128;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\b\fs24\lang1033 Select the line of the supervisor responsible for the cluster to work with\cf2\par
+EN=\cf1\par
+EN=}
+

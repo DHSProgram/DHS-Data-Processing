@@ -1,0 +1,149 @@
+﻿[Dictionary]
+Version=CSPro 7.7
+Label=FIES
+Name=FIES_DICT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=D2B9A479DA8C934D8EF2861C551C5ABF96A14D50179ADEAC874606A58339854A
+
+[Level]
+Label=FIES questionnaire
+Name=FIES_QUEST
+
+[IdItems]
+
+[Item]
+Label=Cluster number
+Name=FCLUSTER
+Start=1
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Cluster number
+Name=FCLUSTER_VS1
+Value=1:800
+
+[Item]
+Label=Household number
+Name=FHNUMBER
+Start=5
+Len=4
+DataType=Numeric
+
+[Record]
+Label=FIES record
+Name=FIES_REC
+RecordTypeValue=''
+RecordLen=33
+
+[Item]
+Label=Worried about having enough food
+Name=WORRIED
+Start=9
+Len=1
+DataType=Numeric
+
+[Item]
+Label=Unable to eat healthy and nutritious food the last 12 months
+Name=HEALTHY
+Start=10
+Len=1
+DataType=Numeric
+
+[Item]
+Label=Ate only a few kinds of food the last 12 months
+Name=FEWFOOD
+Start=11
+Len=1
+DataType=Numeric
+
+[Item]
+Label=Had to skip a meal the last 12 months
+Name=SKIPPED
+Start=12
+Len=1
+DataType=Numeric
+
+[Item]
+Label=Ate less than you should the last 12 months
+Name=ATELESS
+Start=13
+Len=1
+DataType=Numeric
+
+[Item]
+Label=Ran out of food the last 12 months
+Name=RUNOUT
+Start=14
+Len=1
+DataType=Numeric
+
+[Item]
+Label=Were hungry but did not eat the last 12 month
+Name=HUNGRY
+Start=15
+Len=1
+DataType=Numeric
+
+[Item]
+Label=Went without eating for a whole day the last 12 months
+Name=WHLDAY
+Start=16
+Len=1
+DataType=Numeric
+
+[Item]
+Label=Type of place of residence
+Name=URBANRURAL
+Start=17
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Type of place of residence
+Name=URBANRURAL_VS1
+Value=1;Urban
+Value=2;Rural
+
+[Item]
+Label=Wealth index quintile combined
+Name=WEALTH
+Start=18
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wealth index quintile combined
+Name=WEALTH_VS1
+Value=1;Lowest
+Value=2;Second
+Value=3;Middle
+Value=4;Fourth
+Value=5;Highest
+
+[Item]
+Label=De jure population
+Name=DEJURE
+Start=19
+Len=2
+DataType=Numeric
+
+[Item]
+Label=Sampling errors stratum
+Name=STRATA
+Start=21
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Sample weight
+Name=WT
+Start=25
+Len=9
+DataType=Numeric
+Decimal=6
+DecimalChar=Yes

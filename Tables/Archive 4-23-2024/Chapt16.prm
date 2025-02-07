@@ -1,0 +1,230 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+t1601 rows tothh2 = 1 nodec;
+t1601 footnote
+{+EN}
+@1 Includes water piped to a neighbor and those reporting a round trip
+   collection time of zero minutes
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Y compris l'eau provenant d'un robinet chez le voisin et un temps d'approvisionnement
+   aller-retour de zéro minute
+{FR}}
+endfootnote;
+
+t1602 columns totnum3 = 1 nodec;
+t1602 footnote
+{+EN}
+Note: Service ladder concept/definitions based on the WHO/UNICEF Joint Monitoring Programme
+      for Water Supply, Sanitation, and Hygiene (JMP).~
+@1 Defined as drinking water from an improved source, provided either water is on the premises
+   or round-trip collection time is 30 minutes or less. Includes safely managed drinking water,
+   which is not shown separately.~
+@2 Drinking water from an improved source, provided round-trip collection time is more
+  than 30 minutes or is unknown~
+@3 Drinking water from an unprotected dug well or unprotected spring
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le concept/définition de l'échelle des services d'eau de boisson a été créé par le Programme
+      Commun OMS/UNICEF de suivi de l'eau, de l'assainissement et de l'Hygiène (WHO/UNICEF Joint
+      Monitoring Programme for Water Supply, Sanitation, and Hygiene (JMP)).~
+@1 Définie comme de l'eau de boisson provenant d'une source améliorée, qu'elle se trouve
+   sur place ou que le temps de collecte, incluant l'aller-retour, soit de 30 minutes ou moins.
+   Y compris l'eau de boisson gérée en toute sécurité, qui n'est pas présentée séparément.~
+@2 Définie comme l'eau de boisson provenant d'une source améliorée, que le temps de collecte
+   dépasse 30 minutes ou qu'il soit inconnu.~
+@3 L'eau de boisson provient de puits creusés non protégés ou sources non protégées
+{FR}}
+endfootnote;
+
+t1603 columns watprem = 2 nodec
+              watpers = 1 nodec;
+t1603 footnote
+{+EN}
+@1 Excludes water piped to a neighbor and those reporting a round trip collection
+   time of zero minutes
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Exclut l'eau canalisée chez un voisin et ceux ayant déclaré un temps de collecte,
+   incluant l'aller-retour, de zéro minutes
+{FR}}
+endfootnote;
+
+t1604 columns watsuff = 2 nodec;
+t1604 footnote
+{+EN}
+@1 Defined as having sufficient quantities of drinking water in the last month~
+@2 Includes water piped to a neighbor and those reporting a round trip
+   collection time of zero minutes
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Défini comme ayant eu des quantités d'eau à boire suffisantes au cours du mois dernier~
+@2 Comprend l'eau connectée à un voisin et ceux ayant déclaré un temps de collecte de l'eau
+   aller-retour de zéro minutes
+{FR}}
+endfootnote;
+
+t1605 columns wattreat = 11 nodec;
+t1605 footnote
+{+EN}
+Note: Respondents may report multiple treatment methods so the sum
+      of treatment may exceed 100%.~
+@1 Appropriate water treatment methods are boiling, bleaching, filtering
+   and solar disinfecting.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note : Les enquêtés peuvent déclarer plusieurs méthodes de traitement de
+       l'eau et, par conséquent, la somme des pourcentages peut dépasser 100%.~
+@1 Les méthodes appropriées de traitement de l'eau sont l'ébullition, l'ajout
+  de chlore, le filtrage et la désinfection solaire.
+{FR}}
+endfootnote;
+
+t1606 rows tothh2 = 1 nodec
+           tothh3 = 1 nodec;
+
+t1607 columns totnum3 = 1 nodec;
+t1607 footnote
+{+EN}
+Note: Service ladder concept/definitions based on the WHO/UNICEF Joint
+      Monitoring Programme for Water Supply, Sanitation, and Hygiene (JMP).~
+@1 Defined as use of improved facilities that are not shared with other
+   households. Includes safely managed sanitation service, which is not
+   shown separately.~
+@2 Defined as use of improved facilities shared by 2 or more households~
+@3 Use of flush/pour flush toilet not to sewer, septic tank, or pit latrine,
+   pit latrines without a slab/open pit, hanging toilets/latrines, or buckets
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le concept/définition de l'échelle des services d'assainissementété créé
+      par le Programme Commun OMS/UNICEF de suivi de l'eau, de l'assainissement
+      et de l'Hygiène (WHO/UNICEF Joint Monitoring Programme for Water Supply,
+      Sanitation, and Hygiene (JMP)).~
+@1 Définie comme l'utilisation d'installations sanitaires améliorées qui ne sont pas
+   partagées avec d'autres ménages. Y compris des installations sanitaires gérées en
+   toute sécurité, et qui ne sont pas présentées séparément.~
+@2 Définie comme l'utilisation d'installations sanitaire améliorées partagées par 2 ménages ou plus~
+@3 Utilisation de toilettes à chasse d'eau/chasse d'eau manuelle non connectée à des égouts ou
+   des fosses septiques ou les fosses d'aisances, les fosses d'aisances sans dalle /trou ouvert,
+   toilettes/latrines suspendues ou seaux
+{FR}}
+endfootnote;
+
+t1608 columns impfpers = 1 nodec;
+t1608 footnote
+{+EN}
+Note: On-site sanitation facilities are those where the excreta are stored
+      in a septic tank, pit latrine, or composting toilet.~
+@1 Includes septic tanks and latrines in which wastes have been buried in a
+   covered pit, never emptied, and don't know if ever emptied~
+@2 Includes septic tanks and latrines in which wastes have been emptied to
+   uncovered pits, open ground, water body, or other locations~
+@3 Includes septic tanks and latrines in which wastes have been removed by a
+   service provider to a treatment plan or an unknown location or were removed
+   by a non-service provider to an unknown location
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les installations sanitaires sur place comprennent les installations dans
+      lesquelles les excréments sont conservés dans une fosse septique, fosse latrines
+      ou des toilettes à compostage .~
+@1 Y compris les fosses septiques et les latrines dans lesquelles les excréments ont été
+   enterrés dans une fosse couverte, les déchets jamais vidés et ne sait pas où ils ont été vidés.~
+@2 Y compris les fosses septiques et les latrines dans lesquelles les excréments ont été vidés
+   dans des fosses non recouvertes, des terrains à l'air libre, des plans d'eau ou d'autres locations.~
+@3 Y compris les fosses septiques et les latrines dans lesquelles les excréments ont été évacués par
+   un prestataire de services à la station d'épuration ou dans un endroit inconnu ou qui ont été évacués
+   par un non-professionnel dans un endroit inconnu
+{FR}}
+endfootnote;
+
+t1609 columns numpers = 1 nodec;
+t1609 footnote
+{+EN}
+Note: On-site sanitation facilities are those where the excreta are stored in
+      a septic tank, pit latrine, or composting toilet.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les installations sanitaires sur place comprennent les installations dans lesquelles
+      les excréments sont conservés dans une fosse septique, fosse latrines ou des toilettes à compostage.
+{FR}}
+endfootnote;
+
+t1610 columns chstool = 1 nodec;
+t1610 footnote
+{+EN}
+@1 Children's stools are considered to be disposed of appropriately if the child
+   used a toilet or latrine or if the fecal matter was put/rinsed into a toilet or latrine.~
+@2 See Table 16.6 for definition of categories.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 On considère que les matières fécales des enfants sont évacuées de manière appropriée si
+   l'enfant utilise les toilettes ou les latrines ou si les matières fécales sont jetées ou
+   rincées dans des toilettes ou les latrines.~
+@2 Se référer au tableau 16.6 pour la définition des catégories.
+{FR}}
+endfootnote;
+
+t1611 columns pers1 = 1 nodec
+              pers2 = 1 nodec
+              pers3 = 1 nodec;
+t1611 footnote
+{+EN}
+@1 Soap includes soap or detergent in bar, liquid, powder, or paste form.~
+@2 Cleansing agents other than soap include locally available materials such as ash, mud, or sand.~
+@3 The availability of a handwashing facility on premises with soap and water~
+@4 The availability of a handwashing facility on premises without soap and/or water
+{EN+}
+{{ES}
+@1 Jab?n incluye jab?n o detergente en barra, l?quido, polvo o pasta.~
+@2 Los agentes limpiadores diferentes al jab?n incluyen materiales disponibles localmente tales como ceniza, barro o arena.~
+@3 The availability of a handwashing facility on premises with soap and water~
+@4 The availability of a handwashing facility on premises without soap and/or water
+{ES}}
+{{FR}
+@1 Comprend le savon  ou un produit nettoyant en morceau, liquide, en poudre ou sous forme de pate~
+@2 Les produits nettoyants autres que le savon comprennent des produits disponibles localement comme la cendre, la boue ou le sable.~
+@3 Disponibilité d'installation pour le lavage des mains avec du savon et de l'eau~
+@4 Disponibilité d'installation pour le lavage des mains sans du savon et/ou de l'eau
+{FR}}
+endfootnote;
+
+t1612 columns numwom  = 1 nodec
+              numwom2 = 1 nodec;
+t1612 footnote
+{+EN}
+@1 Reusable sanitary pads, disposable sanitary pads, tampons, menstrual cup,
+   cloth, toilet paper, and/or cotton wool
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Serviettes hygiéniques réutilisables, serviettes hygiéniques jetables, tampons,
+   coupe menstruelle, vêtement, papier toilette et/ou coton laine.
+{FR}}
+endfootnote;
+

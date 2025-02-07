@@ -1,0 +1,52 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+
+tFIES columns foodins = 3 nodec;
+tFIES footnote
+{+EN}
+@1 Food insecurity measures are based on the Food Insecurity Experience Scale (FIES) developed by the Food and Agriculture Organization (FAO) of the United Nations.~
+@2 Household members with any items in the FIES for which the respondent to the questionnaire refuses to answer or does not know the answer are dropped.
+{EN+}
+{{FR}
+@1 Les mesures de l’insécurité alimentaire sont basées sur l’Échelle de l’Insécurité Alimentaire basée sur les expériences (FIES) développée par l’organisation des Nations Unies pour l’alimentation et l’agriculture (FAO).~
+@2 Les membres du ménage pour lesquels le répondant au questionnaire a refusé de fournir l’information ou ne connaissait pas la réponse à des éléments de la FIES ne sont pas inclus.
+{FR}}
+endfootnote;
+
+
+tFIESdq columns 
+                infit    = 1 3  
+				infit    = 2 4 
+				outfit   = 1 3 
+                itemsev  = 0 negative
+				itemsev  = 0 3
+				itemsev  = 1 4 ;
+tFIESdq rows nhh_rr = 0 nodec 
+             nhh_rr = 1 4;
+
+tFIESdq footnote
+{+EN}
+@1 Infit and outfit statistics assess the strength and consistency of the association of each item with the underlying latent trait.~
+@2 Infit statistics are useful to identify items that did not perform well. Item infit values in the range of 0.7-1.3 are considered to meet model assumptions to an acceptable degree.~
+@3 Outfit statistics identify items with unusual occurrence of highly erratic responses. The statistics are very sensitive to a few highly unexpected observations. Values >2 are considered high.~
+@4 Rasch reliability is measure of overall model fit and measures the proportion of variability in the data that is explained by the Rasch model.
+   For an 8-item FIES scale, a Rasch reliability value above 0.7 is considered acceptable.
+   For a 7-item scale, a Rasch reliability value above 0.6 is considered acceptable.
+{EN+}
+{{FR}
+@1 Les statistiques d’ajustement infit et outfit évaluent la force et la cohérence de l’association de chaque élément avec le trait sous-jacent latent.~
+@2 La statistique d’ajustement infit est utile pour identifier les éléments qui n’ont pas bien fonctionné. Les valeurs de la statistique infit des éléments comprises entre 0,7-1,3 sont considérées comme satisfaisant aux hypothèses du modèle à un niveau acceptable.~
+@3 Les statistiques d’ajustement outfit identifient les éléments avec une occurrence inhabituelle de réponses très erratiques. Les statistiques sont très sensibles à un petit nombre d’observations inattendues. Les valeurs >2 sont considérées comme élevées.~
+@4 La fiabilité de Rasch est une mesure de l’ajustement global du modèle et mesure la proportion de variabilité dans les données qui est expliquée par le modèle de Rasch. 
+   Pour une échelle FIES à 8 éléments, une valeur de fiabilité de Rasch supérieure à 0,7 est considérée comme acceptable. 
+   Pour une échelle à 7-éléments, une valeur de fiabilité supérieure à 0,6 est considérée comme acceptable.
+{FR}}   
+endfootnote;
+

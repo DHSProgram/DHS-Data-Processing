@@ -1,0 +1,99 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=LMS variable for: Height/Age, BMI/Age, Weight/Age (for children under 5)
+Name=LMSVARS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=LMS variables for: H/A, BMI/A, W/A
+Name=LMSVARS_QUEST
+
+[IdItems]
+
+[Item]
+Label=Sex
+Name=SEXLMS
+Start=1
+Len=2
+
+[Item]
+Label=Age in days
+Name=AGEDLMS
+Start=3
+Len=7
+
+[Record]
+Label=Variables L, M, S for H/A, BMI/A, W/A
+Name=LMS_REC
+RecordTypeValue=''
+RecordLen=117
+
+[Item]
+Label=Height/Age l
+Name=LHA
+Start=10
+Len=12
+Decimal=5
+DecimalChar=Yes
+
+[Item]
+Label=Height/Age m
+Name=MHA
+Start=22
+Len=12
+Decimal=5
+DecimalChar=Yes
+
+[Item]
+Label=Height/Age s
+Name=SHA
+Start=34
+Len=12
+Decimal=5
+DecimalChar=Yes
+
+[Item]
+Label=BMI/Age l
+Name=LBM
+Start=46
+Len=12
+Decimal=5
+
+[Item]
+Label=BMI/Age m
+Name=MBM
+Start=58
+Len=12
+Decimal=5
+
+[Item]
+Label=BMI/Age s
+Name=SBM
+Start=70
+Len=12
+Decimal=5
+
+[Item]
+Label=Weight/Age l
+Name=LWA
+Start=82
+Len=12
+Decimal=5
+
+[Item]
+Label=Weight/Age m
+Name=MWA
+Start=94
+Len=12
+Decimal=5
+
+[Item]
+Label=Weight/Age s
+Name=SWA
+Start=106
+Len=12
+Decimal=5

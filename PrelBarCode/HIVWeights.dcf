@@ -1,0 +1,39 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=HIV weights
+Name=WEIGHTS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=HIV weights questionnaire
+Name=WEIGHTS_QUEST
+
+[IdItems]
+
+[Item]
+Label=HIV weights identification
+Name=WCLUSTER
+Start=1
+Len=4
+
+[Record]
+Label=HIV weights record
+Name=WEIGHTS_REC
+RecordTypeValue=''
+RecordLen=26
+
+[Item]
+Label=HIV weight for women
+Name=HVWWEIGHT
+Start=5
+Len=11
+
+[Item]
+Label=HIV weight for women
+Name=HVMWEIGHT
+Start=16
+Len=11

@@ -1,0 +1,19 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=TENTRY
+Name=TENTRY
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[AppCode]
+File=.\TENTRY.apc
+Include=..\Library\EntryFunctions.apc
+[Message]
+File=.\TENTRY.mgf
+[Help]
+File=.\TENTRY.qsf
+[Forms]
+File=.\TRANSMIT.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\TRANSMIT.dcf,Input,.\TRANSMIT.fmf

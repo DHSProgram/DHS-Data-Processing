@@ -1,0 +1,79 @@
+﻿PROC GLOBAL
+
+  numeric i, xcluster;
+
+  array indvres(50);        { stores the result of individual interview to use at HH level for HIV weights   }
+
+PROC CCIQ81_FF
+preproc
+
+  xcluster = 0;
+
+PROC HOUSEHOLD
+preproc
+
+  { initialize array to store individual result codes }
+  do i = 1 while i <= 50
+    indvres(i) = 0;
+  enddo;
+
+  { retrieve the weight for the scrambled cluster }
+  if xcluster <> AHCLUST then
+    WCLUSTER = AHCLUST;
+    if !loadcase( WEIGHTS, WCLUSTER ) then
+      errmsg( "There is something wrong with the weights file, please check!!" );
+      stop(1);
+    endif;
+    xcluster = AHCLUST;
+  endif;
+
+postproc
+
+  { HIV weights for women }
+  for i in ABSEC02_EDT do
+    { if blood taken for woman }
+    if length(strip(ABWHIV9)) & !ABWHIV9 in "99990":"99999","?" then
+      { if HIV sample not found or test result wasn't complete assign 0 to weight and 99993 to barcode }
+      if loadcase( TESTLOG_DICT, ABWHIV9 ) & LFINRES in 0:3,7,9 then;
+        { if woman's interview incomplete (or not de-facto) assign 0 to weight }
+        if indvres(AB202) <> 1 then
+          AWHIVWGT = 0;
+        else
+          AWHIVWGT = HVWWEIGHT;
+        endif;
+      else
+        AWHIVWGT = 0;
+        ABWHIV9    = "99993";
+      endif;
+    else
+      AWHIVWGT = 0
+    endif;
+  enddo;
+
+  { HIV weights for men }
+  for i in ABSEC03_EDT do
+    { if blood taken for man }
+    if length(strip(ABMHIV9)) & !ABMHIV9 in "99990":"99999","?" then
+      { if HIV sample not found or test result wasn't complete assign 0 to weight and 99993 to barcode }
+      if loadcase( TESTLOG_DICT, ABMHIV9 ) & LFINRES in 0:3,7,9 then;
+      { if man's interview incomplete (or not de-facto) assign 0 to weight }
+        if indvres(AB302) <> 1 then
+          AMHIVWGT = 0;
+        else
+          AMHIVWGT = HVMWEIGHT;
+        endif;
+      else
+        AMHIVWGT = 0;
+        ABMHIV9    = "99993";
+      endif;
+    else
+      AMHIVWGT = 0
+    endif;
+  enddo;
+
+PROC INDIVIDUAL
+preproc
+
+  if AH06(ALINE) = 1 then
+    indvres(ALINE)  = ARESULT;   { array to be used in postproc for HIV weights }
+  endif;

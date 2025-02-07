@@ -1,0 +1,72 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.5
+
+[LANGUAGES]
+EN=English
+ES=Español
+
+[QUESTION]
+Field=INTERV.ICODE
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24\lang1033 Enter code assigned to supervisor/interviewer\par
+EN=}
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el codigo asignado al(a) supervisora/entrevistadora
+ES=\par }
+
+[QUESTION]
+Field=INTERV.INAME
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24\lang1033 Enter the supervisor/interviewer's name\par
+EN=\par
+EN=}
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el nombre de la(el) supervisora/entrevistadora
+ES=\par
+ES=\par }
+
+[QUESTION]
+Field=INTERV.IROLE
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24\lang1033 What role does the individual will play as part of the team\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs24\lang1033 Ingrese la funcion que esta persona desempe\'f1ara en el equipo de trabajo de campo\par
+ES=\par
+ES=}
+
+[QUESTION]
+Field=INTERV.ISEX
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 What is the sex of the supervisor/interviewer
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el sexo de la(el) supervisora/entrevistadora
+ES=\par
+ES=\par }
+
+[QUESTION]
+Field=INTERV.ITEAM
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the team number assigned to the supervisor/interviewer
+EN=\par
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el numero del equipo al cual pertenece la(el) supervisora/entrevistadora
+ES=\par
+ES=\par }
+

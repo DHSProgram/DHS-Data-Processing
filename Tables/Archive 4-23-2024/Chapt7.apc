@@ -1,0 +1,2079 @@
+﻿PROC GLOBAL
+{----------------------------------------------------------------------------+}
+{+                                                                           +}
+{+   Guidelines July 7, 2021          -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                           +}
+{+   CHAPTER 7.  FAMILY PLANNING                                             +}
+{+                                                                           +}
+{+   7.1    Knowledge of contraceptive methods                               +}
+{+   7.2    Knowledge of contraceptive methods by background characteristics +}
+{+   7.3    Current use of contraception                                     +}
+{+   7.4.2  Current use of contraception by background characteristics       +}
+{+   7.5    Timing of sterilization                                          +}
+{+   7.6    Use of DMPA-SC/Sayana Press                                      +}
+{+   7.7    Use of emergency contraception                                   +}
+{+   7.8    Knowledge of fertile period                                      +}
+{+   7.9    Knowledge of fertile period by age                               +}
+{+   7.10   Source of modern contraception methods                           +}
+{+   7.11   Use of social marketing brand pills  and condoms                 +}
+{+   7.12   Informed choice                                                  +}
+{+   7.13   First-year contraceptive discontinuation rates                   +}
+{+   7.14   Reasons for discontinuation                                      +}
+{+   7.15.1 Need and demand for family planning: currently married           +}
+{+          women                                                            +}
+{+   7.15.2 Need and demand for family planning for all women and            +}
+{+          sexually active unmarried women                                  +} 
+{+   7.16   Decisionmaking about family planning                             +}
+{+   7.17   Decisionmaking about family planning by background               +}
+{+          characteristics                                                  +}
+{+   7.18   Pressure to become pregnant                                      +}
+{+   7.19   Future use of contraception                                      +}
+{+   7.20.1 Exposure to family planning messages: Women                      +}
+{+   7.20.2 Exposure to family planning messages: Men                        +}
+{+   7.21   Contact of nonusers with family planning providers               +}
+{+                                                                           +}
+{+---------------------------------------------------------------------------+}
+
+  numeric i, imin, imax, itot, itot1, itot2, itot3, icomb, j, jmax, jtot, jtot1, jtot2;
+  numeric k, ktot, kmax;
+  numeric jt1, jt2, jt3, jdem, juse, currmarr;
+  numeric rweight, maxage, meth, rowe;
+  numeric any, nouse, mod, trad, ipub, iprv, iot1, ingo, iot2, iall, media, smb;
+  numeric maxexp, expo, lenmeth, calint, lastrow, calast, prevmths, discon;
+
+  alpha(1)  strmeth;  { for method in calendar }
+  string    methstr;  { string of methods in the calendar }
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 7, Country Survey 2020" );
+{EN+}
+{{ES}
+    title( "Cuadros para el Cap?tulo 7, País Encuesta 2020" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 7, Enquête Pays 2020" );
+{FR}}
+
+  crosstab float(1) t701 knowany+knowmod+modmet1+knowtrad+tradmet1+totmean3+totmean6
+                      isex*(allwom+marrwom+sexactv+allman+marrman+sexactvm)
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.1  Knowledge of contraceptive methods "," ",
+           "Percentage of all respondents, currently married respondents and",
+           "sexually active unmarried respondents age 15-49 who ",
+           "know any contraceptive method, by specific method,",
+           "Country Survey 2020" )
+     stub( "Method" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.1  Conocimiento de m?todos anticonceptivos "," ",
+           "Porcentaje del total de personas entrevistadas de 15-49 a?os, de las personas entrevistadas actualmente en uni?n ",
+           "y de las personas entrevistadas no en uni?n sexualmente activas que conocen alg?n m?todo anticonceptivo, ",
+           "por m?todos espec?ficos, País Encuesta 2020" )
+     stub( "M?todo" );
+{ES}}
+{{FR}
+    title( "Tableau 7.1  Connaissance des méthodes contraceptives "," ",
+           "Pourcentage de tous les enquêtés de 15-49 ans, pourcentage d'enquêtés de 15-49 ans",
+           "actuellement en union et pourcentage d'enquêtés de 15-49 ans qui ne sont",
+           "pas en union et qui sont sexuellement actifs qui ont entendu parler d'une",
+           "méthode contraceptive, selon la méthode, Enquête Pays 2020" )
+     stub( "Méthode" );
+{FR}}
+  crosstab float(1) t701w totmean3+totmean6 isex*(allwom+marrwom+sexactv+allman+marrman+sexactvm)
+    exclude(rowzero,colzero,percents,totals,specval);
+
+  crosstab float(1) t702 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex*knowmeth
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.2  Knowledge of contraceptive methods according to background characteristics"," ",
+           "Percentage of currently married women and currently married men age 15-49",
+           "who have heard of at least one contraceptive method and who have heard of",
+           "at least one modern method by background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.2  Conocimiento de m?todos anticonceptivos por caracter?sticas seleccionadas"," ",
+           "Porcentaje de mujeres y hombres de 15-49 a?os actualmente en uni?n que conocen por lo menos ",
+           "un m?todo anticonceptivo y porcentaje que conocen por lo menos un m?todo moderno, por ",
+           "caracter?sticas seleccionadas, País Encuesta 2020" )
+     stub( "Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 7.2  Connaissance des méthodes contraceptives selon certaines caractéristiques sociodémographiques"," ",
+           "Pourcentage de femmes et d'hommes de 15-49 ans, actuellement",
+           "en union, qui ont entendu parler d'au moins une méthode contraceptive et",
+           "pourcentage ayant entendu parler d'au moins une méthode moderne,",
+           "selon certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t702u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.2  Knowledge of contraceptive methods by background characteristics (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t703 v013w+total useany+usemod+modmet2+usetrad+tradmet2+nousing+totnum2 v502w
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.3  Current use of contraception by age"," ",
+           "Percent distribution of all women, currently married women,",
+           "and sexually active unmarried women age 15-49 by contraceptive",
+           "method currently used, according to age, Country Survey 2020" )
+     stub( "Age" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.3  Uso actual de m?todos anticonceptivos por edad"," ",
+           "Distribuci?n porcentual de todas las mujeres de 15-49 a?os, de las mujeres actualmente ",
+           "casadas/unidas, y de las mujeres solteras sexualmente activas por m?todo anticonceptivo ",
+           "que usa actualmente, seg?n edad, País Encuesta 2020" )
+     stub( "Edad" );
+{ES}}
+{{FR}
+    title( "Tableau 7.3  Utilisation actuelle de la contraception selon l'âge"," ",
+           "Répartition (en %) de l'ensemble des femmes de 15-49 ans, des femmes de 15-49 ans actuellement",
+           "en union et des femmes de 15-49 ans non en union et sexuellement actives par méthode actuellement",
+           "utilisée et selon l'âge, Enquête Pays 2020" )
+     stub( "Groupe d'âges" );
+{FR}}
+  crosstab float(0) t703u v013w+total total v502w
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.3  Current use of contraception by age (Number of un-weighted cases)" )
+     stub( "Age" );
+  crosstab float(1) t703a v013w10+total useany+usemod+modmet2+usetrad+tradmet2+nousing+totnum2 sexactv
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.3.a  Continuation, this table should be appended to previous table "," ",
+           "Country Survey 2020" )
+     stub( "Age" );
+  crosstab float(0) t703au v013w10+total total sexactv
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.3.a  Continuation, this table should be appended to previous table (Number of un-weighted cases)" )
+     stub( "Age" );
+
+  crosstab float(1) t7042 v218w+v102w+v101w+v106w+v190w+total useany+usemod+modmet2+usetrad+tradmet2+nousing+totnum2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.4.2 Current use of contraception according to background characteristics"," ",
+           "Percent distribution of currently married and sexually active unmarried women age 15-49 by",
+           "contraceptive method currently used, according to background",
+           "characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.4.2 Uso actual de m?todos anticonceptivos por caracter?sticas seleccionadas"," ",
+           "Distribuci?n porcentual de las mujeres de 15-49 a?os actualmente casadas/unidas",
+           "y sexualmente activas por m?todo usado actualmente, seg?n caracter?sticas seleccionadas, País Encuesta 2020" )
+     stub( "Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 7.4.2  Utilisation actuelle de la contraception selon certaines caractéristiques sociodémographiques"," ",
+           "Répartition (en %) des femmes de 15-49 ans actuellement en union et des femmes de 15-49 ans non en union",
+           "sexuellement actives par méthode contraceptive actuellement utilisée, selon certaines caractéristiques",
+           "sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t7042u v218w+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.4.2 Current use of contraception according to background characteristics (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+  crosstab float(1) t7042a v102w+total useany+usemod+modmet2+usetrad+tradmet2+nousing+totnum2
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.4.2.a Continuation, this table should be appended to previous table"," ",
+           "Country Survey 2020" )
+     stub( "Background characteristic" );
+  crosstab float(0) t7042au v102w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.4.2.a Continuation, this table should be appended to previous table (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t705 v319w+total v320w+totnmed3
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.5  Timing of sterilization"," ",
+           "Percent distribution of sterilized women age 15-49 by age at the",
+           "time of sterilization and median age at sterilization, according to",
+           "the number of years since the operation, Country Survey 2020" )
+     stub( "Years since operation" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.5  Edad al momento de la esterilizaci?n"," ",
+           "Distribuci?n porcentual de las mujeres de 15-49 a?os esterilizadas, por edad ",
+           "al momento de la esterilizaci?n; y edad mediana al momento de la ",
+           "esterilizaci?n, seg?n el n?mero de a?os desde la operaci?n, País Encuesta 2020" )
+     stub( "A?os desde la operaci?n" );
+{ES}}
+{{FR}
+    title( "Tableau 7.5  Moment auquel a eu lieu la stérilisation"," ",
+           "Répartition (en %) des femmes de 15-49 ans ayant été stérilisées par âge au moment",
+           "de la stérilisation et âge médian à la stérilisation, selon le nombre d'années",
+           "écoulées depuis l'intervention, Enquête Pays 2020" )
+     stub( "Années depuis l'intervention" );
+{FR}}
+  crosstab float(1) t705w v319w+total agemed
+    exclude(rowzero,colzero,percents,totals,specval);
+  crosstab float(0) t705u v319w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.5  Timing of sterilization (Number of un-weighted cases)" )
+     stub( "Years since operation" );
+
+  crosstab float(1) t706 v013w1+v102w+v101w+v106w+v190w+total sayana1+sayana2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.6  Use of DMPA-SC/Sayana Press"," ",
+           "Percentage of current injectable users age 15-49 using DMPA-SC/Sayana Press;", 
+		   "and among women using DMPA-SC/Sayana Press, percent distribution by the", 
+		   "person administering the injection the last time, according to", 
+		   "background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 7.6  Utilisation de DMPA-SC/Sayana Press"," ",
+           "Pourcentage d'utilisatrices actuelles d'injectables de 15-49 ans",
+		   "qui utilisent le DMPA-SC/Sayana Press ; parmi les femmes utilisant",
+		   "le DMPA-SC/Sayana Press, répartition (en %) par la personne qui a administré",
+		   "l'injection la dernière fois, selon certaines caractéristiques sociodémographiques,",
+		   "Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t706u v013w1+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.6  Use of DMPA-SC/Sayana Press (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t707 v013w1+v102w+v101w+v106w+v190w+total emergen
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.7  Use of emergency contraception"," ",
+           "Percentage of women age 15-49 who used emergency contraception in", 
+		   "the last 12 months, according to background characteristics,",
+		   "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 7.7  Utilisation de la contraception d'urgence"," ",
+           "Pourcentage de femmes de 15-49 ans qui ont utilisé la contraception",
+		   "d'urgence dans les 12 derniers mois, selon certaines caractéristiques",
+		   "sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t707u v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.7  Use of emergency contraception (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t708 v217w+totnum2 permeths
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.8  Knowledge of fertile period"," ",
+           "Percent distribution of rhythm users, SDM users, and all women age 15-49",
+           "by knowledge of the fertile period during the ovulatory cycle, Country Survey 2020" )
+     stub( "Perceived fertile period" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.8  Conocimiento del per?odo f?rtil"," ",
+           "Distribuci?n porcentual de las mujeres de 15-49 a?os por conocimiento",
+           "del per?odo f?rtil durante el ciclo ovulatorio, seg?n uso o no uso",
+           "del m?todo del ritmo, País Encuesta 2020" )
+     stub( "Per?odo f?rtil" );
+{ES}}
+{{FR}
+    title( "Tableau 7.8  Connaissance de la période de fertilité"," ",
+           "Répartition (en %) des utilisatrices de la méthode du rythme, des utilisatrices de la MJF",
+           "et de l'ensemble des femmes de 15-49 ans par connaissance de la période de fertilité",
+           "pendant le cycle menstruel, Enquête Pays 2020" )
+     stub( "A situé la période fertile : " );
+{FR}}
+  crosstab float(0) t708u total permeths
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.8  Knowledge of fertile period (Number of un-weighted cases)" )
+     stub( "Perceived fertile period" );
+
+  crosstab float(1) t709 v013w+total v217w1+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.9  Knowledge of fertile period by age","",
+           "Percentage of women age 15-49 with correct knowledge of the fertile period",
+           "during the ovulatory cycle, according to age, Country Survey 2020" )
+     stub( "Age" );
+{EN+}
+{{ES}
+    title( "Table 7.9  Knowledge of fertile period by age","",
+           "Percentage of women age 15-49 with correct knowledge of the fertile period",
+           "during the ovulatory cycle, according to age, Country Survey 2020" )
+     stub( "Edad" );
+{ES}}
+{{FR}
+    title( "Table 7.9  Connaissance de la période de fertilité par âge","",
+           "Pourcentage de femmes de 15-49 ans qui savent situer correctement la période de fertilité",
+           "pendant le cycle ovulatoire, selon l'âge, Enquête Pays 2020" )
+     stub( "Groupe d'âges" );
+{FR}}
+  crosstab float(0) t709u v013w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.9  Knowledge of fertile period by age (Number of un-weighted cases)" )
+     stub( "Age" );
+
+  crosstab float(1) t710 v326w+totnum2 modmet4+total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.10  Source of modern contraception methods"," ",
+           "Percent distribution of users of modern contraceptive",
+           "methods age 15-49 by most recent source of method, according to ",
+           "method, Country Survey 2020" )
+     stub( "Source" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.10  Fuente de suministro de m?todos modernos de anticoncepci?n"," ",
+           "Distribuci?n porcentual de las mujeres de 15-49 a?os usuarias de m?todos modernos ",
+           "de anticoncepci?n, por fuente de suministro m?s reciente, seg?n m?todo, País Encuesta 2020" )
+     stub( "Fuente" );
+{ES}}
+{{FR}
+    title( "Tableau 7.10  Source d'approvisionnement des méthodes modernes de contraception"," ",
+           "Répartition (en %) des utilisatrices de méthodes modernes de contraception,",
+           "âgées de 15-49 ans, par source d'approvisionnement la plus récente,",
+           "selon la méthode, Enquête Pays 2020" )
+     stub( "Source de la méthode" );
+{FR}}
+  crosstab float(0) t710u total modmet4+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.10  Source of modern contraception methods (Number of un-weighted cases)" )
+     stub( "Source" );
+
+  crosstab float(1) t711 v013w1+v102w+v101w+v106w+v190w+total usepill+usecond
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.11  Use of social marketing brand pills and condoms"," ",
+           "Percentage of pill and condom users age 15-49 using a social",
+           "marketing brand, by background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Table 7.11  Uso de pastillas y condones con marca de mercadeo social"," ",
+           "Porcentaje de mujeres de 15-49 a?os usuarias de pastillas y condones con marca",
+           "de mercadeo social, seg?n caracter?sticas seleccionadas, País Encuesta 2020" )
+     stub( "Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 7.11  Utilisation d'une marque de pilule et utilisation d'une marque de condom d'un programme de marketing social"," ",
+           "Pourcentage d'utilisatrices de pilules et d'utilisatrices de condoms, âgées de 15-49 ans,",
+           "utilisant une marque d'un programme de marketing social, selon",
+           "certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t711u v013w1+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.11  Use of social marketing brand pills and condoms (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t712 modmet3+source+total infometh
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.12  Informed choice"," ",
+           "Among current users of selected modern methods age 15-49 who started the last episode", 
+		   "of use within the 5 years preceding the survey, percentage who were informed about", 
+		   "possible side effects or problems of that method, percentage who were informed about", 
+		   "what to do if they experienced side effects, percentage who were informed about other", 
+		   "methods they could use, percentage who were informed of all three types of information,", 
+		   "and percentage who were informed that they could switch to another method if they wanted", 
+		   "to or needed to, according to method and initial source, Country Survey 2020" )
+     stub( "Method/source" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 7.12  Choix informé de la méthode contraceptive"," ",
+           "Parmi les utilisatrices actuelles de certaines méthodes modernes, âgées de 15-49 ans,",
+		   "dont la dernière période d'utilisation d'une méthode a commencé dans les 5 années ayant",
+		   "précédé l'enquête, pourcentage ayant été informé de possibles effets secondaires ou de",
+		   "problèmes liés à cette méthode, pourcentage ayant été informé sur ce qu'il fallait faire",
+		   "si elles ressentaient des effets secondaires, pourcentage ayant été informé sur l'existence",
+		   "d'autres méthodes qu'elles pourraient utiliser, pourcentage ayant reçu les 3 types",
+		   "d'information, et pourcentage ayant été informé qu'elles pouvaient changer pour une autre",
+		   "méthode si elles le voulaient ou si elles en avaient besoin, selon la méthode et la source",
+		   "initiale de la méthode, Enquête Pays 2020" )
+     stub( "Méthode/source" );
+{FR}}
+  crosstab float(0) t712u modmet3+source+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.12  Informed choice (Number of un-weighted cases)" )
+     stub( "Method/source" );
+
+  crosstab float(1) t713 method+totmeth disconr+episode
+    exclude(colzero,rowzero,totals,percents,specval)
+{+EN}
+    title( "Table 7.13  Twelve-month contraceptive discontinuation rates", "",
+   	       "Among episodes of contraceptive use experienced within the 5 years preceding the survey,",
+   	       "percentage of episodes discontinued within 12 months, according to reason for discontinuation",
+   	       "and specific method, Country Survey 2020" )
+     stub( "Method");
+{EN+}
+{{ES}
+    title( "Cuadro 7.13  Tasas de discontinuaci?n de m?todos anticonceptivos a los 12 meses"," ",
+           "Entre las mujeres de 15-49 a?os que empezaron un episodio de uso de anticoncepci?n en los",
+           "cinco a?os que precedieron la encuesta, porcentaje de episodios que fueron discontinuados",
+           "dentro de 12 meses, seg?n raz?n para discontinuar y m?todo espec?fico, País Encuesta 2020")
+     stub( "M?todo" );
+{ES}}
+{{FR}
+    title( "Tableau 7.13  Taux de discontinuation des méthodes contraceptives sur 12 mois"," ",
+           "Parmi les épisodes d'utilisation contraceptive ayant eu lieu au cours des 5 années",
+           "ayant précédé l'enquête, pourcentage d'épisodes discontinutés dans les 12 mois,",
+           "selon la raison de discontinuation et de la méthode, Enquête Pays 2020" )
+     stub( "Méthode" );
+{FR}}
+  crosstab float(1) t713w mnthuse disconr method+totmeth
+    exclude(colzero,rowzero,totals,percents,specval);
+  crosstab float(4) t713r mnthuse disconr method+totmeth
+    exclude(colzero,rowzero,totals,percents,specval);
+  crosstab float(1) t713l mnthuse disconr method+totmeth
+    exclude(colzero,rowzero,totals,percents,specval);
+  crosstab float(0) t713u mnthuse disconr method+totmeth
+    exclude(colzero,rowzero,totals,percents,specval);
+
+  crosstab float(1) t714 reasdis+totdisc method1+totmeth
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.14  Reasons for discontinuation"," ",
+           "Percent distribution of discontinuations of contraceptive methods in the 5",
+           "years preceding the survey by main reason stated for discontinuation, according",
+           "to specific method, Country Survey 2020" )
+     stub( "Reason" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.14  Razones de discontinuaci?n"," ",
+           "Distribuci?n porcentual de discontinuaci?n de m?todos anticonceptivos",
+           "en los cinco a?os anteriores a la encuesta por raz?n principal",
+           "de discontinuaci?n, seg?n m?todo espec?fico, País Encuesta 2020" )
+     stub( "Raz?n" );
+{ES}}
+{{FR}
+    title( "Tableau 7.14  Raisons de la discontinuation des méthodes contraceptives"," ",
+           "Répartition (en %) des discontinuations de méthodes contraceptives dans les 5 années",
+           "ayant précédé l'enquête par raison principale de discontinuation,",
+           "selon la méthode spécifique, Enquête Pays 2020")
+     stub( "Raison" );
+{FR}}
+  crosstab float(0) t714u total method1+totmeth
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.14  Reasons for discontinuation (Number of un-weighted cases)" )
+     stub( "Reason" );
+
+  crosstab float(1) t7151  v013w1+v102w+v101w+v106w+v190w+total unmethna+unmethnb+unmethnc+numwom+satisdem+satmodm
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.15.1  Need and demand for family planning among currently married women"," ",
+           "Percentage of currently married women age 15-49 with unmet need for",
+           "family planning, percentage with met need for family planning, ",
+           "total demand for family planning, and percentage of the demand for",
+           "family planning that is satisfied, and percentage of the demand for", 
+		   "family planning that is satisfied by modern methods, according to background",
+           "characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.15.1  Necesidad y demanda de servicios de planificaci?n entre las mujeres en uni?n"," ",
+           "Porcentaje de mujeres de 15-49 a?os actualmente unidas con necesidad insatisfecha de planificaci?n familiar;",
+           "porcentaje con necesidad satisfecha de planificaci?n familiar; demanda total de planificaci?n familiar;",
+           "y el porcentaje de la demanda de planificaci?n familiar que est? satisfecha, and percentage of the demand", 
+		   "for family planning that is satisfied by modern methods,",
+           "por caracter?sticas seleccionadas, País Encuesta 2020")
+     stub( "Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 7.15.1  Besoins et demande en matière de planification familiale parmi les femmes actuellement en union"," ",
+           "Pourcentage de femmes de 15-49 ans, actuellement en union, ayant des besoins non satisfaits en matière",
+           "de planification familiale, pourcentage dont les besoins en matière de planification familiale sont",
+           "satisfaits, demande totale en planification familiale, pourcentage de la demande en planification",
+           "familiale qui est satisfaite, et pourcentage de demande satisfaite par des méthodes modernes,",
+		   "selon certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t7151u  v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.15.1  Need and demand for family planning among currently married women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t7152 v013w1+v102w+v101w+v106w+v190w+total unmethna+unmethnb+unmethnc+numwom+satisdem+satmodm numwom1+sexactv1
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.15.2  Need and demand for family planning for all women and for sexually active unmarried women","",
+           "Percentage of all women and sexually active unmarried women age 15-49",
+           "with unmet need for family planning, percentage with met need for family planning,",
+           "total demand for family planning, and percentage of the demand for family planning",
+           "that is satisfied, and percentage of the demand for family planning that is satisfied", 
+		   "by modern methods, according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.15.2  Necesidad y demanda de planificaci?n familiar para todas las mujeres y para mujeres no unidas actualmente "," ",
+           "Porcentaje de todas las mujeres y de las mujeres no unidas de 15-49 a?os con necesidad insatisfecha de ",
+           "planificaci?n familiar; porcentaje con necesidad satisfecha de planificaci?n familiar; demanda total",
+           "de planificaci?n familiar; y el porcentaje de la demanda de planificaci?n familiar que est? satisfecha,",
+		   "and percentage of the demand for family planning that is satisfied by modern methods,",
+           "seg?n caracter?sticas seleccionadas, País Encuesta 2020")
+     stub( "Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 7.15.2 Besoins et demande en matière de planification familiale pour l'ensemble des femmes et pour les femmes non en union sexuellement actives"," ",
+           "Pourcentage de toutes les femmes de 15-49 ans et de femmes de 15-49 ans, non en union sexuellement actives,",
+		   "ayant des besoins non satisfaits en matière de planification familiale, pourcentage dont les besoins en matière",
+		   "de planification familiale sont satisfaits, demande totale en planification familiale, pourcentage de la demande",
+		   "en planification familiale qui est satisfaite, et pourcentage de demande satisfaite par des méthodes moderne,",
+		   "selon certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t7152u v013w1+v102w+v101w+v106w+v190w+total total numwom1+sexactv1
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.15.2  Need and demand for family planning for all women and for sexually active unmarried (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t716 decicomb+totnum12 percent1
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.16  Decision-making about family planning"," ",
+           "Percent distribution of currently married women by person who usually makes the decision to use", 
+		   "or not use family planning, Country Survey 2020" )
+     stub( "Decision maker" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 7.16  Prise de décision concernant le recours à la planification familiale "," ",
+           "Répartition (en %) des femmes actuellement en union selon la personne qui prend,",
+		   "habituellement, la décision  d'utiliser ou non la planification familiale,",
+		   "Enquête Pays 2020" )
+    stub( "Décisionnaire" );
+{FR}}
+  crosstab float(0) t716u total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.16  Decision-making about family planning (Number of un-weighted cases)" )
+     stub( "Decision maker" );
+	 
+  crosstab float(1) t717 v013w1+fpuse+v218w+v102w+v101w+v106w+v190w+total v632w1+total+v632w2+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.17  Decision-making about family planning by background characteristics"," ",
+           "Percent distribution of currently married women age 15-49 by person who usually makes", 
+		   "the decision to use or not use family planning and percentage who participate in the", 
+		   "decision to use or not use family planning, according to background characteristics,",
+           "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 7.17  Prise de décision concernant la planification familiale selon certaines caractéristiques sociodémographiques"," ",
+           "Répartition (en %) des femmes de 15-49 ans actuellement en union en fonction de la personne qui prend",
+		   "habituellement la décision d'utiliser ou pas la planification familiale et pourcentage qui participe à",
+		   "la décision d'utiliser ou non la planification familiale, selon certaines caractéristiques sociodémographiques,",
+		   "Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t717u v013w1+fpuse+v218w+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.17  Decision-making about family planning by background characteristics (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t718 v013w1+v218w+fpuse+v102w+v101w+v106w+v190w+total pregpres
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.18  Pressure to become pregnant"," ",
+           "Percentage of currently married women who were ever pressured by their husbands/partners", 
+		   "or any other family member to become pregnant when they did not want to,",
+		   "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 7.18  Pressions subies pour tomber enceinte "," ",
+           "Pourcentage de femmes actuellement en union qui ont déjà subi",
+		   "des pressions de la part de leur mari/partenaire ou d'un autre membre",
+		   "de la famille pour tomber enceinte alors qu'elles ne le souhaitaient pas,",
+		   "selon certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t718u v013w1+v218w+fpuse+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.18  Pressure to become pregnant (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t719 v362w+totnum2 v219w+total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.19  Future use of contraception"," ",
+           "Percent distribution of currently married women age 15-49 who are not",
+           "using a contraceptive method by intention to use in the",
+           "future, according to number of living children, Country Survey 2020" )
+     stub( "Intention to use in the future" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.19  Uso futuro de m?todos anticonceptivos"," ",
+           "Distribuci?n  porcentual de las mujeres de 15-49 a?os actualmente en uni?n que no",
+           "est?n usando un m?todo anticonceptivo, por intenci?n de uso en el futuro, seg?n n?mero",
+           "de hijos/as sobrevivientes, País Encuesta 2020" )
+     stub( "Intenci?n de uso" );
+{ES}}
+{{FR}
+    title( "Tableau 7.19  Utilisation future de la contraception"," ",
+           "Répartition (en %) des femmes de 15-49 ans, actuellement en union, qui n'utilisent pas de",
+		   "méthode contraceptive par intention d'utiliser dans le futur, selon le nombre d'enfants",
+		   "vivants, Enquête Pays 2020" )
+     stub( "Intention d'utiliser dans le futur" );
+{FR}}
+  crosstab float(0) t719u total v219w+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.19  Future use of contraception (Number of un-weighted cases)" )
+     stub( "Intention to use in the future" );
+
+  crosstab float(1) t7201 v013w1+v102w+v101w+v106w+v190w+total fpmedia+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.20.1  Exposure to family planning messages: Women"," ",
+           "Percentage of women age 15-49 who heard or saw specific family planning", 
+		   "messages in the last 12 months, according to background characteristics,",
+           "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 7.20.1  Exposition aux messages sur la planification familiale: Femme"," ",
+           "Pourcentage de femmes de 15-49 ans qui ont entendu ou vu des messages specifiques",
+		   "sur la planification familiale dans les 12 derniers mois, selon certaines caractéristiques",
+		   "sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t7201u v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.20.1  Exposure to family planning messages: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t7202 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen fpmedia+numman
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.20.2  Exposure to family planning messages: Men"," ",
+           "Percentage of men age 15-49 who heard or saw specific family planning", 
+		   "messages in the last 12 months, according to background characteristics,",
+           "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 7.20.2  Exposition aux messages sur la planification familiale: Homme"," ",
+           "Pourcentage d'hommes de 15-49 ans qui ont entendu ou vu messages specifiques",
+		   "sur la planification familiale dans les 12 derniers mois, selon certaines caractéristiques",
+		   "sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t7202u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.20.2  Exposure to family planning messages: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t721 v013w1+v102w+v101w+v106w+v190w+total discfpa+discfpb+discfpc
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 7.21  Contact of nonusers with family planning providers"," ",
+           "Among women age 15-49 who are not using contraception, percentage who",
+           "during the last 12 months were visited by a fieldworker who discussed family",
+           "planning, percentage who visited a health facility and discussed family",
+           "planning, percentage who visited a health facility but did not discuss",
+           "family planning, and percentage who did not discuss family planning either",
+           "with a fieldworker or at a health facility, according to background",
+           "characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 7.21  Contacto de mujeres no usuarias con proveedores de planificaci?n familiar"," ",
+           "Entre las mujeres de 15-49 a?os que no usan anticoncepci?n, porcentaje que durante",
+           "los 12 meses antes de la encuesta fueron visitadas por promotor/a de salud",
+           "quien discuti? sobre planificaci?n familiar; el porcentaje que visit? un",
+           "establecimiento de salud y discuti? sobre planificaci?n familiar; el porcentaje que",
+           "visit? un establecimiento de salud y no discuti? sobre planificaci?n familiar;",
+           "y el porcentaje que no discuti? sobre planificaci?n familiar con promotor/a",
+           "o en un establecimiento de salud, por caracter?sticas seleccionadas, País Encuesta 2020" )
+     stub( "Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 7.21  Contact des non utilisatrices de la contraception avec des prestataires de planification familiale"," ",
+           "Parmi les femmes de 15-49 ans non utilisatrices de la contraception, pourcentage qui, au cours",
+           "des 12 derniers mois, a reçu la visite d'un agent de terrain avec qui elles ont parlé de",
+           "planification familiale, pourcentage qui s'est rendu dans un établissement de santé et  ont",
+           "parlé de planification familiale, poucentage qui se sont rendues dans un établissement de santé",
+           "et n'ont pas parlé de planification familiale et pourcentage qui n'ont pas parlé de planification",
+           "familiale, que ce soit avec un agent de terrain ou dans un établissement de santé, selon certaines",
+           "caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristiques sociodémographiques" );
+{FR}}
+  crosstab float(0) t721u v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 7.21 Contact of nonusers with family planning providers (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+  totmeth  = 1;
+  numwom1  = 1;
+  numwom   = 1;
+  numman   = 1;
+  allwom   = 1;
+  allman   = 1;
+  totnum2  = 1;
+  totnum14 = 1;
+  totnum12 = 1;
+  totdisc  = 1;
+  percent1 = 1;
+  totnmed3 = 1;
+  totmean3 = 1;
+  maxage   = 40;
+  totmeth  = 1;
+  episode  = 1;
+  maxexp   = 12;
+  expo     = 11;
+  methstr  = "123456789WN~LCFEMS?";
+            { 1234567890123456789 }
+  lenmeth  = length(methstr);
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 7.1 processing }
+  itot = tblrow( t701, totmean3 );
+  imax = itot - 2;
+  t701[itot,*]   = t701w[1,*];
+  t701[itot+2,*] = t701w[3,*];
+  do i = 0 while i <= imax
+    t701[i,*] = t701[i,*] * 100 / t701[itot,*];
+  enddo;
+  t701[itot-1,*] = t701w[0,*] / t701[itot,*];      { mean number of methods for 15-49     }
+  t701[itot+1,*] = t701w[2,*] / t701[itot+2,*];    { mean number of methods for 15-54[59] }
+  { assign NA to not applicable rows }
+  t701[itot+1:itot+2,0:2] = NAcells;               { NA for women 15-54[59] }
+
+  { Table 7.2 processing }
+  jtot1 = tblcol( t702, isex = 1 knowmeth );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t702[*,j] = t702[*,j] * 100 / t702[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t702, isex = 2 knowmeth );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t702[*,j] = t702[*,j] * 100 / t702[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t702", t702, 0,       jtot1-1, t702u, 0 );    { for women panel }
+  Col2Dim( "t702", t702, jtot1+1, jtot2-1, t702u, 1 );    { for men panel }
+  { assign NA to not applicable rows }
+  itot = tblrow( t702 );
+  t702[itot-1:itot,0:2] = NAcells;                        { NA number for women 15-54[59] }
+
+  { Table 7.3 processing }
+  t703[*,*,0] = t703[*,*,0] + t703[*,*,1];       { compute all women }
+  jtot = tblcol( t703 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t703[*,j,*] = t703[*,j,*] * 100 / t703[*,jtot,*];
+  enddo;
+  t703[*,jmax+1,*] = tblsum( column t703[*, 0:jmax,*] );
+  any   = tblcol( t703, useany  );
+  nouse = tblcol( t703, nousing );
+  mod   = tblcol( t703, usemod  );
+  trad  = tblcol( t703, usetrad );
+  { total using any method }
+  t703[*, any,*] = tblsum( column t703[*, mod+1:nouse-1,*] );
+  { total using any modern method }
+  t703[*, mod,*] = tblsum( column t703[*, mod+1:trad-1,*] );
+  { total using any traditional or other method }
+  t703[*,trad,*] = tblsum( column t703[*,trad+1:nouse-1,*] );
+  { check unweighted N's }
+  t703u[*,*,0] = t703u[*,*,0] + t703u[*,*,1];       { compute all women }
+  Col3Dim( "t703", t703, 0, jtot-2, t703u, 0 );
+
+  { Table 7.3.a processing }
+  jtot = tblcol( t703a );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t703a[*,j,*] = t703a[*,j,*] * 100 / t703a[*,jtot,*];
+  enddo;
+  t703a[*,jmax+1,*] = tblsum( column t703a[*, 0:jmax,*] );
+  any   = tblcol( t703a, useany  );
+  nouse = tblcol( t703a, nousing );
+  mod   = tblcol( t703a, usemod  );
+  trad  = tblcol( t703a, usetrad );
+  { total using any method }
+  t703a[*, any,*] = tblsum( column t703a[*, mod+1:nouse-1,*] );
+  { total using any modern method }
+  t703a[*, mod,*] = tblsum( column t703a[*, mod+1:trad-1,*] );
+  { total using any traditional or other method }
+  t703a[*,trad,*] = tblsum( column t703a[*,trad+1:nouse-1,*] );
+  { check unweighted N's }
+  Col3Dim( "t703a", t703a, 0, jtot-2, t703au, 0 );
+
+  { Table 7.4.2 processing }
+  jtot = tblcol( t7042 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t7042[*,j] = t7042[*,j] * 100 / t7042[*,jtot];
+  enddo;
+  t7042[*,jmax+1] = tblsum( column t7042[*, 0:jmax] );
+  any   = tblcol( t7042, useany  );
+  nouse = tblcol( t7042, nousing );
+  mod   = tblcol( t7042, usemod  );
+  trad  = tblcol( t7042, usetrad );
+  { total using any method }
+  t7042[*, any] = tblsum( column t7042[*, mod+1:nouse-1] );
+  { total using any modern method }
+  t7042[*, mod] = tblsum( column t7042[*, mod+1:trad-1] );
+  { total using any traditional or other method }
+  t7042[*,trad] = tblsum( column t7042[*,trad+1:nouse-1] );
+  { check unweighted N's }
+  Col2Dim( "t7042", t7042, 0, jtot-2, t7042u, 0 );
+
+  { Table 7.4.2.a processing }
+  jtot = tblcol( t7042a );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t7042a[*,j] = t7042a[*,j] * 100 / t7042a[*,jtot];
+  enddo;
+  t7042a[*,jmax+1] = tblsum( column t7042a[*, 0:jmax] );
+  any   = tblcol( t7042a, useany  );
+  nouse = tblcol( t7042a, nousing );
+  mod   = tblcol( t7042a, usemod  );
+  trad  = tblcol( t7042a, usetrad );
+  { total using any method }
+  t7042a[*, any] = tblsum( column t7042a[*, mod+1:nouse-1] );
+  { total using any modern method }
+  t7042a[*, mod] = tblsum( column t7042a[*, mod+1:trad-1] );
+  { total using any traditional or other method }
+  t7042a[*,trad] = tblsum( column t7042a[*,trad+1:nouse-1] );
+  { check unweighted N's }
+  Col2Dim( "t7042a", t7042a, 0, jtot-2, t7042au, 0 );
+
+  { Table 7.5 processing }
+  jtot = tblcol( t705, totnmed3 = 1 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t705[*,j] = t705[*,j] * 100 / t705[*,jtot];
+  enddo;
+  t705[*,jtot-1] = tblsum( column t705[*,0:jmax] );
+  t705[*,jtot+1] = tblmed( column t705w[*,0:maxage] intervals(highest default) );
+  itot = tblrow( t705 );
+  t705(itot-1,jtot+1) = omitted;
+  { check unweighted N's }
+  Col2Dim( "t705", t705, 0,      jtot-2, t705u, 0 );    { for percentages }
+  Col2Dim( "t705", t705, jtot+1, jtot+1, t705u, 0 );    { for median }
+
+  { Table 7.6 processing }
+  jtot1 = tblcol( t706, sayana1 = 2 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t706[*,j] = t706[*,j] * 100 / t706[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t706 );
+  jmax  = jtot2 - 2;
+  do j = jtot1+1 while j <= jmax
+    t706[*,j] = t706[*,j] * 100 / t706[*,jtot2];
+  enddo;
+  t706[*,jmax+1] = tblsum( column t706[*, jtot1+1:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t706", t706, 0,       jtot1-1, t706u, 0 );  
+  Col2Dim( "t706", t706, jtot1+1, jtot2-2, t706u, 1 );  
+
+  { Table 7.7 processing }
+  jtot = tblcol( t707 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t707[*,j] = t707[*,j] * 100 / t707[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t707", t707, 0, jtot-1, t707u, 0 );  
+
+  { Table 7.8 processing }
+  itot = tblrow( t708 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t708[i,*] = t708[i,*] * 100 / t708[itot,*];
+  enddo;
+  t708[itot-1,*] = tblsum( row t708[0:imax,*] );
+  { check unweighted N's }
+  Row2Dim( "t708", t708, 0, itot-2, t708u, 0 );
+
+  { Table 7.9 processing }
+  jtot = tblcol( t709 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t709[*,j] = t709[*,j] * 100 / t709[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t709", t709, 0, jtot-1, t709u, 0 );
+
+  { Table 7.10 processing }
+  itot = tblrow( t710 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t710[i,*] = t710[i,*] * 100 / t710[itot,*];
+  enddo;
+  t710[itot-1,*] = tblsum( row t710[0:imax,*] );
+  ipub = tblrow( t710, v326w = 10 );            { public sources }
+  iprv = tblrow( t710, v326w = 20 );            { private sources }
+  ingo = tblrow( t710, v326w = 30 );            { NGO }
+  iot1 = tblrow( t710, v326w = 40 );            { other sources }
+  iot2 = tblrow( t710, v326w = 96 );            { other }
+  t710[ipub,*] = tblsum( row t710[ipub+1:iprv-1,*] );
+  t710[iprv,*] = tblsum( row t710[iprv+1:ingo-1,*] ); 
+  t710[ingo,*] = tblsum( row t710[ingo+1:iot1-1,*] );
+  t710[iot1,*] = tblsum( row t710[iot1+1:iot2,  *] );
+  { check unweighted N's }
+  Row2Dim( "t710", t710, 0, itot-2, t710u, 0 );
+
+  { Table 7.11 processing }
+  { percentage of pill users using social marketing }
+  jtot1 = tblcol( t711, usepill );
+  jmax  = jtot1 - 1;
+  t711[*,jmax] = t711[*,jmax] * 100 / t711[*,jtot1];
+  { percentage of condom users using social marketing }
+  jtot2 = tblcol( t711, usecond );
+  jmax  = jtot2 - 1;
+  t711[*,jmax] = t711[*,jmax] * 100 / t711[*,jtot2];
+  { check unweighted N's }
+  Col2Dim( "t711", t711, 0,       jtot1-1, t711u, 0 );           { for pills }
+  Col2Dim( "t711", t711, jtot1+1, jtot2-1, t711u, 1 );           { for condoms }
+
+  { Table 7.12 processing }
+  ipub = tblrow( t712, source = 10 );           { public sources }
+  iprv = tblrow( t712, source = 20 );           { private sources }
+  ingo = tblrow( t712, source = 30 );           { NGO }
+  iot1 = tblrow( t712, source = 40 );           { other sources }
+  iot2 = tblrow( t712, source = 96 );           { other }
+  t712[ipub,*]  = tblsum( row t712[ipub+1:iprv-1,*] );
+  t712[iprv,*]  = tblsum( row t712[iprv+1:ingo-1,*] );
+  t712[ingo,*]  = tblsum( row t712[ingo+1:iot1-1,*] );
+  t712[iot1,*]  = tblsum( row t712[iot1+1:iot2-1,*] );
+  jtot1 = tblcol( t712, infometh = 5 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t712[*,j] = t712[*,j] * 100 / t712[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t712 );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t712[*,j] = t712[*,j] * 100 / t712[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  t712u[ipub,*]  = tblsum( row t712u[ipub+1:iprv-1,*] );
+  t712u[iprv,*]  = tblsum( row t712u[iprv+1:ingo-1,*] );
+  t712u[ingo,*]  = tblsum( row t712u[ingo+1:iot1-1,*] );
+  t712u[iot1,*]  = tblsum( row t712u[iot1+1:iot2-1,*] );
+  Col2Dim( "t712", t712, 0,       jtot1-1, t712u, 0 );
+  Col2Dim( "t712", t712, jtot1+1, jtot2-1, t712u, 1 );
+  t712[0,5:6] = NACells;      // switch to another method not asked for sterilization
+
+  { Table 7.13 processing }
+  imax   = maxexp;
+  jmax   = expo - 1;     { number of discontinuation reasons }
+  jtot   = expo - 2;     { column for total discontinuation }
+  itot   = tblrow( t713 );
+
+  { !!! comment following instructions if column 2 of calendar not available }
+  { Compute total discontinuation by adding up all reasons         }
+  { exclude "switch to another" method as it is tallyed separately }
+  t713w[*,jtot,*] = tblsum( column t713w[*,0:jtot-1,*] );
+  t713u[*,jtot,*] = tblsum( column t713u[*,0:jtot-1,*] );
+  { !!! end of instructions to comment }
+
+  { Calculate rates }
+  do j = 0 while j <= jmax
+    do i = 1 while i <= imax
+      t713r[i,j,*] = t713w[i,j,*] / t713w[i,expo,*];
+    enddo;
+  enddo;
+
+  { Calculate life table }
+  do j = jtot while j >= 0 by (-1)
+    t713l[0,j,*] = 100;
+    do i = 1 while i <= imax
+      t713l[i,j,*] = t713l[i-1,j,*] - ( t713l[i-1,jtot,*] * t713r[i,j,*] );
+    enddo;
+  enddo;
+  { !!! comment following instructions if column 2 of calendar not available        }
+  { Since the position in column variable for switch to another method is after the }
+  { total discontinuation, life table has to be calculated after calculating total  }
+  t713l[0,jmax,*] = 100;
+  do i = 1 while i <= imax
+    t713l[i,jmax,*] = t713l[i-1,jmax,*] - ( t713l[i-1,jtot,*] * t713r[i,jmax,*] );
+  enddo;
+  { !!! end of instructions to comment }
+
+  { Calculate discontinuation rates }
+  do i = 0 while i <= itot
+    do j = 0 while j <= jmax
+      t713(i,j) = 100 - t713l(imax,j,i);
+    enddo;
+  enddo;
+
+  { Drop cases with too little exposure }
+  ktot = tbllay( t713w );
+  kmax = ktot - 1;
+  do k = 0 while k <= kmax
+    if t713u(1,expo,k) < 125 then      { it is necessary to check only the first month }
+      t713r[*,*,k] = default;
+      t713l[*,*,k] = default;
+      t713 [k,*]   = default;          { assign default to all columns in method K }
+    elseif t713u(1,expo,k) < 250 then  { it is necessary to check only the first month }
+      t713r[*,*,k] = 0-t713r[*,*,k];
+      t713l[*,*,k] = 0-t713l[*,*,k];
+      do j = 0 while j < expo
+        t713(k,j) = 0-t713(k,j);        { add parentheses around all columns in method K }
+        if t713(k,j) = 0 then t713(k,j) = (-0.000001); endif;
+      enddo;
+    endif;
+    if t713(k,expo-1) = 0 then         { Ensure that zero failure rate shows }
+       t713(k,expo-1) = 0.000001
+    endif;
+  enddo;
+
+  { Table 7.14 processing }
+  itot = tblrow( t714 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t714[i,*] = t714[i,*] * 100 / t714[itot,*];
+  enddo;
+  t714[itot-1,*] = tblsum( row t714[0:imax,*] );
+  { check unweighted N's }
+  Row2Dim( "t714", t714, 0, itot-2, t714u, 0 );
+
+  { Table 7.15.1 processing }
+  jt1  = tblcol( t7151, unmethna );                      { total unmet need }
+  jt2  = tblcol( t7151, unmethnb );                      { total met need using }
+  jt3  = tblcol( t7151, unmethnc );                      { total failure }
+  jdem = tblcol( t7151, satisdem );                      { N satisfied demand }
+  juse = tblcol( t7151, satmodm  );                      { N users of modern methods }
+  t7151[*,jt1]   = t7151[*,jt1-2] + t7151[*,jt1-1];
+  t7151[*,jt2]   = t7151[*,jt2-2] + t7151[*,jt2-1];
+  t7151[*,jdem]  = t7151[*,jt2];                         { use + failure }
+  { calculates demand for FP as unmet need + using }
+  t7151[*,jt3-2] = t7151[*,jt1-2] + t7151[*,jt2-2];      { space }
+  t7151[*,jt3-1] = t7151[*,jt1-1] + t7151[*,jt2-1];      { limit }
+  t7151[*,jt3]   = t7151[*,jt1]   + t7151[*,jt2];        { total }
+  t7151[*,jdem]  = t7151[*,jdem] * 100 / t7151[*,jt3];   { % satisfied demand }
+  t7151[*,juse]  = t7151[*,juse] * 100 / t7151[*,jt3];   { % demand satisfied by modern methods }
+  jtot = tblcol( t7151, numwom );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t7151[*,j] = t7151[*,j] * 100 / t7151[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t7151", t7151, 0,      jtot-1, t7151u, 0 );
+  Col2Dim( "t7151", t7151, jtot+1, jtot+2, t7151u, 0 );
+
+  { Table 7.15.2 processing }
+  jt1  = tblcol( t7152, unmethna );                            { total unmet need }
+  jt2  = tblcol( t7152, unmethnb );                            { total met need using }
+  jt3  = tblcol( t7152, unmethnc );                            { total failure }
+  jdem = tblcol( t7152, satisdem );                            { N satisfied demand }
+  juse = tblcol( t7152, satmodm  );                            { N users of modern methods }
+  t7152[*,jt1,*]   = t7152[*,jt1-2,*] + t7152[*,jt1-1,*];
+  t7152[*,jt2,*]   = t7152[*,jt2-2,*] + t7152[*,jt2-1,*];
+  t7152[*,jdem,*]  = t7152[*,jt2,*];                           { use + failure }
+  { calculates demand for FP as unmet need + using }
+  t7152[*,jt3-2,*] = t7152[*,jt1-2,*] + t7152[*,jt2-2,*];      { space }
+  t7152[*,jt3-1,*] = t7152[*,jt1-1,*] + t7152[*,jt2-1,*];      { limit }
+  t7152[*,jt3,*]   = t7152[*,jt1,*]   + t7152[*,jt2,*];        { total }
+  t7152[*,jdem,*]  = t7152[*,jdem,*] * 100 / t7152[*,jt3,*];   { % satisfied demand }
+  t7152[*,juse,*]  = t7152[*,juse,*] * 100 / t7152[*,jt3,*];   { % demand satisfied by modern methods }
+  jtot = tblcol( t7152, numwom );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t7152[*,j,*] = t7152[*,j,*] * 100 / t7152[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "t7152", t7152, 0,      jtot-1, t7152u, 0 );
+  Col3Dim( "t7152", t7152, jtot+1, jtot+2, t7152u, 0 );
+  { write out SDG indicators }
+  itot   = tblrow( t7152 );
+  jtot   = tblcol( t7152 );
+  ktot   = tbllay( t7152, numwom1 );
+  SDGIndicator( "3.7.1", NACells, t7152(itot, jtot, ktot), NACells );
+
+  { Table 7.16 processing }
+  itot = tblrow( t716 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t716[i,*] = t716[i,*] * 100 / t716[itot,*];
+  enddo;
+  t716[imax+1,*] = tblsum( row t716[0:imax,*] );
+  icomb = tblrow( t716, decicomb = 2 );
+  t716[icomb,*] = tblsum( row t716[icomb+1:icomb+3,*] );
+  { check unweighted N's }
+  Row2Dim( "t716", t716, 0, itot-2, t716u, 0 );
+
+  { Table 7.17 processing }
+  jtot = tblcol( t717 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t717[*,j] = t717[*,j] * 100 / t717[*,jtot];
+  enddo;
+  t717[*,jmax-1]   = tblsum( column t717[*,0:jmax-2] );
+  { check unweighted N's }
+  Col2Dim( "t717", t717, 0,      jtot-3, t717u, 0 );    
+  Col2Dim( "t717", t717, jtot-1, jtot-1, t717u, 0 );    
+
+  { Table 7.18 processing }
+  jtot = tblcol( t718 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t718[*,j] = t718[*,j] * 100 / t718[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t718", t718, 0, jtot-1, t718u, 0 );  
+
+  { Table 7.19 processing }
+  itot = tblrow( t719 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t719[i,*] = t719[i,*] * 100 / t719[itot,*];
+  enddo;
+  t719[itot-1,*]   = tblsum( row t719[0:imax,*] );
+  { check unweighted N's }
+  Row2Dim( "t719", t719, 0, itot-2, t719u, 0 );
+
+  { Table 7.20.1 processing }
+  jtot = tblcol( t7201 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    t7201[*,j] = t7201[*,j] * 100 / t7201[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t7201", t7201, 0, jtot-1, t7201u, 0 );
+
+  { Table 7.20.2 processing }
+  jtot = tblcol( t7202 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    t7202[*,j] = t7202[*,j] * 100 / t7202[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t7202", t7202, 0, jtot-1, t7202u, 0 );
+  
+  { Table 7.21 processing }
+  jtot = tblcol( t721 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t721[*,j] = t721[*,j] * 100 / t721[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t721", t721, 0, jtot-1, t721u, 0 );
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+  { male tables }
+  {-----------------------------------------------------------------------------------------------}
+
+  isex = 2;                            { men }
+  for i in RECH1_EDT do
+    if HV118 = 1 then                  { man eligible for individual interview }
+      { load male questionnaire }
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX(i)) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then  { man found with a complete interview }
+
+        { men's weight }
+        if unweight then
+          rweight = 1;
+        else
+          rweight = MV005/1000000;
+        endif;
+
+        { to tally totals for all men regardless of age }
+        allman   = 1;
+        totmen   = 0;
+        { to tally total for men 15-49 }
+        tot1549  = 0;
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:59 );
+
+        { general variables }
+        v101w  = MV101;
+        v102w  = MV102;
+        v013w  = MV013;
+        v013w1 = MV013;               { with var label for printing purposes }
+        v106w  = MV106;
+        if MV106 in 8,missing then v106w = 9 endif;
+        v190w  = MV190;
+        marrman  = ( MV502 = 1 );
+        v502wm   = marrman + 1;
+        sexactvm = ( MV502 <> 1 & MV528 in 0:30 );  { unmarried sexually active }
+
+        { the tables' body is only for men 15-49 }
+        if MV012 > 49 then
+          tot1549 = notappl;
+          v102w   = notappl;
+          v101w   = notappl;
+          v106w   = notappl;
+          v190w   = notappl;
+          v013w   = notappl;
+          v013w1  = notappl;
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.1 }
+
+        { setting woman variables for table 7.1 }
+        marrwom  = notappl;
+        allwom   = notappl;
+        sexactv  = notappl;
+
+        { table 7.1 only for men 15-49 and no totals }
+        totmean3 = notappl;   { for table 7.1 }
+        totmean6 = notappl;
+        knowany  = notappl;
+        knowmod  = notappl;
+        knowtrad = notappl;
+        meth = 1;
+        while meth <= noccurs( MREC31_GROUP ) do
+          recode meth -> method;
+                   1  -> 6;       { 6-Pill }
+                  2:3 -> meth+1;  { 3-IUD, 4-Injections }
+                   4  -> 9;       { 9-Diaphragm }
+                   5  -> 7;       { 7-Male condom }
+                  6:7 -> meth-5;  { 1-Female ster, 2-Male ster }
+                 8:10 -> meth+12; { 20-Periodic abstinence, 21-Withdrawal, 22-Other traditional }
+                  11  -> 5;       { 5-Implants }
+                  13  -> 13;      { 13-Lactational amenorrhea }
+                  14  -> 8;       { 8-Female condom }
+                  15  -> 10;      { 10-Foam/jelly/suppository }
+                  16  -> 11;      { 11-Emergency contraception }
+                  17  -> 14;      { 14-Other modern method }
+                  18  -> 12;      { 12-Standard days method }
+                      -> default;
+          endrecode;
+          modmet1  = notappl;
+          tradmet1 = notappl;
+          if M304A(meth) = 1 then                        { modern methods }
+            modmet1  = method;
+          elseif M304A(meth) = 2 | M304A(meth) = 3 then  { traditional methods/others }
+            tradmet1 = method;
+          endif;
+          if MV304(meth) in 1,2 then                     { knows method }
+            if MV012 <= 49 then
+              xtab( t701, rweight );
+            endif;
+          endif;
+          meth = meth + 1;
+        enddo;
+
+        { totals by type of method  }
+        modmet1  = notappl;
+        tradmet1 = notappl;
+        meth     = count( MREC31_GROUP where MV304 in 1,2 );    { to compute mean # methods }
+        if MV012 <= 49 then
+          { any modern method }
+          knowmod  = ( count( MREC31_GROUP where M304A = 1 & MV304 in 1,2 ) > 0 );
+          { any traditional method including other }
+          knowtrad = ( count( MREC31_GROUP where M304A in 2,3 & MV304 in 1,2 ) > 0 );
+          { any method }
+          knowany = ( meth > 0 );
+          xtab( t701, rweight );
+          { methods known and respondents for mean 15-49 }
+          totmean3 = 0;
+          xtab( t701w, meth*rweight );
+          totmean3 = 1;
+          xtab( t701w, rweight );
+        endif;
+        { tabulate mean for men 15-54[59] }
+        knowmod  = notappl;
+        knowtrad = notappl;
+        knowany  = notappl;
+        totmean3 = notappl;
+        totmean6 = 0;
+        xtab( t701w, meth*rweight );
+        totmean6 = 1;
+        xtab( t701w, rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 7.2 }
+
+        if marrman then
+          if count( MREC31_GROUP where MV304 in 1,2 ) then
+            knowmeth = 1;                     { knows any method }
+            xtab( t702, rweight );
+          endif;
+          if count( MREC31_GROUP where M304A = 1 & MV304 in 1,2 ) then
+            knowmeth = 2;                     { knows any modern method }
+            xtab( t702, rweight );
+          endif;
+          knowmeth = 3;
+          xtab( t702, rweight );
+          xtab( t702u );
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.20.2 }
+
+        numman = notappl;
+        media = 0;
+        if MV384A = 1 then              { heard of FP on the radio }
+          fpmedia = 1;
+          xtab( t7202, rweight );
+          media = media + 1;
+        endif;
+        if MV384B = 1 then              { heard of FP on TV }
+          fpmedia = 2;
+          xtab( t7202, rweight );
+          media = media + 1;
+        endif;
+        if MV384C = 1 then              { heard of FP on magazines }
+          fpmedia = 3;
+          xtab( t7202, rweight );
+          media = media + 1;
+        endif;
+        if MV384D = 1 then              { heard of FP on mobile phone }
+          fpmedia = 4;
+          xtab( t7202, rweight );
+          media = media + 1;
+        endif;
+        if MV384E = 1 then              { heard of FP social media }
+          fpmedia = 5;
+          xtab( t7202, rweight );
+          media = media + 1;
+        endif;
+        if MV384F = 1 then              { heard of FP on poster/leaflet/brochure }
+          fpmedia = 6;
+          xtab( t7202, rweight );
+          media = media + 1;
+        endif;
+        if MV384G = 1 then              { heard of FP on outdoor sign or billboard }
+          fpmedia = 7;
+          xtab( t7202, rweight );
+          media = media + 1;
+        endif;
+        if MV384H = 1 then              { heard of FP on community meeting or events }
+          fpmedia = 8;
+          xtab( t7202, rweight );
+          media = media + 1;
+        endif;
+        if !media then                 { none of the eight media }
+          fpmedia = 9;
+          xtab( t7202, rweight );
+        endif;
+        fpmedia = notappl;             
+        numman  = 1;                   { number of men }
+        xtab( t7202, rweight );
+        xtab( t7202u );
+
+      endif;        { end loadcase with a complete interview }
+    endif;        { end man eligible for interview }
+  enddo;
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  isex = 1;                            { women }
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  { totals for men set NA }
+  totmen   = notappl;
+  men5059  = notappl;
+  { to tally totals for all women, when necessary }
+  tot1549  = 0;
+
+  { general variables }
+  numwom = 1;
+  allwom = 1;
+  v101w  = V101;
+  v102w  = V102;
+  v013w  = V013;
+  v190w  = V190;
+  v013w1 = V013;           { with var label for printing purposes }
+  v106w  = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+
+  marrwom   = ( V502 = 1 );
+  currmarr  = ( V502 = 1 );
+  v502w     = marrwom + 1;
+  recode V218 -> v218w;
+           0  -> 0;
+         1:2  -> 1;
+         3:4  -> 2;
+              -> 3;
+  endrecode;
+  recode V312 -> fpuse;
+           0  -> 2;
+              -> 1;			     
+  endrecode;
+
+  sexactv  = ( V502 <> 1 & V528 in 0:30 );   { unmarried sexually active }
+  sexactv1 = sexactv;
+
+{ -------------------------------------------------------------------- }
+{ table 7.1 }
+
+  { setting men variables for table 7.1 }
+  marrman  = notappl;
+  allman   = notappl;
+  totmean6 = notappl;
+  sexactvm = notappl;
+
+  totmean3 = notappl;   { for table 7.1 }
+  knowany  = notappl;
+  knowmod  = notappl;
+  knowtrad = notappl;
+  meth = 1;
+  while meth <= noccurs( REC31_GROUP000 ) do
+    recode meth -> method;
+             1  -> 6;       { 6-Pill }
+            2:3 -> meth+1;  { 3-IUD, 4-Injections }
+             4  -> 9;       { 9-Diaphragm }
+             5  -> 7;       { 7-Male condom }
+            6:7 -> meth-5;  { 1-Female ster, 2-Male ster }
+           8:10 -> meth+12; { 20-Periodic abstinence, 21-Withdrawal, 22-Other traditional }
+            11  -> 5;       { 5-Implants }
+            13  -> 13;      { 13-Lactational amenorrhea }
+            14  -> 8;       { 8-Female condom }
+            15  -> 10;      { 10-Foam/jelly/suppository }
+            16  -> 11;      { 11-Emergency contraception }
+            17  -> 14;      { 14-Other modern method }
+            18  -> 12;      { 12-Standard days method }
+                -> default;
+    endrecode;
+    modmet1  = notappl;
+    tradmet1 = notappl;
+    if V304A(meth) = 1 then             { modern methods }
+      modmet1  = method;
+    elseif V304A(meth) in 2,3 then      { traditional methods/others }
+      tradmet1 = method;
+    endif;
+    if V304(meth) in 1,2 then           { knows method }
+      xtab( t701, rweight );
+    endif;
+    meth = meth + 1;
+  enddo;
+
+  { totals by type of method }
+  modmet1  = notappl;
+  tradmet1 = notappl;
+  { any modern method }
+  knowmod  = ( count( REC31_GROUP000 where V304A = 1 & V304 in 1,2 ) > 0 );
+  { any traditional method including other }
+  knowtrad = ( count( REC31_GROUP000 where V304A in 2,3 & V304 in 1,2 ) > 0 );
+  { any method }
+  meth  = count( REC31_GROUP000 where V304 in 1,2 );           { to compute mean # methods }
+  knowany = ( meth > 0 );
+  xtab( t701, rweight );
+  if knowany then
+    totmean3 = 0;
+    xtab( t701w, meth*rweight );
+  endif;
+  totmean3 = 1;
+  xtab( t701w, rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 7.2 }
+
+  if marrwom then
+    if count( REC31_GROUP000 where V304 in 1,2 ) then
+      knowmeth = 1;                     { knows any method }
+      xtab( t702, rweight );
+    endif;
+    if count( REC31_GROUP000 where V304A = 1 & V304 in 1,2 ) then
+      knowmeth = 2;                     { knows any modern method }
+      xtab( t702, rweight );
+    endif;
+    knowmeth = 3;
+    xtab( t702, rweight );
+    xtab( t702u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.3 }
+
+  modmet2  = notappl;
+  tradmet2 = notappl;
+  nousing  = notappl;
+  meth = V312;
+  recode meth -> method;
+           0  -> 0;
+           1  -> 6;       { 6-Pill }
+          2:3 -> meth+1;  { 3-IUD, 4-Injections }
+           4  -> 9;       { 9-Diaphragm }
+           5  -> 7;       { 7-Male condom }
+          6:7 -> meth-5;  { 1-Female ster, 2-Male ster }
+         8:10 -> meth+12; { 20-Periodic abstinence, 21-Withdrawal, 22-Other traditional }
+          11  -> 5;       { 5-Implants }
+          13  -> 13;      { 13-Lactational amenorrhea }
+          14  -> 8;       { 8-Female condom }
+          15  -> 10;      { 10-Foam/jelly/suppository }
+          16  -> 11;      { 11-Emergency contraception }
+          17  -> 14;      { 14-Other modern method }
+          18  -> 12;      { 12-Standard days method }
+              -> default;
+  endrecode;
+  if V313 = 0 then               { not using }
+    nousing  = 1
+  elseif V313 = 3 then           { using modern }
+    modmet2  = method;
+  elseif V313 in 1,2 then        { using traditional & others }
+    tradmet2 = method;
+  endif;
+  xtab( t703, rweight );
+  xtab( t703u );
+  { special treatment for sexually active women }
+  v013w10  = notappl;
+  if sexactv then
+    v013w10 = v013w;
+    if v013w10 > 3 then v013w10 = 3 endif;
+  endif;
+  xtab( t703a, rweight );
+  xtab( t703au );
+
+{ -------------------------------------------------------------------- }
+{ tables 7.4.2, 7.4.2.a }
+
+  { note that method variables for this table are the same as those defined in table 7.3 }
+  if marrwom then
+    xtab( t7042, rweight );
+    xtab( t7042u );
+  endif;
+  if sexactv then
+    xtab( t7042a, rweight );
+    xtab( t7042au );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.5 }
+
+  { users of female sterilization }
+  if V312 = 6 then
+    v319w = V319;
+    v320w = V320;
+    xtab( t705, rweight );
+    xtab( t705u );
+    agemed = int( (V317-V011)/12 );
+    if agemed < maxage then           // median is calculated for women sterilized before age 40
+      xtab( t705w, rweight );
+    endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.6 }
+
+  if V312 = 3 then
+    sayana2 = notappl;
+    sayana1 = 2;
+    xtab( t706, rweight );
+	coltotu = 1;
+    xtab( t706u );
+	if V3A11 = 1 then
+      sayana2 = 5;
+      sayana1 = 1;
+      xtab( t706, rweight );
+	  coltotu = 2;
+      xtab( t706u );
+      sayana1 = notappl;
+	  recode V3A12 -> sayana2; 
+              1:2  -> V3A12;
+			   8   -> 3;
+			       -> default;
+      endrecode;				   
+      xtab( t706, rweight );
+    endif;
+  endif;	
+
+{ -------------------------------------------------------------------- }
+{ table 7.7 }
+
+  emergen = 2;
+  xtab( t707, rweight );
+  xtab( t707u );
+  rowe = pos("E", VCAL(1));         // row in calendar where emergency contraception is used
+  if V312 = 16 | V3A13 = 1 | rowe & rowe-V018 < 12 then
+    emergen = 1;
+    xtab( t707, rweight );
+  endif;	
+
+{ -------------------------------------------------------------------- }
+{ table 7.8 }
+
+  recode  V217  -> v217w;
+           1:3  -> V217+1;
+            4   -> 1;
+            5   -> 6;
+            6   -> 5;
+        missing -> 9;
+                -> V217;
+  endrecode;
+  permeths = 3;
+  xtab( t708, rweight );
+  xtab( t708u );
+  if V312 in 8,18 then
+    if V312 = 8 then          { periodic abstinence }
+       permeths = 1;
+    else                      { SDM }
+       permeths = 2;
+    endif;
+    xtab( t708, rweight );
+    xtab( t708u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.9 }
+
+  v217w1 = ( V217 = 3 );
+  xtab( t709, rweight );
+  xtab( t709u );
+
+{ -------------------------------------------------------------------- }
+{ table 7.10 }
+
+  if V313 = 3 & !V312 in 13 then  { currently using modern methods excluding LAM }
+    meth = V312;
+    recode meth -> modmet4;
+             1  -> 6;       { 6-Pill }
+            2:3 -> meth+1;  { 3-IUD, 4-Injections }
+             4  -> 9;       { 9-Diaphragm }
+             5  -> 7;       { 7-Male condom }
+            6:7 -> meth-5;  { 1-Female ster, 2-Male ster }
+            11  -> 5;       { 5-Implants }
+            14  -> 8;       { 8-Female condom }
+            15  -> 10;      { 10-Foam/jelly/suppository }
+            16  -> 11;      { 11-Emergency contraception }
+            17  -> 14;      { 14-Other modern method }
+            18  -> 12;      { 12-Standard days method }
+                -> default;
+    endrecode;
+    v326w = V326;                             { !! check labels and recode accordingly }
+    if V326 = missing then v326w = 99 endif;
+    xtab( t710, rweight );
+    xtab( t710u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.11 }
+
+  usepill = notappl;
+  usecond = notappl;
+  { pill users }
+  if V312 = 1 & !V323 in 98,missing then
+    smb = ( V323 in 1:7 );     { !! include codes for social marketing brand for pills }
+    if smb then
+      usepill = 1;
+      xtab( t711, rweight );
+    endif;
+    usepill = 2;
+    xtab( t711, rweight );
+    coltotu = 1;
+    xtab( t711u );
+  endif;
+  usepill = notappl;
+  { condom users }
+  if V312 = 5 & !V323A in 98,missing then
+    smb = ( V323A in 1:7 );    { !! include codes for social marketing brand for condoms }
+    if smb then
+      usecond = 1;
+      xtab( t711, rweight );
+    endif;
+    usecond = 2;
+    xtab( t711, rweight );
+    coltotu = 2;
+    xtab( t711u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.12 }
+
+  { current method began to be used less than 5 years ago and only  }
+  { includes Pill, IUD, Injectables, Implants, female sterilization }
+  if V313 = 3 & V312 in 1:3,6,11 & V008-V317 <= 59 then
+    meth = V312;
+    recode meth -> modmet3;
+             1  -> 6;         { 6-Pill }
+            2:3 -> meth+1;    { 3-IUD, 4-Injections }
+             6  -> 1;         { 1-Female ster }
+            11  -> 5;         { 5-Implants }
+                -> default;
+    endrecode;
+    { ource of method the first time was used comes from }
+    { V326 for sterilization and V3A07 for other methods }
+    if V312 = 6 then
+      source = V326                
+    else
+      source = V3A07                { !! check labels }
+    endif;
+    if source = missing then source = 99 endif;
+
+    infometh = 5;
+    xtab( t712, rweight );
+    coltotu = 1;	
+    xtab( t712u );
+    if V3A02 = 1 | V3A03 = 1 then
+      infometh = 1;
+      xtab( t712, rweight );
+    endif;
+    if V3A04 = 1 then
+      infometh = 2;
+      xtab( t712, rweight );
+    endif;
+    if V3A05 = 1 | V3A06 = 1 then
+      infometh = 3;
+      xtab( t712, rweight );
+    endif;
+    if ( V3A02 = 1 | V3A03 = 1 ) & V3A04 = 1 & ( V3A05 = 1 | V3A06 = 1 ) then
+      infometh = 4;
+      xtab( t712, rweight );
+    endif;
+    if V312 <> 6 then             // excludes female sterilization
+      infometh = 7;
+      xtab( t712, rweight );
+      coltotu = 2;	
+      xtab( t712u );
+      if V3A14 = 1 then
+        infometh = 6;
+        xtab( t712, rweight );
+      endif;
+    endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.13 }
+
+  calint   = V018 + 3;           { Ignore last three months to give women   }
+                                 { time to recognize that they are pregnant }
+  lastrow  = V018 + V019 - 1;
+  calast   = calint + 59;        { Use only 60 months of calendar }
+  prevmths = 0;
+  { Ignore episode of women using in the first month of the calendar }
+  if pos( VCAL(1)[lastrow:1], methstr[1:lenmeth] ) then
+    prevmths = 100;   { Ensures episode ignored in following sections }
+  endif;
+
+  { Go through episodes of use in calendar }
+  do i = lastrow while i >= calint by (-1)
+
+    meth = pos( VCAL(1)[i:1], methstr[1:lenmeth] );
+    { start of episode of use }
+    if meth then
+
+      {  !!! after running the program for the first time, any method that is not shown in the }
+      {      rows and it is present in the calendar need to be classified as other.            }
+      {      This is done to comply with footnote number 7                                     }
+      { Group methods as necessary }
+      recode meth -> method;
+               1  -> 6;       { 6-Pill }
+               2  -> 3;       { 3-IUD }
+               3  -> 4;       { 4-Injections }
+               4  -> 9;       { 9-Diaphragm }
+               5  -> 7;       { 7-Male condom }
+              6:7 -> meth-5;  { 1-Female ster, 2-Male ster }
+             8:10 -> meth+12; { 20-Periodic abstinence, 21-Withdrawal, 22-Other traditional }
+              11  -> 5;       { 5-Implants }
+              13  -> 22;      { 13-Lactational amenorrhea }
+              14  -> 8;       { 8-Female condom }
+              15  -> 10;      { 10-Foam/jelly/suppository }
+              16  -> 11;      { 11-Emergency contraception }
+              17  -> 22;      { 14-Other modern method }
+              18  -> 12;      { 12-Standard days method }
+                  -> default;
+      endrecode;
+      disconr = expo;
+      mnthuse = prevmths;
+      { tally exposure month by month }
+      episode = 0;
+      do j = i while j >= calint & meth = pos( VCAL(1)[j:1], methstr[1:lenmeth] ) by (-1)
+        mnthuse = mnthuse + 1;
+        if mnthuse <= maxexp & j <= calast then
+          xtab( t713w, rweight );
+          xtab( t713u );
+          episode = 1;
+        endif;
+      enddo;
+      if episode then                 { count episodes of use whether they were or not discontinued }
+        xtab( t713, rweight );
+      endif;
+
+      { Reset to last month of use }
+      j = j + 1;
+
+      { Tally discontinuation }
+      discon = pos( VCAL(2)[j:1], "123456789CFADMWK?" );
+      if j > calint | discon { if discontinuation in last month } then
+        recode discon -> disconr;
+                  1   -> 0;    { method failure }
+                  2   -> 1;    { to become pregnant }
+              9,12,13 -> 2;    { fertility related: infreq sex, diff get preg, marital dissol }
+                 14   -> 3;    { changes in menstrual bleeding }
+                 4,5  -> 4;    { side effects/ health concerns }
+                  7   -> 5;    { wanted more effective method }
+               6,8,10 -> 6;    { method related: lack of access, inconv to use, cost too much }
+                  3   -> 7;    { husband/partner disapprove }
+                      -> 8;    { other reasons }
+        endrecode;
+        { disconr  = 9;        !!! use this instruction if column 2 of calendar not available }
+        { tabulate reasons as declared by respondent }
+        if mnthuse <= maxexp & j <= calast then
+          xtab( t713w, rweight );
+          xtab( t713u );
+        endif;
+
+        { !!! comment following instructions if switch to another method not required }
+        { tabulate switch to another method }
+        disconr = notappl;
+        if pos( VCAL(1)[j-1:1], methstr[1:lenmeth] ) then
+          disconr = 10;      { switched to another method }
+        elseif discon = 7 & VCAL(1)[j-1:1] = "0" &
+                            pos( VCAL(1)[j-2:1], methstr[1:lenmeth] ) &
+                            meth <> pos( VCAL(1)[j-2:1], methstr[1:lenmeth] ) then
+          disconr = 10;      { wanted more effective and switched to another method within 2 months }
+        endif;
+        if disconr = 10 & mnthuse <= maxexp & j <= calast then
+          xtab( t713w, rweight );
+          xtab( t713u );
+        endif;
+        { !!! end comment to tally switch to another method }
+      endif;
+
+      { Reset for next episode }
+      prevmths = 0;
+
+      i = j;
+    endif;
+  enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 7.14 for countries with reasons for discontinuation           }
+
+  { !! check if discontinuation column exist in country }
+  do i = V018 while i <= V018+59
+    { Checks for col 2 not blank }
+    if totocc(REC82) >= 2 & !pos( VCAL(2)[i:1], " " ) then
+       reasdis = pos( VCAL(2)[i:1], "123456789CFADMWK?" );
+       recode reasdis -> reasdis;
+                1:3   -> reasdis;    { 1-became pregnant, 2-wanted pregnancy, 3-partner disapproved }
+                 7    -> 4;          { wanted more effective method }
+            {M} 14    -> 5;          { changes in menstrual bleeding }
+                 4    -> 6;          { side effects/health concerns }
+                 6    -> 7;          { lack of access/too far }
+            {C} 10    -> 8;          { cost too much }
+                 8    -> 9;          { inconvenient to use }
+            {F} 11    -> 10;         { up to God/fatalistic }
+            {A} 12    -> 11;         { difficult to get pregnant }
+                 9    -> 12;         { infrequent sex/husband away }
+            {D} 13    -> 13;         { marital dissolution/separation }
+            {W} 15    -> 14;         { other }
+            {K} 16    -> 15;         { don't know }
+            {?}       -> 99;         { missing }
+       endrecode;
+       meth    = pos( VCAL(1)[i:1], methstr[1:lenmeth] );
+       recode meth -> method1;
+                1  -> 6;       { 6-Pill }
+               2:3 -> meth+1;  { 3-IUD, 4-Injections }
+                4  -> 9;       { 9-Diaphragm }
+                5  -> 7;       { 7-Male condom }
+               6:7 -> meth-5;  { 1-Female ster, 2-Male ster }
+              8:10 -> meth+12; { 20-Periodic abstinence, 21-Withdrawal, 22-Other traditional }
+               11  -> 5;       { 5-Implants }
+               13  -> 22;      { 22-Lactational amenorrhea, classified as other }
+               14  -> 8;       { 8-Female condom }
+               15  -> 10;      { 10-Foam/jelly/suppository }
+               16  -> 11;      { 11-Emergency contraception }
+               17  -> 22;      { 22-Other modern method }
+               18  -> 12;      { 12-Standard days method }
+               19  -> 99;      { 99-missing }
+       endrecode;
+       xtab( t714, rweight );
+       xtab( t714u );
+    endif;
+  enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 7.15.1 }
+
+  recode  V626A -> unmethna;           { unmet need }
+           1:2  -> V626A;
+                -> notappl;
+  endrecode;
+  recode  V626A -> unmethnb;           { currently using }
+           3:4  -> V626A - 2;
+                -> notappl;
+  endrecode;
+  satmodm  = ( V313 = 3 );         { to count demand satisfied by modern methods }
+  if currmarr then
+    xtab( t7151, rweight );
+    xtab( t7151u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.15.2 }
+
+  xtab( t7152, rweight );
+  xtab( t7152u );
+
+{ -------------------------------------------------------------------- }
+{ table 7.16 }
+
+  if currmarr then
+    recode V632 -> decicomb;
+             1  -> 1;
+             3  -> V635+2;
+             2  -> 6;
+            4,6 -> 7;
+                -> default;			
+    endrecode;			
+    xtab( t716, rweight );
+    xtab( t716u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.17 }
+
+  if currmarr then
+    recode V632 -> v632w1;
+             1  -> 1;
+             2  -> 3;
+             3  -> 2;
+            4,6 -> 4;  
+                -> default;
+    endrecode;				
+    v632w2 = ( V632 in 1,3 );
+    xtab( t717, rweight );
+    xtab( t717u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.18 }
+
+  if currmarr then
+    pregpres = 2;
+    xtab( t718, rweight );
+    xtab( t718u );
+	if V636 = 1 then
+      pregpres = 1;
+      xtab( t718, rweight );
+    endif;	
+  endif;
+  
+{ -------------------------------------------------------------------- }
+{ table 7.19 }
+
+  if currmarr & V312 = 0 then
+    v362w = V362;
+    if V362 = missing then v362w = 9 endif;
+    v219w = V219;
+    if V219 > 4 then v219w = 4 endif;
+    xtab( t719, rweight );
+    xtab( t719u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 7.20.1 }
+
+  numwom = notappl;
+  media = 0;
+  if V384A = 1 then              { heard of FP on the radio }
+    fpmedia = 1;
+    xtab( t7201, rweight );
+    media = media + 1;
+  endif;
+  if V384B = 1 then              { heard of FP on TV }
+    fpmedia = 2;
+    xtab( t7201, rweight );
+    media = media + 1;
+  endif;
+  if V384C = 1 then              { heard of FP on magazines }
+    fpmedia = 3;
+    xtab( t7201, rweight );
+    media = media + 1;
+  endif;
+  if V384D = 1 then              { heard of FP on mobile phone }
+    fpmedia = 4;
+    xtab( t7201, rweight );
+    media = media + 1;
+  endif;
+  if V384E = 1 then              { heard of FP social media }
+    fpmedia = 5;
+    xtab( t7201, rweight );
+    media = media + 1;
+  endif;
+  if V384F = 1 then              { heard of FP on poster/leaflet/brochure }
+    fpmedia = 6;
+    xtab( t7201, rweight );
+    media = media + 1;
+  endif;
+  if V384G = 1 then              { heard of FP on outdoor sign or billboard }
+    fpmedia = 7;
+    xtab( t7201, rweight );
+    media = media + 1;
+  endif;
+  if V384H = 1 then              { heard of FP on community meeting or events }
+    fpmedia = 8;
+    xtab( t7201, rweight );
+    media = media + 1;
+  endif;
+  if !media then                 { none of the eight media }
+    fpmedia = 9;
+    xtab( t7201, rweight );
+  endif;
+  fpmedia = notappl; 
+  numwom  = 1;                   { number of women }
+  xtab( t7201, rweight );
+  xtab( t7201u );
+
+{ -------------------------------------------------------------------- }
+{ Table 7.21 }
+
+  discfpa = notappl;
+  discfpb = notappl;
+  discfpc = notappl;
+  { for women not currently using a method }
+  if V312 = 0 then
+    if V393A = 1 then                 { visited by fieldworker who discussed FP }
+      discfpa = 1;
+      xtab( t721, rweight );
+    endif;
+    discfpa = notappl;
+    if V394 = 1 & V395 = 1 then      { visited health facility, discussed FP }
+      discfpb = 1;
+      xtab( t721, rweight );
+    endif;
+    if V394 = 1 & V395 <> 1 then     { visited health facility, didn't discuss FP }
+      discfpb = 2;
+      xtab( t721, rweight );
+    endif;
+    discfpb = notappl;
+    if V393A <> 1 & V395 <> 1 then    { didn't discuss FP with fieldworker/health facility }
+      discfpc = 1;
+      xtab( t721, rweight );
+    endif;
+    discfpc = 2;                    { number of women }
+    xtab( t721, rweight );
+    xtab( t721u );
+  endif;
+

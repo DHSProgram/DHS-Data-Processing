@@ -1,0 +1,214 @@
+﻿language = EN
+50000 Language to be used to report messages not found. Please talk to the IT expert
+50001 Error number %d not found in error messages data file
+50040 Number of households to be collected in cluster %04d hasn't been assigned to the control file
+50041 Control file for cluster %04d could not be loaded
+50042 The household assignment file for cluster %03d could not be loaded
+50043 The %s transmittal sheet file for cluster %03d could not be loaded
+50050 Household=%04d household members in household schedule (%02d) inconsistent with total number of members (%02d)
+50051 Household=%04d women eligible in household schedule (%02d) inconsistent with total number of eligible women (%02d)
+50052 Household=%04d men eligible in household schedule (%02d) inconsistent with total number of eligible men (%02d)
+50054 Household=%04d records for biomarkers for %s (%02d) inconsistent with individuals eligible for biomarkers (%02d)
+50055 Household=%04d partially completed, structure will not be checked at this time
+50056 Household=%04d record for biomarkers for %s (%02d) doesn't exist
+50057 Household=%04d %s for %s (%02d) doesn't exist
+50100 Household=%04d record with data for: %s, is missing
+50101 Household=%04d incorrect number of records for mosquito nets %d expected %d
+50105 Household=%04d record with data for: %s inconsistent with %s=%d
+50110 Household=%04d this is an incomplete household (result=%d), however there are records that shouldn't exist
+50150 Review Households found (%02d) with initial households (%02d) and those registered in control file (%02d)
+50151 The number of households found and registered (%02d) is correct, but there are still errors that need to be resolved
+50164 Cluster has not been selected for remeasurement yet
+50165 Cluster was selected for remeasurement, but something is wrong with selected child (household=%04d Line=%02d)
+50166 Household=%04d child %02d, was selected for remeasurement but data haven't been entered yet
+50200 Household=%04d %s=%02d partially completed, structure will not be checked at this time
+50202 Household=%04d individual=%02d there must be at least one record for the history of use (%d)
+50203 Household=%04d %s=%02d one or more mandatory records are missing
+50204 Household=%04d individual=%02d records from history of use (%d) inconsistent with ever used (A307=%d)
+50205 Household=%04d individual=%02d calendar records (%d) incomplete. It must have %d
+50206 Household=%04d individual=%02d pregnancy history records (%d) inconsistent with total pregnancy outcomes (A212W=%d)
+50207 Household=%04d individual=%02d records for pregnancy and postnatal care (%d) inconsistent with pregnancies in the last three years (%d)
+50208 Household=%04d individual=%02d records for immunization (%d) inconsistent with births in the last three years (%d)
+50209 Household=%04d individual=%02d records for child's health (%d) inconsistent with births in the last five years (%d)
+50210 Household=%04d had previoulsy been accepted but modifications made after caused errors
+50211 Household=%04d individual questionnaires had previously been accepted but modifications made after caused errors
+50212 Household=%04d individual=%02d number of records for chronic disease module inconsistent (records=%d)
+50215 Household=%04d individual=%02d number of records for mental health module inconsistent (records=%d)
+50216 Household=%04d individual=%02d sibilings %02d inconsistent with siblings records=%02d/%02d
+50217 Household=%04d individual=%02d domestic violence incorrect: woman selected for DV=%02d records=%d
+50220 Household=%04d %s=%02d hasn't been contacted for individual interview
+50221 Household=%04d duplicate. Interviewed by %02d and by %02d. Review households from all interviewers
+50225 Household=%04d assigned to interviewer %02d but collected by interviewer %02d.  Household assignment will be updated
+50230 Household=%04d individual=%02d there are records defined for men in a complete woman's questionnaire
+50231 Household=%04d individual=%02d there are records defined for women in a complete men's questionnaire
+50232 Household=%04d individual=%02d result=%d there are records defined for %s in an incomplete questionnaire
+50271 Household=%04d individual=%02d number of records for ORS and feeding practices (%d) inconsistent
+50300 Household=%04d individual=%02d number of records for FGC inconsistent
+50301 Household=%04d individual=%02d number of records for daughters in FGC (%02d) inconsistent with expected number (%02d)
+50305 Household=%04d individual=%02d duplicated, the problem needs to be resolved
+50310 Household=%04d individual=%02d early child development incorrect: children elegible=%02d records=%d
+50315 Household=%04d individual=%02d number of records for malaria knowledge and beliefs inconsistent (records=%d)
+50320 Household=%04d individual=%02d number of records for fistula module inconsistent (records=%d)
+50400 Household=%02d not found in the household sample design file. It needs to be accepted by supervisor
+50401 Household=%04d wasn't accepted by supervisors it needs to be removed from interviewer %d
+50500 Household=%04d barcode (%s) for %s duplicated.  It was also found in household=%04d
+50501 Barcode (%s) for %s present in the transmittal sheet but not found in any questionnaire
+50502 Household=%04d barcode (%s) for %s doesn't exist in transmittal sheet
+50505 Household=%04d individual=%02d not declared as eligible in any household. It was collected by interviewer=%04d
+
+language = ES
+{ common strings used by application }
+  ES ( "Incomplete" ) Incompleto(a)
+  ES ( "Partial" ) Parcial
+  ES ( "Complete" ) Completo(a)
+  ES ( "child" ) niño
+  ES ( "height & weight" ) peso y talla
+  ES ( "anemia" ) anemia
+  ES ( "woman" ) mujer
+  ES ( "HIV" ) VIH
+  ES ( "man" ) hombre
+  ES ( "W-" ) M-
+  ES ( "M-" ) H-
+  ES ( "MALARIA" ) MALARIA
+  ES ( "Not visited" ) No visitada(o)
+  ES ( "Confirm that household %d is accepted" ) Por favor confirme que acepta el hogar %d
+  ES ( "Yes" ) Si
+  ES ( "No, cancel" ) No, cancelar
+  ES ( "Status for cluster: %s" ) Estado del segmento: %s
+  ES ( "Interviews collected in cluster" ) Entrevistas realizadas en el segmento
+  ES ( "HH/Line" ) Hogar/Linea
+  ES ( "Interviewer" ) Entrevistadora
+  ES ( "Address/Name" ) Direccion/Nombre
+  ES ( "Result" ) Resultado
+  ES ( "Visits" ) Visitas
+  ES ( "Biomarkers" ) Biomarcadores
+  ES ( "Summary: (HH=%02d Complete=%02d Incomplete=%02d) (Indiv.=%d Complete:%02d Incomplete:%02d)") Resumen: (Hogares=%02d Completos=%02d Incompletos=%02d) (Indiv=%d Completos:%02d Incompletos:%02d)
+  ES ( "Households added not originally part of the sample design %d" ) Hogares adicionales que no eran parte de la muestra inicial %d
+  ES ( "SUMMARY OF OUTSTANDING ISSUES THAT NEED TO BE RESOLVED" ) RESUMEN DE ERRORES QUE REQUIEREN SOLUCION
+50000 Idioma a ser usado para reportar mensajes no se encontro. Por favor comentalo con la persona encargada del sistema
+50001 Numero de error %d no se encontro en el archivo de mensajes de error
+50040 Numero de hogares a recolectar en el segmento %04d no se ha asignado en el archivo de control
+50041 No se pudo cargar el archivo de control para el segmento %04d
+50042 No se pudo cargar el archivo de assignacion de hogares para el segmento %03d
+50043 No se pudo cargar el archivo de la hoja de tranmision de %s para el segmento %03d
+50050 Hogar=%04d Personas en listado de hogar (%02d) inconsistente con total de personas (%02d)
+50051 Hogar=%04d Mujeres elegibles en listado de hogar (%02d) inconsistente con total de mujeres elegibles (%02d)
+50052 Hogar=%04d Hombres elegibles en listado de hogar (%02d) inconsistente con total de hombres elegibles (%02d)
+50054 Hogar=%04d Registros de peso/talla para %s (%02d) inconsistente con personas elegibles para peso/talla (%02d)
+50055 Hogar=%04d recolectado parcialmente, no se revisara su estructura en este momento
+50056 Hogar=%04d registro para biomarcadores para %s (%02d) no existe
+50100 Hogar=%04d Falta registro con informacion para: %s
+50101 Hogar=%04d numero de mosquiteros incorrecto %d se esperaban %d
+50110 Hogar=%04d En hogar incompleto (resultado=%d), hay registros que no deben existir
+50150 Revise Hogares encontrados (%02d) con hogares iniciales (%02d) y registrados en algun momento en archivo de control (%02d)
+50151 El numero de hogares encontrados y registados(%02d) es correcto pero aun existen errores que se deben solucionar
+50164 Segmento no ha sido seleccionado para remedicion todavia
+50200 Hogar=%04d %s=%02d recolectado(a) parcialmente, no se revisara su estructura en este momento
+50203 Hogar=%04d %s=%02d falta algun registro obligatorio
+50204 Hogar=%04d mujer=%02d registros de historia de uso (%d) inconsistente con uso alguna vez (A307=%d)
+50205 Hogar=%04d individual=%02d registros del calendario (%d) incompletos. Deben exisitir %d
+50206 Hogar=%04d mujer=%02d registros de nacimientos (%d) inconsistente con total de nacidos vivos (A212=%d)
+50207 Hogar=%04d mujer=%02d registros para parto y cuidado prenatal (%d), inconsistente con nacidos ultimos cinco a¤os (zzA224=%d)
+50208 Hogar=%04d mujer=%02d registros para vacunacion (%d), inconsistente con nacidos ultimos tres a¤os (zzA224A=%d)
+50209 Hogar=%04d mujer=%02d registros para salud de los niños (%d), inconsistente con nacidos ultimos cinco a¤os (zzA224=%d)
+50210 Hogar=%04d El hogar ya se habia aceptado pero cambios posteriores causaron un error
+50211 Hogar=%04d los individuales ya se habian aceptado pero alguna modificacion posterior causo un error
+50216 Hogar=%04d mujer=%02d hermanos %02d inconsistente con registros para hermanos=%02d/%02d
+50217 Hogar=%04d mujer=%02d violencia domestica incorrecta: mujer seleccionada para VD=%02d registros=%d
+50220 Hogar=%04d %s=%02d no se ha visitado para entrevista individual
+50221 Hogar=%04d duplicado. Entrevistado por %02d y por %02d. Revise los hogares de todas las entrevistadoras
+50225 Hogar=%04d asignado a entrevistadora %02d pero recolectado por entrevistadora %02d.  Se actualizara asignacion de hogares
+50230 Hogar=%04d individual=%02d existen registros definidos para hombres en un cuestionario completo para mujeres
+50231 Hogar=%04d individual=%02d existen registros definidos para mujeres en un cuestionario completo para hombres
+50232 Hogar=%04d individual=%02d resultado=%d existen registros definidos para %s en un cuestionario incompleto
+50271 Hogar=%04d individual=%02d numero de registros para SRO y practicas alimenticias (%d) inconsistente
+50300 Hogar=%04d individual=%02d numero de registros para FGC inconsistente
+50301 Hogar=%04d individual=%02d numero de registros para hijas en FGC (%02d) inconsistent con numero esperado (%02d)
+50305 Hogar=%04d individual=%02d duplicado, es necesario resolver este problema antes de cerrar el segmento
+50310 Hogar=%04d individual=%02d desarrollo temprano de niños incorrecto: niño(a) seleccionado=%02d registros=%d
+50315 Hogar=%04d individual=%02d numero de registros para conocimiento y creencias de malaria inconsistent
+50400 Hogar=%04d no se encontro en el archivo de hogares seleccionados en la muestra. Es necesario que la supervisora lo acepte
+50401 Hogar=%04d no fue aceptado por la supervisora es necesario eliminarlo de la maquina de la entrevistadora %d
+50500 Hogar=%04d codigo de barra (%s) para %s duplicado.  Se encontro tambien en el hogar=%04d
+50501 Codigo de barra (%s) presente en al hoja de tasnmision para %s pero no se encontro en ningun cuestionario
+50502 Hogar=%03d codigo de barra (%s) para %s no existe en la hoja de transmision
+50505 Hogar=%04d individual=%02d no se encuentra como elegible en ningun hogar. Lo recolecto la entrevistadora=%04d
+
+Language = FR
+  FR ( "Incomplete" ) Incomplet
+  FR ( "Partial" ) Partiel
+  FR ( "Complete" ) Complet
+  FR ( "child" ) Enfant
+  FR ( "height & weight" ) Taille et Poids
+  FR ( "anemia" ) anémie
+  FR ( "woman" ) femme
+  FR ( "HIV" ) VIH
+  FR ( "man" ) homme
+  FR ( "W-" ) F-
+  FR ( "M-" ) H-
+  FR ( "MALARIA" ) PALUDISME
+  FR ( "Not visited" ) Non visité(e)
+  FR ( "Confirm that household %d is accepted" ) SVP confirmez que le ménage %d est accepté
+  FR ( "Yes" ) Oui
+  FR ( "No, cancel" ) Non, Annuler
+  FR ( "Status for cluster: %s" ) Status de la Grappe: %s
+  FR ( "Interviews collected in cluster" ) Entretiens collectés dans cette Grappe
+  FR ( "HH/Line" ) MG/Ligne
+  FR ( "Interviewer" ) Enquêteur/trice
+  FR ( "Address/Name" ) Adresse/Nom
+  FR ( "Result" ) Résultat
+  FR ( "Visits" ) Visites
+  FR ( "Biomarkers" ) Biomarqueurs
+  FR ( "Summary: (HH=%02d Complete=%02d Incomplete=%02d) (Indiv.=%d Complete:%02d Incomplete:%02d)") Sommaire: (Ménages=%02d Complets=%02d Incomplets=%02d) (Indiv=%d Complets:%02d Incomplets:%02d)
+  FR ( "Households added not originally part of the sample design %d" ) Ménages ajoutés ne faisant pas originellement partie de l'échantillon %d
+  FR ( "SUMMARY OF OUTSTANDING ISSUES THAT NEED TO BE RESOLVED" ) SOMMAIRE DES PROBLEMES RESTANTS ET QUI DOIVENT ETRE RESOLUS
+
+50000 La langue à utiliser pour rapporter/lire/afficher les messages non trouvée. S'il vous plait contacter l'expert informaticien
+50001 Numéro d'erreur %d non trouvé dans le fichier des messages d'erreur
+50040 Nombre de ménages à enquêter dans la Grappe %04d n'a pas été affecté dans le fichier contrôle
+50041 Le fichier de contrôle pour la Grappe %03d n'est pas accessible
+50042 Le fichier d'affectation des ménages pour la Grappe %03d n'est pas accessible
+50043 La fiche de transmission de %s pour la Grappe %03d n'est pas accessible
+50050 Ménage=%04d nombre des membres dans le tableau de ménage (%02d est incohérent avec le nombre total des membres (%02d)
+50051 Ménage=%04d nombre de femmes éligibles dans le tableau de ménage (%02d) incohérent avec le nombre total des femmes éligibles (%02d)
+50052 Ménage=%04d nombre d'hommes éligibles dans le tableau de ménage (%02d) incohérent avec le nombre total des hommes éligibles (%02d)
+50054 Ménage=%04d enregistrements de tests biologiques pour %s (%02d) incohérent avec le nombre d'individus éligibles pour ces tests (%02d)
+50055 Ménage=%04d est partiellement rempli, le contrôle de structure ne peut pas être effectué à ce moment
+50056 Ménage=%04d enregistrement des biomarqueurs pour %s (%02d) n'existe pas
+50057 Ménage=%04d %s pour %s (%02d) n'existe pas
+50100 Ménage=%04d une section de données pour : %s, est manquante
+50101 Ménage=%04d, nombre d'enregistrements pour les moustiquaires %d est incorrect, attendu %d
+50110 Ménage=%04d, ceci est un ménage incomplet (résultat=%d), cependant il y a des enregistrements qui ne devraient pas exister
+50150 Revoir les ménages trouvés (%02d) avec les ménages initialement prévus (%02d) et ceux enregistrés dans le fichier de contrôle (%02d)
+50151 Le nombre de ménages trouvés et enregistrés (%02d) est correct, mais il reste encore des erreurs qui doivent être corrigés
+50164 Les enfants à remesurer pour le poids et la taille n'ont pas encore été sélectionnées pour cette Grappe.
+50165 La Grappe a été sélectionnée pour la remesure, mais quelque chose ne va pas avec l'enfant sélectionné (ménage =%04d Ligne =%02d)
+50166 Ménage =%04d Enfant %02d a été sélectionné pour la remesure, mais les données n'ont pas encore été entrées (saisies).
+50200 Le ménage=%04d %s=%02d est partiellement rempli, le contrôle de structure ne peut pas être effectué à ce moment
+50203 Ménage=%04d %s=%02d : une ou plusieurs sections obligatoires sont manquantes
+50204 Ménage=%04d Questionnaire individuel=%02d: enregistrements de l'historique d'utilisation (%d) incohérents avec utilisation (Q307=%d)
+50205 Ménage=%04d Questionnaire individuel=%02d: enregistrements du calendrier (%d) incomplets. Il doit avoir %d
+50206 Ménage=%04d Questionnaire individuel=%02d: enregistrements dans l'historique des naissances (%d) Incohérents avec le nombre total des naissances (Q212=%d)
+50207 Ménage=%04d Questionnaire individuel=%02d: enregistrements pour Grossesse et Soins Postnatals (%d) incohérents avec les naissances dans les 5 dernières années (zzQ224=%d)
+50208 Ménage=%04d Questionnaire individuel=%02d: enregistrements dans la section Vaccination (%d) Incohérents avec le nombre des naissances dans les 3 dernières années (zzQ224A=%d)
+50209 Ménage=%04d Questionnaire individuel=%02d: enregistrements dans la section santé des enfants (%d) incohérents avec les naissances dans les 5 dernières années (zzQ224=%d)
+50210 Ménage=%04d a été précédemment accepté mais des modifications ultérieures ont provoqué des erreurs
+50211 Ménage=%04d des questionnaires individuels ont été précédemment acceptés mais des modicications ultérieures ont provoqué des erreurs
+50216 Ménage=%04d Questionnaire individuel=%02d frères et soeurs %02d incohérents avec les enregistrements des frères et soeurs =%02d/%02d
+50217 Ménage=%04d Questionnaire individuel=%02d violence domestique incorrecte: femme sélectionnée pour VD=%02d enregistrements=%d
+50220 Ménage=%04d %s éligible (ligne %02d) n'a pas été visité(e)s pour l'interview individuelle
+50221 Ménage=%04d en doublouns. Enquêté par %02d et par %02d. Revoir les ménages de tous les enquêteurs
+50225 Ménage=%04d affecté à l'enquêteur %02d mais collecté par l'enquêteur %02d.  L'affectation des ménages sera mise à jour
+50230 Ménage=%04d Questionnaire individuel=%02d il y a des enregistrements définis pour hommes dans un questionnaire femme rempli.
+50231 Ménage=%04d Questionnaire individuel=%02d il y a des enregistrements définis pour femmes dans un questionnaire homme rempli
+50232 Ménage=%04d Questionnaire individuel=%02d résultat=%d, il y a des enregistrements définis pour %s dans un questionnaire incomplet
+50271 Ménage=%04d Questionnaire individuel=%02d nombre d'enregistrements sur la santé de l'enfant et la nutrition (%d) incohérents
+50300 Ménage=%04d Questionnaire individuel=%02d nombre d'enregistrements pour la section Mutilation Génitale Féminine/Excision inconsistant/incohérent
+50301 Ménage=%04d Questionnaire individuel=%02d le nombre d'enregistrements pour les filles dans la section Excision/Mutilation Génitale Féminine (%02d) incohérent avec le nombre attendu (%02d)
+50305 Ménage=%04d Questionnaire individuel=%02d dupliqué (doublon), les problèmes doivent être résolus
+50400 Ménage=%04d non trouvé dans la liste des ménages de l'échantillon. Il doit être accepté par le Chef d'équipe
+50401 Ménage=%04d n'a pas été accepté par les Chefs d'équipe, il doit être supprimé chez l'enquêteur %d
+50500 Ménage=%04d  Code barres (%s) pour %s dubliqué.  Il a aussi été trouvé dans le Ménage=%04d
+50501 Code barres (%s) pour %s présent dans la feuille de transmission, mais non trouvé dans aucun questionnaire ménage
+50502 Ménage=%04d Code barres (%s) pour %s n'existe pas dans la feuille de transmission
+50505 Ménage=%04d Individu=%02d non déclaré comme individu éligible dans aucun des ménages. Mais il a été enquêté par l'enquêteur=%04d

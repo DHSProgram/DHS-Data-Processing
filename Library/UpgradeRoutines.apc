@@ -1,0 +1,97 @@
+﻿  FILE   TrackUpg;                     { file handler for upgrades }                         
+  
+  numeric k, l;     
+  string OneLine;   
+  list string listupgrades;      
+  
+  { intitialize array with application names: 1-Interviewers, 2-Supervisor, 3-Biomarkers }
+  array string applications(24,2) = 
+    "DCMenu",     "1", "CollectHH",    "1", "CollectIN",   "1",  
+	"FixResult",  "1", "ListElig",     "1", "ListNotes",   "1",
+	"LstQuest",   "1", "WrkElig",      "1",	
+	"SupeMenu",   "2", "AddBiomarker", "2", "AssignHH",    "2",
+	"CHeckID",    "2", "FCT",          "2", "RemeasSel",   "2",
+	"SelectHH",   "2", "SEntry",       "2", "TEntry",      "2",
+	"BioMenu",    "3", "BarcUsed",     "3", "CollectBIO",  "3",
+	"HHEligible", "3", "ListEligBIO",  "3", "RemeasEntry","3",
+	"RemeasLst",  "3";
+
+  { check the previous upgrade number }
+  function UpdateVersionCtrl( String FolderUpdate, NewVersion )
+    TrackUpg.close();
+    SetFile( TrackUpg, FolderUpdate + "/UserVersionCtrl.txt", create );
+    FileWrite( TrackUpg, maketext("Version %02d", NewVersion) );
+    close( TrackUpg );
+  end;
+
+  { check previous upgrade number }
+  function PreviousUpgrade( string UpgrFolder )
+    numeric PrevUpgrade = 0;	
+    { get latest version of upgrades in enumerators machine }
+    OneLine = "";
+    setfile( TrackUpg, UpgrFolder + "/UserVersionCtrl.txt" );  // if file doesn't exist it gets created
+	if !FileEmpty(TrackUpg) then
+      FileRead( TrackUpg, OneLine );
+      do l = 1 while !Oneline[l:1] in "0":"9" & l <= length(Oneline) enddo;
+      do k = l while !Oneline[l:1] <> " " & k <= length(Oneline)  enddo;
+      PrevUpgrade = tonumber( OneLine[l:k-1] );
+    endif;
+	if PrevUpgrade = default then PrevUpgrade = 0 endif;
+    close( TrackUpg );
+    PreviousUpgrade = PrevUpgrade;	
+  end;	
+
+  { check if there are upgrades available coming from CSWeb }
+  function NewUpgradesAvail( string UpgrFolder )
+    numeric NewUpgrade = 0;
+    OneLine = "";
+    { get latest version of upgrades in the server }
+    setfile( TrackUpg, UpgrFolder + "/CSWebVersionCtrl.txt" );
+    FileRead( TrackUpg, OneLine );
+    do l = 1 while !Oneline[l:1] in "0":"9" & l <= length(Oneline) enddo;
+    do k = l while !Oneline[k:1] <> " " & k <= length(Oneline)     enddo;
+    NewUpgrade = tonumber( OneLine[l:k-1] );
+    close( TrackUpg );
+    NewUpgradesAvail = NewUpgrade;
+  end;
+
+  { applying updates arrived from CSWeb into supervisor/interviewers machines }
+  { fldworker: 1-Interviewers, 2-Supervisors                                  }  
+  function ApplyUpgr( string FolderUpgrade, string Reference, string Project, fldworker )
+    string TempFolder, TempApp, NewApp;
+	numeric n, m;
+    { 1-apply upgrades when DAT files arrived. Assume DAT files go to REF folder }
+    listupgrades.clear();
+    DirList( listupgrades, FolderUpgrade, "*.dat" );
+//    errmsg( "FolderWithpgrade 1=%s Numero=%d", FolderUpgrade, ListUpgrades.length() );
+    do l = 1 while l <= ListUpgrades.length()
+      FileCopy( ListUpgrades(l), Reference );      
+    enddo;        
+    { 2-apply upgrades in case pen files arrived }
+    listupgrades.clear();
+    DirList( listupgrades, FolderUpgrade,  "*.pen;*.mgf" );
+//    errmsg( "FolderWithpgrade 2=%s Numero=%d", FolderUpgrade, ListUpgrades.length() );
+    do l = 1 while l <= ListUpgrades.length()
+	  TempApp = ListUpgrades(l); 
+	  m = length(TempApp);
+	  do n = m while n & !TempApp[n:1] in "\","/" by (-1) enddo;
+	  NewApp = TempApp[n+1:m-n];
+//      errmsg( "n=%d m=%d %s New=%s", n, m, ListUpgrades(l), NewApp );
+	  do k = 1 while k <= Applications.length(1);
+	    if toupper(NewApp) = toupper(Applications(k,1)+".pen") then
+		  recode Applications(k,2) -> TempFolder;
+		              "1"          -> Project + "/Entry";  
+		              "2"          -> Project + "/Superv";
+		              "3"          -> Project + "/Biomarker";
+          endrecode;
+          // all updates are necessary for supervisors. 
+          // for interviewers only updates in Entry directory are relevant	  
+          if fldworker = 2 | fldworker = 1 & Applications(k,2) = "1" | fldworker = 3 & Applications(k,2) = "3" then 		  
+            FileCopy( ListUpgrades(l), TempFolder ); 
+//          errmsg( "App=%s TempFolder=%s", ListUpgrades(l), TempFolder );		  
+          endif;			
+		  break;
+        endif;
+      enddo;		
+    enddo;
+  end;

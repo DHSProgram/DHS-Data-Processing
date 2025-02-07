@@ -1,0 +1,153 @@
+﻿[Dictionary]
+Version=CSPro 7.7
+Label=Import_FIES_probabilities - Working Storage Dictionary
+Name=WS_DICT
+RecordTypeStart=1
+RecordTypeLen=1
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=3ECC60F56C442DE7547B22E511BD2CE9BC5C955E888B4943713B141063A4C8CD
+
+[Languages]
+EN=English
+FR=Français
+
+[Level]
+Label=Working Storage Level
+Name=WS_LEVEL
+
+[IdItems]
+
+[Item]
+Label=Dummy Id
+Name=DUMMY_ID
+Start=2
+Len=1
+DataType=Numeric
+
+[Record]
+Label=Working Storage Record
+Name=WS_REC
+RecordTypeValue='1'
+RecordLen=11
+
+[Item]
+Label=.
+Name=TOTAL
+Start=3
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOTAL_VS1
+Value=0;Total|Ensemble
+
+[Item]
+Label=.
+Name=FOODINS
+Start=4
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=FOODINS_VS1
+Value=1;Percentage with moderate or severe food insecurity{\super 1,2}|Pourcentage en situation d’insécurité alimentaire modérée ou sévère{\super 1,2}
+Value=2;Percentage with severe food insecurity{\super 1,2}|Pourcentage en situation d’insécurité alimentaire sévère{\super 1,2}
+Value=3;Number of persons|Effectif
+
+[Item]
+Label=.
+Name=FIESITEM
+Start=5
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=FIESITEM_VS1
+Value=1;WORRIED|Préoccupé
+Value=2;HEALTHY|Bons pour la santé
+Value=3;FEWFOOD|Nourriture peu variée
+Value=4;SKIPPED|A sauté un repas
+Value=5;ATELESS|Sans manger
+Value=6;RANOUT|Pas de ressources pour nourriture
+Value=7;HUNGRY|Faim
+Value=8;WHLDAY|Toute une journee sans manger
+
+[Item]
+Label=.
+Name=NHH_RR
+Start=6
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=NHH_RR_VS1
+Value=0;Number of housholds|Effectif de ménages
+Value=1;Rasch reliability{\super 4}|Fiabilité de Rasch{\super 4}
+
+[Item]
+Label=Data reporting|Déclaration des données
+Name=DATAREP
+Start=7
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Data reporting|Déclaration des données
+Name=DATAREP_VS1
+Value=1;Percentage reporting yes to item|Pourcentage ayant répondu « oui » à l'élément
+
+[Item]
+Label=Data completeness|Complétude des données
+Name=DATACOMP
+Start=8
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Data completeness|Complétude des données
+Name=DATACOMP_VS1
+Value=1;Percentage that refused to answer or responded don't know|Pourcentage ayant refusé de répondre ou ayant répondu qu'ils ne savaient pas
+
+[Item]
+Label=Infit statistics{\super 1}|Statistique Infit{\super 1}
+Name=INFIT
+Start=9
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Infit statistics{\super 1}|Statistique Infit{\super 1}
+Name=INFIT_VS1
+Value=1;Infit{\super 2}|Valeur infit{\super 2}
+Value=2;SE Infit|Ecart type infit
+
+[Item]
+Label=Outfit statistics{\super 1}|Statistique Outfit{\super 1}
+Name=OUTFIT
+Start=10
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Outfit statistics{\super 1}|Statistique Outfit{\super 1}
+Name=OUTFIT_VS1
+Value=1;Outfit{\super 3}|Valeur outfit{\super 3}
+
+[Item]
+Label=Item severity|Sévérité de l'élément
+Name=ITEMSEV
+Start=11
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Item severity|Sévérité de l'élément
+Name=ITEMSEV_VS1
+Value=0;Parameter|Paramètre
+Value=1;Standard error|Ecart type

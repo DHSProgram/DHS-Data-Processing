@@ -1,0 +1,50 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=SDG defined
+Name=SDGDEFINED
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=E3ED87069B8F530B419BBD41880AA8A061E5295F7829B1ACF49F210190D33150
+
+[Level]
+Label=Level unique
+Name=SDGRECORD
+
+[IdItems]
+
+[Item]
+Label=SDG number
+Name=SDGCODE
+Start=1
+Len=10
+DataType=Alpha
+
+[Record]
+Label=SDG Variables
+Name=SDGLINE
+RecordTypeValue=''
+RecordLen=92
+
+[Item]
+Label=SDG Indicator number
+Name=SDGNUM
+Start=11
+Len=2
+
+[Item]
+Label=SDG Indicator description
+Name=SDGLABEL
+Start=13
+Len=70
+DataType=Alpha
+
+[Item]
+Label=DHS table number
+Name=DHSTAB
+Start=83
+Len=10
+Decimal=1
+DecimalChar=Yes

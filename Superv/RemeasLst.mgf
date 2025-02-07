@@ -1,0 +1,19 @@
+﻿Language = EN
+99999 Dummy message until a CSPro bug is fixed to properly handle languages
+
+Language = ES
+{ common strings used by application }
+  ES ( "CHILDREN SELECTED FOR REMEASUREMENT IN CLUSTER: %s" ) NIÑOS SELECCIONADOS PARA REMEDICION EN SEGMENTO: %s
+  ES ( "Pay special attention to 'height difference'" ) Preste atencion especial a la diferencia en talla
+  ES ( "HH" ) Hogar
+  ES ( "Line" ) Linea
+  ES ( "Child Name" ) Nombre de niño
+  ES ( "Household Address" ) Direccion Hogar
+  ES ( "Date Remeasure" ) Fecha Remedicion
+  ES ( "Date of Birth" ) Fecha Nacio
+  ES ( "Weight" ) Peso
+  ES ( "Height" ) Talla
+  ES ( "Lying/Stand" ) Acost./Parado
+  ES ( "Diff-Height" ) Dif-Talla
+  ES ( "Acceptable" ) Aceptable
+  ES ( "Unacceptable" ) Inaceptable

@@ -1,0 +1,891 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines November 1, 2022       -      Version 1.0.0 of 12/12/2022   +}
+{+                                                                          +}
+{+   CHAPTER BP.  BLOOD PRESSURE                                            +}
+{+                                                                          +}
+{+   BP.0.1W Coverage of blood pressure measurement among women             +}
+{+           (WORKING TABLE ONLY)                                           +}
+{+   BP.0.2W Coverage of blood pressure measurement among men               +}
+{+           (WORKING TABLE ONLY)                                           +}
+{+   BP.1.1  Blood pressure measured and medication prescribed and          +}
+{+           taken by women                                                 +}
+{+   BP.1.2  Blood pressure measured and medication prescribed and          +}
+{+           taken by men                                                   +}
+{+   BP.2.1  Blood pressure status of women                                 +}
+{+   BP.2.2  Blood pressure status of men                                   +}
+{+   BP.3.1  Prevalence of controlled hypertension among women              +}
+{+   BP.3.2  Prevalence of controlled hypertension among men                +}
+{+   BP.4.1W Awareness of hypertension and treatment status: Women          +}
+{+           (WORKING TABLE FOR FIGURE)                                     +}
+{+   BP.4.2W Awareness of hypertension and treatment status: Men            +}
+{+           (WORKING TABLE FOR FIGURE)                                     +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, j, jmax, jtot, jtot1, jtot2, jtot3;
+  numeric rweight, xbmi, ybmi, womelig, cigaretx, nutstatx;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for blood pressure module, [Country Survey Year]" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) tbp01w v013w1+v213w3+cigaret3+nutstata+v102w+v101w+v106w+v190w+total nbpblood+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table BP.0.1W Coverage of blood pressure measurement among women (WORKING TABLE ONLY)"," ",
+           "Percent distribution of women age 15-49 eligible for having their blood pressure measured by", 
+		   "number of times measured, according to", 
+		   "background characteristics (unweighted), [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) tbp02w v013w1+cigaret2+nutstatb+v102w+v101w+v106w+v190w+tot1549+men5059+totmen nbpblood+numman
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table BP.0.2W Coverage of blood pressure measurement among men (WORKING TABLE ONLY)"," ",
+           "Percent distribution of men age 15-49 eligible for having their blood pressure measured by", 
+		   "number of times measured, according to", 
+		   "background characteristics (unweighted), [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) tbp11 v013w1+v213w2+nutstat2+v102w+v101w+v106w+v190w+total bloodpw1+bloodpw2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table BP.1.1  Blood pressure measured and medication prescribed and taken by women"," ",
+           "Percentage of women age 15-49 who have ever had their blood pressure measured by a", 
+		   "doctor or other health care worker and percentage who have been told by a doctor or", 
+		   "other health worker that they have high blood pressure or hypertension; among women", 
+		   "who have been told they have high blood pressure, percentage told in the last 12 months", 
+		   "they have high blood pressure or hypertension, percentage prescribed medication to", 
+		   "control their blood pressure, and percentage taking medication to control their blood", 
+		   "pressure; according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tbp11u v013w1+v213w2+nutstat2+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table BP.1.1  Blood pressure measured and medication prescribed and taken by women (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tbp12 v013w1+nutstat1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen bloodpm1+bloodpm2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table BP.1.2  Blood pressure measured and medication prescribed and taken by men"," ",
+           "Percentage of men age 15-49 who have ever had their blood pressure measured by a", 
+		   "doctor or other health care worker and percentage who have been told by a doctor or", 
+		   "other health worker that they have high blood pressure or hypertension; among men", 
+		   "who have been told they have high blood pressure, percentage told in the last 12 months", 
+		   "they have high blood pressure or hypertension, percentage prescribed medication to", 
+		   "control their blood pressure, and percentage taking medication to control their blood", 
+		   "pressure; according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tbp12u v013w1+nutstat1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table BP.1.2  Blood pressure measured and medication prescribed and taken by men (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tbp21 v013w1+v213w3+cigaret3+bpdiag+bpmedic+nutstat4+v102w+v101w+v106w+v190w+total 
+                          bpnormal+bpelevat+total+bpstat1+bpstat2+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table BP.2.1  Blood pressure status of women"," ",
+           "Among women age 15-49, percent distribution of blood pressure values, percentage", 
+		   "having normal blood pressure and taking antihypertensive medication, and prevalence", 
+		   "of hypertension, according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tbp21u v013w1+v213w3+cigaret3+bpdiag+bpmedic+nutstat4+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table BP.2.1  Blood pressure status of women (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tbp22 v013w1+cigaret2+bpdiag+bpmedic+nutstat3+v102w+v101w+v106w+v190w+tot1549+men5059+totmen
+                          bpnormal+bpelevat+total+bpstat1+bpstat2+numman
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table BP.2.2  Blood pressure status of men"," ",
+           "Among women age 15-49, percent distribution of blood pressure values, percentage", 
+		   "having normal blood pressure and taking antihypertensive medication, and prevalence", 
+		   "of hypertension, according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tbp22u v013w1+cigaret2+bpdiag+bpmedic+nutstat3+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table BP.2.2  Blood pressure status of men (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tbp31 v013w1+v213w4+cigaret4+bpdiag+bpmedic+nutstat5+v102w+v101w+v106w+v190w+total 
+                          hypert1
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table BP.3.1  Prevalence of controlled hypertension among women"," ",
+           "Among women age 15-49 with hypertension, percentage with controlled hypertension,",
+		   "according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tbp31u v013w1+v213w4+cigaret4+bpdiag+bpmedic+nutstat5+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table BP.3.1  Prevalence of controlled hypertension among women (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tbp32 v013w1+cigaret3+bpdiag+bpmedic+nutstat4+v102w+v101w+v106w+v190w+tot1549+men5059+totmen
+                          hypert2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table BP.3.2  Prevalence of controlled hypertension among men"," ",
+           "Among men age 15-49 with hypertension, percentage with controlled hypertension,",
+		   "according to background characteristics, [Country Survey Year]" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tbp32u v013w1+cigaret3+bpdiag+bpmedic+nutstat4+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table BP.3.1  Prevalence of controlled hypertension among men (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tbp41 total unaware+aware1+aware2+aware3+total+numwom5
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table BP.4.1W  Awareness of hypertension and treatment status: Women (WORKING TABLE FOR FIGURE)"," ",
+           "Among women age 15-49 with hypertension, percent distrbution by awareness and", 
+		   "treatment status, [Country Survey Year]" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) tbp42 total unaware+aware1+aware2+aware3+total+numman5
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table BP.4.2W  Awareness of hypertension and treatment status: Men (WORKING TABLE FOR FIGURE)"," ",
+           "Among men age 15-49 with hypertension, percent distrbution by awareness and", 
+		   "treatment status, [Country Survey Year]" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  { normal blood pressure classificication }
+  function NormalBP( syst, diast )
+    numeric z;
+    recode syst ::  diast  -> z;        
+           <120 ::    <80  -> 1;           // Optimal
+           <130 ::  80:84  -> 2;           // Normal
+        120:129 ::    <85  -> 2;           
+           <140 ::  85:89  -> 3;           // High normal
+        130:139 ::    <90  -> 3;
+                ::         -> notappl;
+    endrecode;
+//    errmsg( "Normal syst=%d diast=%d z=%d", syst, diast, z );	
+    NormalBP = z;
+  end
+
+  { elevated blood pressure classificication }
+  function ElevatedBP( syst, diast )
+    numeric z;
+    recode syst ::  diast  -> z;
+           <160 ::  90:99  -> 1;           // Mildly elevated
+        140:159 ::   <100  -> 1;
+           <180 :: 100:109 -> 2;           // Moderately elevated
+        160:179 ::   <110  -> 2;
+          >=180 ::         -> 3;           // Severely elevated
+                ::  >=110  -> 3;
+                ::         -> notappl;
+    endrecode;
+//    errmsg( "Elevated syst=%d diast=%d z=%d", syst, diast, z );	
+    ElevatedBP = z;
+  end
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+  numwom   = 1;  
+  numwom5  = 1;  
+  numman   = 1;  
+  numman5  = 1;  
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table BP.0.1w processing }
+  jtot = tblcol( tbp01w );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    tbp01w[*,j] = tbp01w[*,j] * 100 / tbp01w[*,jtot];
+  enddo;
+  tbp01w[*,jmax+1] = tblsum( column tbp01w[*,0:jmax] );
+
+  { Table BP.0.2w processing }
+  jtot = tblcol( tbp02w );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    tbp02w[*,j] = tbp02w[*,j] * 100 / tbp02w[*,jtot];
+  enddo;
+  tbp02w[*,jmax+1] = tblsum( column tbp02w[*,0:jmax] );
+
+  { Table BP.1.1 processing }
+  jtot1 = tblcol( tbp11, bloodpw1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tbp11[*,j] = tbp11[*,j] * 100 / tbp11[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tbp11 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tbp11[*,j] = tbp11[*,j] * 100 / tbp11[*,jtot1];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tbp11", tbp11, 0,       jtot1-1, tbp11u, 0 );   
+  Col2Dim( "tbp11", tbp11, jtot1+1, jtot2-1, tbp11u, 1 ); 
+
+  { Table BP.1.2 processing }
+  jtot1 = tblcol( tbp12, bloodpm1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tbp12[*,j] = tbp12[*,j] * 100 / tbp12[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tbp12 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    tbp12[*,j] = tbp12[*,j] * 100 / tbp12[*,jtot1];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tbp12", tbp12, 0,       jtot1-1, tbp12u, 0 );   
+  Col2Dim( "tbp12", tbp12, jtot1+1, jtot2-1, tbp12u, 1 ); 
+
+  { Table BP.2.1 processing }
+  { calculate ever diagnosed }
+  itot = tblrow( tbp21, bpdiag = 1 );
+  tbp21[itot,*] = tbp21[itot+1,*] + tbp21[itot+2,*];  
+  jtot = tblcol( tbp21 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tbp21[*,j] = tbp21[*,j] * 100 / tbp21[*,jtot];
+  enddo;
+  jtot1 = tblcol( tbp21, total );
+  tbp21[*,jtot1] = tblsum( column tbp21[*,0:jtot1-1] );  
+  { check unweighted N's }
+  tbp21u[itot,*] = tbp21u[itot+1,*] + tbp21u[itot+2,*];  
+  Col2Dim( "tbp21", tbp21, 0, jtot-1, tbp21u, 0 );   
+  { Assign NA to cells }
+  itot = tblrow( tbp21, bpdiag = 4 );
+  tbp21(itot,jtot1+1) = NACells;  
+  itot = tblrow( tbp21, bpmedic = 2 );
+  tbp21(itot,jtot1+1) = NACells;  
+
+  { Table BP.2.2 processing }
+  { calculate ever diagnosed }
+  itot = tblrow( tbp22, bpdiag = 1 );
+  tbp22[itot,*] = tbp22[itot+1,*] + tbp22[itot+2,*];  
+  jtot = tblcol( tbp22 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tbp22[*,j] = tbp22[*,j] * 100 / tbp22[*,jtot];
+  enddo;
+  jtot1 = tblcol( tbp22, total );
+  tbp22[*,jtot1] = tblsum( column tbp22[*,0:jtot1-1] );  
+  { check unweighted N's }
+  tbp22u[itot,*] = tbp22u[itot+1,*] + tbp22u[itot+2,*];  
+  Col2Dim( "tbp22", tbp22, 0, jtot-1, tbp22u, 0 );   
+  { Assign NA to cells }
+  itot = tblrow( tbp22, bpdiag = 4 );
+  tbp22(itot,jtot1+1) = NACells;  
+  itot = tblrow( tbp22, bpmedic = 2 );
+  tbp22(itot,jtot1+1) = NACells;  
+
+  { Table BP.3.1 processing }
+  { calculate ever diagnosed }
+  itot = tblrow( tbp31, bpdiag = 1 );
+  tbp31[itot,*] = tbp31[itot+1,*] + tbp31[itot+2,*];  
+  jtot = tblcol( tbp31 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tbp31[*,j] = tbp31[*,j] * 100 / tbp31[*,jtot];
+  enddo;
+  { check unweighted N's }
+  tbp31u[itot,*] = tbp31u[itot+1,*] + tbp31u[itot+2,*];  
+  Col2Dim( "tbp31", tbp31, 0, jtot-1, tbp31u, 0 );   
+  { Assign NA to cells }
+  itot = tblrow( tbp31, bpdiag = 4 );
+  tbp31(itot,jtot-1) = NACells;  
+  itot = tblrow( tbp31, bpmedic = 2 );
+  tbp31(itot,jtot-1) = NACells;  
+
+  { Table BP.3.2 processing }
+  { calculate ever diagnosed }
+  itot = tblrow( tbp32, bpdiag = 1 );
+  tbp32[itot,*] = tbp32[itot+1,*] + tbp32[itot+2,*];  
+  jtot = tblcol( tbp32 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tbp32[*,j] = tbp32[*,j] * 100 / tbp32[*,jtot];
+  enddo;
+  { check unweighted N's }
+  tbp32u[itot,*] = tbp32u[itot+1,*] + tbp32u[itot+2,*];  
+  Col2Dim( "tbp32", tbp32, 0, jtot-1, tbp32u, 0 );   
+  { Assign NA to cells }
+  itot = tblrow( tbp32, bpdiag = 4 );
+  tbp32(itot,jtot-1) = NACells;  
+  itot = tblrow( tbp32, bpmedic = 2 );
+  tbp32(itot,jtot-1) = NACells;  
+
+  { Table BP.4.1 processing }
+  jtot = tblcol( tbp41 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    tbp41[*,j] = tbp41[*,j] * 100 / tbp41[*,jtot];
+  enddo;
+  tbp41[*,jmax+1] = tblsum( column tbp41[*,0:jmax] );  
+  
+  { Table BP.4.2 processing }
+  jtot = tblcol( tbp42 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    tbp42[*,j] = tbp42[*,j] * 100 / tbp42[*,jtot];
+  enddo;
+  tbp42[*,jmax+1] = tblsum( column tbp42[*,0:jmax] );  
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+  
+  if HV027 <> 1 then skip case; endif;      // !!!! check selection/subsampling for blood pressure  
+
+  { male tables }
+  {-----------------------------------------------------------------------------------------------}
+
+  do j = 1 while j <= soccurs( RECH1 )
+    if HV118(j) = 1 then                  { man eligible for individual interview }
+      { load male questionnaire }
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX(j)) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then  { man found with a complete interview }
+
+        { men's weight }
+        if unweight then
+          rweight = 1;
+        else
+          rweight = MV005/1000000;
+        endif;
+
+        { to tally totals for all men regardless of age }
+        allman   = 1;
+        totmen   = 0;
+        { to tally total for men 15-49 }
+        tot1549  = 0;
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:59 );
+
+        { general variables }
+        v101w  = MV101;
+        v102w  = MV102;
+        v013w1 = MV013;               { with var label for printing purposes }
+        v106w  = MV106;
+        if MV106 in 8,missing then v106w = 9 endif;
+        v190w  = MV190;
+
+        { smoke cigarettes }
+        cigaretx = 2;
+        if MV464A in 1:300 | MV464B in 1:300 then
+          cigaretx = 1;		
+        elseif MV464A = missing & MV464B = missing then
+          cigaretx = 9
+        endif;
+        cigaret2 = cigaretx;
+        cigaret3 = cigaretx;
+        cigaret4 = cigaretx;
+
+
+        { nutritional status for men }
+        nutstatx = notappl;   
+        for i in RECHMA                  { finding man in RECHMA for BMI }
+          if MV003 = HB0 then
+            if MV012 >= 20 then		  
+              if HB40 in 0:9990 then            
+                ybmi  = HB40 / 100;
+                xbmi  = int( ybmi*10 );
+                recode  xbmi  -> nutstatx;
+                      120:184 -> 1;      { underweight }
+                      185:249 -> 2;      { normal     }
+                      250:600 -> 3;      { overweight }
+                              -> 4;
+                endrecode;
+              else
+                nutstatx = 4;	 // Nutritional status not assessed 		  
+              endif;
+            elseif HB73 in 0:9990 then
+              recode  HB73   -> nutstatx;
+                    <(-100)  -> 1;       { underweight }	
+                  (-100):100 -> 2;       { normal }
+                     >100    -> 3;       { overweight }
+                             -> 4;
+              endrecode					   
+            else
+              nutstatx = 4;	   // Nutritional status not assessed 		  
+            endif;			
+            break;
+          endif;
+        enddo;
+        nutstatb = nutstatx;   
+        if nutstatx in 4,5 then nutstatx = notappl endif;		
+        nutstat1 = nutstatx;   
+        nutstat2 = nutstatx;   
+        nutstat3 = nutstatx;   
+        nutstat4 = nutstatx;   
+        nutstat5 = nutstatx;   
+		
+        { the tables' body is only for men 15-49 }
+        if MV012 > 49 then
+          tot1549  = notappl;
+          v102w    = notappl;
+          v101w    = notappl;
+          v106w    = notappl;
+          v190w    = notappl;
+          v013w1   = notappl;
+          nutstatb = notappl;
+          nutstat1 = notappl;
+          nutstat2 = notappl;
+          nutstat3 = notappl;
+          nutstat4 = notappl;
+          nutstat5 = notappl;
+          cigaret2 = notappl;		  
+          cigaret3 = notappl;		  
+          cigaret4 = notappl;		  
+        endif;
+
+{ --------------------------------------------------------------------------- }
+{ table BP.0.2w }
+
+        for i in RECHBPM do
+          if MV003 = BPM0 then    //  respondent with entries in blood pressure module 
+            nbpblood = notappl;
+            numman   = 1;
+            xtab( tbp02w );
+            numman   = notappl;
+            recode BPM5 -> nbpblood;
+		              0 -> 0;      // No blood pressure readings
+                  4,6,7 -> 1;      // One blood pressure reading, data not used
+                  2,3,5 -> 2;      // Two blood pressure readings, blood pressure status based on second reading
+                      1 -> 3;      // Three blood pressure readings, blood pressure status based on average of second and third readings 
+					    -> default;
+            endrecode;
+            xtab( tbp02w );
+            break;	  
+          endif;
+        enddo;	
+        numman   = 1;
+
+{ --------------------------------------------------------------------------- }
+{ table BP.1.2 }
+
+        for i in RECHBPM do
+          if MV003 = BPM0 & BPM1 = 1 then   // men with consent for BP provided
+            bloodpm2 = notappl;
+            bloodpm1 = 3;
+            xtab( tbp12, rweight );
+            coltotu = 1;	  
+            xtab( tbp12u );
+            if BPM20 = 1 then               // ever had blood pressure measured
+              bloodpm1 = 1;
+              xtab( tbp12, rweight );
+            endif;
+            if BPM21 = 1 then               // ever been diagnosed with hypertension
+              bloodpm1 = 2;
+              xtab( tbp12, rweight );
+              bloodpm1 = notappl;
+              bloodpm2 = 4;
+              xtab( tbp12, rweight );
+              coltotu = 2;	  
+              xtab( tbp12u );
+              if BPM22 = 1 then             // last 12 months been diagnosed with hypertension
+                bloodpm2 = 1;
+                xtab( tbp12, rweight );
+              endif;
+              if BPM23 = 1 then             // been prescribed medication to control blood pressure
+                bloodpm2 = 2;
+                xtab( tbp12, rweight );
+              endif;
+              if BPM24 = 1 then             // currently taking medication to control blood pressure
+                bloodpm2 = 3;
+                xtab( tbp12, rweight );
+              endif;
+            endif;
+            break;	  
+          endif;
+        enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ table BP.2.2 }
+
+        for i in RECHBPM do
+          if MV003 = BPM0 then
+            if BPM1 = 1 & BPM33 in 60:279 & BPM34 in 40:200 then  // consent given and valid blood pressure
+              { previously diagnosed with high blood pressure }
+              recode BPM21 :: BPM22 -> bpdiag;
+                       1   ::   1   -> 2;
+                       1   ::   0   -> 3;
+                       0   ::       -> 4;
+                           ::       -> default;
+              endrecode;
+              if MV012 > 49 then bpdiag = notappl endif;			  
+              { currently taking medication }
+              recode BPM24 -> bpmedic;
+                       1   -> 1; 
+                       0   -> 2;
+                           -> default;
+              endrecode;		
+              if MV012 > 49 then bpmedic = notappl endif;			  
+              { defining BP normal }		
+              bpnormal = NormalBP(BPM33, BPM34);
+              { defining BP elevated }		
+			  bpelevat = ElevatedBP(BPM33, BPM34);
+              bpstat1 = ( BPM33 < 140 & BPM34 < 90 & BPM21 = 1 & BPM24 = 1 );     // normal BP & taking medications
+              bpstat2 = ( BPM33 >= 140 | BPM34 >= 90 | BPM21 = 1 & BPM24 = 1 );   // hypertension
+              xtab( tbp22, rweight );
+              xtab( tbp22u );
+            endif;
+            break;	  
+          endif;
+        enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ table BP.3.2 }
+
+        for i in RECHBPM do
+          if MV003 = BPM0 then
+            if BPM1 = 1 & BPM33 in 60:279 & BPM34 in 40:200 then  // consent given and valid blood pressure
+              { previously diagnosed with high blood pressure }
+              recode BPM21 :: BPM22 -> bpdiag;
+                       1   ::   1   -> 2;
+                       1   ::   0   -> 3;
+                       0   ::       -> 4;
+                           ::       -> default;
+              endrecode;
+              if MV012 > 49 then bpdiag = notappl endif;			  
+              { currently taking medication }
+              recode BPM24 -> bpmedic;
+                       1   -> 1; 
+                       0   -> 2;
+                           -> default;
+              endrecode;		
+              if MV012 > 49 then bpmedic = notappl endif;			  
+              if BPM33 >= 140 | BPM34 >= 90 | BPM24 = 1 then    // with hypertension
+                hypert2 = 2;		
+                xtab( tbp32, rweight );
+                xtab( tbp32u );
+                if BPM33 < 140 & BPM34 < 90 & BPM24 = 1 then    // taking medications
+                  hypert2 = 1;		
+                  xtab( tbp32, rweight );
+                endif;
+              endif;		  
+            endif;
+            break;	  
+          endif;
+        enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ table BP.4.2 }
+
+        if MV012 in 15:49 then
+          for i in RECHBPM do
+            if MV003 = BPM0 then
+              if BPM1 = 1 & BPM33 in 60:279 & BPM34 in 40:200 then              // consent given and valid blood pressure
+                if BPM33 >= 140 | BPM34 >= 90 | BPM21 = 1 & BPM24 = 1 then      // with hypertension
+                  numman5 = 1;		
+                  unaware = ( (BPM33 >= 140 | BPM34 >= 90) & BPM21 = 0 );  		  
+                  aware1  = ( BPM33 < 140 & BPM34 < 90 & BPM21 = 1 & BPM24 = 1 );  		  
+                  aware2  = ( (BPM33 >= 140 | BPM34 >= 90) & BPM21 = 1 & BPM24 = 1 );  		  
+                  aware3  = ( (BPM33 >= 140 | BPM34 >= 90) & BPM21 = 1 & BPM24 = 0 );  	
+                  xtab( tbp42, rweight );
+                endif;		  
+              endif;
+              break;	  
+            endif;
+          enddo;	
+        endif;		  
+
+      endif;        { end loadcase with a complete interview }
+    endif;        { end man eligible for interview }
+  enddo;
+
+postproc
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  { general variables }
+  v101w  = V101;
+  v102w  = V102;
+  v013w1 = V013;
+  v106w  = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w  = V190;
+  recode V213 -> v213w2;
+           1  -> 1;
+              -> 2;
+  endrecode;
+  v213w3 = v213w2;  
+  v213w4 = v213w2;  
+
+  { women nutritional status }
+
+  { @@@@@@ definition of eligibility for BMI for nutritional status }
+  nutstatx = notappl;   
+  if v208 > 0 then
+    womelig = ( V213 <> 1 & B19(1) > 1 );
+  else
+    womelig = ( V213 <> 1 );
+  endif;
+  if womelig then  
+    if V012 >= 20 then  
+      if V445 in 0:9990 then  
+        ybmi  = V445 / 100;
+        xbmi  = int( ybmi*10 );
+        recode  xbmi  -> nutstatx;
+              120:184 -> 1;      { underweight }
+              185:249 -> 2;      { normal     }
+              250:600 -> 3;      { overweight }
+                      -> 4;
+        endrecode;
+      else
+        nutstatx = 4;	// Nutritional status not assessed 
+      endif;			
+    elseif V446D in 0:9990 then
+      recode V446D   -> nutstatx;
+            <(-100)  -> 1;       { underweight }	
+          (-100):100 -> 2;       { normal }
+             >100    -> 3;       { overweight }
+                     -> 4;
+      endrecode					   
+    else
+      nutstatx = 4;	    // Nutritional status not assessed	
+    endif;
+  else
+    nutstatx = 5;       // pregnant or gave birth in two preceding months
+  endif;	
+  nutstata = nutstatx;   
+  if nutstatx in 4,5 then nutstatx = notappl endif;  
+  nutstat1 = nutstatx;   
+  nutstat2 = nutstatx;   
+  nutstat3 = nutstatx;   
+  nutstat4 = nutstatx;   
+  nutstat5 = nutstatx;   
+
+  { smoke cigarettes }
+  cigaretx = 2;  
+  if V463A = 1 then
+    cigaretx = 1;  
+  elseif V463A = missing then
+    cigaretx = 9
+  endif;
+  cigaret2 = cigaretx;  
+  cigaret3 = cigaretx;  
+  cigaret4 = cigaretx;  
+
+{ --------------------------------------------------------------------------- }
+{ table BP.0.1w }
+
+  for i in RECHBPW do
+    if V003 = BPW0 then       // respondent with entries in blood pressure module
+      nbpblood = notappl;
+      numwom   = 1;
+      xtab( tbp01w );
+      numwom   = notappl;
+      recode BPW5 -> nbpblood;
+                0 -> 0;      // No blood pressure readings
+            4,6,7 -> 1;      // One blood pressure reading, data not used
+            2,3,5 -> 2;      // Two blood pressure readings, blood pressure status based on second reading
+                1 -> 3;      // Three blood pressure readings, blood pressure status based on average of second and third readings 
+                  -> default;
+      endrecode;
+      xtab( tbp01w );
+      break;	  
+    endif;
+  enddo;	
+  numwom   = 1;
+
+{ --------------------------------------------------------------------------- }
+{ table BP.1.1 }
+
+  for i in RECHBPW do
+    if V003 = BPW0 & BPW1 = 1 then  // women with consent for BP provided
+      bloodpw2 = notappl;
+      bloodpw1 = 3;
+      xtab( tbp11, rweight );
+      coltotu = 1;	  
+      xtab( tbp11u );
+      if BPW20 = 1 then             // ever had blood pressure measured
+        bloodpw1 = 1;
+        xtab( tbp11, rweight );
+      endif;
+      if BPW21 = 1 then             // ever been diagnosed with hypertension
+        bloodpw1 = 2;
+        xtab( tbp11, rweight );
+        bloodpw1 = notappl;
+        bloodpw2 = 4;
+        xtab( tbp11, rweight );
+        coltotu = 2;	  
+        xtab( tbp11u );
+        if BPW22 = 1 then           // last 12 months been diagnosed with hypertension
+          bloodpw2 = 1;
+          xtab( tbp11, rweight );
+        endif;
+        if BPW23 = 1 then           // been prescribed medication to control blood pressure
+          bloodpw2 = 2;
+          xtab( tbp11, rweight );
+        endif;
+        if BPW24 = 1 then         // currently taking medication to control blood pressure
+          bloodpw2 = 3;
+          xtab( tbp11, rweight );
+        endif;
+      endif;
+      break;	  
+    endif;
+  enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ table BP.2.1 }
+
+  for i in RECHBPW do
+    if V003 = BPW0 then
+      if BPW1 = 1 & BPW33 in 60:279 & BPW34 in 40:200 then  // consent given and valid blood pressure
+        { previously diagnosed with high blood pressure }
+        recode BPW21 :: BPW22 -> bpdiag;
+                 1   ::   1   -> 2;
+                 1   ::   0   -> 3;
+                 0   ::       -> 4;
+                     ::       -> default;
+        endrecode;
+        { currently taking medication }
+        recode BPW24 -> bpmedic;
+                 1   -> 1; 
+                 0   -> 2;
+                     -> default;
+        endrecode;		
+        { defining BP normal }		
+        bpnormal = NormalBP(BPW33, BPW34);
+        { defining BP elevated }		
+        bpelevat = ElevatedBP(BPW33, BPW34);
+        bpstat1 = ( BPW33 < 140 & BPW34 < 90 & BPW21 = 1 & BPW24 = 1 );     // normal BP & taking medications
+        bpstat2 = ( BPW33 >= 140 | BPW34 >= 90 | BPW21 = 1 & BPW24 = 1 );   // hypertension
+        xtab( tbp21, rweight );
+        xtab( tbp21u );
+      endif;
+      break;	  
+    endif;
+  enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ table BP.3.1 }
+
+  for i in RECHBPW do
+    if V003 = BPW0 then
+      if BPW1 = 1 & BPW33 in 60:279 & BPW34 in 40:200 then  // consent given and valid blood pressure
+        { previously diagnosed with high blood pressure }
+        recode BPW21 :: BPW22 -> bpdiag;
+                 1   ::   1   -> 2;
+                 1   ::   0   -> 3;
+                 0   ::       -> 4;
+                     ::       -> default;
+        endrecode;
+        { currently taking medication }
+        recode BPW24 -> bpmedic;
+                 1   -> 1; 
+                 0   -> 2;
+                     -> default;
+        endrecode;		
+        if BPW33 >= 140 | BPW34 >= 90 | BPW24 = 1 then    // with hypertension
+          hypert1 = 2;		
+          xtab( tbp31, rweight );
+          xtab( tbp31u );
+          if BPW33 < 140 & BPW34 < 90 & BPW24 = 1  then   // taking medications
+            hypert1 = 1;		
+            xtab( tbp31, rweight );
+          endif;
+        endif;		  
+      endif;
+      break;	  
+    endif;
+  enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ table BP.4.1 }
+
+  for i in RECHBPW do
+    if V003 = BPW0 then
+      if BPW1 = 1 & BPW33 in 60:279 & BPW34 in 40:200 then              // consent given and valid blood pressure
+        if BPW33 >= 140 | BPW34 >= 90 | BPW21 = 1 & BPW24 = 1 then      // with hypertension
+          numwom5 = 1;		
+          unaware = ( (BPW33 >= 140 | BPW34 >= 90) & BPW21 = 0 );  		  
+          aware1  = ( BPW33 < 140 & BPW34 < 90 & BPW21 = 1 & BPW24 = 1 );  		  
+          aware2  = ( (BPW33 >= 140 | BPW34 >= 90) & BPW21 = 1 & BPW24 = 1 );  		  
+          aware3  = ( (BPW33 >= 140 | BPW34 >= 90) & BPW21 = 1 & BPW24 = 0 );  		  
+          xtab( tbp41, rweight );
+        endif;		  
+      endif;
+      break;	  
+    endif;
+  enddo;	

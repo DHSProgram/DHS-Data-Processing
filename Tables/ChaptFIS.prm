@@ -1,0 +1,52 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+tf1 columns numwom = 1 nodec;
+
+tf2 rows    totnum1 = 1 nodec
+            totnumd = 1 nodec;
+tf2 footnote
+{+EN}
+@1 Excludes women who said that they did not know the cause of their fistula symptoms
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Non compris les femmes qui ont répondu ne pas connaitre la cause/origine des symptômes de la fistule
+{FR}}
+endfootnote;
+
+tf3 columns numwom = 1 nodec;
+
+tf4 rows    totnum1 = 1 nodec;
+
+tf5 rows    tnumber = 1 nodec;
+tf5 footnote
+{+EN}
+@1 Respondents may report multiple reasons so the sum of reasons may exceed 100 percent.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Les enquêtées peuvent déclarer plusieurs raisons et, par conséquent, la somme des pourcentages peut dépasser 100 %.
+{FR}}
+endfootnote;

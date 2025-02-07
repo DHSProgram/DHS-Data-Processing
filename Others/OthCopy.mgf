@@ -1,0 +1,7 @@
+11 XOTHERS match not found XOTHERS: Q=%3s R=%s C=%d N=%4d
+12 XOTHERS match not found OTHERS:: Q=%3s R=%s Id=%s
+13 End of summary file
+21 OTHERS match not found OTHERS:: Q=%3s R=%s Id=%s
+22 OTHERS match not found XOTHERS: Q=%3s R=%s C=%d N=%4d
+31 Successful rematch found OTHERS:: Q=%3s R=%s Id=%s
+32 Successful rematch found XOTHERS: Q=%3s R=%s C=%d N=%4d

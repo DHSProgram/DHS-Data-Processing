@@ -1,0 +1,88 @@
+﻿PROC GLOBAL
+{ Application to check duplicated households }
+
+  numeric l, i, k, xdups;
+
+  FILE        filedups;                     { file with duplicates listing }
+
+  string recordstr;                      { to read string from listing file }
+  string fname;                          { file name }
+
+  alpha(4)   xcluster;                      { !!!! Cluster number, adjust according to survey cluster number of digits }
+  alpha(4)   xnumber;                       { !!!! household number, adjust according to household number of digits }
+  string     reslabel;                      { to display result of interview }
+
+PROC FL_CNULL
+preproc
+
+  xcluster = sysparm()[1:4];               { !!! make sure that cluster coming from DCMenu is 4 characters }
+  SetLanguage( GetLanguage() );
+  
+  { set the name for the HTML file }
+  HTML_InitAlign();
+  HTMLname = "ChkHHDup.html";
+  if FileExist( HTMLname ) then
+    FileDelete( HTMLname )
+  endif;
+  setfile( HTMLFile, HTMLname, create );
+
+  { initialize the report headings }
+  zstring1 = MakeText( tr("DUPLICATED HOUSEHOLDS FOUND IN CLUSTER: %s"), xcluster );
+  zstring2 = tr("Problem(s) needs to be resolved before proceeding");
+  CellValues(1) = tr("HH");
+  CellValues(2) = tr("Household Address");
+  CellValues(3) = tr("Interviewer");
+  CellValues(4) = tr("Result");
+  { specify columns that are left aligned, strings are left aligned }
+  CellAlign(1) = 2;  // column 2 is household address/name 
+  CellAlign(2) = 3;  // column 3 is interviewer name
+  CellAlign(3) = 4;  // column 3 is result of the interview
+  HTML_Header( CellAlign, zstring1 );  // generates a general HTML header
+
+  HTML_BeginTable( CellValues, zstring2, 4 );  // generates the HTML table script with the column headers
+
+  while FileRead( filedups, recordstr ) do
+    if pos( "*** Case [", recordstr ) = 1 then
+      { gets cluster & household number to access them in the household data file }
+      xcluster = recordstr[11:4];    { !!!! adjust according to survey cluster number of digits }
+      xnumber  = recordstr[15:4];    { !!!! adjust according to survey household number of digits }
+	  l = pos("has", recordstr);
+	  l = l + 4;
+	  do k = l while recordstr[k:1] <> " "
+	  enddo;
+	  xdups = tonumber(recordstr[l:k-l]);
+      { read records going through all files with duplicates for the same households }
+	  do i = 1 while i <= xdups 
+        FileRead( filedups, recordstr );
+        do k = 1 while( recordstr[k:1] = " " ) enddo;
+        do l = k+1 while( recordstr[l:1] <> " " ) enddo;
+        fname = recordstr[k:l-k];
+        { sets the appropriate file to the household dictionary }
+        setfile( CCHH80, fname );
+        if loadcase( CCHH80, xcluster, xnumber ) then
+          ICODE = AHINTNUM;
+          loadcase( INTERV, ICODE );
+          { get result of the interview }
+          if partialcs( 1, AHCLUST, AHNUMBER, 0, fname ) then
+            reslabel = tr("Partial")
+          else
+            reslabel = GetValueLabel(AHRESULT);
+          endif;
+	      { populates the elements of a row based on household information }
+          CellValues(1) = edit("9999", AHNUMBER);
+          CellValues(2) = AHADDRESS[1:30];
+          CellValues(3) = edit("9999",AHINTNUM) + "-" + strip(INAME);
+          CellValues(4) = edit("9", AHRESULT) + "-" + reslabel;
+          HTML_OneRow( CellValues, 4 );   // generates the HTML script for a row with relevant household data
+        else
+		  zstring2 = MakeText( Tr("Case=%s%s not found in file: %s, check IDs in Dict and logic"), xcluster, xnumber, fname );
+          HTML_Subtitle( zstring2, 4 );          
+		endif;
+      enddo;
+    endif;
+  enddo;
+  HTML_EndTable();
+  HTML_End();
+  view( "file://" + pathname(application) + HTMLName );
+
+  stop(1);

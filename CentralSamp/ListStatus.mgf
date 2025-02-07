@@ -1,0 +1,16 @@
+﻿Language = ES
+{ common strings used by application }
+old Listing Status Report, DHS Country: XXXX" ) Reporte del Estado del Listado de Hogares, DHS Pais: XXXX
+  ES ( "Report Date: %s (dd/mm/yyyy)" ) Fecha del Reporte: %s (dd/mm/yyyy)
+  ES ( "Cluster" ) Segmento
+  ES ( "Date Arrived" ) Fecha llego
+  ES ( "Enumerator" ) Enumerador
+  ES ( "HH List" ) Hogares Listados
+  ES ( "HH Expect" ) Hogares Esper.
+  ES ( "% Diff." ) % Dif.
+  ES ( "GPS" ) GPS
+  ES ( "Segments" ) Segmentac.
+  ES ( "C-Field" ) C-Campo
+  ES ( "C-Office" ) C-Oficina
+  ES ( "Totals" ) Totales
+

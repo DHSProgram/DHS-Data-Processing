@@ -1,0 +1,22 @@
+﻿PROC GLOBAL
+{*****************************************************************************}
+{                                                                             }
+{  Age at death distribution for all siblings                                 }
+{                                                                             }
+{*****************************************************************************}
+
+  numeric i;
+
+PROC CCIQ81_FF
+
+
+PROC INDIVIDUAL
+
+  { AMM17, Years since death of sibling }
+  { AMM18, Age at death of sibling      }
+
+  for i in AWSECM3_EDT do
+    freq include( AMM17, AMM18 )
+      title( "Country Year - Maternal Mortality for all sibilings",
+             "Cumulative frequency for variable AMM18 needs to be copied to imputation program" );
+  enddo;

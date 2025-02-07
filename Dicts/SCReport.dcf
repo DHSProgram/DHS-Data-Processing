@@ -1,0 +1,840 @@
+﻿[Dictionary]
+Version=CSPro 7.7
+Label=SCReport - Working Storage Dictionary
+Name=WS_DICT
+RecordTypeStart=1
+RecordTypeLen=1
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=60DEDF42E534942B8F664C83023E53A4BC5C955E888B4943713B141063A4C8CD
+
+[Level]
+Label=Working Storage Level
+Name=WS_LEVEL
+
+[IdItems]
+
+[Item]
+Label=Dummy ID
+Name=DUMMY_ID
+Start=2
+Len=1
+DataType=Numeric
+
+[Record]
+Label=Working Storage Record
+Name=FCT_REC1
+RecordTypeValue='1'
+RecordLen=41
+
+[Item]
+Label=Tables (status report)
+Name=TABLES_SR
+Start=3
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Tables (status report)
+Name=TABLES_SR_VS1
+Value=51;Table S1: Total questionnaires completed
+
+[Item]
+Label=Tables (team)
+Name=TABLES_TM
+Start=6
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Tables (team)
+Name=TABLES_TM_VS1
+Value=52;Table S2: Clusters opened and closed
+Value=20;Table Q0: Population pyramid
+
+[Item]
+Label=Tables (household)
+Name=TABLES_HH
+Start=9
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Tables (household)
+Name=TABLES_HH_VS1
+Value=1;Table C1: Household completion rate
+Value=4;Table C4: Mean household size
+Value=5;Table C5: Eligible women and men per household
+Value=11;Table P1: Clusters worked in each day
+Value=12;Table P2: Duration of household interview
+Value=15;Table P5: Interview visits
+Value=16;Table P6: Duration of questions
+Value=17;Table P7: Mean number of error messages
+Value=18;Table P8: Distance from listing location to interview location
+Value=21;Table Q1: Age and date reporting
+Value=22;Table Q2A: Age displacement at ages 14/15
+Value=92;Table Q2B: Age displacement at ages 49/50
+Value=27;Table Q7: Observation of mosquito nets
+Value=212;Table P2: Median duration of household interview
+Value=300;Table S3: Date of transmission
+
+[Item]
+Label=Tables (women)
+Name=TABLES_WM
+Start=12
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Tables (women)
+Name=TABLES_WM_VS1
+Value=2;Table C2: Eligible women completion rate
+Value=6;Table C6: Domestic violence module
+Value=13;Table P3: Duration of women's interview
+Value=23;Table Q3: Pregnancy date reporting: living children, dead children, stillbirths, miscarriages and abortions
+Value=24;Table Q4: Pregnancy date displacement (years ago)
+Value=25;Table Q5: Age at death heaping
+Value=26;Table Q6: Vaccination cards
+Value=28;Table Q8: Various checks on women's interviews
+Value=30;Table Q10:  Adult and Maternal Mortality Module
+Value=31;Table R1: Children ever born
+Value=32;Table R2: Infant mortality
+Value=33;Table R3: Stillbirths and neonatal deaths
+Value=34;Table R4: Treatment for fever
+Value=213;Table P3: Median duration of women's interview
+
+[Item]
+Label=Tables (men)
+Name=TABLES_MN
+Start=15
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Tables (men)
+Name=TABLES_MN_VS1
+Value=3;Table C3: Eligible men completion rate
+Value=14;Table P4: Duration of men's interview
+Value=29;Table Q9: Various checks on men's interviews
+Value=214;Table P4: Median duration of men's interview
+
+[Item]
+Label=Tables (biomarkers)
+Name=TABLES_BM
+Start=18
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Tables (biomarkers)
+Name=TABLES_BM_VS1
+Value=101;Table AC1: Weight/height measurement: children
+Value=102;Table AC2: Weight/height remeasurement: children
+Value=103;Table AC3: Weight/height measurement: women
+Value=104;Table AC4: Weight/height measurement: men
+Value=111;Table AQ1: Weight digit preference: children
+Value=112;Table AQ2: Height digit preference: children
+Value=113;Table AQ3: Implausible z-scores: children
+Value=116;Table AQ6: Weight/height remeasurement compared to first measurement
+Value=117;Table AQ7: Height digit preference: women and men
+Value=121;Table HC1: Anemia testing among children
+Value=122;Table HC2: Anemia testing among women
+Value=123;Table HC3: Anemia testing among men
+Value=131;Table HQ1: Accuracy of children's hemoglobin level, 1st decimal
+Value=132;Table HQ2: Accuracy of women's and men's hemoglobin level, 1st decimal
+Value=133;Table HR1: Children with severe anemia
+Value=141;Table MC1: Malaria RDT testing among children
+Value=151;Table VC1: HIV blood collection among women
+Value=152;Table VC2: HIV blood collection among men
+
+[Item]
+Label=Questionnaire type
+Name=QUESTYPE
+Start=21
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Questionnaire type
+Name=QUESTYPE_VS1
+Value=1;Household
+Value=2;Women
+Value=3;Men
+Value=4;Biomarkers
+
+[Item]
+Label=Context
+Name=RCONTEXT
+Start=22
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Context
+Name=RCONTEXT_VS1
+Value=0:999
+
+[Item]
+Label=Team Context
+Name=RTCONT
+Start=25
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Team Context
+Name=RTCONT_VS1
+Value=0:99
+
+[Item]
+Label=Context ID
+Name=RCONTEXTID
+Start=27
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Context ID
+Name=RCONTEXTID_VS1
+Value=0;ContextId
+
+[Item]
+Label=Total
+Name=RTOTALN
+Start=28
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Total
+Name=RTOTALN_VS1
+Value=0;Total
+
+[Item]
+Label=Cluster Context
+Name=RCCONT
+Start=29
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Cluster Context
+Name=RCCONT_VS1
+Value=0:1500
+
+[Item]
+Label=Date of HH interview
+Name=RDATEHH
+Start=33
+Len=8
+DataType=Numeric
+
+[Item]
+Label=Date of transmission of data
+Name=RDATETRANS
+Start=41
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Date of transmission of data
+Name=RDATETRANS_VS1
+Value=0;Date of transmission
+
+[Record]
+Label=Working storage for FCT
+Name=FCT_REC2
+RecordTypeValue='2'
+RecordLen=45
+
+[Item]
+Label=Sex
+Name=FSEX
+Start=3
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sex
+Name=FSEX_VS1
+Value=1;Male
+Value=2;Female
+
+[Item]
+Label=Number of members
+Name=FMEM
+Start=4
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Number of members
+Name=FMEM_VS1
+Value=0;Number of households (in subsample)
+Value=1;Number of members
+
+[Item]
+Label=Questionnaires completed
+Name=FCOMP
+Start=5
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Questionnaires completed
+Name=FCOMP_VS1
+Value=1;Total household questionnaires
+Value=2;Complete household questionnaires
+Value=3;Incomplete household questionnaires
+Value=4;Total women's questionnaires
+Value=5;Complete women's questionnaires
+Value=6;Incomplete women's questionnaires
+Value=7;Total men's questionnaires
+Value=8;Complete men's questionnaires
+Value=9;Incomplete men's questionnaires
+
+[Item]
+Label=Clusters opened and closed
+Name=FOPEN
+Start=7
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Clusters opened and closed
+Name=FOPEN_VS1
+Value=0;Total clusters opened
+Value=1;Clusters closed
+Value=2;Clusters currently open
+Value=3;Total clusters assigned to team
+
+[Item]
+Label=Duration of interview
+Name=FDUR
+Start=8
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Duration of interview
+Name=FDUR_VS1
+Value=1;Minimum duration of interview
+Value=2;Maximum duration of interview
+Value=3;Median duration of interview
+Value=4;Interviews of short duration
+Value=5;Interviews of long duration
+Value=6;Number of interviews
+
+[Item]
+Label=Duration of interview
+Name=FDURMED
+Start=9
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Duration of interview
+Name=FDURMED_VS1
+Value=0:99
+
+[Item]
+Label=Number of visits
+Name=FVISITS
+Start=11
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Number of visits
+Name=FVISITS_VS1
+Value=1;1
+Value=2;2
+Value=3;3
+Value=4;4+
+Value=5;Number of questionnaires
+
+[Item]
+Label=Number of error messages and re-entered data
+Name=FERRORS
+Start=12
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Number of error messages and re-entered data
+Name=FERRORS_VS1
+Value=1;Number of warning messages
+Value=2;Number of error messages
+Value=3;Number of re-entered data
+Value=4;Number of interviews with paradata
+
+[Item]
+Label=GPS
+Name=FGPS
+Start=13
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=GPS
+Name=FGPS_VS1
+Value=1;Household questionnaires with GPS data
+Value=2;Number of household questionnaires
+Value=3;Women's questionnaires with GPS data
+Value=4;Number of women's questionnaires
+Value=5;Men's questionnaires with GPS data
+Value=6;Number of men's questionnaires
+Value=7;Questionnaires within 100/150m of the household questionnaire
+Value=8;Number of household and women's/men's questionnaires with GPS in both
+Value=9;Household with GPS data from listing
+Value=10;Number of listed households
+Value=11;Questionnaires within 100/150m of the household listing
+Value=12;Number of households with GPS from questionnaire and listing
+
+[Item]
+Label=Last digit
+Name=FDIGIT
+Start=15
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last digit
+Name=FDIGIT_VS1
+Value=0:9
+
+[Item]
+Label=Last digit (second decimal)
+Name=FDIGIT2
+Start=16
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last digit (second decimal)
+Name=FDIGIT2_VS1
+Value=0:9
+
+[Item]
+Label=Last digit age group
+Name=FDIGIT_GRP
+Start=17
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last digit age group
+Name=FDIGIT_GRP_VS1
+Value=1;Age group 10-89
+Value=2;Age group 23-62
+
+[Item]
+Label=Age
+Name=FAGE
+Start=18
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age
+Name=FAGE_VS1
+Value=0:94
+Value=95;95+
+Value=98;Don't know
+
+[Item]
+Label=Age (12 - 18 years)
+Name=FAGE15
+Start=20
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age (12 - 18 years)
+Name=FAGE15_VS1
+Value=12:18
+
+[Item]
+Label=Age (47 - 53 years)
+Name=FAGE50
+Start=22
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age (47 - 53 years)
+Name=FAGE50_VS1
+Value=47:53
+
+[Item]
+Label=Pregnancy outcome
+Name=FPREGOUT
+Start=24
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Pregnancy outcome
+Name=FPREGOUT_VS1
+Value=1;Living children
+Value=2;Dead children
+Value=3;Stillbirths
+Value=4;Miscarriages and abortions
+
+[Item]
+Label=Completeness of reporting
+Name=FCOMPL
+Start=25
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Completeness of reporting
+Name=FCOMPL_VS1
+Value=0;Day, month and year
+Value=1;Month and year
+Value=2;Year of birth and age
+Value=3;Year of birth/end of pregnancy only
+Value=4;Age only
+Value=5;Other/ No data
+
+[Item]
+Label=Years since end of pregnancy
+Name=FYEARS
+Start=26
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Years since end of pregnancy
+Name=FYEARS_VS1
+Value=0:9
+Value=99;Missing
+
+[Item]
+Label=Age at death (in months)
+Name=FAGED
+Start=30
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Age at death (in months)
+Name=FAGED_VS1
+Value=0;8 m.
+Value=1;9 m.
+Value=2;10 m.
+Value=3;11 m.
+Value=4;12 m.
+Value=5;Reported as "1 year"
+Value=6;13 m.
+Value=7;14 m.
+Value=8;15 m.
+Value=9;16 m.
+
+[Item]
+Label=Vaccination cards
+Name=FVACC
+Start=31
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Vaccination cards
+Name=FVACC_VS1
+Value=1;Children reported to have a vaccination card or other document
+Value=2;Children whose vaccination card or document was seen by interviewer
+Value=3;Children whose vaccination card was photographed
+Value=4;Children whose vaccination card was not photographed as permission was not received
+Value=5;Children whose vaccination card was not photographed for other reasons
+Value=6;Number of children
+
+[Item]
+Label=Nets
+Name=FNETS
+Start=32
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Nets
+Name=FNETS_VS1
+Value=0;Number of nets
+Value=1;Number of nets observed
+
+[Item]
+Label=Number of skips (children)
+Name=FSKIPSC
+Start=33
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Number of skips (children)
+Name=FSKIPSC_VS1
+Value=1;No antenatal care
+Value=2;Last births in last 3 years
+Value=3;No vaccinations
+Value=4;Children under age 3
+Value=5;No diarrahea in last 2 weeks
+Value=6;No fever or cough in last 2 weeks
+Value=7;Living children under age 5
+
+[Item]
+Label=Number of skips (Women)
+Name=FSKIPSW
+Start=34
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Number of skips (Women)
+Name=FSKIPSW_VS1
+Value=1;Never married
+Value=2;No non-live pregnancies
+Value=3;Not currently using contraception
+Value=4;Never had sex
+Value=5;Last sex > 1 year ago
+Value=6;Never heard of HIV/AIDS
+Value=7;Number of women
+
+[Item]
+Label=Number of skips (Men)
+Name=FSKIPSM
+Start=35
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Number of skips (Men)
+Name=FSKIPSM_VS1
+Value=1;Never married
+Value=2;Never had a child
+Value=3;Never had sex
+Value=4;Last sex > 1 year ago
+Value=5;Never heard of HIV/AIDS
+Value=6;Number of men
+
+[Item]
+Label=Children ever born
+Name=FCEB
+Start=36
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children ever born
+Name=FCEB_VS1
+Value=0;Number of ALL women with a completed interview
+Value=1;Children ever born
+
+[Item]
+Label=Infant mortality
+Name=FAGEDM
+Start=37
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Infant mortality
+Name=FAGEDM_VS1
+Value=0;<1 month
+Value=1;1-11 months
+Value=3;12+ months
+Value=4;Don't know
+Value=6;Still alive
+
+[Item]
+Label=Stillbirths and neonatal deaths
+Name=FPERINATAL
+Start=38
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Stillbirths and neonatal deaths
+Name=FPERINATAL_VS1
+Value=1;Stillbirths
+Value=2;Neonatal deaths (<1 month)
+
+[Item]
+Label=Treatment of fever
+Name=FANTIMAL
+Start=39
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Treatment of fever
+Name=FANTIMAL_VS1
+Value=1;Any ACT
+Value=2;Amodiaquine
+Value=3;Non-ACT antimalarial
+Value=4;Antibiotic medicine
+Value=5;Other medicine
+Value=6;Other
+Value=7;Don't know
+Value=8;Children receiving medicine for fever
+
+[Item]
+Label=Measured
+Name=FMEASURE
+Start=40
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Measured
+Name=FMEASURE_VS1
+Value=1;Measured
+Value=2;Not present
+Value=3;Refused
+Value=6;Other
+Value=9;Missing
+
+[Item]
+Label=Implausible z-scores
+Name=FZSCORES
+Start=41
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Implausible z-scores
+Name=FZSCORES_VS1
+Value=1;Weight-for-height: Z-scores < -5 or > +5
+Value=2;Number
+Value=3;Height-for-age: Z-scores < -6 or > +6
+Value=4;Number
+Value=5;Weight-for-age: Z-scores < -6 or > +5
+Value=6;Number
+
+[Item]
+Label=Weight/height remeasurement
+Name=FREMEASURE
+Start=42
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Weight/height remeasurement
+Name=FREMEASURE_VS1
+Value=1;Height measurement exactly the same as first measurement
+Value=2;Weight measurement exactly the same as first measurement
+Value=3;Both height and weight measurement exactly the same as first measurement
+Value=4;Remeasurement the same day
+Value=5;Remeasurement the next day
+Value=6;Remeasurement 2+ days after the first measurement
+Value=7;Number
+
+[Item]
+Label=Children with severe anemia
+Name=FANEM
+Start=43
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children with severe anemia
+Name=FANEM_VS1
+Value=1;Children with severe anemia
+Value=2;Children tested for anemia
+
+[Item]
+Label=Domestic violence
+Name=FRESDV
+Start=44
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Domestic violence
+Name=FRESDV_VS1
+Value=1;Women eligible for domestic violence module
+Value=2;Women not interviewed because privacy not obtained
+
+[Item]
+Label=HIV testing
+Name=FHIVTEST
+Start=45
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=HIV testing
+Name=FHIVTEST_VS1
+Value=0;DBS collected: Interviewed
+Value=1;DBS collected: Not interviewed
+Value=2;Refused to provide blood: Interviewed
+Value=3;Refused to provide blood: Not interviewed
+Value=4;Absent at the time of blood collection: Interviewed
+Value=5;Absent at the time of blood collection: Not interviewed
+Value=6;Other: Interviewed
+Value=7;Other: Not Interviewed
+Value=8;Missing: Interviewed
+Value=9;Missing: Not Interviewed
+
+[Record]
+Label=Paradata return data
+Name=FCT_PARA
+RecordTypeValue='9'
+Required=No
+MaxRecords=9999
+RecordLen=66
+
+[Item]
+Label=Case Id strings
+Name=CASEID_STR1
+Start=3
+Len=10
+DataType=Alpha
+
+[Item]
+Label=Error messages
+Name=NUM_OUTOFRANGE
+Start=13
+Len=6
+DataType=Numeric
+
+[Item]
+Label=Case Id strings
+Name=CASEID_STR2
+Start=19
+Len=10
+DataType=Alpha
+
+[Item]
+Label=Error messages
+Name=NUM_ERRMSG
+Start=29
+Len=6
+DataType=Numeric
+
+[Item]
+Label=Case Id strings
+Name=CASEID_STR3
+Start=35
+Len=10
+DataType=Alpha
+
+[Item]
+Label=Reentered fields
+Name=NUM_REENTERED
+Start=45
+Len=6
+DataType=Numeric
+
+[Item]
+Label=Case Id strings
+Name=CASEID_STR4
+Start=51
+Len=10
+DataType=Alpha
+
+[Item]
+Label=Cases with paradata
+Name=NUM_PARADATA
+Start=61
+Len=6
+DataType=Numeric

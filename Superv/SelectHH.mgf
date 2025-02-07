@@ -1,0 +1,33 @@
+﻿Language = EN
+900 Households available for selection %d less than required (urban=%d rural=%d)
+910 Number of households listed %d inconsistent with households in the sample file %d
+915 Households were already selected for cluster: %d
+920 Cluster %d not defined in sample file, Resolve the problem with the survey manager
+
+Language = ES
+{ commons strings used by the application }
+  ES ( "Households Eligible for Selection for Cluster: %d" ) Hogares Elegibles para la Seleccion en el Segmento: %d
+  ES ( "Include only true households" ) Solo se incluyen hogares reales
+  ES ( "Number" ) Numero 
+  ES ( "Name of Household Head" ) Nombre Jefe de Hogar
+  ES ( "Address" ) Direccion
+  ES ( "Interviewer" ) Entrevistador
+  ES ( "Households Selected for Cluster: %d" ) Hogares Seleecionados en Segmento: %d
+  ES ( "Households to be visited" ) Hogares a ser visitados
+  ES ( "Anemia" ) Anemia
+  ES ( "Males" ) Hombres
+  ES ( "Int" ) Ent
+  ES ( "Households expected for selection: %d" ) Hogares esperados para la seleccion: %d
+  ES ( "households available for selection %d" ) hogares que disponibles para seleccion %d
+  ES ( "entries not classified as households %d" ) lineas no clasificadas como hogares %d
+  ES ( "Do you want to select households anyway?" ) Desea hacer la seleccion de todas maneras? 
+  ES ( "Yes" ) Si
+  ES ( "No" ) No
+  ES ( "Households selected in cluster: %d" ) Hogares seleccionados en segmento: %d
+  ES ( "households listed for selection %d" ) hogares considerados en la seleccion %d
+  ES ( "There are no households available for the cluster" ) No hay hogares disponilbes en el conglomerado
+  
+900 Hogares disponibles para la seleccion %d menor que los requeridos (urbano=%d rural=%d)
+910 Numero de hogares listados %d inconsistente con hogares en el archivo de la muestra %d
+915 Ya se seleccionaron los hogares para el segmento: %d
+920 Segmento %d no esta definido en el archivo de la muestra, resuelva el problema el director de la encuesta

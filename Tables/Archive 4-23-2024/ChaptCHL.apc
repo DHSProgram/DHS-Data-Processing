@@ -1,0 +1,467 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines November 1, 2022       -      Version 1.0.0 of 02/03/2023   +}
+{+                                                                          +}
+{+   CHAPTER CHL.  CHILD LABOR                                              +}
+{+                                                                          +}
+{+   Table CHL.1   Children's involvement in economic activities            +}
+{+   Table CHL.2   Children's involvement in household chores               +}
+{+   Table CHL.3   Child labor                                              +}
+{+   Table CHL.4   Hazardous work                                           +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, j, jtot, jtot1, jtot2, jtot3, jmax, itot, imax;
+  numeric agechild, educ, mother, motheduc;
+  numeric econactv, choractv, hourchor, validhour, anyhazard;
+  numeric rweight;
+  
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+    {+EN}
+    title( "Tables for child labor module, Country Survey 2020" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+
+  crosstab float(1) tchl01 sex2+disachd1+disamot+hv025w+hv024w+educhl+edumot+hv270w+total 
+                           econ0511+numchl1+econ1214+numchl2+econ1517+numchl3
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CHL.1 Children's involvement in economic activities"," ",
+           "Percentage of de jure children age 5-17 years by involvement in economic", 
+		   "activities during the previous week, by age groups,",
+           "according to background characteristics, Country Survey 2020")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) tchl01u  sex2+disachd1+disamot+hv025w+hv024w+educhl+edumot+hv270w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CHL.1 Children's involvement in economic activities (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tchl02 sex2+disachd1+disamot+hv025w+hv024w+educhl+edumot+hv270w+total 
+                           chor0511+numchl1+chor1214+numchl2
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CHL.2 Children's involvement in household chores"," ",
+           "Percentage of de jure children age 5-14 years by involvement in", 
+		   "household chores during the previous week, by age groups,",
+           "according to background characteristics, Country Survey 2020")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) tchl02u sex2+disachd1+disamot+hv025w+hv024w+educhl+edumot+hv270w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CHL.2 Children's involvement in household chores (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tchl03 agechl+sex2+disachd1+disamot+hv025w+hv024w+educhl+edumot+hv270w+total 
+                           econall+chorall+labtot+numchl
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CHL.3 Child labor"," ",
+           "Percentage of de jure children age 5-17 years by involvement in economic", 
+		   " activities or household chores during the last week and percentage engaged", 
+		   "in child labor during the previous week,",
+           "according to background characteristics, Country Survey 2020")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) tchl03u agechl+sex2+disachd1+disamot+hv025w+hv024w+educhl+edumot+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CHL.3 Child labor (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tchl04 agechl+sex2+disachd1+disamot+hv025w+hv024w+educhl+edumot+hv270w+total 
+                           abovethr+hazard+abovehaz+numchl
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CHL.4 Hazardous work"," ",
+           "Percentage of de jure children age 5-17 years engaged in economic activities or", 
+		   "household chores above the age specific thresholds, percentage working under", 
+		   " hazardous conditions, by type of work, and percentage of children engaged in", 
+		   "economic activities or household chores above thresholds or working under", 
+		   "hazardous conditions during the previous week,",
+           "according to background characteristics, Country Survey 2020")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) tchl04u agechl+sex2+disachd1+disamot+hv025w+hv024w+educhl+edumot+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CHL.4 Hazardous work (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+	 
+  { to determine disability for adults }
+  function Disability( lineno )
+    numeric z = 0;
+    if HDIS2(lineno) in 3:4 | HDIS4(lineno) in 3:4 | HDIS5(lineno) in 3:4 |       
+	   HDIS6(lineno) in 3:4 | HDIS7(lineno) in 3:4 | HDIS8(lineno) in 3:4 then
+      z = 1;
+    endif;
+    Disability = z;
+  end;  	
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table chl.1 processing }
+  jtot1 = tblcol( tchl01, numchl1 );
+  jmax = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tchl01[*,j] = tchl01[*,j] * 100 / tchl01[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tchl01, numchl2 );
+  jmax = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    tchl01[*,j] = tchl01[*,j] * 100 / tchl01[*,jtot2];
+  enddo;
+  jtot3 = tblcol( tchl01 );
+  jmax = jtot3 - 1;
+  do j = jtot2+1 while j <= jmax
+    tchl01[*,j] = tchl01[*,j] * 100 / tchl01[*,jtot3];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tchl01", tchl01, 0,       jtot1-1, tchl01u, 0 );
+  Col2Dim( "tchl01", tchl01, jtot1+1, jtot2-1, tchl01u, 1 );
+  Col2Dim( "tchl01", tchl01, jtot2+1, jtot3-1, tchl01u, 2 );
+
+  { Table chl.2 processing }
+  jtot1 = tblcol( tchl02, numchl1 );
+  jmax = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tchl02[*,j] = tchl02[*,j] * 100 / tchl02[*,jtot1];
+  enddo;
+  jtot2 = tblcol( tchl02 );
+  jmax = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    tchl02[*,j] = tchl02[*,j] * 100 / tchl02[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tchl02", tchl02, 0,       jtot1-1, tchl02u, 0 );
+  Col2Dim( "tchl02", tchl02, jtot1+1, jtot2-1, tchl02u, 1 );
+
+  { Table chl.3 processing }
+  jtot = tblcol( tchl03 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tchl03[*,j] = tchl03[*,j] * 100 / tchl03[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tchl03", tchl03, 0, jtot-1, tchl03u, 0 );
+  { write out SDG indicators }
+  itot   = tblrow( tchl03 );
+  imax   = tblrow( tchl03, sex2 = 1 );                      
+  jtot   = tblcol( tchl03, labtot = 1 );                      
+  SDGIndicator( "8.7.1", tchl03(imax,jtot), tchl03(imax+1,jtot), tchl03(itot,jtot) );
+  { assign NA }
+  imax = tblrow( tchl03, agechl = 3 );
+  jmax = tblcol( tchl03, chorall = 1 );
+  tchl03[imax,jmax:jmax+1] = NAcells;
+
+  { Table chl.4 processing }
+  jtot = tblcol( tchl04 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tchl04[*,j] = tchl04[*,j] * 100 / tchl04[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tchl04", tchl04, 0, jtot-1, tchl04u, 0 );
+  { assign NA }
+  imax = tblrow( tchl04, agechl = 3 );
+  jmax = tblcol( tchl04, abovethr );
+  tchl04[imax,jmax] = NAcells;
+  
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 | !soccurs(RECHCHL) then skip case; endif;
+  if !HV105(HCHLINE) in 5:17 then skip case; endif;
+  
+  motheduc  = notappl;
+  
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = HCHLWGT / 1000000;
+  endif;
+
+  hv024w  = HV024;
+  hv025w  = HV025;
+  hv270w  = HV270;
+
+  sex2     = HV104(HCHLINE);
+  agechild = HV105(HCHLINE);
+  educatt  = HV121(HCHLINE);
+
+  { child age }
+  recode agechild -> agechl;
+           5:11   -> 1;
+          12:14   -> 2;
+          15:17   -> 3;
+                  -> default;
+  endrecode;				  
+  
+  { cureently attendig school }
+  recode educatt -> educhl;
+           1,2   -> 1;
+            0    -> 2;
+      8,missing  -> 8;			
+                 -> default;	  
+  endrecode;	  
+
+  { !!! children disability }
+  {     This variable can be generated if the MICS module for children was used by the survey }
+  disachd1 = notappl;
+  
+  { mother's education and disability }
+  edumot  = motheduc;        // mother's education may have brought-up from individual questionnaire
+  disamot = notappl;
+  mother  = HV112(HCHLINE);
+  if mother in 1:HV009 then
+    disamot = 2;  
+    if Disability(mother) then	
+	  disamot = 1;
+    endif;	  
+	if edumot = notappl then
+	  edumot = HV106(mother)
+    endif;
+  endif;  
+  if edumot = missing then edumot = 9 endif;  
+
+  { determine if child involved in economic activities }
+  econactv = ( 1 in HCHL2A, HCHL2B, HCHL2C, HCHL2D );
+  
+  { determine if child involved in chore activities }
+  choractv = ( 1 in HCHL8,   HCHL10,   HCHL12A, HCHL12B, HCHL12C, HCHL12D, HCHL12E,  
+                    HCHL12F, HCHL12G,  HCHL12H, HCHL12I, HCHL12J, HCHL12K );
+  
+  { hours spent in chore activities }
+  hourchor = 0;
+  if HCHL9 in 0:95 then
+    hourchor = hourchor + HCHL9;
+  endif;	
+  if HCHL11 in 0:95 then
+    hourchor = hourchor + HCHL11;
+  endif;	
+  if HCHL14 in 0:95 then
+    hourchor = hourchor + HCHL14;
+  endif;
+  { determine if hours for chores are valid }  
+  validhour = ( HCHL9 in 0:95 | HCHL11 in 0:95 | HCHL14 in 0:95 );
+
+  { table chl.1 }
+  numchl1  = notappl;  
+  numchl2  = notappl;  
+  numchl3  = notappl;  
+  econ0511 = notappl;  
+  econ1214 = notappl;  
+  econ1517 = notappl;  
+  if agechild in 5:11 then
+    numchl1 = 1;
+    xtab( tchl01, rweight );  
+    coltotu = 1;	
+    xtab( tchl01u );  
+    numchl1  = notappl;  
+    if econactv & HCHL4 in 1:95 then	
+      econ0511 = 1;
+      xtab( tchl01, rweight );  
+    endif;	  
+    econ0511 = notappl;  
+  endif;	
+  if agechild in 12:14 then
+    numchl2  = 1;  
+    xtab( tchl01, rweight );  
+    coltotu = 2;	
+    xtab( tchl01u );  
+    numchl2  = notappl;  
+    if econactv & HCHL4 in 0:13 then	
+      econ1214 = 1;
+      xtab( tchl01, rweight );  
+    elseif econactv & HCHL4 in 14:95 then	
+      econ1214 = 2;
+      xtab( tchl01, rweight );  
+    endif;	  
+    econ1214 = notappl;  
+  endif;	
+  if agechild in 15:17 then
+    numchl3  = 1;  
+    xtab( tchl01, rweight );  
+    coltotu = 3;	
+    xtab( tchl01u );  
+    numchl3  = notappl;  
+    if econactv & HCHL4 in 0:42 then	
+      econ1517 = 1;
+      xtab( tchl01, rweight );  
+    elseif econactv & HCHL4 in 43:95 then	
+      econ1517 = 2;
+      xtab( tchl01, rweight );  
+    endif;	  
+    econ1517 = notappl;  
+  endif;	
+
+  { table chl.2 }
+  numchl1  = notappl;  
+  numchl2  = notappl;  
+  chor0511 = notappl;  
+  chor1214 = notappl;  
+  if agechild in 5:11 then
+    numchl1  = 1;  
+    xtab( tchl02, rweight );  
+    coltotu = 1;	
+    xtab( tchl02u );  
+    numchl1  = notappl;  
+    if choractv & validhour & hourchor < 21 then	
+      chor0511 = 1;
+      xtab( tchl02, rweight );  
+    elseif choractv & hourchor >= 21 then	
+      chor0511 = 2;
+      xtab( tchl02, rweight );  
+    endif;	  
+    chor0511 = notappl;  
+  endif;	
+  if agechild in 12:14 then
+    numchl2  = 1;  
+    xtab( tchl02, rweight );  
+    coltotu = 2;	
+    xtab( tchl02u );  
+    numchl2  = notappl;  
+    if choractv & validhour & hourchor < 21 then	
+      chor1214 = 1;
+      xtab( tchl02, rweight );  
+    elseif choractv & hourchor >= 21 then	
+      chor1214 = 2;
+      xtab( tchl02, rweight );  
+    endif;	  
+    chor1214 = notappl;  
+  endif;	
+
+  { table chl.3 }
+  chorall = notappl;
+  econall = notappl;
+  numchl  = 1;
+  if econactv then  
+    recode agechild :: HCHL4 -> econall;  
+             5:11   ::   0   -> 1;
+             5:11   ::  1:95 -> 2;
+            12:14   ::  0:13 -> 1;			 
+            12:14   :: 14:95 -> 2;
+            15:17   ::  0:42 -> 1;
+            15:17   :: 43:95 -> 2;
+                    ::       -> default;
+    endrecode;
+  endif;	   
+  if choractv & validhour then  
+    recode agechild :: hourchor -> chorall;  
+             5:11   ::    0:20  -> 1;
+             5:11   ::   21:300 -> 2;
+            12:14   ::    0:20  -> 1;			 
+            12:14   ::   21:300 -> 2;
+            15:17   ::          -> notappl;
+                    ::          -> default;
+    endrecode;
+  endif;	
+  labtot = ( econall = 2 | chorall = 2 );
+  xtab( tchl03, rweight );  
+  xtab( tchl03u );  
+
+  { table chl.4 }
+  { table uses definition of variables "econall" and "chorall" from previous table }
+  abovethr = notappl;
+  hazard   = notappl;
+  abovehaz = notappl;
+  numchl  = 1;
+  xtab( tchl04, rweight );  
+  xtab( tchl04u );  
+  numchl  = notappl;
+  if econall = 2 then         // above threshold economic activities
+    abovethr = 1;  
+    xtab( tchl04, rweight );  
+  endif;	
+  if chorall = 2 then         // above threshold chore activities
+    abovethr = 2;  
+    xtab( tchl04, rweight );  
+  endif;	
+  abovethr = notappl;
+  if HCHL5 = 1 then           // Carrying heavy loads  
+    hazard = 1;  
+    xtab( tchl04, rweight );  
+  endif;
+  if HCHL6 = 1 then           // Working with dangerous tools or operating heavy machinery
+    hazard = 2;  
+    xtab( tchl04, rweight );  
+  endif;
+  if HCHL7A = 1 then          // Exposed to dust, fumes or gas
+    hazard = 3;  
+    xtab( tchl04, rweight );  
+  endif;
+  if HCHL7B = 1 then          // Exposed to extreme cold, heat or humidity
+    hazard = 4;  
+    xtab( tchl04, rweight );  
+  endif;
+  if HCHL7C = 1 then          // Exposed to loud noise or vibration
+    hazard = 5;  
+    xtab( tchl04, rweight );  
+  endif;
+  if HCHL7D = 1 then          // Working at heights
+    hazard = 6;  
+    xtab( tchl04, rweight );  
+  endif;
+  if HCHL7E = 1 then          // Working with chemicals or explosives
+    hazard = 7;  
+    xtab( tchl04, rweight );  
+  endif;
+  if HCHL7F = 1 then          // Exposed to other unsafe or unhealthy things, processes or conditions
+    hazard = 8;  
+    xtab( tchl04, rweight );  
+  endif;
+  anyhazard = 0;
+  if hazard <> notappl then   // Total hazardous work
+    anyhazard = 1;
+    hazard = 9;  
+    xtab( tchl04, rweight );  
+  endif;
+  hazard = notappl;  
+  if econall = 2 | chorall = 2 | anyhazard then   // above threshold or in hazard conditions
+    abovehaz = 1;  
+    xtab( tchl04, rweight );  
+  endif;	
+  abovehaz = notappl;  
+  
+PROC WOMAN
+preproc
+
+  { stores mother's education }
+  if count(B16 = HCHLINE ) then
+    motheduc = V106
+  endif;	

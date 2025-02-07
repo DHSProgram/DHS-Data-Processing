@@ -1,0 +1,28 @@
+﻿[CSPro Application]
+Version=CSPro 6.3
+Label=HIV_menu
+Name=HIV_menu
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+[External Dictionaries]
+File=..\Dicts\plate.dcf
+File=..\Dicts\temp.dcf
+File=..\dicts\common.dcf
+[AppCode]
+File=.\HIV_menu.apc
+[Message]
+File=.\HIV_menu.mgf
+[Help]
+File=.\HIV_menu.qsf
+[Forms]
+File=.\HIV_menu.fmf
+File=.\password.fmf
+File=.\enter_rapid.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\HIV_menu.dcf,Input,.\HIV_menu.fmf
+Dict-Type=..\Dicts\plate.dcf,External
+Dict-Type=..\Dicts\temp.dcf,External
+Dict-Type=..\Dicts\users.dcf,External,.\password.fmf
+Dict-Type=..\Dicts\testlog.dcf,External,.\enter_rapid.fmf
+Dict-Type=..\dicts\common.dcf,External

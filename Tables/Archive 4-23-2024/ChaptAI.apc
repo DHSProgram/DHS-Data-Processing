@@ -1,0 +1,693 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines July 7, 2022         -       Version 1.0.0 of 12/05/2022    +}
+{+                                                                          +}
+{+   CHAPTER AI.  ACCIDENTS AND INJURIES                                    +}
+{+                                                                          +}
+{+   Table AI.1 Deaths and injuries from road traffic accidents             +}                                                                         
+{+   Table AI.2 Types of road traffic accidents                             +}
+{+   Table AI.3 Injuries due to road traffic accidents                      +}
+{+   Table AI.4 Continuing health problems due to road traffic accidents    +}
+{+   Table AI.5 Deaths and injuries from incidents other than road          +}
+{+              traffic accidents                                           +}
+{+   Table AI.6 Mechanism of death or injury other than road                +}
+{+              traffic accidents                                           +}
+{+   Table AI.7 Types of incidents other than road traffic accidents        +}
+{+   Table AI.8 Types of non-road traffic injuries                          +}
+{+   Table AI.9 Continuing health problems due incidents other than         +} 
+{+              road traffic accidents                                      +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, j, jmin, jmax, jtot;
+  numeric sdgw, sdgm, sdgt, agemem, rweight;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter Accident and Injury, Country Survey 2020" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(0) tai01 ageai+hv025w+hv024w+hv270w+total dthtraff+injtraff+ditraff+tdfhhpop
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table AI.1 Deaths and injuries from road traffic accidents","",
+		   "Number of  deaths due to road traffic injuries per 100,000 population,", 
+		   "number of persons who had non-fatal injuries due to road traffic accidents", 
+		   "per 100,000 population, and number of road traffic accident injuries, and deaths", 
+		   "per 100,000 population, by sex, according to background characteristics,", 
+		   "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) tai02 ageai+sex2+hv025w+hv024w+survai+hv270w+total vehicle+total+nkillinj
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table AI.2 Types of road traffic accidents","",
+		   "Percent distribution of persons killed or injured in a road traffic accident", 
+		   "in the last 12 months, by type of road traffic accident, according to", 
+		   "background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tai02u ageai+sex2+hv025w+hv024w+survai+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table AI.2 Types of road traffic accidents (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tai03 ageai+sex2+hv025w+hv024w+hv270w+total typeinj+ninjure
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table AI.3 Injuries due to road traffic accidents","",
+		   "Among persons who were injured in a road traffic accident in the last 12", 
+		   "months, percentage with different types of injuries, according to",
+		   "background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tai03u ageai+sex2+hv025w+hv024w+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table AI.3 Injuries due to road traffic accidents (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tai04 ageai+sex2+hv025w+hv024w+hv270w+total severinj+ninjure
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table AI.4 Continuing health problems due to road traffic accidents","",
+		   "Among persons who were severely injured in a road traffic accident in the", 
+		   "last 12 months, percentage with different types of continuing health problems,", 
+		   "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tai04u ageai+sex2+hv025w+hv024w+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table AI.4 Continuing health problems due to road traffic accidents (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(0) tai05 ageai+hv025w+hv024w+hv270w+total dthother+injother+diother+tdfhhpop
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table AI.5 Deaths and injuries from incidents other than road traffic accidents","",
+		   "Number of  deaths due to non-road traffic injuries per 100,000 population,", 
+		   "number of persons who had non-fatal injuries due to non-road traffic accidents", 
+		   "per 100,000 population, and number of non-road traffic accident injuries and", 
+		   "deaths per 100,000 population, by sex, according to background characteristics,",
+		   "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) tai06 ageai+sex2+hv025w+hv024w+survai+hv270w+total acctype+total+nkillinj
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table AI.6 Mechanism of death or injury other than road traffic accidents","",
+		   "Percent distribution of persons killed or injured in the last 12 months in", 
+		   "incidents other than road traffic accidents, by mechanism of the death or injury,", 
+		   "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tai06u ageai+sex2+hv025w+hv024w+survai+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table AI.6 Mechanism of death or injury other than road traffic accidents (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tai07 ageai+sex2+hv025w+hv024w+survai+hv270w+total inctype+total+nkillinj
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table AI.7 Types of incidents other than road traffic accidents","",
+		   "Percent distribution of persons killed or injured in the last 12 months in", 
+		   "incidents other than road traffic accidents, by type of incident,", 
+		   "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tai07u ageai+sex2+hv025w+hv024w+survai+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table AI.7 Types of incidents other than road traffic accidents (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tai08 ageai+sex2+hv025w+hv024w+hv270w+total typeinj1+ninjure
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table AI.8 Types of non-road traffic injuries","",
+		   "Among persons who were injured in incidents other than road traffic", 
+		   "accidents in the last 12 months, percentage with different types of injuries,", 
+		   "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tai08u ageai+sex2+hv025w+hv024w+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table AI.8 Types of non-road traffic injuries (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tai09 ageai+sex2+hv025w+hv024w+hv270w+total severinj+ninjure
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table AI.9 Continuing health problems due incidents other than road traffic accidents","",
+		   "Among persons who were injured in incidents other than road traffic accidents", 
+		   "in the last 12 months, percentage with different types of continuing health problems,",  
+		   "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tai09u ageai+sex2+hv025w+hv024w+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table AI.9 Continuing health problems due incidents other than road traffic accidents (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  { recode age as it is used in several tables }
+  function RecAge();
+    if HAI5 = 0 then
+      agemem = HAI7
+    else
+      agemem = HAI11
+    endif;		
+    recode agemem -> ageai;
+	        <15   -> 1;
+           15:24  -> 2;			   
+           25:34  -> 3;			   
+           35:44  -> 4;			   
+           45:59  -> 5;			   
+           60:95  -> 6;
+                  -> 7;
+    endrecode;	
+  end;	
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table ai.1 processing }
+  jmax  = tblcol( tai01, dthtraff );
+  tai01[*,jmax] = tai01[*,jmax-2] + tai01[*,jmax-1];   
+  jmax  = tblcol( tai01, injtraff );
+  tai01[*,jmax] = tai01[*,jmax-2] + tai01[*,jmax-1];   
+  jmax  = tblcol( tai01, ditraff );
+  tai01[*,jmax] = tai01[*,jmax-2] + tai01[*,jmax-1];   
+  jtot  = tblcol( tai01 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    tai01[*,j] = tai01[*,j] * 100000 / tai01[*,jtot];
+  enddo;	
+  { write out SDG indicators }
+  itot   = tblrow( tai01 );
+  SDGIndicator( "3.6.1", tai01(itot,1), tai01(itot,0), tai01(itot,2) );
+
+  { Table ai.2 processing }
+  jtot = tblcol( tai02 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    tai02[*,j] = tai02[*,j] * 100 / tai02[*,jtot];
+  enddo;
+  tai02[*,jmax+1]  = tblsum( column tai02[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "tai02", tai02, 0,      jtot-3, tai02u, 0 );
+
+  { Table ai.3 processing }
+  jtot = tblcol( tai03 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tai03[*,j] = tai03[*,j] * 100 / tai03[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tai03", tai03, 0,      jtot-1, tai03u, 0 );
+
+  { Table ai.4 processing }
+  jtot = tblcol( tai04 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tai04[*,j] = tai04[*,j] * 100 / tai04[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tai04", tai04, 0,      jtot-1, tai04u, 0 );
+
+  { Table ai.5 processing }
+  jmax  = tblcol( tai05, dthother );
+  tai05[*,jmax] = tai05[*,jmax-2] + tai05[*,jmax-1];   
+  jmax  = tblcol( tai05, injother );
+  tai05[*,jmax] = tai05[*,jmax-2] + tai05[*,jmax-1];   
+  jmax  = tblcol( tai05, diother );
+  tai05[*,jmax] = tai05[*,jmax-2] + tai05[*,jmax-1];   
+  jtot  = tblcol( tai05 );
+  jmax  = jtot -1;
+  do j = 0 while j <= jmax
+    tai05[*,j] = tai05[*,j] * 100000 / tai05[*,jtot];
+  enddo;	
+
+  { Table ai.6 processing }
+  jtot = tblcol( tai06 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    tai06[*,j] = tai06[*,j] * 100 / tai06[*,jtot];
+  enddo;
+  tai06[*,jmax+1]  = tblsum( column tai06[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "tai06", tai06, 0,      jtot-3, tai06u, 0 );
+
+  { Table ai.7 processing }
+  jtot = tblcol( tai07 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    tai07[*,j] = tai07[*,j] * 100 / tai07[*,jtot];
+  enddo;
+  tai07[*,jmax+1]  = tblsum( column tai07[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "tai07", tai07, 0,      jtot-3, tai07u, 0 );
+
+  { Table ai.8 processing }
+  jtot = tblcol( tai08 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tai08[*,j] = tai08[*,j] * 100 / tai08[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tai08", tai08, 0,      jtot-1, tai08u, 0 );
+
+  { Table ai.9 processing }
+  jtot = tblcol( tai09 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tai09[*,j] = tai09[*,j] * 100 / tai09[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tai09", tai09, 0,      jtot-1, tai09u, 0 );
+  
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+  hv024w  = HV024;
+  hv025w  = HV025;
+  hv270w  = HV270;
+
+postproc
+  if unweight then
+    rweight = 1;
+  else
+    rweight = HV005 / 1000000;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ tables AI.1 }
+
+  dthtraff = notappl;
+  injtraff = notappl;
+  ditraff  = notappl;    
+  tdfhhpop = 1;
+  xtab( tai01, HV013*rweight );	  
+  tdfhhpop = notappl;
+  for i in RECHAI_EDT do
+    dthtraff = notappl;
+    injtraff = notappl;
+    ditraff  = notappl;    
+    if HAI1 = 1 then             // traffic accident
+	  RecAge();
+      if HAI8 = 1 then           // died as a result of traffic accident
+        if HAI6 = 2 then
+          dthtraff = 1
+        else		  
+          dthtraff = 2
+        endif;		  
+      else                       // didn't die as a result of traffic accident		  
+        if HAI6 = 2 then
+          injtraff = 1
+        else		  
+          injtraff = 2
+        endif;		  
+      endif;
+// !!! where to include the DK ???	  
+      if HAI6 = 2 then           // all involved in traffic accident
+        ditraff = 1
+      else		  
+        ditraff = 2
+      endif;	
+      xtab( tai01, rweight );	  
+    endif;	
+  enddo;  
+
+{ -------------------------------------------------------------------- }
+{ tables AI.2 }
+
+  nkillinj = 1;
+  for i in RECHAI_EDT do
+    if HAI1 = 1 then             // traffic accident
+	  RecAge();
+	  sex2    = HAI6;
+	  survai = 2;
+      if HAI8 = 1 then	  
+	    survai  = 1;
+      endif;		
+	  vehicle = HAI2;
+      xtab( tai02, rweight );	  
+      xtab( tai02u );	  
+    endif;	
+  enddo;  
+
+{ -------------------------------------------------------------------- }
+{ tables AI.3 }
+
+  { !!! are the DKs in HAI5 included ??? }
+  for i in RECHAI_EDT do
+    ninjure = 1;
+	typeinj = notappl;
+    if HAI1 = 1 & (HAI5 in 1,8 | HAI5 = 0 & HAI8 = 0) then  // traffic accident & injured
+	  RecAge();
+	  sex2    = HAI6;
+      xtab( tai03, rweight );	  
+      xtab( tai03u );	  
+      ninjure = notappl;
+      if HAI9A = 1 then        { cut/open wound }
+        typeinj = 1;
+        xtab( tai03, rweight );	  
+      endif;		
+      if HAI9B = 1 then        { broken bone }
+        typeinj = 2;
+        xtab( tai03, rweight );	  
+      endif;		
+      if HAI9C = 1 then        { burn }
+        typeinj = 3;
+        xtab( tai03, rweight );	  
+      endif;		
+      if HAI9E = 1 then        { head injury }
+        typeinj = 4;
+        xtab( tai03, rweight );	  
+      endif;		
+      if HAI9F = 1 then        { internal injury }
+        typeinj = 5;
+        xtab( tai03, rweight );	  
+      endif;		
+      if HAI9G = 1 then        { suffocation }
+        typeinj = 6;
+        xtab( tai03, rweight );	  
+      endif;		
+      if HAI9X = 1 then        { other }
+        typeinj = 96;
+        xtab( tai03, rweight );	  
+      endif;		
+      if HAI9Z = 1 then        { don't know }
+        typeinj = 98;
+        xtab( tai03, rweight );	  
+      endif;		
+	  
+    endif;	
+  enddo;  
+
+{ -------------------------------------------------------------------- }
+{ tables AI.4 }
+
+  { !!! are the DKs in HAI5 included ??? }
+  for i in RECHAI_EDT do
+    ninjure = 1;
+	severinj = notappl;
+    if HAI1 = 1 & HAI5 in 1,8 & HAI12 = 1 then  // traffic accident & continue to have problems
+	  RecAge();
+	  sex2    = HAI6;
+      xtab( tai04, rweight );	  
+      xtab( tai04u );	  
+      ninjure = notappl;
+      if HAI13A = 1 then        { paralysis }
+        severinj = 1;
+        xtab( tai04, rweight );	  
+      endif;		
+      if HAI13B = 1 then        { brain damage }
+        severinj = 2;
+        xtab( tai04, rweight );	  
+      endif;		
+      if HAI13C = 1 then        { disfigurement }
+        severinj = 3;
+        xtab( tai04, rweight );	  
+      endif;		
+      if HAI13D = 1 then        { loss of limb }
+        severinj = 4;
+        xtab( tai04, rweight );	  
+      endif;		
+      if HAI13E = 1 then        { loss of limb function }
+        severinj = 5;
+        xtab( tai04, rweight );	  
+      endif;		
+      if HAI13F = 1 then        { loss of eyesight }
+        severinj = 6;
+        xtab( tai04, rweight );	  
+      endif;		
+      if HAI13G = 1 then        { loss of hearing }
+        severinj = 7;
+        xtab( tai04, rweight );	  
+      endif;		
+      if HAI13H = 1 then        { chronic pain }
+        severinj = 8;
+        xtab( tai04, rweight );	  
+      endif;		
+      if HAI13I = 1 then        { emotional trauma }
+        severinj = 9;
+        xtab( tai04, rweight );	  
+      endif;		
+      if HAI13X = 1 then        { other }
+        severinj = 96;
+        xtab( tai04, rweight );	  
+      endif;		
+      if HAI13Z = 1 then        { don't know }
+        severinj = 98;
+        xtab( tai04, rweight );	  
+      endif;		
+	  
+    endif;	
+  enddo;  
+
+{ -------------------------------------------------------------------- }
+{ tables AI.5 }
+
+  dthother = notappl;
+  injother = notappl;
+  diother  = notappl;    
+  tdfhhpop = 1;
+  xtab( tai05, HV013*rweight );	  
+  tdfhhpop = notappl;
+  for i in RECHAI_EDT do
+    dthother = notappl;
+    injother = notappl;
+    diother  = notappl;    
+    if HAI1 = 2 then             // other accident
+	  RecAge();
+      if HAI8 = 1 then           // died as a result of other accident
+        if HAI6 = 2 then
+          dthother = 1
+        else		  
+          dthother = 2
+        endif;		  
+      else                       // didn't die as a result of other accident		  
+        if HAI6 = 2 then
+          injother = 1
+        else		  
+          injother = 2
+        endif;		  
+      endif;
+// !!! where to include the DK ???	  
+      if HAI6 = 2 then           // all involved in other accident
+        diother = 1
+      else		  
+        diother = 2
+      endif;	
+      xtab( tai05, rweight );	  
+    endif;	
+  enddo;  
+
+{ -------------------------------------------------------------------- }
+{ tables AI.6 }
+
+  nkillinj = 1;
+  for i in RECHAI_EDT do
+    if HAI1 = 2 then             // other accident
+	  RecAge();
+	  sex2    = HAI6;
+	  survai = 2;
+      if HAI8 = 1 then	  
+	    survai  = 1;
+      endif;		
+	  acctype = HAI4;
+      xtab( tai06, rweight );	  
+      xtab( tai06u );	  
+    endif;	
+  enddo;  
+
+{ -------------------------------------------------------------------- }
+{ tables AI.7 }
+
+  nkillinj = 1;
+  for i in RECHAI_EDT do
+    if HAI1 = 2 then             // other accident
+	  RecAge();
+	  sex2    = HAI6;
+	  survai = 2;
+      if HAI8 = 1 then	  
+	    survai  = 1;
+      endif;		
+	  inctype = HAI3;
+      xtab( tai07, rweight );	  
+      xtab( tai07u );	  
+    endif;	
+  enddo;  
+
+{ -------------------------------------------------------------------- }
+{ tables AI.8 }
+
+  { !!! are the DKs in HAI5 included ??? }
+  { !!! survival status is not necessary }
+  { !!! it isn't possible to get 100 }   
+  for i in RECHAI_EDT do
+    ninjure = 1;
+	typeinj1 = notappl;
+    if HAI1 = 2 & (HAI5 in 1,8 | HAI5 = 0 & HAI8 = 0) then  // other accident & injured
+	  RecAge();
+	  sex2    = HAI6;
+      xtab( tai08, rweight );	  
+      xtab( tai08u );	  
+      ninjure = notappl;
+      if HAI9A = 1 then        { cut/open wound }
+        typeinj1 = 1;
+        xtab( tai08, rweight );	  
+      endif;		
+      if HAI9B = 1 then        { broken bone }
+        typeinj1 = 2;
+        xtab( tai08, rweight );	  
+      endif;		
+      if HAI9C = 1 then        { burn }
+        typeinj1 = 3;
+        xtab( tai08, rweight );	  
+      endif;		
+      if HAI9D = 1 then        { poisoning }
+        typeinj1 = 4;
+        xtab( tai08, rweight );	  
+      endif;		
+      if HAI9E = 1 then        { head injury }
+        typeinj1 = 5;
+        xtab( tai08, rweight );	  
+      endif;		
+      if HAI9F = 1 then        { internal injury }
+        typeinj1 = 6;
+        xtab( tai08, rweight );	  
+      endif;		
+      if HAI9G = 1 then        { suffocation }
+        typeinj1 = 7;
+        xtab( tai08, rweight );	  
+      endif;		
+      if HAI9X = 1 then        { other }
+        typeinj1 = 96;
+        xtab( tai08, rweight );	  
+      endif;		
+      if HAI9Z = 1 then        { don't know }
+        typeinj1 = 98;
+        xtab( tai08, rweight );	  
+      endif;		
+	  
+    endif;	
+  enddo;  
+
+{ -------------------------------------------------------------------- }
+{ tables AI.9 }
+
+  { !!! are the DKs in HAI5 included ??? }
+  for i in RECHAI_EDT do
+    ninjure = 1;
+	severinj = notappl;
+    if HAI1 = 2 & HAI5 in 1,8 & HAI12 = 1 then  // traffic accident & continue to have problems
+	  RecAge();
+	  sex2    = HAI6;
+      xtab( tai09, rweight );	  
+      xtab( tai09u );	  
+      ninjure = notappl;
+      if HAI13A = 1 then        { paralysis }
+        severinj = 1;
+        xtab( tai09, rweight );	  
+      endif;		
+      if HAI13B = 1 then        { brain damage }
+        severinj = 2;
+        xtab( tai09, rweight );	  
+      endif;		
+      if HAI13C = 1 then        { disfigurement }
+        severinj = 3;
+        xtab( tai09, rweight );	  
+      endif;		
+      if HAI13D = 1 then        { loss of limb }
+        severinj = 9;
+        xtab( tai09, rweight );	  
+      endif;		
+      if HAI13E = 1 then        { loss of limb function }
+        severinj = 5;
+        xtab( tai09, rweight );	  
+      endif;		
+      if HAI13F = 1 then        { loss of eyesight }
+        severinj = 6;
+        xtab( tai09, rweight );	  
+      endif;		
+      if HAI13G = 1 then        { loss of hearing }
+        severinj = 7;
+        xtab( tai09, rweight );	  
+      endif;		
+      if HAI13H = 1 then        { chronic pain }
+        severinj = 8;
+        xtab( tai09, rweight );	  
+      endif;		
+      if HAI13I = 1 then        { emotional trauma }
+        severinj = 9;
+        xtab( tai09, rweight );	  
+      endif;		
+      if HAI13X = 1 then        { other }
+        severinj = 96;
+        xtab( tai09, rweight );	  
+      endif;		
+      if HAI13Z = 1 then        { don't know }
+        severinj = 98;
+        xtab( tai09, rweight );	  
+      endif;		
+	  
+    endif;	
+  enddo;  

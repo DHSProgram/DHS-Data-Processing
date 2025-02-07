@@ -1,0 +1,125 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines November 4, 2022      -       Version 1.0.0 of 11/07/2022   +}
+{+                                                                          +}
+{+   CHAPTER ECD.  EARLY CHILDHOOD DEVELOPMENT                              +}
+{+                                                                          +}
+{+   Table 1: Early childhood development index 2030                        +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, j, jtot, jmax, itot, months, sdgsex;
+  numeric cnt, rweight;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Tables for Early childhood development module, [Country Survey Year]" );
+
+   crosstab float(1) tecd01 sex2+v102w+v101w+chagea+funcdifc+v106wt+v190w+total ecdindex
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}	
+    title( "Table 1: Early childhood development index 2030","",
+           "Percentage of children age 24-59 months who are developmentally on-track", 
+		   "in health, learning and psychosocial well-being, [Country Survey Year]" )
+    stub( "Background characteristic" );
+{EN+}
+{{FR}
+    title( "Tableau 1 : Indice de développement de la petite enfance 2030","",
+           "Pourcentage d’enfants âgés de 24 à 59 mois dont le développement est en bonne voie",
+		   "en matière de santé, d’apprentissage et de bien-être psychosocial, [Pays, Enquête, Année]" )
+    stub( "Caractéristique sociodémographique" );	
+{FR}}
+   crosstab float(0) tecd01u sex2+v102w+v101w+chagea+funcdifc+v106wt+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 1: Early childhood development index 2030 (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+   
+PROC RECODE8_FF
+preproc
+ 
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+  unweight = ( sysparm()[1:1] = "U" );   { 1 - run unweighted tables }
+
+postproc
+
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table ecd.1 processing }
+  jtot = tblcol( tecd01 );                       
+  jmax = jtot - 1;  
+  do j = 0 while j <= jmax
+    tecd01[*,j] = tecd01[*,j] * 100 / tecd01[*,jtot];           // percentages
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tecd01", tecd01, 0, jmax, tecd01u, 0 );  
+  { write out SDG indicators }
+  itot   = tblrow( tecd01 );
+  sdgsex = tblrow( tecd01, sex2 = 1 );
+  jtot   = tblcol( tecd01, ecdindex = 1 );  
+  SDGIndicator( "4.2.1", tecd01(sdgsex,jtot), tecd01(sdgsex+1,jtot), tecd01(itot,jtot) );
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;     
+  
+  { !!! this weight approach assumes that all eligible children were selected 
+        use the appropiate subsample weight variable when only one child was selected } 
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;  
+  endif;
+
+  v101w  = V101;
+  v102w  = V102;
+  v190w  = V190;
+  v106wt = V106;
+  if V106 in 8,missing then v106wt = 9 endif;
+
+{ -------------------------------------------------------------------- }
+{ table ecd.1 }     
+
+  for i in RECECD do
+    months   = B19(IDXECD);                    // child age
+    if months in 24:59 then	
+      sex2     = B4(IDXECD);                     // sex
+      recode months -> chagea;
+              24:35 -> 1;
+              36:47 -> 2;
+              48:59 -> 3;
+                    -> default;
+      endrecode;
+      ecdindex = 2;
+      xtab( tecd01, rweight);
+      xtab( tecd01U );       
+
+      // variables involved in the determination of the index 
+      cnt = ( ECD21 = 1 ) + ( ECD22 = 1 ) + ( ECD23 = 1 ) + ( ECD24 = 1 ) + ( ECD25 = 1 ) + 
+	        ( ECD26 = 1 ) + ( ECD27 = 1 ) + ( ECD28 = 1 ) + ( ECD29 = 1 ) + ( ECD30 = 1 ) + 
+	        ( ECD31 = 1 ) + ( ECD32 = 1 ) + ( ECD33 = 1 ) + ( ECD34 = 1 ) + ( ECD35 = 1 ) + 
+	        ( ECD36 = 1 ) + ( ECD37 = 1 ) + ( ECD38 = 1 ) + 
+		    ( ECD39 in 2:5 ) + ( ECD40 in 1:2 );
+      recode months ::  cnt  -> ecdindex;
+              24:29 ::  7:25 -> 1; 	
+              30:35 ::  9:25 -> 1; 	
+              36:41 :: 11:25 -> 1; 	
+              42:47 :: 13:25 -> 1; 	
+              48:59 :: 15:25 -> 1; 	
+                    ::       -> default;
+      endrecode;
+      { !!!! if survey includes module for Child Functioning
+	    include here code to set variable FUNCDIFC       }
+      funcdifc = notappl;		
+      if ecdindex = 1 then	
+        xtab( tecd01, rweight);
+      endif;		
+    endif;
+  enddo;	

@@ -1,0 +1,368 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.5
+
+[LANGUAGES]
+EN=English
+ES=Español
+
+[QUESTION]
+Field=CNULL.ID
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\fs24\lang1033 Enter the lab ID for the sample that you want to enter the result for\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LABTECH1
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Select the technician who analyzed the slide for the first reading
+EN=\par }
+
+[QUESTION]
+Field=TESTLOG_DICT.LABTECH2
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Select the technician who analyzed the slide for the second reading
+EN=\par
+EN=\par }
+
+[QUESTION]
+Field=TESTLOG_DICT.LABTECH3
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Select the technician who analyzed the slide that resolved the discrepancy between the first and the second readings
+EN=\par
+EN=\par }
+
+[QUESTION]
+Field=TESTLOG_DICT.LASEXUAL1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24\lang1033 Enter Asexual: The number of trophozoites/schizonts for the first reading\par
+EN=
+EN=\pard\f1\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LASEXUAL2
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24\lang1033 Enter Asexual: The number of trophozoites/schizonts for the second reading\par
+EN=\par
+EN=\par
+EN=
+EN=\pard\f1\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LASEXUAL3
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24\lang1033 Enter Asexual: The number of trophozoites/schizonts for the third/discordant reading\par
+EN=\par
+EN=
+EN=\pard\f1\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LEND
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24\lang1033 Do you want to record or discard the testing results or return to options?\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LGAMETO1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Register the presence or not presence of gametocytes for the first reading \par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LGAMETO2
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Register the presence or not presence of gametocytes for the second reading \par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LGAMETO3
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Register the presence or not presence of gametocytes for the third/discordant reading \par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LIODINE
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 What is the result (iodine content) of the test?
+EN=\par }
+
+[QUESTION]
+Field=TESTLOG_DICT.LOPTION
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24\lang1033 Choose an option based on the action to be performed\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LREMARK1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Type any remarks written when analysis for first reading was done.  If no remarks exist, press enter\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LREMARK2
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Type any remarks written when analysis for second reading was done.  If no remarks exist, press enter\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LREMARK3
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24 Type any remarks written when analysis for third/discordant reading was done.  If no remarks exist, press enter\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LRESULT1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24\lang1033 Register the presence or not presence of asexual parasites for the first reading \par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LRESULT2
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24\lang1033 Register the presence or not presence of asexual parasites for the second reading \par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LRESULT3
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24\lang1033 Register the presence or not presence of asexual parasites for the third/discordant reading \par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LSEXUAL1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24\lang1033 Enter the Sexual: Trophozoites/schizonts for the first reading\par
+EN=
+EN=\pard\f1\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LSEXUAL2
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24\lang1033 Enter the Sexual: Trophozoites/schizonts for the second reading\par
+EN=
+EN=\pard\f1\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LSEXUAL3
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24\lang1033 Enter the Sexual: Trophozoites/schizonts for the third reading\par
+EN=
+EN=\pard\f1\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LSPECIE1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24 Register Species: Check appropriate boxes corresponding to species observed in first reading\par
+EN=
+EN=\pard\f1\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LSPECIE2
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24 Register Species: Check appropriate boxes corresponding to species observed in second reading\par
+EN=
+EN=\pard\f1\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LSPECIE3
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24 Register Species: Check appropriate boxes corresponding to species observed in third/discordant reading\par
+EN=
+EN=\pard\f1\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LTEMP
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Verify the sample ID number and Bar Code.  Is this the sample that you want to enter the test result for?
+EN=\par }
+
+[QUESTION]
+Field=TESTLOG_DICT.LTHINN1
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the parasite(s) found in the first reading of the thinn smear
+EN=\par }
+
+[QUESTION]
+Field=TESTLOG_DICT.LTHINN2
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the parasite(s) found in the second reading of the thinn smear
+EN=\par
+EN=\par }
+
+[QUESTION]
+Field=TESTLOG_DICT.LTHINN3
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the parasite(s) found to resolve the discordancy between the first and second readings of the thinn smear
+EN=\par
+EN=\par }
+
+[QUESTION]
+Field=TESTLOG_DICT.LTICK1
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Is the result for the first reading (thick smear) positive or negative?
+EN=\par }
+
+[QUESTION]
+Field=TESTLOG_DICT.LWBCA1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24\lang1033 Enter WBC: The number of white blood cells count against asexual for first reading\par
+EN=
+EN=\pard\f1\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LWBCA2
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24\lang1033 Enter WBC: The number of white blood cells count against asexual for second reading\par
+EN=\par
+EN=
+EN=\pard\f1\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LWBCA3
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24\lang1033 Enter WBC: The number of white blood cells count against asexual for third/discordant reading\par
+EN=
+EN=\pard\f1\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LWBCS1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24 Enter the WBC2: white blood cells count against asexual and sexual forms for the first reading\par
+EN=
+EN=\pard\f1\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LWBCS2
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24 Enter the WBC2: white blood cells count against asexual and sexual forms for the second reading\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.LWBCS3
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\widctlpar\sa160\sl252\slmult1\cf1\f0\fs24 Enter the WBC2: white blood cells count against asexual and sexual forms for the third reading\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=TESTLOG_DICT.ZZLSTAGE1
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the stage (life cycle of the parasite) for the first reading
+EN=\par \cf2
+EN=\par }
+
+[QUESTION]
+Field=TESTLOG_DICT.ZZLSTAGE2
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the stage (life cycle of the parasite) for the second reading
+EN=\par \cf2
+EN=\par \cf1
+EN=\par }
+
+[QUESTION]
+Field=TESTLOG_DICT.ZZLSTAGE3
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the stage (life cycle of the parasite) for the discordant reading
+EN=\par \cf2
+EN=\par \cf1
+EN=\par }
+

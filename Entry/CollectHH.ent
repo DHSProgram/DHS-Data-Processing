@@ -1,0 +1,48 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=COLLECTHH
+Name=COLLECTHH
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+PartialSave=Yes
+CAPI=Yes
+CenterForms=Yes
+DisplayCodesAlongsideLabels=Yes
+ShowFieldLabels=No
+ShowRefusals=No
+VerifyFrequency=1
+VerifyStart=RANDOM
+ParadataCollection=SomeEvents
+ParadataRecordValues=Yes
+ParadataRecordCoordinates=Yes
+ParadataDeviceStateMinutes=5
+ParadataGpsLocationMinutes=5
+ParadataCollectEvent=field_entry_event
+ParadataCollectEvent=field_movement_event
+ParadataCollectEvent=gps_event
+ParadataCollectEvent=language_change_event
+ParadataCollectEvent=message_event
+[External Dictionaries]
+File=..\Dicts\Clusters.dcf
+File=..\Dicts\HHForInt.dcf
+File=..\Dicts\ccIN80.dcf
+File=..\Dicts\Interv.dcf
+[AppCode]
+File=.\CollectHH.apc
+Include=..\Library\DPCollect.apc
+Include=..\Library\EntryFunctions.apc
+[Message]
+File=.\CollecTot.mgf
+[Help]
+File=.\CollectHH.qsf
+[Forms]
+File=.\ccHH80.fmf
+File=.\Others.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Clusters.dcf,External
+Dict-Type=..\Dicts\HHForInt.dcf,External
+Dict-Type=..\Dicts\Others.dcf,External,.\Others.fmf
+Dict-Type=..\Dicts\ccHH80.dcf,Input,.\ccHH80.fmf
+Dict-Type=..\Dicts\ccIN80.dcf,External
+Dict-Type=..\Dicts\Interv.dcf,External

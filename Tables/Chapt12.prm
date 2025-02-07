@@ -1,0 +1,322 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+t1201 columns numhh  = 1 nodec
+              numhh2 = 1 nodec;
+t1201 footnote
+{+EN}
+@1 De facto household members~
+@2 An insecticide-treated net (ITN) is a factory-treated net that does not require any further
+   treatment. In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY],
+   this was known as a long-lasting insecticidal net (LLIN).
+{EN+}
+{{ES}
+@1 De facto household members~
+@2 Un mosquitero tratado con insecticida (MTI) es un mosquitero tratado en fábrica que no requiere
+   tratamiento adicional.  In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY],
+   this was known as a long-lasting insecticidal net (LLIN).
+{ES}}
+{{FR}
+@1 Population des ménages de fait~
+@2 Une moustiquaire imprégnée d’insecticide (MII) est une moustiquaire qui a été imprégnée industriellement par
+   le fabricant et qui ne nécessite pas de traitement supplémentaire. Dans [LISTER LES DHS ET LES MIS PRÉCÉDENTES
+   QUE LE PAYS A EFFECTUÉES ET DANS LESQUELLES L' ACRONYME MIILDA A ÉTÉ UTILISÉE ], ce type de moustiquaire
+   correspond à la moustiquaire imprégnée à longue durée d'action (MILDA).
+{FR}}
+endfootnote;
+
+
+t1202 columns TOTNETS = 1 NODEC;
+t1202 footnote
+{+EN}
+ANC = Antenatal care~
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require any further treatment.
+   In the [YEAR DHS], this was known as a long-lasting insecticidal net (LLIN).~
+@2 Any net that is not an ITN
+{EN+}
+{{ES}
+ANC = Antenatal care~
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require any further treatment.
+   In the [YEAR DHS], this was known as a long-lasting insecticidal net (LLIN).~
+@2 Any net that is not an ITN
+{ES}}
+{{FR}
+na = non applicable~
+@1 Une moustiquaire imprégnée d'insecticide (MII) est une moustiquaire qui a été imprégnée industriellement par
+   le fabricant et qui ne nécessite pas de traitement supplémentaire. Dans [LISTER LES PRÉCÉDENTES DHS ET MIS
+   DU PAYS QUI ONT INCLUS L'ACRONYME MIILDA], ce terme correspond à la moustiquaire imprégnée d'insecticide à longue
+   durée d'action (MIILDA).
+{FR}}
+endfootnote;
+
+t1203 columns numpers = 1 nodec;
+t1203 footnote
+{+EN}
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require any further treatment.
+   In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY], this was known as
+   a long-lasting insecticidal net (LLIN).~
+@2 Percentage of the de facto household population who could sleep under an ITN if each ITN in the household
+   were used by up to two people
+{EN+}
+{{ES}
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require any further treatment.
+   In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY], this was known as
+   a long-lasting insecticidal net (LLIN).~
+@2 Porcentaje de la población de facto que podría dormir bajo un MTI si cada MIT en el hogar fuera utilizado
+   por un máximo de dos personas
+{ES}}
+{{FR}
+@1 Une moustiquaire imprégnée d' insecticide (MII) est une moustiquaire qui a été imprégnée industriellement
+   par le fabricant et qui ne nécessite pas de traitement supplémentaire. Dans [LISTER LES PRÉCÉDENTES DHS ET
+   MIS DU PAYS QUI ONT INCLUS L'ACRONYME MIILDA], ce terme correspond à la moustiquaire imprégnée d'insecticide
+   à longue durée d'action (MIILDA).~
+@2 Pourcentage de la population de fait des ménages qui aurait pu dormir sous une MII si chaque MII
+   du ménage était utilisée par deux personnes au maximum.
+{FR}}
+endfootnote;
+
+t1204 columns popitn1 = 3 nodec
+              popitn2 = 2 nodec;
+t1204 footnote
+{+EN}
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require any further
+   treatment. In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY],
+   this was known as a long-lasting insecticidal net (LLIN).
+{EN+}
+{{ES}
+@1 Un mosquitero tratado con insecticida (MTI) es un mosquitero tratado en fábrica que no requiere
+   tratamiento adicional. In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY],
+   this was known as a long-lasting insecticidal net (LLIN).
+{ES}}
+{{FR}
+@1 Une moustiquaire imprégnée d' insecticide (MII) est une moustiquaire qui a été imprégnée
+   industriellement par le fabricant et qui ne nécessite pas de traitement supplémentaire.
+   Dans [LISTER LES PRÉCÉDENTES DHS ET MIS DU PAYS QUI ONT INCLUS L'ACRONYME MIILDA], ce terme
+   correspond à la moustiquaire imprégnée d'insecticide à longue durée d'action (MIILDA).
+{FR}}
+endfootnote;
+
+t1205 columns useofitn = 2 nodec;
+t1205 footnote
+{+EN}
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require any further
+   treatment. In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY],
+   this was known as a long-lasting insecticidal net (LLIN).
+{EN+}
+{{ES}
+@1 Un mosquitero tratado con insecticida (MTI) es un mosquitero tratado en fábrica que no requiere
+   tratamiento adicional. In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY],
+   this was known as a long-lasting insecticidal net (LLIN).
+{ES}}
+{{FR}
+@1 Une moustiquaire imprégnée d' insecticide (MII) est une moustiquaire qui a été imprégnée
+   industriellement par le fabricant et qui ne nécessite pas de traitement supplémentaire.
+   Dans [LISTER LES PRÉCÉDENTES DHS ET MIS DU PAYS QUI ONT INCLUS L'ACRONYME MIILDA], ce terme
+   correspond à la moustiquaire imprégnée d'insecticide à longue durée d'action (MIILDA).
+{FR}}
+endfootnote;
+
+t1206 columns chilitn1 = 3 nodec
+              chilitn2 = 2 nodec;
+t1206 footnote
+{+EN}
+Note: Table is based on children who stayed in the household the night before the interview.~
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require any further
+   treatment. In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY],
+   this was known as a long-lasting insecticidal net (LLIN).
+{EN+}
+{{ES}
+Nota: El cuadro está basado en niños/as que estuvieron en el hogar la noche antes de la entrevista.~
+@1 Un mosquitero tratado con insecticida (MTI) es un mosquitero tratado en fábrica que no requiere
+   tratamiento adicional. In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY],
+   this was known as a long-lasting insecticidal net (LLIN).
+{ES}}
+{{FR}
+Note : Le tableau est basé sur les enfants ayant passé la nuit précédant l'interview dans le ménage.~
+@1 Une moustiquaire imprégnée d' insecticide (MII) est une moustiquaire qui a été imprégnée industriellement
+   par le fabricant et qui ne nécessite pas de traitement supplémentaire. Dans [LISTER LES PRÉCÉDENTES DHS ET MIS
+   DU PAYS QUI ONT INCLUS L'ACRONYME MIILDA], ce terme correspond à la moustiquaire imprégnée d'insecticide à longue
+   durée d'action (MIILDA).
+{FR}}
+endfootnote;
+
+t1207 columns pregitn1 = 3 nodec
+              pregitn2 = 2 nodec;
+t1207 footnote
+{+EN}
+Note: Table is based on women who stayed in the household the night before the interview.~
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require any further
+   treatment. In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY],
+   this was known as a long-lasting insecticidal net (LLIN).
+{EN+}
+{{ES}
+Nota: El cuadro está basado en mujeres que estuvieron en el hogar la noche antes de la entrevista.~
+@1 Un mosquitero tratado con insecticida (MTI) es un mosquitero tratado en fábrica que no requiere
+   tratamiento adicional. In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY],
+   this was known as a long-lasting insecticidal net (LLIN).
+{ES}}
+{{FR}
+Note : Le tableau est basé sur les femmes ayant passé la nuit précédant l'interview dans le ménage.~
+@1 Une moustiquaire imprégnée d' insecticide (MII) est une moustiquaire qui a été imprégnée industriellement
+   par le fabricant et qui ne nécessite pas de traitement supplémentaire. Dans [LISTER LES PRÉCÉDENTES DHS ET MIS
+   DU PAYS QUI ONT INCLUS L'ACRONYME MIILDA], ce terme correspond à la moustiquaire imprégnée d'insecticide à longue
+   durée d'action (MIILDA).
+{FR}}
+endfootnote;
+
+t1208 columns unusnet1 = 2 nodec
+              totunuse = 1 nodec;
+t1208 footnote
+{+EN}
+@1 An insecticide-treated net (ITN) is a factory-treated net that does not require any further treatment.
+   In the [LIST PAST COUNTRY DHS AND MIS THAT INCLUDED LLIN TERMINOLOGY], this was known as a long-lasting
+   insecticidal net (LLIN).
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Une moustiquaire imprégnée d' insecticide (MII) est une moustiquaire qui a été imprégnée industriellement
+   par le fabricant et qui ne nécessite pas de traitement supplémentaire. Dans [LISTER LES PRÉCÉDENTES DHS ET MIS
+   DU PAYS QUI ONT INCLUS L'ACRONYME MIILDA], ce terme correspond à la moustiquaire imprégnée d'insecticide à longue
+   durée d'action (MIILDA).
+{FR}}
+endfootnote;
+
+t1209 columns fansidar = 4 nodec;
+t1209 footnote
+{+EN}
+Note: Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks.
+      When pregnancy duration is reported in months, stillbirths are fetal deaths
+      in pregnancies lasting 7 or more months.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding the survey,
+   data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les mort-nés sont des décès foetaux qui se sont produits après une grossesse de 28 semaines
+      ou plus. Quand la durée de la grossesse est déclarée en mois, les mort-nés sont des décès
+      foetaux qui se sont produits après une grossesse de 7 mois ou plus.~
+@1 Le rang de naissance fait référence au rang de naissance parmi les naissances vivantes de l'enquêtée.~
+@2 Pour les femmes ayant eu une naissance vivante et un enfant mort-né dans les 2 années ayant précédé l'enquête,
+  les données sont calculées sur la naissance la plus récente seulement.
+{FR}}
+endfootnote;
+
+t1210 columns chilfev1 = 2 nodec
+              treatfev = 5 nodec;
+t1210 footnote
+{+EN}
+@1 Includes advice or treatment from the following sources: [PUBLIC SECTOR,
+   PRIVATE MEDICAL SECTOR, NGO MEDICAL SECTOR, SHOP, MARKET, AND ITINERANT DRUGS SELLER].
+   Excludes advice or treatment from a traditional practitioner [ADD ANY SURVEY-SPECIFIC
+   NON-MEDICAL CATEGORY SUCH AS FRIENDS/RELATIVES OR CHURCH].
+{EN+}
+{{ES}
+@1 Includes advice or treatment from the following sources: [PUBLIC SECTOR,
+   PRIVATE MEDICAL SECTOR, NGO MEDICAL SECTOR, SHOP, MARKET, AND ITINERANT DRUGS SELLER].
+   Excludes advice or treatment from a traditional practitioner.
+{ES}}
+{{FR}
+@1 Sont inclus les conseils ou traitements des sources suivantes : [SECTEUR PUBLIC,
+   SECTEUR MÉDICAL PRIVÉ, SECTEUR MÉDICAL ONG, BOUTIQUE, MARCHÉ ET VENDEUR DE MÉDICAMENTS
+   AMBULANT]. Ne sont pas pris en compte ici les conseils ou traitements fournis par un
+   praticien traditionnel [AJOUTEZ TOUTE CATÉGORIE NON MÉDICALE SPÉCIFIQUE À L'ENQUÊTE
+   COMME AMIS/PARENTS OU INSTITUTION RELIGIEUSE].
+{FR}}
+endfootnote;
+
+t1211 rows    numchild = 1 nodec;
+t1211 footnote
+{+EN}
+Note: Advice or treatment for children with fever may have been sought from more than one source.~
+CHW = Community health worker~
+NGO = Non-governmental organization
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les conseils ou traitements pour les enfants avec de la fièvre peuvent avoir été recherchés auprès de plus d'une source.~
+ASC = Agent de santé communautaire~
+ONG = Organisation non gouvernementale
+{FR}}
+endfootnote;
+
+t1212 columns chfevant = 1 nodec;
+t1212 footnote
+{+EN}
+ACT = Artemisinin-based combination therapy
+{EN+}
+{{ES}
+TCA = Terapia combinada basada en Artemisina
+{ES}}
+{{FR}
+CTA = Combinaison thérapeutique à base d'artémisinine
+{FR}}
+endfootnote;
+
+t1213 columns anemtest = 3 nodec;
+t1213 footnote
+{+EN}
+RDT = Rapid Diagnostic Test ([INSERT NAME OF RDT USED])~
+@1 Includes children whose mothers are deceased~
+@2 For women who are not interviewed, information on education is taken from the Household Questionnaire.
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+{EN+}
+{{ES}
+RDT = Rapid Diagnostic Test ([INSERT NAME OF RDT USED])~
+@1 Includes children whose mothers are deceased~
+@2 For women who are not interviewed, information on education is taken from the Household Questionnaire.
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+{ES}}
+RDT = Rapid Diagnostic Test ([INSERT NAME OF RDT USED])~
+@1 Includes children whose mothers are deceased~
+@2 For women who are not interviewed, information on education is taken from the Household Questionnaire.
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+{{FR}
+TDR = Test de diagnostic rapide ([INSÉRER NOM DU TDR OU TDR UTILISÉ])~
+@1 Y compris les enfants dont la mère est décédée~
+@2 Pour les femmes qui n'ont pas été interviewées, l'information provient du Questionnaire Ménage.
+   Non compris les enfants dont la mère n'est pas listée dans le Questionnaire Ménage.
+{FR}}
+endfootnote;
+
+t1214 columns prevmal1 = 2 nodec
+              prevmal2 = 2 nodec;
+t1214 footnote
+{+EN}
+RDT = Rapid Diagnostic Test ([INSERT NAME OF RDT USED])~
+@1 Includes children whose mothers are deceased~
+@2 For women who are not interviewed, information on education is taken from the Household Questionnaire.
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+TDR = Test de Diagnostic Rapide~
+@1 Y compris les enfants dont la mère est décédée~
+@2 Pour les femmes qui ne sont pas interviewées, l'information sur le niveau d'instruction provient
+   du Questionnaire Ménage. Non compris les enfants dont la mère n'est pas listée dans le Questionnaire Ménage.
+{FR}}
+endfootnote;
+

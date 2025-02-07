@@ -1,0 +1,3328 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.5
+
+[LANGUAGES]
+EN=English
+ES=Español
+FR=French
+
+[QUESTION]
+Field=AB103_BLOCK
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red64\green128\blue128;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32  \cf2 What is %ACNAME%'s date of birth?\par
+EN=}
+
+[QUESTION]
+Field=AB115_BLOCK
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green128\blue64;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32  \cf2 RECORD THE DATE OF MEASUREMENT\par
+EN=}
+
+[QUESTION]
+Field=AB211_BLOCK
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green128\blue64;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32  \cf2 RECORD THE DATE OF MEASUREMENT\par
+EN=}
+
+[QUESTION]
+Field=AB311_BLOCK
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green128\blue64;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32  \cf2 RECORD THE DATE OF MEASUREMENT\cf1\par
+EN=}
+
+[QUESTION]
+Field=ABM115_BLOCK
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green128\blue64;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32  \cf2 RECORD WHETHER %ACNAME% SUFFER FROM THIS ILLNESS/SYMPTOM:\cf1\par
+EN=}
+
+[QUESTION]
+Field=ABM128_BLOCK
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green128\blue64;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32  \cf2 RECORD THE DATE OF MEASUREMENT\cf1\par
+EN=}
+
+[QUESTION]
+Field=ACHL12_BLOCK
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green128\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32  \cf2 Since last %dayalpha%, did %ACHLNAME% do any of the following for this household?\cf1\par
+EN=}
+
+[QUESTION]
+Field=AH129_BLOCK
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green128\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32  \cf2 How many of the following animals does this household own?\cf1\par
+EN=}
+
+[QUESTION]
+Field=AH132_BLOCK
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green128\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32  \cf2 Does your household have:\cf1\par
+EN=}
+
+[QUESTION]
+Field=AH133_BLOCK
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green128\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32  \cf2 Does any member of this household own:\cf1\par
+EN=}
+
+[QUESTION]
+Field=AHFS_BLOCK
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green128\blue128;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Now I would like to ask you some questions about food. During the last 12 months, was there a time when: \cf2\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB102
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD LINE NUMBER OF CHILD\fs32\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB103D
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD DAY\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB103M
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD MONTH\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB103Y
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD YEAR\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB104
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 How old was %ACNAME% at %ACNAME%'s last birthday? \par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB106
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD %ACNAME%'S WEIGHT IN KILOGRAMS.\par
+EN=(Use format xx.xx and enter the decimal point)\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB106W
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RE-ENTER %ACNAME%'S WEIGHT IN KILOGRAMS.\par
+EN=(Use format xx.xx and enter the decimal point)\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB107
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 WAS THE CHILD MINIMALLY DRESSED?\cf2\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB108
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD %ACNAME%'S HEIGHT IN CENTIMETERS.\par
+EN=(Use format xxx.x and enter the decimal point)\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB108W
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RE-ENTER %ACNAME%'S HEIGHT IN CENTIMETERS.\par
+EN=(Use format xxx.x and enter the decimal point)\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB109
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER %ACNAME%'S WAS MEASURED LYING DOWN OR STANDING UP.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB110
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 CHECK 104 AND 109: BASED ON CHILD'S AGE, WAS CORRECT MEASUREMENT PROCEDURE FOLLOWED?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB111
+Condition=chage = 0
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 PRESS ENTER AND RECORD THE REASON WHY %ACNAME% WAS MEASURED STANDING UP\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB111
+Condition=chage = 1
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 PRESS ENTER AND RECORD THE REASON WHY %ACNAME% WAS MEASURED LYING DOWN\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB112
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 WAS THE RECORDED MEASUREMENT INTERFERED WITH BY BRAIDED OR ORNAMENTED HAIR?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB113
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 ENTER FIELDWORKER NUMBER OF THE BIOMARKER MEASURER.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB114
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER OF ASSISTANT MEASURER.\par
+EN=\par
+EN=IF NO ASSISTANT MEASURER, ENTER 9999.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB115D
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD DAY\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB115M
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD MONTH\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB115Y
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD YEAR\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB118
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD LINE NUMBER OF PARENT/OTHER ADULT RESPONSIBLE FOR %ACNAME%.
+EN=\par
+EN=\par RECORD '0' IF NOT LISTED
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB120
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER CONSENT FOR ANEMIA TESTING WAS GRANTED FOR %ACNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB121
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB122
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD HEMOGLOBIN LEVEL FOR %ACNAME%.\par
+EN=(Use format xx.x and enter the decimal point)\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB122W
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RE-ENTER HEMOGLOBIN LEVEL FOR %ACNAME%.\par
+EN=(Use format xx.x and enter the decimal point)\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB123
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 CHECK 122: HEMOGLOBIN RESULT\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB202
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD LINE NUMBER OF WOMAN\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB203
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER AGE OF %AWNAME% IS 15-17 YEARS, OR 18-49 YEARS
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB204
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD %AWNAME%'S MARITAL STATUS
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB205
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD %AWNAME%'S WEIGHT IN KILOGRAMS.\par
+EN=(Use format xxx.xx and enter the decimal point)\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB205W
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RE-ENTER %AWNAME%'S WEIGHT IN KILOGRAMS\par
+EN=(Use format xx.x and enter the decimal point)\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB206
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 WAS THE WOMAN WEARING ONLY LIGHTWEIGHT CLOTHING?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB207
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD %AWNAME%'S HEIGHT IN CENTIMETERS.\par
+EN=(Use format xxx.x and enter the decimal point)\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB207W
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RE-ENTER %AWNAME%'S HEIGHT IN CENTIMETERS\par
+EN=(Use format xxx.x and enter the decimal point)\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB208
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 WAS THE RECORDED MEASUREMENT INTERFERED WITH BY BRAIDED OR ORNAMENTED HAIR?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB209
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD FIELDWORKER NUMBER OF BIOMARKER MEASURER.
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB210
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER OF ASSISTANT MEASURER.\par
+EN=\par
+EN=IF NO ASSISTANT MEASURER, ENTER 9999.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB211D
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD DAY\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB211M
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD MONTH\par
+EN=\cf2\f1\fs32\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB211Y
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD YEAR\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB215
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER CONSENT WAS GRANTED FOR ANEMIA TESTING BY RESPONDENT
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB216
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB217
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD LINE NUMBER OF PARENT/OTHER ADULT RESPONSIBLE FOR %AWNAME%
+EN=\par
+EN=\par RECORD '0' IF NOT LISTED
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB219
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER ANEMIA TEST CONSENT WAS GRANTED BY CARETAKER FOR %AWNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB220
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB223
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER ANEMIA TEST CONSENT WAS GRANTED BY %AWNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB224
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB225
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD %AWNAME%'S HEMOGLOBIN LEVEL.\par
+EN=(Use format xx.x and enter the decimal point)\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB225W
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RE-ENTER %AWNAME%'S HEMOGLOBIN LEVEL\par
+EN=(Use format xx.x and enter the decimal point)\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB226
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 CHECK 225: HEMOGLOBIN RESULT\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB302
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD LINE NUMBER OF MAN\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB303
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER AGE OF %AMNAME% IS 15-17 YEARS, OR 18-[49] YEARS
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB304
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD %AMNAME%'S MARITAL STATUS
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB305
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD %AMNAME%'S WEIGHT IN KILOGRAMS.\par
+EN=(Use format xxx.xx and enter the decimal point)\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB305W
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RE-ENTER %AMNAME%'S WEIGHT IN KILOGRAMS\par
+EN=(Use format xxx.xx and enter the decimal point)\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB306
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 WAS THE MAN WEARING ONLY LIGHTWEIGHT CLOTHING?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB307
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD %AMNAME%'S HEIGHT IN CENTIMETERS.\par
+EN=(Use format xxx.x and enter the decimal point)\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB307W
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RE-ENTER %AMNAME%'S HEIGHT IN CENTIMETERS\par
+EN=(Use format xxx.x and enter the decimal point)\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB308
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 WAS THE RECORDED MEASUREMENT INTERFERED WITH BY BRAIDED OR ORNAMENTED HAIR?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB309
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD FIELDWORKER NUMBER OF BIOMARKER MEASURER.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB310
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER OF ASSISTANT MEASURER.\par
+EN=\par
+EN=IF NO ASSISTANT MEASURER, ENTER 9999.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB311D
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD DAY\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB311M
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD MONTH\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB311Y
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD YEAR\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB315
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER CONSENT WAS GRANTED FOR ANEMIA TESTING BY RESPONDENT\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB316
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB317
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 RECORD LINE NUMBER OF PARENT/OTHER ADULT RESPONSIBLE FOR %AMNAME%\par
+EN=\par
+EN=RECORD '0' IF NOT LISTED\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB319
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER ANEMIA TEST CONSENT WAS GRANTED BY CARETAKER FOR %AMNAME%\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB320
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB323
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER ANEMIA TEST CONSENT WAS GRANTED BY %AMNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AB324
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB325
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD %AMNAME%'S HEMOGLOBIN LEVEL\par
+EN=(Use format xx.x and enter the decimal point)\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB325W
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RE-ENTER %AMNAME%'S HEMOGLOBIN LEVEL\par
+EN=(Use format xx.x and enter the decimal point)\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AB326
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 CHECK 325: HEMOGLOBIN RESULT\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABFINISH
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 END OF BIOMARKER QUESTIONNAIRE.\par
+EN=\par
+EN=A WINDOW WILL BE DISPLAYED TO WRITE ANY NOTES.  AFTER THAT THE QUESTIONNAIRE WILL BE SAVED AUTOMATICALLY.\cf2\fs32\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABINTD
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\fs32 Record the day of the visit\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABINTM
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\fs32 Record the month of the visit\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABINTY
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\fs32 Record the year of the visit\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM112
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD BAR CODE ASSIGNED TO %ACNAME% FOR MALARIA LAB\par
+EN=\cf2\fs21\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM114
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD THE RESULT OF THE MALARIA RDT \par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM115A
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 a) EXTREME WEAKNESS?\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM115B
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 b) HEART PROBLEMS?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM115C
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 c) LOSS OF CONSCIOUSNESS?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM115D
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 d) RAPID OR DIFFICULT BREATHING?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM115E
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 e) SEIZURES?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM115F
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 f) ABNORMAL BLEEDING?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM115G
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 g) JAUNDICE OR YELLOW SKIN?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM115H
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 h) DARK URINE?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM117
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD HEMOGLOBIN RESULT\par
+EN=\cf2\fs21\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM119
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD IF %ACNAME% IN THE PAST 2 WEEKS OR IS TAKING [FIRST LINE MEDICATION] GIVEN BY A DOCTOR\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM122
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD IF PARENT/RESPONSIBLE ADULT ACCEPTED OR REFUSED [FIRST LINE OF MEDICATION] FOR CHILD\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM123
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 ENTER FIELDWORKER NUMBER FOR ACCEPTANCE OF MALARIA MEDICINE.\par
+EN=\cf2\f1\fs21\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM128D
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD DAY\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM128M
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD MONTH\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABM128Y
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD YEAR\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABMHIV1
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER HIV TEST CONSENT WAS GRANTED BY RESPONDENT\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABMHIV2
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD FIELDWORKER NUMBER OF BIOMARKER MEASURER.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABMHIV3
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER RESPONDENT GRANTED CONSENT FOR ADDITIONAL TESTING
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABMHIV4
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER HIV TEST CONSENT WAS GRANTED BY CARETAKER FOR %AMNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABMHIV5
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD FIELDWORKER NUMBER OF BIOMARKER MEASURER.
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABMHIV6
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER HIV TEST CONSENT WAS GRANTED BY %AMNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABMHIV7
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER CONSENT FOR ADDITIONAL TESTING WAS GRANTED BY CARETAKER FOR %AMNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABMHIV8
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER CONSENT FOR ADDITIONAL TESTING WAS GRANTED BY %AMNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABMHIV9
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD BAR CODE ASSIGNED TO %AMNAME%'S DBS SAMPLE
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABVISITS
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\fs32 Register the number of visits necessary to complete the biomarker questionnaire\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ABWHIV1
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER HIV TEST CONSENT WAS GRANTED BY RESPONDENT
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABWHIV2
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD FIELDWORKER NUMBER OF BIOMARKER MEASURER.
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABWHIV3
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER RESPONDENT GRANTED CONSENT FOR ADDITIONAL TESTING
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABWHIV4
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER HIV TEST CONSENT WAS GRANTED BY CARETAKER FOR %AWNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABWHIV5
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD FIELDWORKER NUMBER OF BIOMARKER MEASURER.
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABWHIV6
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER HIV TEST CONSENT WAS GRANTED BY %AWNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABWHIV7
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER CONSENT FOR ADDITIONAL TESTING WAS GRANTED BY CARETAKER FOR %AWNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABWHIV8
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD WHETHER CONSENT FOR ADDITIONAL TESTING WAS GRANTED BY %AWNAME%
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.ABWHIV9
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD BAR CODE ASSIGNED TO %AWNAME%'S DBS SAMPLE\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACAUXIL
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Do you want to enter biomarker measurements for %ACNAME%?\fs32\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3A
+Condition=xsex <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\fs32 Adults use certain ways to teach children the right behaviour or to address a behaviour problem. I will read various methods that are used. Please tell me if you or any other adult in this household has used this method with %ACDINAME% in the past month.\par
+EN=\par
+EN=Took away privileges, forbade something %ACDINAME% liked or did not allow her to leave the house.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3A
+Condition=xsex = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\fs32 Adults use certain ways to teach children the right behaviour or to address a behaviour problem. I will read various methods that are used. Please tell me if you or any other adult in this household has used this method with %ACDINAME% in the past month.\par
+EN=\par
+EN=Took away privileges, forbade something %ACDINAME% liked or did not allow him to leave the house.\par
+EN=
+EN=\pard\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3B
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Explained why %ACDINAME%'s behaviour was wrong.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3C
+Condition=xsex <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Shook her.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3C
+Condition=xsex = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Shook him.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3D
+Condition=xsex <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Shouted, yelled at or screamed at her.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3D
+Condition=xsex = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Shouted, yelled at or screamed at him.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3E
+Condition=xsex <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Gave her something else to do.\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3E
+Condition=xsex = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Gave him something else to do.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3F
+Condition=xsex <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Spanked, hit or slapped her on the bottom with bare hand.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3F
+Condition=xsex = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Spanked, hit or slapped him on the bottom with bare hand.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3G
+Condition=xsex <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Hit her on the bottom or elsewhere on the body with something like a belt, hairbrush, stick, or other hard object.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3G
+Condition=xsex = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Hit him on the bottom or elsewhere on the body with something like a belt, hairbrush, stick, or other hard object.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3H
+Condition=xsex <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Called her dumb, lazy, or another name like that.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3H
+Condition=xsex = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Called him dumb, lazy, or another name like that.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3I
+Condition=xsex <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Hit or slapped her on the face, head, or ears.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3I
+Condition=xsex = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Hit or slapped him on the face, head, or ears.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3J
+Condition=xsex <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Hit or slapped her on the hand, arm, or leg.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3J
+Condition=xsex = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Hit or slapped him on the hand, arm, or leg.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3K
+Condition=xsex <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Beat her up, that is hit her over and over as hard as one could.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI3K
+Condition=xsex = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Beat him up, that is hit him over and over as hard as one could.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACDI4
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Do you believe that in order to bring up, raise or educate a child properly, the child needs to be physically punished?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Since last %dayalpha%, did %ACHLNAME% collect firewood for household use?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL11
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 In total, how many hours did %ACHLNAME% spend on collecting firewood for household use, since last %dayalpha%?\par
+EN=\cf2\f1\par
+EN=IF LESS THAN ONE HOUR, RECORD '0'.\cf1\f0\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL12A
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Shopping for the household?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL12B
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Cooking?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL12C
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Washing dishes or cleaning around the house?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL12D
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Washing clothes?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL12E
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Caring for children?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL12F
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Caring for someone old or sick?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL12G
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Other household tasks?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL14
+Condition=activity2 <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Since last %dayalpha%, about how many hours did %ACHLNAME% engage in these activities, in total?\par
+EN=\cf2\f1\par
+EN=IF LESS THAN ONE HOUR, RECORD '0'.\cf1\f0\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL14
+Condition=activity2 = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Since last %dayalpha%, about how many hours did %ACHLNAME% engage in this activity, in total?\par
+EN=\par
+EN=\cf2\f1 IF LESS THAN ONE HOUR, RECORD '0'.\cf1\f0\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL2A
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\fs32 Now I would like to ask about any work %ACHLNAME% may do.\par
+EN=\par
+EN=Since last %dayalpha%, did %ACHLNAME% do any of the following activities, even for only one hour?\par
+EN=\par
+EN=Did %ACHLNAME% do any work or help on %hisher% own or the household's plot, farm, or food garden or looked after animals? For example, growing farm produce, harvesting, or feeding, grazing, or milking animals?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL2B
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+EN=\pard\cf1\fs32 Did %ACHLNAME% help in a family business or relative's business with or without pay, or run %hisher% own business?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL2C
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Did %ACHLNAME% produce or sell articles, handicrafts, clothes, food or agricultural products?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL2D
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Since last %dayalpha%, did %ACHLNAME% engage in any other activity in return for income in cash or in kind, even for only one hour?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL4
+Condition=activity1 <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Since last %dayalpha% about how many hours did %ACHLNAME% engage in these activities, in total?\par
+EN=\cf2\f1\par
+EN=IF LESS THAN ONE HOUR, RECORD '0'.\cf1\f0\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL4
+Condition=activity1 = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 Since last %dayalpha% about how many hours did %ACHLNAME% engage in this activity, in total?\par
+EN=\par
+EN=\cf2\f1 IF LESS THAN ONE HOUR, RECORD '0'.\cf1\f0\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL5
+Condition=activity1 <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Do these activities require carrying heavy loads?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL5
+Condition=activity1 = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Does the activity require carrying heavy loads?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL6
+Condition=activity1 <> 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Do these activities require working with dangerous tools, such as knives, or operating heavy machinery?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL6
+Condition=activity1 = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Does the activity require working with dangerous tools, such as knives, or operating heavy machinery?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL7A
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 How would you describe the work environment of %ACHLNAME%?\par
+EN=\par
+EN=Is %ACHLNAME% exposed to dust, fumes or gas?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL7B
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Is %ACHLNAME% exposed to extreme cold, heat or humidity?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL7C
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Is %ACHLNAME% exposed to loud noise or vibration?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL7D
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Is %ACHLNAME% required to work at heights?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL7E
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Is %ACHLNAME% required to work with chemicals, pesticides, glues, etc., or explosives?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL7F
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Is %ACHLNAME% exposed to other things, processes or conditions bad for %ACHLNAME%'s health or safety?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL8
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Since last %dayalpha%, did %ACHLNAME% fetch water for household use?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.ACHL9
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\fs32 In total, how many hours did %ACHLNAME% spend on fetching water for household use, since last %dayalpha%?\par
+EN=\cf2\f1\par
+EN=IF LESS THAN ONE HOUR, RECORD '0'.\cf1\f0\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH07A
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Just to make sure that I have a complete listing: are there any other persons such as small children or infants that we have not listed?
+EN=\par
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH07B
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Are there any other people who may not be members of your family, such as domestic servants, lodgers, or friends who usually live here?
+EN=\par
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH07C
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Are there any guests or temporary visitors staying here, or anyone else who stayed here last night, who have not been listed?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH08
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 What is %AH02%'s current marital status?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH08
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 What is your current marital status?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH101
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 What is the main source of drinking water for members of your household?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH102
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 What is the main source of water used by your household for other purposes such as cooking and handwashing?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH103
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Where is that water source located?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH104
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 How long does it take to go there, get water, and come back?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH105
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Who usually goes to this source to collect the water for your household?\par
+EN=\par
+EN=\cf2 RECORD THE PERSON'S NAME AND LINE NUMBER FROM THE HOUSEHOLD SCHEDULE.  IF THE PERSON IS NOT LISTED IN THE HOUSEHOLD ROSTER, RECORD '0'.\cf1\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH106
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 In the last month, has there been any time when your household did not have sufficient quantities of drinking water when needed?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH107
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Do you do anything to the water to make it safer to drink?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH108
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 What do you usually do to make the water safer to drink?
+EN=\par
+EN=\par Anything else?
+EN=\par \cf2
+EN=\par RECORD ALL MENTIONED.\cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH109
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 What kind of toilet facility do members of your household usually use?
+EN=\par
+EN=\par \cf2 IF NOT POSSIBLE TO DETERMINE, ASK PERMISSION TO OBSERVE THE FACILITY.\cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH110
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Do you share this toilet facility with other households?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH111
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Including your own household, how many households use this toilet facility?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH112
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Where is this toilet facility located?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH114
+Condition=faciltype = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Has your septic tank ever been emptied?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH114
+Condition=faciltype = 2
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Has your pit latrine ever been emptied?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH114
+Condition=faciltype = 3
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Has your composting toilet ever been emptied?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH115
+Condition=faciltype = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.16299}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 The last time the septic tank was emptied, was it emptied by a service provider?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH115
+Condition=faciltype = 2
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.16299}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 The last time the pit latrine was emptied, was it emptied by a service provider?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH115
+Condition=faciltype = 3
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 The last time the composting toilet was emptied, was it emptied by a service provider?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH116
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Where were the contents emptied to?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH117
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 In your household, what type of cookstove is mainly used for cooking?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH118
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Does the stove have a chimney?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH119
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Does the stove have a fan?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH12
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Is %AH02%'s biological mother alive?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH12
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Is your biological mother alive?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH120
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 What type of fuel or energy source is used in this cookstove?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH121
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Is the cooking usually done in the house, in a separate building, or outdoors?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH122
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Do you have a separate room which is used as a kitchen?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH123
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What does this household use to heat the home when needed?\par
+EN=\cf2\fs22\par
+EN=\fs32 IF THE RESPONDENT SAYS ELECTRICITY OR GAS, ASK: \cf1 What type of heater is the (electricity/gas) used in?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH124
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Does it have a chimney?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH125
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What type of fuel or energy source is used in this heater?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH126
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 At night, what does your household mainly use to light the home?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH127
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 How many rooms in this household are used for sleeping?\cf2
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH128
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Does this household own any livestock, herds, other farm animals, or poultry?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH129A
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Milk cows or bulls?\par
+EN=\cf2\par
+EN=IF NONE, RECORD '0'.\par
+EN=IF MORE THAN 95, RECORD '95'.\par
+EN=IF UNKNOWN, RECORD '98'.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH129B
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Other cattle?\par
+EN=\cf2\par
+EN=IF NONE, RECORD '0'.\par
+EN=IF MORE THAN 95, RECORD '95'.\par
+EN=IF UNKNOWN, RECORD '98'.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH129C
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Horses, donkeys, or mules?\par
+EN=\cf2\par
+EN=IF NONE, RECORD '0'.\par
+EN=IF MORE THAN 95, RECORD '95'.\par
+EN=IF UNKNOWN, RECORD '98'.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH129D
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Goats?\par
+EN=\cf2\par
+EN=IF NONE, RECORD '0'.\par
+EN=IF MORE THAN 95, RECORD '95'.\par
+EN=IF UNKNOWN, RECORD '98'.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH129E
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Sheep?\par
+EN=\cf2\par
+EN=IF NONE, RECORD '0'.\par
+EN=IF MORE THAN 95, RECORD '95'.\par
+EN=IF UNKNOWN, RECORD '98'.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH129F
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Chickens or other poultry?\par
+EN=\par
+EN=\cf2 IF NONE, RECORD '0'.\par
+EN=IF MORE THAN 95, RECORD '95'.\par
+EN=IF UNKNOWN, RECORD '98'.\cf1\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH13
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Does %AH02%'s biological mother usually live in this household or was she a guest last night?\par
+EN=\par
+EN=\cf2 IF YES: \cf1 What is her name? \cf2 RECORD MOTHER'S LINE NUMBER.\cf1\par
+EN=\cf2\par
+EN=IF NO: RECORD '0'.\cf1\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH13
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Does your biological mother usually live in this household or was she a guest last night?\par
+EN=\par
+EN=\cf2 IF YES: \cf1 What is her name? \cf2 RECORD MOTHER'S LINE NUMBER.\cf1\par
+EN=\cf2\par
+EN=IF NO: RECORD '0'.\cf1\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH130
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Does any member of this household own any agricultural land?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH131
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 How many hectares of agricultural land do members of this household own?
+EN=\par
+EN=\par \cf2 IF 95 OR MORE, RECORD '950'.\cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH132A
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Electricity?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH132B
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 A radio?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH132C
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 A television?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH132D
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 A non-mobile telephone?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH132E
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 A computer?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH132F
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 A refrigerator?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH133A
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 A watch?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH133B
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 A mobile telephone?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH133C
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 A bicycle?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH133D
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 A motorcycle or motor scooter?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH133E
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 An animal-drawn cart?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH133F
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 A car or truck?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH133G
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 A boat with a motor?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH134
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Does any member of this household have an account in a bank or other financial institution?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH135
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Does any member of this household use a mobile phone to make financial transactions such as sending or receiving money, paying bills, purchasing goods or services, or receiving wages?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH136
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 How often does anyone smoke inside your house?
+EN=\par
+EN=\par Would you say daily, weekly, monthly, less often than once a month, or never?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH137
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Does your household have any mosquito nets?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH138
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 How many mosquito nets does your household have?
+EN=\par
+EN=\par \cf2 IF 7 OR MORE NETS, RECORD '7'.\cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH14
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Is %AH02%'s biological father alive?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH14
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Is your biological father alive?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH140
+Occurrences=1:1
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 I would like to take a look at the nets that you have.  Is it possible to see it (them)?\cf2
+EN=\par
+EN=\par ASK RESPONDENT TO SHOW YOU ALL THE NETS IN THE HOUSEHOLD.\cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH140
+Occurrences=2:7
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 I would like to take a look at the net number %AH139% that you have.  Is it possible to see it?\cf2
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH141
+Occurrences=1:7
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 How many months ago did your household get the mosquito net?
+EN=\par \cf2
+EN=\par IF LESS THAN ONE MONTH AGO, RECORD '0'.
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH142
+Occurrences=1:7
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 OBSERVE OR ASK THE BRAND/TYPE OF MOSQUITO NET.
+EN=\par
+EN=\par IF BRAND IS UNKNOWN AND YOU CANNOT OBSERVE THE NET, SHOW PICTURES OF TYPICAL NET TYPES/BRANDS TO RESPONDENT.\cf2
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH143
+Occurrences=1:7
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Did you get the net through a [LOCAL NAME OF MASS DISTRIBUTION CAMPAIGN], during an antenatal care visit, or during an immunization visit?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH144
+Occurrences=1:7
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Where did you get the net?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH145
+Occurrences=1:7
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Did anyone sleep under this mosquito net last night?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH146A
+Occurrences=1:7
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Who slept under this mosquito net last night?
+EN=\par \cf2
+EN=\par SELECT THE PERSON'S NAME AND LINE NUMBER WHO SLEPT UNDER THE NET. \cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH146B
+Occurrences=1:7
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Who else slept under this mosquito net last night?
+EN=\par \cf2
+EN=\par SELECT THE PERSON'S NAME AND LINE NUMBER WHO SLEPT UNDER THE NET. SELECT '0' IF NO ONE ELSE SLEPT UNDER THE NET.\cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH146C
+Occurrences=1:7
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Who else slept under this mosquito net last night?
+EN=\par \cf2
+EN=\par SELECT THE PERSON'S NAME AND LINE NUMBER WHO SLEPT UNDER THE NET. SELECT '0' IF NO ONE ELSE SLEPT UNDER THE NET.\cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH146D
+Occurrences=1:7
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Who else slept under this mosquito net last night?
+EN=\par \cf2
+EN=\par SELECT THE PERSON'S NAME AND LINE NUMBER WHO SLEPT UNDER THE NET. SELECT '0' IF NO ONE ELSE SLEPT UNDER THE NET.\cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH147
+Occurrences=1:7
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What was the main reason this net was not used last night?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH149
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 We would like to learn about the places that households use to wash their hands. Can you please show me where members of your household most often wash their hands?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH15
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Does %AH02%'s biological father usually live in this household or was he a guest last night?\par
+EN=\par
+EN=\cf2 IF YES: \cf1 What is his name? \cf2 RECORD FATHER'S LINE NUMBER.\cf1\par
+EN=\cf2\par
+EN=IF NO: RECORD '0'.\cf1\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH15
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Does your biological father usually live in this household or was he a guest last night?\par
+EN=\par
+EN=\cf2 IF YES: \cf1 What is his name? \cf2 RECORD FATHER'S LINE NUMBER.\cf1\par
+EN=\cf2\par
+EN=IF NO: RECORD '0'.\cf1\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH150
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 OBSERVE PRESENCE OF WATER AT THE PLACE FOR HANDWASHING.
+EN=\par
+EN=\par RECORD OBSERVATION.\cf2
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH151
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 OBSERVE PRESENCE OF SOAP, DETERGENT, OR OTHER CLEANSING AGENT AT THE PLACE OF HANDWASHING.
+EN=\par
+EN=\par RECORD OBSERVATION.
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH152
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 OBSERVE MAIN MATERIAL OF THE FLOOR OF THE DWELLING.
+EN=\par
+EN=\par RECORD OBSERVATION.\cf2
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH153
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 OBSERVE MAIN MATERIAL OF THE ROOF OF THE DWELLING.
+EN=\par
+EN=\par RECORD OBSERVATION.\cf2
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH154
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 OBSERVE MAIN MATERIAL OF THE EXTERIOR WALLS OF THE DWELLING.
+EN=\par
+EN=\par RECORD OBSERVATION.\cf2
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH155
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 I would like to check whether the salt used in your household is iodized. May I have a sample of the salt used to cook meals in your household?\cf2
+EN=\par
+EN=\par TEST SALT FOR IODINE.\cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH16
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Has %AH02% ever attended school or any early childhood education program?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH16
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Have you ever attended school or any early childhood education program?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH17A
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 What is the highest level of school %AH02% has attended?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH17A
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 What is the highest level of school you have attended?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH17B
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 What is the highest grade %AH02% completed at that level?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH17B
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 What is the highest grade you completed at that level?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH18
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Did %AH02% attend school or any early childhood education program at any time during the [2019-2020] school year?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH18
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Did you attend school or any early childhood education program at any time during the [2019-2020] school year?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH19A
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 During [this/that] school year, what level [is/was] %AH02% attending?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH19A
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 During [this/that] school year, what level [are/were] you attending?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH19B
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 During [this/that] school year, what grade [is/was] %AH02% attending?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH19B
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 During [this/that] school year, what grade [are/were] you attending?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH20
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Does %AH02% have a birth certificate?
+EN=\par
+EN=\par \cf2 IF NO, PROBE:\cf1
+EN=\par Has %AH02%'s birth ever been registered with the civil authority?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AH26
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 Does %AH02% wear glasses or contact lenses to help them see?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH26
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Do you wear glasses or contact lenses to help you see?\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH27
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if %AH02% has difficulty seeing even when wearing glasses or contact lenses. Would you say that %AH02% has no difficulty seeing, some difficulty, a lot of difficulty, or cannot see at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH27
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if you have difficulty seeing even when wearing glasses or contact lenses. Would you say that you have no difficulty seeing, some difficulty, a lot of difficulty, or cannot see at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH28
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if %AH02% has difficulty seeing. Would you say that %AH02% has no difficulty seeing, some difficulty, a lot of difficulty, or cannot see at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH28
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if you have difficulty seeing. Would you say that you have no difficulty seeing, some difficulty, a lot of difficulty, or cannot see at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH29
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 Does %AH02% wear a hearing aid?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH29
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Do you wear a hearing aid?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH30
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if %AH02% has difficulty hearing even when using a hearing aid. Would you say that %AH02% has no difficulty hearing, some difficulty, a lot of difficulty, or cannot hear at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH30
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if you have difficulty hearing even when using a hearing aid. Would you say that you have no difficulty hearing, some difficulty, a lot of difficulty, or cannot hear at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH31
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if %AH02% has difficulty hearing. Would you say that %AH02% has no difficulty hearing, some difficulty, a lot of difficulty, or cannot hear at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH31
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if you have difficulty hearing. Would you say that you have no difficulty hearing, some difficulty, a lot of difficulty, or cannot hear at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH32
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if %AH02% has difficulty communicating when using his/her usual language. Would you say that %AH02% has no difficulty understanding or being understood, some difficulty, a lot of difficulty, or cannot communicate at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH32
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if you have difficulty communicating when using your usual language. Would you say that you have no difficulty understanding or being understood, some difficulty, a lot of difficulty, or cannot communicate at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH33
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if %AH02% has difficulty remembering or concentrating. Would you say that %AH02% has no difficulty remembering or concentrating, some difficulty, a lot of difficulty, or cannot remember or concentrate at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH33
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if you have difficulty remembering or concentrating. Would you say that you have no difficulty remembering or concentrating, some difficulty, a lot of difficulty, or cannot remember or concentrate at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH34
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if %AH02% has difficulty walking or climbing steps. Would you say that %AH02% has no difficulty walking or climbing steps, some difficulty, a lot of difficulty, or cannot walk or climb steps at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH34
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if you have difficulty walking or climbing steps. Would you say that you have no difficulty walking or climbing steps, some difficulty, a lot of difficulty, or cannot walk or climb steps at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH35
+Condition=AH01 <> AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if %AH02% has difficulty washing all over or dressing. Would you say that %AH02% has no difficulty washing all over or dressing, some difficulty, a lot of difficulty, or cannot wash all over or dress at all?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AH35
+Condition=AH01 = AHRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\cf1\f0\fs32 I would like to know if you have difficulty washing all over or dressing. Would you say that you have no difficulty washing all over or dressing, some difficulty, a lot of difficulty, or cannot wash all over or dress at all?\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHADDRESS
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs32 Enter correct address for new household.\cf2
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHAGE
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 How old is %AHFIRSTN%  %AHLASTN%?
+EN=\par
+EN=\cf2\fs32 IF 95 OR MORE, RECORD '95'\cf1\fs32\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Now I would like to ask you about road traffic accidents that anyone in your household may have been involved in. \par
+EN=\par
+EN=During the past 12 months, was anyone in your household killed in a road traffic accident, or injured in a road traffic accident with injuries severe enough that for at least one day they could not carry out their normal daily activities?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI10
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 SELECT HOUSEHOLD MEMBER NAME FROM LIST PROVIDED.\par
+EN=\par
+EN=SELECT '0' IF PERSON NOT LISTED.\cf2\fs21\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI11
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Is %AHAI2% male or female?\cf2\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI12
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 How old is %AHAI2%?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI13
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What kind of injuries did %AHAI2% have as a result of the accident?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI14
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Does %AHAI2% continue to have any health problems as a result of the road traffic accident?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI15
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 In what ways does %AHAI2% continue to have health problems as a result of the road traffic accident?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI16
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was any other member of this household killed or injured in a road traffic accident in the past 12 months?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI17
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 In the last 12 months, was anyone in your household killed or injured in an incident other than a road traffic accident? \par
+EN=\par
+EN=By injured, I mean that their injuries were severe enough that for at least one day they could not carry out their normal daily activities.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI19
+Occurrences=1:1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What is the name of the first person killed or injured?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI19
+Occurrences=2:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What is the name of the next person (%AHAI17L%) killed or injured?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI2
+Occurrences=1:1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What is the name of the first person killed or injured in a road traffic accident?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI2
+Occurrences=2:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What is the name of the next person (%AHAI1L%) killed or injured in a road traffic accident?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI20
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 In what type of incident was %AHAI19% killed or injured?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI21
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 How did the death or injury happen?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI22
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Is %AHAI19% still alive?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI23
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was %AHAI19% male or female?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI24
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What was %AHAI19%\rquote s age when %AHAI19% died?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI25
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was %AHAI19%\rquote s death related to this incident?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI26
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What kind of injuries did %AHAI19% have as a result of the incident?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI27
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 SELECT HOUSEHOLD MEMBER NAME FROM LIST PROVIDED.\par
+EN=\par
+EN=SELECT '0' IF PERSON NOT LISTED.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI28
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Is %AHAI19% male or female?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI29
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 How old is %AHAI19%?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI30
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What kind of injuries did %AHAI19% have as a result of the incident?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI31
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Does %AHAI19% continue to have any health problems as a result of the incident?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI32
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 In what ways does %AHAI19% continue to have health problems as a result of the injury?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI33
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was any other member of this household killed or injured in an incident other than a road traffic accident in the past 12 months?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI4
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was %AHAI2% in a car, truck, bus, motorcycle, bicycle, another kind of vehicle, or was %AHAI2% a pedestrian?\par
+EN=\fs21\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI5
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Is %AHAI2% still alive?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI6
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was %AHAI2% male or female?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI7
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What was %AHAI2%\rquote s age when %AHAI2% died?\par
+EN=\par
+EN=\cf2 IF LESS THAN ONE YEAR, RECORD '0'.\cf1\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI8
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was %AHAI2%\rquote s death related to the road traffic accident?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHAI9
+Occurrences=1:10
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 What kind of injuries did %AHAI2% have as a result of the accident?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHCONSENT
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN={\*\generator Riched20 10.0.16299}\viewkind4\uc1
+EN=\pard\f0\fs32\lang1033 INTRODUCTION AND CONSENT\par
+EN=\par
+EN=
+EN=\pard\sa200\sl276\slmult1 Hello.  My name is __________. I am working with [NAME OF ORGANIZATION].  We are conducting a survey about health and other topics all over [NAME OF COUNTRY]. The information we collect will help the government to plan health services. Your household was selected for the survey. I would like to ask you some questions about your household. The questions usually take about 15 to 20 minutes. All of the answers you give will be confidential and will not be shared with anyone other than members of our survey team. You don't have to be in the survey, but we hope you will agree to answer the questions since your views are important. If I ask you any question you don't want to answer, just let me know and I will go on to the next question or you can stop the interview at any time. In case you need more information about the survey, you may contact the person listed on this card.\par
+EN=\par
+EN=\cf1 GIVE CARD WITH CONTACT INFORMATION\cf0\par
+EN=Do you have any questions?\par
+EN=May I begin the interview now?\cf1\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHFINISH
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 END OF HOUSEHOLD QUESTIONNAIRE.
+EN=\par
+EN=\par A WINDOW WILL BE DISPLAYED TO WRITE ANY NOTES.  AFTER THAT THE QUESTIONNAIRE WILL BE SAVED AUTOMATICALLY.
+EN=\par
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHFIRSTN
+Occurrences=1:1
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Please give me the names of the persons who usually live in your household and guests of the household who stayed here last night, starting with the head of the household.
+EN=\par \cf2
+EN=\par RECORD THE FIRST NAME OF THE HEAD OF THE HOUSEHOLD\cf1
+EN=\par
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHFIRSTN
+Occurrences=2:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD FIRST NAME OF HOUSEHOLD MEMBER.\cf2
+EN=\par
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHFS0
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Now I would like to ask you some questions about food. During the last 12 months, was there a time when: \par
+EN=\par
+EN=\cf2 Press Enter Key to continue\cf1\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHFS1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 You or others in your household worried about not having enough food to eat because of a lack of money or other resources?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHFS2
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Still thinking about the last 12 months, was there a time when you or others in your household were unable to eat healthy and nutritious food because of a lack of money or other resources? \par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHFS3
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was there a time when you or others in your household ate only a few kinds of foods because of a lack of money or other resources? \par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHFS4
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was there a time when you or others in your household had to skip a meal because there was not enough money or other resources to get food? \par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHFS5
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Still thinking about the last 12 months, was there a time when you or others in your household ate less than you thought you should because of a lack of money or other resources?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHFS6
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was there a time when your household ran out of food because of a lack of money or other resources?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHFS7
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was there a time when you or others in your household were hungry but did not eat because there was not enough money or other resources for food?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHFS8
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Was there a time when you or others in your household went without eating for a whole day because of a lack of money or other resources?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHLANGI
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs32 ENTER THE LANGUAGE OF THE INTERVIEW
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHLANGQ
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs32 ENTER THE LANGUAGE OF THE QUESTIONNAIRE
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHLANGR
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs32 ENTER THE NATIVE LANGUAGE OF THE RESPONDENT
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHLASTN
+Occurrences=1:1
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD THE LAST NAME OF THE HEAD OF THE HOUSEHOLD
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHLASTN
+Occurrences=2:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD THE LAST NAME OF HOUSEHOLD MEMBER.\cf2
+EN=\par \cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHLIVES
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Does %AHFIRSTN% %AHLASTN% usually live here?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHMORE
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Are there any other persons living in this household?
+EN=\par
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHRELAT
+Occurrences=1:1
+EN={\rtf1\ansi\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 ENTER 1 FOR HEAD OF HOUSEHOLD\cf2
+EN=\par \cf1
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHRELAT
+Occurrences=2:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 What is the relationship of %AHFIRSTN% %AHLASTN% to the head of the household?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHRESP
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 RECORD THE LINE NUMBER OF THE RESPONDENT TO THE HOUSEHOLD QUESTIONNAIRE.\cf2
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHSEX
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17763}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 Is %AHFIRSTN% %AHLASTN% male or female?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AHSTAYED
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\f0\fs32 Did %AHFIRSTN% %AHLASTN% stay here last night?
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHTRANS
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs32 ENTER WHETHER A TRANSLATOR WAS USED DURING THE INTERVIEW\cf2
+EN=\par }
+
+[QUESTION]
+Field=CCHH80.AHVRESULT
+Occurrences=1:5
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32\lang1033 VISIT %AHVLINE%, ENTER 1 TO START INTERVIEW OR RECORD THE RESULT OF THE INTERVIEW.\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AMAUXIL
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Do you want to enter biomarker measurements for %AMNAME%?\fs32\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.AWAUXIL
+Occurrences=1:20
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 Do you want to enter biomarker measurements for %AWNAME%?\fs32\par
+EN=\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.GHAUX
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Coordinates for the household were already collected, do you want to replace the current coordinates?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.GHINTRO
+Condition=capturecoor = 0
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 Are you sure that you want to replace the current coordinates?\par
+EN=}
+
+[QUESTION]
+Field=CCHH80.GHINTRO
+Condition=capturecoor = 1
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs32 As part of the CC DHS/MIS survey, it is necessary to take coordinates for households in the sample.  Please make sure that the dongle is connected to the tablet and step in the household front door (away from blocking buildings/trees).\par
+EN=\par
+EN=Are you ready to capture the coordinates?\par
+EN=}
+
+[QUESTION]
+Field=OTHERS.OTHRESP
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\f0\fs32 RECORD "OTHER" ANSWER\par
+EN=
+EN=\pard\cf2\fs21\par
+EN=}
+

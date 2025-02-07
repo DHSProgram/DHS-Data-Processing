@@ -1,0 +1,139 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+tai01 footnote
+{+EN}
+@1 SDG 3.6.1~
+@2 For those who died, age is their age at death.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tai02 columns nkillinj = 1 nodec;
+tai02 footnote
+{+EN}
+Note: Table includes only the most recent road traffic accident for those 
+      with more than one road traffic accident.~
+@1 For those who died, age is their age at death.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tai03 columns ninjure = 1 nodec;
+tai03 footnote
+{+EN}
+Note: Table includes only the most recent road traffic accident for those 
+      with more than one road traffic accident. Percentages may add to more 
+      than 100 because multiple responses were allowed~
+@1 Injured persons do not include persons who died as a result of the 
+   road traffic accident.~
+@2 For those who died, but not as a result of the accident, age is 
+   their age at death.   
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tai04 columns ninjure = 1 nodec;
+tai04 footnote
+{+EN}
+Note: Table includes only the most recent road traffic accident for those 
+      with more than one road traffic accident. Percentages may add to more 
+      than 100 because multiple responses were allowed~
+@1 Injured persons who are still alive and continue to have health problems 
+   as a result of the road traffic accident.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tai05 footnote
+{+EN}
+@1 For those who died, age is their age at death.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tai06 columns nkillinj = 1 nodec;
+tai06 footnote
+{+EN}
+Note: Table includes only the most recent incident for those 
+      with more than one incident.~
+@1 For those who died, age is their age at death.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tai07 columns nkillinj = 1 nodec;
+tai07 footnote
+{+EN}
+Note: Table includes only the most recent incident for those 
+      with more than one incident.~
+@1 For those who died, age is their age at death.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tai08 columns ninjure = 1 nodec;
+tai08 footnote
+{+EN}
+@1 Injured persons do not include persons who died as a result 
+   of the incident.~
+@2 For those who died, but not as a result of the incident, age 
+   is their age at death.   
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tai09 columns ninjure = 1 nodec;
+tai09 footnote
+{+EN}
+Note: Percentages may add to more than 100 because multiple responses were allowed.~
+@1 Injured persons who are still alive.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;

@@ -1,0 +1,85 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=Transmit|Transmision
+Name=TRANSMIT
+RecordTypeStart=5
+RecordTypeLen=1
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=ADC8FBA0B683DFBC74EE2CC2347CC723BE601C7306E949FCBC2D7A49CE8F307B
+
+[Languages]
+EN=English
+ES=Español
+
+[Level]
+Label=Transmittal sheet|Hoja de transmision
+Name=TRANSMIT_QUEST
+
+[IdItems]
+
+[Item]
+Label=Cluster number|Numero de segmento
+Name=TCLUSTER
+Start=1
+Len=4
+ZeroFill=Yes
+
+[Record]
+Label=Transmittal sheet summary|Resumen hoja de transmision
+Name=TRECORD1
+RecordTypeValue='1'
+RecordLen=9
+
+[Item]
+Label=Number of bar codes in transmittal sheet|Numero de codigos de barra en la hoja de transmision
+Name=TBCODES
+Start=6
+Len=3
+
+[Item]
+Label=Auxiliar to display options|Auxiliar to display options
+Name=TAUXILIAR
+Start=9
+Len=1
+
+[ValueSet]
+Label=Auxiliar to display options|Auxiliar to display options
+Name=TAUXILIAR_EN
+Value=1;Add bar code|Agregar codigo de barra
+Value=2;Remove bar code|Borrar codigo de barra
+Value=9;Cancel|Cancelar
+
+[Record]
+Label=Barcode transmit record|Registro para codigo de barras
+Name=TRECORD2
+RecordTypeValue='2'
+Required=No
+MaxRecords=100
+RecordLen=14
+
+[Item]
+Label=Line number|Numero de linea
+Name=TLINE
+Start=6
+Len=3
+
+[Item]
+Label=Bar code|Codigo de barras
+Name=TBARCODE
+Start=9
+Len=5
+DataType=Alpha
+
+[Item]
+Label=More bar codes|Mas codigos de barra
+Name=TMORE
+Start=14
+Len=1
+
+[ValueSet]
+Label=More bar codes|Mas codigos de barra
+Name=TMORE_EN
+Value=1;Yes|Si
+Value=2;No|No

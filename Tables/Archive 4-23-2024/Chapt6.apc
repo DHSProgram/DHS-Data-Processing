@@ -1,0 +1,778 @@
+﻿PROC GLOBAL
+{+---------------------------------------------------------------------------+}
+{+                                                                           +}
+{+   Guidelines July 7, 2021          -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                           +}
+{+   CHAPTER 6.  FERTILITY PREFERENCES                                       +}
+{+                                                                           +}
+{+   6.1   Fertility preferences according to number of living children      +}
+{+   6.2.1 Desire to limit childbearing: Women                               +}
+{+   6.2.2 Desire to limit childbearing: Men                                 +}
+{+   6.3   Ideal number of children according to number of living children   +}
+{+   6.4   Mean ideal number of children by background characteristics       +}
+{+   6.5   Fertility planning status                                         +}
+{+   6.6   Wanted fertility rates                                            +}
+{+                                                                           +}
+{+---------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, imin, j, jmax, jtot, k, kmax, ktot;
+  numeric imea1, imea2, deathm;
+  numeric rweight, emsample, x219w, currmarr;
+  numeric xurbrur, xregion, xeduc, xwealth, fertwgt;
+  numeric higcm, lowcm, totexp, higage, higexp, lowexp, lowage, birth, ch, chi;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 6, Country Survey 2020" );
+{EN+}
+{{ES}
+    title( "Cuadros para el Capítulo 6, País Encuesta 2020" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 6, Enquête Pays 2020" );
+{FR}}
+
+  crosstab float(1) t601  v605w+totnum1 v219w1+tot1549+totmen isex
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 6.1  Fertility preferences according to number of living children"," ",
+           "Percent distribution of currently married women and currently married",
+           "men age 15-49 by desire for children, according to number of living",
+           "children, Country Survey 2020" )
+     stub( "Desire for children" );
+{EN+}
+{{ES}
+    title( "Cuadro 6.1  Preferencias de fecundidad por número de hijos/as sobrevivientes"," ",
+           "Distribución porcentual de mujeres actualmente casadas/unidas y hombres actualmente",
+           "casados/unidos por preferencias de fecundidad, según número de hijos/as sobrevivientes, País Encuesta 2020" )
+     stub( "Preferencia de fecundidad" );
+{ES}}
+{{FR}
+    title( "Tableau 6.1  Préférences en matière de fécondité par nombre d'enfants vivants"," ",
+           "Répartition (en %) des femmes de 15-49 ans actuellement en union",
+           "et des hommes de 15-49 ans actuellement en union par désir d'enfants, selon le nombre",
+           "d'enfants vivants, Pays Enquête 2020" )
+     stub( "Désir d'enfants" );
+{FR}}
+  crosstab float(0) t601u  total v219w1+tot1549+totmen isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6.1  Fertility preferences according to number of living children (Number of un-weighted cases)" )
+     stub( "Desire for children" );
+
+  crosstab float(1) t6021  v102w+v101w+v106w+v190w+total v219w1+total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 6.2.1  Desire to limit childbearing: Women"," ",
+           "Percentage of currently married women age 15-49 who want no more",
+           "children by number of living children, according to", 
+		   "background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 6.2.1  Deseo de limitar el número de hijos/as: Mujeres"," ",
+           "Porcentaje de mujeres actualmente casadas/unidas de 15-49 años que no desean m s hijos/as,",
+           "por número de hijos/as sobrevivientes y según características seleccionadas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 6.2.1  Désir de limiter les naissances: Femme"," ",
+           "Pourcentage de femmes de 15-49 ans actuellement en union",
+           "qui ne veulent plus d'enfants, par nombre d'enfants vivants,",
+           "selon certaines caractéristiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(1) t6021w v102w+v101w+v106w+v190w+total v219w1+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6.2.1 - Denominators" );
+  crosstab float(0) t6021u  v102w+v101w+v106w+v190w+total v219w1+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6.2.1  Desire to limit childbearing: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t6022 v102w+v101w+v106w+v190w+tot1549+men5059+totmen v219w1+total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 6.2.2  Desire to limit childbearing: Men"," ",
+           "Percentage of currently married men age 15-49 who want no more",
+           "children by number of living children, according to background",
+           "characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 6.2.2  Deseo de limitar el número de hijos/as: Hombres"," ",
+           "Porcentaje de hombres actualmente casados/unidos de 15-49 años que no desean ",
+           "m s hijos/as, por número de hijos/as sobrevivientes y según características seleccionadas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 6.2.2  Désir de limiter les naissances: Homme"," ",
+           "Pourcentage d'hommes de 15-49 ans actuellement en union qui ne veulent plus d'enfants,",
+           "par nombre d'enfants vivants, selon certaines caractéristiques sociodémographiques,",
+		   "Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(1) t6022w v102w+v101w+v106w+v190w+tot1549+men5059+totmen v219w1+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6.2.2 - Denominators" );
+  crosstab float(0) t6022u  v102w+v101w+v106w+v190w+tot1549+men5059+totmen v219w1+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6.2.2  Desire to limit childbearing: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t603  v613w+totnum1+totmean4+totmean7 v219w1+total isex
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 6.3  Ideal number of children according to number of living children"," ",
+           "Percent distribution of women and men age 15-49 by ideal number of children,",
+           "and mean ideal number of children for all respondents and for",
+           "currently married respondents, according to the number of living",
+           "children, Country Survey 2020" )
+     stub( "Ideal number of children" );
+{EN+}
+{{ES}
+    title( "Cuadro 6.3  Número ideal de hijos/as"," ",
+           "Distribución porcentual de todas las mujeres y todos los hombres de 15-49 años por número ",
+           "ideal de hijos/as y promedio del número ideal de hijos/as para todas las personas entrevistadas y para",
+           "las personas entrevistadas actualmente en unión, según el número de hijos/as sobrevivientes, País Encuesta 2020" )
+     stub( "Número ideal de hijos/as" );
+{ES}}
+{{FR}
+    title( "Tableau 6.3  Nombre idéal d'enfants selon le nombre d'enfants vivants"," ",
+           "Répartition (en %) des femmes et des hommes de 15-49 ans par nombre idéal",
+           "d'enfants et nombre moyen idéal d'enfants pour l'ensemble des enquêtés et pour",
+           "les enquêtés actuellement en union, selon le nombre d'enfants vivants, Enquête Pays 2020" )
+     stub( "Nombre idéal d'enfants" );
+{FR}}
+  crosstab float(0) t603u  forideal v219w1+total isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6.3  Ideal number of children according to number of living children (Number of un-weighted cases)" )
+     stub( "Ideal number of children" );
+
+  crosstab float(1) t604  v013w1+v102w+v101w+v106w+v190w+total totmean5
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 6.4  Mean ideal number of children"," ",
+           "Mean ideal number of children for all women age 15-49,",
+           "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 6.4  Promedio del número ideal de hijos/as"," ",
+           "Promedio ideal de hijos/as para todas las mujeres de 15-49 años, ",
+           "según características seleccionadas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 6.4  Nombre idéal d'enfants selon certaines caractéristique sociodémographique"," ",
+           "Nombre idéal d'enfants pour l'ensemble des femmes de 15-49 ans",
+           "selon certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t604u  v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6.4  Mean ideal number of children (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t605  border1+agebrth+total wantoutc+totoutc
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 6.5 Fertility planning status"," ",
+           "Percent distribution of live births and current pregnancies to women age 15-49", 
+		   "in the 3 years preceding the survey by planning status of the pregnancy,", 
+		   "according to birth order and mother's age at birth; and percent distribution of", 
+		   "all pregnancy outcomes to women age 15-49 in the 3 years preceding the survey by", 
+		   "planning status of the pregnancy, according to type of pregnancy outcome,",
+           "Country Survey 2020" )
+     stub( "Characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 6.5  Planification de la fécondité"," ",
+           "Répartition (en %) des naissances vivantes et des grossesses actuelles des femmes",
+		   "de 15-49 ans ayant eu lieu au cours des 3 années précédant l'enquête par planification",
+		   "de la grossesse, selon le rang de naissance et l'âge de la mère à la naissance de l'enfant ;",
+		   "répartition (en %) de toutes les issues de grossesses des femmes de 15-49 ans des 3 années",
+		   "précédant l'enquête par planification de la grossesse, selon le type de résultat de la",
+		   "grossesse, Enquête Pays 2020" )
+     stub( "Caractéristique" );
+{FR}}
+  crosstab float(0) t605u  border1+agebrth+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6.5  Fertility planning status (Number of un-weighted cases)" )
+     stub( "Characteristic" );
+  crosstab float(1) t605a pregtyp1+total wantoutc+totoutc
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6.5a Fertility planning status (continuation)"," ",
+           "This table should be added to table 6.5 (the previous one) for the panel",
+		   "ALL PREGNANCY OUTCOMES" ) 
+  crosstab float(0) t605au pregtyp1+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6.5a Fertility planning status (continuation) (Number of un-weighted cases)" );
+
+  crosstab float(1) t606  v102w+v101w+v106w+v190w+total wantfert
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 6.6  Wanted fertility rates"," ",
+           "Total wanted fertility rates and total fertility rates for",
+           "the 3 years preceding the survey, according to background characteristics,",
+           "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 6.6  Tasas de fecundidad deseada"," ",
+           "Tasa global de fecundidad deseada y tasa global de fecundidad ",
+           "para los tres años que precedieron la encuesta, ",
+           "por características seleccionadas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 6.6  Taux de fécondité désirée"," ",
+           "Indice Synthétique de Fécondité désiré et Indice Synthétique de",
+		   "Fécondité pour les 3 années ayant précédé l'enquête, selon certaines",
+		   "caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(3) t606f v102w+v101w+v106w+v190w+total agegroup wantfert
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "T606F - Age specific rates" );
+  crosstab float(1) t606e v102w+v101w+v106w+v190w+total agegroup wantfert
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "T606E - Exposure" );
+  crosstab float(1) t606b v102w+v101w+v106w+v190w+total agegroup wantfert
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "T606B - Births" );
+  crosstab float(0) t606u  v102w+v101w+v106w+v190w+total agegroup+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 6.6  Wanted fertility rates (exposure Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+  totnum1  = 1;
+  totoutc  = 1;
+  totmean4 = notappl;
+  totmean7 = notappl;
+  emsample = 0;         { 0 - All woman sample, 1 - Ever married woman sample }
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 6.1 processing }
+  itot = tblrow( t601 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t601[i,*,*] = t601[i,*,*] * 100 / t601[itot,*,*];
+  enddo;
+  t601[imax+1,*,*] = tblsum( row t601[0:imax,*,*] );
+  { check unweighted N's }
+  Row3Dim( "t601", t601, 0, itot-2, t601u, 0 );
+  { sets NA to all rows for women 15-59 }
+  jtot = tblcol( t601 );
+  t601[*,jtot,0] = NAcells;                 { sets NA to all rows for women 15-59 }
+
+  { Table 6.2.1 processing }
+  t6021 = t6021 * 100 / t6021w;
+  { check unweighted N's }
+  CellUnw( "t6021", t6021, t6021u );
+
+  { Table 6.2.2 processing }
+  t6022 = t6022 * 100 / t6022w;
+  { check unweighted N's }
+  CellUnw( "t6022", t6022, t6022u );
+
+  { Table 6.3 processing }
+  itot = tblrow( t603, totnum1 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t603[i,*,*] = t603[i,*,*] * 100 / t603[itot,*,*];
+  enddo;
+  t603[imax+1,*,*] = tblsum( row t603[0:imax,*,*] );
+  { means for women/men 15-49 }
+  imea1 = tblrow( t603, totmean4 = 0 );
+  t603[imea1  ,*,*] = t603[imea1  ,*,*] / t603[imea1+1,*,*];
+  t603[imea1+2,*,*] = t603[imea1+2,*,*] / t603[imea1+3,*,*];
+  { means for men 15-54[59] }
+  imea2 = tblrow( t603, totmean7 = 0 );
+  t603[imea2  ,*,*] = t603[imea2  ,*,*] / t603[imea2+1,*,*];
+  t603[imea2+2,*,*] = t603[imea2+2,*,*] / t603[imea2+3,*,*];
+  { check unweighted N's }
+  Row3Dim( "t603", t603, 0,       itot-2,  t603u, 0 );     { for percentages }
+  Row3Dim( "t603", t603, imea1,   imea1,   t603u, 1 );     { means for women/men 15-49 }
+  Row3Dim( "t603", t603, imea1+2, imea1+2, t603u, 2 );     { means for CM women/men 15-49 }
+  Row3Dim( "t603", t603, imea2,   imea2,   t603u, 3 );     { means for men 15-54[59] }
+  Row3Dim( "t603", t603, imea2+2, imea2+2, t603u, 4 );     { means for CM men 15-54[59] }
+  { assign default to not applicable panel for women }
+  imin = tblrow( t603, totmean7 = 0 );
+  imax = tblrow( t603, totmean7 = 3 );
+  t603[imin:imax,*,0] = default;     
+
+  { Table 6.4 processing }
+  t604[*,0] = t604[*,0] / t604[*,1];
+  { check unweighted N's }
+  Col2Dim( "t604", t604, 0, 0, t604u, 0 );
+
+  { Table 6.5 processing }
+  jtot = tblcol( t605 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t605[*,j] = t605[*,j] * 100 / t605[*,jtot];
+  enddo;
+  t605[*,jmax+1] = tblsum( column t605[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t605", t605, 0, jtot-2, t605u, 0 );
+
+  { Table 6.5a processing }
+  jtot = tblcol( t605a );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t605a[*,j] = t605a[*,j] * 100 / t605a[*,jtot];
+  enddo;
+  t605a[*,jmax+1] = tblsum( column t605a[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t605a", t605a, 0, jtot-2, t605au, 0 );
+
+  { Table 6.6 processing }
+  jtot = tblcol( t606f );
+  t606e = t606e/12;
+  t606f = t606b / t606e;
+  t606[*,0] = tblsum( column t606f[*,0:jtot,0] );
+  t606[*,1] = tblsum( column t606f[*,0:jtot,1] );
+  t606 = t606 * 5;
+  { check unweighted N's }
+  { calculate total unweighted exposure }
+  jmax = tblcol( t606u );
+  t606u[*,jmax] = tblsum( column t606u[*,0:jmax-1] );
+  { calculate unweighted exposure in years }
+  t606u = t606u / 12;
+  FERTUnw( "t606", t606, t606u, tblrow(t606u), jmax, 1 );  { for wanted fertility }
+  FERTUnw( "t606", t606, t606u, tblrow(t606u), jmax, 2 );  { for total fertility }
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+  { male tables }
+  {-----------------------------------------------------------------------------------------------}
+
+  isex = 2;                            { men }
+  for i in RECH1_EDT do
+    if HV118 = 1 then                  { man eligible for individual interview }
+      { load male questionnaire }
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX(i)) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then  { man found with a complete interview }
+
+        { men's weight }
+        if unweight then
+          rweight = 1;
+        else
+          rweight = MV005/1000000;
+        endif;
+
+        { to tally total for all men regardless of age }
+        totmen   = 0;
+        { to tally total for men 15-49 }
+        tot1549  = 0;
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:59 );
+
+        { general variables }
+        v101w  = MV101;
+        v102w  = MV102;
+        v013w  = MV013;
+        v013w1 = MV013;               { with var label for printing purposes }
+        v106w  = MV106;
+        if MV106 in 8,missing then v106w = 9 endif;
+        v190w  = MV190;
+
+        currmarr = ( MV502 = 1 );
+
+        { number of living children + current pregnacy }
+        v219w1 = MV218 + ( MV213 = 1 );  { men don't have a variable including current pregnancy }
+        recode v219w1 -> v219w1;
+                0:6   -> v219w1;
+                      -> 6;
+        endrecode;
+        x219w = v219w1;
+
+        { the tables' body is only for men 15-49 }
+        if MV012 > 49 then
+          tot1549 = notappl;
+          v102w   = notappl;
+          v101w   = notappl;
+          v106w   = notappl;
+          v190w   = notappl;
+          v013w   = notappl;
+          v013w1  = notappl;
+          v219w1  = notappl;
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 6.1 }
+
+        if currmarr then
+          { desire for children }
+          v605w = MV605;
+          if MV605 in 8,missing then v605w = 9 endif;
+          xtab( t601, rweight );
+          xtab( t601u );
+        endif;
+
+
+{ -------------------------------------------------------------------- }
+{ table 6.2.2 }
+
+        if currmarr then
+          { to properly tally table 6.2.2 set variable v219w1 }
+          v219w1 = x219w;
+          xtab( t6022u );                          { count number of un-weighted cases }
+          xtab( t6022w, rweight );
+          if MV605 in 5,6 then                     { want no more children/sterilized }
+            xtab( t6022, rweight) ;
+          endif;
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 6.3 }
+
+        { to properly tally table 6.3 set variable v219w1 }
+        v219w1 = x219w;
+        recode MV613 -> v613w;
+                 0:5 -> MV613;
+                6:90 -> 6;
+                     -> 7;
+        endrecode;
+        totmean4 = notappl;         { to calculate means for men 15-49 }
+        totmean7 = notappl;         { to calculate means for men 15-59 }
+        if MV012 <= 49 then         { first panel for men just for 15-49 }
+          xtab( t603, rweight );
+          forideal = 1;
+          xtab( t603u );
+        endif;
+        { tally for means }
+        if MV613 in 0:90 then
+          v613w = notappl;
+          totnum1 = notappl;
+          if MV012 <= 49 then totmean4 = 0 endif;
+          totmean7 = 0;
+          xtab( t603, MV613*rweight );                  { numerator all men }
+          if MV012 <= 49 then totmean4 = 1 endif;
+          totmean7 = 1;
+          xtab( t603, rweight );                        { denominator all men }
+          if MV012 <= 49 then                           { un-weighted N for men <= 49 }
+            forideal = 2;
+            xtab( t603u );
+          endif;
+          forideal = 4;                                   { un-weighted N for all men }
+          xtab( t603u );
+          if currmarr then
+            if MV012 <= 49 then totmean4 = 2 endif;
+            totmean7 = 2;
+            xtab( t603, MV613*rweight );                { numerator all men currently married }
+            if MV012 <= 49 then totmean4 = 3 endif;
+            totmean7 = 3;
+            xtab( t603, rweight );                      { denominator all men currently married }
+            if MV012 <= 49 then                         { un-weighted N currently married men <= 49 }
+              forideal = 3;
+              xtab( t603u );
+            endif;
+            forideal = 5;                                 { un-weighted N for all currently married men }
+            xtab( t603u );
+          endif;
+          totnum1 = 1;
+        endif;
+
+      endif;        { end loadcase with a complete interview }
+    endif;        { end man eligible for interview }
+  enddo;
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  isex = 1;                            { women }
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+ endif;
+
+  { totals for men set NA }
+  totmen   = notappl;
+  men5059  = notappl;
+  { to tally totals for all women, when necessary }
+  tot1549  = 0;
+
+  { general variables }
+  v101w  = V101;
+  v102w  = V102;
+  v013w  = V013;
+  v013w1 = V013;               { with var label for printing purposes }
+  v106w  = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w = V190;
+
+  currmarr = ( V502 = 1 );
+
+  { number of living children }
+  recode V219 -> v219w1;
+         0:6  -> V219;
+              -> 6;
+  endrecode;
+
+{ -------------------------------------------------------------------- }
+{ table 6.1 }
+
+  if currmarr then
+    v605w = V605;
+    if V605 in 8,missing then v605w = 9 endif;
+    xtab( t601, rweight );
+    xtab( t601u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 6.2.1 }
+
+  if currmarr then
+    xtab( t6021u );                     { count number of un-weighted cases }
+    xtab( t6021w, rweight );
+    if V605 in 5,6 then                 { want no more children/sterlized }
+      xtab( t6021, rweight) ;
+    endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 6.3 }
+
+  recode V613 -> v613w;
+          0:5 -> V613;
+         6:90 -> 6;
+              -> 7;
+  endrecode;
+  totmean7 = notappl;                 { used just for the male panel }
+  totmean4 = notappl;
+  xtab( t603, rweight );
+  forideal = 1;
+  xtab( t603u );
+  if V613 in 0:90 then
+    v613w = notappl;
+    totnum1 = notappl;
+    totmean4 = 0;                     { numerator all women }
+    xtab( t603, V613*rweight );
+    totmean4 = 1;
+    xtab( t603, rweight );            { denominator all women }
+    forideal = 2;
+    xtab( t603u );
+    if currmarr then
+      totmean4 = 2;
+      xtab( t603, V613*rweight );     { numerator currently married women }
+      totmean4 = 3;
+      xtab( t603, rweight );          { denominator currently married women }
+      forideal = 3;
+      xtab( t603u );
+    endif;
+    totnum1 = 1;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 6.4 }
+
+  { table is based only on women with valid ideal number of children }
+  if V613 in 0:90 then
+    totmean5 = 0;
+    xtab( t604,  V613*rweight );
+    totmean5 = 1;
+    xtab( t604, rweight );
+    xtab( t604u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 6.5, 6.5a }
+
+  for i in REC41_EDT do
+    wantoutc = M10;
+    if special(M10) then wantoutc = 9 endif;
+    if P32(MIDXP) = 1 then     // first panel (table 6.5) only for live births
+      border1 = BORD(MIDX);
+      { adjust multiple births to give the same order as that of the first of the multiples }
+      if B0(MIDX) > 1 then border1 = BORD(MIDX) - B0(MIDX) + 1 endif;
+      if border1 > 4 then border1 = 4 endif;
+      agebrth = int( (B3(MIDX)-V011)/60 ) - 2;
+      if agebrth < 1 then agebrth = 1 endif;
+      xtab( t605, rweight );
+      xtab( t605u );
+    endif;	  
+	pregtyp1 = P32(MIDXP) + 1;
+    xtab( t605a, rweight );
+    xtab( t605au );
+  enddo;
+
+  if V213 = 1 then                { if pregnant }
+    wantoutc = V225;
+    if special( V225 ) then wantoutc = 9 endif;
+    border1 = V201 + 1;
+    if border1 > 4 then border1 = 4 endif;
+    agebrth = int( (V008 + 9 - V214 - V011) / 60 ) - 2;
+    if agebrth > 7 then agebrth = 7 endif;
+    xtab( t605, rweight );
+    xtab( t605u );
+	pregtyp1 = 1;
+    xtab( t605a, rweight );
+    xtab( t605au );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 6.6 }
+
+  xurbrur = v102w; xregion = v101w;
+  xeduc   = v106w; xwealth = v190w;
+  fertwgt = rweight;
+  higcm   = V008 - 1;                                      { High & ... }
+  lowcm   = higcm - 35;                                  { ... low limits }
+  totexp  = higcm - lowcm + 1;
+  higage  = int((higcm - V011)/60);                     { High age & ... }
+  higexp  = higcm - V011 - higage*60 + 1;               { ... exposure }
+  if higexp > totexp then higexp = totexp endif;
+  lowage  = higage - 1;                                  { Low age & ... }
+  lowexp  = totexp - higexp;                             { ... exposure }
+  agegroup = higage - 2;
+  if agegroup in 1:7 then
+    if emsample then
+      v102w  = notappl; v101w = notappl; v190w = notappl;
+      v106w  = notappl; total = 0;
+      fertwgt = AWFACTT / 100 * rweight;
+    endif;
+    wantfert = 1;
+    xtab( t606e, higexp*fertwgt );
+    wantfert = 2;
+    xtab( t606e, higexp*fertwgt );
+    xtab( t606u, higexp*fertwgt/rweight );
+    if emsample then
+      v102w   = xurbrur; v101w = notappl; v190w = notappl;
+      v106w   = notappl; total = notappl;
+      fertwgt = AWFACTU / 100 * rweight;
+      wantfert = 1;
+      xtab( t606e, higexp*fertwgt );
+      wantfert = 2;
+      xtab( t606e, higexp*fertwgt );
+      xtab( t606u, higexp*fertwgt/rweight );
+      v102w   = notappl; v101w = xregion; v190w = notappl;
+      v106w   = notappl; total = notappl;
+      fertwgt = AWFACTR / 100 * rweight;
+      wantfert = 1;
+      xtab( t606e, higexp*fertwgt );
+      wantfert = 2;
+      xtab( t606e, higexp*fertwgt );
+      xtab( t606u, higexp*fertwgt/rweight );
+      v102w   = notappl; v101w = notappl; v190w = notappl;
+      v106w   = xeduc;   total = notappl;
+      fertwgt = AWFACTE / 100 * rweight;
+      wantfert = 1;
+      xtab( t606e, higexp*fertwgt );
+      wantfert = 2;
+      xtab( t606e, higexp*fertwgt );
+      xtab( t606u, higexp*fertwgt/rweight );
+      v102w   = notappl; v101w = notappl; v190w = xwealth;
+      v106w   = notappl; total = notappl;
+      fertwgt = AWFACTW / 100 * rweight;
+      wantfert = 1;
+      xtab( t606e, higexp*fertwgt );
+      wantfert = 2;
+      xtab( t606e, higexp*fertwgt );
+      xtab( t606u, higexp*fertwgt/rweight );
+    endif
+  endif;
+  agegroup = lowage - 2;
+  if agegroup in 1:7 then
+    if emsample then
+      v102w   = notappl; v101w = notappl; v190w = notappl;
+      v106w   = notappl; total = 0;
+      fertwgt = AWFACTT / 100 * rweight;
+    endif;
+    wantfert = 1;
+    xtab( t606e, lowexp*fertwgt );
+    wantfert = 2;
+    xtab( t606e, lowexp*fertwgt );
+    xtab( t606u, lowexp*fertwgt/rweight );
+    if emsample then
+      v102w   = xurbrur; v101w = notappl; v190w = notappl;
+      v106w   = notappl; total = notappl;
+      fertwgt = AWFACTU / 100 * rweight;
+      wantfert = 1;
+      xtab( t606e, lowexp*fertwgt );
+      wantfert = 2;
+      xtab( t606e, lowexp*fertwgt );
+      xtab( t606u, lowexp*fertwgt/rweight );
+      v102w   = notappl; v101w = xregion; v190w = notappl;
+      v106w   = notappl; total = notappl;
+      fertwgt = AWFACTR / 100 * rweight;
+      wantfert = 1;
+      xtab( t606e, lowexp*fertwgt );
+      wantfert = 2;
+      xtab( t606e, lowexp*fertwgt );
+      xtab( t606u, lowexp*fertwgt/rweight );
+      v102w   = notappl; v101w = notappl; v190w = notappl;
+      v106w   = xeduc;   total = notappl;
+      fertwgt = AWFACTE / 100 * rweight;
+      wantfert = 1;
+      xtab( t606e, lowexp*fertwgt );
+      wantfert = 2;
+      xtab( t606e, lowexp*fertwgt );
+      xtab( t606u, lowexp*fertwgt/rweight );
+      v102w   = notappl; v101w = notappl; v190w = xwealth;
+      v106w   = notappl; total = notappl;
+      fertwgt = AWFACTW / 100 * rweight;
+      wantfert = 1;
+      xtab( t606e, lowexp*fertwgt );
+      wantfert = 2;
+      xtab( t606e, lowexp*fertwgt );
+      xtab( t606u, lowexp*fertwgt/rweight );
+    endif
+  endif;
+  v102w  = xurbrur; v101w = xregion; v190w = xwealth;
+  v106w  = xeduc;   total = 0;
+
+  for ch in REC21_EDT do                                { Births }
+     birth = B3;
+     if birth in lowcm:higcm then
+       agegroup = int( (birth-V011)/60 ) - 2;           { Age group at birth }
+       if agegroup in 1:7 then
+         chi = 0;
+         do i = soccurs( REC21 ) while i > ch by (-1)
+           if B5(i) = 1 then
+             chi = chi + 1
+           else
+             deathm = B7(i);
+             if !special( B6(i) ) & int( B6(i)/100 ) = 3 then   { if age at death in years }
+               deathm = B7(i) + 6;                      { assume death occur in the middle }
+             endif;
+             if B3(i) + deathm >= B3 - 9 then
+               chi = chi + 1;
+             endif;
+           endif;
+         enddo;
+         if V613 in 0:98 & chi < V613 then
+           wantfert = 1;
+           xtab( t606b, rweight )
+         endif;
+         wantfert = 2;
+         xtab( t606b, rweight );
+       endif;
+     endif;
+  enddo;

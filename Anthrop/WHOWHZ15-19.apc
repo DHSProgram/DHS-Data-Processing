@@ -1,0 +1,333 @@
+﻿PROC GLOBAL
+{ DHS-V WHO5-19 application  version - 1.0.0 of 10/7/14 }
+
+  numeric sd3pos, sd23pos, sd3neg, sd23neg, agemos;
+  numeric hwmy, hwmm, hwmd, i, x, y, leapday, xdays1, xdays2;
+  numeric hhsx, hwbych, hwbmch, hwbdch, weightch, heightch;
+  numeric x1, x2, x3, x4, x5, x6, x7, x8, x9;
+  numeric zhaz, bmi, zbmi, zwaz, zwhz, zwhzlw, zwhzhg;
+  numeric linen;
+  numeric agelow, agehigh, aboveage, zhazhi, zhazlo, zbmihi, zbmilo, zwazhi, zwazlo;
+  numeric validw, validh, validwa, validha, validbmi;
+
+  { assign special values to the new WHO z-scores.  Values are: }
+  { Notappl - When there is no height and weight data           }
+  { missing - if either the height or weight is missing         }
+  { 9998    - flagged cases                                     }
+  { 9997    - if a key isn't found in one of the look-up tables }
+  { 9996    - if a length not found in look-up tables }
+  function whospec( ch, xvalue, xtype )
+    if xtype in 1,2   then zwaz = xvalue endif;
+    if xtype in 1,3   then zhaz = xvalue endif;
+    if xtype in 1,2,3 then zbmi = xvalue endif;
+  end
+
+  { function to calculate general Z-score }
+  function genstdev( measure, l, m, s )
+    genstdev = ( ( (measure/m) ^ l) - 1 ) / ( s*l );
+  end
+
+  { function to adjust std dvs when > 3 std }
+  function stdpos3( measure, l, m, s )
+    sd3pos  = m * ( (1+l*s*3) ^ (1/l) );
+    sd23pos = sd3pos - m * ( (1+l*s*2) ^ (1/l) );
+    stdpos3  = 3 + ( (measure - sd3pos) / sd23pos );
+  end
+
+  { function to adjust std dvs when < 3 std }
+  function stdneg3( measure, l, m, s )
+    sd3neg  = m *( (1+l*s*(-3)) ^ ( 1/l ) );
+    sd23neg = m *( (1+l*s*(-2)) ^ ( 1/l ) ) - sd3neg;
+    stdneg3 = (-3) - ( (sd3neg - measure) / sd23neg );
+  end
+
+  { determine if valid weights/hegihts are given }
+  function ValidMeasurements()
+    { check if Height and Weight given and not missing }
+    if weightch = notappl & heightch = notappl then
+      whospec( i, notappl, 1 );
+      validw = 0;
+      validh = 0;
+      x1 = x1 + 1;
+    endif;		
+    if weightch in 99.94:99.98,missing then
+      whospec( i, missing, 2 );
+      validw = 0;
+      x2 = x2 + 1;
+    endif;		
+    if heightch in 999.4:999.8,missing then
+      whospec( i, missing, 3 );
+      validh = 0;
+      x3 = x3 + 1;
+    endif;
+  end;	
+  
+  { Height for age (ZHAZ) calculations }
+  function CalculateHeightAge()
+    SEXHFA = hhsx;
+    AGEHFA = agehigh;
+    { LMS variables for Height/Age }
+    validha = 1;
+    if validh & !loadcase( HFALMS, SEXHFA, AGEHFA ) then
+      errmsg( "HFA person %d not found for sex %d age %04d", linen, SEXHFA, AGEHFA );
+      whospec( i, 9997, 3 );
+      validha = 0;
+      x4 = x4 + 1;    
+    else
+      zhazhi = genstdev(heightch, lhfa, mhfa, shfa);
+      AGEHFA = agelow;
+      { LMS variables for Height/Age }
+      if !loadcase( HFALMS, SEXHFA, AGEHFA ) then
+        errmsg( "HFA person %d not found for sex %d age %04d", linen, SEXHFA, AGEHFA );
+        whospec( i, 9997, 3 );
+        x4 = x4 + 1;  
+        validha = 0;
+      else
+        zhazlo = genstdev(heightch, lhfa, mhfa, shfa);
+      endif;
+    endif;
+    { Now do interpolation }
+    { Note that the greater the age, the less the z }
+	if validh & validha then
+      zhaz = zhazlo-((zhazlo-zhazhi)*aboveage);
+    endif;		
+  end;	
+
+  { BMI (ZBMI) calculations }
+  function CalculateBMI()      
+    SEXBFA = hhsx;
+    AGEBFA = agehigh;
+    validbmi = 1;
+    { LMS variables for BMI/Age }
+    if validw & validh & !loadcase( BFALMS, SEXBFA, AGEBFA ) then
+      errmsg( "BFA person %d not found for sex %d age %04d", linen, SEXBFA, AGEBFA );
+      whospec( i, 9997, 3 );
+      x5 = x5 + 1;  
+      validbmi = 0;
+    else
+      bmi = weightch*10000/(heightch*heightch);
+      zbmihi = genstdev( bmi, lbfa, mbfa, sbfa );
+      if zbmihi > 3 then
+        zbmihi = stdpos3( bmi, lbfa, mbfa, sbfa );
+      elseif zbmihi < (-3) then
+        zbmihi = stdneg3( bmi, lbfa, mbfa, sbfa );
+      endif;
+    
+      AGEBFA = agelow;
+      { LMS variables for BMI/Age }
+      if !loadcase( BFALMS, SEXBFA, AGEBFA ) then
+        errmsg( "BFA person %d not found for sex %d age %04d", linen, SEXBFA, AGEBFA );
+        whospec( i, 9997, 3 );
+        x5 = x5 + 1;    
+        validbmi = 0;
+      else
+        zbmilo = genstdev( bmi, lbfa, mbfa, sbfa );
+        if zbmilo > 3 then
+          zbmilo = stdpos3( bmi, lbfa, mbfa, sbfa );
+        elseif zbmilo < (-3) then
+          zbmilo = stdneg3( bmi, lbfa, mbfa, sbfa );
+        endif;
+      endif;
+    endif;
+    { Now do interpolation }
+    { Note that the greater the age, the less the z }
+	if validw & validh & validbmi then
+      zbmi = zbmilo-((zbmilo-zbmihi)*aboveage);
+    endif;		
+  end;	
+
+  { Weight for age (ZWAZ) calculations }
+  function CalculateWeightAge()      
+    SEXWFA = hhsx;
+    AGEWFA = agehigh;
+    validwa = 1;	  
+    { LMS variables for Weight/Age }
+    if validw & !loadcase( WFALMS, SEXWFA, AGEWFA ) then
+      errmsg( "WFA person %d not found for sex %d age %04d", linen, SEXWFA, AGEWFA );
+      whospec( i, 9997, 2 );
+      x6 = x6 + 1;    
+      validwa = 0;	  
+    else
+      zwazhi = genstdev( weightch, lwfa, mwfa, swfa );
+      if zwazhi > 3 then
+        zwazhi = stdpos3( weightch, lwfa, mwfa, swfa );
+      elseif zwazhi < (-3) then
+        zwazhi = stdneg3( weightch, lwfa, mwfa, swfa );
+      endif;
+    
+      AGEWFA = agelow;
+      { LMS variables for Weight/Age }
+      if !loadcase( WFALMS, SEXWFA, AGEWFA ) then
+        errmsg( "WFA person %d not found for sex %d age %04d", linen, SEXWFA, AGEWFA );
+        whospec( i, 9997, 2 );
+        x6 = x6 + 1;    
+        validwa = 0;	  
+      else
+        zwazlo = genstdev( weightch, lwfa, mwfa, swfa );
+        if zwazlo > 3 then
+          zwazlo = stdpos3( weightch, lwfa, mwfa, swfa );
+        elseif zwazlo < (-3) then
+          zwazlo = stdneg3( weightch, lwfa, mwfa, swfa );
+        endif;
+      endif;
+    endif;
+    { Now do interpolation }
+    { Note that the greater the age, the less the z }
+	if validw & validwa then
+      zwaz = zwazlo-((zwazlo-zwazhi)*aboveage);
+    endif;	
+  end;	
+
+  { flag z-scores if necessary }
+  function AssignScores()	  
+    if validh & validha then                { valid height for age }
+      if zhaz < -6.00 | zhaz > 6.00 then { h/a out of range }
+        zhaz = 9998;
+        x7 = x7 + 1;
+      else
+        zhaz  = int( zhaz * 100 + 0.5 );
+      endif;
+    endif;               
+    if validw & validwa then                { valid weight for age }
+      if zwaz < -6.00 | zwaz > 5.00 then { w/a out of range }
+        zwaz = 9998;
+        x8 = x8 + 1;
+      else
+        zwaz  = int( zwaz * 100 + 0.5 );
+      endif;
+    endif;		
+    if validw & validh & validbmi then      { valid BMI }
+      if zbmi < -5.00 | zbmi > 5.00  then { BMI out of range }
+        zbmi = 9998;
+        x9 = x9 + 1;
+      else
+        zbmi  = int( zbmi * 100 + 0.5 );
+      endif;
+    endif;
+  end;	
+	
+PROC CCIQ81_FF
+preproc
+
+  x1 = 0;
+  x2 = 0;
+  x3 = 0;
+  x4 = 0;
+  x5 = 0;
+  x6 = 0;
+  x7 = 0;
+  x8 = 0;
+  x9 = 0;
+
+postproc
+
+  { print run summary }
+  write( " " );
+  write( "Summary for ddolescents 15-19" );
+  write( "=============================" );
+  write( "Observations with notappl for weight and height           %05d", x1 );
+  write( "Observations with missing for weight                      %05d", x2 );
+  write( "Observations with missing for height                      %05d", x3 );
+  write( "Observations not found in look-up table for height/age    %05d", x4 );
+  write( "Observations not found in look-up table for BMI           %05d", x5 );
+  write( "Observations not found in look-up table for weight/age    %05d", x6 );
+  write( "Flagged for height for age                                %05d", x7 );
+  write( "Flagged for weight for age                                %05d", x8 );
+  write( "Flagged for BMI                                           %05d", x9 );
+
+PROC HOUSEHOLD
+preproc
+
+  { z-scores for adolescents women }
+  for i in ABSEC02_EDT do
+    hhsx = 2;              // women
+    { Get date of measurement }
+    hwmy = AB208Y;
+    hwmm = AB208M;
+    hwmd = AB208D;
+    { Age in months for women }
+    agemos   = cmcode(hwmm,hwmy) - AWCMC;
+    { adjust age to include women exactly 15 years old as well as 19 years and up to 11 months }
+    if agemos = 60 then
+      agemos = 61
+    elseif agemos in 230:239 then
+      agemos = 229
+    endif;      
+    { height, weight and woman line number }
+    weightch = AB205;
+    heightch = AB207;
+	linen    = AB202;
+
+    validw   = 1;         { valid weight }
+    validh   = 1;         { valid height }
+
+    { WOMEN AGE 5-19 YEARS - actually women age 61.0 months up to 229.0 months }
+    if agemos in 61:229 then
+      { lower and upper are the same as no interpolation is necessary because age is in months }
+	  { high and low are left in case at some point age include days                           }
+      agelow  = agemos;
+      agehigh = agemos;
+      aboveage = 0;
+	  
+	  ValidMeasurements();
+      CalculateHeightAge();   // height for age
+      calculateBMI();         // BMI
+      if agemos <= 121 then   // weight for age is only calculated to adolescents up to 10 years and 1 month
+        CalculateWeightAge();   
+      else
+        zwaz = notappl;
+        validwa = 0;
+      endif;                 
+	  AssignScores();
+	  
+      AWZSHA = zhaz;
+      AWZSBM = zbmi;
+    endif;
+  enddo;
+
+  { z-scores for adolescents men }
+  for i in ABSEC03_EDT do
+    hhsx = 1;              // men
+    { Get date of measurement }
+    hwmy = AB308Y;
+    hwmm = AB308M;
+    hwmd = AB308D;
+    { Age in months for men }
+    agemos   = cmcode(hwmm,hwmy) - AMCMC;
+    { adjust age to include men exactly 15 years old as well as 19 years and up to 11 months }
+    if agemos = 60 then
+      agemos = 61
+    elseif agemos in 230:239 then
+      agemos = 229
+    endif;      
+    { height, weight and man line number }
+    weightch = AB305;
+    heightch = AB307;
+	linen    = AB302;
+
+    validw   = 1;         { valid weight }
+    validh   = 1;         { valid height }
+
+    { MEN AGE 5-19 YEARS - actually men age 61.0 months up to 229.0 months }
+    if agemos in 61:229 then
+      { lower and upper are the same as no interpolation is necessary because age is in months }
+	  { high and low are left in case at some point age include days                           }
+      agelow  = agemos;
+      agehigh = agemos;
+      aboveage = 0;
+	  
+	  ValidMeasurements();
+      CalculateHeightAge();   // height for age
+      calculateBMI();         // BMI
+      if agemos <= 121 then   // weight for age is only calculated to adolescents up to 10 years and 1 month
+        CalculateWeightAge();   
+      else
+        zwaz = notappl;
+        validwa = 0;
+      endif;                 
+	  AssignScores();
+	  
+      AMZSHA = zhaz;
+      AMZSBM = zbmi;
+    endif;
+  enddo;

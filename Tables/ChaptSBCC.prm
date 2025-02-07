@@ -1,0 +1,60 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+tsb501 columns malwom1 = 1 nodec;
+
+tsb502 columns malwom2 = 1 nodec;
+
+tsb503 columns numwom  = 1 nodec;
+tsb503 footnote
+{+EN}
+@1 Includes women who disagree that people in the community only get malaria during 
+   the rainy season, or agree that when a child has a fever they almost always worry it 
+   might be malaria~
+@2 Includes women who disagree that getting malaria is not a problem because it can 
+   be easily treated, or disagree that only weak children can die from malaria~
+@3 Includes women who agree that they can sleep under a mosquito net for the entire 
+   night when there are lots of mosquitoes, or agree that they can sleep under a 
+   mosquito net for the entire night when there are few mosquitoes
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tsb504 columns numwom  = 1 nodec;
+tsb504 footnote
+{+EN}
+@1 Includes women who disagree that they do not like sleeping under a mosquito 
+   net when the weather is too warm, or disagree that when a child has a fever, 
+   it is best to start by giving them any medicine they have at home~
+@2 Includes women who agree that people in the community usually take their 
+   children to a healthcare provider on the same day or day after they develop 
+   a fever, or agree that people in the community who have a mosquito net 
+   usually sleep under a mosquito net every night
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;

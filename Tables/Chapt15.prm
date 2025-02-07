@@ -1,0 +1,345 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+t1501  columns employ12 = 2 nodec
+               totnum16 = 1 nodec;
+
+t15021 columns totnum2  = 1 nodec;
+t15021 footnote
+{+EN}
+Note: The term husband includes a partner with whom a woman is living as if married.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le terme conjoint inclut un partenaire avec qui une femme vit comme si ils
+      étaient mariés.
+{FR}}
+endfootnote;
+
+t15022 columns isex2 = 1 numman = 1 nodec
+               isex2 = 2 numwom = 1 nodec;
+t15022 footnote
+{+EN}
+na = Not Applicable~
+Note: The term husband includes a partner with whom a woman is living  as if married,
+      and the term wife includes a partner with whom a man is living as if married.
+{EN+}
+{{ES}
+na = No aplicable~
+Note: The term husband includes a partner with whom a woman is living  as if married,
+      and the term wife includes a partner with whom a man is living as if married.
+{ES}}
+{{FR}
+na = Non Applicable~
+Note: Le terme conjoint inclut un partenaire avec qui une femme vit comme si ils étaient
+      mariés, et le terme femme inclut une partenaire avec qui un homme vit comme s'ils étaient mariés.
+{FR}}
+endfootnote;
+
+t15031 rows totnum2 = 1 nodec;
+t15031 footnote
+{+EN}
+Note: The term husband includes a partner with whom a woman is living as if married.~
+na= Not applicable
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le terme conjoint inclut un partenaire avec qui une femme vit comme si ils étaient mariés.~
+na= Non applicable
+{FR}}
+endfootnote;
+
+t15032 rows totnum5 = 1 nodec;
+t15032 footnote
+{+EN}
+Note: The term husband includes a partner with whom a woman is living as if married.~
+na= Not applicable
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note:Le terme femme inclut la partenaire avec qui un homme vit comme s'il étaient mariés.~
+na= Non applicable
+{FR}}
+endfootnote;
+
+t15041 columns totnum2  = 1 nodec
+               tothousw = 1 nodec;
+t15041 footnote
+{+EN}
+@1 Title deed or other government recognized document~
+@2 Jointly with a husband, someone else, or both a husband and someone else~
+@3 Includes women who have a house with a title deed or other government recognized document,
+   but they do not know if their name is on it, and women who do not know if there is a
+   title deed or other government recognized document for the house~
+@4 Includes women who own a house alone, jointly with their husband only, jointly with someone
+   else only, jointly with husband and someone else, or both alone and jointly
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Un titre de propriété ou un document reconnu par le gouvernement~
+@2 En commun avec le conjoint, en commun avec quelqu'un d'autre ou en commun avec
+   le mari et quelqu'un d'autre~
+@3 Y compris les femmes qui ont une maison avec un titre de propriété ou un autre
+   document reconnu par le gouvernement mais qui ne savent pas si leur nom figure
+   sur le titre et les femmes qui ne savent pas s'il y a un titre de propriété ou
+   un document reconnu par le gouvernement~
+@4 Y compris les femmes qui possèdent une maison, seules, en commun avec leur conjoint
+   seulement, en commun avec quelqu'un d'autre seulement, en commun avec leur conjoint
+   et quelqu'un d'autre ou seules et en commun
+{FR}}
+endfootnote;
+
+t15042 columns totnum5  = 1 nodec
+               tothousm = 1 nodec;
+t15042 footnote
+{+EN}
+@1 Title deed or other government recognized document~
+@2 Jointly with a wife, someone else, or both a wife and someone else~
+@3 Includes men who have a house with a title deed or other government recognized document,
+   but they do not know if their name is on it, and men who do not know if there is a title deed
+   or other government recognized document for the house~
+@4 Includes men who own a house alone, jointly with wife only, jointly with someone else only,
+   jointly with wife and someone else, or both alone and jointly
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Un titre de propriété ou un document reconnu par le gouvernement~
+@2 En commun avec une femme, en commun avec quelqu'un d'autre ou en
+   commun avec une femme et quelqu'un d'autre~
+@3 Y compris les hommes qui ont une maison avec un titre de propriété ou un autre document
+   reconnu par le gouvernement mais qui ne savent pas si leur nom figure sur le titre et
+   les hommes qui ne savent pas s'il y a un titre de propriété ou un document reconnu par le gouvernement~
+@4 Y compris les hommes qui possèdent une maison, seuls, en commun avec une femme seulement,
+   en commun avec quelqu'un d'autre seulement, en commun avec leur femme et quelqu'un d'autre
+   ou seuls et en commun
+{FR}}
+endfootnote;
+
+t15051 columns totnum2  = 1 nodec
+               totlandw = 1 nodec;
+t15051 footnote
+{+EN}
+@1 Title deed or other government recognized document~
+@2 Jointly with a husband, someone else, or both a husband and someone else~
+@3 Includes women who have land with a title deed or other government recognized document,
+   but they do not know if their name is on it, and women who do not know if there is a
+   title deed or other government recognized document for the land~
+@4 Includes women who own land alone, jointly with their husband only, jointly with someone
+   else only, jointly with husband and someone else, or both alone and jointly
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Un titre ou un autre document reconnu par le gouvernement~
+@2 En commun avec un conjoint, en commun avec quelqu'un d'autre ou en commun avec
+   un conjoint ou quelqu'un d'autre~
+@3 Y compris les femmes qui ont une maison avec un titre de propriété ou un autre document
+   reconnu par le gouvernement mais qui ne savent pas si leur nom figure sur le titre et
+   les femmes qui ne savent pas s'il y a un titre de propriété ou un document reconnu par
+   le gouvernement pour cette terre~
+@4 Y compris les femmes qui possèdent une maison, seules, en commun avec leur conjoint
+   seulement, en commun avec quelqu'un d'autre seulement, en commun avec leur conjoint
+   et quelqu'un d'autre ou seule et en commun
+{FR}}
+endfootnote;
+
+t15052 columns totnum5  = 1 nodec
+               totlandm = 1 nodec;
+t15052 footnote
+{+EN}
+@1 Title deed or other government recognized document~
+@2 Jointly with a wife, someone else, or both a wife and someone else~
+@3 Includes men who have land with a title deed or other government recognized document,
+   but they do not know if their name is on it, and men who do not know if there is a title deed
+   or other government recognized document for the land~
+@4 Includes men who own land alone, jointly with wife only, jointly with someone else only,
+   jointly with wife and someone else, or both alone and jointly
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Un titre de propriété ou un document reconnu par le gouvernement.~
+@2 En commun avec une femme, en commun avec quelqu'un d'autre ou en commun avec une femme
+   et quelqu'un d'autre~
+@3 Y compris les hommes qui ont une maison avec un titre de propriété ou un autre document
+   reconnu par le gouvernement mais qui ne savent pas si leur nom figure sur le titre et
+   les hommes qui ne savent pas s'il y a un titre de propriété ou un document reconnu par
+   le gouvernement pour cette terre~
+@4 Y compris les hommes qui possèdent une maison, seuls, en commun avec leur femme seulement,
+   en commun avec quelqu'un d'autre seulement, en commun avec leur femme et quelqu'un d'autre
+   ou seuls et en commun
+{FR}}
+endfootnote;
+
+t15061 columns numwom = 1 nodec;
+t15061 footnote
+{+EN}
+@1 Respondents were asked about use of a mobile phone for financial transactions whether
+   or not they owned a mobile phone.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 La question concernant l'utilisation d'un téléphone portable pour des transactions financières
+   a été posée, que les enquêtées possèdent, ou non, un téléphone portable.
+{FR}}
+endfootnote;
+
+t15062 columns numman = 1 nodec;
+t15062 footnote
+{+EN}
+@1 Respondents were asked about use of a mobile phone for financial transactions whether
+   or not they owned a mobile phone.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 La question concernant l'utilisation d'un téléphone portable pour des transactions
+   financières a été posée que les enquêtés possèdent, ou non, un téléphone portable.
+{FR}}
+endfootnote;
+
+t1507 columns totnum1 = 1 nodec;
+t1507 footnote
+{+EN}
+Note: The term husband includes a partner with whom a woman is living as if married, and the
+      term wife includes a partner with whom a man is living as if married.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le terme conjoint inclut un partenaire avec qui une femme vit comme si ils étaient mariés,
+      et le terme femme inclut une partenaire avec qui un homme vit comme s'il étaient mariés.
+{FR}}
+endfootnote;
+
+t15081 columns decis2w = 3 nodec;
+t15081 footnote
+{+EN}
+Note: The term husband includes a partner with whom a woman is living as if married.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le terme conjoint inclut un partenaire avec qui une femme vit comme si ils étaient
+      mariés et le terme femme inclut une partenaire avec qui un homme vit comme s'ils étaient mariés.
+{FR}}
+endfootnote;
+
+t15082 columns decis2m = 3 nodec;
+t15082 footnote
+{+EN}
+Note: The term wife includes a partner with whom a man is living as if married.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le terme femme inclut une partenaire avec qui un homme vit comme s'ils étaient mariés.
+{FR}}
+endfootnote;
+
+t15091 columns numwom = 1 nodec;
+t15091 footnote
+{+EN}
+Note: The term husband includes a partner with whom a woman is living as if married.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le terme mari englobe un partenaire avec qui une femme vit comme si ils étaient mariés.
+{FR}}
+endfootnote;
+
+t15092 columns numman = 1 nodec;
+t15092 footnote
+{+EN}
+Note: The term wife includes a partner with whom a man is living as if married.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le terme femme inclut une partenaire avec qui un homme vit comme s'ils étaient mariés.
+{FR}}
+endfootnote;
+
+t1510 columns isex = 1 numwom = 1 nodec
+              isex = 2 numman = 1 nodec;
+t1510  footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+na = No aplicable
+{ES}}
+{{FR}
+na = Non applicable
+{FR}}
+endfootnote;
+
+t1511 columns refsex2 = 3 nodec;
+t1511 footnote
+{+EN}
+Note: The term husband includes a partner with whom a woman is living as if married.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le terme mari englobe un partenaire avec qui une femme vit comme si ils étaient mariés.
+{FR}}
+endfootnote;
+
+t1512 columns decreph = 2 nodec;
+t1512 footnote
+{+EN}
+@1 Percentages of currently married women who make decisions regarding sexual relations,
+   contraceptive use, and health care are presented in Table 15.11, Table 7.17, and
+   Table 15.8.1, respectively.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Les pourcentages de femmes actuellement en union qui prennent des décisions concernant
+   les relations sexuelles, l'utilisation de la contraception et les soins de santé reproductive
+   sont présentés respectivement aux tableaux 15.11, 7.17, 15.8.1.
+{FR}}
+endfootnote;
+
+t1513 rows totnum2 = 1 nodec;
+t1513 footnote
+{+EN}
+na = Not applicable~
+@1 See Table 15.8.1 for the list of decisions.~
+@2 See Table 15.9.1 for the list of reasons.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+na = Non applicable~
+@1 Se référer au Tableau 15.8.1 pour la liste des décisions.~
+@2 Se référer au Tableau 15.9.1 pour la liste des raisons.
+{FR}}
+endfootnote;

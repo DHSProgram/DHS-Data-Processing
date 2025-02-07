@@ -1,0 +1,190 @@
+PROC GLOBAL
+{+---------------------------------------------------------------------------+}
+{+   Guidelines November 20, 2014   -  Version 1.0.0 of 20/11/2014           +}
+{+                                                                           +}
+{+   HIV-PRELIMINARY                                                         +}
+{+                                                                           +}
+{+   25     Coverage of HIV testing                                          +}
+{+   26     HIV prevalence by socioeconomic characteristics                  +}
+{+                                                                           +}
+{+   This application can only be run in surveys where HIV testing was       +}
+{+   conducted parallel with fieldwork and an ANONYMOUS file was created     +}
+{+                                                                           +}
+{+---------------------------------------------------------------------------+}
+
+  set explicit;
+
+  numeric i, j, t, rweight;
+  numeric jwom, jman, nevmar, jtot, jmax, itot, itot1, itot2, itot3, imax;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Tables for chapter 13, Country Survey 2016" );
+
+  crosstab float(0) p25 tsex*(whivres+totnum2) urbrur+total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+US}
+    title( "Table 25  Coverage of HIV testing"," ",
+           "Percent distribution of de facto women age 15-49 and men age 15-54[59]",
+           "eligible for HIV testing by testing status, according to",
+           "residence and region (unweighted), Country Survey 2016" )
+     stub( "Testing status" );
+{US+}
+{{FR}
+    title( "Tableau 25  Couverture du test du VIH"," ",
+           "R‚partition (en %) des femmes de 15-49 ans et des hommes de 15-54[59] ans",
+           "(population de fait) ‚ligibles pour le test du VIH selon qu'ils ont effectu‚, ou non,",
+           "le test du VIH selon le milieu de r‚sidence et la r‚gion (non pond‚r‚), Pays Enqu?te 2016" )
+     stub( "R‚sultat du test" );
+{FR}}
+{{SP}
+{SP}}
+
+  crosstab float(1) p26 age5+urbrur+region+educ+wealthqh+tot1549+men5059+totmen
+                     tsex*coltabs
+    exclude(rowzero,colzero,percents,totals,specval)
+{+US}
+    title( "Table 26 HIV prevalence according to background characteristics","",
+           "Among the de facto women and men age 15-49 who were interviewed and tested,",
+           "percentage HIV positive, according to background characteristics, Country Survey 2016" )
+     stub( "Background characteristic" );
+{US+}
+{{FR}
+    title( "Tableau 26  Pr‚valence du VIH selon certaines caract‚ristiques socio-‚conomiques","",
+           "Pourcentage de s‚ropositifs parmi les femmes et les hommes de 15-49 ans interview‚s",
+           "qui ont effectu‚ le test du VIH, selon certaines caract‚ristiques",
+           "socio-‚conomiques, Pays Enqu?te 2016" )
+     stub( "Caract‚ristique socio-‚conomique" );
+{FR}}
+{{SP}
+{SP}}
+
+
+PROC HIVANONYM_FF
+preproc
+
+  totnum2  = 1;
+  total    = 0;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { table 25 }
+  { compute total for both sexes }
+  itot1 = tblrow( p25, tsex = 1 totnum2 = 1 );
+  itot2 = tblrow( p25, tsex = 2 totnum2 = 1 );
+  itot3 = tblrow( p25 );
+  p25[itot2+1:itot3,*] = p25[0:itot1,*] + p25[itot1+1:itot2,*];
+  { women panel }
+  imax  = itot1 - 2;
+  do i = 0 while i <= imax by 1
+    p25[i,*] = p25[i,*] * 100 / p25[itot1,*];
+  enddo;
+  p25[imax+1,*] = tblsum( row p25[0:imax,*] );
+  { men panel }
+  imax  = itot2 - 2;
+  do i = itot1+1 while i <= imax by 1
+    p25[i,*] = p25[i,*] * 100 / p25[itot2,*];
+  enddo;
+  p25[imax+1,*] = tblsum( row p25[itot1+1:imax,*] );
+  { total panel }
+  imax  = itot3 - 2;
+  do i = itot2+1 while i <= imax by 1
+    p25[i,*] = p25[i,*] * 100 / p25[itot3,*];
+  enddo;
+  p25[imax+1,*] = tblsum( row p25[itot2+1:imax,*] );
+
+  { Table 26 }
+  { compute total for both sexes }
+  jtot = tblcol( p26 );
+  jwom = tblcol( p26, tsex = 1 coltabs = 2 );
+  jman = tblcol( p26, tsex = 2 coltabs = 2 );
+  p26[*,jtot-1:jtot] = p26[*,jwom-1:jwom] + p26[*,jman-1:jman];
+  { women panel }
+  p26[*,jwom-1] = p26[*,jwom-1] * 100 / p26[*,jwom];
+  { men panel }
+  p26[*,jman-1] = p26[*,jman-1] * 100 / p26[*,jman];
+  { total panel }
+  p26[*,jtot-1] = p26[*,jtot-1] * 100 / p26[*,jtot];
+  { assign defaults }
+  itot = tblrow( p26 );
+  p26[itot-1,0:jman] = default;          { men 50-59 for women columns }
+  p26[itot,  0:jman] = default;          { men 15-59 for women columns }
+
+PROC LEVEL1
+
+  { getting the right sex code for the tables }
+  box HIVSEX => tsex;
+        1    => 2;
+             => 1;
+  endbox;
+
+  { if blood taken check if test was successful }
+  { test was performed but protocol didn't reach the end }
+  if HIVRES = 1 & !HIVTESTR in 0:7 then
+    HIVRES = 6;   { assign other when protocol was not completed }
+  endif;
+  box HIVRES : HIVINDR => whivres;
+         1   :    1    => 1;        { blood taken, interviewed }
+         1   :         => 2;        { blood taken, not interviewed }
+         3   :    1    => 3;        { refused to provide blood, interviewed }
+         3   :         => 4;        { refused to provide blood, not interviewed }
+         2   :    1    => 5;        { absent at the time of blood, interviewed }
+         2   :         => 6;        { absent at the time of blood, not interviewed }
+             :    1    => 7;        { 4-not tested/5-inconclusive/6-other/missing, interviewed }
+             :         => 8;        { 4-not tested/5-inconclusive/6-other/missing, not interviewed }
+  endbox;
+
+  if HIVFACTO = 1 then                       { de-facto population }
+    age5   = int( HIVAGE/5 ) - 2;               { age in five years }
+    urbrur = HIVTYPE;                           { urban/rural }
+    region = HIVREG;                            { regions }
+    educ   = HIVEDUC;                           { education from individual interview }
+
+{--------------------------------------------------------------}
+{ table 25 }
+
+    t = xtab( p25 );
+
+{--------------------------------------------------------------}
+{ table 26 }
+
+    { for complete individual interviews and sample taken with a valid result }
+    if HIVINDR = 1 & HIVRES = 1 & HIVTESTR in 0:7 then
+      if unweight then
+        rweight = 1;
+      else
+        rweight = HIVWEIGH / 1000000;           { in HIV file }
+      endif;
+
+      tot1549 = ( HIVAGE in 15:49 );
+      men5059 = ( HIVAGE in 50:69 );
+      totmen  = 1;
+
+      { set background variables to NA for men 50+ }
+      if HIVSEX = 2 then
+        totmen = notappl;
+      endif;
+      if !tot1549 then
+        age5   = notappl;
+        urbrur = notappl;
+        region = notappl;
+        educ   = notappl;
+      endif;
+
+      coltabs = 2;
+      t = xtab( p26, rweight );
+      if HIVTESTR in 1,3 then                    { HIV-1 }
+        coltabs = 1;
+        t = xtab( p26, rweight );
+      endif;
+
+    endif;            { end sample taken with a valid result }
+
+  endif;       { end de-facto population }

@@ -1,0 +1,24 @@
+﻿[CSPro Application]
+Version=CSPro 7.5
+Label=CHKINDUP
+Name=CHKINDUP
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+[External Dictionaries]
+File=..\Dicts\ccBIO80.dcf
+File=..\Dicts\Interv.dcf
+[AppCode]
+File=.\ChkBIDup.apc
+Include=..\Library\DPCollect.apc
+Include=..\Library\HTMLFunctions.apc
+[Message]
+File=.\ChkBIDup.mgf
+[Help]
+File=.\ChkINDup.qsf
+[Forms]
+File=.\Cnull.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Cnull.dcf,Input,.\Cnull.fmf
+Dict-Type=..\Dicts\ccBIO80.dcf,External
+Dict-Type=..\Dicts\Interv.dcf,External

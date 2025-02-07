@@ -1,0 +1,104 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+tchl01 columns numchl1 = 1 nodec
+               numchl2 = 1 nodec
+               numchl3 = 1 nodec;
+tchl01 footnote
+{+EN}
+Note: According to the UNICEF definition, the threshold for economic activity is 
+      1 hour for children age 5-11 years, 14 hours for children age 12-14 years, 
+      and 43 hours for children age 15-17 years.~
+@1 Excludes children whose mothers are not listed in the Household Questionnaire~
+@2 Includes mothers who have "a lot of difficulty" or "cannot do at all" in at least 
+   one functional domain. See [Table DB.1] for the list of functional domains.~
+@3 Includes attendance to early childhood education~
+@4 For women who are not interviewed, information is taken from the Household 
+   Questionnaire. Excludes children whose mothers are not listed in the 
+   Household Questionnaire.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tchl02 columns numchl1 = 1 nodec
+               numchl2 = 1 nodec;
+tchl02 footnote
+{+EN}
+Note: According to the UNICEF definition, the threshold for domestic chores is 21 
+      hours for children age 5-11 years and children 12-14 years.~
+@1 Excludes children whose mothers are not listed in the Household Questionnaire~
+@2 Includes mothers who have "a lot of difficulty" or "cannot do at all" in at least 
+   one functional domain. See [Table DB.1] for the list of functional domains.~
+@3 Includes attendance to early childhood education~
+@4 For women who are not interviewed, information is taken from the Household 
+   Questionnaire. Excludes children whose mothers are not listed in the 
+   Household Questionnaire.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tchl03 columns numchl = 1 nodec;
+tchl03 footnote
+{+EN}
+na = Not applicable~
+@1 Age-specific thresholds for the number of hours a child can perform economic activity 
+   without it being classified as child labor are shown in Table CHL.1~
+@2 Age-specific thresholds for the number of hours a child can perform household chores
+   without it being classified as child labor are shown in CHL.2~
+@3 According to the UNICEF definition, this category includes children who (1) participate 
+   in economic activities at or above the threshold defined for their age group or 
+   (2) participate in household chores at or above the threshold defined for their age group.~
+@4 Excludes children whose mothers are not listed in the Household Questionnaire~   
+@5 Includes mothers who have "a lot of difficulty" or "cannot do at all" in at least one 
+   functional domain. See [Table DB.1] for the list of functional domains.~
+@6 Includes attendance to early childhood education~
+@7 For women who are not interviewed, information is taken from the Household Questionnaire. 
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tchl04 columns numchl = 1 nodec;
+tchl04 footnote
+{+EN}
+na = Not applicable~
+@1 Excludes children whose mothers are not listed in the Household Questionnaire~   
+@2 Includes mothers who have "a lot of difficulty" or "cannot do at all" in at least one 
+   functional domain. See [Table DB.1] for the list of functional domains.~
+@3 Includes attendance to early childhood education~
+@4 For women who are not interviewed, information is taken from the Household Questionnaire. 
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;

@@ -1,0 +1,82 @@
+[FormFile]
+Version=CSPro 2.6
+Name=TESTLOG_FF
+Label=enter_rapid
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+FieldEntryFont=0018 0000 0000 0000 0600 0000 0000 0000 0000 0000 0000 0000 0000 Courier New
+Type=OperatorControlled
+  
+[Dictionaries]
+File=5/21/2009 11:04:14 AM,..\Dicts\testlog.dcf
+  
+[Form]
+Name=FORM000
+Label=Log for HIV test samples
+Level=1
+Size=621,529
+  
+Item=LABID
+Item=LDETERM1
+Item=LDETERM2
+  
+Box=178,341,596,406,Etched
+  
+[Text]
+Name=TEXT1
+Position=190,280,313,304
+Text=Western Blot
+Form=1
+Font=-020 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+[EndForm]
+  
+[Level]
+Name=LEVEL1
+Label=Log for HIV test samples
+  
+[Group]
+Required=Yes
+Name=LEVEL1_FORM
+Label=Log for HIV test samples
+Form=1
+LogicControl=No
+Max=1
+  
+[Field]
+Name=LABID
+Position=500,363,571,383
+Item=LABID,TESTLOG_DICT
+Length=5
+Protected=Yes
+Form=1
+  
+[Text]
+Position=208,366,303,382
+Text=Lab ID Number
+ 
+  
+[Field]
+Name=LDETERM1
+Position=556,416,571,436
+Item=LDETERM1,TESTLOG_DICT
+Length=1
+Form=1
+  
+[Text]
+Position=208,419,289,435
+Text=Western Blot
+ 
+  
+[Field]
+Name=LDETERM2
+Position=556,449,571,469
+Item=LDETERM2,TESTLOG_DICT
+Length=1
+Form=1
+  
+[Text]
+Position=208,452,268,468
+Text=Pepti Lav
+ 
+[EndGroup]
+  

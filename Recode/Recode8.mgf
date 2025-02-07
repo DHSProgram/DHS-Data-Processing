@@ -1,0 +1,46 @@
+﻿0010 No head of household
+0020 Household relationship structure incorrect: assuming HV217 = 0
+1040 Years lived at place can not be computed from calendar
+1050 Previous place of residence can not be computed from calendar
+1510 Head of household %d is not first line
+2201 Age at death: BIDX=%2d B3=%4d V008=%4d death=%1d,%2d used=%1d,%2d
+2202 Age at death out of range: BIDX=%2d B3=%4d V008=%4d (B19=%d) death=%1d,%2d B7=%2d
+2203 Age at death differs from data file: BIDX=%2d B7=%3d A220C=%3d
+2300 Inconsistency in skip A231=%2d/%2d A234(1)=%1d
+2310 Date of last termination (%4d=%2d/%2d) different from termination in row %2d in calendar
+2400 Definition for stillbirth (P32=%d) inconsistent with pregnancy duration (P21=%d). This problem needs to be resolved
+2401 Definition for misscarriage (P32=%d) inconsistent with pregnancy duration (P21=%d). This problem needs to be resolved
+3040 Invalid value for V304(%2d), input=%d
+3270 Invalid value for V327: input V326=%d
+3370 Duration of current use (%2d) = 0: Cal col.1 = %s
+3380 Invalid value for V338: input A327=%d
+3390 Invalid value for V339: input V338=%d
+3700 First method (%d) male sterilization, but current method (%d) not: No source for first method
+3710 Invalid value for V371: input V370=%d
+3750 Invalid value for V375A: input=%d
+3780 Invalid value for V378: input V377=%d
+3800 Invalid value for V380: input V379=%d
+3820 Invalid value for V382: input unit=%d number=%d
+3830 Access to source (%1d) inconsistent with time to source (%1d)
+3920 Date ended prior use (%4d-%4d, date=%2d/%2d) before last birth (cmc=%4d)
+4001 Breastfeeding (r=%1d) in calendar row (%2d) inconsistent with section 4 (%1d)
+4002 Amenorrhea (r=%1d) in calendar row (%2d) inconsistent with section 4 (%1d)
+4003 Abstinence (r=%1d) in calendar row (%2d) inconsistent with section 4 (%1d)
+4100 Index %1d: calculated index %1d incorrect
+4170 Occurrences in REC41 differ %2d from pregnancies in last %1d years %2d
+4180 Occurrences in REC43 differ %2d from children born in last %1d years %2d
+4185 Occurrences in REC4A differ %2d from children born in last %1d years %2d
+4190 Occurrences in REC44 differ %2d from children born in last %1d years %2d
+4300 Entry in pregnancy history %1d: inconsistent with line number %1d in section: %s
+4400 No entry in H/W section for index %d
+8030 Duration of interview=%2d start=%2d:%2d end=%2d:%2d
+8399 Number of sibling entries (%02d) exceeds max of 20
+8400 Number of siblings (%02d) does not agree with number of children of mother (%02d) minus the respondent
+8401 Sister (%02d) of respondent (list entry %1d) is not an eligible woman (sex=%1d eligibility=%1d)
+8500 Child %d in ECD (Early Child Development) section is not eligible anymore. Please check
+8501 According to birth history there aren't any children eligible for ECDI module, but %d were found in the raw data file
+9900 Calendar column %1d row %2d: Character "%s" invalid
+9901 Calendar column %1d row %2d: Character "%s" invalid
+9902 Calendar column %1d rows %2d-%2d changed to blanks
+9903 col=%d, Q420 = %D, M6 =%D
+9998 %s%d

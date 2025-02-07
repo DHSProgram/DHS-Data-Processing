@@ -1,0 +1,96 @@
+[Dictionary]
+Version=CSPro 4.1
+Label=Small file for MConsis checks
+Name=IDRSMALL
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Absolute
+ZeroFill=No
+DecimalChar=No
+
+[Level]
+Label=LEVEL1
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=Case identification
+Name=WCASEID
+Start=1
+Len=15
+DataType=Alpha
+
+[Record]
+Label=Household & men consis. checks
+Name=HSWS
+RecordTypeValue=''
+RecordLen=110
+
+[Item]
+Label=Item created from ISSA Group
+Name=HSWS_GROUP
+Start=16
+Len=1
+DataType=Alpha
+Occurrences=90
+
+[Item]
+Label=Eligibility for female interview
+Name=HHV117
+Start=16
+Len=1
+ItemType=SubItem
+
+[ValueSet]
+Label=Eligibility for female interview
+Name=HHV117_VS1
+Value=0;Not eligible
+Value=1;Eligible
+Value=' ';NotAppl
+Name=NOTAPPL,Special
+
+[Item]
+Label=Current age - respondent
+Name=WV012
+Start=106
+Len=2
+
+[ValueSet]
+Label=Current age - respondent
+Name=WV012_VS1
+Value=15:49
+Value='  ';NotAppl
+Name=NOTAPPL,Special
+
+[Item]
+Label=Result of the woman's questionnaire
+Name=WV015
+Start=108
+Len=1
+
+[ValueSet]
+Label=Result of the woman's questionnaire
+Name=WV015_VS1
+Value=1;Completed
+Value=2;Not at home
+Value=3;Postponed
+Value=4;Refused
+Value=5;Partly completed
+Value=6;Incapacitated
+Value=7;Other
+
+[Item]
+Label=Husband's line number from the woman's recode
+Name=WV034
+Start=109
+Len=2
+
+[ValueSet]
+Label=Husband's line number from the woman's recode
+Name=WV034_VS1
+Value=0;Husband not in HH
+Value=99;Missing
+Name=MISSING,Special
+Value='  ';NotAppl
+Name=NOTAPPL,Special

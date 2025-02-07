@@ -1,0 +1,961 @@
+﻿PROC GLOBAL
+{+-----------------------------------------------------------------------------------------+}
+{+                                                                                         +}
+{+   Guidelines December 14 2022      -       Version 2.0.0 of 02/15/2023                  +}
+{+                                                                                         +}
+{+   CHAPTER 8.   INFANT AND CHILD MORTALITY                                               +}
+{+                                                                                         +}
+{+   Written by  : Guillermo Rojas                                                         +}
+{+   Adapted by  : Trevor Croft                                                            +}
+{+                                                                                         +}
+{+  8.1  Early childhood mortality rates                                                   +}
+{+  8.2  Five-year early childhood mortality rates according to background characteristics +}
+{+  8.3  Ten-year early childhood mortality rates according to additional characteristics  +}
+{+  8.4  Perinatal mortality                                                               +}
+{+  8.5  High-risk fertility behavior                                                      +}
+{+                                                                                         +}
+{+  Tables MT1 to MT3 are working tables.  However these tables provide all                +}
+{+     the rates for 5 years periods.                                                      +}
+{+                                                                                         +}
+{+  Tables ME1, ME2, and ME3 are evaluation tables used to check if there                  +}
+{+         are heapings according to different periods.                                    +}
+{+                                                                                         +}
+{+-----------------------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, ilow, iupp, j, jmax, jtot, k, l, iter, n, sdgsex;
+  numeric rweight, imax1, imax2, imax3, imax4, imax5, imax6, notrisk, cmcbefc;
+  numeric numer, ratio;
+  numeric maxage, cohort, rates, upplim, cmcper, lowlim, limsup, perborn, xorder;
+  numeric top, aux, regions, educat, wealth, ageb, order, intv, refuse, beat, residen;
+  numeric units, numbers, months, found, grps, agei, nxtage, risktype, avoidr;
+  numeric ch, age, agemo18, agemo34, inter24, bord3, frstb, xword;
+  numeric srate, prate, nrate, maxcl, r, val, summ, se, loc, highcmc = 0;
+
+  array limits(10);   { used to store the CMC limits for periods of analysis }
+  array agegrps(10);  { age synthetic cohorts cutting points }
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 8, Country Survey 2020" );
+{EN+}
+{{ES}
+    title( "Cuadros para el Capítulo 8, País Encuesta 2020" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 8, Enquête Pays 2020" );
+{FR}}
+
+  crosstab float(0) t801 colper yearcal+mortrate*(serr+ci)
+    exclude (Totals,Percents,SpecVal,RowZero,ColZero)
+{+EN}
+    title( "Table 8.1  Early childhood mortality rates"," ",
+           "Neonatal, postneonatal, infant, child, and under-5 mortality",
+           "rates for 5-year periods preceding the survey, Country Survey 2020" )
+    stub( "Years preceding the survey" );
+{EN+}
+{{ES}
+    title( "Cuadro 8.1  Tasas de mortalidad infantil y en la niñez"," ",
+           "Tasas de mortalidad neonatal, post-neonatal, infantil, post-infantil y en la niñez para",
+           "períodos quinquenales antes de la encuesta, País Encuesta 2020" )
+    stub( "Años anteriores a la encuesta" );
+{ES}}
+{{FR}
+    title( "Tableau 8.1  Quotients de mortalité des enfants de moins de 5 ans"," ",
+           "Quotients de mortalité néonatale, post-néonatale, infantile, juvénile et infanto-juvénile",
+           "par période de 5 ans ayant précédé l'enquête, Enquête Pays 2020" )
+    stub( "Nombre d'années avant l'enquête" );
+{FR}}
+  crosstab float(1) t801u colper ageexp
+    exclude (Totals,Percents,SpecVal,RowZero,ColZero)
+    title( "Table 8.1  Early childhood mortality rates (exposure un-weighted)" )
+    stub( "Years preceding the survey" );
+
+  crosstab float(0) t802 sex1+v102w+total mortrate
+    exclude (Totals,Percents,SpecVal,RowZero,ColZero)
+{+EN}
+    title( "Table 8.2  Five-year early childhood mortality rates according to background characteristics","",
+           "Neonatal, postneonatal, infant, child, and under-5 mortality rates for the 5-year",
+           "period preceding the survey, according to background characteristics, Country Survey 2020" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Table 8.2  Five-year early childhood mortality rates according to background characteristics","",
+           "Neonatal, postneonatal, infant, child, and under-5 mortality rates for the 5-year",
+           "period preceding the survey, according to background characteristics, Country Survey 2020" )
+    stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 8.2  Quotients de mortalité des enfants sur 5 ans selon certaines caractéristiques démographiques","",
+           "Quotients de mortalité néonatale, postnéonatale, infantile, juvénile et infanto-juvénile des",
+           "enfants de moins de 5 ans pour la période des 5 années ayant précédé l'enquête, selon certaines",
+           "caractéristiques démographiques, Enquête Pays 2020" )
+    stub( "Caractéristique démographique" );
+{FR}}
+  crosstab float(1) t802u sex1+v102w+total ageexp
+    exclude (Totals,Percents,SpecVal,RowZero,ColZero)
+    title( "Table 8.2  Early childhood mortality rates by socioeconomic characteristics",
+           "(exposure un-weighted for the 5 years preceding the survey)" )
+    stub( "Background characteristic" );
+
+  crosstab float(0) t803 agemoth+border3+pinter1+v101w+v106wt+v190w mortrate
+    exclude (Totals,Percents,SpecVal,RowZero,ColZero)
+{+EN}
+    title( "Table 8.3  Ten-year early childhood mortality rates according to additional characteristics","",
+           "Neonatal, postneonatal, infant, child, and under-5 mortality rates for the",
+           "ten-year period preceding the survey, according to additional characteristics,",
+           "Country Survey 2020")
+    stub( "Characteristic" );
+{EN+}
+{{ES}
+    title( "Table 8.3  Ten-year early childhood mortality rates according to additional characteristics","",
+           "Neonatal, postneonatal, infant, child, and under-5 mortality rates for the",
+           "ten-year period preceding the survey, according to additional characteristics,",
+           "Country Survey 2020")
+    stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 8.3  Quotients de mortalité des enfants sur 10 ans selon d'autres caractéristiques","",
+           "Quotients de mortalité néonatale, postnéonatale, infantile, juvénile et infanto-juvénile des",
+           "enfants de moins de 5 ans pour la période des 10 années ayant précédé l'enquête, selon d'autres",
+           "caractéristiques sociodémographiques, Enquête Pays 2020")
+    stub( "Caractéristiques sociodémographiques" );
+{FR}}
+  crosstab float(1) t803u agemoth+border3+pinter1+v101w+v106wt+v190w ageexp
+    exclude (Totals,Percents,SpecVal,RowZero,ColZero)
+    title( "Table 8.3  Early childhood mortality rates by demographic characteristics",
+           "(exposure un-weighted for the 10 years preceding the survey)" )
+    stub( "Demographic characteristic" );
+  crosstab float(1) t803wu agemoth+border3+pinter1+v101w+v106wt+v190w ageexp colper
+    exclude (Totals,Percents,SpecVal,RowZero,ColZero)
+    noprint;
+
+  crosstab float(0) t804 agemoth+pregint+v102w+v101w+V106wt+v190w+total npdeaths
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 8.4  Perinatal mortality", " ",
+           "Number of stillbirths, number of early neonatal deaths, stillbirth rate, early", 
+		   "neonatal death rate, perinatal mortality rate, and the ratio of stillbirths", 
+		   "to early neonatal deaths for the 5-year period preceding the survey,",
+		   "according to background characteristics, Country Survey 2020" )
+    stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 8.4  Mortalidad perinatal","  ",
+           "para el período de cinco años antes de la encuesta, por características seleccionadas,",
+           "País Encuesta 2020" )
+    stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 8.4  Mortalité périnatale"," ",
+           "Nombre de mort-nés, nombre de décès néonatals précoces, taux de mortinatalité, taux de mortalité",
+		   "néonatale précoce, taux de mortalité périnatale, et ratio mort-nés aux décès néonatals précoces",
+		   "pour la période des 5 années ayant précédé l'enquête, selon certaines caractéristiques",
+		   "sociodémographiques, Enquête Pays 2020" )
+    stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t804u agemoth+pregint+v102w+v101w+V106wt+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 8.4  Perinatal mortality (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+  crosstab float(1) t805  norisk+unavoid+inrisk+singrisk+subtot+multrisk+subtot+total+risksubt+tbirthwm
+                       birtrisk+currmar1
+    exclude(colzero,rowzero,percents,specval,totals)
+{+EN}
+    title( "Table 8.5  High-risk fertility behavior", " ",
+           "Percent distribution of children born in the 5 years",
+           "preceding the survey by category of elevated risk of mortality",
+           "and the risk ratio, and percent distribution of currently",
+           "married women by category of risk if they were to conceive a",
+           "child at the time of the survey, Country Survey 2020" )
+    stub( "Risk category" );
+{EN+}
+{{ES}
+    title( "Cuadro 8.5  Categorías de alto riego reproductivo"," ",
+           "Distribución porcentual de niños nacidos en los cinco años antes de la encuesta",
+           "por categoría de riesgo de mortalidad y la razón de riesgo; y distribución porcentual ",
+           "de las mujeres actualmente en unión por categorías de riesgo si fuesen a concebir ",
+           "un hijo en el momento de la entrevista, País Encuesta 2020" )
+    stub( "Categoría de riesgo" );
+{ES}}
+{{FR}
+    title( "Tableau 8.5  Comportement procréateur à hauts risques"," ",
+           "Répartition (en %) des enfants nés dans les 5 années ayant précédé l'enquête par",
+           "catégorie de haut risque de mortalité, ratio de risque et répartition (en %) des",
+           "femmes actuellement en union par catégorie de risque si elles concevaient un enfant",
+           "au moment de l'enquête, Enquête Pays 2020" )
+    stub( "Catégorie de risque" );
+{FR}}
+  crosstab float(0) t805u  norisk+unavoid+inrisk+singrisk+subtot+multrisk+subtot+total+risksubt+tbirthwm total
+    exclude(colzero,rowzero,percents,specval,totals)
+    title( "Table 8.5  High-risk fertility behavior (Number of un-weighted cases)" )
+    stub( "Risk category" );
+
+{ Sampling errors for mortality }
+crosstab float(3) MT1   agedth+ageexp+ageprb+mortrate colper cl
+  title("Working table for sampling errors for mortality for five year periods preceding the survey, Country Survey 2020")
+  noprint;
+crosstab float(3) MT1E  colper mortrate*(serr+ci)
+  title("Table MT1E Sampling errors for early childhood mortality rates"," ",
+        "Sampling errors for neonatal, post-neonatal, infant, child and under-5 mortality rates for ",
+        "five year periods preceding the survey, Country Survey 2020");
+
+  crosstab float(4) MT2 agedth+ageexp+ageprb+mortrate colper sex1+v102w+total
+    exclude (Totals,Percents,SpecVal,RowZero,ColZero)
+{+EN}
+    title( "MT.2  Numerators, denominators, probabilities and mortality rates",
+           "according to sex and residence, Country Survey 2020",
+           "(excludes month of interview from analysis)" );
+{EN+}
+{{ES}
+    title( "MT.2  Numeradores, denominadores, probabilidades y tasas de mortalidad ",
+           "según sexo y residencia, País Encuesta 2020",
+           "(Excluye del an lisis el mes de la entrevista)" );
+{ES}}
+{{FR}
+    title( "MT.2  Numérateurs, dénominateurs, probabilités et taux de mortalité",
+           "selon le sexe et la résidence caractéristiques, Enquête Pays 2020",
+           "(le mois de l'enquête est exclu de l'analyse)" );
+{FR}}
+
+  crosstab float(4) MT3 agedth+ageexp+ageprb+mortrate colper agemoth+border3+pinter1+v101w+v106wt+v190w
+    exclude (Totals,Percents,SpecVal,RowZero,ColZero)
+{+EN}
+    title( "MT.3  Numerators, denominators, probabilities and mortality rates",
+           "by background characteristics, Country Survey 2020",
+           "(excludes month of interview from analysis)" );
+{EN+}
+{{ES}
+    title( "MT.3  Numeradores, denominadores, probabilidades y tasas de mortalidad ",
+           "según las características, País Encuesta 2020",
+           "(Excluye del an lisis el mes de la entrevista)" );
+{ES}}
+{{FR}
+    title( "MT.3  Numérateurs, dénominateurs, probabilités et taux de mortalité",
+           "selon les caractéristiques, Enquête Pays 2020",
+           "(le mois de l'enquête est exclu de l'analyse)" );
+{FR}}
+
+  crosstab float(0) me1   rowe1 colper sex1+v102w
+    exclude (Percents,SpecVal,RowZero,ColZero)
+{+EN}
+    title( "ME.1  Number of reported deaths by time period and age at death in days,",
+           "(excludes deaths to births occurring in the month of interview),",
+           "Country Survey 2020" );
+{EN+}
+{{ES}
+    title( "ME.1  Número de muertes reportadas por períodos de tiempo y edad a la muerte en días",
+           "(excluye muertes de nacimientos ocurridos en el mes de la entrevista),",
+           "País Encuesta 2020" );
+{ES}}
+{{FR}
+    title( "ME.1  Nombre de décès signalés par période et âge au décès en jours",
+           "(exclut les décès aux naissances survenant au cours du mois de l'interview),",
+           "Enquête Pays 2020" );
+{FR}}
+
+  crosstab float(0) me2   rowe2 colper sex1+v102w
+    exclude (Percents,SpecVal,RowZero,ColZero)
+{+EN}
+    title( "ME.2  Number of reported deaths by time period and age at death in months, ",
+           "(excludes deaths to births occurring in the month of interview), ",
+           "Country Survey 2020 ",
+           "(Includes deaths reported in days)" );
+{EN+}
+{{ES}
+    title( "ME.2  Número de muertes reportadas por períodos de tiempo y edad a la muerte en meses,",
+           "(excluye muertes de nacimientos ocurridos en el mes de la entrevista),",
+           "País Encuesta 2020",
+           "(Incluye muertes reportadas en días)" );
+{ES}}
+{{FR}
+    title( "ME.2  Nombre de décès signalés par période et âge au décès en mois",
+           "(exclut les décès aux naissances survenant au cours du mois de l'interview),",
+           "Enquête Pays 2020" );
+{FR}}
+
+  crosstab float(0) me3   rowe3 colper sex1+v102w
+    exclude (Percents,SpecVal,RowZero,ColZero)
+{+EN}
+    title( "ME.3  Number of reported deaths by time period and age at death in years, ",
+           "(excludes deaths to births occurring in the month of interview, ",
+           "(Includes deaths reported in days and months)" );
+{EN+}
+{{ES}
+    title( "ME.3  Número de muertes reportadas por períodos de tiempo y edad a la muerte en años",
+           "(excluye muertes de nacimientos ocurridos en el mes de la entrevista),",
+           "País Encuesta 2020",
+           "(Incluye muertes reportadas en días y en meses)" );
+{ES}}
+{{FR}
+    title( "ME.3  Nombre de décès signalés par période et âge au décès en années",
+           "(exclut les décès aux naissances survenant au cours du mois de l'interview),",
+           "Enquête Pays 2020" );
+{FR}}
+
+list cl_list;
+{ find a slot in cl_list to know if a cluster was already read }
+function findcl( psu )
+  i = cl_list.seek( psu );
+  if i = 0 then
+    cl_list.add( psu );
+    i = cl_list.seek( psu );
+  endif;
+  findcl = i;
+end;
+
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+  tbirthwm = 1;
+  subtot   = notappl;
+  ageprb   = notappl;
+  mortrate = notappl;
+  MaxAge   = 59;
+  Period   = 60;        { Length of period - 60 = 5 year rates      }
+                        {                    12 = 1 year rates      }
+                        { value must be greater than or equal to 12 }
+
+  AgeGrps(1) =  0;  AgeGrps(2) =  1;  AgeGrps(3) =  3;  AgeGrps(4) = 6;
+  AgeGrps(5) = 12;  AgeGrps(6) = 24;  AgeGrps(7) = 36;  AgeGrps(8) = 48;
+  AgeGrps(9) = 60;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+  { Check permissible time periods }
+  if !Period in 12:60 then
+    errmsg("Period must be within 12 - 60 months for this algorithm");
+    stop(1);
+  endif;
+
+  if tbllay(MT2) <> tblrow(T802) then
+    errmsg("MT2/T802 Dimensions of background characteristics table must agree");
+    stop(1);
+  endif;
+
+  if tbllay(MT3) <> tblrow(T803) then
+    errmsg("MT3/T803 Dimensions of background characteristics table must agree");
+    stop(1);
+  endif;
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  maxcl = length(cl_list);
+  if not invalueset(maxcl,cl_vs1) then 
+    errmsg("Increase the range for clusters in working variable CL to %d",maxcl); 
+  endif;
+
+  { Post processing for sampling errors }
+  MT1  [*,*,0] = tblsum(layer MT1  [*,*,1:maxcl]);	{ Sum cluster totals into grand total }
+  do k = 1 while k <= maxcl
+    if cl_list(k) then
+      MT1[*,*,k] = MT1[*,*,0] - MT1[*,*,k];	{ Convert cluster totals to equal Total minus This cluster }
+    endif;
+  enddo;
+
+  { Compute probabilities of death }
+  cohort = 8;
+  rates  = 4;
+  imax   = tblrow( MT2, ageprb );
+  itot   = tblrow( MT2 );
+  jtot   = tblcol( MT2 );
+  do i = 0 while i <= cohort - 1
+    j = cohort + i;
+    k = cohort + j;
+    MT1[k,*,*] = MT1[i,*,*] / MT1[j,*,*];
+    MT2[k,*,*] = MT2[i,*,*] / MT2[j,*,*];
+    MT3[k,*,*] = MT3[i,*,*] / MT3[j,*,*];
+  enddo;
+
+  { Compute mortality rates for five year periods }
+  do i = imax + 1 while i <= itot
+    MT1[i,*,*] = 1;
+    MT2[i,*,*] = 1;
+    MT3[i,*,*] = 1;
+  enddo;
+
+  { Calculates the product of probabilities }
+  { according to different type of rates    }
+  do j = 0 while j <= jtot
+    k = imax + 1;
+    do l = 0 while l <= rates
+      recode  l  -> ilow;           { lower limits in the probability rows }
+              3  -> 2*cohort+4;     { Childhood 4q1 }
+                 -> 2*cohort;       { NN, PNN, 1q0, 4q1, 5q0 }
+      endrecode;
+      recode  l  -> iupp;           { Upper limits in the probability rows }
+              0  -> 2*cohort;       { Neonatal NN }
+              1  -> -1;             { post-neonatal PNN }
+              2  -> 2*cohort+3;     { Infant Mortality 1q0 }
+             3,4 -> 2*cohort+7;     { Childhood & under five, 4q1 & 5q0 }
+      endrecode;
+      do i = ilow while i <= iupp
+        MT1[k,j,*] = MT1[k,j,*] * (1 - MT1[i,j,*]);
+        MT2[k,j,*] = MT2[k,j,*] * (1 - MT2[i,j,*]);
+        MT3[k,j,*] = MT3[k,j,*] * (1 - MT3[i,j,*]);
+      enddo;
+      k = k + 1;
+    enddo;
+  enddo;
+
+  { Convert rates to per 1000 births }
+  do i = imax + 1 while i <= itot
+    MT1[i,*,*] = (1 - MT1[i,*,*]) * 1000;
+    MT2[i,*,*] = (1 - MT2[i,*,*]) * 1000;
+    MT3[i,*,*] = (1 - MT3[i,*,*]) * 1000;
+  enddo;
+
+  { Post neonatal mortality rate (PNN) }
+  { as the difference between 1q0 - NN }
+  k = imax + 2;
+  do j = 0 while j <= jtot
+    MT1[k,j,*] = MT1[k+1,j,*] - MT1[k-1,j,*];
+    MT2[k,j,*] = MT2[k+1,j,*] - MT2[k-1,j,*];
+    MT3[k,j,*] = MT3[k+1,j,*] - MT3[k-1,j,*];
+  enddo;
+
+  { Compute table 8.1, based on deaths and exposure }
+{ replaced with the below code   
+  l = tbllay( MT2, total );
+  do i = 0 while i <= rates
+    t801[*,i] = MT2[imax+i+1,*,l];
+  enddo;
+}
+
+  { Now calculate the sampling errors }
+  n = 0;								{ Total clusters }
+  do k = 1 while k <= maxcl
+    if cl_list(k) then
+      inc(n);							{ Count clusters }
+    endif;
+  enddo;
+  do j = 0 while j <= tblrow(MT1E)		{ Loop through all time periods }
+    do i = 0 while i <= tblrow(T801)		{ Loop through all of the rates }
+      r = tblrow(MT1, mortrate = 1) + i;	{ Rate row in working table MT1 }
+      val = MT1(r,j,0);						{ Value of estimate }
+      { Sum of squares of differences from total }
+      summ = 0;
+      do k = 1 while k <= maxcl
+        if cl_list(k) then
+          summ = summ + ((MT1(r,j,k) - MT1(r,j,0))^2);	{ Sum of squares of differences from total }
+        endif;
+      enddo;
+      se = sqrt((n-1)*summ/n);				{ Standard error }
+
+      { with rates in columns }
+      loc = 5*i;							{ Location column in output table }
+      MT1E(j,loc+0) = val;					{ Value (R) }
+      MT1E(j,loc+1) = se;					{ Standard error (SE) }
+      MT1E(j,loc+2) = se / val;				{ Relative erros (SE/R) }
+      MT1E(j,loc+3) = val - 2*se;			{ Lower bound -2SE }
+      MT1E(j,loc+4) = val + 2*se;			{ Upper bound +2SE }
+      { end of rates in columns }
+      loc = loc + 2;                        // to keep the first 2 columns for calendar year periods 	  
+	  if j <= 2 then
+	    T801(j,loc+0) = val;				{ Value (R) }
+        T801(j,loc+3) = val - 2*se;			{ Lower bound -2SE }
+        T801(j,loc+4) = val + 2*se;			{ Upper bound +2SE }
+	  endif;
+    enddo;
+  enddo;
+  { check un-weighted N's }
+  // MORTUnw1( "t801", t801, t801u );
+  // calculate calendar year ranges based on the survey highest CMC
+  t801(0,1) = int((highcmc-1)/12) + 1900;
+  t801(0,0) = t801(0,1) - 4;
+  t801(1,1) = t801(0,0) - 1;
+  t801(1,0) = t801(1,1) - 5;
+  t801(2,1) = t801(1,0) - 1;
+  t801(2,0) = t801(2,1) - 4;
+
+  t801[3,*] = default;
+  t801[4,*] = default;
+  t801u[3,*] = default;
+  t801u[4,*] = default;
+
+  { Compute table 8.2, based on deaths and exposure }
+  do i = 0 while i <= rates
+    t802[*,i] = MT2[imax+i+1,0,*];
+  enddo;
+  { check un-weighted N's }
+  MORTUnw2( "t802", t802, t802u );
+  { write out SDG indicators }
+  itot   = tblrow( t802 );
+  sdgsex = tblrow( t802, sex1 = 1 );
+  jtot   = tblcol( t802, mortrate = 5 );                      { under-5 mortality }
+  SDGIndicator( "3.2.1", int(t802(sdgsex,jtot)+0.5), int(t802(sdgsex+1,jtot)+0.5), int(t802(itot,jtot)+0.5) );
+  jtot   = tblcol( t802, mortrate = 1 );                      { Neonatal mortality }
+  SDGIndicator( "3.2.2", int(t802(sdgsex,jtot)+0.5), int(t802(sdgsex+1,jtot)+0.5), int(t802(itot,jtot)+0.5) );
+
+
+  { Compute table 8.3, based on deaths and exposure }
+  t803 = 1.0;
+  do j = 0 while j <= rates
+    ilow = 0;
+    l = cohort;
+    recode  j  -> iupp;
+            0  -> 0;
+            1  -> -1;
+            2  -> 3;
+           3,4 -> 7;
+    endrecode;
+    if j = 3 then
+      ilow = ilow+4; l = l+4;
+    endif;
+    do i = ilow while i <= iupp
+      top = tbllay( MT3 );
+      do k = 0 while k <= top
+        t803(k,j) = t803(k,j) * (1 - (MT3(i,0,k)+MT3(i,1,k)) /
+                                     (MT3(l,0,k)+MT3(l,1,k)));
+      enddo;
+      l = l + 1;
+    enddo;
+  enddo;
+  t803[*,*] = (1 - t803[*,*]) * 1000;
+  t803[*,1] = t803[*,2] - t803[*,0];
+  { check un-weighted N's }
+  t803u[*,*] = t803wu[*,*,0] + t803wu[*,*,1];      { add up first two 5 year periods to get one 10 year period }
+  MORTUnw2( "t803", t803, t803u );
+
+
+  { Table 8.4 processing }
+  jmax  = tblcol( t804, npdeaths = 6 );
+  numer = tblcol( t804, npdeaths = 1 );
+  srate = tblcol( t804, npdeaths = 3 );
+  t804[*,srate] = t804[*,numer] / t804[*,jmax] * 1000;            // stillbirths rate
+  numer = tblcol( t804, npdeaths = 2 );
+  nrate = tblcol( t804, npdeaths = 4 );
+  t804[*,nrate] = t804[*,numer] / t804[*,nrate] * 1000;           // early neonatal rate
+  prate = tblcol( t804, npdeaths = 5 );
+  t804[*,prate] = (t804[*,0] + t804[*,1]) / t804[*,jmax] * 1000;  // perinatal rate
+  ratio = tblcol( t804, npdeaths = 7 );
+  t804[*,ratio] = t804[*,0] / t804[*,1];                          // Ratio stillbirths to early neonatal deaths
+  { check unweighted N's }
+  Col2Dim( "t804", t804, nrate, nrate, t804u, 0 );
+  Col2Dim( "t804", t804, srate, srate, t804u, 1 );
+  Col2Dim( "t804", t804, prate, prate, t804u, 1 );
+  Col2Dim( "t804", t804, ratio, ratio, t804u, 1 );
+
+
+  { Table 8.5 processing }
+  imax1 = tblrow( t805, norisk );                     { not in any risk }
+  imax2 = tblrow( t805, unavoid );                    { unavoidable risk }
+  imax3 = tblrow( t805, singrisk ) + 1;               { subtotal single risk }
+  imax4 = tblrow( t805, multrisk ) + 1;               { subtotal multiple risk }
+  t805[imax3,*] = tblsum( row t805[imax2+1:imax3-1,*] );   { subtotals }
+  t805[imax4,*] = tblsum( row t805[imax3+1:imax4-1,*] );
+  avoidr = tblrow( t805, inrisk );
+  t805[avoidr, *] = t805[imax3,*] + t805[imax4,*];         { subtotal any risk }
+  { Subtotals by individual avoidable high-risk category }
+  imax5 = tblrow( t805, risksubt = 1 );                   { single risk was already tabulated }
+  imax6 = tblrow( t805, multrisk = 1 );                   { subtotal multiple risk }
+  t805[imax5,  * ] = t805[imax5, *]   + t805[imax6,*];                          { age < 18 }
+  t805[imax5+1,* ] = t805[imax5+1, *] + t805[imax6+1,*] + t805[imax6+2,*] +     { age > 34 }
+                                        t805[imax6+3,*];
+  t805[imax5+2,* ] = t805[imax5+2, *] + t805[imax6,*]   + t805[imax6+1,*] +     { birth interval < 24 }
+                                        t805[imax6+3,*] + t805[imax6+4,*];
+  t805[imax5+3,* ] = t805[imax5+3, *] + t805[imax6+2,*] + t805[imax6+3,*] +     { birth 0rder > 3 }
+                                        t805[imax6+4, *];
+  t805[*,1]        = t805[*,1] / t805[*,0];                                     { risk ratio }
+  notrisk          = t805(0,1);
+  itot  = tblrow( t805 );
+  do i = 0 while i < itot
+    t805(i,1) = t805(i,1) / notrisk;
+  enddo;
+  { percentages }
+  do i = 0 while i < itot
+    t805(i,0) = t805(i,0) * 100 / t805(itot,0);
+    t805(i,2) = t805(i,2) * 100 / t805(itot,2);
+  enddo;
+  { total percent = no risk + unavoidable risk + any risk }
+  imax = tblrow( t805, total );
+  t805(imax,0) = t805(imax1,0) + t805(imax2,0) + t805(avoidr,0);
+  t805(imax,2) = t805(imax1,2) + t805(imax2,2) + t805(avoidr,2);
+  { check unweighted N's }
+  t805u[imax3,*]   = tblsum( row t805u[imax2+1:imax3-1,*] );   { subtotals }
+  t805u[imax4,*]   = tblsum( row t805u[imax3+1:imax4-1,*] );
+  t805u[imax5,  *] = t805u[imax5, *]   + t805u[imax6,*];                        { age < 18 } 
+  t805u[imax5+1,*] = t805u[imax5+1, *] + t805u[imax6+1,*] + t805u[imax6+2,*] +  { age > 34 } 
+                     t805u[imax6+3,*]; 
+  t805u[imax5+2,*] = t805u[imax5+2, *] + t805u[imax6,*]   + t805u[imax6+1,*] +  { birth interval < 24 } 
+                     t805u[imax6+3,*]  + t805u[imax6+4,*]; 
+  t805u[imax5+3,*] = t805u[imax5+3, *] + t805u[imax6+2,*] + t805u[imax6+3,*] +  { birth 0rder > 3 } 
+                     t805u[imax6+4, *]; 
+  t805u[avoidr,*]  = t805u[imax3,*] + t805u[imax4,*];                           { subtotal any risk }
+  Col2Dim( "t805", t805, 1, 1, t805u, 0 );
+  { assign NA to cells }
+  t805[imax,1] = NAcells;
+  t805[itot,1] = NAcells;
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  v101w  = V101;
+  v102w  = V102;
+  v106wt = V106;
+  if V106 in 8,missing then v106wt = 9 endif;
+  v190w = V190;
+
+  { PSU number - set v021 to the cluster number if not set }
+  if special( v021 ) then v021 = v001 endif;
+  { Add the PSU to the list }
+  cl = findcl( V021 );
+
+  upplim = V008 - 1;
+  cmcper = V008 - Period;            { Create limits for periods }
+  do i = 1 while i <= 5
+    limits(i) = cmcper ;
+    cmcper = cmcper - Period;
+  enddo;
+  lowlim = limits(i-1) - 1;
+  
+  if V008 > highcmc then
+    highcmc = V008
+  endif;	
+
+  { for each child }
+  for i in REC21_EDT do
+    if B3 <= upplim then
+      ageexp  = notappl;
+      agemoth = int( (B3-V011)/12 );
+      recode agemoth -> agemoth;
+               <20   ->    1;
+             20:29   ->    2;
+             30:39   ->    3;
+                     ->    4;
+      endrecode;
+
+      { birth order }
+      { adjust multiple births to give the same order as that of the first of the multiples }
+      xorder = BORD;
+      if B0 > 1 then xorder = BORD - B0 + 1 endif;
+      recode xorder -> border3;
+               1    ->   1;
+              2:3   ->   2;
+              4:6   ->   3;
+                    ->   4;
+      endrecode;
+
+      { previous birth interval }
+      recode  B11 -> pinter1;
+          notappl -> notappl;
+             <24  ->   1;
+           24:35  ->   2;
+           36:47  ->   3;
+                  ->   4;
+      endrecode;
+      sex1 = B4;
+
+      { period of birth }
+      perborn  = int( (V008-1-B3)/Period );
+      if B5 <> 1 then                           { if child is dead }
+        units  = int( B6/100 );
+        if special( units ) then units = 9 endif;
+        numbers = B6%100;
+        recode Units -> months;
+                 1   -> int( numbers/30 );
+                 2   -> numbers;
+                 3   -> numbers * 12;
+                 9   -> numbers;
+        endrecode;
+        if special( numbers ) | numbers > 90 then months = B7 endif;
+        if B3 + months >= lowlim then
+          do k = perborn while k > 0 & B3+months >= limits(k) by (-1)
+          enddo;
+          colper = k;
+          if units = 1 then
+            rowe1 = numbers;
+            if special( numbers ) | rowe1 > 30 then rowe1 = 31 endif;
+            xtab( me1, rweight );
+          endif;
+          if units in 1,2,9 then
+            recode  units  ->  rowe2;
+                      1    ->  int( numbers/30 );
+                      2    ->  numbers;
+                      9    ->  B7;
+            endrecode;
+            if special( rowe2 ) then rowe2 = B7 endif;
+            if rowe2 > 48 then rowe2 = 49 endif;
+            xtab( me2 ,rweight );
+          endif;
+          recode units -> rowe3;
+                   1   -> int( numbers/365 );
+                   2   -> int( numbers/12 );
+                   3   -> numbers;
+                   9   -> int( B7/12 );
+          endrecode;
+          if special( rowe3 ) then rowe3 = int( B7/12 ) endif;
+          if rowe3 > 10 then rowe3 = 11 endif;
+          xtab( me3, rweight );
+        endif;
+        found = 0;                      { identifies group of age at death }
+        j = 1;
+        while j <= 8 & B7 <= maxage & !found do
+          if B7 >= agegrps(j) & B7(i) < agegrps(j+1) then
+            found = 1
+          else
+            j = j + 1
+          endif;
+        enddo;
+        if found then
+          limsup = B3 + agegrps(j+1) - 1;
+        else
+          limsup = B3 + maxage;
+        endif;
+        if found & limsup >= lowlim then         { tabulates deaths }
+          colper = perborn;
+          if B3 + agegrps(j) > upplim then    { eliminates deaths occurred }
+            limsup = upplim                      { in the month of interview  }
+          else
+            agedth = j - 1;  iter = 1;   n = 1;
+            { *** 10/15/2007
+                  replace these two instructions by the one after to
+                  allow periods shorter than 5 years to work properly
+            if perborn > 0 then
+              if B3+agegrps(j) >= limits(perborn) then
+            *** }
+            while perborn > 0 & B3(i)+agegrps(j) >= limits(perborn) do
+              perborn = perborn - 1;
+              colper  = perborn;
+            enddo;
+            if perborn > 0 then
+              if B3+agegrps(j+1) >= limits(perborn) then
+                iter = 2;  n = 0.5;
+              endif
+            endif;
+            do k = 1 while k <= iter
+              if colper <= 4 then
+                xtab( MT1, n*rweight );
+                xtab( MT2, n*rweight );
+                xtab( MT3, n*rweight );
+              endif;
+              colper = colper - 1;
+            enddo
+          endif
+        endif
+      else
+        if (B3 + maxage) < upplim then
+          limsup = B3 + maxage;
+        else
+          limsup = upplim;
+        endif;
+      endif;
+      if limsup < lowlim then
+        limsup = 0;
+      endif;
+
+      { tabulates exposure }
+      agei = B3;                             { tabulates exposure }
+      perborn = int( (V008-1-B3)/Period );
+      agedth = notappl;
+      do grps = 1 while agei <= limsup & grps <= 8
+        ageexp = grps - 1;
+        colper = perborn;
+        iter = 1;   n = 1;
+        nxtage = B3 + agegrps(grps+1);
+        if perborn > 0 then
+          if agei >= limits(perborn) then
+            perborn = perborn - 1;
+            colper  = perborn;
+          endif;
+        endif;
+        if perborn > 0 then
+          if nxtage >= limits(perborn) then
+            n = 0.5;  iter = 2;
+          endif
+        elseif nxtage > upplim then
+          n = 0.5;
+        endif;
+        do k = 1 while k <= iter
+          if colper <= 4 then
+            xtab( MT1, n*rweight );
+            xtab( MT2, n*rweight );
+            xtab( MT3, n*rweight );
+            { tabulate unweighted exposure }
+            xtab( t801u,  n );
+            if colper = 0 then                // exposure for table 8.2 is just for the period 0-4 years
+              xtab( t802u,  n );
+            endif;
+            xtab( t803wu, n );
+          endif;
+          colper = colper - 1;
+        enddo;
+        agei = B3 + agegrps(Grps+1);
+      enddo;
+    endif;
+  enddo;
+
+{-----------------------------------------------------------------------------}
+{ table 8.4 }
+
+  for i in REC22 do
+    if P19 < 60 then
+      age = int( (P3 - V011) / 12 );     { mothers age }
+      recode age  -> agemoth;
+             <20  -> 1;
+            20:29 -> 2;
+            30:39 -> 3;
+                  -> 4;
+      endrecode;
+	  numeric xp11 = P11 - P20;
+      recode  xp11  -> pregint;
+            notappl -> 0;
+              <15   -> 1;
+             15:26  -> 2;
+             27:38  -> 3;
+                    -> 4;
+      endrecode;
+      if P32 = 2 then                    // stillbirths
+	    npdeaths = 1;
+        xtab( t804, rweight );
+      endif;
+	  if P32 = 1 & P6 in 100:106 then    // early neonatal deaths 
+        npdeaths = 2;
+        xtab( t804, rweight );
+      endif;
+	  if P32 = 1 then                    // temporarly store births to calculate early neonatal rates
+        npdeaths = 4;
+        xtab( t804, rweight );
+		coltotu = 1;
+        xtab( t804u );
+      endif;
+	  if P32 in 1,2 then                 // live births & stillbirths 
+        npdeaths = 6;
+        xtab( t804, rweight );
+		coltotu = 2;
+        xtab( t804u );
+      endif;		
+    endif;
+  enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 8.5 }
+
+  for ch in REC21_EDT do
+    months = B19(ch);
+    if months < 60 then                          { For all children born  }
+      agemoth = int( (B3-V011)/12 );             { in the last five years }
+      agemo18 = ( agemoth < 18 );
+      agemo34 = ( agemoth > 34 );
+      inter24 = 0;
+      if !special(B11) then
+        inter24 = ( B11 < 24 );
+      endif;
+      { adjust multiple births to give the same order as that of the first of the multiples }
+      xorder = BORD;
+      if B0 > 1 then xorder = BORD - B0 + 1 endif;
+      bord3 = ( xorder > 3 );
+      frstb = ( xorder = 1 );
+      recode agemo18 :: agemo34 :: inter24 :: bord3 :: frstb -> risktype;
+                 0   ::    0    ::    0    ::   0   ::   0   -> 1;  { no risk }
+                 0   ::    0    ::    0    ::   0   ::   1   -> 2;  { unavoidable risk }
+                 1   ::    0    ::    0    ::   0   ::       -> 3;  { single risk }
+                 0   ::    1    ::    0    ::   0   ::       -> 4;
+                 0   ::    0    ::    1    ::   0   ::       -> 5;
+                 0   ::    0    ::    0    ::   1   ::       -> 6;
+                 1   ::    0    ::    1    ::   0   ::       -> 7;  { multiple risk }
+                 1   ::    0    ::    0    ::   1   ::       -> 7;
+                 1   ::    0    ::    1    ::   1   ::       -> 7;
+                 0   ::    1    ::    1    ::   0   ::       -> 8;
+                 0   ::    1    ::    0    ::   1   ::       -> 9;
+                 0   ::    1    ::    1    ::   1   ::       -> 10;
+                 0   ::    0    ::    1    ::   1   ::       -> 11;
+                     ::         ::         ::       ::       -> default;
+      endrecode;
+      recode risktype -> norisk;
+                 1    -> risktype;
+                      -> notappl;
+      endrecode;
+      recode risktype -> unavoid;
+                 2    -> risktype - 1;
+                      -> notappl;
+      endrecode;
+      recode risktype -> singrisk;
+                3:6   -> risktype - 2;
+                      -> notappl;
+      endrecode;
+      recode risktype -> multrisk;
+                7:11  -> risktype - 6;
+                      -> notappl;
+      endrecode;
+      risksubt = singrisk;
+      currmar1 = notappl;
+      birtrisk  = 1;
+      xtab( t805, rweight );
+      xtab( t805u );
+      if B5 <> 1 then                { For dead children  }
+        birtrisk = 2;
+        xtab( t805, rweight );
+      endif;
+    endif;
+  enddo;
+
+  if V502 = 1 then                         { For currently married women }
+    birtrisk  = notappl;
+    currmar1 = 1;
+    agemoth = V008 - V011;
+    agemo18 = ( agemoth < 17*12+3 );
+    agemo34 = ( agemoth > 34*12+2 );
+    inter24 = 0;
+    if V201 > 0 then
+       inter24 = ( V222 < 15 );
+    endif;
+    bord3 = ( V201 > 2 );
+    frstb = ( V201 = 0 );
+    recode agemo18 :: agemo34 :: inter24 :: bord3 :: frstb -> risktype;
+               0   ::    0    ::    0    ::   0   ::   0   -> 1;  { no risk }
+               0   ::    0    ::    0    ::   0   ::   1   -> 2;  { unavoidable risk }
+               1   ::    0    ::    0    ::   0   ::       -> 3;  { single risk }
+               0   ::    1    ::    0    ::   0   ::       -> 4;
+               0   ::    0    ::    1    ::   0   ::       -> 5;
+               0   ::    0    ::    0    ::   1   ::       -> 6;
+               1   ::    0    ::    1    ::   0   ::       -> 7;  { multiple risk }
+               1   ::    0    ::    0    ::   1   ::       -> 7;
+               1   ::    0    ::    1    ::   1   ::       -> 7;
+               0   ::    1    ::    1    ::   0   ::       -> 8;
+               0   ::    1    ::    0    ::   1   ::       -> 9;
+               0   ::    1    ::    1    ::   1   ::       -> 10;
+               0   ::    0    ::    1    ::   1   ::       -> 11;
+                   ::         ::         ::       ::       -> default;
+    endrecode;
+    if V312 = 6 then risktype = 1 endif;
+    recode risktype -> norisk;
+               1    -> risktype;
+                    -> notappl;
+    endrecode;
+    recode risktype -> unavoid;
+               2    -> risktype - 1;
+                    -> notappl;
+    endrecode;
+    recode risktype -> singrisk;
+              3:6   -> risktype - 2;
+                    -> notappl;
+    endrecode;
+    recode risktype -> multrisk;
+              7:11  -> risktype - 6;
+                    -> notappl;
+    endrecode;
+    risksubt = singrisk;
+    xtab( t805, rweight );
+  endif;
+

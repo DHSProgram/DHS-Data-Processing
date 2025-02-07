@@ -1,0 +1,89 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=Match to DHS to calculate weights
+Name=MATCHDHS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Absolute
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=Log for HIV test samples
+Name=LEVEL1
+
+[IdItems]
+
+[Item]
+Label=Sample ID bar code
+Name=TBAR
+Start=1
+Len=5
+DataType=Alpha
+
+[Record]
+Label=RECORD1
+Name=RECORD1
+RecordTypeValue=''
+RecordLen=21
+
+[Item]
+Label=Sample identification (lab version)
+Name=TLABID
+Start=6
+Len=5
+ZeroFill=Yes
+
+[ValueSet]
+Label=Sample identification (lab version)
+Name=TLABID_VS1
+Value='     '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Date received
+Name=TDATE
+Start=11
+Len=8
+
+[ValueSet]
+Label=Date received
+Name=TDATE_VS1
+Value='        '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Testing stage
+Name=TSTAGE
+Start=19
+Len=1
+
+[ValueSet]
+Label=Testing stage
+Name=TSTAGE_VS1
+Value=1;Elisa 1 (Vironostika HIV Uniform Plus II)
+Value=2;Elisa 2 (Enzygnost anti-HIV 1/2 Plus)
+Value=3;Repeat Elisa 1 and 2
+Value=4;Western Blot
+Value=5;Pepti-Lav
+Value=9;Testing completed
+
+[Item]
+Label=Locking
+Name=TLOCK
+Start=20
+Len=1
+
+[Item]
+Label=Stage completed
+Name=TRESULT
+Start=21
+Len=1
+
+[ValueSet]
+Label=Stage completed
+Name=TRESULT_VS1
+Value=1;Test completed
+Value=2;Test not completed
+Value=' '
+Name=NOTAPPL,Special

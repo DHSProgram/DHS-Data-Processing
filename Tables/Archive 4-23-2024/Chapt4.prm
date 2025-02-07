@@ -1,0 +1,164 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+t401 columns totnum6  = 2 nodec;
+
+t402 columns marcert = 3 nodec;
+t402 footnote
+{+EN}
+@1 Includes currently married women with a marriage certificate for their current marriage~
+@2 Excludes women who are living with a man as if married but did not report themselves 
+   as currently married.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Y compris les femmes actuellement mariées et qui
+   disposent d'un certificat de mariage pour leur mariage actuel~
+@2 Non compris les femmes qui vivent avec un homme comme si elles
+   étaient mariées mais qui ne se sont pas déclarées comme étant
+   actuellement mariées.
+{FR}}
+endfootnote;
+
+t4031 columns numwom = 1 nodec;
+t4031 footnote
+{+EN}
+@1 Excludes women who responded ?don?t know? when asked if their husband has other wives
+{EN+}
+{{ES}
+@1 Excludes women who responded ?don?t know? when asked if their husband has other wives
+{ES}}
+{{FR}
+@1 Non compris les femmes qui ont répondu "Ne sait pas" quand on leur a demandé si
+   leur conjoint avait d'autres épouses/partenaires 
+{FR}}
+endfootnote;
+
+t4032 columns totnum5  = 1 nodec;
+
+t404 columns numbmed1 = 1 nodec;
+t404 footnote
+{+EN}
+Note: The age at first marriage is defined as the age at which the respondent began
+living with her/his first spouse/partner.~
+na = Not applicable due to censoring~
+a = Omitted because less than 50% of the women or men began living with their
+    spouse or partner for the first time before reaching the beginning of the age group
+{EN+}
+{{ES}
+Nota: La edad a la primera uni?n se define como la edad a la cual la persona entrevistada comenz? a
+ vivir con su primera pareja.~
+na = No aplicable debido a truncamiento~
+a = Omitida porque menos del 50 por ciento de las personas entrevistadas se unieron antes de cumplir
+    la edad inferior del grupo de edad
+{ES}}
+{{FR}
+Note : L'âge à la première union est défini comme étant l'âge auquel
+      l'enquêté(e) a commencé à vivre avec son premier époux/épouse/partenaire.~
+na = Non applicable pour cause de troncature~
+a = Non calculé parce que moins de 50 % des enquêtés ont
+    commencé à vivre pour la première fois avec leur époux/épouse /partenaire 
+    avant d'atteindre le début du groupe d'âges
+{FR}}
+endfootnote;
+{t404w  noprint;}
+
+t405 footnote
+{+EN}
+Note: The age at first marriage is defined as the age at which the respondent began
+      living with her/his first spouse/partner.~
+a = Omitted because less than 50% percent of the respondents began living with their
+    spouse/partners for the first time before reaching the beginning of the age group
+{EN+}
+{{ES}
+Nota: La edad a la primera uni?n se define como la edad a la cual la persona entrevistada comenz? a
+ vivir con su primera pareja.~
+ a = Se omite porque menos del 50 por ciento de las personas entrevistadas se han unido antes de cumplir
+     la edad inferior del grupo de edad
+{ES}}
+{{FR}
+Note : L'âge à la première union est défini comme étant l'âge auquel l'enquêté(e)
+       a commencé à vivre avec son premier époux/épouse/partenaire.~
+a = Non calculé parce que moins de 50 % des femmes ou des hommes ont commencé
+    à vivre pour la première fois avec leur époux/épouse/partenaire avant
+    d'atteindre le début du groupe d'âges
+{FR}}
+endfootnote;
+{t405w noprint;}
+
+t406 columns numbmed2 = 1 nodec;
+t406 footnote
+{+EN}
+na = Not applicable due to censoring~
+a = Omitted because less than 50% of the respondents had sexual intercourse
+    for the first time before reaching the beginning of the age group
+{EN+}
+{{ES}
+na = No aplicable debido a truncamiento~
+a = Omitida porque menos del 50 por ciento de las personas entrevistadas tuvieron su primera
+    relaci?n sexual antes de cumplir la edad inferior del grupo de edad
+{ES}}
+{{FR}
+na = Non applicable pour cause de troncature~
+a = Non calculé parce que moins de 50 % des enquêtés ont eu leurs premiers rapports
+    sexuels avant d'atteindre le début du groupe d'âges
+{FR}}
+endfootnote;
+{t406w  noprint;}
+
+t407 footnote
+{+EN}
+a = Omitted because less than 50% of the respondents had intercourse for the
+    first time before reaching the beginning of the age group
+{EN+}
+{{ES}
+a = Se omite porque menos del 50 por ciento de las personas entrevistadas tuvieron su primera relaci?n
+    sexual antes de cumplir la edad inferior del grupo de edad
+{ES}}
+{{FR}
+a = Non calculé parce que moins de 50 % des enquêtés ont eu leurs premiers rapports
+    sexuels avant d'atteindre le début du groupe d'âges
+{FR}}
+endfootnote;
+{t407w  noprint;}
+
+t4081 columns totnum2  = 1 nodec;
+t4081 footnote
+{+EN}
+@1 Excludes women who had sexual intercourse within the last 4 weeks~
+@2 Excludes women who are not currently married
+{EN+}
+{{ES}
+@1 Excluye las mujeres que tuvieron relaciones sexuales durante las ?ltimas 4 semanas~
+@2 Excluye las mujeres que no est?n actualmente casadas/unidas
+{ES}}
+{{FR}
+@1 Non compris les femmes qui ont eu des rapports sexuels au cours des 4 dernières semaines~
+@2 Non compris les femmes qui ne sont pas actuellement en union
+{FR}}
+endfootnote;
+
+t4082 columns totnum5  = 1 nodec;
+t4082 footnote
+{+EN}
+@1 Excludes men who had sexual intercourse within the last 4 weeks~
+@2 Excludes men who are not currently married
+{EN+}
+{{ES}
+@1 Excluye los hombres que tuvieron relaciones sexuales durante las ?ltimas 4 semanas~
+@2 Excluye los hombres que no est?n actualmente casados/unidos
+{ES}}
+{{FR}
+@1 Non compris les hommes qui ont eu des rapports sexuels au cours des 4 dernières semaines~
+@2 Non compris les hommes qui ne sont pas actuellement en union
+{FR}}
+endfootnote;
+
+

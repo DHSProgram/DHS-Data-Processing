@@ -1,0 +1,43 @@
+﻿---
+fileType: Question Text
+version: CSPro 7.7
+languages:
+  - name: EN
+    label: English
+styles:
+  - name: Normal
+    className: normal
+    css: |
+      font-family: Arial;font-size: 21px;
+  - name: Instruction
+    className: instruction
+    css: |
+      font-family: Arial;font-size: 21px;color: #0000FF;
+questions:
+  - name: CNULL.CNULSAMP
+    conditions:
+      - questionText:
+          EN: |
+            
+        helpText:
+          EN: |
+            
+  - name: HHFORINT.VINTCODE
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">Enter interviewer code that you wish to change for household ~~VNUMBER~~</span></p>
+            
+        helpText:
+          EN: |
+            
+  - name: HHFORINT.VRESULT
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">Enter code you wish to change to in household ~~VNUMBER~~</span></p>
+            
+        helpText:
+          EN: |
+            
+...

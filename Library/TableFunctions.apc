@@ -1,0 +1,533 @@
+﻿  string SDGChapt, Line;
+  File   SDGFile;
+
+  numeric asterisk = 999999999;     // constant to be used by tables editor to put an * in a cell
+  numeric omitted  = 999999998;     // constant to be used by tables editor to put an a in a cell
+  numeric NAcells  = 999999997;     // constant to be used by tables editor to put na in a cell
+
+  { function to check unweighted N's for a two dimension tables where the N is in column ColNu }
+  { parameters:                                                                                }
+  { TabName: the table name used to display error messages                                     }
+  { TableW:  the two dimensions weighted table                                                 }
+  { ColBeg:  first column where the percentages in the weighted table affected by the N begins }
+  { ColEnd:  last column where the percentages in the weighted table affected by the N ends    }
+  { TableU:  the two dimensions un-weighted table                                              }
+  { ColNu:   column where the table's unweighted Ns are kept                                   }
+  function Col2Dim( string TabName, array TableW(,), ColBeg, ColEnd, array TableU(,), ColNu )
+    numeric r, c, value;
+    if tblrow( TableW ) <> tblrow( TableU ) then
+      errmsg( "Weighted and un-weighted tables have different number of rows for table: %s", TabName );
+      exit;
+    endif;
+	numeric rtot = tblrow( TableW );
+    do r = 0 while r <= tblrow( TableU )
+      value = 0;
+      { check number of unweighted N's }
+      if TableU(r,ColNu) < 25 then
+        value = asterisk
+      elseif TableU(r,ColNu) < 50 then
+        value = -1;
+      endif;
+      if value <> 0 then
+        do c = ColBeg while c <= ColEnd
+          if value = asterisk then
+            TableW(r,c) = value
+          else
+            if TableW(r,c) = 0 & TableW(rtot,c) <> 0 then TableW(r,c) = 0.000001 endif;  { to make sure that 0 gets in parentheses }
+			if TableW(r,c) <> omitted & TableW(r,c) > 0 then
+              TableW(r,c) = TableW(r,c) * value
+			endif;
+          endif;
+        enddo;
+      endif;
+    enddo;
+  end;
+
+  { function to check unweighted N's for a two dimension tables where the N is in row RowNu    }
+  { parameters:                                                                                }
+  { TabName: the table name used to display error messages                                     }
+  { TableW:  the two dimensions weighted table                                                 }
+  { RowBeg:  first row where the percentages in the weighted table affected by the N begins    }
+  { RowEnd:  last row where the percentages in the weighted table affected by the N ends       }
+  { TableU:  the two dimensions un-weighted table                                              }
+  { RowNu:   row where the table's unweighted Ns are kept                                      }
+  function Row2Dim( string TabName, array TableW(,), RowBeg, RowEnd, array TableU(,), RowNu )
+    numeric r, c, value;
+    if tblcol( TableW ) <> tblcol( TableU ) then
+      errmsg( "Weighted and un-weighted tables have different number of columns for table: %s", TabName );
+      exit;
+    endif;
+	numeric ctot = tblcol( TableW );
+    do c = 0 while c <= tblcol( TableU )
+      value = 0;
+      { check number of unweighted N's }
+      if TableU(RowNu,c) < 25 then
+        value = asterisk
+      elseif TableU(RowNu,c) < 50 then
+        value = -1;
+      endif;
+      if value <> 0 then
+        do r = RowBeg while r <= RowEnd
+          if value = asterisk then
+            TableW(r,c) = value
+          else
+            if TableW(r,c) = 0 & TableW(r,ctot) <> 0 then TableW(r,c) = 0.000001 endif;  { to make sure that 0 gets in parentheses }
+			if TableW(r,c) <> omitted & TableW(r,c) > 0 then
+              TableW(r,c) = TableW(r,c) * value
+			endif;
+          endif;
+        enddo;
+      endif;
+    enddo;
+  end;
+
+  { function to check unweighted N's for three dimension tables where the N is in column ColNu }
+  { parameters:                                                                                }
+  { TabName: the table name used to display error messages                                     }
+  { TableW:  the three dimensions weighted table                                               }
+  { ColBeg:  first column where the percentages in the weighted table affected by the N begins }
+  { ColEnd:  last column where the percentages in the weighted table affected by the N ends    }
+  { TableU:  the three dimensions un-weighted table                                            }
+  { ColNu:   column where the table's unweighted Ns are kept                                   }
+  function Col3Dim( string TabName, array TableW(,,), ColBeg, ColEnd, array TableU(,,), ColNu )
+    numeric r, c, l, value, lx;
+    if tblrow( TableW ) <> tblrow( TableU ) | tbllay( TableW ) <> tbllay( TableU ) then
+      errmsg( "Weighted and un-weighted tables have different number of rows or layers for table: %s", TabName );
+      exit;
+    endif;
+	numeric rtot = tblrow( TableW );
+    do l = 0 while l <= tbllay( TableU )
+      do r = 0 while r <= tblrow( TableU )
+        value = 0;
+        { check number of unweighted N's }
+        if TableU(r,ColNu,l) < 25 then
+          value = asterisk
+        elseif TableU(r,ColNu,l) < 50 then
+          value = -1;
+        endif;
+        if value <> 0 then
+          do c = ColBeg while c <= ColEnd
+            if value = asterisk then
+              TableW(r,c,l) = value
+            else
+              if TableW(r,c,l) = 0 then   { to make sure that 0 gets in parentheses } 
+                do lx = 0 while lx <= tbllay( TableW ) 
+                  if TableW(rtot,c,lx) <> 0 then  
+                    TableW(r,c,l) = 0.000001; 
+                    break; 
+                  endif; 
+                enddo; 
+              endif; 
+			  if TableW(r,c,l) <> omitted & TableW(r,c,l) > 0 then
+                TableW(r,c,l) = TableW(r,c,l) * value
+		      endif;
+            endif;
+          enddo;
+        endif;
+      enddo;
+    enddo;
+  end;
+
+  { function to check unweighted N's for three dimension tables where the N is in row RowNu    }
+  { parameters:                                                                                }
+  { TabName: the table name used to display error messages                                     }
+  { TableW:  the three dimensions weighted table                                               }
+  { RowBeg:  first row where the percentages in the weighted table affected by the N begins    }
+  { RowEnd:  last row where the percentages in the weighted table affected by the N ends       }
+  { TableU:  the three dimensions un-weighted table                                            }
+  { RowNu:   row where the table's unweighted Ns are kept                                      }
+  function Row3Dim( string TabName, array TableW(,,), RowBeg, RowEnd, array TableU(,,), RowNu )
+    numeric r, c, l, value, rx;
+    if tblcol( TableW ) <> tblcol( TableU ) | tbllay( TableW ) <> tbllay( TableU ) then
+      errmsg( "Weighted and un-weighted tables have different number of columns or layers for table: %s", TabName );
+      exit;
+    endif;
+	numeric ctot = tblcol( TableW );
+    do l = 0 while l <= tbllay( TableU )
+      do c = 0 while c <= tblcol( TableU )
+        value = 0;
+        { check number of unweighted N's }
+        if TableU(RowNu,c,l) < 25 then
+          value = asterisk
+        elseif TableU(RowNu,c,l) < 50 then
+          value = -1;
+        endif;
+        if value <> 0 then
+          do r = RowBeg while r <= RowEnd
+            if value = asterisk then
+              TableW(r,c,l) = value
+            else
+              if TableW(r,c,l) = 0 then    { to make sure that 0 gets in parentheses }
+                do rx = 0 while rx <= tbllay( TableW )
+                  if TableW(rx,ctot,l) <> 0 then  
+                    TableW(r,c,l) = 0.000001; 
+                    break; 
+                  endif; 
+                enddo; 
+              endif; 
+			  if TableW(r,c,l) <> omitted & TableW(r,c,l) > 0 then
+                TableW(r,c,l) = TableW(r,c,l) * value
+			  endif;
+            endif;
+          enddo;
+        endif;
+      enddo;
+    enddo;
+  end;
+
+  { function to check unweighted N's cell by cell in a two dimension tables                  }
+  { parameters:                                                                              }
+  { TabName: the table name used to display error messages                                   }
+  { TableW:  the two dimensions weighted table                                               }
+  { TableU:  the two dimensions un-weighted table                                            }
+  function CellUnw( string TabName, array TableW(,), array TableU(,) )
+    numeric r, c;
+    if tblcol( TableW ) <> tblcol( TableU ) | tblrow( TableW ) <> tblrow( TableU ) then
+      errmsg( "Weighted and un-weighted tables have different number of columns or rows for table: %s", TabName );
+      exit;
+    endif;
+    do r = 0 while r <= tblrow( TableU )
+      do c = 0 while c <= tblcol( TableU )
+        { check number of unweighted N's }
+        if TableU(r,c) < 25 then
+          TableW(r,c) = asterisk;
+        elseif TableU(r,c) < 50 then
+          if TableW(r,c) = 0 then TableW(r,c) = 0.000001 endif;  { to make sure that 0 gets in parentheses }
+          TableW(r,c) = TableW(r,c) * (-1)
+        endif;
+      enddo;
+    enddo;
+  end;
+
+  { function to check unweighted N's for age specific and total fertitliy rates.               }
+  { parameters:                                                                                }
+  { TabName: the table name used to display error messages                                     }
+  { TableW:  the weighted table with the final fertility rates                                 }
+  { TableU:  the un-weighted table with years of exposure                                      }
+  { RowEnd:  Row where the checking ends                                                       }
+  { ColEnd:  Column where the checking ends                                                    }
+  { WhatCol: Specifies columns where check will be applied: 0-several, 1-0, 2-1                }
+  function FERTUnw( string TabName, array TableW(,), array TableU(,), RowEnd, ColEnd, WhatCol )
+    numeric r, c, value, colbeg = 0, col;
+    if WhatCol then ColBeg = ColEnd endif;
+    do r = 0 while r <= RowEnd
+      do c = colbeg while c <= ColEnd
+        value = 0;
+        { check number of unweighted N's }
+        if TableU(r,c) < 125 then
+          value = asterisk
+        elseif TableU(r,c) < 250 then
+          value = -1;
+        endif;
+        recode Whatcol -> col;
+                 0    -> c;
+                 1    -> 0;
+                 2    -> 1;
+        endrecode;
+        if value <> 0 then
+          if value = asterisk then
+            TableW(r,col) = value
+          else
+            if TableW(r,col) = 0 then TableW(r,col) = 0.000001 endif;  { to make sure that 0 gets in parentheses }
+            TableW(r,col) = TableW(r,col) * value
+          endif;
+        endif;
+      enddo;
+    enddo;
+  end;
+
+  { function to check unweighted N's for median duration for current status                    }
+  { parameters:                                                                                }
+  { TabName: the table name used to display error messages                                     }
+  { TableW:  the weighted table with the final median                                          }
+  { TableU:  the un-weighted table with number of births                                       }
+  { RowTab:  Row of the characteristic being checked                                           }
+  { ColTab:  Column for the type of median                                                     }
+  { ColMed:  Column (age group) where the median was identified                                }
+  function MEDUnw( string TabName, array TableW(,), array TableU(,), RowTab, ColTab, ColMed )
+    numeric ncases = 0, value = 0;
+    if tblrow( TableW ) <> tblrow( TableU ) then
+      errmsg( "Weighted and un-weighted tables have different number of rows for table: %s", TabName );
+      exit;
+    endif;
+    if ColMed >= 0 then                  // check if 50% falls above the first age group
+      ncases = TableU(RowTab,ColMed);
+      if ColMed = tblcol( TableU ) then
+        ncases = ncases + TableU(RowTab,ColMed-1)
+      elseif ColMed <> 0 then
+        ncases = ncases + TableU(RowTab,ColMed-1)+TableU(RowTab,ColMed+1)
+      endif;
+    endif;
+    { check number of unweighted N's }
+    if ColMed < 0 then
+      value = omitted
+    elseif ncases < 25 then
+      value = asterisk
+    elseif ncases < 50 then
+      value = -1;
+    endif;
+    if value = asterisk | value = omitted then
+      TableW(RowTab,ColTab) = value
+    elseif value = -1 then
+      if TableW(RowTab,ColTab) = 0 then TableW(RowTab,ColTab) = 0.000001 endif;  { to make sure that 0 gets in parentheses }
+      TableW(RowTab,ColTab) = TableW(RowTab,ColTab) * value
+    endif;
+  end;
+
+  { function to check unweighted N's for mortality rates for five year periods                 }
+  { parameters:                                                                                }
+  { TabName: the table name used to display error messages                                     }
+  { TableW:  the weighted table with mortality rates for total                                 }
+  { TableU:  the un-weighted table with exposure for total                                     }
+  function MORTUnw1( string TabName, array TableW(,), array TableU(,) )
+    numeric r, c, e, value, expbeg, expend;
+    if tblrow( TableW ) <> tblrow( TableU ) then
+      errmsg( "Weighted and un-weighted number of periods to check table: %s different", TabName );
+      exit;
+    endif;
+    do r = 0 while r <= tblrow( TableU )       { for each 5 years period }
+      do c = 0 while c <= 4                { for each rate 0-Neonatal, 1-Post neonatal, 2-Infant, 3-child, 4-under 5 }
+        recode c -> expbeg;
+              0 -> 0;           { neonatal - start at exposure 0 months }
+              1 -> 1;           { post-neo - start at exposure 1-2 }
+              2 -> 0;           { infant   - start at exposure 0 }
+              3 -> 4;           { child    - start at exposure 12-23 }
+              4 -> 0;           { under 5  - start at exposure 0 }
+        endrecode;
+        recode c -> expend;
+              0 -> 0;           { neonatal - include exposure 0 months }
+              1 -> 3;           { post-neo - include exposure 1-2, 3-5, 6-11 }
+              2 -> 3;           { infant   - include exposure 0, 1-2, 3-5, 6-11 }
+              3 -> 6;           { child    - include exposure 12-23, 24-35, 36-47 }
+              4 -> 7;           { under 5  - include all groups of exposure }
+        endrecode;
+        { check number of unweighted N's in the exposures afecting the rate }
+        value = 0;
+        do e = expbeg while e <= expend
+          if TableU(r,e) < 250 then
+            value = 1
+          elseif TableU(r,e) < 500 & value = 0 then
+            value = 2
+          endif;
+        enddo;
+        if value = 1 then
+          TableW(r,c) = asterisk
+        elseif value = 2 then
+          if TableW(r,c) = 0 then TableW(r,c) = 0.000001 endif;  { to make sure that 0 gets in parentheses }
+          TableW(r,c) = TableW(r,c) * (-1)
+        endif;
+      enddo;
+    enddo;
+  end;
+
+  { check unweighted N's for mortality rates for tables by background characteristics          }
+  { parameters:                                                                                }
+  { TabName: the table name used to display error messages                                     }
+  { TableW:  the weighted table with mortality rates by background charactstics                }
+  { TableU:  the un-weighted table with exposure for an specific background characteristic     }
+  function MORTUnw2( string TabName, array TableW(,), array TableU(,) )
+    numeric r, c, e, value, expbeg, expend;
+    if tblrow( TableW ) <> tblrow( TableU ) then
+      errmsg( "Weighted and un-weighted number of rows to check table: %s different", TabName );
+      exit;
+    endif;
+    do r = 0 while r <= tblrow( TableU );
+      do c = 0 while c <= 4                { for each rate 0-Neonatal, 1-Post neonatal, 2-Infant, 3-child, 4-under 5 }
+        recode c -> expbeg;
+              0 -> 0;           { neonatal - start at exposure 0 months }
+              1 -> 1;           { post-neo - start at exposure 1-2 }
+              2 -> 0;           { infant   - start at exposure 0 }
+              3 -> 4;           { child    - start at exposure 12-23 }
+              4 -> 0;           { under 5  - start at exposure 0 }
+        endrecode;
+        recode c -> expend;
+              0 -> 0;           { neonatal - include exposure 0 months }
+              1 -> 3;           { post-neo - include exposure 1-2, 3-5, 6-11 }
+              2 -> 3;           { infant   - include exposure 0, 1-2, 3-5, 6-11 }
+              3 -> 7;           { child    - include exposure 12-23, 24-35, 36-47, 48-59 }
+              4 -> 7;           { under 5  - include all groups of exposure }
+        endrecode;
+        { check number of unweighted N's in the exposures afecting the rate }
+        value = 0;
+        do e = expbeg while e <= expend
+          if TableU(r,e) < 250 then
+            value = 1
+          elseif TableU(r,e) < 500 & value = 0 then
+            value = 2
+          endif;
+        enddo;
+        if value = 1 then
+          TableW(r,c) = asterisk
+        elseif value = 2 then
+          if TableW(r,c) = 0 then TableW(r,c) = 0.000001 endif;  { to make sure that 0 gets in parentheses }
+          TableW(r,c) = TableW(r,c) * (-1)
+        endif;
+      enddo;
+    enddo;
+  end;
+
+  { calculates the number of days since january 1, 1900 up to the date given in the parameters }
+  { the function assumes that the day (zday) within month (zmonth) is consistent               }
+  function CDCode( zyear, zmonth, zday )
+    numeric z, zz, zdays1 = 0, zdays2 =0, leapday, totdays = 99999;
+    if !zyear in 1900:2170 | !zmonth in 1:12 | !zday in 1:31 then
+      errmsg( "Invalid date to calculate CDC Year=%04d, Month=%02d, day=%02d", zyear, zmonth, zday );
+    else
+      { number of days between 1900 and zyear }
+      do z = 1900 while z < zyear
+        zdays1 = zdays1 + 365 + (z % 4 = 0);
+      enddo;
+      { number of days up to the month in year zyear }
+      leapday = (zyear % 4 = 0);
+      do z = 1 while z < zmonth
+        recode    z    -> zz;
+          1,3,5,7,8,10 -> 31;
+                     2 -> 28+leapday;
+              4,6,9,11 -> 30;
+        endrecode;
+        zdays2 = zdays2 + zz;
+      enddo;
+      { total days }
+      totdays = zdays1 + zdays2 + zday;
+    endif;
+    CDCode = totdays;
+  end
+
+  { write one file for each SDG indicator }
+  function SDGIndicator( string Name, ValInd1, ValInd2, ValIndTot )
+    SDGChapt = "..\tables\SDG" + Name + ".TXT";
+    setfile( SDGFile, SDGChapt );
+    if FileExist( SDGChapt ) then
+      FileDelete( SDGFile );
+    endif;
+    Line = MakeText( "%-20s %10.1f %10.1f %10.1f", Name, ValInd1, ValInd2, ValIndTot );
+    FileWrite( SDGFile, Line );
+  end;
+
+  function rowcheck2N( string TabName, array TableW(,), optional numeric Col2Check, optional numeric TotalRow, optional numeric EndRow, optional numeric StartRow = 0);
+  { function to check that N's for a column add up to the total for all panels of the table     }
+  { parameters:                                                                                 }
+  { TabName: the table name used to display error messages                                      }
+  { TableW:  the two dimensions weighted table                                                  }
+  { Col2Check : the column with N's that are to be checked (default to last column of the table }
+  { TotalRow  :  the row for table N's (default to last row of table)                           }
+  { EndRow: the last row for percents in the table (default to TotalRow-1)                      }
+  { StartRow: the first row for percents in the table (default to 0)                            }
+    numeric rowtotal, ndiv = 0;
+    // set optional parameters to defaults
+    if TotalRow = notappl then TotalRow = tblrow(TableW) endif;
+    if EndRow = notappl then EndRow = TotalRow -1 endif;
+    if Col2Check = notappl then Col2Check = tblcol(TableW) endif;
+
+    do numeric ctr = StartRow until ctr > EndRow
+      if !(TableW(ctr,Col2Check)) in notappl, default, missing, NAcells, asterisk, omitted then // exclude special values
+        inc(rowtotal, TableW(ctr,Col2Check));
+      endif;
+    enddo;
+    ndiv = 0;
+    if TableW( TotalRow, Col2Check ) <> 0 then
+      ndiv = rowtotal / TableW( TotalRow, Col2Check );
+    endif;
+    // errmsg("Table %s Column %d, row totals check column %d (%d,%f) start %d end %d", TabName, Col2Check, TableW( TotalRow, Col2Check ), rowtotal, ndiv, StartRow, EndRow  );
+    if ndiv-int(ndiv+0.0000001) > 0 | ndiv = default then // need to add small fraction to ndiv to prevent int decrementing an integer value by 1 !!!
+      errmsg("Table %s Column %d, row totals do not match N of %d (%d,%f)", TabName, Col2Check, TableW( TotalRow, Col2Check ), rowtotal, ndiv  );
+    endif;
+  end;
+
+  function colcheck2N( string TabName, array TableW(,),optional numeric Row2Check, optional numeric Totalcol, optional numeric EndCol, optional numeric StartCol = 0);
+  { function to check a row percentage table to verify that N's for a row add up to the total for all panels of the table    }
+  { parameters:                                                                                }
+  { TabName: the table name used to display error messages                                     }
+  { TableW:  the two dimensions weighted table                                                 }
+  { Row2Check : the row with N's that are to be checked (default to last row of the table      }
+  { Totalcol  :  the column for table N's (default to last column of table)                    }
+  { EndCol: the last column for percents in the table (default to Totalcol-1)                  }
+  { StartCol: the first column for percents in the table (default to 0)                        }
+    numeric coltotal, ndiv = 0;
+    // set optional parameters to defaults
+    if TotalCol = notappl then TotalCol = tblcol(TableW) endif;
+    if EndCol = notappl then EndCol = TotalCol -1 endif;
+    if Row2Check = notappl then Row2Check = tblrow(TableW) endif;
+
+    // errmsg("Table %s Row %d, row totals check Row %d (%d,%f) start %d end %d", TabName, Row2Check, TableW( Row2Check, TotalCol ), coltotal, ndiv, StartCol, EndCol  );
+    do numeric ctr = StartCol until ctr > EndCol
+      if !(TableW(Row2Check, ctr)) in notappl, default, missing, NAcells, asterisk, omitted then // exclude special values
+        inc(coltotal, TableW(Row2Check, ctr));
+      endif;
+    enddo;
+    ndiv = 0;
+    if TableW( Row2Check, Totalcol) <> 0 then
+      ndiv = coltotal / TableW( Row2Check, Totalcol);
+    endif;
+    if ndiv-int(ndiv+0.0000001) > 0  | ndiv = default then // need to add small fraction to ndiv to prevent int decrementing an integer value by 1 !!!
+      errmsg("Table %s Row %d, col totals do not match N of %d (%d,%f)", TabName, Row2Check, TableW(  Row2Check, Totalcol), coltotal, ndiv  );
+    endif;
+  end;
+
+  function rowcheck3N( string TabName, array TableW(,,),optional numeric Col2Check, optional numeric TotalRow, optional numeric EndRow, optional numeric StartRow = 0);
+  { function to check that N's for a column add up to the total for all panels of the table     }
+  { parameters:                                                                                 }
+  { TabName: the table name used to display error messages                                      }
+  { TableW:  the two dimensions weighted table                                                  }
+  { Col2Check : the column with N's that are to be checked (default to last column of the table }
+  { TotalRow  :  the row for table N's (default to last row of table)                           }
+  { EndRow: the last row for percents in the table (default to TotalRow-1)                      }
+  { StartRow: the first row for percents in the table (default to 0)                            }
+    numeric rowtotal, ndiv = 0;
+    // set optional parameters to defaults
+    if TotalRow = notappl then TotalRow = tblrow(TableW) endif;
+    if EndRow = notappl then EndRow = TotalRow -1 endif;
+    if Col2Check = notappl then Col2Check = tblcol(TableW) endif;
+	numeric TotalLay = tbllay(TableW);
+
+    do numeric lay = 0 while lay <= TotalLay
+      rowtotal = 0;
+      do numeric ctr = StartRow until ctr > EndRow
+        if !(TableW(ctr, Col2Check, lay)) in notappl, default, missing, NAcells, asterisk, omitted then // exclude special values
+          inc(rowtotal, TableW(ctr, Col2Check, lay));
+        endif;
+      enddo;
+      ndiv = 0;
+      if TableW( TotalRow, Col2Check, lay ) <> 0 then
+        ndiv = rowtotal / TableW( TotalRow, Col2Check, lay );
+      endif;
+      // errmsg("Table %s Column %d, row totals check column %d (%d,%f) start %d end %d", TabName, Col2Check, TableW( TotalRow, Col2Check ), rowtotal, ndiv, StartRow, EndRow  );
+      if ndiv-int(ndiv+0.0000001) > 0 | ndiv = default then // need to add small fraction to ndiv to prevent int decrementing an integer value by 1 !!!
+        errmsg("Table %s Column %d Layer %d, row totals do not match N of %d (%d,%f)", TabName, Col2Check, Lay, TableW( TotalRow, Col2Check, lay ), rowtotal, ndiv  );
+      endif;
+    enddo;
+  end;
+
+  function colcheck3N( string TabName, array TableW(,,),optional numeric Row2Check, optional numeric Totalcol, optional numeric EndCol, optional numeric StartCol = 0);
+  { function to check a row percentage table to verify that N's for a row add up to the total for all panels of the table    }
+  { parameters:                                                                                }
+  { TabName: the table name used to display error messages                                     }
+  { TableW:  the two dimensions weighted table                                                 }
+  { Row2Check : the row with N's that are to be checked (default to last row of the table      }
+  { Totalcol  :  the column for table N's (default to last column of table)                    }
+  { EndCol: the last column for percents in the table (default to Totalcol-1)                  }
+  { StartCol: the first column for percents in the table (default to 0)                        }
+    numeric coltotal, ndiv = 0;
+    // set optional parameters to defaults
+    if TotalCol = notappl then TotalCol = tblcol(TableW) endif;
+    if EndCol = notappl then EndCol = TotalCol -1 endif;
+    if Row2Check = notappl then Row2Check = tblrow(TableW) endif;
+	numeric TotalLay = tbllay(TableW);
+
+    do numeric lay = 0 while lay <= TotalLay
+      coltotal = 0;
+      // errmsg("Table %s Row %d, row totals check Row %d (%d,%f) start %d end %d", TabName, Row2Check, TableW( Row2Check, TotalCol ), coltotal, ndiv, StartCol, EndCol  );
+      do numeric ctr = StartCol until ctr > EndCol
+        if !(TableW(Row2Check, ctr, lay)) in notappl, default, missing, NAcells, asterisk, omitted then // exclude special values
+          inc(coltotal, TableW(Row2Check, ctr, lay));
+        endif;
+      enddo;
+      ndiv = 0;
+      if TableW( Row2Check, Totalcol, lay) <> 0 then
+        ndiv = coltotal / TableW( Row2Check, Totalcol, lay);
+      endif;
+      if ndiv-int(ndiv+0.0000001) > 0  | ndiv = default then // need to add small fraction to ndiv to prevent int decrementing an integer value by 1 !!!
+        errmsg("Table %s Row %d Layer %d, col totals do not match N of %d (%d,%f)", TabName, Row2Check, Lay, TableW(  Row2Check, Totalcol, lay), coltotal, ndiv  );
+      endif;
+    enddo;
+  end;

@@ -1,0 +1,2029 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines July 7, 2021         -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                          +}
+{+   CHAPTER 10.  CHILD HEALTH                                              +}
+{+                                                                          +}
+{+   10.1  Child's size at birth                                            +}
+{+   10.2  Possession and observation of vaccination cards                  +}
+{+   10.3  Vaccinations by source of information                            +}
+{+   10.4  Vaccinations by background characteristics                       +}
+{+   10.5  Source of vaccinations                                           +}
+{+   10.6  Prevalence and treatment of symptoms of ARI                      +}
+{+   10.7  Source of advice or treatment for children with symptoms of ARI  +}
+{+   10.8  Prevalence and treatment of fever                                +}
+{+   10.9  Prevalence of diarrhea                                           +}
+{+   10.10 Feeding practices during diarrhea                                +}
+{+   10.11 Diarrhea treatment                                               +}
+{+   10.12 Source of advice or treatment for children with diarrhea         +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, j, jmin, jmax, jtot, jtot1, jmax1, jtot2, jmax2, jper, t;
+  numeric rweight, months, hascard, imm_a, immb_a, immv_a, imm_b, immb_b, immv_b, xv, anytreat;
+  numeric x, difyr, valid, age, v, w, xa, xb, y, polio0, ip0b, ip0v, npolio;
+  numeric cutoff, xtemp, bday, bmonth, byear, dpt_basic, approp, cx;
+  numeric seekadv, gaveORS, gaveZinc, public, private, ngo, others, sdgsex;
+
+  array age_approp(2);           // vaccination schedule for: 1-Children 0-23, 2- children 24-35
+  array ChildVacc(10);           // stores if child was vaccinated to faciliate table 10.5
+
+  { Vaccination schedule for tables 10.2 - 10.3 }
+
+  { Schedule for immunizations - approx month of first vaccination (for 6 weeks, use 1 month).
+    -1 = Not in schedule (e.g. where pentavalent is given rather than separate DPT, HepB and Hib)
+    Num is number of vaccines according to schedule (e.g. rota is sometimes only 2) }
+  numeric
+  vsched_bcg    =  0,   vnum_bcg    = 1,
+  vsched_hepb0  =  0,   vnum_hepb0  = 1,
+  vsched_penta  =  1,   vnum_penta  = 3,
+  vsched_boost  = 12,   vnum_boost  = 1,
+  vsched_dpt    = -1,   vnum_dpt    = 3, { only use if not given as pentavalent }
+  vsched_hepb   = -1,   vnum_hepb   = 3, { only use if not given as pentavalent }
+  vsched_hib    = -1,   vnum_hib    = 3, { only use if not given as pentavalent }
+  vsched_polio0 =  0,   vnum_polio0 = 1,
+  vsched_polio  =  1,   vnum_polio  = 3,
+  vsched_ipv    = -1,   vnum_ipv    = 1,
+  vsched_pneumo =  1,   vnum_pneumo = 3,
+  vsched_rota   =  1,   vnum_rota   = 2,
+  vsched_mcv1   =  9,   vnum_mcv1   = 1,
+  vsched_mcv2   = 18,   vnum_mcv2   = 1
+  ;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 10, [Country Survey Year]" );
+{EN+}
+{{ES}
+    title( "Cuadros para el capítulo 10, [País Encuesta Año]" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 10, [Pays, Enquête, Année]" );
+{FR}}
+
+  crosstab float(1) t1001 age3t+border2+v463w+v102w+v101w+v106wt+v190w+total birtsize+repwgt+numbirth+repweigt
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10.1  Child's size and weight at birth","",
+           "Percent distribution of live births in the 2 years preceding the survey by mother's",
+		   "estimate of baby's size at birth, percentage of live births in the 2 years preceding",
+		   "the survey that have a reported birth weight by source of information",
+		   "(written record or mother's report); and among live births in the 2 years preceding",
+		   "the survey with a reported birth weight, percentage less than 2.5 kg,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 10.1  Tamaño y peso al nacer","",
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 10.1  Taille et poids de l'enfant à la naissance","",
+			"Répartition (en %) des naissances vivantes ayant eu lieu au cours des 2 années ayant précédé l'enquête",
+			"selon l'estimation, par la mère, de la grosseur de l'enfant à la naissance,",
+			"pourcentage de naissances vivantes des 2 années ayant précédé l'enquête pour lesquelles",
+			"un poids à la naissance a été déclaré par source de l'information (enregistrement écrit ou déclaration de la mère) ;",
+			"et parmi les naissances vivantes ayant eu lieu au cours des 2 années ayant précédé l'enquête",
+			"dont le poids à la naissance a été déclaré, pourcentage qui pèse moins de 2,5 kg,",
+			"selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1001u age3t+border2+v463w+v102w+v101w+v106wt+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 10.1  Child's size and weight at birth (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1002 sex2+border2+v102w+v101w+v106wt+v190w+total grpchild*vaccard
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10.2  Possession and observation of vaccination cards, according to background characteristics","",
+           "Percentage of children age 12-23 months and children age 24-35 months who ever had a vaccination card,",
+           "and percentage with a vaccination card seen, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Table 10.2  Possession and observation of vaccination cards, according to background characteristics","",
+           "Percentage of children age 12-23 months and children age 24-35 months who ever had a vaccination card,",
+           "and percentage with a vaccination card seen, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{ES}}
+{{FR}
+    title( "Tableau 10.2  Possession et observation des carnets de vaccination, selon certaines caractéristiques sociodémographiques","",
+           "Pourcentage d'enfants de 12-23 mois et d'enfants de 24-35 mois qui ont déjà eu un carnet de vaccination",
+		   "et pourcentage avec un carnet de vaccination qui a été vu,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1002u sex2+border2+v102w+v101w+v106wt+v190w+total grpchild
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 10.2  Possession and observation of vaccination cards, according to background characteristics (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1003 bcg+hepb0+penta+dpt+hepb+hib+polio+pneumo+rota+mcv+allvacc grpchild*(vacsourc+vacsrc2)
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10.3  Vaccinations by source of information"," ",
+           "Percentage of children age 12-23 months and children age 24-35 months ",
+           "who received specific vaccines at any time before the survey, ",
+           "by source of information (vaccination card or mother's report), ",
+           "and percentage who received specific vaccines by the appropriate age, [Country Survey Year]" )
+     stub( "Vaccine" );
+{EN+}
+{{ES}
+    title( "Cuadro 10.3  Vacunaciones por fuente de información"," ",
+           "Porcentaje de niños/as de 12-23 meses de edad y de niños/as de 24-35 meses de edad que han recibido",
+           "vacunas específicas en cualquier momento antes de la encuesta,",
+           "por fuente de información (carné de vacunación o informe ",
+           "de la madre); y porcentaje vacunados antes de los 12 meses ",
+           "de edad, [País Encuesta Año]" )
+     stub( "Vacuna" );
+{ES}}
+{{FR}
+    title( "Tableau 10.3  Vaccinations par source d'information"," ",
+           "Pourcentage d'enfants de 12-23 mois et d'enfants de 24-35 mois qui ont reçu",
+		   "certains vaccins à n'importe quel moment avant l'enquête,",
+		   "par source d'information (carnet de vaccination ou déclaration de la mère)",
+		   "et pourcentage qui ont reçu certains vaccins à l'âge approprié, [Pays, Enquête, Année]" )
+     stub( "Vaccin" );
+{FR}}
+  crosstab float(1) t1003w bcg+hepb0+penta+dpt+hepb+hib+polio+pneumo+rota+mcv+allvacc grpchild*(vacsourc+vacsrc2)
+    exclude(rowzero,colzero,percents,totals,specval);
+  crosstab float(0) t1003u total grpchild*(vacsourc+vacsrc2)
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 10.3  Vaccinations by source of information (Number of un-weighted cases)" )
+     stub( "Source of information" );
+
+  crosstab float(1) t1004 sex2+border2+healthc+v102w+v101w+v106wt+v190w+total
+                          vaccage1*(bcg1+hepb01+penta+dpt+hepb+hib+polio+pneumo+rota+mcv1+allvacc1)+vaccage2*vacc2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10.4  Vaccinations by background characteristics"," ",
+           "Percentage of children age 12-23 months and children age 24-35 months who received specific",
+		   "vaccines at any time before the survey (according to a vaccination card or the mother's report),",
+		   "percentage fully vaccinationed (basic antigens), percentage fully vaccinated",
+		   "(according to national schedule), and percentage who received no vaccinations,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 10.4  Vacunaciones por características seleccionadas"," ",
+           "seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 10.4  Vaccinations selon certaines caractéristiques sociodémographiques"," ",
+           "Pourcentage d’enfants de 12-23 mois et de 24-35 mois ayant reçu certains vaccins à n’importe quel moment",
+		   "avant l’enquête (selon le carnet de vaccination ou la déclaration de la mère),",
+		   "pourcentage complètement vacciné (antigènes de base),",
+		   "pourcentage complètement vacciné (conformément au calendrier national),",
+		   "et pourcentage n'ayant reçu aucun vaccin,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1004u sex2+border2+healthc+v102w+v101w+v106wt+v190w+total grpchild*total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 10.4  Vaccinations by background characteristics (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1005 sex2+border2+v102w+v101w+v106wt+v190w+total grpch1*(vacprov+totnum15)
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10.5  Source of vaccinations"," ",
+           "Among children who received at least one vaccination, percent distribution of",
+		   "children age 12-23 months and children age 24-35 months by source of most vaccinations,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 10.5  Source où ont été effectuées les vaccinations"," ",
+           "Parmi les enfants ayant reçu, au moins, une vaccination,",
+		   "répartition (en%) des enfants de 12-23 mois et des enfants de 24-35 mois par source de la plupart des vaccinations,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1005u sex2+border2+v102w+v101w+v106wt+v190w+total grpch1
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 10.5  Source of vaccinations (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1006 chage1+sex2+v463w+cooktec+v102w+v101w+v106wt+v190w+total arisympt+aritreat
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10.6  Children with symptoms of ARI and careseeking for symptoms of ARI","",
+           "Among children under age 5, percentage who had symptoms of acute respiratory infection (ARI) in the",
+           "2 weeks preceding the survey; and among children with symptoms of ARI in the 2 weeks preceding the survey,",
+           "percentage for whom advice or treatment was sought, according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 10.6  Children with symptoms of ARI and careseeking for symptoms of ARI","",
+           "Entre los niños/as menores de cinco años, porcentaje que tuvieron síntomas de infección",
+           "respiratoria aguda (IRA) durante las dos semanas que precedieron la encuesta; y entre",
+           "los niños/as con síntomas de IRA, porcentaje para quienes se buscá consejo o tratamiento de un",
+           "proveedor o institución de salud y porcentaje que recibieron antibióticos para el tratamiento,",
+           "por características seleccionadas, [País Encuesta Año]")
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 10.6  Enfants avec des symptômes d'IRA et recherche de soins pour traiter les symtômes d'IRA","",
+           "Parmi les enfants de moins de 5 ans, pourcentage ayant eu des symptômes d'infection respiratoire aiguë (IRA)",
+		   "au cours des 2 semaines ayant précédé l'interview ;",
+		   "parmi les enfants ayant présenté des symptômes d'IRA au cours des 2 semaines ayant précédé l'interview,",
+		   "pourcentage pour lesquels on a recherché des conseils ou un traitement,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]  " )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1006u chage1+sex2+v463w+cooktec+v102w+v101w+v106wt+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 10.6  Children with symptoms of ARI and careseeking for symptoms of ARI (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1007 pubsect+prvsect+ngosect+othsect+othonly+numchild ariperct
+    exclude(colzero,rowzero,totals,percents,specval)
+{+EN}
+    title( "Table 10.7  Source of advice or treatment for children with symptoms of ARI","",
+           "Percentage of children under age 5 with symptoms of ARI in the 2 weeks preceding the survey",
+           "for whom advice or treatment was sought from specific sources; and among children under",
+           "age 5 with symptoms of ARI in the 2 weeks preceding the survey for whom advice or treatment",
+           "was sought, percentage for whom advice or treatment was sought from specific sources,",
+           "[Country Survey Year]" )
+     stub( "Source" );
+{EN+}
+{{ES}
+    title( "Table 10.7  Source of advice or treatment for children with symptoms of ARI","",
+           "Percentage of children under age 5 with symptoms of ARI in the 2 weeks preceding the survey",
+           "for whom advice or treatment was sought from specific sources; and among children under",
+           "age 5 with symptoms of ARI in the 2 weeks preceding the survey for whom advice or treatment",
+           "was sought, percentage for whom advice or treatment was sought from specific sources,",
+           "[Country Survey Year]" )
+     stub( "Source" );
+{ES}}
+{{FR}
+    title( "Tableau 10.7  Source des conseils ou traitements pour les enfants ayant présenté des symptômes d'IRA","",
+           "Pourcentage d'enfants de moins de 5 ans ayant présenté des symptômes d'IRA",
+		   "au cours des 2 semaines ayant précédé l'interview pour lesquels des conseils",
+		   "ou un traitement ont été recherchés auprès de sources spécifiques;",
+		   "parmi les enfants de moins de 5 ans ayant présenté des symptômes d'IRA",
+		   "au cours des 2 semaines ayant précédé l'interview pour lesquels on a recherché des conseils ou un traitement,",
+		   "pourcentage pour lesquels des conseils ou",
+		   "un traitement ont été recherchés auprès de sources spécifiques, [Pays, Enquête, Année]" )
+     stub( "Source" );
+{FR}}
+  crosstab float(0) t1007u total ariperct
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 10.7  Source of advice or treatment for children with symptoms of ARI (Number of un-weighted cases)" )
+     stub( "Source" );
+
+  crosstab float(1) t1008 chage1+sex2+v102w+v101w+v106wt+v190w+total fevsympt+fevtreat
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10.8  Children with fever and careseeking for fever","",
+           "Among children under age 5, percentage who had a fever in the 2 weeks preceding the survey;",
+		   "and among children with fever in the 2 weeks preceding the survey, percentage for whom",
+		   "advice or treatment was sought, percentage for whom advice or treatment was sought the",
+		   "same or next day following the onset of fever, and percentage who received antibiotics",
+		   "as treatment, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 10.8  Enfants avec de la fièvre et recherche de soins pour traiter la fièvre","",
+           "Parmi les enfants de moins de 5 ans, pourcentage ayant eu de la fièvre",
+		   "au cours des 2 semaines ayant précédé l'interview ;",
+		   "parmi les enfants ayant eu de la fièvre au cours des 2 semaines ayant précédé l'interview,",
+		   "pourcentage pour lesquels des conseils ou un traitement ont été recherchés,",
+		   "pourcentage pour lesquels des conseils ou traitements ont été recherchés le jour même",
+		   "ou le jour suivant la survenue de la fièvre, et pourcentage ayant reçu des antibiotiques comme traitement,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]  " )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1008u chage1+sex2+v102w+v101w+v106wt+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 10.8  Children with fever and careseeking for fever (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1009 chage1+sex2+hv201w3+hv205w4+v102w+v101w+v106wt+v190w+total diasympt+diatreat
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10.9  Children with diarrhea and careseeking for diarrhea"," ",
+           "Percentage of children under age 5 who had diarrhea in the 2 weeks preceding the survey;",
+           "and among children with diarrhea in the 2 weeks preceding the survey, percentage for whom",
+           "advice or treatment was sought, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Table 10.9  Prevalence and treatment of diarrhea"," ",
+           "Características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 10.9  Enfants avec diarrhée et recherche de soins pour traiter la diarrhée"," ",
+           "Pourcentage d'enfants de moins de 5 ans ayant eu la diarrhée au cours des 2 semaines ayant précédé l'interview",
+		   "et parmi les enfants ayant eu la diarrhée au cours des 2 semaines ayant précédé l'interview,",
+		   "pourcentage pour lesquels des conseils ou un traitement ont été recherchés,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1009u chage1+sex2+hv201w3+hv205w4+v102w+v101w+v106wt+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 10.9  Children with diarrhea and careseeking for diarrhea (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1010 chage1+sex2+brfeed2+v102w+v101w+v106wt+v190w+total h38w+h39w+totdiarr
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10.10  Feeding practices during diarrhea"," ",
+           "Percent distribution of children under age 5 who had diarrhea",
+           "in the 2 weeks preceding the survey by amount of liquids and food given compared",
+           "with normal practice, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 10.10  Prácticas de alimentación durante la diarrea","",
+           "Distribución porcentual de niños/as menores de cinco años que tuvieron diarrea en las dos semanas",
+           "que precedieron la encuesta por cantidad de líquidos y de comida que les dieron",
+           "en comparación con la práctica normal; según características seleccionadas, [País Encuesta Año]")
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 10.10  Pratiques alimentaires durant la diarrhée"," ",
+           "Répartition (en %) des enfants de moins de 5 ans ayant eu la diarrhée",
+		   "au cours des 2 semaines ayant précédé l'interview par quantité de liquides et",
+		   "d'aliments donnée par rapport aux quantités habituelles,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1010u chage1+sex2+brfeed2+v102w+v101w+v106wt+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 10.10  Feeding practices during diarrhea (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1011 chage1+sex2+v102w+v101w+v106wt+v190w+total diamedic+nontotal
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 10.11  Oral rehydration salts, zinc, continued feeding and other treatments for diarrhea","",
+           "Among children under age 5 who had diarrhea in the 2 weeks preceding the survey,",
+		   "percentage given fluid from an ORS packet or pre-packaged ORS fluid, zinc, ORS and",
+		   "zinc, ORS and continued feeding, ORS, zinc, and continued feeding, ORS or increased",
+		   "fluids, recommended homemade fluids (RHF), oral rehydration therapy (ORT), ORT and",
+		   "continued feeding, and other treatments; and percentage given no treatment,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 10.11  Thérapie de réhydratation par voie orale, supplémentation en zinc,",
+			"poursuite de l'alimentation et administration d'autres traitements contre la diarrhée","",
+           "Parmi les enfants de moins de 5 ans ayant eu la diarrhée au cours des 2 semaines ayant précédé l'interview,",
+		   "pourcentage à qui on a donné comme traitement une solution d'un sachet SRO ou des liquides SRO préconditionnés,",
+		   "du zinc, une SRO et du zinc, une SRO et la poursuite de l'alimentation, une SRO, du zinc,",
+		   "et la poursuite de l'alimentation, une SRO ou l'augmentation des liquides,",
+		   "des solutions maison recommandées (SMR), une thérapie de réhydratation par voie orale (TRO),",
+		   "la poursuite de l'alimentation et une TRO, et d'autres traitements et",
+		   "pourcentage à qui on n'a donné aucun traitement,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1011u chage1+sex2+v102w+v101w+v106wt+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 10.11  Oral rehydration salts, zinc, continued feeding and other treatments for diarrhea (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1012 pubsect+prvsect+ngosect+othsect+othonly+numchild diaperct
+    exclude(colzero,rowzero,totals,percents,specval)
+{+EN}
+    title( "Table 10.12  Source of advice or treatment for children with diarrhea","",
+           "Percentage of children under age 5 with diarrhea in the 2 weeks preceding the survey",
+		   "for whom advice or treatment was sought from specific sources; among children under",
+		   "age 5 with diarrhea in the 2 weeks preceding the survey for whom advice or treatment",
+		   "was sought, percentage for whom advice or treatment was sought from specific sources;",
+		   "among children with diarrhea who received ORS, percentage for whom advice or treatment",
+		   "was sought from specific sources; and among children with diarrhea who were given zinc",
+		   "tablets or syrup, percentage for whom advice or treatment was sought from specific",
+		   "sources, [Country Survey Year]" )
+     stub( "Source" );
+{EN+}
+{{ES}
+    title( "Table 10.12  Source of advice or treatment for children with diarrhea","",
+           "Percentage of children under age 5 with diarrhea in the 2 weeks preceding the survey",
+		   "for whom advice or treatment was sought from specific sources; among children under",
+		   "age 5 with diarrhea in the 2 weeks preceding the survey for whom advice or treatment",
+		   "was sought, percentage for whom advice or treatment was sought from specific sources;",
+		   "among children with diarrhea who received ORS, percentage for whom advice or treatment",
+		   "was sought from specific sources; and among children with diarrhea who were given zinc",
+		   "tablets or syrup, percentage for whom advice or treatment was sought from specific",
+		   "sources, [Country Survey Year]" )
+     stub( "Source" );
+{ES}}
+{{FR}
+    title( "Tableau 10.12  Source des conseils ou traitements pour les enfants ayant eu la diarrhée","",
+           "Pourcentage d'enfants de moins de 5 ans ayant eu la diarrhée au cours des 2 semaines ayant précédé l'interview",
+		   "pour lesquels des conseils ou un traitement ont été recherchés auprès de sources spécifiques ;",
+		   "parmi les enfants ayant eu la diarrhée au cours des 2 semaines ayant précédé l'interview pour",
+		   "lesquels des conseils ou un traitement ont été recherchés, pourcentage pour lesquels des conseils",
+		   "ou un traitement ont été recherchés auprès de sources spécifiques et",
+		   "parmi les enfants ayant eu la diarrhée qui ont reçu des SRO, pourcentage pour lesquels des conseils",
+		   "ou un traitement ont été recherchés auprès de sources spécifiques;",
+		   "et parmi les enfants ayant eu la diarrhée à qui on a donné du zinc en comprimés ou en sirop,",
+		   "pourcentage pour lesquels des conseils ou un traitements ont été recherchés",
+		   "auprès de sources spécifiques, [Pays, Enquête, Année]" )
+     stub( "Source" );
+{FR}}
+  crosstab float(0) t1012u total diaperct
+    exclude(colzero,rowzero,totals,percents,specval)
+    title( "Table 10.12  Source of advice or treatment for children with diarrhea (Number of un-weighted cases)" )
+     stub( "Source" );
+
+  { function to recode birth order as it is used by several tables }
+  function RecBorder( chi )
+    xtemp = BORD(chi);
+    { adjust multiple births to give the same order as that of the first of the multiples }
+    if B0(chi) > 1 then xtemp = BORD(chi) - B0(chi) + 1 endif;
+    recode xtemp -> x;
+              1  -> 0;
+            2:3  -> 1;
+            4:5  -> 2;
+                 -> 3;
+    endrecode;
+    RecBorder = x;
+  end;
+
+  { facilitates tabulation of table 10.7 as every cell has to be tallied individually }
+  function tabt1007( category )
+    if category = 1 then
+      ariperct  = 1;                    { all children }
+      xtab( t1007, rweight );
+      if seekadv then
+        ariperct  = 2;                  { all children who sought advice }
+        xtab( t1007, rweight );
+      endif;
+    endif;
+  end;
+
+  { facilitates tabulation of table 10.12 as every cell has to be tallied individually }
+  function tabt1012( category )
+    if category = 1 then
+      diaperct  = 1;                    { all children }
+      xtab( t1012, rweight );
+      if seekadv then
+        diaperct  = 2;                  { all children who sought advice }
+        xtab( t1012, rweight );
+      endif;
+      if gaveORS then
+        diaperct  = 3;                  { all children who were given ORS }
+        xtab( t1012, rweight );
+      endif;
+      if gaveZinc then
+        diaperct  = 4;                  { all children who were given Zinc }
+        xtab( t1012, rweight );
+      endif;
+    endif;
+  end;
+
+  function leapyear(zyear)
+    leapyear = (zyear % 4 = 0 & (zyear % 100 <> 0 | zyear % 400 = 0));
+  end;
+
+  function days_in_month(year, month)
+    numeric zday;
+    recode month -> zday;
+               2 -> 28;
+        4,6,9,11 -> 30;
+                 -> 31;
+    endrecode;
+    if leapyear(year) & month = 2 then
+      zday = 29;
+    endif;
+    days_in_month = zday;
+  end;
+
+  function setbdate(idx)
+    byear  = B2(idx);
+    bmonth = B1(idx);
+    bday   = B17(idx);
+  end;
+
+  { function to check that vaccination date is after birth }
+  function vafterbirth( year, month, day )
+    x = 0;
+    if year > byear then
+      x = 1
+    elseif year = byear then
+      if !month in 1:12 then month = 12 endif; { allow for missing month to be after birth, e.g. December, but still check day later }
+      if !day in 0:days_in_month(year, month) then
+        day = days_in_month(year, month)
+      endif;
+      if (month in bmonth+1:12 | (month = bmonth & day in bday:31)) then
+        x = 1
+      endif;
+    endif;
+    vafterbirth = x;
+  end;
+
+  { function to check if vaccination was given before cut off (1 year for first set, 2 years for second set) }
+  function vacbef( year, month, day, cut )
+    x = 0;
+    if (year = byear & vafterbirth( year, month, day )) |	{ Vaccination in year of birth and is after birth }
+       (year = byear+1 & cut = 2) |  { Vaccination in year after birth, but before cutoff year }
+       (year = byear+cut & (month in 1:12 & (month < bmonth | (month = bmonth & day in 1:31 & day < bday)))) then  { Vaccination in cutoff year, but before birthday }
+      x = 1;
+    endif;
+    vacbef = x
+  end
+
+  { function to check if vaccination date can definitely be placed within or   }
+  { outside of the first "cut" years of life.  Used for denominator for        }
+  { proportion of vaccines given in cutoff period of life.  Any vaccination    }
+  { for which it can not be determined whether the vaccination is given within }
+  { the cutoff period of life or after the cutoff period of life are excluded  }
+  { from the denominator.                                                      }
+  function vacval( year, month, day, cut )
+    { cut = cut off age - 1 or 2 years }
+    x = 0;
+    if year in 1900:2170 &	{ Valid vaccination year }
+      (year  > byear | (year = byear & vafterbirth( year, month, day ))) & { Vaccination given after date of birth }
+      (year <> byear+cut | (month in 1:12 & (month <> bmonth | day in 1:31))) then   { Enough infomation given to validate if before or after cutoff date }
+      x = 1;
+    endif;
+    vacval = x
+  end
+
+  function tallyt1003(seq, bas)
+    { seq = sequence number of vaccine in series }
+    { bas = Whether a basic vaccination }
+    vacsourc = 1 - hascard;
+	vacsrc2  = notappl;
+    xtab( t1003, rweight );
+    if xb >= seq then
+      vacsourc = 3;
+	  vacsrc2  = 3;
+      xtab( t1003, rweight );
+      immb_a = immb_a + 1;
+      if bas then immb_b = immb_b+1 endif;
+    endif;
+    if xv >= seq then
+      vacsourc = 4;
+	  vacsrc2  = 4;
+      xtab( t1003, rweight );
+      immv_a = immv_a + 1;
+      if bas then immv_b = immv_b+1 endif;
+    endif;
+    imm_a = imm_a + 1;
+    if bas then imm_b = imm_b+1 endif;
+  end
+
+  function vsummary( vgiven, vyear, vmonth, vday, cut, reset )
+    { cut = cut off age - 1 or 2 years }
+    { reset is whether to reset counters for a series }
+    numeric x1, x2;
+    if reset then
+      xa = 0;
+      xb = 0;
+      xv = 0;
+    endif;
+    if vgiven in 1:3 then
+      xa = xa + 1;
+      x1 = vacbef( vyear, vmonth, vday, cut );
+      x2 = vacval( vyear, vmonth, vday, cut );
+      if x1 > x2 then errmsg("Error: Vaccination before 12 months, but not a valid date. B=%d/%d/%d V=%d/%d/%d Bef=%d Val=%d",bday,bmonth,byear,vday,vmonth,vyear,x1,x2); endif;
+      xb = xb + x1;
+      xv = xv + x2;
+    endif;
+  end;
+
+  // converts a date to string 
+  function string StrDate(vyear, vmonth, vday)
+    StrDate = edit("9999",vyear) + edit("99",vmonth) + edit("99",vday);
+  end;
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+  numbirth = 1;
+  totdiarr = 1;
+  numchild = 1;
+  totnum15 = 1;
+  vaccage1 = 1;  
+  vaccage2 = 1;  
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+  { vaccination table 10.3 - 10.4 }
+  { Age appropriate vaccines }
+  age_approp(1) =
+    ((vsched_hepb0  >= 0) * vnum_hepb0  ) +
+    ((vsched_bcg    >= 0) * vnum_bcg    ) +
+    ((vsched_penta  >= 0) * vnum_penta  ) +
+    ((vsched_dpt    >= 0) * vnum_dpt    ) +
+    ((vsched_hepb   >= 0) * vnum_hepb   ) +
+    ((vsched_hib    >= 0) * vnum_hib    ) +
+    ((vsched_polio0 >= 0) * vnum_polio0 ) +
+    ((vsched_polio  >= 0) * vnum_polio  ) +
+    ((vsched_ipv    >= 0) * vnum_ipv    ) +
+    ((vsched_pneumo >= 0) * vnum_pneumo ) +
+    ((vsched_rota   >= 0) * vnum_rota   );
+  age_approp(2) = age_approp(1);
+  { Include MCV1 for age group 1 if before 12 months }
+  if vsched_mcv1 in 0:11 then
+    age_approp(1) = age_approp(1) + 1;
+    age_approp(2) = age_approp(2) + 1;
+  { Include MCV1 for age group 2 if 12 months or later and before 24 months }
+  elseif vsched_mcv1 in 12:23 then
+    age_approp(2) = age_approp(2) + 1;
+  endif;
+  { Include MCV2 for age group 2 if before 24 months for second age group }
+  if vsched_mcv2 in 12:23 then
+    age_approp(2) = age_approp(2) + 1;
+  endif;
+  { booster for age group 2 }
+  if vsched_boost in 12:23 then
+    age_approp(2) = age_approp(2) + 1;
+  endif;
+  errmsg("Age appropriate vaccines for %s = %d", getlabel(grpchild,1), age_approp(1));
+  errmsg("Age appropriate vaccines for %s = %d", getlabel(grpchild,2), age_approp(2));
+  errmsg("Including:");
+  if vsched_bcg    in  0:11 then  errmsg("%d BCG    ", vnum_bcg   ); endif;
+  if vsched_hepb0  in  0:11 then  errmsg("%d HepB0  ", vnum_hepb0 ); endif;
+  if vsched_penta  in  0:11 then  errmsg("%d Penta  ", vnum_penta ); endif;
+  if vsched_boost  in  0:11 then  errmsg("%d Booster", vnum_boost ); endif;
+  if vsched_dpt    in  0:11 then  errmsg("%d DPT    ", vnum_dpt   ); endif;
+  if vsched_hepb   in  0:11 then  errmsg("%d HepB   ", vnum_hepb  ); endif;
+  if vsched_hib    in  0:11 then  errmsg("%d HiB    ", vnum_hib   ); endif;
+  if vsched_polio0 in  0:11 then  errmsg("%d Polio0 ", vnum_polio0); endif;
+  if vsched_polio  in  0:11 then  errmsg("%d Polio  ", vnum_polio ); endif;
+  if vsched_ipv    in  0:11 then  errmsg("%d IPV    ", vnum_ipv   ); endif;
+  if vsched_pneumo in  0:11 then  errmsg("%d Pneumo ", vnum_pneumo); endif;
+  if vsched_rota   in  0:11 then  errmsg("%d Rota   ", vnum_rota  ); endif;
+  if vsched_mcv1   in  0:11 then  errmsg("%d MCV1   ", vnum_mcv1  ); endif;
+  if vsched_mcv2   in  0:11 then  errmsg("%d MCV2   ", vnum_mcv2  ); endif;
+  if vsched_mcv1   in 12:23 then  errmsg("%d MCV1  in year 2", vnum_mcv1  ); endif;
+  if vsched_mcv2   in 12:23 then  errmsg("%d MCV2  in year 2", vnum_mcv2  ); endif;
+  if vsched_boost  in 12:23 then  errmsg("%d Booster in 2nd year of life", vnum_boost ); endif;
+  
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 10.1 processing }
+  jmax  = tblcol( t1001, repwgt );
+  t1001[*,jmax] = t1001[*,jmax-2] + t1001[*,jmax-1];  // calculate either for reported weight
+  jtot1 = tblcol( t1001, numbirth );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1001[*,j] = t1001[*,j] * 100 / t1001[*,jtot1];
+  enddo;
+  jmax  = tblcol( t1001, birtsize );
+  t1001[*,jmax] = tblsum( column t1001[*,0:jmax-1] );          { total for size at birth }
+  jtot2 = tblcol( t1001 );
+  do j = jtot1+1 while j <= jtot2 - 1
+    t1001[*,j] = t1001[*,j] * 100 / t1001[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1001", t1001, 0,       jmax-1,  t1001u, 0 );   { for all births: reported birth weight }
+  Col2Dim( "t1001", t1001, jmax+1,  jtot1-1, t1001u, 0 );
+  Col2Dim( "t1001", t1001, jtot1+1, jtot2-1, t1001u, 1 );   { for weighted births }
+
+  { Table 10.2 processing }
+  jtot1 = tblcol( t1002, grpchild = 1 vaccard );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1002[*,j] = t1002[*,j] * 100 / t1002[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1002 );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t1002[*,j] = t1002[*,j] * 100 / t1002[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1002", t1002, 0,       jtot1-1, t1002u, 0 );
+  Col2Dim( "t1002", t1002, jtot1+1, jtot2-1, t1002u, 1 );
+
+  { Table 10.3 processing }
+  itot = tblrow( t1003 );
+  imax = itot - 1;
+  do x = 0 while x <= 5 by 5
+    t1003(itot,x+3) = t1003(itot,x+0)+t1003(itot,x+1);  { Total children }
+    t1003(itot,x+4) = t1003(itot,x+3);
+    t1003[*,x+2]    = t1003[*,x+0] + t1003[*,x+1];		{ Either source = vaccination card + mother's report }
+    t1003w[*,x+0:x+4] = t1003[*,x+0:x+4];
+    { children vaccinated by 12 months.  Calculated as total vaccination }
+    { (vaccin from card or mother) times proportion vaccinated 12 months }
+    t1003[*,x+3]    = t1003[*,x+2] * t1003[*,x+3] / t1003[*,x+4];
+
+    { Those receiving none at age 12 months,           }
+    { based on those receiving any at 12 months of age }
+    t1003(imax,x+3) = t1003w(itot,x+2) - ( (t1003w(itot,x+2) - t1003w(imax,x+2)) *
+                                           (t1003w(itot,x+3) - t1003w(imax,x+3)) /
+                                           (t1003w(itot,x+4) - t1003w(imax,x+4)) );
+    { percentages based on all children for all rows }
+    t1003(itot,x+0) = t1003(itot,x+2);
+    t1003(itot,x+1) = t1003(itot,x+2);
+    t1003(itot,x+3) = t1003(itot,x+2);
+  enddo;
+
+  { Calculate percentages }
+  do i = 0 while i <= imax
+    t1003[i,*] = t1003[i,*] * 100 / t1003[itot,*];
+  enddo;
+
+  { Suppress Dpt4 and measles 2 fo children 12-23 }
+  dpt = tblrow(t1003, dpt = 4);
+  mcv = tblrow(t1003, mcv = 2);
+  do j = 0 while j <= 3
+    t1003(dpt, j) = NAcells;
+    t1003(mcv, j) = NAcells;
+  enddo;
+  { Suppress no vaccinations }
+  allvacc = tblrow(t1003, allvacc = 3);
+  t1003(allvacc,3) = NAcells;
+  t1003(allvacc,8) = NAcells;
+
+  do x = 0 while x <= 5 by 5
+    { to display number of children properly }
+    t1003(itot,x+0)   = t1003w(itot,x+0);
+    t1003(itot,x+1)   = t1003w(itot,x+1);
+    { check unweighted N's, checking is based on all children for all rows }
+    t1003u(0,x+0) = t1003u(0,x+0) + t1003u(0,x+1);
+    t1003u(0,x+1) = t1003u(0,x+0);
+    t1003u(0,x+2) = t1003u(0,x+0);
+    t1003u(0,x+3) = t1003u(0,x+0);
+    t1003u(0,x+4) = t1003u(0,x+0);
+  enddo;
+  { check unweighted N's }
+  Row2Dim( "t1003", t1003, 0, itot-1, t1003u, 0 );
+
+  { Table 10.4 processing }
+  // for 12-23 months panel
+  jtot1 = tblcol( t1004, vaccage1 = 1 allvacc1 = 4 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1004[*,j] = t1004[*,j] * 100 / t1004[*,jtot1];
+  enddo;
+  // for 24-35 months panel
+  jmin  = jtot1 + 1;
+  jtot2 = tblcol( t1004 );
+  jmax  = jtot2 - 1;
+  do j = jmin while j <= jmax
+    t1004[*,j] = t1004[*,j] * 100 / t1004[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1004", t1004, 0,    jtot1-1, t1004u, 0 );
+  Col2Dim( "t1004", t1004, jmin, jtot2-1, t1004u, 1 );
+  { Clean up some real zero rows that get put in parentheses }
+  itot = tblrow(t1004);
+  do j = 0 while j <= jtot
+    if t1004(itot,j) = 0 then t1004[*,j] = notappl; endif;
+  enddo;
+  { write out SDG indicators }
+  SDGIndicator( "3.b.1", default, default, default );        { to provide a header for these indicators }
+  itot   = tblrow( t1004 );
+  sdgsex = tblrow( t1004, sex2 = 1 );
+  jtot   = tblcol( t1004, vaccage1 = 1 penta = 3 );        { !!! check if tallyied as penta or DPT }
+  SDGIndicator( "3.b.1.a", t1004(sdgsex,jtot), t1004(sdgsex+1,jtot), t1004(itot,jtot) );
+  jtot   = tblcol( t1004, vaccage2 = 1 vacc2 = 1 );        { second dose of measles for children 24-35 }
+  SDGIndicator( "3.b.1.b", t1004(sdgsex,jtot), t1004(sdgsex+1,jtot), t1004(itot,jtot) );
+  jtot   = tblcol( t1004, vaccage1 = 1 pneumo = 3 );       { !!! check with SM about last dose of pneumococcal in the schedule }
+  SDGIndicator( "3.b.1.c", t1004(sdgsex,jtot), t1004(sdgsex+1,jtot), t1004(itot,jtot) );
+
+  { Table 10.5 processing }
+  jtot1 = tblcol( t1005, grpch1 = 1 totnum15 = 1 );
+  jmax  = jtot1 - 2;
+  do j = 0 while j <= jmax
+    t1005[*,j] = t1005[*,j] * 100 / t1005[*,jtot1];
+  enddo;
+  t1005[*,jmax+1] = tblsum( column t1005[*,0:jmax] );
+  jtot2 = tblcol( t1005 );
+  jmax  = jtot2 - 2;
+  do j = jtot1 + 1 while j <= jmax
+    t1005[*,j] = t1005[*,j] * 100 / t1005[*,jtot2];
+  enddo;
+  t1005[*,jmax+1] = tblsum( column t1005[*,jtot1+1:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t1005", t1005, 0,       jtot1-2, t1005u, 0 );
+  Col2Dim( "t1005", t1005, jtot1+1, jtot2-2, t1005u, 1 );
+
+  { Table 10.6 processing }
+  jtot1 = tblcol( t1006, arisympt );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1006[*,j] = t1006[*,j] * 100 / t1006[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1006 );
+  jmax  = jtot2 -1;
+  do j = jtot1 + 1 while j <= jmax
+    t1006[*,j] = t1006[*,j] * 100 / t1006[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1006", t1006, 0,       jtot1-1, t1006u, 0 );   { children under 5 }
+  Col2Dim( "t1006", t1006, jtot1+1, jtot2-1, t1006u, 1 );   { children with ARI symptoms }
+
+  { Table 10.7 processing }
+  itot = tblrow( t1007 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    t1007[i,*] = 100 * t1007[i,*]/t1007[itot,*];
+  enddo;
+  { check unweighted N's }
+  Row2Dim( "t1007", t1007, 0, itot-1, t1007u, 0 );
+
+  { Table 10.8 processing }
+  jtot1 = tblcol( t1008, fevsympt );
+  jmax  = jtot1 -1;
+  do j = 0 while j <= jmax
+    t1008[*,j] = t1008[*,j] * 100 / t1008[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1008 );
+  jmax  = jtot2 -1;
+  do j = jtot1 + 1 while j <= jmax
+    t1008[*,j] = t1008[*,j] * 100 / t1008[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1008", t1008, 0,       jtot1-1, t1008u, 0 );   { children under 5 }
+  Col2Dim( "t1008", t1008, jtot1+1, jtot2-1, t1008u, 1 );   { children with fever }
+
+  { Table 10.9 processing }
+  jtot1 = tblcol( t1009, diasympt );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1009[*,j] = t1009[*,j] * 100 / t1009[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1009 );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    t1009[*,j] = t1009[*,j] * 100 / t1009[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1009", t1009, 0,       jtot1-1, t1009u, 0 );
+  Col2Dim( "t1009", t1009, jtot1+1, jtot2-1, t1009u, 1 );
+
+  { Table 10.10 processing }
+  jtot = tblcol( t1010 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1010[*,j] = t1010[*,j] * 100 / t1010[*,jtot];
+  enddo;
+  jtot1 = tblcol( t1010, h38w );
+  t1010[*,jtot1]  = tblsum( column t1010[*,0:jtot1-1] );
+  jtot2 = tblcol( t1010, h39w );
+  t1010[*,jtot2] = tblsum( column t1010[*,jtot1+1:jtot2-1] );
+  { check unweighted N's }
+  Col2Dim( "t1010", t1010, 0,       jtot1-1,  t1010u, 0 );       { percent distribution amount of liquids }
+  Col2Dim( "t1010", t1010, jtot1+1, jtot2-1,  t1010u, 0 );       { percent distribution amount of food }
+
+  { Table 10.11 processing }
+  jtot = tblcol( t1011 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t1011[*,j] = t1011[*,j] * 100 / t1011[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1011", t1011, 0, jtot-1, t1011u, 0 );
+
+  { Table 10.12 processing }
+  itot = tblrow( t1012 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    t1012[i,*] = 100 * t1012[i,*]/t1012[itot,*];
+  enddo;
+  { check unweighted N's }
+  Row2Dim( "t1012", t1012, 0, itot-1, t1012u, 0 );
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+  { household variables needed at either or both HH & women's level }
+  { !! definition of improved/not improved needs to be define by country manager }
+  {    should use the same recodification as in chaper 16                        }
+  recode HV205 -> hv205w4;  { codes: 1-Improved, 2-Unimproved, 3-Open defecation }
+           11  -> 1;      { flush/pour to piped sewer system }
+           12  -> 1;      { flush/pour to septic tank }
+           13  -> 1;      { flush/pour to a pit latrine }
+           15  -> 1;      { flush/pour, don't know where }
+           21  -> 1;      { Ventilated improved pit (VIP) latrine }
+           22  -> 1;      { pit latrine with a slab }
+           41  -> 1;      { composting toilet }
+           14  -> 2;      { flush/pour not to sewer/septic tank/pit latrine }
+           23  -> 2;      { pit latrine without slab /open pit }
+           42  -> 2;      { bucket toilet }
+           43  -> 2;      { hanging toilet/hanging latrine }
+           96  -> 2;      { other }
+           31  -> 3;      { no-facility/open defecation }
+      missing  -> 9;
+  endrecode;
+  { !! definition of improved/not improved needs to be define by country manager }
+  {    should use the same definition as in chapter 2                            }
+  recode HV201 -> hv201w3;
+         11,12 -> 1;      { piped water into dwelling, yard/plot }
+           13  -> 1;      { piped to neighbor }
+           14  -> 1;      { public tap/standpipe }
+           21  -> 1;      { tube well, borehole }
+           31  -> 1;      { protected dug well }
+           41  -> 1;      { protected spring }
+           51  -> 1;      { rain water }
+         61,62 -> 1;      { tanker truck/cart with small tank }
+           71  -> 1;      { bottled water improved }
+           32  -> 2;      { unprotected well }
+           42  -> 2;      { unprotected spring }
+           96  -> 2;      { other }
+           43  -> 3;      { surface water(River/dam/lake/pond...) }
+               -> 9;      { missing }
+  endrecode;
+
+  { cooking technology }
+  recode HV222 :: HV223 -> cooktec;
+           95  ::       -> 6;        // no food cooked in household
+          1:5  ::       -> 1;        // clean technologies
+           6   ::   1   -> 1;
+               ::  4:12 -> 2;        // solid fuel
+               ::   2   -> 3;        // gasoline/diesel
+               ::   3   -> 4;        // kerosene/parafin
+               ::  1,96 -> 5;        // other fuel
+               ::       -> HV222;
+  endrecode;
+
+PROC WOMAN
+preproc
+
+  { initializes array to know if child was vaccnated }
+  do i = 1 while i <= 10
+    ChildVacc(i) = 0;
+  enddo;
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  { general variables }
+  v101w = V101;
+  v102w = V102;
+  v106w = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v106wt = v106w;
+  v190w  = V190;
+
+  recode V012  -> age4;
+         15:19 -> 1;
+         20:24 -> 2;
+         25:34 -> 3;
+               -> 4;
+  endrecode;
+  { !!! smoke include cigarettes, tobacco pipes, kreteks, cigars, water pipe }
+  v463w = notappl;
+  if V463A = 1 | V463B = 1 | V463E = 1 | V463F = 1 | V463G = 1 then
+    v463w = 1
+  elseif V463A = missing & V463B = missing then
+    v463w = 9
+  elseif V463A = 0 | V463B = 0 then
+    v463w = 2
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ Tables 10.1 }
+
+  for i in REC41_EDT do
+    months = P19(MIDXP);
+    if M80 in 1,2 & months < 24 then   // live births in the last 2 years
+      border2 = RecBorder( MIDX );         { birth order }
+      age = int( (B3(MIDX)-V011)/12 );
+      recode  age  -> age3t;
+               <20 -> 0;
+             20:34 -> 1;
+                   -> 2;
+      endrecode;
+      { size at birth }
+      recode  M18 -> birtsize;
+               5  -> 1;
+               4  -> 2;
+              1:3 -> 3;
+                  -> 9;
+      endrecode;
+      { first panel, size at birth for all children }
+      recode M19A -> repwgt;
+   	        1:2 -> M19A;
+   			    -> notappl;
+      endrecode;
+      numbirth = 1;
+      repweigt = notappl;
+      xtab( t1001, rweight );
+      coltotu  = 1;
+      xtab( t1001u );
+      { second panel for children weighted at birth }
+      if repwgt in 1,2 then
+        birtsize = notappl;
+        numbirth = notappl;
+        repwgt   = notappl;
+        repweigt = 2;
+        xtab( t1001, rweight );
+        coltotu  = 2;
+        xtab( t1001u );
+        if M19 in 0:2499 then         { less than 2.5 kg }
+          repweigt = 1;
+          xtab( t1001, rweight );
+        endif;
+      endif;
+    endif;
+
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Tables 10.2 }
+
+  for i in REC43_EDT do
+    sex2 = B4(HIDX);
+    border2 = RecBorder( HIDX );            { birth order }
+    if B19(HIDX) in 12:35 & B5(HIDX) = 1 then
+      grpchild = 1;
+      if B19(HIDX) >= 24 then grpchild = 2 endif;
+      if H1 in 1:3 then                     { ever had a vaccination card }
+        vaccard  = 1;
+        xtab( t1002, rweight );
+      endif;
+      if H1 in 1 then                       { vaccination card seen }
+        vaccard  = 2;
+        xtab( t1002, rweight );
+      endif;
+      vaccard  = 3;
+      xtab( t1002, rweight );
+      xtab( t1002u );
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Tables 10.3, 10.4 }
+
+  for i in REC43_EDT do
+    setbdate(HIDX);
+    months = B19(HIDX);
+    recode months -> chage;
+              0:5 -> 0;
+             6:11 -> 1;
+            12:23 -> 2;
+            24:35 -> 3;
+            36:47 -> 4;
+            48:59 -> 5;
+    endrecode;
+    sex2 = B4(HIDX);
+    border2 = RecBorder( HIDX );          { birth order }
+
+    bcg     = notappl;
+    bcg1    = notappl;
+    hepb0   = notappl;
+    hepb01  = notappl; // with footnote 1 for table 10.4
+    penta   = notappl;
+    dpt     = notappl;
+    hepb    = notappl;
+    hib     = notappl;
+    polio   = notappl;
+    pneumo  = notappl;
+    rota    = notappl;
+    mcv     = notappl;
+    mcv1    = notappl;
+    allvacc = notappl;
+    allvacc1= notappl;
+    vacc2   = notappl;
+    cutoff  = 1;
+
+    if months in 12:35 & B5(HIDX) = 1 then   { for living children }
+      grpchild = chage - 1;
+      recode  H1 -> healthc;
+              1  -> 1;
+             2,3 -> 2;
+              0  -> 3;
+         missing -> 9;
+                 -> default;
+      endrecode;
+      hascard  = ( H1 = 1 );
+
+      imm_a  = 0;
+      immb_a = 0;
+      immv_a = 0;
+      imm_b  = 0;
+      immb_b = 0;
+      immv_b = 0;
+
+      { BCG }
+      if vsched_bcg >= 0 & H2 in 1:3 then
+        bcg  = 0;       // for table 10.3
+        bcg1 = 0;       // for table 10.4
+        vsummary( H2, H2Y, H2M, H2D, 1, 1 );
+        tallyt1003(1, 1);
+        if grpchild = 1 then xtab( t1004, rweight ); endif;
+      endif;
+      bcg  = notappl;
+      bcg1 = notappl;
+
+      { HepB birth dose }
+      if vsched_hepb0 >= 0 & H50 in 1:3 then
+        hepb0 = 0;
+		hepb01 = 0;
+        vsummary( H50, H50Y, H50M, H50D, 1, 1 );
+        tallyt1003(1, 0);
+        if grpchild = 1 then xtab( t1004, rweight ); endif;
+
+        { birth dose within one day ? }
+        vacsourc = 1-hascard;
+        if (H50Y = byear & H50M = bmonth & H50D = bday) |    { Vaccination on day of birth }
+           (H50Y = byear & H50M = bmonth & H50D = bday+1) |  { or on the next day }
+           (H50Y = byear & H50M = bmonth+1 & H50D = 1 & bday = days_in_month(byear, bmonth)) | { birth in last day of month, vaccination on first day of next month }
+           (H50Y = byear+1 & H50M = 1 & H50D = 1 & bmonth = 12 and bday = 31) | { birth in last day of year, vaccination on first day of next year }
+           (H68  = 1) then { Mother's report: HepB0 in the first day after birth }
+          hepb0 = 1;
+        else {if (H50Y in 1900:2170 & H50Y <> byear) |
+           (H50Y = byear & (H50M in 1:12 & (H50M <> bmonth | (H50M = bmonth & H50D in 1:31)))) then }
+          hepb0 = 2;
+        endif;
+		vacsrc2 = notappl;
+        xtab( t1003, rweight );
+      endif;
+      hepb0 = notappl;
+	  hepb01 = notappl;
+
+      { Penta summary }
+      if vsched_penta >= 0 then
+        vsummary( H51, H51Y, H51M, H51D, 1, 1 );
+        vsummary( H52, H52Y, H52M, H52D, 1, 0 );
+        vsummary( H53, H53Y, H53M, H53D, 1, 0 );
+        vsummary( H67, H67Y, H67M, H67D, 1, 0 );
+
+        { Penta tallying }
+        do y = 1 while y <= 4
+          penta = y;
+          if xa >= y then
+            tallyt1003(y, (y <= 3) );			
+            if y = 4 then penta = notappl endif;			
+            if grpchild = 1 & y <= 3 then
+			  xtab( t1004, rweight );
+            elseif grpchild = 2 & y = 4 then
+			  vacc2 = 2;
+			  xtab( t1004, rweight );
+			  vacc2 = notappl;
+			endif;
+          endif;
+        enddo;
+      endif;
+      penta = notappl;
+
+      { DPT summary }
+      if vsched_dpt >= 0 then
+        dpt_basic = 1-(vsched_penta >= 0); { Only count DPT as basic if not already counting Penta }
+        vsummary( H3,  H3Y,  H3M,  H3D,  dpt_basic, 1 );
+        vsummary( H5,  H5Y,  H5M,  H5D,  dpt_basic, 0 );
+        vsummary( H7,  H7Y,  H7M,  H7D,  dpt_basic, 0 );
+        vsummary( H67, H67Y, H67M, H67D, dpt_basic, 0 );
+
+        { DPT tallying }
+        do y = 1 while y <= 4
+          dpt = y;
+          if xa >= y then
+            tallyt1003(y, (y <= 3) );
+            if y = 4 then dpt = notappl endif;			
+            if grpchild = 1 & y <= 3 then
+			  xtab( t1004, rweight );
+            elseif grpchild = 2 & y = 4 then
+			  vacc2 = 2;
+			  xtab( t1004, rweight );
+			  vacc2 = notappl;
+			endif;
+          endif;
+        enddo;
+      endif;
+      dpt = notappl;
+
+      { HepB summary }
+      if vsched_hepb >= 0 then
+        vsummary( H61, H61Y, H61M, H61D, 1, 1 );
+        vsummary( H62, H62Y, H62M, H62D, 1, 0 );
+        vsummary( H63, H63Y, H63M, H63D, 1, 0 );
+
+        { HepB tallying }
+        do y = 1 while y <= 3
+          hepb = y;
+          if xa >= y then
+            tallyt1003(y, 0);
+            if grpchild = 1 then xtab( t1004, rweight ); endif;
+          endif;
+        enddo;
+      endif;
+      hepb = notappl;
+
+      { HiB summary }
+      if vsched_hib >= 0 then
+        vsummary( H64, H64Y, H64M, H64D, 1, 1 );
+        vsummary( H65, H65Y, H65M, H65D, 1, 0 );
+        vsummary( H66, H66Y, H66M, H66D, 1, 0 );
+
+        { Hib tallying }
+        do y = 1 while y <= 3
+          hib = y;
+          if xa >= y then
+            tallyt1003(y, 0);
+            if grpchild = 1 then xtab( t1004, rweight ); endif;
+          endif;
+        enddo;
+      endif;
+      hib = notappl;
+
+      { Polio 0 }
+      if vsched_polio0 >= 0 & H0 in 1:3 then
+        polio = 0;
+        vsummary( H0, H0Y, H0M, H0D, 1, 1 );
+        tallyt1003(1, 0);
+        if grpchild = 1 then xtab( t1004, rweight ); endif;
+      endif;
+
+      { Polio summary }
+      npolio = 0;
+      if vsched_polio >= 0 then
+        vsummary( H4, H4Y, H4M, H4D, 1, 1 );
+        vsummary( H6, H6Y, H6M, H6D, 1, 0 );
+        vsummary( H8, H8Y, H8M, H8D, 1, 0 );
+
+        { Polio tallying }
+        do y = 1 while y <= 3
+          polio = y;
+          if xa >= y then
+            tallyt1003(y, 1);
+            if grpchild = 1 then xtab( t1004, rweight ); endif;
+          endif;
+        enddo;
+        npolio = xa;     // for tables 10.3 and 10.4		
+      endif;
+      polio = notappl;
+
+      { IPV }
+      if vsched_ipv >= 0 & H60 in 1:3 then
+        polio = 6;
+        vsummary( H60, H60Y, H60M, H60D, 1, 1 );
+        tallyt1003(1, 0);
+        if grpchild = 1 then xtab( t1004, rweight ); endif;
+
+        // if 2 OPVs given and IPV given according to card and on a different date from the OPVs,
+        // then count IPV as the 3rd polio towards the basic vaccinations
+        if npolio in 1,2 & H60Y in 2000:2170 &
+          !( StrDate(H60Y,H60M,H60D) in StrDate(H4Y,H4M,H4D),StrDate(H6Y,H6M,H6D),StrDate(H8Y,H8M,H8D) ) then
+          imm_b = imm_b+1;
+          if vacbef( H60Y, H60M, H60D, 1 ) then
+            immb_b = immb_b+1;
+          endif;
+          if vacval( H60Y, H60M, H60D, 1 ) then
+            immv_b = immv_b+1;
+          endif;
+          inc(npolio)
+        endif;
+        { !!! if IPV2 is included, uncomment these instructions and change SIPV2 to the survey variable
+        if npolio = 2 & SIPV2Y(i) in 2000:2170 &
+          !( StrDate(SIPV2Y(i),SIPV2M(i),SIPV2D(i)) in StrDate(H4Y,H4M,H4D),StrDate(H6Y,H6M,H6D),
+		                                               StrDate(H8Y,H8M,H8D),StrDate(H60Y,H60M,H60D) ) then
+          imm_b = imm_b+1;
+          if vacbef( SIPV2Y(i), SIPV2M(i), SIPV2D(i), 1 ) then
+            immb_b = immb_b+1;
+          endif;
+          if vacval( SIPV2Y(i), SIPV2M(i), SIPV2D(i), 1 ) then
+            immv_b = immv_b+1;
+          endif;
+        endif;
+        !!! end of comment to IPV2 }
+      endif;
+      polio = notappl;
+
+      { Pneumococcal summary }
+      if vsched_pneumo >= 0 then
+        vsummary( H54, H54Y, H54M, H54D, 1, 1 );
+        vsummary( H55, H55Y, H55M, H55D, 1, 0 );
+        vsummary( H56, H56Y, H56M, H56D, 1, 0 );
+
+        { Pneumococcal tallying }
+        do y = 1 while y <= 3
+          pneumo = y;
+          if xa >= y then
+            tallyt1003(y, 0);
+            if grpchild = 1 then xtab( t1004, rweight ); endif;
+          endif;
+        enddo;
+      endif;
+      pneumo = notappl;
+
+      { Rotavirus summary }
+      if vsched_rota >= 0 then
+        vsummary( H57, H57Y, H57M, H57D, 1, 1 );
+        vsummary( H58, H58Y, H58M, H58D, 1, 0 );
+        vsummary( H59, H59Y, H59M, H59D, 1, 0 );
+
+        { Rotavirus tallying }
+        do y = 1 while y <= 3
+          rota = y;
+          if xa >= y then
+            tallyt1003(y, 0);
+            if grpchild = 1 then xtab( t1004, rweight ); endif;
+          endif;
+        enddo;
+      endif;
+      rota = notappl;
+
+      { Measles containing vaccine 1 }
+      if vsched_mcv1 >= 0 then
+        cutoff = 1+int(vsched_mcv1/12);
+        vsummary( H9 , H9Y , H9M , H9D , cutoff, 1 );
+        if !H9 in 1:3 & H9A in 1:3 then
+          vsummary( H9A, H9AY, H9AM, H9AD, cutoff, 1 );		{ If MCV1 not given, but MCV2 is given, treat MCV2 as MCV1 }
+          errmsg("MCV2 given, but MCV1 not given. MCV2 treated as MCV1") summary;
+        endif;
+
+        mcv = 0;
+        if xa >= 1 then
+          mcv = 1;
+          approp = (grpchild >= cutoff);
+          if approp then
+            tallyt1003(1, 1);
+            if grpchild = 1+int(vsched_mcv1/12) then { select whether to tabulate in first or second panel }
+              if grpchild = 1 then  { first panel in 10.4 }
+                mcv1 = 1;
+                xtab( t1004, rweight );
+              elseif grpchild = 2 then { second panel in 10.4 }
+                vacc2 = 1;
+                xtab( t1004, rweight );
+              endif;
+            endif;
+          endif;
+        endif;
+
+        mcv1 = notappl;
+        vacc2 = notappl;
+
+        { Measles containing vaccine 2 }
+        if vsched_mcv2 >= 0 & H9 in 1:3 then	{ If MCV2 in schedule and not already counted as MCV1 }
+          cutoff = 1+int(vsched_mcv2/12);
+          vsummary( H9A, H9AY, H9AM, H9AD, cutoff, 1 );
+          if xa >= 1 then
+            mcv = 2;
+            approp = (grpchild >= cutoff);
+            if approp then
+              tallyt1003(1, 0);
+              if grpchild = 2 & int(vsched_mcv2/12) = 1 then { second panel in 10.4 }
+                vacc2 = 1;
+                mcv   = notappl;
+                xtab( t1004, rweight );
+              endif;
+            endif;
+          endif;
+        endif;
+      endif;
+      mcv  = notappl;
+      mcv1 = notappl;
+      vacc2 = notappl;
+
+      { fully vaccinated for basic antigens }
+      numeric basic_vaccs = 8;     { BCG, DPT 1-3, Polio 1-3, MCV1 }
+
+      vacsourc = 1 - hascard;
+      if imm_b = basic_vaccs then
+        allvacc  = 1;
+        allvacc1 = 1;
+	    vacsrc2  = notappl;
+        xtab( t1003, rweight );
+        if grpchild = 1 then
+          xtab( t1004, rweight );
+        endif;
+        if immb_b = basic_vaccs then
+          vacsourc = 3;
+	      vacsrc2  = 3;
+          xtab( t1003, rweight );
+        endif;
+        if immv_b = basic_vaccs then
+          vacsourc = 4;
+	      vacsrc2  = 4;
+          xtab( t1003, rweight );
+        endif;
+      endif;
+
+      { All age appropriate vaccinations }
+      if imm_a > age_approp(grpchild) then errmsg("Too many vaccinations - found=%d, age appropriate=%d",imm_a,age_approp(grpchild)); endif;
+      if immb_a > age_approp(grpchild) then errmsg("Too many vaccinations before age 1 - found=%d, age appropriate=%d",immb_a,age_approp(grpchild)); endif;
+      if immv_a > age_approp(grpchild) then errmsg("Too many vaccinations with valid dates - found=%d, age appropriate=%d",immv_a,age_approp(grpchild)); endif;
+
+      { fully vaccinated according to national schedule }
+      vacsourc = 1 - hascard;
+      if imm_a = age_approp(grpchild) then
+        allvacc  = 2;
+        allvacc1 = 2;
+	    vacsrc2  = notappl;
+        xtab( t1003, rweight );
+        if immb_a = age_approp(grpchild) then
+          vacsourc = 3;
+	      vacsrc2  = 3;
+          xtab( t1003, rweight );
+        endif;
+        if immv_a = age_approp(grpchild) then
+          vacsourc = 4;
+	      vacsrc2  = 4;
+          xtab( t1003, rweight );
+        endif;
+        { 10.4 }
+        if grpchild = 2 then
+          vacc2 = 3;
+          allvacc  = notappl;
+          allvacc1 = notappl;
+        endif;
+        xtab( t1004, rweight );
+      endif;
+
+      { No vaccinations }
+      vacsourc = 1 - hascard;
+      allvacc  = 3;
+      allvacc1 = 3;
+	  vacsrc2  = notappl;
+      if imm_a = 0 then
+        xtab( t1003, rweight );
+        if grpchild = 1 then xtab( t1004, rweight ); endif;
+      endif;
+
+      { Total children }
+      vacsourc = 1 - hascard;
+      allvacc  = 4;
+      allvacc1 = 4;
+	  vacsrc2  = notappl;
+      xtab( t1003, rweight );
+      xtab( t1003u );
+
+      if grpchild = 2 then
+        vacc2 = 4;
+        allvacc1 = notappl;
+      endif;
+      xtab( t1004, rweight );
+      xtab( t1004u );
+
+      ChildVacc(i) = imm_a;   // stores number of vaccines given to the child
+      allvacc  = notappl;
+      allvacc1 = notappl;
+      vacc2 = notappl;
+
+    endif;                                { end living children >= 12 }
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Tables 10.5 }
+
+  for i in REC43_EDT do
+    months = B19(HIDX);
+    sex2 = B4(HIDX);
+    border2 = RecBorder( HIDX );             { birth order }
+    if months in 12:35 & ChildVacc(i) & B5(HIDX) = 1 then   { for living children }
+	  recode months -> grpch1;
+	          12:23 -> 1;
+			        -> 2;
+      endrecode;
+	  recode   H69  -> vacprov;
+	          11:19 -> 1;
+	          21:29 -> 2;
+	          31:39 -> 3;
+			        -> 4;
+      endrecode;
+      xtab( t1005, rweight );
+      xtab( t1005u );
+	endif;
+  enddo;
+
+
+{ --------------------------------------------------------------------------- }
+{ Table 10.6 }
+
+  for i in REC4A_EDT do
+    months = B19(HIDXA);
+    recode months -> chage1;
+              0:5 -> 0;
+             6:11 -> 1;
+            12:23 -> 2;
+            24:35 -> 3;
+            36:47 -> 4;
+            48:59 -> 5;
+    endrecode;
+    sex2 = B4(HIDXA);
+
+    if B5(HIDXA) = 1 then   { for living children }
+      aritreat = notappl;
+      if H31B = 1 & H31C in 1,3 then      { ARI }
+        arisympt = 1;
+        xtab( t1006, rweight );
+      endif;
+      arisympt = 2;                      { all children }
+      xtab( t1006, rweight );
+      arisympt = notappl;
+      coltotu = 1;
+      xtab( t1006u );
+      if H31B = 1 & H31C in 1,3 then      { ARI }
+        { !!! Include: Public medical sector, Private medical sector, NGO medical sector,
+		               Shop, Market, and Itinerant drug seller.
+			  Exclude: Traditional practitioner, Other specify, Survey specific as friends/family, church }
+        if 1 in H32A,  H32B,  H32C,  H32D,  H32E, H32F, H32G, H32H, H32I,     // public sector
+		        H32J,  H32K,  H32L,  H32M,  H32N, H32O, H32P, H32Q, H32R,     // private sector
+				H32NA, H32NB, H32NC, H32ND, H32NE then                        // NGO sector
+	            { !!! among variables below include: Shop, Market, itinerant drug seller
+	              H32S, H32T,  H32U,  H32V, H32W }
+          aritreat = 1;
+          xtab( t1006, rweight );
+          if H46B in 0,1 then             { treatment sought same or next day }
+            aritreat = 2;
+            xtab( t1006, rweight );
+          endif;
+        endif;
+        aritreat = 3;                          { all children with ARI }
+        xtab( t1006, rweight );
+        coltotu = 2;
+        xtab( t1006u );
+      endif;
+    endif;
+  enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ tables 10.7 }
+
+  { !!! note that for the most part variables H32A to H32X hold country specific sources for treatment    }
+  {     make sure to properly change the labels for working variables PUBSECT, PRVSECT, NGOSECT & OTHSECT }
+  {     for purposes of this application, sources from question A625 in the core questionnaire are used   }
+  for i in REC4A_EDT do
+    if B5(HIDXA) = 1 & H31B = 1 & H31C in 1,3 then            { children alive & with ARI }
+      pubsect    = notappl;
+      prvsect    = notappl;
+      ngosect    = notappl;
+      othsect    = notappl;
+      othonly    = notappl;
+      seekadv  = ( H32Y = 0 );
+      { tally all children }
+      numchild = 1;
+      tabt1007( 1 );
+      numchild = notappl;
+      ariperct = 1;
+      xtab( t1007u );
+      if seekadv then
+        ariperct = 2;
+        xtab( t1007u );
+      endif;
+      { tally public sector institutions/places }
+      public = ( H32A = 1 | H32B = 1 | H32C = 1 | H32D = 1 | H32E = 1 |
+                 H32F = 1 | H32G = 1 | H32H = 1 | H32I = 1 );
+      pubsect  = 1;                      { any public sector }
+      tabt1007( public );
+      pubsect  = 2;                      { public hospital }
+      tabt1007( H32A );
+      pubsect  = 3;                      { public health center }
+      tabt1007( H32B );
+      pubsect  = 4;                      { health post }
+      tabt1007( H32C );
+      pubsect  = 5;                      { mobile clinic }
+      tabt1007( H32D );
+      pubsect  = 6;                      { fieldworker }
+      tabt1007( H32E );
+      pubsect  = 7;                      { other public }
+      tabt1007( H32F );
+      pubsect  = 8;                      { CS public }
+      tabt1007( H32G );
+      pubsect  = 9;                      { CS public }
+      tabt1007( H32H );
+      pubsect  = 10;                     { CS public }
+      tabt1007( H32I );
+      pubsect  = notappl;
+      { tally private sector institutions/places }
+      private = ( H32J = 1 | H32K = 1 | H32L = 1 | H32M = 1 | H32N = 1 |
+                  H32O = 1 | H32P = 1 | H32Q = 1 | H32R = 1 );
+      prvsect  = 1;                      { any private }
+      tabt1007( private );
+      prvsect  = 2;                      { private hospital }
+      tabt1007( H32J );
+      prvsect  = 3;                      { private clinic }
+      tabt1007( H32M );
+      prvsect  = 4;                      { pharmacy }
+      tabt1007( H32K );
+      prvsect  = 5;                      { private doctor }
+      tabt1007( H32L );
+      prvsect  = 6;                      { mobile clinic }
+      tabt1007( H32N );
+      prvsect  = 7;                      { fieldworker/CHW }
+      tabt1007( H32O );
+      prvsect  = 8;                      { other private }
+      tabt1007( H32P );
+      prvsect  = 9;                      { CS private }
+      tabt1007( H32Q );
+      prvsect  = 10;                     { CS private }
+      tabt1007( H32R );
+      prvsect  = notappl;
+      { tally NGO sector institutions/places }
+      ngo = ( H32NA = 1 | H32NB = 1 | H32NC = 1 | H32ND = 1 | H32NE = 1 );
+      ngosect  = 1;                      { any NGO }
+      tabt1007( ngo );
+      ngosect  = 2;                      { NGO hospital }
+      tabt1007( H32NA );
+      ngosect  = 3;                      { NGO clinic }
+      tabt1007( H32NB );
+      ngosect  = 4;                      { NGO other }
+      tabt1007( H32NC );
+      ngosect  = 5;                      { NGO CS }
+      tabt1007( H32ND );
+      ngosect  = 6;                      { NGO CS }
+      tabt1007( H32NE );
+      ngosect  = notappl;
+      { tally other places }
+      others = ( H32S = 1 | H32T = 1 | H32U = 1 | H32V = 1 | H32W = 1 );
+      othsect  = 1;                      { any other }
+      tabt1007( others );
+      othsect  = 2;                      { shop }
+      tabt1007( H32S );
+      othsect  = 3;                      { traditional practitioner }
+      tabt1007( H32T );
+      othsect  = 4;                      { market }
+      tabt1007( H32U );
+      othsect  = 5;                      { itinerant drug seller }
+      tabt1007( H32V );
+      othsect  = 6;                      { CS other }
+      tabt1007( H32W );
+      othsect  = notappl;
+      othonly  = 1;                      { other }
+      tabt1007( H32X );
+      othonly  = notappl;
+
+    endif;            { end alive & with fever }
+
+  enddo;
+
+
+{ --------------------------------------------------------------------------- }
+{ Table 10.8 }
+
+  for i in REC4A_EDT do
+    months = B19(HIDXA);
+    recode months -> chage1;
+              0:5 -> 0;
+             6:11 -> 1;
+            12:23 -> 2;
+            24:35 -> 3;
+            36:47 -> 4;
+            48:59 -> 5;
+    endrecode;
+    sex2 = B4(HIDXA);
+
+    if B5(HIDXA) = 1 then   { for living children }
+      fevtreat = notappl;
+      if H22 = 1 then                    { fever in the last 2 weeks }
+        fevsympt = 1;
+        xtab( t1008, rweight );
+      endif;
+      fevsympt = 2;                     { all children }
+      xtab( t1008, rweight );
+      fevsympt = notappl;
+      coltotu = 1;
+      xtab( t1008u );
+      if H22 = 1 then                    { fever }
+        { !!! Include: Public medical sector, Private medical sector, NGO medical sector,
+		               Shop, Market, and Itinerant drug seller.
+			  Exclude: Traditional practitioner, Other specify, Survey specific as friends/family, church }
+        if 1 in H32A,  H32B,  H32C,  H32D,  H32E, H32F, H32G, H32H, H32I,     // public sector
+		        H32J,  H32K,  H32L,  H32M,  H32N, H32O, H32P, H32Q, H32R,     // private sector
+				H32NA, H32NB, H32NC, H32ND, H32NE then                        // NGO sector
+	            { !!! among variables below include: Shop, Market, itinerant drug seller
+	              H32S, H32T,  H32U,  H32V,  H32W }
+          fevtreat = 1;
+          xtab( t1008, rweight );
+          if H46B in 0,1 then
+            fevtreat = 2;                         { treatment sought same or next day }
+            xtab( t1008, rweight );
+          endif;
+        endif;
+        if 1 in H37I, H37J, H37N, H37O then       { antibiotics given }
+          fevtreat = 3;
+          xtab( t1008, rweight );
+        endif;
+        fevtreat = 4;                             { all children with ARI }
+        xtab( t1008, rweight );
+        coltotu = 2;
+        xtab( t1008u );
+      endif;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 10.9 }
+
+  for i in REC4A_EDT do
+    months = B19(HIDXA);
+    recode months -> chage1;
+              0:5 -> 0;
+             6:11 -> 1;
+            12:23 -> 2;
+            24:35 -> 3;
+            36:47 -> 4;
+            48:59 -> 5;
+    endrecode;
+    sex2 = B4(HIDXA);
+
+    if B5(HIDXA) = 1 then   { for living children }
+      diatreat = notappl;
+      diasympt = 2;
+      xtab( t1009, rweight );
+      coltotu = 1;
+      xtab( t1009u );
+      { diarrhea last 2 weeks }
+      if H11 in 1,2 then
+        diasympt = 1;
+        diatreat = 2;
+        xtab( t1009, rweight );
+        coltotu = 2;
+        xtab( t1009u );
+        diasympt = notappl;
+        { !!! Include: Public medical sector, Private medical sector, NGO medical sector,
+		               Shop, Market, and Itinerant drug seller.
+			  Exclude: Traditional practitioner, Other specify, Survey specific as friends/family, church }
+        if 1 in H12A,  H12B,  H12C,  H12D,  H12E, H12F, H12G, H12H, H12I,     // public sector
+		        H12J,  H12K,  H12L,  H12M,  H12N, H12O, H12P, H12Q, H12R,     // private sector
+				H12NA, H12NB, H12NC, H12ND, H12NE then                        // NGO sector
+	            { !!! among variables below include: Shop, Market, itinerant drug seller
+	              H12S, H12T,  H12U,  H12V,  H12W }
+          diatreat = 1;
+          xtab( t1009, rweight );
+        endif;
+      endif;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 10.10 }
+
+  for i in REC4A_EDT do
+    months = B19(HIDXA);
+    recode months -> chage1;
+              0:5 -> 0;
+             6:11 -> 1;
+            12:23 -> 2;
+            24:35 -> 3;
+            36:47 -> 4;
+            48:59 -> 5;
+    endrecode;
+    sex2 = B4(HIDXA);
+
+    if B5(HIDXA) = 1 & H11 in 1,2 then   { for living children with diarrhea in last 2 weeks }
+      { amount offered to drink }
+      recode H38 -> h38w;
+               0 -> 5;      { nothing to drink }
+               2 -> 4;      { much less }
+               3 -> 3;      { somewhat less }
+               4 -> 2;      { about the same }
+               5 -> 1;      { more }
+                 -> 9;      { don't know/missing }
+      endrecode;
+      { amount offered to eat }
+      recode H39 -> h39w;
+               0 -> 5;      { stopped food }
+               1 -> 6;      { Never gave food }
+               2 -> 4;      { much less }
+               3 -> 3;      { somewhat less }
+               4 -> 2;      { about the same }
+               5 -> 1;      { more }
+                 -> 9;      { don't know/missing }
+      endrecode;
+	  brfeed2 = notappl;
+	  do j = 1 while j <= soccurs(REC41)
+	    if MIDX(j) = HIDXA then
+          recode    M4(j)   -> brfeed2;
+                     95     -> 1;                { breastfeeding }
+              missing,97,98 -> 9;                { missing }
+                            -> 2;                { not breastfeeding }
+          endrecode;
+        endif;
+      enddo;
+      xtab( t1010, rweight );
+      xtab( t1010u );
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table 10.11 }
+
+  for i in REC4A_EDT do
+    months = B19(HIDXA);
+    recode months -> chage1;
+              0:5 -> 0;
+             6:11 -> 1;
+            12:23 -> 2;
+            24:35 -> 3;
+            36:47 -> 4;
+            48:59 -> 5;
+    endrecode;
+    sex2 = B4(HIDXA);
+
+    if B5(HIDXA) = 1 & H11 in 1,2 then   { for living children with diarrhea in last 2 weeks }
+      diamedic = notappl;
+      nontotal = notappl;
+      if H13 in 1,2 | H13B = 1 then                    { ORS packet or pre-packed liquid }
+        diamedic = 1;
+        xtab( t1011, rweight );
+      endif;
+      if H15E = 1 then                                 { Zinc }
+        diamedic = 2;
+        xtab( t1011, rweight );
+      endif;
+      if ( H13 in 1,2 | H13B = 1 ) & H15E = 1 then     { ORS & Zinc }
+        diamedic = 3;
+        xtab( t1011, rweight );
+      endif;
+      if ( H13 in 1,2 | H13B = 1 ) & H39 in 3:5 then   { ORS & continued feeding }
+        diamedic = 4;
+        xtab( t1011, rweight );
+      endif;
+      if ( H13 in 1,2 | H13B = 1 ) & H15E = 1  & H39 in 3:5 then     { ORS & Zinc & continued feeding }
+        diamedic = 5;
+        xtab( t1011, rweight );
+      endif;
+      if H13 in 1,2 | H13B = 1 | H38 = 5 then          { ORS or increased fluids }
+        diamedic = 6;
+        xtab( t1011, rweight );
+      endif;
+      if H14 in 1,2 then                               { RHF, recommended home fluids }
+        diamedic = 7;
+        xtab( t1011, rweight );
+      endif;
+      if H13 in 1,2 | H13B = 1 | H14 in 1,2 | H38 = 5 then   { ORS, RHF or increase fluids }
+        diamedic = 8;
+        xtab( t1011, rweight );
+      endif;
+      { ( ORS packet, RHS, ORS pre-packed liquid, or increased fluids ) and continued feeding }
+      if ( H13 in 1,2 | H14 in 1,2 | H13B = 1 | H38 = 5 ) & H39 in 3:5 then
+        diamedic = 9;
+        xtab( t1011, rweight );
+      endif;
+      if H15B = 1 | H15 = 1 then                             { antibiotic, pills/syrup }
+        diamedic = 10;
+        xtab( t1011, rweight );
+      endif;
+      if H15A = 1 then                                       { antimotility }
+        diamedic = 11;
+        xtab( t1011, rweight );
+      endif;
+      if H15C = 1 then                                       { intravenous }
+        diamedic = 12;
+        xtab( t1011, rweight );
+      endif;
+      { home remedy/antibiotics/CS/other }
+      if H15D = 1 | H15F = 1 | H15G = 1 | H15H = 1 | H15I = 1 |
+         H15J = 1 | H15K = 1 | H15L = 1 | H15M = 1 | H20 = 1 then
+        diamedic = 13;
+        xtab( t1011, rweight );
+      endif;
+
+      if !diamedic in 1:13 then
+        if H21A = 1 then                     { nothing }
+          nontotal = 2
+        else                                 { missing }
+          nontotal = 1
+        endif;
+        xtab( t1011, rweight );
+      endif;
+      diamedic = notappl;
+      nontotal = 3;                          { children with diarrhea }
+      xtab( t1011, rweight );
+      xtab( t1011u );
+    endif;
+  enddo;
+
+{-----------------------------------------------------------------------------------------------}
+{ tables 10.12 }
+
+  { !!! note that for the most part variables H12A to H12X hold country specific sources for treatment    }
+  {     make sure to properly change the labels for working variables PUBSECT, PRVSECT, NGOSECT & OTHSECT }
+  {     for purposes of this application, sources from question A612 in the core questionnaire are used   }
+  for i in REC4A_EDT do
+    if B5(HIDXA) = 1 & H11 in 1,2 then            { children alive & with diarrhea }
+      pubsect  = notappl;
+      prvsect  = notappl;
+      ngosect  = notappl;
+      othsect  = notappl;
+      othonly  = notappl;
+      seekadv  = ( H12Y = 0 );
+      gaveORS  = ( H13 in 1,2 | H13B = 1 );
+      gaveZinc = ( H15E = 1 );
+      { tally all children }
+      numchild = 1;
+      tabt1012( 1 );
+      numchild = notappl;
+      diaperct = 1;
+      xtab( t1012u );
+      if seekadv then
+        diaperct = 2;
+        xtab( t1012u );
+      endif;
+      if gaveORS then
+        diaperct = 3;
+        xtab( t1012u );
+      endif;
+      if gaveZinc then
+        diaperct = 4;
+        xtab( t1012u );
+      endif;
+      { tally public sector institutions/places }
+      public = ( H12A = 1 | H12B = 1 | H12C = 1 | H12D = 1 | H12E = 1 |
+                 H12F = 1 | H12G = 1 | H12H = 1 | H12I = 1 );
+      pubsect  = 1;                      { any public sector }
+      tabt1012( public );
+      pubsect  = 2;                      { public hospital }
+      tabt1012( H12A );
+      pubsect  = 3;                      { public health center }
+      tabt1012( H12B );
+      pubsect  = 4;                      { health post }
+      tabt1012( H12C );
+      pubsect  = 5;                      { mobile clinic }
+      tabt1012( H12D );
+      pubsect  = 6;                      { fieldworker }
+      tabt1012( H12E );
+      pubsect  = 7;                      { other public }
+      tabt1012( H12F );
+      pubsect  = 8;                      { CS public }
+      tabt1012( H12G );
+      pubsect  = 9;                      { CS public }
+      tabt1012( H12H );
+      pubsect  = 10;                     { CS public }
+      tabt1012( H12I );
+      pubsect  = notappl;
+      { tally private sector institutions/places }
+      private = ( H12J = 1 | H12K = 1 | H12L = 1 | H12M = 1 | H12N = 1 |
+                  H12O = 1 | H12P = 1 | H12Q = 1 | H12R = 1 );
+      prvsect  = 1;                      { any private }
+      tabt1012( private );
+      prvsect  = 2;                      { private hospital/clinic }
+      tabt1012( H12J );
+      prvsect  = 3;                      { private clinic }
+      tabt1012( H12M );
+      prvsect  = 4;                      { pharmacy }
+      tabt1012( H12K );
+      prvsect  = 5;                      { private doctor }
+      tabt1012( H12L );
+      prvsect  = 6;                      { mobile clinic }
+      tabt1012( H12N );
+      prvsect  = 7;                      { fieldworker/CHW }
+      tabt1012( H12O );
+      prvsect  = 8;                      { other private }
+      tabt1012( H12P );
+      prvsect  = 9;                      { CS private }
+      tabt1012( H12Q );
+      prvsect  = 10;                     { CS private }
+      tabt1012( H12R );
+      prvsect  = notappl;
+      { tally NGO sector institutions/places }
+      ngo = ( H12NA = 1 | H12NB = 1 | H12NC = 1 | H12ND = 1 | H12NE = 1 );
+      ngosect  = 1;                      { any NGO }
+      tabt1012( ngo );
+      ngosect  = 2;                      { NGO hospital }
+      tabt1012( H12NA );
+      ngosect  = 3;                      { NGO clinic }
+      tabt1012( H12NB );
+      ngosect  = 4;                      { NGO other }
+      tabt1012( H12NC );
+      ngosect  = 5;                      { NGO CS }
+      tabt1012( H12ND );
+      ngosect  = 6;                      { NGO CS }
+      tabt1012( H12NE );
+      ngosect  = notappl;
+      { tally other places }
+      others = ( H12S = 1 | H12T = 1 | H12U = 1 | H12V = 1 | H12W = 1 );
+      othsect  = 1;                      { any other }
+      tabt1012( others );
+      othsect  = 2;                      { shop }
+      tabt1012( H12S );
+      othsect  = 3;                      { traditional practitioner }
+      tabt1012( H12T );
+      othsect  = 4;                      { market }
+      tabt1012( H12U );
+      othsect  = 5;                      { itinerant drug seller }
+      tabt1012( H12V );
+      othsect  = 6;                      { CS other }
+      tabt1012( H12W );
+      othsect  = notappl;
+      othonly  = 1;                      { other }
+      tabt1012( H12X );
+      othonly  = notappl;
+
+    endif;            { end alive & with fever }
+
+  enddo;
+

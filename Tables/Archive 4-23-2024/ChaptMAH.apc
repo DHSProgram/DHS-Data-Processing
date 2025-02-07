@@ -1,0 +1,1160 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines November 1, 2022       -      Version 1.0.0 of 02/22/2023   +}
+{+                                                                          +}
+{+   CHAPTER MAH.  MATERNAL HEALTH MODULE                                   +}
+{+                                                                          +}
+{+   MAH.1  Counseling on danger signs during pregnancy                     +}
+{+   MAH.2  Birth planning                                                  +}
+{+   MAH.3  Checking blood pressure during labor                            +}
+{+   MAH.4  Instrument-assisted delivery                                    +}
+{+   MAH.5  Presence of a companion during labor and delivery               +}
+{+   MAH.6  Amount of time companion was allowed to be present              +}
+{+   MAH.7  Neglect and privacy during labor and delivery                   +}
+{+   MAH.8  Respectful care                                                 +}
+{+   MAH.9  Non-dignified treatment at the health facility                  +}
+{+   MAH.10 Toilet for patients in the health facility                      +}
+{+   MAH.11 Experience of physical abuse in a health facility               +}
+{+   MAH.12 Experience of verbal abuse in a health facility                 +}
+{+   MAH.13 Rooming in                                                      +}
+{+                                                                          +}
+{+   Note: Tables 9.3.1, 9.3.2, 9.13, and 9.16 are part of the "Maternal    +}
+{+         Healthcare Indicators" and they are generated with application   +}
+{+         Chapt9                                                           +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, j, jmax, jtot, jtot1, jtot2, jtot3;
+  numeric rweight, xtemp, x, age,cnt;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for maternal health module, Country Survey 2020" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) tmah01 age3+border2+v102w+v101w+v106w+v190w+total ancounsel+womanc livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.1 Counseling on danger signs during pregnancy"," ",
+           "Among women age 15-49 receiving antenatal care (ANC) for their most recent live birth", 
+		   "and/or stillbirth in the 2 years preceding the survey, percentage who were told by a", 
+		   "health worker during an ANC visit about danger signs that might indicate problems with", 
+		   "the pregnancy, and percentage who were told where to go if they experienced danger", 
+		   "signs of serious health problems during the pregnancy,", 
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah01u age3+border2+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.1 Counseling on danger signs during pregnancy (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah02 age3+border2+v102w+v101w+v106w+v190w+total ancdiscu+womanc livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.2 Birth planning"," ",
+           "Among women age 15-49 receiving antenatal care (ANC) for their most recent live birth", 
+		   "and/or stillbirth in the 2 years preceding the survey, percentage who discussed with a", 
+		   "health provider during any ANC visit various preparations for giving birth, percentage", 
+		   "who discussed all six preparations, percentage who discussed at least two of the six", 
+		   "preparations, and percentage who discussed none of the six preparations,", 
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah02u age3+border2+v102w+v101w+v106wt+v190w+total total livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.2 Birth planning (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah03 age3t+border2+m14w2+m15w5+v102w+v101w+v106wt+v190w+total mh5w+numwom livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.3  Checking blood pressure during labor"," ",
+           "Among women age 15-49 with a live birth and/or stillbirth in the 2 years preceding the", 
+		   "survey who delivered their most recent birth in a health facility, percentage who had", 
+		   "their blood pressure measured between arriving at the facility and giving birth,", 
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah03u age3t+border2+m14w2+m15w5+v102w+v101w+v106wt+v190w+total total livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.3  Checking blood pressure during labor (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah04 age3t+border2+m14w2+m15w5+v102w+v101w+v106wt+v190w+total 
+                           instru1+instru2+totbirth livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.4 Instrument-assisted delivery"," ",
+           "Percent distribution of most recent live births and/or stillbirths that", 
+		   "occurred in a health facility in the 2 years preceding the survey by type", 
+		   "of instrument used to assist the delivery,", 
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah04u age3t+border2+m14w2+m15w5+v102w+v101w+v106wt+v190w+total total livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.4 Instrument-assisted delivery (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah05 age3t+border2+m14w2+m15w5+v102w+v101w+v106w+v190w+total 
+                           compan+colabor+codeliv livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.5 Presence of a companion during labor and delivery"," ",
+           "Among women age 15-49 with a live birth and/or stillbirth in the 2 years preceding", 
+		   "the survey who delivered their most recent birth in a health facility, percentage who", 
+		   "wanted to have a companion with them during labor for their most recent birth, and", 
+		   "percentage who wanted to have a companion with them during delivery; among women who", 
+		   "wanted a companion with them during labor, percentage who had their preferred companion", 
+		   "with them during labor, and percentage whose preferred companion was not allowed to be", 
+		   "with them during labor by the health facility; and among women who wanted a companion", 
+		   "with them during delivery, percentage who had their preferred companion with them during", 
+		   "delivery, and percentage whose preferred companion was not allowed to be with them during", 
+		   "delivery by the health facility,",
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah05u age3t+border2+m14w2+m15w5+v102w+v101w+v106w+v190w+total coltotu livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.5 Presence of a companion during labor and delivery (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah06 age3t+border4+m15w5+v102w+total staylab+totnumla+staydel+totnumde livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.6 Amount of time companion was allowed to be present"," ",
+           "Among women age 15-49 with a live birth and/or stillbirth in the 2 years preceding the", 
+		   "survey who delivered their most recent birth in a health facility and who had their preferred", 
+		   "companion with them during labor, percent distribution by how much of the time their companion", 
+		   "was allowed to stay with them during labor; and among women age 15-49 with a live birth and/or", 
+		   "stillbirth in the 2 years preceding the survey preceding the survey who delivered their most", 
+		   "recent birth in a health facility and who had their preferred companion with them during", 
+		   "delivery, percent distribution by how much of the time their companion was allowed to stay with", 
+		   "them during delivery,", 
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah06u age3t+border4+m15w5+v102w+total coltotu livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.6 Amount of time companion was allowed to be present (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah07 age3+border2+m15w5+v102w+v101w+v106w+v190w+total 
+                           ignore+privacy1+privacy2+numwom livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.7 Neglect and privacy during labor and delivery"," ",
+           "Among women age 15-49 with a live birth and/or stillbirth in the 2 years preceding", 
+		   "the survey who delivered their most recent birth in a health facility, percentage who", 
+		   "reported feeling ignored or neglected by the health facility staff during labor or", 
+		   "delivery, percent distribution by to type of privacy reported during labor or delivery,", 
+		   "and percentage who reported having privacy during labor or delivery,", 
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah07u age3+border2+m15w5+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.7 Neglect and privacy during labor and delivery (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah08 age3+border2+m15w5+v102w+v101w+v106w+v190w+total 
+                           mh17aw+mh17bw+mh17cw+numwom livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.8 Respectful care"," ",
+           "Among women age 15-49 with a live birth and/or stillbirth in the 2 years preceding", 
+		   "the survey who delivered their most recent birth in a health facility, percent", 
+		   "distribution by amount of time healthcare providers in the health facility demonstrated", 
+		   "three aspects of respectful care,", 
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah08u age3+border2+m15w5+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.8 Respectful care (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah09 age3t+border2+m15w5+v102w+v101w+v106w+v190w+total nondign+numwom livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.9 Non-dignified treatment at the health facility"," ",
+           "Among women age 15-49 with a live birth and/or stillbirth in the 2 years preceding", 
+		   "the survey who delivered their most recent birth in a health facility, percentage who", 
+		   "at any time during their stay in the health facility shared a bed with another patient,", 
+		   "percentage who slept on the floor without a mattress, percentage who were denied", 
+		   "medical services due to lack of money, and percentage who were prevented from leaving", 
+		   "the facility due to lack of payment,",
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah09u age3t+border2+m15w5+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.9 Non-dignified treatment at the health facility (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah10 m15w5+v102w+v101w+v106w+v190w+total toilet1+toilet2 livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.10 Toilet for patients in the health facility"," ",
+           "Among women age 15-49 who had a live birth and/or stillbirth in the 2 years preceding", 
+		   "the survey who delivered their most recent birth in a health facility, percentage who", 
+		   "reported that the health facility had a toilet or latrine for patients, and among those", 
+		   "who reported that the health facility had a toilet or latrine for patients, percentage", 
+		   "who said it was working when they needed to use it,",
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah10u m15w5+v102w+v101w+v106w+v190w+total coltotu livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.10 Toilet for patients in the health facility (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah11 age3+border2+m15w5+v102w+v101w+v106w+v190w+total physic1+physic2+numwom livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.11 Experience of physical abuse in a health facility"," ",
+           "Among women age 15-49 with a live birth and/or stillbirth in the 2 years preceding", 
+		   "the survey who delivered their most recent birth in a health facility, percentages", 
+		   "who experienced specific forms of physical abuse by any staff member at any time", 
+		   "during their stay in the health facility, and percentage who experienced any of the", 
+		   "four forms of physical abuse,",
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah11u age3+border2+m15w5+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.11 Experience of physical abuse in a health facility (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah12 age3+border2+m15w5+v102w+v101w+v106w+v190w+total verbal1+verbal2+numwom livbirth+stlbirth+livestil
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.12 Experience of verbal abuse in a health facility"," ",
+           "Among women age 15-49 with a live birth and/or stillbirth in the 2 years preceding", 
+		   "the survey who delivered their most recent birth in a health facility, percentages", 
+		   "who experienced specific forms of verbal abuse by any staff member at any time during", 
+		   "their stay in the health facility, and percentage who experienced any of the four", 
+		   "forms of abuse, according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah12u age3+border2+m15w5+v102w+v101w+v106w+v190w+total total livbirth+stlbirth+livestil 
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.12 Experience of verbal abuse in a health facility (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  crosstab float(1) tmah13 age3t+border5+m14w2+m15w5+v102w+v101w+v106wt+v190w+total sameroom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MAH.13 Rooming in"," ",
+           "Among most recent live births that occurred in a health facility in the 2 years preceding", 
+		   "the survey, percentage who stayed in the same room with their mother most of the time", 
+		   "during the day and at night during the first 2 days after birth,",
+		   "according to background characteristics, Country Survey 2020" )
+    stub ( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmah13u age3t+border5+m14w2+m15w5+v102w+v101w+v106wt+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MAH.13 Rooming in (Number of un-weighted cases)" )
+    stub ( "Background characteristic" );
+
+  { function to recode birth order as it is used by several tables }
+  function RecBorder( chi )
+    xtemp = BORD(chi);
+    { adjust multiple births to give the same order as that of the first of the multiples }
+    if B0(chi) > 1 then xtemp = BORD(chi) - B0(chi) + 1 endif;
+    recode xtemp -> x;
+              1  -> 0;
+            2:3  -> 1;
+            4:5  -> 2;
+                 -> 3;
+    endrecode;
+    RecBorder = x;
+  end;
+
+  { function to recode mother's age as it is used by several tables }
+  function RecAge( chi )
+    age = int( (P3(chi)-V011)/12 );
+    recode  age  -> x;
+          <20 -> 0;
+        20:34 -> 1;
+              -> 2;
+    endrecode;
+    RecAge = x;
+  end;
+
+  { function to recode place of delivery it is used by several tables }
+  function RecPDel1( chi )
+    recode  M15(chi) -> x;
+             20:29   -> 1;        { public health facility }
+             30:39   -> 2;        { private health facility }
+             40:49   -> 3;        { private NGO facility }
+            missing  -> missing;
+			         -> 4;        { elsewhere }
+    endrecode;
+    RecPDel1 = x;
+  end;
+
+  { function to recode place of delivery it is used by several tables }
+  function RecPDel2( chi )
+    recode  M15(chi) -> x;
+             20:49   -> 1;        { health facility }
+           missing   -> 9;        { missing }
+                     -> 2;        { elsewehere  }
+    endrecode;
+    RecPDel2 = x;
+  end;
+
+  { function to recode antenatal care visits it is used by several tables }
+  function RecAntCare( chi )
+    recode  M14(chi) -> x;
+            notappl  -> notappl;
+                0    -> 0;
+              1:3    -> 1;
+             4:90    -> 2;
+                     -> 9;
+    endrecode;
+    RecAntCare = x;
+  end;
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+  numwom   = 1;    
+  totbirth = 1;  
+  totnum2  = 1;  
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table MAH.1 processing }
+  jtot = tblcol( tmah01 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tmah01[*,j,*] = tmah01[*,j,*] * 100 / tmah01[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "tmah01", tmah01, 0, jtot-1, tmah01u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah01 );
+  tmah01[0:itot-1,*,1] = default;    // stillbirths
+  tmah01[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.2 processing }
+  jtot = tblcol( tmah02 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tmah02[*,j,*] = tmah02[*,j,*] * 100 / tmah02[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "tmah02", tmah02, 0, jtot-1, tmah02u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah02 );
+  tmah02[0:itot-1,*,1] = default;    // stillbirths
+  tmah02[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.3 processing }
+  jtot = tblcol( tmah03 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tmah03[*,j,*] = tmah03[*,j,*] * 100 / tmah03[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "tmah03", tmah03, 0, jtot-1, tmah03u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah03 );
+  tmah03[0:itot-1,*,1] = default;    // stillbirths
+  tmah03[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.4 processing }
+  jtot = tblcol( tmah04 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    tmah04[*,j,*] = tmah04[*,j,*] * 100 / tmah04[*,jtot,*];
+  enddo;
+  tmah04[*,jmax+1,*] = tblsum( column tmah04[*,0:jmax,*] );
+  { check unweighted N's }
+  Col3Dim( "tmah04", tmah04, 0, jtot-2, tmah04u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah04 );
+  tmah04[0:itot-1,*,1] = default;    // stillbirths
+  tmah04[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.5 processing }
+  jtot1 = tblcol( tmah05, compan );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tmah05[*,j,*] = tmah05[*,j,*] * 100 / tmah05[*,jtot1,*];
+  enddo;
+  jtot2 = tblcol( tmah05, colabor );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    tmah05[*,j,*] = tmah05[*,j,*] * 100 / tmah05[*,jtot2,*];
+  enddo;
+  jtot3 = tblcol( tmah05 );
+  jmax  = jtot3 - 1;
+  do j = jtot2+1 while j <= jmax
+    tmah05[*,j,*] = tmah05[*,j,*] * 100 / tmah05[*,jtot3,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "tmah05", tmah05, 0,       jtot1-1, tmah05u, 0 );
+  Col3Dim( "tmah05", tmah05, jtot1+1, jtot2-1, tmah05u, 1 );
+  Col3Dim( "tmah05", tmah05, jtot2+1, jtot3-1, tmah05u, 2 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah05 );
+  tmah05[0:itot-1,*,1] = default;    // stillbirths
+  tmah05[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.6 processing }
+  jtot1 = tblcol( tmah06, totnumla );
+  jmax  = jtot1 - 2;
+  do j = 0 while j <= jmax
+    tmah06[*,j,*] = tmah06[*,j,*] * 100 / tmah06[*,jtot1,*];
+  enddo;
+  tmah06[*,jmax+1,*] = tblsum( column tmah06[*,0:jmax,*] );
+  jtot2 = tblcol( tmah06 );
+  jmax  = jtot2 - 2;
+  do j = jtot1+1 while j <= jmax
+    tmah06[*,j,*] = tmah06[*,j,*] * 100 / tmah06[*,jtot2,*];
+  enddo;
+  tmah06[*,jmax+1,*] = tblsum( column tmah06[*,jtot1+1:jmax,*] );
+  { check unweighted N's }
+  Col3Dim( "tmah06", tmah06, 0,       jtot1-2, tmah06u, 0 );
+  Col3Dim( "tmah06", tmah06, jtot1+1, jtot2-2, tmah06u, 1 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah06 );
+  tmah06[0:itot-1,*,1] = default;    // stillbirths
+  tmah06[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.7 processing }
+  jtot  = tblcol( tmah07 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    tmah07[*,j,*] = tmah07[*,j,*] * 100 / tmah07[*,jtot,*];
+  enddo;
+  tmah07[*,jmax-1,*] = tblsum( column tmah07[*,1:jmax-2,*] );
+  { check unweighted N's }
+  Col3Dim( "tmah07", tmah07, 0,      jtot-3, tmah07u, 0 );
+  Col3Dim( "tmah07", tmah07, jtot-1, jtot-1, tmah07u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah07 );
+  tmah07[0:itot-1,*,1] = default;    // stillbirths
+  tmah07[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.8 processing }
+  jtot = tblcol( tmah08 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tmah08[*,j,*] = tmah08[*,j,*] * 100 / tmah08[*,jtot,*];
+  enddo;
+  jtot1 = tblcol( tmah08, mh17aw );
+  jmax  = jtot1 - 1;
+  tmah08[*,jmax+1,*] = tblsum( column tmah08[*,0:jmax,*] );
+  jtot2 = tblcol( tmah08, mh17bw );
+  jmax  = jtot2 - 1;
+  tmah08[*,jmax+1,*] = tblsum( column tmah08[*,jtot1+1:jmax,*] );
+  jtot3 = tblcol( tmah08, mh17cw );
+  jmax  = jtot3 - 1;
+  tmah08[*,jmax+1,*] = tblsum( column tmah08[*,jtot2+1:jmax,*] );
+  { check unweighted N's }
+  Col3Dim( "tmah08", tmah08, 0,       jtot1-1, tmah08u, 0 );
+  Col3Dim( "tmah08", tmah08, jtot1+1, jtot2-1, tmah08u, 0 );
+  Col3Dim( "tmah08", tmah08, jtot2+1, jtot3-1, tmah08u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah08 );
+  tmah08[0:itot-1,*,1] = default;    // stillbirths
+  tmah08[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.9 processing }
+  jtot = tblcol( tmah09 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tmah09[*,j,*] = tmah09[*,j,*] * 100 / tmah09[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "tmah09", tmah09, 0, jtot-1, tmah09u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah09 );
+  tmah09[0:itot-1,*,1] = default;    // stillbirths
+  tmah09[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.10 processing }
+  jtot1 = tblcol( tmah10, toilet1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    tmah10[*,j,*] = tmah10[*,j,*] * 100 / tmah10[*,jtot1,*];
+  enddo;
+  jtot2 = tblcol( tmah10 );
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+    tmah10[*,j,*] = tmah10[*,j,*] * 100 / tmah10[*,jtot2,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "tmah10", tmah10, 0,       jtot1-1, tmah10u, 0 );
+  Col3Dim( "tmah10", tmah10, jtot1+1, jtot2-1, tmah10u, 1 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah10 );
+  tmah10[0:itot-1,*,1] = default;    // stillbirths
+  tmah10[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.11 processing }
+  jtot = tblcol( tmah11 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tmah11[*,j,*] = tmah11[*,j,*] * 100 / tmah11[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "tmah11", tmah11, 0, jtot-1, tmah11u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah11 );
+  tmah11[0:itot-1,*,1] = default;    // stillbirths
+  tmah11[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.12 processing }
+  jtot = tblcol( tmah12 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tmah12[*,j,*] = tmah12[*,j,*] * 100 / tmah12[*,jtot,*];
+  enddo;
+  { check unweighted N's }
+  Col3Dim( "tmah12", tmah12, 0, jtot-1, tmah12u, 0 );
+  { assign defaults for layers stillbirths and total births/stillbirths }
+  itot = tblrow( tmah12 );
+  tmah12[0:itot-1,*,1] = default;    // stillbirths
+  tmah12[0:itot-1,*,2] = default;    // live births and stillbirths
+
+  { Table MAH.13 processing }
+  jtot = tblcol( tmah13 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tmah13[*,j] = tmah13[*,j] * 100 / tmah13[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tmah13", tmah13, 0, jtot-1, tmah13u, 0 );
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  { general variables }
+  v101w = V101;
+  v102w = V102;
+  v106w = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v106wt = v106w;
+  v190w  = V190;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.1 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    if M80 in 1,3 & P19(MIDXP) < 24 & M2N = 0 then      // last birth/stillbirth in last 2 years with antenatal care
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3     = RecAge( MIDXP );          { age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      ancounsel = notappl;
+      womanc    = 1;                      
+      xtab( tmah01, rweight );
+      xtab( tmah01u );
+      womanc  = notappl;                      
+      if M43 = 1 then                    //  About danger signs that might indicate problems with the pregnancy
+        ancounsel = 1;                   
+        xtab( tmah01, rweight );
+      endif;
+      if M44 = 1 then                    //  Where to go if she experienced danger signs of serious health problems during the pregnancy
+        ancounsel = 2;                   
+        xtab( tmah01, rweight );
+      endif;
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.2 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    if M80 in 1,3 & P19(MIDXP) < 24 & M2N = 0 then     // last birth/stillbirth in last 2 years with antenatal care
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3     = RecAge( MIDXP );          { age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      ancdiscu  = notappl;
+      womanc    = 1;                      
+      xtab( tmah02, rweight );
+      xtab( tmah02u );
+      womanc  = notappl;   
+      cnt = 0;	  
+      if MH3A = 1 then                    // Plan where to deliver the baby
+        cnt = cnt + 1;	  
+        ancdiscu = 1;                   
+        xtab( tmah02, rweight );
+      endif;
+      if MH3B = 1 then                    // To have a relative, friend or neighbour with her during labour or delivery
+        cnt = cnt + 1;	  
+        ancdiscu = 2;                   
+        xtab( tmah02, rweight );
+      endif;
+      if MH3C = 1 then                    // Transportation to the place of delivery
+        cnt = cnt + 1;	  
+        ancdiscu = 3;                   
+        xtab( tmah02, rweight );
+      endif;
+      if MH3D = 1 then                    // Finances to be used for the delivery
+        cnt = cnt + 1;	  
+        ancdiscu = 4;                   
+        xtab( tmah02, rweight );
+      endif;
+      if MH3E = 1 then                    // To ask someone to be a blood donor if you need blood
+        cnt = cnt + 1;	  
+        ancdiscu = 5;                   
+        xtab( tmah02, rweight );
+      endif;
+      if MH3F = 1 then                    // Finding a healthcare provider to deliver the baby
+        cnt = cnt + 1;	  
+        ancdiscu = 6;                   
+        xtab( tmah02, rweight );
+      endif;
+      if cnt = 6 then                     // All six prepartions for giving birth 
+        cnt = cnt + 1;	  
+        ancdiscu = 7;                   
+        xtab( tmah02, rweight );
+      endif;
+      if cnt >= 2 then                    // At least two of the six prepartions for giving birth 
+        cnt = cnt + 1;	  
+        ancdiscu = 8;                   
+        xtab( tmah02, rweight );
+      endif;
+      if cnt = 0 then                     // None of the six prepartions for giving birth
+        cnt = cnt + 1;	  
+        ancdiscu = 9;                   
+        xtab( tmah02, rweight );
+      endif;
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.3 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    if M80 in 1,3 & P19(MIDXP) < 24 & M15 in 21:49 then      // last birth/stillbirth in last 2 years delivered at health facility
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t    = RecAge( MIDXP );          { mother's age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      m14w2   = RecAntCare( MIDXP );       { antenatal care visits }
+	  m15w5   = RecPDel1( MIDXP );         { delivery place }
+      mh5w    = ( MH5 = 1 );               { blood pressure measured prior to birth }
+      xtab( tmah03, rweight );
+      xtab( tmah03u );
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.4 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    { last birth/stillbirth in last 2 years delivered in health facility and not born by caesarean }
+    if M80 in 1,3 & P19(MIDXP) < 24 & M15 in 21:49 & M17 <> 1 then        
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t    = RecAge( MIDXP );          { mother's age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      m14w2   = RecAntCare( MIDXP );       { antenatal care visits }
+	  m15w5   = RecPDel1( MIDXP );         { delivery place }
+	  instru1 = notappl;
+	  instru2 = notappl;
+	  if MH14 in 1:3 then                   // instrument used
+        instru1 = MH14;
+      else
+        recode MH14 -> instru2;
+                 0  -> 1;		
+          8,notappl -> 8;
+                    -> default;				 
+        endrecode;
+      endif;		
+      xtab( tmah04, rweight );
+      xtab( tmah04u );
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.5 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    { last birth/stillbirth in last 2 years delivered in health facility and no labor/planned caesarean }
+    if M80 in 1,3 & P19(MIDXP) < 24 & M15 in 21:49 & MH6 <> 2 then        
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t    = RecAge( MIDXP );          { mother's age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      m14w2   = RecAntCare( MIDXP );       { antenatal care visits }
+	  m15w5   = RecPDel1( MIDXP );         { delivery place }
+
+      { all women }
+	  colabor = notappl;
+	  codeliv = notappl;
+	  compan  = 3;
+      xtab( tmah05, rweight );
+      coltotu = 1;	  
+      xtab( tmah05u );
+      { women who wanted company during labor }	  
+      if MH6 = 1 then                      
+        compan  = 1;
+        colabor = 3;		
+        xtab( tmah05, rweight );
+        coltotu = 2;	  
+        xtab( tmah05u );
+		compan  = notappl;
+		if MH7 = 1 then            // companion was present during labor
+          colabor = 1;		  
+          xtab( tmah05, rweight );
+        endif;		  
+		if MH9 = 1 then            // facility didn't allow companion during labor
+          colabor = 2;		  
+          xtab( tmah05, rweight );
+        endif;		
+      endif;
+      colabor = notappl;	   
+      { women who wanted company during delivery }	  
+      if MH10 = 1 then                      
+        compan  = 2;
+        codeliv = 3;		
+        xtab( tmah05, rweight );
+        coltotu = 3;	  
+        xtab( tmah05u );
+		compan  = notappl;
+		if MH11 = 1 then           // companion was present during delivery
+          codeliv = 1;		  
+          xtab( tmah05, rweight );
+        endif;		  
+		if MH13 = 1 then           // facility didn't allow companion during delivery
+          codeliv = 2;		  
+          xtab( tmah05, rweight );
+        endif;		  
+      endif;	  
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.6 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    { last birth/stillbirth in last 2 years delivered in health facility and no labor/planned caesarean }
+    if M80 in 1,3 & P19(MIDXP) < 24 & M15 in 21:49 & MH6 <> 2 then        
+      border2 = notappl;
+      if M80 in 1,2 then
+        border4 = RecBorder( MIDX );       { birth order }
+        if border4 = 3 then border4 = 2 endif;		
+      endif;
+      age3t    = RecAge( MIDXP );          { mother's age at birth }
+	  m15w5    = RecPDel1( MIDXP );        { delivery place }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+      totnumla = notappl;      
+      totnumde = notappl;      
+	  staylab  = notappl;
+      staydel  = notappl;	  
+      { women with companion was present during labor }	  
+      if MH7 = 1 then        
+        totnumla = 1;	  
+        recode MH8 -> staylab;
+                1  -> 3;
+                2  -> 2;
+                3  -> 1;
+                   -> default;
+        endrecode;				   
+        xtab( tmah06, rweight );
+        coltotu = 1;	  
+        xtab( tmah06u );
+      endif;
+      staylab = notappl;	   
+      totnumla = notappl;      
+      { women with companion was present during labor }	  
+      if MH11 = 1 then                      
+        totnumde = 1;	  
+        recode MH12 -> staydel;
+                 1  -> 3;
+                 2  -> 2;
+                 3  -> 1;
+                    -> default;
+        endrecode;				   
+        xtab( tmah06, rweight );
+        coltotu = 2;	  
+        xtab( tmah06u );
+      endif;
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.7 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    { last birth/stillbirth in last 2 years delivered in health facility and no labor/planned caesarean }
+    if M80 in 1,3 & P19(MIDXP) < 24 & M15 in 21:49 & MH6 <> 2 then        
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3     = RecAge( MIDXP );          { age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+	  m15w5    = RecPDel1( MIDXP );        { delivery place }
+	  ignore   = ( MH15 = 1 );             { ignored when in labor delivery }
+      recode MH16 -> privacy1; 
+	           0  -> 4;         // No privacy
+              1:2 -> MH16;      // Room, curtains
+               6  -> 3;         // other
+               8  -> 8;         // DK
+                  -> default;			   
+      endrecode;
+      privacy2 = ( privacy1 in 1:3 );	  
+
+      xtab( tmah07, rweight );
+      xtab( tmah07u );
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.8 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    { last birth/stillbirth in last 2 years and delivered in health facility }
+    if M80 in 1,3 & P19(MIDXP) < 24 & M15 in 21:49 then        
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3     = RecAge( MIDXP );          { age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+	  m15w5    = RecPDel1( MIDXP );        { delivery place }
+	  
+      mh17aw   = MH17A;                    { Treated with respect }
+      if MH17A = 0 then mh17aw = 3 endif;	  
+      mh17bw   = MH17B;                    { Explained the reason for examinations or procedures }
+      if MH17B = 0 then mh17bw = 3 endif;	  
+      mh17cw   = MH17C;                    { Took the best care }
+      if MH17C = 0 then mh17cw = 3 endif;	  
+
+      xtab( tmah08, rweight );
+      xtab( tmah08u );
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.9 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    { last birth/stillbirth in last 2 years and delivered in health facility }
+    if M80 in 1,3 & P19(MIDXP) < 24 & M15 in 21:49 then        
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t    = RecAge( MIDXP );          { mother's age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+	  m15w5    = RecPDel1( MIDXP );        { delivery place }
+
+      numwom = notappl;
+      if MH18A = 1 then	      // Shared a bed with another patient
+        nondign = 1;	  
+        xtab( tmah09, rweight );
+      endif;
+      if MH18B = 1 then	      // Slept on the floor without a mattress 
+        nondign = 2;	  
+        xtab( tmah09, rweight );
+      endif;
+      if MH19 = 1 then	      // Were denied medical services due to a lack of money 
+        nondign = 3;	  
+        xtab( tmah09, rweight );
+      endif;
+      if MH20  = 1 then	      // Were prevented leaving the facility due to lack of payment 
+        nondign = 4;	  
+        xtab( tmah09, rweight );
+      endif;
+      nondign = notappl;	  
+      numwom  = 1;	  
+      xtab( tmah09, rweight );
+      xtab( tmah09u );
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.10 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    { last birth/stillbirth in last 2 years and delivered in health facility }
+    if M80 in 1,3 & P19(MIDXP) < 24 & M15 in 21:49 then        
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+	  m15w5    = RecPDel1( MIDXP );        { delivery place }
+
+      toilet2 = notappl;
+	  toilet1 = 2;
+      xtab( tmah10, rweight );
+      coltotu = 1;	  
+      xtab( tmah10u );
+      if MH23 = 1 then	      // facility had a toilet or latrine for patients
+        toilet1 = 1;	  
+        toilet2 = 2;	  
+        xtab( tmah10, rweight );
+        coltotu = 2;	  
+        xtab( tmah10u );
+        toilet1 = notappl;
+        if MH24 = 0 then	  // toilet/latrine not working when needed 
+          toilet2 = 1;	  
+          xtab( tmah10, rweight );
+        endif;
+      endif;
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.11 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    { last birth/stillbirth in last 2 years and delivered in health facility }
+    if M80 in 1,3 & P19(MIDXP) < 24 & M15 in 21:49 then        
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3     = RecAge( MIDXP );          { age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+	  m15w5    = RecPDel1( MIDXP );        { delivery place }
+
+      numwom  = notappl;
+	  physic2 = notappl;
+	  cnt     = 0;
+      if MH21A = 1 then	      // Health facility staff member slapped them 
+        cnt = cnt + 1;	  
+        physic1 = 1;	  
+        xtab( tmah11, rweight );
+      endif;
+      if MH21B = 1 then	      // Health facility staff member hit or punched them
+        cnt = cnt + 1;	  
+        physic1 = 2;	  
+        xtab( tmah11, rweight );
+      endif;
+      if MH21C = 1 then	      // Health facility staff member physically threatened them
+        cnt = cnt + 1;	  
+        physic1 = 3;	  
+        xtab( tmah11, rweight );
+      endif;
+      if MH21D = 1 then	      // Health facility staff member physically mistreated them in another way
+        cnt = cnt + 1;	  
+        physic1 = 4;	  
+        xtab( tmah11, rweight );
+      endif;
+	  physic1 = notappl;
+      if cnt then	          // Any of the four forms of physical abuse commited by staff members
+        physic2 = 1;	  
+        xtab( tmah11, rweight );
+      endif;
+      numwom = 1;	  
+      xtab( tmah11, rweight );
+      xtab( tmah11u );
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.12 }
+
+  livestil = 1;
+  for i in REC41_EDT do
+    { last birth/stillbirth in last 2 years and delivered in health facility }
+    if M80 in 1,3 & P19(MIDXP) < 24 & M15 in 21:49 then        
+      border2 = notappl;
+      if M80 in 1,2 then
+        border2 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3     = RecAge( MIDXP );          { age at birth }
+	  livbirth = ( M80 = 1 );
+	  stlbirth = ( M80 = 3 );
+
+	  m15w5    = RecPDel1( MIDXP );        { delivery place }
+
+      numwom  = notappl;
+	  verbal2 = notappl;
+	  cnt     = 0;
+      if MH22A = 1 then	      // Health facility staff member shouted at them
+        cnt = cnt + 1;	  
+        verbal1 = 1;	  
+        xtab( tmah12, rweight );
+      endif;
+      if MH22B = 1 then	      // Health facility staff member said or did something to humiliate them
+        cnt = cnt + 1;	  
+        verbal1 = 2;	  
+        xtab( tmah12, rweight );
+      endif;
+      if MH22C = 1 then	      // Health facility staff member verbally threatened them
+        cnt = cnt + 1;	  
+        verbal1 = 3;	  
+        xtab( tmah12, rweight );
+      endif;
+      if MH22D = 1 then	      // Health facility staff member verbally mistreated them in another way
+        cnt = cnt + 1;	  
+        verbal1 = 4;	  
+        xtab( tmah12, rweight );
+      endif;
+	  verbal1 = notappl;
+      if cnt then	          // Any of the four forms of verbal abuse commited by staff members
+        verbal2 = 1;	  
+        xtab( tmah12, rweight );
+      endif;
+      numwom = 1;	  
+      xtab( tmah12, rweight );
+      xtab( tmah12u );
+      livestil = 0;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table MAH.13 }
+
+  for i in REC41_EDT do
+    if M80 in 1 & P19(MIDXP) < 24 & M15 in 21:49 then      // last birth in last 2 years delivered at health facility
+      border2 = notappl;
+      if M80 in 1,2 then
+        border5 = RecBorder( MIDX );       { birth order }
+      endif;
+      age3t    = RecAge( MIDXP );           { mother's age at birth }
+
+      m14w2   = RecAntCare( MIDXP );       { antenatal care visits }
+	  m15w5   = RecPDel1( MIDXP );         { delivery place }
+      sameroom = 2;	  
+      xtab( tmah13, rweight );
+      xtab( tmah13u );
+      if MH25 = 1 then	  
+        sameroom = 1;	  
+        xtab( tmah13, rweight );
+      endif;		
+    endif;
+  enddo;
+

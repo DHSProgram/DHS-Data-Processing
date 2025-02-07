@@ -1,0 +1,20 @@
+[CSPro Application]
+Version=CSPro 3.3
+Label=CORRECT
+Name=CORRECT
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+[External Dictionaries]
+File=..\Dicts\testlog.dcf
+[AppCode]
+File=.\correct.apc
+[Message]
+File=.\correct.mgf
+[Help]
+File=.\correct.qsf
+[Forms]
+File=.\correct.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\plate.dcf,Input,.\correct.fmf
+Dict-Type=..\Dicts\testlog.dcf,External

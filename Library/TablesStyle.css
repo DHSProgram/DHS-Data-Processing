@@ -1,0 +1,59 @@
+/* spacing */
+
+table {
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 3px solid blue;
+}
+
+
+th, td {
+  padding: 5px;
+}
+
+/* typography */
+
+html {
+  font-family: arial, sans-serif, helvetica;
+}
+
+th {
+  letter-spacing: 2px;
+}
+
+td {
+  letter-spacing: 1px;
+}
+
+tbody td {
+  text-align: center;
+}
+
+tfoot th {
+  text-align: right;
+}
+
+thead th, tfoot th, tfoot td {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.5));
+  border: 3px solid blue;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #34ebe8;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #34dceb;
+}
+
+table {
+  background-color: #34ebe8;
+}
+caption {
+  padding: 10px;
+  font-style: arial;
+  font-size 20px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 1px;
+}

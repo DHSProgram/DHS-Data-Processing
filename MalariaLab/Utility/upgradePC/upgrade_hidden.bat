@@ -1,0 +1,1 @@
+upgradepc.exe bluetooth filemask=updt hidden nomessage

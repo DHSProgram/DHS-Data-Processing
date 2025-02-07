@@ -1,0 +1,79 @@
+﻿[FormFile]
+Version=CSPro 7.5
+Name=ENTER_FF
+Label=Enter
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+FieldEntryFont=-043 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+Type=SystemControlled
+  
+[Dictionaries]
+File=..\Dicts\MalMenu.dcf
+  
+[Form]
+Name=FORM000
+Label=Entry menu form
+Level=1
+Size=792,456
+  
+Item=ECLUSTER
+Item=ID
+  
+  
+[Text]
+Name=TEXT000
+Position=341,39,782,71
+Text=Demographic and Health Surveys
+Form=1
+Font=-027 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+  
+[Text]
+Name=TEXT001
+Position=434,389,611,416
+Text=Plate ID Number
+Form=1
+Font=-023 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+  
+[Text]
+Name=TEXT005
+Position=399,84,673,116
+Text=Administration Menu
+Form=1
+Font=-027 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+[EndForm]
+  
+[Level]
+Name=ENTER_LEVEL
+Label=Entry menu level
+  
+[Group]
+Required=Yes
+Name=ENTER_FORM
+Label=Entry menu form
+Form=1
+LogicControl=No
+Max=1
+  
+[Field]
+Name=ECLUSTER
+Position=657,378,739,431
+Item=ECLUSTER,ENTER_DICT
+ValidationMethod=Confirm
+UpperCase=Yes
+Form=1
+  
+  
+[Field]
+Name=ID
+Position=46,4,74,57
+Item=ID,ENTER_DICT
+Form=1
+  
+[Text]
+Position=25,19,38,35
+Text=ID
+ 
+[EndGroup]
+  

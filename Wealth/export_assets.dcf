@@ -1,0 +1,106 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=export_assets - Working Storage Dictionary
+Name=WS_DICT
+RecordTypeStart=1
+RecordTypeLen=1
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=60DEDF42E534942B8F664C83023E53A4BC5C955E888B4943713B141063A4C8CD
+
+[Level]
+Label=Working Storage Level
+Name=WS_LEVEL
+
+[IdItems]
+
+[Item]
+Label=Dummy Id
+Name=DUMMY_ID
+Start=2
+Len=1
+
+[Record]
+Label=Working Storage Record
+Name=WS_REC
+RecordTypeValue='1'
+RecordLen=13
+
+[Item]
+Label=Total members
+Name=HHMEMBERS
+Start=3
+Len=2
+
+[Item]
+Label=De jure members
+Name=HHUSUAL
+Start=5
+Len=2
+
+[Item]
+Label=De facto members
+Name=HHSLEPT
+Start=7
+Len=2
+
+[Item]
+Label=Domestic staff
+Name=DOMESTIC
+Start=9
+Len=1
+
+[ValueSet]
+Label=Domestic staff
+Name=DOMESTIC_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Owns a house
+Name=HOUSE
+Start=10
+Len=1
+
+[ValueSet]
+Label=Owns a house
+Name=HOUSE_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Owns land
+Name=LAND
+Start=11
+Len=1
+
+[ValueSet]
+Label=Owns land
+Name=LAND_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Owns a mobile phone
+Name=MOBPHONE
+Start=12
+Len=1
+
+[ValueSet]
+Label=Owns a mobile phone
+Name=MOBPHONE_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Posession of a bank account
+Name=CHECKACC
+Start=13
+Len=1
+
+[ValueSet]
+Label=Posession of a bank account
+Name=CHECKACC_VS1
+Value=0;No
+Value=1;Yes

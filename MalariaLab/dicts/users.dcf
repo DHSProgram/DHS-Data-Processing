@@ -1,0 +1,69 @@
+﻿[Dictionary]
+Version=CSPro 7.4
+Label=users
+Name=USERS_DICT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=083368F53AE2E9847DD9A41038DA78FB8AAF1F5B57982C4E306E64820D1E9D1E
+
+[Level]
+Label=users questionnaire
+Name=USERS_QUEST
+
+[IdItems]
+
+[Item]
+Label=User id
+Name=UOPID
+Start=1
+Len=2
+ZeroFill=Yes
+
+[Record]
+Label=users record
+Name=USERS_REC
+RecordTypeValue=''
+RecordLen=49
+
+[Item]
+Label=User first name
+Name=UNAME1
+Start=3
+Len=15
+DataType=Alpha
+
+[Item]
+Label=User last name
+Name=UNAME2
+Start=18
+Len=15
+DataType=Alpha
+
+[Item]
+Label=User rights
+Name=URIGHTS
+Start=33
+Len=1
+
+[ValueSet]
+Label=User rights
+Name=URIGHTS_VS1
+Value=0;User
+Value=1;Administrator
+
+[Item]
+Label=Password
+Name=UPASS
+Start=34
+Len=8
+DataType=Alpha
+
+[Item]
+Label=Password (check)
+Name=UPCHECK
+Start=42
+Len=8
+DataType=Alpha

@@ -1,0 +1,24 @@
+﻿[CSPro Application]
+Version=CSPro 7.5
+Label=FixResult
+Name=FixResult
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+CAPIFont1=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont2=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont1Color=0
+CAPIFont2Color=16711680
+[AppCode]
+File=.\FixResult.apc
+[Message]
+File=.\FixResult.mgf
+[Help]
+File=.\FixResult.qsf
+[Forms]
+File=.\Cnull.fmf
+File=.\HHForInt.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\Cnull.dcf,Input,.\Cnull.fmf
+Dict-Type=..\Dicts\HHForInt.dcf,External,.\HHForInt.fmf

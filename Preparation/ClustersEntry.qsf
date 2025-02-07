@@ -1,0 +1,150 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.5
+
+[LANGUAGES]
+EN=English
+ES=Español
+
+[QUESTION]
+Field=CLUSTERS.YCITY
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the CITY code
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el codigo de la CIUDAD
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YCITYN
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter the City textual name
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el nombre textual de la Ciudad
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YCLUSTER
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter CLUSTER number
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el numero del SEGMENTO
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YDISTRICT
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter DISTRICT code
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el codigo del DISTRITO
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YDISTRICTN
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter District textual name
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el nombre textual del Distrito
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YENUMER
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter ENUMERATION AREA code
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el codigo del AREA DE ENUMERACION
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YENUMERN
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter Enumeration Area textual name
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el nombre textual del Area de Enumeracion
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YREGION
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter code for REGION
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el codigo de la REGION
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YREGIONN
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter Region textual name
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el nombre textual de la Region
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YSTATE
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter STATE code
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el codigo de el ESTADO
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YSTATEN
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter State textual name
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el nombre textual de el Estado
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YTOTHH
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter number of households selected in the cluster
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el numero de hogares seleccionados en el Segmento
+ES=\par }
+
+[QUESTION]
+Field=CLUSTERS.YURBRUR
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Enter if cluster is in urban or rural location
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Ingrese el tipo de localizacion del segmento: urbano/rural
+ES=\par }
+

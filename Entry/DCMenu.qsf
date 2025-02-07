@@ -1,0 +1,178 @@
+﻿---
+fileType: Question Text
+version: CSPro 7.7
+languages:
+  - name: EN
+    label: English
+  - name: ES
+    label: Spanish
+styles:
+  - name: Normal
+    className: normal
+    css: |
+      font-family: Arial;font-size: 16px;
+  - name: Instruction
+    className: instruction
+    css: |
+      font-family: Arial;font-size: 14px;color: #0000FF;
+  - name: Heading 1
+    className: heading1
+    css: |
+      font-family: Arial;font-size: 36px;
+  - name: Heading 2
+    className: heading2
+    css: |
+      font-family: Arial;font-size: 21px;
+  - name: Heading 3
+    className: heading3
+    css: |
+      font-family: Arial;font-size: 18px;
+questions:
+  - name: MENU_DICT.WINTRO
+    conditions:
+      - questionText:
+          EN: |
+            <p style="text-align:center;"><span style="font-size: 21px; color: rgb(255, 0, 255); font-family: Arial, sans-serif;">Welcome to the&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p style="text-align:center;"><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Demographic &amp; Health Survey&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p style="text-align:center;"><span style="font-size: 21px; color: rgb(255, 0, 255); font-family: Arial, sans-serif;">Interviewer's Menu&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p style="text-align:center;"><span style="font-size: 21px; color: rgb(0, 0, 0); font-family: Arial, sans-serif;">Press the Enter key to continue&nbsp;</span></p>
+            
+          ES: |
+            <p style="text-align:center;"><span style="font-size: 21px; color: rgb(255, 0, 255); font-family: Arial, sans-serif;">Bienvenido a la&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p style="text-align:center;"><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Encuesta de Demografia y Salud&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p style="text-align:center;"><span style="font-size: 21px; color: rgb(255, 0, 255); font-family: Arial, sans-serif;">Menu para Entrevistadoras&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p style="text-align:center;"><span style="font-size: 21px; color: rgb(0, 0, 0); font-family: Arial, sans-serif;">Presione la tecla Enter para continuar&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p><span style="font-size: 21px;">&nbsp;</span></p>
+            
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: MENU_DICT.WSUPER
+    conditions:
+      - questionText:
+          EN: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Select the name of the supervisor you are assigned to.&nbsp;</span></p>
+            
+          ES: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Seleccione el nombre del supervisor al cual ha sido assignada.&nbsp;</span></p>
+            <p>&nbsp;</p>
+            
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: MENU_DICT.WINTNUM
+    conditions:
+      - questionText:
+          EN: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Select your name from the list displayed in the window.&nbsp;</span></p>
+            
+          ES: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Seleccione su nombre de la lista desplegada en la pantalla.&nbsp;</span></p>
+            <p>&nbsp;</p>
+            
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: MENU_DICT.WCLUSTER
+    conditions:
+      - questionText:
+          EN: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Enter the cluster number on which you wish to work&nbsp;</span></p>
+            
+          ES: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Ingrese el numero del segmento en el cual va a trabajar&nbsp;</span></p>
+            <p>&nbsp;</p>
+            
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: MENU_DICT.WFINAL
+    conditions:
+      - questionText:
+          EN: |
+            <p style="text-align:center;"><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">MENU FOR INTERVIEWER ~~WINTNUM~~-~~IntName~~&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p style="text-align:center;"><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Cluster: ~~WCLUSTER~~, Supervisor ~~WSUPER~~-~~SupName~~&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p style="text-align:center;"><span style="font-size: 21px; color: rgb(255, 0, 255); font-family: Arial, sans-serif;">Press the Enter key and Select an option from the menu to be displayed&nbsp;</span></p>
+            
+          ES: |
+            <p style="text-align:center;"><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">MENU PARA LA ENTREVISTADORA ~~WINTNUM~~-~~IntName~~&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p style="text-align:center;"><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Segmento: ~~WCLUSTER~~, Supervisora: ~~WSUPER~~-~~SupName~~&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p style="text-align:center;"><span style="font-size: 21px; color: rgb(255, 0, 255); font-family: Arial, sans-serif;">Presione la tecla Enter y luego una opcion del menu que se desplegara&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p><span style="font-size: 21px;">&nbsp;</span></p>
+            
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: MENU_DICT.WCORRECT
+    conditions:
+      - questionText:
+          EN: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Is this household "~~WADDRESS~~" the correct household?&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">If no or not sure, select option 2 and return to the mainmenu&nbsp;</span></p>
+            
+          ES: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Es el hogar que se encuentra localizado en la direccion "~~WADDRESS~~" el correcto?&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Si no o no esta segura, seleccione la opcion 2 y regresara al menu principal&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p>&nbsp;</p>
+            
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: MENU_DICT.WFINAL2
+    conditions:
+      - questionText:
+          EN: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">INDIVIDUAL MENU&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p><span style="font-size:14px;color:#0000ff;font-family:'Arial', sans-serif;"><span style="font-size: 21px;">Select an option from the menu for eligible women and men </span><span style="color: rgb(255, 0, 0); font-size: 21px;">(press the Enter key to display the menu)&nbsp;</span></span></p>
+            
+          ES: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">MENU INDIVIDUAL&nbsp;</span></p><span style="font-size: 21px;">
+            </span><p><span style="font-size:14px;color:#0000ff;font-family:'Arial', sans-serif;"><span style="font-size: 21px;">Seleccione una opcion del menu para mujeres y hombres elegibles </span><span style="color: rgb(255, 0, 0); font-size: 21px;">(presione la tecla Enter para desplegar el menu)&nbsp;</span></span></p><span style="font-size: 21px;">
+            </span><p>&nbsp;</p>
+            
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: MENU_DICT.WCORRECT2
+    conditions:
+      - questionText:
+          EN: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">Is "~~WNAME~~" the correct person?&nbsp;</span></p>
+            
+          ES: |
+            <p><span style="font-size: 21px; color: rgb(0, 0, 255); font-family: Arial, sans-serif;">"~~WNAME~~" es la persona correcta?&nbsp;</span></p>
+            <p>&nbsp;</p>
+            
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: MENU_DICT.WPREF
+    conditions:
+      - questionText:
+          EN: |
+            <p><span style="font-size:14px;color:#0000ff;font-family:'Arial', sans-serif;">Select the prefecture in which you are working&#160;</span></p>
+            
+          ES: |
+            
+        helpText:
+          EN: |
+            
+          ES: |
+            
+...

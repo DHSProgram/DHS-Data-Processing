@@ -1,0 +1,506 @@
+﻿PROC GLOBAL
+
+  numeric debug = 0;
+  file FREQCHECK;
+  alpha(120) results;
+  numeric statusid;
+
+  numeric    i, j, x;
+
+  { set value sets based on language }
+  function OnChangeLanguage()
+    SetLanguage( getlanguage() );
+    savesetting("Language", getlanguage());
+  end;
+
+  { setup basic user bar }
+  function userbase();
+    userbar(clear);
+    statusid = userbar( add text, results);
+  end;
+
+  { use assciiviewer to list a given text file }
+  function DispFile( string thisfile )
+    string TheCommand;
+    if FileExist( thisfile ) then
+      TheCommand = PathName( CSPro ) + "\TextView.exe " + thisfile;
+      ExecSystem( TheCommand, maximized, wait );
+    endif;
+  end;
+
+  function CheckExists (string fname);
+    // check adb filesa are in application folder
+    if !FileExist(PathName(Application)+ fname) then
+      errmsg(002, PathName(Application)+ fname);
+      stop(-1);
+    endif;
+  end;
+
+  { ** freq checking functions  }
+  // standard positions for freqs !!!
+  // these are positions for last digit in column for  freq, cumfreq, %, cum %
+  // used in isfreq function
+  list fpos = 6, 77, 92, 99, 106;
+
+  string alphastr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  string numstr   = "0123456789";
+  string specstr  = "?&-";
+  string flagstr  = " *";
+  numeric valmax   = 80; {was 31, what is this exactly?} 
+
+  function isfreq(string str,freqnum);
+    set trace(on);
+    numeric maxfreq  = 98; { max # of freqs to store }
+      
+    { examines string to see if it is valid freq : }
+    trace("%s",str);
+    trace("freqnum=%d, maxfreq=%d", freqnum, maxfreq);
+    trace("%s", str[fpos(1):1]);
+    trace("%s", str[fpos(2):1]);
+    trace("%s", str[fpos(3):1]);
+    trace("%s", str[fpos(4):1]);
+    trace("%s", str[fpos(5):1]);
+
+    if (str[fpos(1):7] = "Missing" | str[fpos(1):7] = "Notappl" |
+        str[fpos(1):7] = "Default" | str[fpos(1):7] = "TOTAL  " ) | 
+       (freqnum <= maxfreq & 
+	    pos(str[fpos(2):1], numstr) > 0 & 
+	    pos(str[fpos(3):1], numstr) > 0 &  
+        pos(str[fpos(4):1], numstr) > 0 & 
+		pos(str[fpos(5):1], numstr) > 0 ) then
+      isfreq = 1;
+    else
+      isfreq = 0;
+    endif;
+  end;
+
+  function savefreq();
+    string tmpid;
+  { saves freq record to AFREQ/VFREQ files when reading in freq .LST file }
+    { set type of variable - alpha/numeric }
+    if poschar(VVAL(1), alphastr) then 
+      VTYPE = 1
+    else
+      VTYPE = 0
+    endif;
+
+    { check var name not already read in - if so, add _x suffix to uniquely id }
+    x = 1;
+    tmpid = VID;
+    while find (VFREQ_DICT,=, tmpid) do 
+      x=x+1;
+      tmpid = concat(strip(VID), "_", strip(edit("Z",int(x/10))),strip(edit("9",x%10)));
+    enddo;
+    if x > 1 then
+      // errmsg("new var name %s generated, x=%d, original =%s", tmpid,x,vID);
+    endif;
+    VID = tmpid;
+    writecase(VFREQ_DICT{, VID}); { write last case }
+  end;
+
+  function readfreqs(string fname, string fname2);
+    string catstr = strip(concat(alphastr,numstr,specstr,"."));
+    set trace(on);
+    file FREQFILE;
+    alpha (255) wline;                { alpha var for FileRead}
+    
+    close(FREQFILE);
+    close(VFREQ_DICT);
+    SetFile( FREQFILE, fname, update );
+    SetFile( VFREQ_DICT, fname2, create );
+
+    errmsg("Reading %s into %s", fname, fname2);
+
+    numeric endfile = 0;
+    numeric linecount = 0;
+    numeric isitem = -3;
+    numeric itemfound = 0;
+	numeric string_start, slength;
+	
+    { also using cmdline as a string var to read the file into }
+    clear(VFREQ_DICT);
+    while endfile <> 2 {& linecount < 10000} do
+      x = FileRead( FREQFILE,  wline);
+      if x < 1 then 
+        endfile = 2;
+        { write previous case }
+      else
+        linecount = linecount+1;
+        if wline[1:4] = "Item" then 
+          { write previous case }
+          savefreq();
+          clear(VFREQ_DICT);
+          isitem = -3;
+          itemfound = 1;
+          { extract variable name }
+          string_start = 6;
+          slength = pos(":", wline)-string_start;
+          VID = strip(wline[string_start:slength]);
+          { extract variable label}
+          string_start = string_start+slength+2;
+          slength = 80;
+          VVLABEL = wline[string_start:slength];
+          VCHECK = 7;
+          // write("i=%d %s %s : wline", isitem, VID,VVLABEL);
+        elseif itemfound & isitem < 0 then
+          isitem = isitem +1 ;
+        elseif itemfound & isitem >= 0 then
+          { if 1st block of chars is number then = frequency, ignore anything else }
+          trace("line=%d", linecount);
+          if isfreq(wline,isitem) then
+            // write("freq count = %d : %s",isitem,wline);
+            isitem = isitem +1 ;
+            VVAL(isitem) = "";
+            VLABEL(isitem) = "";
+            do i = 1 until i > valmax 
+            { find 1st block of chars = category code }
+  {            write("char %d [%1s]", i,wline[i:1]); }
+              if pos(wline[i:1],strip(catstr)) > 0 then  { found valid char }
+                j = i+1;
+                slength = 1;
+  {               write("found non ws char =%1s, i=%d, j= %d", wline[i:1], i,j);}
+                while pos(wline[j:1], strip(catstr)) & j <= valmax do 
+                  {write("found non ws char =%1s, i= %d, j=%d", wline[j:1], j);}
+                  slength=slength+1;
+                  j=j+1;
+                enddo;
+  {              write("block [%s] identified, pos %d length %d,i=%d", wline[i-1:slength+1],j,slength,i );}
+                if !length(strip(VVAL(isitem))) then
+                  VVAL(isitem) = wline[i-1:slength+1]; 
+                  string_start = i+slength+1;
+                  slength=valmax-string_start;
+                  VLABEL(isitem) = wline[string_start:slength];
+                  VFREQ(isitem)  = tonumber(wline[fpos(2)-13:14]);
+                  VCUMF(isitem)  = tonumber(wline[fpos(3)-13:14]);
+                  VMATCH(isitem) = 0;
+                  {write ("%s : %s : %d", vval(isitem), vlabel(isitem), vfreq(isitem));}
+                  break;
+                endif;
+                i = j;
+              endif;
+            enddo;
+          endif; { found freq line }
+        endif; { found item or not }
+      endif; { not eof }
+    enddo; { reading file }
+    savefreq();
+    close(VFREQ_DICT);
+    close(FREQFILE);
+    errmsg("Frequencies in %s read", fname)
+  end;
+  
+  function nl();
+    FileWrite(FREQCHECK,"");
+  end;
+
+  function line ();
+    FileWrite(FREQCHECK,"______________________________________________________________________________________________________________________________________________________");
+  end;
+  
+  function writefreqs();
+    // nl();
+    // line();
+    // nl();
+    // nl();
+	if AID = "" & RVAR1 <> "" then
+      FileWrite(FREQCHECK, "%-70s %-70s", VID, RVAR1);
+	else
+      FileWrite(FREQCHECK, "%-70s %-70s", VID, AID);
+	endif;
+    FileWrite(FREQCHECK, "%-70s %-70s", VVLABEL[1:70], AVLABEL[1:70]);
+
+    numeric aocc = noccurs(AFREQS);
+    numeric vocc = noccurs(VFREQS);
+    numeric tocc = high(aocc, vocc);
+    // if aocc > vocc then 
+    //   tocc = aocc
+    // else
+    //   tocc = vocc
+    // endif;
+
+	if length(strip(VID)) then
+	  if length(strip(AID)) then
+        FileWrite(FREQCHECK, "%69s  %-25s", "Categories  Frequency", "Frequency  Categories");
+	  else
+        FileWrite(FREQCHECK, "%69s", "Categories  Frequency");
+	  endif;
+	else
+      FileWrite(FREQCHECK, "%69s  %-25s", "", "Frequency  Categories");
+	endif;
+    // line();
+    write("%80s", getlabel(VCHECK,VCHECK));
+    write("%80s", getlabel(VBADVAL,VBADVAL));
+    // line();
+    if VTYPE <> 1 then  { numeric var, write out 'as is'}
+	  if length(strip(AID)) then
+        do i = 1 until i > tocc
+          FileWrite(FREQCHECK, "%50s%8s%1s%10d%10d%3s%13s%50s", VLABEL(i),VVAL(i), flagstr[(VMATCH(i) = 0)+1:1],VFREQ(i),AFREQ(i), flagstr[(AMATCH(i) = 0)+1:1],AVAL(i), ALABEL(i));
+        enddo;
+	  else // No raw variable
+        do i = 1 until i > tocc
+          FileWrite(FREQCHECK, "%50s%8s%1s%10d", VLABEL(i),VVAL(i), flagstr[(VMATCH(i) = 0)+1:1],VFREQ(i));
+        enddo;
+	  endif;
+    else  { alpha vars - write out matched pairs, then non matched ones }
+      // FileWrite(FREQCHECK, "%-80s", "Matching pairs");
+      // line();
+      do i = 1 until i > tocc
+        if VMATCH(i) then
+          FileWrite(FREQCHECK, "%50s%8s%1s%10d%10d%3s%13s%50s", VLABEL(i),VVAL(i), flagstr[(VMATCH(i) = 0)+1:1],VFREQ(i),AFREQ(VMATCH(i)), " ",AVAL(VMATCH(i)), ALABEL(VMATCH(i)));
+        endif;
+      enddo;
+      // line();
+      // FileWrite(FREQCHECK, "%-80s", "Not matched ");
+      // line();
+      do i = 1 until i > vocc
+        if !VMATCH(i) then
+		  if "NA -" in VVLABEL[1:4],VLABEL(i)[1:4] then VMATCH(i) = 1 endif; // to suppress asterisk when the recode variable is NA
+          FileWrite(FREQCHECK, "%50s%8s%1s%10d", VLABEL(i),VVAL(i), flagstr[(VMATCH(i) = 0)+1:1],VFREQ(i));
+        endif;
+      enddo;
+      do i = 1 until i > aocc
+        if !AMATCH(i) then
+          FileWrite(FREQCHECK, "%69s%10d%3s%13s%50s", "",AFREQ(i), flagstr[(AMATCH(i) = 0)+1:1],AVAL(i), ALABEL(i));
+        endif;
+      enddo;
+    endif;
+  end;
+
+  function comparefreqs ();
+    numeric k;
+    { ignore comments }
+    if VAR1[1:1] = "{" then exit; endif;
+
+    { read through variable listing and print out matching freqs }
+    clear(VFREQ_DICT); 
+    clear(AFREQ_DICT); 
+
+    VID = strip(VAR1);
+    AID = strip(RVAR1);
+	if RVAR1 = "#N/A" then AID = "" endif;
+
+    { read in freq data }
+    numeric vload = (length(strip(VID)) & loadcase(VFREQ_DICT, VID));
+    numeric aload = (length(strip(AID)) & loadcase(AFREQ_DICT, AID));
+
+    {check for alpha var }
+    {these are identified in the variable map listing with an @ sign}
+    x = pos("@",VAR1);
+    if x & aload then { definition for multiple response var found in input file }
+      { construct single variable from recode vars to match against alpha in raw }
+      { use clean record in AFREQ dict to build record to be saved in VFREQ file }
+      clear(AFREQ_DICT);
+      AID = strip(VAR1);
+      { start pulling records from VFREQ to build freq table }
+      j = 0;
+      do i = 1 until i > 26
+        VID = concat(strip(AID[1:x-1]),alphastr[i:1]);
+        if loadcase(VFREQ_DICT, VID) then 
+          j=j+1;
+          AVAL(j) = concat(" :", VID);
+          ALABEL(j) = VVLABEL;
+          AMATCH(j) = 0;
+          { find 'yes' freq }
+          do k = 1 until k > noccurs(VFREQS)
+            if tonumber(VVAL(k)) = 1 then 
+              break;
+            endif;
+          enddo;
+          AFREQ(j) = VFREQ(k); { 2nd occurrence should always = yes value }
+          VCHECK = 6;
+          writecase(VFREQ_DICT{, VID}); { save case with modified flag }
+        endif;
+      enddo;
+      { add missing, notappl etc using last loaded record from VFREQS}
+      do k = 1 until k > noccurs(VFREQS)
+        if !tonumber(VVAL(k)) in 0,1 then 
+          j=j+1;
+          AVAL(j) = VVAL(k);
+          ALABEL(j) = VLABEL(k);
+          AMATCH(j) = 0;
+          AFREQ(j) = VFREQ(k); { 2nd occurrence should always = yes value }
+        endif;
+      enddo;
+      clear(VFREQ_DICT);
+      VID = AID;
+      do j = 1 until j > noccurs(AFREQS)
+        VVAL(j) = AVAL(j); 
+        VLABEL(j) = ALABEL(j); 
+        VFREQ(j) = AFREQ(j); 
+        VMATCH(j) = AMATCH(j); 
+      enddo;
+      VTYPE = 1;
+      writecase(VFREQ_DICT{, VID});
+      { re-read raw data record }
+      vload = 1;
+      clear(AFREQ_DICT);
+      AID = strip(RVAR1);
+      aload = loadcase(AFREQ_DICT, AID);
+    endif;
+    if !vload then
+      FileWrite (FREQCHECK, "[%12s] not found in recode", vid);
+    endif;
+    if !aload & length(strip(AID)) then
+      FileWrite (FREQCHECK, "[%12s] not found in raw", AID);
+    endif;
+    { check for matching categories } 
+    if vload & aload then { only if both records found }
+      { re-initialize matching }
+	  do j = 1 until j > noccurs(AFREQS)
+		AMATCH(j) = 0;
+	  enddo;
+      { check recode var }
+      do i = 1 until i > noccurs(VFREQS)
+		VMATCH(i) = 0; // re-initialize
+        if count(AFREQS where VFREQ(i) = AFREQ) then { found matching FREQ - don't care about category}
+          { find occurrence # for match }
+          if i <= noccurs(AFREQS) & VFREQ(i) = AFREQ(i) & !AMATCH(i) then { try same occurrence 1st to save searching }
+            VMATCH(i) = i;
+            AMATCH(i) = i;
+          else
+            do j = 1 until j > noccurs(AFREQS)
+              if VFREQ(i) = AFREQ(j) & !AMATCH(j) then
+                VMATCH(i) = j;
+                AMATCH(j) = i;
+                break;
+              endif;
+            enddo;
+          endif;  
+        endif; 
+      enddo;
+    endif;
+    { set flags }
+    VCHECK = 1; { no match }
+    if !aload then { matching variable not found }
+      VCHECK = 2;
+      if noccurs(VFREQS) <= 2 & VVAL(1) = " NotAppl" then  { no matching variable and empty freqs }
+        VCHECK = 3;
+      endif;
+    elseif VTYPE = 0 & count(VFREQS where VMATCH <> 0) = noccurs(VFREQS) &  
+                       count(AFREQS where AMATCH <> 0) = noccurs(AFREQS) then  
+      { numeric - all freqs match }
+      VCHECK = 0;
+    elseif VTYPE = 1 & count(AFREQS where AMATCH <> 0) = noccurs(AFREQS) then
+	  { alpha - all raw codes represented}
+      VCHECK = 0;
+    endif;
+    if count(VFREQS where pos("@", VVAL)) then
+      VBADVAL = 2
+    elseif count(VFREQS where pos("Default", VVAL)) then
+      VBADVAL = 1
+    else
+      VBADVAL = 0
+    endif;
+    ACHECK = VCHECK;
+    ABADVAL = VBADVAL;
+    if vload then
+      writecase(VFREQ_DICT{, VID});
+    endif;
+    if aload then
+      writecase(AFREQ_DICT{, AID});
+    endif;
+    { print out frequency listing for Recode variable and 1st (main) comparison variable from raw}
+    // if !VCHECK in {0,} 3 then 
+      writefreqs(); 
+	  // line();
+    // endif;
+
+    { print out listings for any additional raw variables }
+    clear(VFREQ_DICT); { blank out data for recode var }
+       
+    if noccurs(RVAR2) then
+      do j = 1 until j > noccurs(RVAR2)
+        clear(AFREQ_DICT); 
+        AID = strip(RVAR2(j));
+        { read in freq data }
+        aload = (length(strip(AID)) & loadcase(AFREQ_DICT, AID));
+        ACHECK = 4;
+        if aload then
+          writecase(AFREQ_DICT{, AID});
+        endif;
+        // if !ACHECK in {0,} 3 then 
+          writefreqs(); 
+        // endif;
+      enddo;
+    endif;
+	line();
+  end;
+
+string afreqdat;
+string vfreqdat;
+string varsdat; 
+string freqlst; 
+
+PROC FL_MENU
+PreProc
+  if debug then
+    // errmsg(  "WARNING: DEBUG MODE ENABLED!" );
+    // trace(on);
+    trace(on, ".\debug.app", clear);
+    set trace;
+  endif;
+
+  setfont( ValueSets, "Arial", 18, bold );
+
+  { set up minimal user bar }
+  setfont(UserBar, "Arial", 24, bold);
+  userbase();
+  userbar( show );
+  { set the language at the start of the program, defaulting to English }
+  setlanguage("EN");
+
+  afreqdat = filename(AFREQ_DICT); close(AFREQ_DICT);
+  vfreqdat = filename(VFREQ_DICT); close(VFREQ_DICT);
+  varsdat  = filename(VARS_DICT);  close(VARS_DICT);
+  freqlst  = filename(FREQCHECK);  close(FREQCHECK);
+
+PROC MENU_LEVEL
+PreProc
+
+  // set attributes( MENU_DICT ) assisted off ( variable(title) );
+
+PostProc
+  { PostProc of level 0 }
+  stop(1);
+
+PROC WFINAL
+onfocus
+  valueset string codes;
+  codes.clear();
+  if GetLanguage() = "EN" then
+    codes.add("FREQUENCY CHECKING MENU","0"); 
+    codes.add("Read raw frequencies","1"); 
+    codes.add("Read recode frequencies","2"); 
+    codes.add("Generate combined frequency listing","3"); 
+    // codes.add("Settings",4); 
+    codes.add("Exit","9"); 
+  endif;
+  setvalueset($, codes);
+
+postproc
+  string action = $;
+  if action = "9" then
+    stop(1)
+  elseif action = "1" then
+    readfreqs(sysparm("RawDataFreqs"),  afreqdat );
+  elseif action = "2" then
+    readfreqs(sysparm("RecodeDataFreqs"), vfreqdat );
+  elseif action = "3" then
+{ assign file names and open freq files for variable checking }
+    close(VFREQ_DICT);
+    close(AFREQ_DICT);
+    setfile(FREQCHECK, freqlst , create);
+    SetFile(VFREQ_DICT,vfreqdat, update);
+    SetFile(AFREQ_DICT,afreqdat, update);
+    Setfile(VARS_DICT, varsdat , update);
+	Set Access(VARS_DICT, OrderType.Sequential);
+    forcase VARS_DICT do
+      comparefreqs();
+    enddo;
+    FREQCHECK.close();
+    close( VFREQ_DICT );
+    close( AFREQ_DICT );
+    close( VARS_DICT );
+    view(FileName(FREQCHECK), title:="Frequency Listing");
+  endif;
+  reenter;

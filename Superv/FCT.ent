@@ -1,0 +1,31 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=Field check tables for use with SyncCloud
+Name=FCT
+AppType=DataEntry
+[External Dictionaries]
+File=..\Dicts\ccHH80.dcf
+File=..\Dicts\ccIN80.dcf
+File=..\Dicts\SCReport.dcf
+File=..\Dicts\Remeasure.dcf
+File=..\Dicts\ContSup.dcf
+File=..\Dicts\SampSel.dcf
+[AppCode]
+File=.\FCT.ent.apc
+Include=..\Library\SyncReportLib.apc
+Include=..\Library\DPCollect.apc
+Include=..\Library\Anthrop.apc
+[Message]
+File=.\FCT.ent.mgf
+[Help]
+File=.\FCT.ent.qsf
+[Forms]
+File=.\Cnull.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\Cnull.dcf,Input,.\Cnull.fmf
+Dict-Type=..\Dicts\ccHH80.dcf,External
+Dict-Type=..\Dicts\ccIN80.dcf,External
+Dict-Type=..\Dicts\SCReport.dcf,Working
+Dict-Type=..\Dicts\Remeasure.dcf,External
+Dict-Type=..\Dicts\ContSup.dcf,External
+Dict-Type=..\Dicts\SampSel.dcf,External

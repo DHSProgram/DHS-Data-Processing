@@ -1,0 +1,83 @@
+﻿[Dictionary]
+Version=CSPro 7.7
+Label=weights
+Name=WEIGHTS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=1E023B1F2D678021A249E49D34C4D1A743689AAE7984E17F54BA7BE979CC0C7A
+
+[Level]
+Label=weights questionnaire
+Name=WEIGHTS_QUEST
+
+[IdItems]
+
+[Item]
+Label=weights identification
+Name=WCLUSTER
+Start=1
+Len=4
+DataType=Numeric
+
+[Record]
+Label=weights record
+Name=WEIGHTS_REC
+RecordTypeValue=''
+RecordLen=123
+
+[Item]
+Label=Household weight
+Name=HHWEIGHT
+Start=5
+Len=9
+DataType=Numeric
+Decimal=6
+DecimalChar=Yes
+
+[Item]
+Label=Household weight for male sub-sample
+Name=HHMWEIGHT
+Start=14
+Len=11
+DataType=Numeric
+
+[Item]
+Label=Women's weight
+Name=WMWEIGHT
+Start=25
+Len=11
+DataType=Numeric
+
+[Item]
+Label=Men's weight
+Name=MLWEIGHT
+Start=36
+Len=11
+DataType=Numeric
+
+[Item]
+Label=HIV weight for women
+Name=HVWWEIGHT
+Start=47
+Len=11
+DataType=Numeric
+
+[Item]
+Label=HIV weight for men
+Name=HVMWEIGHT
+Start=58
+Len=11
+DataType=Numeric
+
+[Item]
+Label=Women's domestic violence weight
+Name=DVWEIGHT
+Start=69
+Len=11
+DataType=Numeric
+Occurrences=5
+Decimal=6
+DecimalChar=Yes

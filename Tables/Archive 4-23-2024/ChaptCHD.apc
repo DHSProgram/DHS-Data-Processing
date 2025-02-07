@@ -1,0 +1,231 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines November 1, 2022       -      Version 1.0.0 of 01/30/2023   +}
+{+                                                                          +}
+{+   CHAPTER CHD.  CHILD DISCIPLINE                                         +}
+{+                                                                          +}
+{+   Table CHD.1   Child discipline                                         +}
+{+   Table CHD.2   Attitudes toward physical punishment                     +} 
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, j, jtot, jmax, itot, imax;
+  numeric agechild, mother, motheduc;
+  numeric rweight;
+  
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+    {+EN}
+    title( "Tables for child discipline module, Country Survey 2020" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+
+  crosstab float(1) tchd01 agechd+sex2+disachd+disamot+hv025w+hv024w+edumot+hv270w+total 
+                           typechd+numchd
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CHD.1 Child discipline"," ",
+           "Percentage of de jure children age 1-14 years by child disciplining methods experienced", 
+		   "during the last one month,",
+           "according to background characteristics, Country Survey 2020")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) tchd01u agechd+sex2+disachd+disamot+hv025w+hv024w+edumot+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CHD.1 Child discipline (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tchd02 agecare+sex2+disacare+hv025w+hv024w+educare+hv270w+total chpunish 
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table CHD.2 Attitudes toward physical punishment"," ",
+           "Percentage of respondents to the child discipline module who believe that", 
+		   "physical punishment is needed to bring up, raise, or educate a child properly,",
+           "according to background characteristics, Country Survey 2020")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+  crosstab float(0) tchd02u agecare+sex2+disacare+hv025w+hv024w+educare+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table CHD.2 Attitudes toward physical punishment (Number of unweighted cases)" )
+     stub( "Background characteristic" );
+	 
+  { to determine disability }
+  function Disability( lineno )
+    numeric z = 0;
+    if HDIS2(lineno) in 3:4 | HDIS4(lineno) in 3:4 | HDIS5(lineno) in 3:4 |    // for adults
+	   HDIS6(lineno) in 3:4 | HDIS7(lineno) in 3:4 | HDIS8(lineno) in 3:4 then
+      z = 1;
+    endif;
+    Disability = z;
+  end;  	
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table chd.1 processing }
+  jtot = tblcol( tchd01 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tchd01[*,j] = tchd01[*,j] * 100 / tchd01[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tchd01", tchd01, 0,    jtot-1, tchd01u, 0 );
+  { write out SDG indicators }
+  itot   = tblrow( tchd01 );
+  imax   = tblrow( tchd01, sex2 = 1 );                      
+  jtot   = tblcol( tchd01, typechd = 5 );                      
+  SDGIndicator( "16.2.1", tchd01(imax,jtot), tchd01(imax+1,jtot), tchd01(itot,jtot) );
+
+  { Table chd.2 processing }
+  jtot = tblcol( tchd02 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    tchd02[*,j] = tchd02[*,j] * 100 / tchd02[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "tchd02", tchd02, 0,    jtot-1, tchd02u, 0 );
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 | !soccurs(RECHCHD) then skip case; endif;
+  if !HV105(HCDI2) in 1:14 then skip case; endif;
+
+  motheduc = notappl;
+  
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = HCDWGT / 1000000;
+  endif;
+
+  hv024w  = HV024;
+  hv025w  = HV025;
+  hv270w  = HV270;
+
+  agechild = HV105(HCDI2);
+  recode agechild -> agechd;
+           1:2    -> 1;
+           3:4    -> 2;
+           5:9    -> 3;
+          10:14   -> 4;
+                  -> default;
+  endrecode;	
+
+  { !!! children disability }
+  {     This variable can be generated if the MICS module for children was used by the survey }
+  disachd = notappl;
+  
+  { mother's education and disability }
+  edumot  = motheduc;        // mother's education may have brought-up from individual questionnaire
+  disamot = notappl;
+  mother  = HV112(HCDI2);
+  if mother in 1:HV009 then
+    disamot = 2;  
+    if Disability(mother) then	
+	  disamot = 1;
+    endif;	  
+	if edumot = notappl then
+	  edumot = HV106(mother)
+    endif;
+  endif;  
+  if edumot = missing then edumot = 9 endif;  
+
+  { table chd.1 }
+  sex2    = HV104(HCDI2);   // child's sex
+  numchd  = 1;
+  typechd = notappl;  
+  xtab( tchd01, rweight );  
+  xtab( tchd01u );  
+  numchd  = notappl;
+  { only non-violent discipline }
+  if 1 in HCDI3A, HCDI3B, HCDI3E & 
+     !( 1 in HCDI3C, HCDI3D, HCDI3F, HCDI3G, HCDI3H, HCDI3I, HCDI3J, HCDI3K ) then
+    typechd = 1;  
+    xtab( tchd01, rweight );  
+  endif;	
+  { Psychological aggression }
+  if 1 in HCDI3D, HCDI3H then
+    typechd = 2;  
+    xtab( tchd01, rweight );  
+  endif;	
+  { Any physical punishment }
+  if 1 in HCDI3C, HCDI3F, HCDI3G, HCDI3I, HCDI3J, HCDI3K then
+    typechd = 3;  
+    xtab( tchd01, rweight );  
+  endif;	
+  { Sever physical punishment }
+  if 1 in HCDI3I, HCDI3K then
+    typechd = 4;  
+    xtab( tchd01, rweight );  
+  endif;	
+  { any violent discipline method }
+  if 1 in HCDI3C, HCDI3D, HCDI3F, HCDI3G, HCDI3H, HCDI3I, HCDI3J, HCDI3K then
+    typechd = 5;  
+    xtab( tchd01, rweight );  
+  endif;	
+
+  { table chd.2 }
+  { respondent's age, education and disability }
+  agecare  = notappl;  
+  educare  = notappl;
+  disacare = notappl;
+  if HV003 in 1:HV009 then
+    sex2   = HV104(HV003);               // respondent's sex
+    recode HV105(HV003) -> agecare;	     // age
+              <25       -> 1; 	
+             25:34      -> 2;
+             35:49      -> 3;
+             50:95      -> 4;			 
+          98,missing    -> 8;
+                        -> default;
+    endrecode;					
+    educare = HV106(HV003);	              // education
+    if educare = missing then educare = 9 endif;  
+    disacare = 2;                         // disability
+    if Disability(HV003) then	
+	  disacare = 1;
+    endif;	  
+  endif;  
+  chpunish = 2;
+  xtab( tchd02, rweight );  
+  xtab( tchd02u );  
+  if HCDI4 = 1 then
+    chpunish = 1;  
+    xtab( tchd02, rweight );  
+  endif;	
+    
+PROC WOMAN
+preproc
+
+  { stores mother's education }
+  if count(B16 = HCDI2) then
+    motheduc = V106
+  endif;	

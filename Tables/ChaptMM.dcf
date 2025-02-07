@@ -1,0 +1,486 @@
+﻿[Dictionary]
+Version=CSPro 7.7
+Label=ChaptMM7
+Name=CHAPTMM7
+RecordTypeStart=2
+RecordTypeLen=2
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=CF7849DA7063022D031ACF4D3D8CDDF8747C4B9EF7A89DEB2E341799EB171FEA
+
+[Languages]
+EN=English
+FR=French
+
+[Level]
+Label=LEVEL1
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=Level1 Identification
+Name=LEVEL1ID
+Start=1
+Len=1
+DataType=Alpha
+
+[Record]
+Label=WORK
+Name=WORK
+RecordTypeValue='AA'
+RecordLen=46
+
+[Item]
+Label=.
+Name=ISEX
+Start=4
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ISEX_VS1
+Value=1;Female|Femme
+Value=2;Male|Homme
+
+[Item]
+Label=.
+Name=MORT
+Start=5
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=MORT_VS1
+Value=0;Deaths|Décès
+Value=1;Exposure years|Année d'exposition
+Value=2;Mortality rates{\super 1}|Taux de mortalité
+Value=3;Mortality rates adjusted
+
+[Item]
+Label=.
+Name=GAGE
+Start=6
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=GAGE_VS1
+Value=1;15-19
+Value=2;20-24
+Value=3;25-29
+Value=4;30-34
+Value=5;35-39
+Value=6;40-44
+Value=7;45-49
+
+[Item]
+Label=.
+Name=TOT1549
+Start=7
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOT1549_VS1
+Value=1;Total 15-49|Ensemble  15-49
+
+[Item]
+Label=.
+Name=GENERAL
+Start=8
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=GENERAL_VS1
+Value=1;General
+
+[Item]
+Label=.
+Name=ISEX1
+Start=9
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ISEX1_VS1
+Value=1;Women
+Value=2;Men
+
+[Item]
+Label=.
+Name=ROWTMM2
+Start=10
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ROWTMM2_VS1
+Value=1;[Current yyyy country] DHS|[Année pays Actuel] DHS
+Value=2;[Prior yyyy country] DHS|[Année pays précédent] DHS
+
+[Item]
+Label=.
+Name=COLTMM2
+Start=11
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=COLTMM2_VS1
+Value=1;{\sub 35}q{\sub 15}{\super 1}
+
+[Item]
+Label=.
+Name=COLTMM3
+Start=12
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=COLTMM3_VS1
+Value=1;Percentage of female deaths that are maternal|Pourcentage de décès de femmes qui sont maternels
+Value=2;Maternal deaths{\super 1}|Décès maternels
+Value=3;Exposure years|Années d’exposition
+Value=4;Maternal mortality rate{\super 2}|Taux de mortalité maternelle
+
+[Item]
+Label=.
+Name=ROWTMM4
+Start=13
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ROWTMM4_VS1
+Value=0;Total fertility rate (TFR)|Indice synthétique de fécondité (ISF)
+Value=1;General fertility rate (GFR){\super 1}|Taux global de fécondité générale (TGFG)
+Value=2;Maternal mortality ratio (MMR){\super 2}|Rapport de mortalité maternelle (RMM)
+Value=3;Lifetime risk of maternal death{\super 3}|Risque de mortalité maternelle sur la durée de vie
+
+[Item]
+Label=.
+Name=ESTIMATE
+Start=14
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ESTIMATE_VS1
+Value=0;\cf2 Estimate
+Value=1;\cf2 CI
+Value=2;.
+
+[Item]
+Label=.
+Name=ROWC8
+Start=15
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ROWC8_VS1
+Value=0;{\b All siblings}
+Value=1;..Living
+Value=2;..Dead
+Value=3;..Survival status unknown
+Value=4;{\b Living siblings}
+Value=5;..Age reported
+Value=6;..Age missing
+Value=7;{\b Dead siblings}
+Value=8;..AD and YSD reported
+Value=9;..Missing only AD
+Value=10;..Missing only YSD
+Value=11;..Missing AD and YSD
+
+[Item]
+Label=Sisters
+Name=COLC8A
+Start=17
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sisters
+Name=COLC8A_VS1
+Value=1;Number
+Value=2;Percent
+
+[Item]
+Label=Brothers
+Name=COLC8B
+Start=18
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Brothers
+Name=COLC8B_VS1
+Value=1;Number
+Value=2;Percent
+
+[Item]
+Label=All siblings
+Name=COLC8C
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=All siblings
+Name=COLC8C_VS1
+Value=1;Number
+Value=2;Percent
+
+[Item]
+Label=.
+Name=ROWMW
+Start=20
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ROWMW_VS1
+Value=0;Deaths that could not be classified as pregnancy-related or non-pregnancy-related
+Value=1;Deaths that could not be classified as maternal or non-maternal
+Value=2;Total number of sisters who died at ages 15-49
+
+[Item]
+Label=.
+Name=COLMW
+Start=22
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=COLMW_VS1
+Value=1;Percent
+
+[Item]
+Label=.
+Name=COLC9
+Start=23
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=COLC9_VS1
+Value=0;Mean sibship size{\super 1}|Taille moyenne de la fratrie{\super 1}
+Value=1;Sex ratio of siblings at birth{\super 2}|Rapport de masculinité à la naissance des frères et soeurs{\super 2}
+
+[Item]
+Label=.
+Name=COLC9W
+Start=24
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=COLC9W_VS1
+Value=0;Respondent
+Value=1;Siblings males
+Value=2;Siblings females
+
+[Item]
+Label=.
+Name=ROWTC10
+Start=25
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=ROWTC10_VS1
+Value=0;Total fertility rate (TFR)|Indice synthétique de fécondité (ISF)
+Value=1;General fertility rate (GFR){\super 3}|Taux global de fécondité générale (TGFG){\super 3}
+Value=2;Pregnancy-related mortality ratio (PRMR){\super 4}|Rapport de mortalité liée à la grossesse (RMG){\super 4}
+Value=3;Confidence interval|Intervalle de confiance
+Value=4;.
+Value=5;Lifetime risk of pregnancy-related death{\super 5}|Risque de décès maternel sur la durée de vie{\super 5}
+
+[Item]
+Label=Pregnancy-related mortality rates{\super 1,2}
+Name=COLTC10
+Start=26
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Pregnancy-related mortality rates{\super 1,2}
+Name=COLTC10_VS1
+Value=0;2009-2015
+Value=1;2004-2011
+Value=2;1999-2006
+
+[Item]
+Label=.
+Name=COLTC10W
+Start=27
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=COLTC10W_VS1
+Value=1;Percentage of female deaths that are pregnancy-related
+Value=2;Pregnancy-related deaths{\super 1}
+Value=3;Exposure years
+Value=4;Pregnancy-related mortality rate{\super 2}
+
+[Item]
+Label=.
+Name=V013W
+Start=28
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=V013W_VS1
+Value=1;15-19
+Value=2;20-24
+Value=3;25-29
+Value=4;30-34
+Value=5;35-39
+Value=6;40-44
+Value=7;45-49
+Value=8;General
+Value=9;Total|Total
+
+[Item]
+Label=.
+Name=TOTAL
+Start=29
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOTAL_VS1
+Value=0;Total|Ensemble
+
+[Item]
+Label=.
+Name=FERT
+Start=30
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=FERT_VS1
+Value=0;Births
+Value=1;Exposure
+Value=2;Fertility rates
+Value=3;Fert. Adj. by age
+
+[Item]
+Label=Periods
+Name=PERIODS
+Start=31
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Periods
+Name=PERIODS_VS1
+Value=0;0-6 years
+Value=1;7-13 years
+Value=2;0-13 years
+Value=3;0-9 years
+Value=4;0-4 years
+Value=5;5-9 years
+Value=6;10-14 years
+
+[Item]
+Label=.
+Name=TOTALP
+Start=33
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=TOTALP_VS1
+Value=0;Number
+Value=1;Percent
+
+[Item]
+Label=.
+Name=UNWEIGHT
+Start=34
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=UNWEIGHT_VS1
+Value=0;WEIGHTED
+Value=1;UNWEIGHTED
+
+[Item]
+Label=.
+Name=RUNDAY
+Start=35
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=RUNDAY_VS1
+Value=0;Day
+
+[Item]
+Label=.
+Name=RUNMONTH
+Start=37
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=RUNMONTH_VS1
+Value=0;Month
+
+[Item]
+Label=.
+Name=RUNYEAR
+Start=39
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=.
+Name=RUNYEAR_VS1
+Value=0;Year
+
+[Item]
+Label=Cluster number
+Name=CL
+Start=43
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Cluster number
+Name=CL_VS1
+Value=0;Total
+Value=1:4000

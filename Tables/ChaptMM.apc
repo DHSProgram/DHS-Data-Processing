@@ -1,0 +1,974 @@
+﻿PROC GLOBAL
+{+------------------------------------------------------------------------------------------------+}
+{+                                                                                                +}
+{+  Adult and Maternal Mortality Chapter      Version 1.2.0                 2/15/2022             +}
+{+                                                                                                +}
+{+  MM.1    Adult mortality rates                                                                 +}
+{+  MM.2    Adult mortality probabilities                                                         +}
+{+  MM.3    Maternal mortality rates                                                              +}
+{+  MM.4    Maternal mortality ratio                                                              +}
+{+  C.8     Completeness of information on siblings                                               +}
+{+  WORKING Completeness of Information for dead sisters                                          +}
+{+  C.17    Sibship size and sex ratio of siblings                                                +}
+{+  C.18    Pregnancy-related mortality trends                                                    +}
+{+                                                                                                +}
+{+  Note: Maternal mortality from prior rounds of DHS is now classified as pregnancy-related      +}
+{+  mortality, and for the purposes of trends table C.10 provides the data for pregnancy-related  +}
+{+  mortality                                                                                     +}
+{+                                                                                                +}
+{+  WORKING TABLES                                                                                +}
+{+                                                                                                +}
+{+  F1W     Fertility rates                                                                       +}
+{+  AMFW    Female adult mortality rates                                                          +}
+{+  AMMW    Male adult mortality rates                                                            +}
+{+  MMTW    Maternal Mortality Rates for various periods preceding the survey                     +}
+{+  PMTW    Pregnancy-related Mortality Rates for various periods preceding the survey            +}
+{+                                                                                                +}
+{+  Notes:  Working tables are not printed by default and they are tallied for seven different    +}
+{+          periods.  If analysts request to look at them, just delete the NOPRINT command in     +}
+{+          the PRM file.  Analysts may also want to publish a different period.  In this         +}
+{+          case just change the code for variable PIDX to the appropriate layer as defined in    +}
+{+          level 0 postproc.  Keep in mind that in this case the title needs to be adjusted      +}
+{+          to the corresponding period                                                           +}
+{+                                                                                                +}
+{+          Tables MM.1, MM.2, MM.3, MM.4, and C.10 are constructed from                          +}
+{+          working tables AMF, AMM, MMTW, PMTW, and F1W in level 0 postproc                      +}
+{+                                                                                                +}
+{+  Sampling errors for maternal mortality ratio.                                                 +}
+{+                                                                                                +}
+{+  This version also produces sampling errors for the maternal mortality ratio.  It requires the +}
+{+  following tables to construct the sampling errors.  The third dimension of each table are the +}
+{+  counts for each cluster. Layer 0 is used for the total sample.                                +}
+{+  The sampling errors are only produced for one time period, defined by PIDX (see above - by    +}
+{+  default 0-6 years preceding the survey).                                                      +}
+{+  MMTW1	Maternal mortality numerators and denominators for sampling errors                    +}
+{+  PMTW1	Pregnnacy-related mortality numerators and denominators for sampling errors           +}
+{+  F1W1    Fertility numerators and denominators for samplnig errors                             +}
+{+  AGEDIS1 Age distribution table for sampling errors                                            +}
+{+------------------------------------------------------------------------------------------------+}
+
+  numeric i, j, k, p, x, y, z, imax, itot, kmin, kmax, kextra;
+  numeric itot1, itot2, itot3, jtot, death, expo, tidx;
+  numeric emsample, awfactor;
+  numeric percntn, percntx, xyd, xad;
+  numeric rate, ratei, qx, probd, tfr, mmr, prmr;
+  numeric higcm, lowcm, higage, higexp, lowexp, rweight;
+  numeric xpreg, totexp, oldcm, newcm, rwt;
+
+  numeric xhat,var,se,summ;
+  array clx  (4000);        { Whether cluster number exists - increase dimension if more than 4000 clusters }
+  array gfrx (4000);        { GFR calculated for each replication - increase dimension if more than 4000 clusters }
+  array cl_array(4000);     { Marks an entry for each cluster eliminating the problem of having gaps in cluster numbers }
+  numeric ci1 = 2.0; { or 1.96 }		{ Whether to use +/-2 or +/-1.96 for calculating the confidence intervals }
+  numeric maxcl = 0;        { Maximum number of culsters }
+  numeric n = 0;            { Total number of clusters used in computation }
+
+  array upplim(20);      { months before survey for upper period limit }
+  array lowlim(20);      { months before survey for lower period limit }
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+    {+EN}
+    title( "Adult and Maternal Mortality Tables, [Country Survey Year]" );
+    {EN+}
+    {{ES}
+    title( "Cuadros para Mortalidad adulta y mortalidad materna (0-6 años), [País Encuesta Año]" );
+    {ES}}
+
+  crosstab float(3) tmm1  gage+tot1549, mort, isex4
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table MM.1  Adult mortality rates","",
+           "Direct estimates of female and male mortality rates for the seven",
+           "years preceding the survey, by five-year age groups, [Country Survey Year]" )
+    stub( "Age" );
+    {EN+}
+    {{ES}
+    title( "Cuadro MM.1  Tasas de mortalidad de adultos","",
+           "Estimaciones directas de las tasas de mortalidad femenina y masculina para",
+           "0-6 años anteriores a la encuesta, por grupos quinquenales de edad, [País Encuesta Año]" )
+    stub( "Edad" );
+    {ES}}
+	{{FR}
+	title( "Tableau MM.1 Taux de mortalité adulte","",
+           "Estimation directe des taux de mortalité des femmes et des hommes,",
+		   "par groupe d’âges quinquennal, pour la période de 7 ans précédant l’enquête, [Pays, Enquête, Année]" )
+    stub( "Âge" );
+	{FR}}
+
+  crosstab float(0) tmm2 yeardhs, isex4*probdie
+    exclude(rowzero,colzero,specval,totals,percents)
+    {+EN}
+    title( "Table MM.2  Adult mortality probabilities", "",
+           "The probability of dying between the ages of 15 and 50 for women and",
+           "men during the seven years preceding the survey, [Country]" )
+    stub( "Survey" );
+    {EN+}
+    {{ES}
+    title( "Cuadro MM.2  Probabilidades de mortalidad de adultos", "",
+           "La probabilidad de morir entre las edades de 15 y 50 para las mujeres y los",
+           "hombres para el período de 0-6 años antes de la encuesta, [País]" )
+    stub( "Encuesta" );
+    {ES}}
+	{{FR}
+	title( "Tableau MM.2 Quotient de mortalité adulte", "",
+           "Probabilité de décéder entre les âges 15-50 pour les femmes et pour les hommes",
+		   "pour la période de 7 ans précédant l’enquête [Pays]" )
+    stub( "Enquête" );
+	{FR}}
+
+  crosstab float(0) tmm3 gage+tot1549 deathex
+    exclude(rowzero,colzero,specval,totals,percents)
+    {+EN}
+    title( "Table MM.3  Maternal mortality","",
+	       "Direct estimates of maternal mortality rates for the seven years preceding the survey,",
+           "by five-year age groups, [Country Survey Year]" )
+    stub( "Age" );
+    {EN+}
+    {{ES}
+    title( "Cuadro MM.3  Mortalidad materna","",
+	       "Estimaciones directas de la mortalidad materna para el período de 0-6 años antes",
+	       "de la encuesta, por grupos quinquenales de edad, [País Encuesta Año]" )
+    stub( "Edad" );
+    {ES}}
+	{{FR}
+	title( "Tableau MM.3 Mortalité maternelle","",
+	       "Estimations directes des taux de mortalité maternelle par groupe d’âges",
+		   "quinquennal pour la période de 7 ans précédant l’enquête, [Pays, Enquête, Année]" )
+    stub( "Âge" );
+	{FR}}
+
+  crosstab float(0) tmm4 raterisk estimate
+    exclude(rowzero,colzero,specval,totals,percents)
+    {+EN}
+    title( "Table MM.4  Maternal mortality ratio","",
+	       "Total fertility rate, general fertility rate, maternal mortality ratio, and lifetime risk of maternal death ",
+	       "for the seven years preceding the survey, [Country Survey Year]" )
+    {EN+}
+    {{ES}
+    title( "Cuadro MM.4  Mortalidad Materna (Continuación)","",
+	       "Tasa global de fecundidad, tasa de fecundidad general, razon de mortalidad materna, y riesgo de muerte materna durante toda la vida,",
+           "[País Encuesta Año]" )
+    {ES}}
+    stub( "\cf2 Delete this row" );	  { Change the color of this row to highlight that it needs to be deleted from the RTF file }
+	{{FR}
+	    title( "Tableau MM.4  Rapport de mortalité maternelle","",
+	       "Indice synthétique de fécondité, taux global de fécondité générale,",
+		   "rapport de mortalité maternelle et risque de mortalité maternelle sur",
+		   "la durée de vie pour la période de 7 ans précédant l’enquête, [Pays, Enquête, Année]" )
+	{FR}}
+  crosstab float(1) tc8 statmiss numpcta+numpctb+numpctc
+    exclude(rowzero,colzero,specval,totals,percents)
+    {+EN}
+    title( "Table C.8  Completeness of information on siblings","",
+           "Completeness of data on survival status of sisters and brothers reported by interviewed women, ",
+           "age of living siblings and age at death (AD) and years since death (YSD) of dead siblings",
+           "(unweighted), [Country Survey Year]" );
+    {EN+}
+    {{ES}
+    title( "Cuadro C.8  Cobertura de la información sobre mortalidad de hermanos y hermanas","",
+           "Exhaustividad de los datos sobre el estado de supervivencia de hermanas y",
+           "hermanos reportados por las mujeres entrevistadas, edad de los hermanos vivos",
+           "y la edad al morir, y años desde la muerte de hermanos y hermanas (cifras no",
+           "ponderadas), [País Encuesta Año]" );
+    {ES}}
+
+  crosstab float(1) tmw deaths totalp1
+    exclude(rowzero,colzero,specval,totals,percents)
+    {+EN}
+    title( "Working table.  Completeness of information for dead sisters","",
+           "Percentage of sisters who died at ages 15-49 with information missing on",
+           "whether or not the death was pregnancy-related or maternal (unweighted), [Country Survey Year]" );
+    {EN+}
+    {{ES}
+    title( "Cuadro de trabajo.  Completeness of information for dead sisters","",
+           "Percentage of sisters who died at ages 15-49 with information missing on",
+           "whether or not the death was pregnancy-related or maternal (unweighted), [País Encuesta Año]" );
+    {ES}}
+
+  crosstab float(1) tc17 v013w3+total meansex
+    exclude(rowzero,colzero,specval,totals,percents)
+    {+EN}
+    title( "Table C.17  Sibship size and sex ratio of siblings","",
+           "Mean sibship size and sex ratio of siblings at birth, [Country Survey Year]" )
+     stub( "Age of respondents" );
+    {EN+}
+    {{ES}
+    title( "Cuadro C.17  Número medio de hermanos y la razón de sexos de los hermanos","",
+           "Número medio de hermanos y la proporción de sexos de los hermanos al nacer, [País Encuesta Año]" )
+     stub( "Edad de las entrevistadas" );
+     {ES}}
+	 {{FR}
+	  title( "Tableau C.17 Taille de la fratrie et rapport de masculinité des frères et sœurs","",
+             "Taille moyenne de la fratrie et rapport de masculinité à la naissance des frères et sœurs,",
+		     "[Pays, Enquête, Année] " )
+      stub(  "Âge des enquêtées" );
+	 {FR}}
+  crosstab float(0) tc17w v013w3+total respsex
+    exclude(rowzero,colzero,specval,totals,percents)
+    title( "Table C.17W  Sibship size and sex ratio of siblings (working table)","",
+           "[Country Survey Year]" )
+     stub( "Age of respondents" );
+
+  crosstab float(2) tc18 gage+tot1549+fertmm periodmm
+    exclude(rowzero,colzero,specval,totals,percents)
+    {+EN}
+    title( "Table C.18  Pregnancy-related mortality trends","",
+	       "Direct estimates of pregnancy-related mortality rates for the seven years preceding each survey,",
+           "by five-year age groups, Country" )
+    stub( "Age" );
+    {EN+}
+    {{ES}
+    title( "Cuadro C.18  Mortalidad relacionada con el embarazo","",
+	       "Estimaciones directas de la mortalidad relacionada con el embarazo para el período de 0-6 años antes",
+	       "de la encuesta, por grupos quinquenales de edad, País" )
+    stub( "Edad" );
+    {ES}}
+	{{FR}
+	 title( "Tableau C.18  Tendances du rapport de mortalité liée à la grossesse","",
+	        "Estimation directe des taux de mortalité liée à la grossesse par groupe d’âges quinquennal",
+			"pour la période de 7 ans précédant chaque enquête, [Pays, Enquête, Année] " )
+     stub( "Âge" );
+	{FR}}
+  crosstab float(0) tc18w gage+tot1549 pctexpmm
+    exclude(rowzero,colzero,specval,totals,percents)
+    {+EN}
+    title( "Table C.18W  Pregnancy-related mortality trends","",
+	       "Direct estimates of pregnancy-related mortality rates for the seven years preceding the survey,",
+           "by five-year age groups, [Country Survey Year]" )
+    stub( "Age" );
+    {EN+}
+    {{ES}
+    title( "Cuadro C.18W  Mortalidad relacionada con el embarazo","",
+	       "Estimaciones directas de la mortalidad relacionada con el embarazo para el período de 0-6 años antes",
+	       "de la encuesta, por grupos quinquenales de edad, [País Encuesta Año]" )
+    stub( "Edad" );
+    {ES}}
+	{{FR}
+	 title( "Tableau C.18W  Tendances du rapport de mortalité liée à la grossesse","",
+	        "Estimation directe des taux de mortalité liée à la grossesse par groupe d’âges quinquennal",
+			"pour la période de 7 ans précédant chaque enquête, [Pays, Enquête, Année] " )
+     stub( "Âge" );
+	{FR}}
+
+  { working tables }
+
+  crosstab float(3) agedis   gage+tot1549+general, totalp2
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Respondent's age distribution used to adjust fertility (f1w) ",
+           "and mortality tables (mmtw), [Country Survey Year]" );
+
+  crosstab float(3) f1w   gage+tot1549+general, fert, periods
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "F1W: Total Fertility","",
+           "Total fertility rate for different periods prior to the survey",
+           "by age, [Country Survey Year]" );
+
+  crosstab float(3) amfw  gage+tot1549, mort, periods
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "AMFW: Adult mortality rates for women","",
+           "Adult mortality rates for women for the different periods prior to the survey",
+           "by age, [Country Survey Year]" );
+
+  crosstab float(3) ammw  gage+tot1549, mort, periods
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "AMMW: Adult mortality rates for men","",
+           "Adult mortality rates for men for different periods prior to the survey",
+           "by age, [Country Survey Year]" );
+
+  crosstab float(3) mmtw   gage+tot1549+general, mort, periods
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "MMTW: Maternal Mortality Rates,","",
+           "Maternal mortality rates for different periods prior to the survey",
+           "by age, [Country Survey Year]" );
+
+  crosstab float(3) pmtw   gage+tot1549+general, mort, periods
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "PMTW: Pregnancy-related Mortality Rates,","",
+           "Pregnancy-related mortality rates for different periods prior to the survey",
+           "by age, [Country Survey Year]" );
+
+  { tables for sampling errors }
+
+  crosstab float(3) mmtw1  gage+tot1549+general, mort, cl
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "MMTW1: Maternal Mortality Rates,","",
+           "Maternal mortality rates for sampling errors",
+           "by age, [Country Survey Year]" )
+    noprint;
+
+  crosstab float(3) pmtw1  gage+tot1549+general, mort, cl
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "PMTW1: Pregnancy-related Mortality Rates,","",
+           "Pregnancy-related mortality rates for sampling errors",
+           "by age, [Country Survey Year]" )
+    noprint;
+
+  crosstab float(3) f1w1   gage+tot1549+general, fert, cl
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "F1W1: Total Fertility","",
+           "Total fertility rate for sampling errors",
+           "by age, [Country Survey Year]" )
+    noprint;
+
+  crosstab float(3) agedis1   gage+tot1549+general, totalp2, cl
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Respondent's age distribution used to adjust fertility (f1w1) ",
+           "and mortality tables (mmtw1 & pmtw1) for sampling errors, [Country Survey Year]" )
+    noprint;
+
+  { valid values for a two digits variable }
+  Function valid(xvar)
+    valid = (!special(xvar) & xvar <= 96)
+  end;
+
+  { valid values for a four digits year variable }
+  function validyr(xvar)
+    validyr = (!special(xvar) & xvar <= 9996)
+  end;
+
+  { find a slot in cl_array to know if a cluster was already read }
+  function findcl( psu )
+    do i = 1 while i <= maxcl
+      if cl_array(i) = psu then
+        break;
+      endif;
+    enddo;
+    if i > maxcl then
+      cl_array(i) = psu;
+    endif;
+    findcl = i;
+  end;
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  { initalize for different periods for adult and maternal mortality }
+  upplim(1) = 1;    {  0 *  12 + 1 }
+  lowlim(1) = 84;   {  6 *  12 +12 }
+  upplim(2) = 85;   {  7 *  12 + 1 }
+  lowlim(2) = 168;  { 13 *  12 +12 }
+  upplim(3) = 1;    {  0 *  12 + 1 }
+  lowlim(3) = 168;  { 13 *  12 +12 }
+  upplim(4) = 1;    {  0 *  12 + 1 }
+  lowlim(4) = 120;  {  9 *  12 +12 }
+  upplim(5) = 1;    {  0 *  12 + 1 }
+  lowlim(5) = 60;   {  4 *  12 +12 }
+  upplim(6) = 61;   {  5 *  12 + 1 }
+  lowlim(6) = 120;  {  9 *  12 +12 }
+  upplim(7) = 121;  { 10 *  12 + 1 }
+  lowlim(7) = 180;  { 14 *  12 +12 }
+  percntn   = 1;
+  percntx   = 7;    { number of analysis periods }
+
+  total     = 0;
+  estimate  = 0;
+  totalp2   = 0;
+
+  tidx      = 0;    { 0 -> 0-6   }
+                    { 1 -> 7-13  }
+                    { 2 -> 0-13  }
+                    { 3 -> 0-9   }
+                    { 4 -> 0-4   }
+                    { 5 -> 5-9   }
+                    { 6 -> 10-14 }
+
+  emsample = 0;	    { Ever married sample = 1, All woman sample	= 0 }
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { processing table AGEDIS }
+  { note that imax is used in the post-processing of all }
+  { remaining tables where adjustment by age is needed   }
+  imax = tblrow( agedis, gage );
+  itot = imax + 2;
+  agedis[itot,0] = tblsum( row agedis[0:imax,0] );
+  do i = 0 while i <= imax
+    agedis(i,1) = agedis(i,0) / agedis(itot,0);
+  enddo;
+  agedis[itot,1]   = tblsum( row agedis[0:imax,1] );
+  agedis[itot-1,*] = default;
+
+  { processing table F1W }
+  { age-specfic and general fertility rate }
+  f1w[*,1,*] = f1w[*,1,*]/12;
+  f1w[imax+1,*,*] = tblsum( row f1w[0:imax,*,*] );
+  f1w[*,2,*] = f1w[*,0,*]/f1w[*,1,*];
+  { adjustments to fertility rates }
+  {  7-13 adjustment }
+  f1w(imax,2,1)   = f1w(imax-1,2,1)/f1w(imax-1,2,0)*f1w(imax,2,0);
+  f1w(imax,2,5)   = f1w(imax,2,4);                            {  5- 9 adjustment }
+  f1w(imax-1,2,6) = f1w(imax-1,2,5);                          {  5- 9 adjustment }
+  f1w(imax,2,6)   = f1w(imax,2,4);                            { 10-14 adjustment }
+  { total fertility rate calculations }
+  f1w[itot,*,*] = default;
+  do k = 0 while k < percntx
+    f1w[itot,2,k] = tblsum( row f1w[0:imax,2,k] );
+  enddo;
+  f1w[itot,2,*] = 5*f1w[itot,2,*];
+  { adjustment by age distribution     }
+  do i = 0 while i <= imax
+    do k = 0 while k < percntx
+      f1w[i,3,k] = f1w[i,2,k] * agedis[i,1];
+    enddo;
+  enddo;
+  do k = 0 while k < percntx
+    f1w[imax+1,3,k] = tblsum( row f1w[0:imax,3,k] );
+  enddo;
+  f1w[itot,3,*]   = default;
+
+  { processing table mmtw & pmtw }
+  { Maternal mortality rate & pregnancy-related mortality rate }
+  mmtw[*,1,*]      = mmtw[*,1,*]/12;
+  pmtw[*,1,*]      = pmtw[*,1,*]/12;
+  mmtw[imax+1,*,*] = tblsum( row mmtw[0:imax,*,*] );
+  pmtw[imax+1,*,*] = tblsum( row pmtw[0:imax,*,*] );
+  mmtw[*,2,*]      = 1000*mmtw[*,0,*]/mmtw[*,1,*];
+  pmtw[*,2,*]      = 1000*pmtw[*,0,*]/pmtw[*,1,*];
+  mmtw[itot,*,*]   = default;
+  pmtw[itot,*,*]   = default;
+  { adjusting by respondent's age distribution }
+   do i = 0 while i <= imax
+     do k = 0 while k < percntx
+       mmtw(i,3,k) = mmtw(i,2,k) * agedis(i,1);
+       pmtw(i,3,k) = pmtw(i,2,k) * agedis(i,1);
+    enddo;
+  enddo;
+  do k = 0 while k < percntx
+    mmtw[imax+1,3,k] = tblsum( row mmtw[0:imax,3,k] );
+    pmtw[imax+1,3,k] = tblsum( row pmtw[0:imax,3,k] );
+  enddo;
+  mmtw[itot,3,*]   = 100 * mmtw[imax+1,3,*] / f1w[imax+1,3,*];
+  pmtw[itot,3,*]   = 100 * pmtw[imax+1,3,*] / f1w[imax+1,3,*];
+
+  { processing tables AMFW and AMMW }
+  { adult mortality for females and females }
+  amfw[*,1,*] = amfw[*,1,*]/12;
+  ammw[*,1,*] = ammw[*,1,*]/12;
+  amfw[imax+1,*,*] = tblsum( row amfw[0:imax,*,*] );
+  ammw[imax+1,*,*] = tblsum( row ammw[0:imax,*,*] );
+  amfw[*,2,*] = 1000 * amfw[*,0,*] / amfw[*,1,*];
+  ammw[*,2,*] = 1000 * ammw[*,0,*] / ammw[*,1,*];
+  { adjusting by respondent's age distribution }
+  do i = 0 while i <= imax
+    do k = 0 while k < percntx
+      amfw(i,3,k) = amfw(i,2,k) * agedis(i,1);
+      ammw(i,3,k) = ammw(i,2,k) * agedis(i,1);
+    enddo;
+  enddo;
+  do k = 0 while k < percntx
+    amfw[imax+1,3,k] = tblsum( row amfw[0:imax,3,k] );
+    ammw[imax+1,3,k] = tblsum( row ammw[0:imax,3,k] );
+  enddo;
+
+  { processing table MM.1 }
+  jtot = tblcol( tmm1 );
+  tmm1[*,*,0]           = amfw[*,*,tidx];
+  tmm1[*,*,1]           = ammw[*,*,tidx];
+  tmm1[imax+1,jtot-1,*] = tmm1[imax+1,jtot,*];	 	{ Copy adjusted 15-49 mortality rate to unadjusted column }
+  tmm1[*,jtot,*]        = default;               { to eliminate printing the adjusted mortality rates for each age group }
+
+  { construction of table MM.2 }
+  itot  = tblrow( amfw );
+  jtot  = tblcol( amfw );
+  death = tblcol( amfw, mort = 0 );
+  expo  = tblcol( amfw, mort = 1 );
+  rate  = tblcol( amfw, mort = 2 );
+  { female adult mortality }
+  { calculate probability of dying between exact ages 15 and 50 for women }
+  probd = 1;
+  do i = 0 while i < itot
+    ratei = amfw(i,rate,tidx) / 1000;
+    qx    = 1 - ( 5 * ratei / (1+2.4*ratei) );
+    probd = probd * qx;
+{   errmsg( "i=%d ratei=%8.6f qx=%8.6f probd=%8.6f", i, ratei, qx, probd ); }
+  enddo;
+  tmm2(0,0)  =  1000 * (1 - probd);                      { 35q15                           }
+  { male adult mortality }
+  { calculate probability of dying between exact ages 15 and 50 for men }
+  probd = 1;
+  do i = 0 while i < itot
+    ratei = ammw(i,rate,tidx) / 1000;
+    qx    = 1 - ( 5 * ratei / (1+2.4*ratei) );
+    probd = probd * qx;
+  enddo;
+  tmm2(0,1)  =  1000 * (1 - probd);                      { 35q15                           }
+
+  tmm2(1,0)  = 0.0000001;	{ To add zero row for prior survey to be filled in later }
+  tmm2(1,1)  = 0.0000001;
+
+  { processing table MM.3 }
+  itot = tblrow( tmm3 );
+  tmm3[0:itot,0]   = tmm1[0:itot,0,0];                        { number of female deaths }
+  tmm3[0:itot,1]   = mmtw[0:itot,0,tidx];                     { number of maternal deaths }
+  tmm3[0:itot,2]   = mmtw[0:itot,1,tidx];                     { exposure in years }
+  tmm3[0:itot-1,3] = mmtw[0:itot-1,2,tidx];                   { maternal mortality rates (unadjusted for the age groups) }
+  tmm3[itot,3]     = mmtw[itot,3,tidx];                       { maternal mortality rates (adjusted by age for the total) }
+  tmm3[0:itot,0]   = tmm3[0:itot,1]*100 / tmm3[0:itot,0];     { percentage of female deaths that are maternal }
+
+  { processing table MM.4 }
+  tmm4 = default;
+  tfr            = f1w(itot+1,2,tidx);
+  tmm4(0,0)      = tfr;                                       { total fertility rate (TFR) }
+  tmm4(1,0)      = f1w(itot,3,tidx) * 1000;                   { general fertility rate (GFR) }
+  mmr            = tmm3(itot,3) / tmm4(1,0);                  { maternal mortality ratio (MMR) }
+  tmm4(2,0)      = mmr * 100000;                              { per 100000 births }
+  tmm4(3,0)      = 1 - (1-mmr)^tfr;                           { lifetime risk of maternal death }
+  { write out SDG indicators }
+  SDGIndicator( "3.1.1", NACells, NACells, int(tmm4(2,0)+0.5) );
+
+  { processing table tc8 }
+  itot  = tblrow( tc8 );
+  itot1 = tblrow( tc8, statmiss = 0 );
+  itot2 = tblrow( tc8, statmiss = 4 );
+  itot3 = tblrow( tc8, statmiss = 7 );
+  tc8[itot1,*] = tblsum( row tc8[itot1+1:itot2-1,*] );
+  tc8[itot2,*] = tblsum( row tc8[itot2+1:itot3-1,*] );
+  tc8[itot3,*] = tblsum( row tc8[itot3+1:itot,*] );
+  { percentages }
+  do j = 1 while j <= 5 by 2
+    { % for all siblings }
+    do i = itot1 while i <= itot2-1
+      tc8(i,j) = 100 * tc8(i,j-1) / tc8(itot1,j-1);
+    enddo;
+    { % surviving siblings }
+    do i = itot2 while i <= itot3-1
+      tc8(i,j) = 100 * tc8(i,j-1) / tc8(itot2,j-1);
+    enddo;
+    { % deceased siblings }
+    do i = itot3 while i <= itot
+      tc8(i,j) = 100 * tc8(i,j-1) / tc8(itot3,j-1);
+    enddo;
+  enddo;
+
+  { processing table tmw }
+  itot  = tblrow( tmw );
+  do i = 0 while i < itot
+    tmw(i,0) = 100 * tmw(i,0) / tmw(itot,0);
+    if tmw(i,0) = 0 then tmw(i,0) = 0.000001 endif; { just to get the 0 to display }
+  enddo;
+
+  { processing table tc17 }
+  tc17[*,0] = (tc17w[*,0] + tc17w[*,1] + tc17w[*,2]) / tc17w[*,0];
+  tc17[*,1] = tc17w[*,1] / tc17w[*,2] * 100;
+
+  { processing table C.10 }
+  itot = tblrow( tc18w );
+  tc18w[0:itot,0]   = tmm1[0:itot,0,0];                        { number of female deaths }
+  tc18w[0:itot,1]   = pmtw[0:itot,0,tidx];                     { number of pregnancy-related deaths }
+  tc18w[0:itot,2]   = pmtw[0:itot,1,tidx];                     { exposure in years }
+  tc18w[0:itot-1,3] = pmtw[0:itot-1,2,tidx];                   { pregnancy-related mortality rates (unadjusted for the age groups) }
+  tc18w[itot,3]     = pmtw[itot,3,tidx];                       { pregnancy-related mortality rates (adjusted by age for the total) }
+  tc18w[0:itot,0]   = tc18w[0:itot,1]*100 / tc18w[0:itot,0];   { percentage of female deaths that are pregnancy-related }
+  tc18 [0:itot,0]   = tc18w[0:itot,3];                         { Copy data into final table }
+  { processing continuation of table }
+  tfr               = f1w(itot+1,2,tidx);
+  tc18(itot+1,0)    = tfr;                                     { total fertility rate (TFR) }
+  tc18(itot+2,0)    = f1w(itot,3,tidx) * 1000;                 { general fertility rate (GFR) }
+  prmr              = tc18(itot,0) / tc18(itot+2,0);           { pregnancy-related mortality ratio (PRMR) }
+  tc18(itot+3,0)    = prmr * 100000;                           { per 100000 births }
+  tc18(itot+6,0)    = 1 - (1-prmr)^tfr;                        { lifetime risk of pregnancy-related death }
+
+  { Output empty rows for trends - to be filled in manually }
+  tc18[*,1] = 0.000001;
+  tc18[*,2] = 0.000001;
+
+
+  { Calculate sampling errors }
+  { determine the number of clusters present in the women's data file }
+  n = 0;
+  do i = 1 while i <= maxcl
+    if clx(i) then inc(n) endif;
+  enddo;
+  imax = tblrow( agedis, gage );
+  itot = imax + 2;
+
+  { Calculate sampling errors - age distribution }
+  agedis1[*,*,0] = tblsum( layer agedis1[*,*,1:maxcl] );
+  agedis1[itot,0,*] = tblsum( row agedis1[0:imax,0,*] );
+  do k = 1 while k <= maxcl
+    do i = 0 while i <= imax
+      agedis1(i,1,k) = (agedis1(i,0,0) - agedis1(i,0,k)) / (agedis1(itot,0,0) - agedis1(itot,0,k));
+    enddo;
+  enddo;
+  k = 0;
+  do i = 0 while i <= imax
+    agedis1(i,1,k) = agedis1(i,0,k) / agedis1(itot,0,k);
+  enddo;
+  agedis1[itot,1,*] = tblsum( row agedis1[0:imax,1,*] );
+
+
+  { Calculate sampling errors - fertility rates }
+  { processing table f1w1 }
+  { age-specfic and general fertility rate }
+  f1w1[*,1,*] = f1w1[*,1,*]/12;							{ convert exposure to years }
+  f1w1[imax+1,*,*] = tblsum( row f1w1[0:imax,*,*] );	{ sum exposure and births in each age group }
+  f1w1[*,*,0] = tblsum( layer f1w1[*,*,1:maxcl] );		{ sum clusters to total }
+  do i = 1 while i <= maxcl
+    f1w1[*,2,i] = (f1w1[*,0,0] - f1w1[*,0,i])/(f1w1[*,1,0] - f1w1[*,1,i]);				{ calculate ASFRS }
+  enddo;
+  f1w1[*,2,0] = f1w1[*,0,0]/f1w1[*,1,0];
+  { total fertility rate calculations }
+  f1w1[itot,*,*] = default;
+  f1w1[itot,2,*] = tblsum( row f1w1[0:imax,2,*] );
+  f1w1[itot,2,*] = 5*f1w1[itot,2,*];
+  { adjustment by age distribution }
+  do k = 0 while k <= maxcl
+    do i = 0 while i <= imax
+      f1w1[i,3,k] = f1w1[i,2,k] * agedis1[i,1,k];
+    enddo;
+    f1w1[imax+1,3,k] = tblsum( row f1w1[0:imax,3,k] );
+    gfrx(k) = f1w1(imax+1,3,k);
+  enddo;
+  f1w1[itot,3,*]   = default;
+
+
+  { Calculate sampling errors - maternal mortality rates }
+  mmtw1[*,1,*]      = mmtw1[*,1,*]/12;					{ Convert exposure to years }
+  mmtw1[imax+1,*,*] = tblsum( row mmtw1[0:imax,*,*] );  { Sum all ages }
+  mmtw1[*,*,0]      = tblsum( layer mmtw1[*,*,1:maxcl] );  { Sum all clusters into 0 layer }
+  do i = 1 while i <= maxcl
+    if clx(i) then
+      mmtw1[*,*,i]  = mmtw1[*,*,0]-mmtw1[*,*,i];  		{ Change cluster values for numerator and denominator to = Total minus this cluster }
+    endif;
+  enddo;
+  mmtw1[*,2,*]      = 1000*mmtw1[*,0,*]/mmtw1[*,1,*];   { Calculate rates - for total and each replicate }
+  do i = 0 while i <= maxcl
+    if i = 0 or clx(i) then
+      mmtw1[0:imax,3,i] = mmtw1[0:imax,2,i] * agedis1[0:imax,1,i];	{ adjusting by respondent's age distribution }
+      mmtw1[imax+1,3,i] = tblsum( row mmtw1[0:imax,3,i] );		{ maternal mortality rate }
+      mmtw1(itot  ,3,i) = 100 * mmtw1(imax+1,3,i) / gfrx(i);	{ maternal mortality ratio (MMR) }
+    endif;
+  enddo;
+
+  xhat = mmtw1(itot,3,0);  { Maternal mortality ratio }
+
+  { Sum of squares of differences }
+  summ = 0;
+  do i = 1 while i <= maxcl
+    if clx(i) then
+      summ = summ + ((mmtw1(itot,3,i) - xhat)^2);
+    else
+      errmsg("No counts for cluster %d",i);
+    endif;
+  enddo;
+  var = (n-1)*summ/n;	{ variance in maternal mortality ratio }
+  se  = sqrt(var);		{ standard error in maternal mortality ratio }
+
+  { Output Confidence Intervals in listing }
+  errmsg("n=%d est=%8.3f var=%8.3f sd=%8.3f ci=%8.3f - %8.3f",n,xhat,var,se,xhat-ci1*se,xhat+ci1*se);
+
+  { Put Confidence Intervals into output table }
+  tmm4(2,1) = xhat-ci1*se;
+  tmm4(2,2) = xhat+ci1*se;
+
+
+  { Calculate sampling errors - pregnancy-related mortality rates }
+  pmtw1[*,1,*]      = pmtw1[*,1,*]/12;					{ Convert exposure to years }
+  pmtw1[imax+1,*,*] = tblsum( row pmtw1[0:imax,*,*] );  { Sum all ages }
+  pmtw1[*,*,0]      = tblsum( layer pmtw1[*,*,1:maxcl] );  { Sum all clusters into 0 layer }
+  do i = 1 while i <= maxcl
+    if clx(i) then
+      pmtw1[*,*,i]  = pmtw1[*,*,0]-pmtw1[*,*,i];  		{ Change cluster values for numerator and denominator to = Total minus this cluster }
+    endif;
+  enddo;
+  pmtw1[*,2,*]      = 1000*pmtw1[*,0,*]/pmtw1[*,1,*];   { Calculate rates - for total and each replicate }
+  do i = 0 while i <= maxcl
+    if i = 0 or clx(i) then
+      pmtw1[0:imax,3,i] = pmtw1[0:imax,2,i] * agedis1[0:imax,1,i];	{ adjusting by respondent's age distribution }
+      pmtw1[imax+1,3,i] = tblsum( row pmtw1[0:imax,3,i] );		{ maternal mortality rate }
+      pmtw1(itot  ,3,i) = 100 * pmtw1(imax+1,3,i) / gfrx(i);	{ maternal mortality ratio (MMR) }
+    endif;
+  enddo;
+
+  xhat = pmtw1(itot,3,0);  { Maternal mortality ratio }
+
+  { Sum of squares of differences }
+  summ = 0;
+  do i = 1 while i <= maxcl
+    if clx(i) then
+      summ = summ + ((pmtw1(itot,3,i) - xhat)^2);
+    else
+      errmsg("No counts for cluster %d",i);
+    endif;
+  enddo;
+  var = (n-1)*summ/n;	{ variance in maternal mortality ratio }
+  se  = sqrt(var);		{ standard error in maternal mortality ratio }
+
+  { Output Confidence Intervals in listing }
+  errmsg("n=%d est=%8.3f var=%8.3f sd=%8.3f ci=%8.3f - %8.3f",n,xhat,var,se,xhat-ci1*se,xhat+ci1*se);
+
+  { Put Confidence Intervals into output table }
+  i = tblrow(tc18, fertmm = 2);  { row for PRMR }
+  tc18(i+1,0) = xhat-ci1*se;
+  tc18(i+2,0) = xhat+ci1*se;
+
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+  cl = findcl( V021 );
+  if cl > maxcl then maxcl = cl endif;
+
+postproc
+
+  if unweight then
+    rweight = 1
+  else
+    rweight = V005/1000000;
+  endif;
+
+  v013w3 = V013;
+  if emsample then
+    awfactor = AWFACTT/100;
+  else
+    awfactor = 1;
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ table AGEDIS used to adjust fertility (f1w) and maternal mortality rates (mmtw) }
+  gage = V013;
+  xtab( AGEDIS,  rweight*awfactor );
+  xtab( AGEDIS1, rweight*awfactor );
+
+{ --------------------------------------------------------------------------- }
+{ table tc8, table is unweighted  by definition }
+
+  for i in REC83_EDT do;
+    if MM1 in 1,2 then        { valid sex }
+      numpcta = notappl;
+      numpctb = notappl;
+      numpctc = 1;
+      if MM1 = 2 then
+        numpcta = 1;
+      else
+        numpctb = 1;
+      endif;
+      recode   MM2 -> statmiss;
+                1  -> 1;
+                0  -> 2;
+                   -> 3;
+      endrecode;
+      xtab( tc8 );
+      if MM2  = 1 then      { Survival status, sibling alive }
+        statmiss = 5;
+        if !valid(MM3) then statmiss = 6 endif;
+        xtab( tc8 );
+      elseif MM2 = 0  then
+        xyd = ( validyr(MM15) | valid(MM6) );
+        xad = ( valid(MM7) );
+        recode xyd :: xad -> statmiss;
+                1  ::  1  -> 8;
+                1  ::     -> 9;
+                   ::  1  -> 10;
+                   ::     -> 11;
+        endrecode;
+        xtab( tc8 );
+      endif;
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ table tmw, table is unweighted by definition }
+
+  for i in REC83_EDT do;
+    totalp1 = 1;
+    kmax = V008 - upplim(tidx+1);
+    kmin = V008 - lowlim(tidx+1);
+    if MM1 = 2 & MM2 = 0 & int((MM8-MM4)/12) in 15:49 & MM8 in kmin:kmax then        { women who died at ages 15-49 in the period of analysis (normally 0-6 years) }
+      if MM9 in 98,missing then    { missing on timing at death }
+        deaths = 0;
+        xtab( tmw );
+      endif;
+      if MM9 in 98,missing | MM16 = missing then    { missing on timing at death, missing for accidents or violence }
+        deaths = 1;
+        xtab( tmw );
+      endif;
+      deaths = 2;
+      xtab( tmw );
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ table tc17 }
+
+  if MMC1 in 0:90 then                 { if valid number of siblings }
+    respsex = 0;
+    xtab( tc17w, rweight );
+    for i in REC83_EDT do;
+      if MM1 in 1,2 then        { women who died }
+        respsex = MM1;
+        xtab( tc17w, rweight );
+      endif;
+    enddo;
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ tables f1w, ammw, amfw, mmtw  }
+{ fertility, adult mortality (total, male, female) and maternal mortality     }
+
+  do p = 1 while  p <= percntx         { for each period of analysis }
+    { TFR for use in the Indirect Method }
+    periods = p	- 1;
+    kmin = upplim(p);
+    kmax = lowlim(p);
+    kextra = kmax - kmin - 59;
+    if kextra >	0 then
+      kmax = kmin + 59;
+    endif;
+
+    while kmax - kmin > 0 do               { for 59 months segments in a period }
+      higcm = V008 - kmin;
+      lowcm = V008 - kmax;
+      totexp = higcm - lowcm + 1;
+      higage = int( (higcm-V011) / 60 );
+      higexp = higcm - V011 - higage*60	+ 1;
+      if higexp	> totexp then higexp = totexp endif;
+      lowexp = totexp -	higexp;
+      fert = 1;
+      gage = higage - 2;
+      { exposure for fertility }
+      if gage >	0 and gage < 8 then
+        rwt = higexp*rweight*awfactor;
+        xtab( f1w, rwt );
+        if p = tidx+1 then xtab( f1w1, rwt ); endif;
+      endif;
+      gage = gage - 1;
+      if gage >	0 then
+        rwt = lowexp*rweight*awfactor;
+        xtab( f1w, rwt );
+        if p = tidx+1 then xtab( f1w1, rwt ); endif;
+      endif;
+      { births in period }
+      fert = 0;
+      do i = 1 while i <= V224
+        if B3(i) >= lowcm and B3(i) <= higcm then
+          gage = int( (B3(i) - V011) / 60 ) - 2;
+          if gage > 0 and gage < 8 then
+            xtab( f1w, rweight );
+            if p = tidx+1 then xtab( f1w1, rweight ); endif;
+          endif;
+        endif;
+      enddo;
+
+      { MMR and PRMR for the Direct Method }
+      for i in REC83_EDT do                { for all siblings in a period }
+        xpreg    = ( MM9 in 2:6 );
+        if MM1 in 1,2 then                 { valid sex }
+          higcm = V008 - kmin;
+          lowcm = V008 - kmax;
+          totexp = higcm - lowcm + 1;
+          higage = 0;
+
+          { calculate exposure limits based on whether sibling dead or alive }
+          if MM2 = 1 then             { survival status }
+            if V008 - MM4 >= 180 then
+              higage = int( (higcm - MM4) / 60 );
+              higexp = higcm - MM4 - higage*60 + 1;
+              if higexp > totexp then higexp = totexp endif;
+              lowexp = totexp - higexp;
+            else
+              higage = 0;
+            endif;
+          elseif MM2 = 0 then
+            if MM8 - MM4 >= 180 then   { died at 15+ years old }
+              oldcm = higcm;
+              newcm = MM8;
+              if newcm < higcm then higcm = newcm endif;
+              totexp = higcm - lowcm + 1;
+              if totexp < 0 then totexp = 0 endif;
+              higage = int( (higcm - MM4) / 60 );
+              higexp = higcm - MM4 - higage*60 + 1;
+              if higexp > totexp then higexp = totexp endif;
+              lowexp = totexp - higexp;
+              if newcm >= lowcm and newcm <= oldcm then
+                mort = 0;
+                gage = higage - 2;
+                if gage > 0 and gage < 8 then
+                  if MM1 = 1 then
+                    xtab( ammw,  rweight );
+                  elseif MM1 = 2 then
+                    xtab( amfw, rweight );
+                    if xpreg then
+
+                      { Pregnancy-related mortality }
+                      xtab( pmtw, rweight );
+                      if p = tidx+1 then clx(cl) = 1; xtab( pmtw1, rweight ); endif;
+
+                      if MM12 in notappl,100:141,198,199 & !MM16 in 1,2 then { MM12 = notappl when died in pregnancy or delivery }
+                      { Maternal mortality - in first 42 days (or DK/missing) and not from violence or accidents }
+                        xtab( mmtw, rweight );
+                        if p = tidx+1 then clx(cl) = 1; xtab( mmtw1, rweight ); endif;
+                      endif;
+
+                    endif;
+                  endif;
+                endif;
+              endif;
+            else
+              higage = 0;
+            endif;                  { end died at 15+ years old }
+          endif;                { end survival status }
+
+          { calculate denominator }
+          if higage <> 0 then              { alive and 15+ years old or died at 15+ }
+            mort = 1;
+            gage = higage - 2;
+            if gage > 0 and gage < 8 then
+              if MM1 = 1 then
+                xtab( ammw, higexp*rweight );
+              elseif MM1 = 2 then
+                xtab( amfw, higexp*rweight );
+                xtab( mmtw, higexp*rweight );
+                xtab( pmtw, higexp*rweight );
+                if p = tidx+1 then
+                  clx(cl) = 1;
+                  xtab( mmtw1, higexp*rweight );
+                  xtab( pmtw1, higexp*rweight );
+                endif;
+              endif;
+            endif;
+            gage = gage - 1;
+            if gage > 0 and gage < 8 then
+              if MM1 = 1 then
+                xtab( ammw, lowexp*rweight );
+              elseif MM1 = 2 then
+                xtab( amfw, lowexp*rweight );
+                xtab( mmtw, lowexp*rweight );
+                xtab( pmtw, lowexp*rweight );
+                if p = tidx+1 then
+                  clx(cl) = 1;
+                  xtab( mmtw1, lowexp*rweight );
+                  xtab( pmtw1, lowexp*rweight );
+                endif;
+              endif;
+            endif;
+          endif;                   { and alive 15+ or died at 15+ }
+        endif;                  { end valid sex }
+      enddo;                  { end for all siblings }
+      { to establish if another iteration is required for period }
+      if kextra	> 0 then
+        kmin = kmax+1;
+        kmax = lowlim(p);
+        kextra = kmax - kmin - 59;
+        if kextra > 0 then kmax = kmin + 59 endif;
+      else
+        kmin = 0;
+        kmax = 0;
+      endif;
+
+    enddo;                  { end 59 months segments in a period }
+
+  enddo;                 { end for each period of analysis }

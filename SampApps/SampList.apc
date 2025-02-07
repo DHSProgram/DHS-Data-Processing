@@ -1,0 +1,547 @@
+﻿{Application 'SAMPLIST' }
+PROC GLOBAL
+{------------------------------------------------------------------------------------------}
+{                                                                                          }
+{ If GPS coordinates are collected at cluster level, change the strings {+GPS} and {GPS+}  }
+{ by {{GPS} {GPS}} to disable the capture of coordinates at household level.  If that is   }
+{ the case it is also necessary to use the correct form "HH Listing - No GPS.fmf" as well  }
+{ as to remove the GPS.fmf from the ENT application definition file.  It is also necessary }
+{ to disable the GPS strings in function HouseHoldList() in application SampMenu as well   }
+{ as in aplication ListHH and all applications used by the central office                  }
+{                                                                                          }
+{------------------------------------------------------------------------------------------}
+
+  numeric xcluster, xintnum, n, i, j, nentry, pct30, entries, selseg, hhsegment, segmendone;
+  numeric oldhhnum, oldstruct, oldhhinst, x, android;
+  string  gpstitle;
+  alpha(1)   type;
+  
+  valueset string modvs;  // modify valuesets fo LINTRO
+
+  { store original values from LINTRO variable }
+  array alpha(1) origval(500);
+  
+  { get the application published date to dispay in menus }
+  function GetPubDate();
+    numeric zstamp, zdate, ztime;
+    if getos() = 20 then
+	  zstamp = publishdate();
+    else
+	  zstamp = filetime( pathname(application) + "SampList.apc" );
+	endif;  
+	zdate = sysdate("YYYYMMDD", zstamp);
+	ztime = systime("HHMM", zstamp);
+    errmsg ( maketext(tr("Version: Date %d Time %d"), zdate, ztime) );
+  end;
+
+  { setup basic user bar }
+  function userbase();
+    userbar( clear );
+    userbar( add button, "<",    do("PreviousField") );
+    userbar( add button, ">",    do("NextField") );
+    userbar( add button, ">>|",  do("AdvanceToEnd") );
+    userbar( add button, "Note", do("EditNote") );
+    userbar( add button, "Lang", do("ChangeLanguage") );
+	userbar( add button, "Ver",  GetPubDate() );
+  end;
+
+  { set value sets based on language }
+  function OnChangeLanguage()
+    SetLanguage( getlanguage() );
+    savesetting("Language", getlanguage());
+ end;
+
+  { function used to delete one household from the listing }
+  function deletentry( xrow, alpha(1) oldintro )
+    do i = xrow while i < nentry
+      { correct when the row is the first of a structure and the following is a household within the structure }
+      if i = xrow & oldintro = "1" & LINTRO(i+1) = "2" then
+        LINTRO(i+1) = "1";
+        origval(i+1) = "1";
+      endif;
+      LINTRO(i)     = LINTRO(i+1);
+      LTRUEHH(i)    = visualvalue( LTRUEHH(i+1) );
+      LNUMBER(i)    = visualvalue( LNUMBER(i+1) );
+      LSTRUCT(i)    = visualvalue( LSTRUCT(i+1) );
+      LHOUSEH(i)    = visualvalue( LHOUSEH(i+1) );
+      LNAME(i)      = LNAME(i+1);
+      LADDRESS(i)   = LADDRESS(i+1);
+      LNOTES(i)     = LNOTES(i+1);
+      LINTGPS(i)    = visualvalue( LINTGPS(i+1) );
+      LLATITUDE(i)  = visualvalue( LLATITUDE(i+1) );
+      LLATPOLE(i)   = LLATPOLE(i+1);
+      LLONGITUDE(i) = visualvalue( LLONGITUDE(i+1) );
+      LLNGPOLE(i)   = LLNGPOLE(i+1);
+      LALTITUDE(i)  = visualvalue( LALTITUDE(i+1) );
+      { update the array with original values in the LINTRO variable }
+      origval(i)    = origval(i+1);
+    enddo;
+    LINTRO(i)     = " ";
+    LTRUEHH(i)    = notappl;
+    LNUMBER(i)    = notappl;
+    LSTRUCT(i)    = notappl;
+    LHOUSEH(i)    = notappl;
+    LNAME(i)      = " ";
+    LADDRESS(i)   = " ";
+    LINTGPS(i)    = notappl;
+    LNOTES(i)     = " ";
+    LLATITUDE(i)  = notappl;
+    LLATPOLE(i)   = " ";
+    LLONGITUDE(i) = notappl;
+    LLNGPOLE(i)   = " ";
+    LALTITUDE(i)  = notappl;
+    origval(i)    = " ";
+    nentry        = nentry - 1;       { one entry eliminated }
+  end;
+
+  { function used to insert an entry (structure/household) }
+  function insertentry( xrow, alpha(1) xtype )
+    do i = nentry while i >= xrow by -1
+      LINTRO(i+1)     = LINTRO(i);
+      LTRUEHH(i+1)    = visualvalue( LTRUEHH(i) );
+      LNUMBER(i+1)    = visualvalue( LNUMBER(i) );
+      LSTRUCT(i+1)    = visualvalue( LSTRUCT(i) );
+      LHOUSEH(i+1)    = visualvalue( LHOUSEH(i) );
+      LNAME(i+1)      = LNAME(i);
+      LADDRESS(i+1)   = LADDRESS(i);
+      LNOTES(i+1)     = LNOTES(i);
+      LINTGPS(i+1)    = visualvalue( LINTGPS(i) );
+      LLATITUDE(i+1)  = visualvalue( LLATITUDE(i) );
+      LLATPOLE(i+1)   = LLATPOLE(i);
+      LLONGITUDE(i+1) = visualvalue( LLONGITUDE(i) );
+      LLNGPOLE(i+1)   = LLNGPOLE(i);
+      LALTITUDE(i+1)  = visualvalue( LALTITUDE(i) );
+      { update the array with original values in the LINTRO variable }
+      origval(i+1)    = origval(i);
+    enddo;
+    LINTRO(i+1)     = xtype;
+    LTRUEHH(i+1)    = notappl;
+    LNUMBER(i+1)    = notappl;
+    LSTRUCT(i+1)    = notappl;
+    LHOUSEH(i+1)    = notappl;
+    LNAME(i+1)      = " ";
+    LADDRESS(i+1)   = " ";
+    LNOTES(i+1)     = " ";
+    LINTGPS(i+1)    = notappl;
+    LLATITUDE(i+1)  = notappl;
+    LLATPOLE(i+1)   = " ";
+    LLONGITUDE(i+1) = notappl;
+    LLNGPOLE(i+1)   = " ";
+    LALTITUDE(i+1)  = notappl;
+    origval(i+1)    = xtype;
+    nentry          = nentry + 1;       { one entry added }
+  end;
+
+  { function used to track insertion of (structure/household) }
+  function disphelp( )
+    errmsg( "Record=%d nentry=%d", totocc(RECORD2_ROSTER), nentry );
+    do i = 1 while i <= nentry
+      errmsg( "i=%d Origval=%s", i, origval(i) );
+    enddo;
+  end;
+ 
+{+GPS}
+  { function to calculate average for latitude, longitude and altitude }
+  function averageGPS();
+    numeric valgps = 0, templat = 0, templon = 0, tempalt = 0;
+    for i in GPSSEC000
+      if GACCURACY < 5 & GSATELLIT > 2 then
+        valgps  = valgps + 1;
+        templat = templat + GLATITUDE;
+        templon = templon + GLONGITUDE;
+        tempalt = tempalt + GALTITUDE;
+      endif;
+    enddo;
+    if valgps > 0 then
+      LLATITUDE  = templat / valgps;
+      LLATPOLE   = GLATPOLE(1);
+      LLONGITUDE = templon / valgps;
+      LLNGPOLE   = GLNGPOLE(1);
+      LALTITUDE  = tempalt / valgps;
+    endif;
+    averageGps = valgps;
+  end;
+{GPS+}
+
+PROC HHLISTING_FF
+preproc
+  { get language from commonstore or from calling menu }
+  setlanguage( loadsetting("Language", GetLanguage()) );
+  android = ( getos() = 20 ); 
+  xcluster = tonumber( sysparm()[1:4] );
+  xintnum  = tonumber( sysparm()[5:4] );
+
+  setfont( ValueSets, "Arial", 18, bold );
+  setproperty(HHLISTING, "ShowExtendedControlTitle", "No");
+  
+  { load sample design }
+  YCLUSTER = xcluster;
+  if !loadcase( CLUSTERS, YCLUSTER ) then
+    errmsg( 60000, YCLUSTER );
+    stop(1)
+  endif;
+
+  { set up minimal user bar }
+  userbase();
+  userbar( show );
+
+postproc
+  stop(1);
+
+PROC HHLISTING_QUEST
+  stop(1);
+
+PROC LCLUSTER
+preproc
+  $ = xcluster;
+  LSTATE    = YSTATEN;
+  LREGION   = YREGIONN;
+  LDISTRICT = YDISTRICTN;
+  LCITY     = YCITYN;
+  LSEGHH    = YTOTHH;
+  SCLUSTER  = xcluster;
+  LSEGNUM   = 0;         { no segmentation by default }
+  if loadcase( SEGMENT_DCT, SCLUSTER ) & !SSEGHH in 0,notappl then
+    LSEGNUM = SSEGNUM;
+    LSEGHH  = SSEGHH;
+    LTOTHH  = STOTHH;
+  endif;
+  if visualvalue(LDATEFIN) = notappl then
+    LDATEFIN = 0
+  endif;
+  if demode() = add then
+    LINTNUM = xintnum;
+  endif;
+
+PROC LAUXILIAR
+  if $ = 9 then
+    stop(1);
+  endif;
+
+  nentry = totocc( RECORD2_ROSTER );
+  if nentry & !LINTRO(nentry) in "8","9"," " then
+    LINTRO(nentry) = "8";
+  endif;
+  { initialize array of original values to check operations to be allowed }
+  do i = 1 while i <= 500
+    if i <= nentry then
+      origval(i) = LINTRO(i);
+    else
+      origval(i) = " "
+    endif;
+  enddo;
+{ disphelp(); }
+  if $ in 1,2 & LDATEFIN <> 0 then
+    x = accept(tr("Household listing for cluster was already closed. Do you want to continue?"), tr("Yes"), tr("No") );
+	if x = 2 then
+      reenter
+    endif;
+  endif;
+  if $ = 1 then                          { add a new household }
+    if LDATE = notappl then
+      LDATE     = sysdate( "YYYYMMDD" );   { date when listing for cluster started for the first time }
+    endif;
+    advance to LINTRO(nentry);
+  elseif $ = 9 & nentry = 0 then         { exit household listing }
+    stop(-1)
+  elseif $ = 9 then
+    advance to LINTRO(nentry);
+  endif;
+
+PROC RECORD2_ROSTER
+onfocus
+  if android then
+    setocclabel(RECORD2_ROSTER(curocc()),strip(LNAME));
+  endif;
+
+PROC LINTRO
+preproc
+  n = totocc( RECORD2_ROSTER );
+  j = curocc();
+  if LAUXILIAR = 1 &
+     ( curocc() = n & origval(j) = "9" | LAUXILIAR = 1 & curocc() = 1  )then
+    $ = edit("9",LAUXILIAR);
+    noinput
+  endif;
+  if j % 5 = 0  & LAUXILIAR = 1 then  { partial save every 5 occurrences when adding households }
+    savepartial();
+  endif;
+
+onfocus
+  modvs = LINTRO_VS1;
+  if LAUXILIAR = 1 then
+	modvs.remove("3");
+	modvs.remove("4");
+	modvs.remove("5");
+    setvalueset( $, modvs );
+  else
+//	modvs.remove("1");
+	modvs.remove("2");
+	modvs.remove("9");
+    setvalueset( $, modvs );
+  endif;
+
+postproc
+  j = curocc();
+  if !pos( $, "1234589" ) then
+    errmsg( 60001 );
+    reenter;
+  elseif LAUXILIAR in 1 & origval(j) <> $ & !pos($,"1289" ) then
+    errmsg( 60002 );
+    $ = origval(j);
+    reenter;
+  elseif LAUXILIAR in 2 & origval(j) <> $ & !pos($,"3458" ) then
+    errmsg( 60003 );
+    $ = origval(j);
+    reenter;
+  elseif LAUXILIAR = 1 & curocc() = 1 & !$ in "1","8" then
+    errmsg( 60005 );
+    reenter
+  elseif LAUXILIAR = 2 & origval(j) <> $ & !$ in "3":"5","8" then
+    errmsg( 60015 );
+    $ = origval(j);
+    reenter
+  elseif LAUXILIAR = 1 & curocc() <> n & origval(j) <> " " & origval(j) <> $ then
+    errmsg( 60010 );
+    $ = origval(j);
+    reenter
+  elseif $ = "8" & curocc() < nentry then
+    $ = origval(j);           { restore to it's original value after code 8 was chosen }
+    advance to LINTRO(nentry);
+  elseif $ = "8" & curocc() < n then  // in case of back-tabbing
+    $ = origval(j);           { restore to its original value after code 8 was chosen }
+    advance to LINTRO(n);
+  elseif $ = "8" then
+    { no more households listed at this time }
+    endlevel;
+  elseif $ = "9" & curocc() < n then
+    errmsg( 60075 );
+    reenter;	
+  elseif $ = "9" then
+    { check total households according to clusters file }
+    pct30 = int( LSEGHH * 0.30 );
+    if !curocc() - 1 in LSEGHH-pct30:LSEGHH+pct30 then
+      errmsg( 60035, LSEGHH, curocc()-1 );
+    endif;
+    LDATEFIN  = sysdate( "YYYYMMDD" );   { date when listing for cluster was completed }
+    errmsg( 60070 );
+    endlevel;
+  endif;
+  if curocc() = nentry & origval(j) = "8" then
+    origval(j) = $;
+  endif;
+  if $ = "3" then              { delete current occurrence }
+    if origval(j) = "9" | visualvalue( LSTRUCT(j) ) = notappl then
+      errmsg( 60027 );
+      reenter
+    else
+      x = accept(tr("Are you sure you want to delete?"), tr("Yes"), tr("No"));
+      if x = 1 then	  
+        oldhhnum  = visualvalue( LNUMBER(j) );
+        oldstruct = visualvalue( LSTRUCT(j) );
+        oldhhinst = visualvalue( LHOUSEH(j) );
+        deletentry( j, origval(j) );
+        errmsg( 60028, oldhhnum, oldstruct, oldhhinst );
+{       disphelp(); }
+        reenter;
+	  else
+	    reenter;
+	  endif;
+    endif;
+  elseif $ in "4","5" then        { insert a structure/hosuehold }
+    if visualvalue( LSTRUCT(j) ) = notappl then
+      errmsg( 60026 );
+      reenter
+    elseif curocc() = 1 & $ = "5" then
+      errmsg( 60024 );
+      $ = origval(j);           { restore to it's original value after inserting entries }
+      reenter
+    elseif curocc() <> 1 & $ = "4" & visualvalue( LSTRUCT(j) ) = LSTRUCT(j-1) then
+      errmsg( 60025 );
+      $ = origval(j);           { restore to it's original value after inserting entries }
+      reenter
+    else
+      type = "1";
+      if $ = "5" then type = "2" endif;
+      $ = origval(j);           { restore to it's original value after inserting entries }
+      insertentry( j, type );
+{     disphelp(); }
+      advance to LTRUEHH;
+    endif;
+  endif;
+
+PROC LTRUEHH
+  if $ <> 1 then
+    skip to LSTRUCT
+  endif;
+
+PROC LNUMBER
+preproc
+  j = 0;
+  do i = 1 while i <= curocc()
+    if LTRUEHH(i) = 1 then
+      j = j + 1;
+      $ = j;
+    else
+      $ = notappl;
+    endif;
+  enddo;
+
+PROC LSTRUCT
+preproc
+  n = curocc();
+  if curocc() = 1 & LINTRO = "1" then
+    $ = 1;
+  elseif LINTRO = "1" then
+    $ = $(n-1) + 1;
+  else
+    $ = $(n-1);
+  endif;
+  LSELECT = 0;                          { set the household as not been selected yet }
+
+PROC LHOUSEH
+preproc
+  n = curocc();
+  if LINTRO = "1" then
+    $ = 1;
+  else
+    $ = $(n-1) + 1;
+  endif;
+
+PROC LADDRESS
+preproc
+  n = curocc();
+  if n > 1 & LINTRO = "2" & length( strip($) ) = 0 then
+    $ = $(n-1)
+  endif;
+
+postproc
+  if !length( strip($) ) then
+    errmsg( 60030 );
+    reenter;
+  endif;
+
+PROC LNAME
+preproc
+  if LTRUEHH <> 1 then
+    skip to LNOTES
+  endif;
+
+postproc
+  if !length( strip($) ) then
+    errmsg( 60031 );
+  endif;
+
+{+GPS}
+PROC LINTGPS
+  n = curocc();
+  { consistency rules }
+  if $ = 1 & n = 1 then   // can't copy coordinates for the first household
+    errmsg( 60040 );
+    reenter
+  elseif $ = 1 & LLATITUDE(n-1) in 0,notappl then  // can't copy coordinates if they don't exist for the previous HH
+    errmsg( 60041 );
+    reenter
+  elseif $ = 1 & LSTRUCT <> LSTRUCT(n-1) then   // can't copy coordinates for a HH that is part of a different structure
+    errmsg( 60042 );
+    reenter
+  elseif $ = 9 & visualvalue( LLATITUDE(n) ) = notappl then   // can't replace HH corordinates if they don't exist
+    errmsg( 60043 );
+    reenter
+  endif;
+  { take GPS even after the household has already collected them }
+  if $ = 9 then
+    enter GPS_FF;
+    if !averageGPS() then
+      errmsg( 60044 );
+      reenter;
+    endif;
+  { advance if coordinates have already been collected }
+  elseif visualvalue( LLATITUDE(n) ) <> notappl then
+    advance to LNOTES
+  { get ccordinates from previous household }
+  elseif $ = 1 then
+    LLATITUDE  = LLATITUDE(n-1);
+    LLATPOLE   = LLATPOLE(n-1);
+    LLONGITUDE = LLONGITUDE(n-1);
+    LLNGPOLE   = LLNGPOLE(n-1);
+    LALTITUDE  = LALTITUDE(n-1);
+  { capture coordinates from GPS unit }
+  elseif $ = 2 then
+    enter GPS_FF;
+    if !averageGPS() then
+      errmsg( 60044 );
+      reenter;
+    endif;
+  else
+    skip to LNOTES
+  endif;
+
+PROC GPSSEC_FORM
+preproc
+  GCLUSTER   = LCLUSTER;
+  { open the GPS dongle to capture GPS coordinates }
+  { !!! for windows verify with the device manager the port number used by the dongle }
+  {     in ICF laptops port 3 is reserved and erroneously taken as a dongle port      }
+  {     in ASUS tablets ports are assigned starting from port 3 and above             }
+  numeric gpserror = 0;
+  if getos() = 20 then   // if Android 
+    if !GPS( open ) then
+	  gpserror = 1;
+    endif;	  
+  else
+    do i = 3 while i <= 10
+      if GPS( open, i, 4800 ) then
+        break
+      endif;
+    enddo;
+    if i > 10 then gpserror = 1 endif;
+  endif;	
+  if gpserror then
+    errmsg( 60045 );
+    endsect;
+  else
+    {chek if coordinates previously taken and delete record if that is the case }
+    if loadcase( GPS_DCT, GCLUSTER ) then
+      delcase( GPS_DCT );
+    endif;
+    clear( GPS_DCT );
+    GCLUSTER   = LCLUSTER;
+  endif;
+
+postproc
+  writecase( GPS_DCT );
+  close( GPS_DCT );
+  gps( close );
+
+PROC GCOLUMN
+preproc
+  $ = curocc();
+
+PROC GINTRO
+  if $ <> 1 then
+    endsect
+  endif;
+
+PROC GLATITUDE
+preproc
+  gpstitle = tr("GPS device acquiring GPS satellites..., Please wait for 10 seconds to complete the capture");
+  if gps(read, 25, gpstitle ) then
+    GLATITUDE  = gps( latitude );
+    GLATPOLE   = "N";
+    if gps( latitude ) < 0 then	{ negative = south }
+      GLATPOLE = "S";
+    endif;
+    GLONGITUDE = gps( longitude );
+    GLNGPOLE  = "E";
+    if gps( longitude ) < 0 then	{ negative = west }
+      GLNGPOLE = "W";
+    endif;
+   	GALTITUDE  = gps( altitude );
+    GSATELLIT = gps( satellites );	  { no. of satellites, at least 3-4 is recommended }
+    GACCURACY = gps( accuracy );	    { precision level, 1 is the best possible and 50 the least accurate }
+  else
+    errmsg( 60050 );
+    reenter GINTRO;
+  endif;
+{GPS+}

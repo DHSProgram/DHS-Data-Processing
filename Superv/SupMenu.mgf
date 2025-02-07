@@ -1,0 +1,206 @@
+﻿language = EN
+001 Cluster=%3d, not defined as part of the sample file
+002 Interviewer %02d not defined in the interviewer's file
+003 Interviewer %02d is not authorized to work in cluster %02d
+004 You must select your corresponding interviewer code
+005 You must select a household
+006 Error when trying to open file (%s)
+008 Directory "%s" not present, the system will abort
+010 A household can only be revisited when the previous visit was incomplete (%d)
+011 Household interview incomplete (%0d)
+012 Height and weight are only allowed to households with a complete interview (%d)
+015 Make sure that the supervisor SD card is connected to the PDA.  Once connected click on the OK button
+016 Data for cluster %04d were transferred to the supervisor computer.  click on OK
+017 There are no files for cluster %04d interviewer %02d
+018 There are files for cluster %04d interviewer %02d-%s that have not been accepted yet. Change current interviewer and repeat the process
+019 It wasn't possible to copy the files (%s) to receive directory
+020 An individual must be selected
+025 Review result of individual interview (%s) with the correct option (%d)
+030 Make sure that a CD has been placed in the CD unit.  Once the CD is in place click OK
+031 The CD recorded operation was completed.  Please continue
+035 Error setting-up file %s
+040 Individual data transferred. Its check will be done when listing or closing the cluster
+054 You must select your correct supervisor code
+055 Individual interview incomplete (%d)
+060 Cluster can't be closed as there are still pending errors
+061 The flash memory is not connected to the computer.  Connect it and repeat the operation
+063 Cluster not closed yet, use option 8 first
+065 Secondary editing for individuals can't be run before secondary editing for households
+066 Secondary editing can't be run for incomplete households
+067 Can only review individuals for complete households %d
+068 Cannot select individuals that haven't been visited
+070 Make sure that your flash memory is in the computer to properly BACKUP the data to directory %s
+071 The flash memory isn't in the computer or directory %s doesn't exist.  BACKUP to flash memory may not be possible
+072 Completed data backup in FINAL directory to %s directory
+075 There are still processes pending before the data can be transferred to the central office
+076 There are no files available for this interviewer in the cluster
+080 There are no files available yet in the supervisor computer for cluster %s
+081 There are no files available yet for sampling selection for cluster %s
+090 It is recommended to exit the system so that upgrades take into effect after reentering
+091 There is a new upgrade for interviewers, please make sure to send it to each one of them with the appropriate option
+100 Plug in your modem and connect to the MTN network
+101 Data has been sent to the central office
+102 Data has NOT been sent to the central office
+105 Cluster successfully closed
+110 File "%s" not present in tablet. Has the children been selected for remeasurement?
+115 Biomarker data transferred. But no household data available in supervisor's machine for cluster
+118 There is no HH data file. It may be possible to list them using option 'Close/list cluster'
+120 Biomarker data transferred. But no household data available in supervisor's machine for cluster
+130 No child selected for remeasurement
+150 **** There is another session running or the computer crashed while running
+999 Message=%08d
+
+language = ES
+{ common strings used by the application }
+  ES ( "Do you want to register transmittal sheets for HIV or Malaria?" ) Desea registrar hojas de transmision para VIH o Malaria?
+  ES ( "HIV" ) VIH
+  ES ( "Malaria" ) Malaria
+  ES ( "Do you want to review Household/Individual questionnaires?" ) Desea revisar cuestionarios de hogares o individuales?
+  ES ( "Select a household from the list displayed" ) Seleccione un hogar de la lista desplegada 
+  ES ( "Select an individual from the list displayed" ) Seleccione un individual de la lista desplegada 
+  ES ( "Households" ) Hogares
+  ES ( "Individuals" ) Individuales
+  ES ( "There is another session running or the computer crashed while running" ) Hay otra sesion corriendo o el computador fallo mientras corria
+  ES ( "Reset" ) Reiniciar
+  ES ( "Yes" ) Si
+  ES ( "No" ) No
+  ES ( "Sending Households Assigned" ) Enviando Hogares Assignados
+  ES ( "Sending Upgrades" ) Enviando actualizaciones
+  ES ( "Sending Children for Remeasurement" ) Enviando Niños para Remedicion
+  ES ( "Select fieldworker you want to get data from" ) Seleccione el trabajador de campo de quien va a recibir datos
+  ES ( "Code" ) Codigo
+  ES ( "Name" ) Nombre
+  ES ( "Role" ) Role
+  ES ( "Select fieldworker you want to list questionnaires for" ) Seleccione el trabajador de campo para quien va a listar cuestionarios
+  ES ( "Select the child for whom remeasurement data will be entered" ) Seleccione el niño para el que se digitaran los datos de re-medicion 
+  ES ( "Household" ) Hogar
+  ES ( "Child Number" ) Linea del niño
+  ES ( "Child Name" ) Nombre del niño
+  ES ( "Address" ) Direccion
+  
+001 segmento=%02d, no esta definido en el archivo de la muestra
+002 Entrevistadora %02d no esta declarada en el archivo de entrevistadoras
+003 Entrevistadora %02d no esta autorizada para trabajar en segmento %02d
+004 Usted debe seleccionar su correspondiente codigo de entrevistadora
+005 Se debe seleccionar una vivienda/hogar
+006 Error al tratar de abrir el archivo (%S)
+008 El directorio "%s" no existe, el sistema abortara
+010 Un hogar se puede revisitar solamente cuando el resultado de la visita previa no fue completa (%d)
+011 Entrevista de hogar incompleta (%0d)
+012 Peso y talla son validos unicamente para hogares con entrevistas completas (%d)
+015 Asegurese que la tarjeta SD de la supervisora esta conectada al computador.  Una vez conectada haga click en el boton OK
+016 Los datos del segmento %04d se transfirieron al computador de la supervisora.  Haga click en OK
+017 No existen archivos para segmento %04d entrevistadora %02d
+018 Existen archivos para segmento %04d entrevistadora %02d-%s que no se han aceptado. Cambie la entrevistadora y repita el proceso
+019 No se pudieron copiar los archivos (%s) al directorio receive
+020 Se debe seleccionar una mujer
+025 Revise el resultado de la entrevista de mujer (%s) con la opcion requerida (%d)
+030 Asegurese que ha colocado un CD en la unidad de CDs.  Una vez el CD esta en su lugar haga click en el boton OK
+031 La grabacion al CD ha finalizado.  Puede continuar sus actividades
+035 Error de acceso a archivo %s
+040 Datos individuales transferidos. Su revision se hara al listar cerrar o el segmento
+054 Usted debe seleccionar su correspondiente codigo de supervisora
+055 Entrevista de mujeres incompleta (%d)
+060 Este segmento no se puede cerrar por cuanto aun existen errores
+061 La memoria externa no esta conectada al computador.  Conectela y vuelva a repetir esta opcion
+063 El segmento no ha sido aun cerrado, use primero la opcion 8
+065 Inconsistencias para las mujeres no se pueden correr hasta tanto se hayan corrido para los hogares
+066 No se corren inconsistencias para hogares incompletos o parciales
+067 Solo se pueden revisar cuestionarios individuales para hogares completos %d
+068 No se pueden seleccionar individules que no se han visitado
+070 Asegurese que la memoria flash se encuentra en el computador para hacer un BACKUP de los datos al directorio %s
+071 La memoria flash no se encuentra en el computador o el directorio %s no existe.  No se hara backup de los datos a la memoria flash
+072 Finalizo copia de resplado de carpeta FINAL a carpeta %s
+075 Aun no se han terminado todos los procesos necesarios para transferir los datos a la oficina central
+076 No hay aun archivos disponibles para esta entrevistodara en este segmento
+080 Aun no se han transferido al computador de la supervisora archivos para el segmento %s
+081 Aun no hay hogares disponibles en el PDA de la supervisora para la seleccion de muestra para el segmento %s
+090 Se recomienda salir del sistema para que las actualizaciones sean implementadas al reiniciar el sistema
+091 Hay una nueva actualizacion para las entrevistadoras, asegurese de enviarsela a cada una usando la opcion apropiada
+100 Inserte el modem y asegurese que esta conectado a la red de servicio celular
+101 Los datos se han enviado a la oficina central
+102 Los datos NO se han enviado a la oficina central
+105 Segmento cerrado exitosamente
+110 Archivo "%s" no se encuentra en el computador. Ya se seleccionaron los niños para su remedicion? 
+115 Datos de Biomarcadores transferidos. Pero no hay datos de hogares del segmento en el computador del supervisor
+118 No hay archivo de hogares. Es posible listarlos con la opcion 'listar/cerrar segmento'
+120 Datos de Biomarcadores transferidos. Pero no hay datos de hogares del segmento en el computador del supervisor
+130 No se selecciono ningun niño para remedicion
+150 **** There is another session running or the computer crashed while running
+999 Mensaje=%08d
+  
+language = FR
+{ common strings used by the application }
+  FR ( "Do you want to register transmittal sheets for HIV or Malaria?" ) Voulez-vous enregistrer la fiche de transmission pour le VIH ou le Paludisme?
+  FR ( "HIV" ) VIH
+  FR ( "Malaria" ) Paludisme
+  FR ( "Do you want to review HH/individual questionnaires?" ) Voulez-vous revoir les questionnaires Ménages/Individus ?
+  FR ( "Households" ) Ménages
+  FR ( "Individuals" ) Individus
+  FR ( "Sending Households Assigned" ) Envoi des ménages affectés
+  FR ( "Sending Upgrades" ) Envoi des mises à jour 
+  FR ( "Sending Children for Remeasurement" ) Envoi des enfants pour la remesure
+  FR ( "There is another session running or the computer crashed while running" ) Il y a une autre session en cours ou bien que l'ordinateur s'est planté en cours d'exécution
+  FR ( "Reset" ) Re-initialiser
+  FR ( "Yes" ) Oui
+  FR ( "No" ) Non
+  FR ("Select fieldworker you want to get data from")  Sélectionnez l'enquêteur/trice dont vous souhaitez obtenir des données
+  FR ("Role") Rôle
+  FR ("Name") Nom
+  FR ( "Select fieldworker you want to list questionnaires for" ) Sélectionnez l'enquêteur/trice pour lequel vous souhaitez lister les questionnaires
+  FR ( "Select the child for whom remeasurement data will be entered" ) Seleccione el niño para el que se digitaran los datos de re-medicion 
+  FR ( "Household" ) Hogar
+  FR ( "Child Number" ) Linea del niño
+  FR ( "Child Name" ) Nombre del niño
+  FR ( "Address" ) Direccion
+
+001 Grappe = %3d, non définie dans le fichier d'échantillon
+002 Intervieweur %02d non défini dans le fichier de l'intervieweur
+003 L'intervieweur %02d n'est pas autorisé à travailler dans la grappe  %02d
+004 Vous devez sélectionner votre code d'intervieweur correspondant
+005 Vous devez sélectionner un ménage
+006 Erreur lors de la tentative d'ouverture du fichier ( %S)
+008 Repertoire "%s" n'est présent, le système va s'interrompre
+010 Un ménage ne peut être revisité que lorsque la visite précédente était incomplète ( %d)
+011 Entretien du ménage incomplet ( %0d)
+012 La taille et le poids ne sont autorisés que dans les ménages avec une interview complète ( %d)
+015 Assurez-vous que la carte SD du superviseur est connectée au PDA. Une fois connecté, cliquez sur le bouton OK
+016 Les données de la grappe %04d ont été transférées sur l'ordinateur du superviseur. cliquez sur OK
+017 Il n'y a pas de fichiers pour la grappe  %04d Intervieweur %02d.
+018 Il y a des fichiers pour la grappe %04d intervieweur %02d- %s qui n'ont pas encore été acceptés. Changer l'intervieweur actuel et répéter le processus
+019 Il n'était pas possible de copier les fichiers (%s) au repertoire "Receive"
+020 Un individu doit être sélectionné
+025 Examiner le résultat de l'interview individuelle ( %s) avec la bonne option ( %d)
+030 Assurez-vous qu'un CD a été placé dans l'unité CD. Une fois le CD en place, cliquez sur OK.
+031 L'opération enregistrée sur le CD est terminée. Continuez s'il vous plaît
+035 Erreur lors de la configuration du fichier %s
+040 Les données individuelles sont transférées. Leur contrôle sera fait lors de l'énumération ou la fertmeture de la grappe
+054 Vous devez sélectionner votre code de superviseur correct
+055 Entretien individuel incomplet (%d)
+060 La grappe ne peut pas être fermée car des erreurs sont toujours en attente de correction
+061 La carte mémoire n'est pas connectée à l'ordinateur. Connectez-le et répétez l'opération
+063 Grappe pas encore fermée, utilisez l'option 7 en premier
+065 L'édition secondaire pour les individus ne peut pas être exécutée avant l'édition secondaire pour les ménages
+066 L'édition secondaire ne peut pas être exécutée pour les ménages incomplets
+067 Ne peut examiner que les individus pour les ménages complets %d
+068 Impossible de sélectionner des individus qui n'ont pas été visités
+070 Assurez-vous que votre carte mémoire est dans l'ordinateur pour SAUVEGARDER correctement les données dans le répertoire %s.
+071 La carte mémoire n'est pas dans l'ordinateur ou le répertoire %s n'existe pas. La sauvegarde dans la mémoire flash peut ne pas être possible
+072 SAUVEGARDE des données du repertoire FINAL au repertoire %s terminée
+075 Il y a encore des processus en attente avant que les données puissent être transférées au bureau central
+076 Il n'y a pas de fichiers disponibles pour cet intervieweur dans la grappe 
+080 Il n'y a pas encore de fichier disponible sur l'ordinateur du superviseur pour la grappe  %s
+081 Aucun fichier disponible pour la sélection d'échantillonnage pour la grappe  %s
+090 Il est recommandé de quitter le système pour que les mises à jour prennent effet après la nouvelle entrée.
+091 Il y a une nouvelle mise à jour pour les intervieweurs, assurez-vous de l'envoyer à chacun d'entre eux avec l'option appropriée
+100 Branchez votre modem et connectez-vous au réseau internet
+101 Les données ont été envoyées au bureau central
+102 Les données n'ont pas été envoyées au bureau central
+105 La grappe a été fermée avec succès
+110 Le fichier "%s" n'est pas présent dans la tablette. Les enfants ont-ils été sélectionnés pour une double-mesure?
+115 Les données biomarqueurs ont été transférées. Mais il n'y a pas de données ménages disponibles dans la machine du superviseur pour la grappe
+118 Il n'y a pas de fichier de données. C'est possible de leur énumérer en utilisant l'option "Fermer/Enumérer la grappe"
+120 Les données biomarqueurs ont été transférées. Mais il n'y a pas de données ménages disponibles dans la machine du superviseur pour la grappe
+130 No child selected for remeasurement
+150 **** There is another session running or the computer crashed while running
+999 Message=%08d

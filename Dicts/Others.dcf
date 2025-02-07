@@ -1,0 +1,54 @@
+[Dictionary]
+Version=CSPro 4.1
+Label=Other answers
+Name=OTHERS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+
+[Level]
+Label=Others level
+Name=OTHLEV
+
+[IdItems]
+
+[Item]
+Label=Questionnaire ID
+Name=OTHID
+Start=1
+Len=10
+DataType=Alpha
+
+[Item]
+Label=Question number
+Name=OTHQUES
+Start=11
+Len=10
+DataType=Alpha
+
+[Item]
+Label=Occurrence of question
+Name=OTHOCC
+Start=21
+Len=2
+
+[Record]
+Label=OTHREC
+Name=OTHREC
+RecordTypeValue=''
+RecordLen=86
+
+[Item]
+Label=Response
+Name=OTHRESP
+Start=23
+Len=60
+DataType=Alpha
+
+[Item]
+Label=Code for response
+Name=OTHCODE
+Start=83
+Len=4

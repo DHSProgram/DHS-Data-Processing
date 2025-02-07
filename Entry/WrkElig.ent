@@ -1,0 +1,26 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=WrkElig
+Name=WrkElig
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[External Dictionaries]
+File=..\Dicts\ccHH80.dcf
+File=..\Dicts\ccIN80.dcf
+File=..\Dicts\EligIndv.dcf
+[AppCode]
+File=.\WrkElig.apc
+Include=..\Library\DPCollect.apc
+[Message]
+File=.\WrkElig.mgf
+[Help]
+File=.\WrkElig.qsf
+[Forms]
+File=.\Cnull.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\Cnull.dcf,Input,.\Cnull.fmf
+Dict-Type=..\Dicts\ccHH80.dcf,External
+Dict-Type=..\Dicts\ccIN80.dcf,External
+Dict-Type=..\Dicts\EligIndv.dcf,External

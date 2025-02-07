@@ -1,0 +1,76 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=Interviewer|Entrevistadoras(es)
+Name=INTERV
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=Yes
+DecimalChar=Yes
+SecurityOptions=103F9E991B4B5D0E63662BB8AF0A61F5
+
+[Languages]
+EN=English
+ES=Español
+
+[Level]
+Label=Interviewer level|Nivel entrevistador
+Name=INTERV_LEVEL
+
+[IdItems]
+
+[Item]
+Label=Interviewer code|Codigo de entrevistador(a)
+Name=ICODE
+Start=1
+Len=4
+ZeroFill=Yes
+
+[Record]
+Label=Interviewer record|Registro entrevistador
+Name=INTERV_REC
+RecordTypeValue=''
+RecordLen=38
+
+[Item]
+Label=Interviewer's name|Nombre entrevistador(a)
+Name=INAME
+Start=5
+Len=30
+DataType=Alpha
+
+[Item]
+Label=Interviewer's team|Equipo al que pertenece entrevistador(a)
+Name=ITEAM
+Start=35
+Len=2
+ZeroFill=Yes
+
+[Item]
+Label=Fieldworker role|Rol en el trabajo de campo
+Name=IROLE
+Start=37
+Len=1
+ZeroFill=Yes
+
+[ValueSet]
+Label=Fieldworker role|Rol en el trabajo de campo
+Name=IROLE_VS1
+Value=1;Interviewer|Entrevistadora
+Value=2;Supervisor|Supervisora
+Value=3;Biomarker|Biomarcador
+Value=4;QC team|Control de calidad
+Value=5;Reserve|Reserado
+
+[Item]
+Label=Interviewer's sex|Sexo entrevistador(a)
+Name=ISEX
+Start=38
+Len=1
+ZeroFill=Yes
+
+[ValueSet]
+Label=Interviewer's sex|Sexo entrevistador(a)
+Name=ISEX_VS1
+Value=1;Male|Masculino
+Value=2;Female|Frmenino

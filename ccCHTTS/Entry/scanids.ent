@@ -1,0 +1,20 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=SCANIDS
+Name=SCANIDS
+AppType=DataEntry
+[External Dictionaries]
+File=..\dicts\common.dcf
+[AppCode]
+File=.\scanids.apc
+[Message]
+File=.\scanids.mgf
+[Help]
+File=.\scanids.qsf
+[Forms]
+File=.\cnull.fmf
+File=.\Scanids.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Cnull.dcf,Input,.\cnull.fmf
+Dict-Type=..\Dicts\testlog.dcf,External,.\Scanids.fmf
+Dict-Type=..\dicts\common.dcf,External

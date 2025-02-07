@@ -1,0 +1,68 @@
+[Dictionary]
+Version=CSPro 4.1
+Label=BMI for Age
+Name=BFALMS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=BMI for Age
+Name=BFALMS_QUEST
+
+[IdItems]
+
+[Item]
+Label=Sex
+Name=SEXBFA
+Start=1
+Len=8
+
+[ValueSet]
+Label=Sex
+Name=SEXBFA_VS1
+Value=1;Male
+Value=2;Female
+
+[Item]
+Label=Age (months)
+Name=AGEBFA
+Start=9
+Len=8
+
+[ValueSet]
+Label=Age (months)
+Name=AGEBFA_VS1
+Value=61:229
+
+[Record]
+Label=Variables L, M, S
+Name=BFALMS_REC
+RecordTypeValue=''
+RecordLen=40
+
+[Item]
+Label=Variable l
+Name=LBFA
+Start=17
+Len=8
+Decimal=4
+DecimalChar=Yes
+
+[Item]
+Label=Variable m
+Name=MBFA
+Start=25
+Len=8
+Decimal=4
+DecimalChar=Yes
+
+[Item]
+Label=Variable s
+Name=SBFA
+Start=33
+Len=8
+Decimal=5
+DecimalChar=Yes

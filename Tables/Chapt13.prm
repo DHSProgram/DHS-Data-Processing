@@ -1,0 +1,276 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+t1300 columns isex = 1 knowaids = 2 nodec
+              isex = 2 knowaids = 2 nodec;
+t1300 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+na = No aplicable
+{ES}}
+{{FR}
+na = Non applicable
+{FR}}
+endfootnote;
+
+t1301 columns hivmedi  = 4 nodec
+              knowprep = 2 nodec;
+
+t1302 columns isex = 1 womhiv = 1 nodec
+              isex = 2 menhiv = 1 nodec;
+t1302 footnote
+{+EN}
+na = Not applicable~
+@1 Percentage who do not think that children living with HIV should be able to attend school with
+   children who are HIV negative and/or would not buy fresh vegetables from a shopkeeper who has HIV
+{EN+}
+{{ES}
+na = No aplicable~
+@1 Percentage who do not think that children living with HIV should be able to attend school with
+   children who are HIV negative and/or would not buy fresh vegetables from a shopkeeper who has HIV
+{ES}}
+{{FR}
+na = Non applicable~
+@1 Pourcentage qui ne pense pas que les enfants vivant avec le VIH doivent pouvoir fréquenter l'école
+   avec les enfants VIH négatifs et/ou qui n'achèterait pas des légumes frais à un commerçant qui a le VIH
+{FR}}
+endfootnote;
+
+t13031 columns sexpart1 = 3 nodec
+               sexpart2 = 2 nodec
+               sexpart3 = 2 nodec
+               sexpart4 = 2 nodec;
+t13031 footnote
+{+EN}
+@1 Means are calculated excluding respondents who gave non-numeric responses.
+{EN+}
+{{ES}
+@1 Los promedios se calculan excluyendo a quienes dieron respuestas no numéricas.
+{ES}}
+{{FR}
+@1 Les moyennes sont calculées en excluant les enquêtées qui ont donné des réponses non numériques.
+{FR}}
+endfootnote;
+
+t13032 columns sexpart5 = 3 nodec
+               sexpart6 = 2 nodec
+               sexpart7 = 2 nodec
+               sexpart8 = 2 nodec;
+t13032 footnote
+{+EN}
+@1 Means are calculated excluding respondents who gave non-numeric responses.
+{EN+}
+{{ES}
+@1 Los promedios se calculan excluyendo a quienes dieron respuestas no numéricas.
+{ES}}
+{{FR}
+@1 Les moyennes sont calculées en excluant les enquêtées qui ont donné des réponses non numériques.
+{FR}}
+endfootnote;
+
+t1304 columns totalb = 1 nodec;
+t1304 footnote
+{+EN}
+@1 Women are asked whether they received an HIV test during labor only if they were not tested
+   for HIV during ANC.~
+@2 Denominator for percentages includes women who did not receive antenatal care for
+   their last birth in the last two years.
+{EN+}
+{{ES}
+@1 A las mujeres se les pregunta si recibieron una prueba de VIH durante el parto solamente
+   si no se les hizo la prueba de VIH durante APN.~
+@2 El denominador para los porcentajes incluye mujeres que no recibieron
+   atencién prenatal para el éltimo nacimiento en los éltimos dos aéos.
+{ES}}
+{{FR}
+@1 La question concernant le test du VIH pendant l'accouchement n'a été posée qu'aux femmes qui ont accouché
+   en établissement de santé.~
+@2 Sont incluses dans le dénominateur les femmes qui n'ont pas reçu de soins prénatals
+   pour leur dernière naissance ayant eu lieu au cours des 2 dernières années
+{FR}}
+endfootnote;
+
+t13051 columns numwom = 1 nodec;
+t13051 footnote
+{+EN}
+@1 1 Includes respondents who have not heard of HIV or who refused to answer questions on testing
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Y compris les enquêtées qui n'ont pas entendu parler du VIH ou qui ont refusé de répondre aux
+   questions sur le test
+{FR}}
+endfootnote;
+
+t13052 columns numman = 1 nodec;
+t13052 footnote
+{+EN}
+@1 1 Includes respondents who have not heard of HIV or who refused to answer questions on testing
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Y compris les enquêtées qui n'ont pas entendu parler du VIH ou qui ont refusé de répondre
+   aux questions sur le test
+{FR}}
+endfootnote;
+
+t1306 columns numresp = 1 nodec;
+
+t1307 columns hivkit1 = 3 nodec
+              hivkit2 = 3 nodec;
+t1307 footnote
+{+EN}
+na = Not available~
+{EN+}
+{{ES}
+na = No aplicable~
+{ES}}
+{{FR}
+na = Non applicable~
+{FR}}
+endfootnote;
+
+t13081  columns womhivp = 1 nodec;
+
+t13082  columns menhivp = 1 nodec;
+
+t1309 columns numman = 1 nodec;
+t1309 footnote
+{+EN}
+@1 Includes all men who report they are circumcised~
+@2 Includes all men who report that they are medically circumcised: those who are also
+   traditionally circumcised, those who are not traditionally circumcised, and those who
+   don't know whether or not they are traditionally circumcised
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Y compris tous les hommes ayant déclaré être circoncis~
+@2 Y compris tous les hommes ayant déclaré être circoncis médicalement: ceux qui sont 
+   aussi circoncis de manière traditionnelle, ceux qui ne sont pas circoncis de manière 
+   traditionelle et ceux qui ne savent pas s'ils sont, ou non, traditionnellement circoncis. 
+{FR}}
+endfootnote;
+
+t1310 columns headwom = 0 stiw2 = 0 nodec
+              headman = 0 stim2 = 0 nodec;
+t1310 footnote
+{+EN}
+na = Not applicable~
+@1 Includes all men who report they are circumcised~
+@2 Includes men who report they are 1) medically circumcised, but don't know whether
+   they are traditionally circumcised, 2) traditionally circumcised, but don't know
+   whether they are medically circumcised, or 3) circumcised, but don't know the
+   type of circumcision.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+na = Non applicable~
+@1 Y compris tous les hommes ayant déclaré être circoncis~
+@2 Y compris les hommes qui sont 1) circoncis médicalement mais qui ne savent pas
+   s'ils sont circoncis traditionnellement, 2) circoncis traditionnellement mais qui
+   ne savent pas s'ils sont médicalement circoncis, ou 3) circoncis mais qui ne connaissent
+   pas le type de circoncision.
+{FR}}
+endfootnote;
+
+t13111 columns numwom = 1 nodec;
+t13111 footnote
+{+EN}
+@1 Knowledge about HIV prevention means knowing that consistent use of condoms during
+   sexual intercourse and having just one uninfected faithful partner can reduce the
+   chance of getting HIV, knowing that a healthy-looking person can have HIV, and
+   rejecting two major misconceptions about HIV transmission: HIV can be transmitted
+   by mosquito bites and a person can become infected by sharing food with a
+   person who has HIV.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Connaître les moyens de prévention du VIH signifie que l'enquêtée sait non seulement
+   que l'utilisation régulière de condoms au cours de chaque rapport sexuel et la limitation
+   des rapports sexuels à un seul partenaire qui n'a pas contracté le VIH et qui n'a pas
+   d'autres partenaires peuvent réduire les risques de contracter le VIH mais aussi qu'une
+   personne paraissant en bonne santé peut néanmoins avoir le VIH et qui rejettent les deux
+   conceptions erronées sur la transmission du VIH selon lesquelles le VIH peut être transmis
+   par des piqûres de moustiques et en partageant le repas d'une personne ayant le VIH.
+{FR}}
+endfootnote;
+
+t13112 columns numman = 1 nodec;
+t13112 footnote
+{+EN}
+@1 Knowledge about HIV prevention means knowing that consistent use of condoms during
+   sexual intercourse and having just one uninfected faithful partner can reduce the
+   chance of getting HIV, knowing that a healthy-looking person can have HIV, and
+   rejecting two major misconceptions about HIV transmission: HIV can be transmitted
+   by mosquito bites and a person can become infected by sharing food with a
+   person who has HIV.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Connaître les moyens de prévention du VIH signifie que l'enquêté sait non seulement
+   que l'utilisation régulière de condoms au cours de chaque rapport sexuel et la limitation
+   des rapports sexuels à un seul partenaire qui n'a pas contracté le VIH et qui n'a pas
+   d'autres partenaires peuvent réduire les risques de contracter le VIH mais aussi qu'une
+   personne paraissant en bonne santé peut néanmoins avoir le VIH et qui rejettent les deux
+   conceptions erronées sur la transmission du VIH selon lesquelles le VIH peut être transmis
+   par des piqûres de moustiques et en partageant le repas d'une personne ayant le VIH.
+{FR}}
+endfootnote;
+
+t1312 columns womage1 = 2 nodec
+              womage2 = 2 nodec
+              manage1 = 2 nodec
+              manage2 = 2 nodec;
+t1312 footnote
+{+EN}
+na = Not available
+{EN+}
+{{ES}
+na = No aplicable
+{ES}}
+{{FR}
+na = Non applicable
+{FR}}
+endfootnote;
+
+t1313  columns sexmar1 = 2 nodec
+               sexmar2 = 2 nodec;
+
+t13141 columns sexpartw = 3 nodec
+               sexconw1 = 2 nodec
+               sexconw2 = 2 nodec;
+
+t13142 columns sexpartm = 3 nodec
+               sexconm1 = 2 nodec
+               sexconm2 = 2 nodec;
+
+t1315 columns hivres1 = 2 nodec
+              hivres2 = 2 nodec;
+

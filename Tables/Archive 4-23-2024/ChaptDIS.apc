@@ -1,0 +1,299 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines June 29, 2017         -      Version 1.0.0 of 08/03/2017    +}
+{+                                                                          +}
+{+    Disability tables                                                     +}
+{+                                                                          +}
+{+    db.1   - Disability by domain                                         +}
+{+    db.2.1 - Disability by background characterisitics (women)            +}
+{+    db.2.2 - Disability by background characterisitics (men)              +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, i1, iall, j, j1, jtot, jmax;
+  numeric rweight;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+    {+EN}
+    title( "Tables for chapter on disability, Country Survey 2020" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    {FR}}
+
+  crosstab float(1) db01  disab+disabage+dis15+total degdisab+somdisab+numpers
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table db.1  Disability by domain and age"," ",
+           "Percent distribution of de facto household population age 5 and over by the",
+           "degree of difficulty in functioning according to domain, and percent distribution",
+           "by the highest degree of difficulty in functioning in at least one domain by age,",
+           "Country Survey 2020")
+     stub( "Domain and age" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    title( "Table db.1  Handicap par type et par âge"," ",
+           "Répartition en (%) de la population de droit des ménages âgés de 5 ans et plus",
+           "selon le degré de difficulté de fonctionnement par domaine et répartition (en %)",
+           "par le plus haut degré de difficulté de fonctionnement dans au moins un domaine par âge",
+           "Pays Enquête 2020")
+     stub( "Type d'handicap et âge" );	
+    {FR}}
+  crosstab float(0) db01u  disab+disabage+dis15+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table db.1  Disability by domain and age (Number of unweighted cases)"," ",
+           "Country Survey 2020")
+    stub(  "Domain and age" );
+
+  crosstab float(1) db021  v501w7+hv025w+hv024w+v106w+hv270w+total nodisab+disab2+degdis2+degdis3+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table db.2.1  Disability among adults according to background characteristics: Women"," ",
+           "Percentage of the de facto female household population age 15 and over who have difficulty in",
+           "functioning according to domain, by the highest degree of difficulty in at least one",
+           "domain, and percentage with a lot of difficulty or cannot do at all in more than one domain,",
+           "according to background characteristics, Country Survey 2020")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    title( "Table db.2.1  Handicap parmi les femmes selon les caractéristiques sociodémographiques."," ",
+           "Pourcentage de la  de la population féminine de droit des ménages âgée de 15 ans et plus ayant",
+           "des difficultés de fonctionnement selon le handicap, et selon le niveau de difficulté",
+           "le plus élevé dans au moins un domaine, selon les caractéristiques sociodémographiques",
+           "Pays Enquête 2020")
+     stub( "Caractéristiques sociodémographiques" );		
+    {FR}}
+  crosstab float(0) db021u v501w7+hv025w+hv024w+v106w+hv270w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table db.2.1  Disability by background characteristics: Women (Number of unweighted cases)"," ",
+           "Country Survey 2020")
+     stub( "Background characteristic" );
+
+  crosstab float(1) db022  v501w7+hv025w+hv024w+v106w+hv270w+total nodisab+disab2+degdis2+degdis3+numman
+    exclude(rowzero,colzero,percents,totals,specval)
+    {+EN}
+    title( "Table db.2.2  Disability among adults according to background characteristics: Men"," ",
+           "Percentage of the de facto male household population age 15 and over who have difficulty in",
+           "functioning according to domain, by the highest degree of difficulty in at least one",
+           "domain, and percentage with a lot of difficulty or cannot do at all in more than one domain,",
+           "according to background characteristics, Country Survey 2020")
+     stub( "Background characteristic" );
+    {EN+}
+    {{ES}
+    {ES}}
+    {{FR}
+    title( "Table db.2.2  Handicap parmi les hommes selon les caractéristiques sociodémographiques."," ",
+           "Pourcentage de la  de la population masculine de droit des ménages âgée de 15 ans et plus ayant",
+           "des difficultés de fonctionnement selon le handicap, et selon le niveau de difficulté",
+           "le plus élevé dans au moins un domaine, selon les caractéristiques sociodémographiques",
+           "Pays Enquête 2020")
+     stub( "Caractéristiques sociodémographiques" );		
+    {FR}}
+  crosstab float(0) db022u  v501w7+hv025w+hv024w+v106w+hv270w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table db.2.2  Disability by background characteristics: Men (Number of unweighted cases)"," ",
+           "Country Survey 2020")
+     stub( "Background characteristic" );
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+  numpers  = 1;
+  numwom   = 1;
+  numman   = 1;
+  coltotu  = 1;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table db.1 processing }
+  jtot = tblcol( db01 );
+  do j = 0 while j < jtot
+    db01[*,j] = db01[*,j] * 100 / db01[*,jtot];
+  enddo;
+  j1 = tblcol( db01, degdisab );
+  db01[*,j1] = tblsum( column db01[*,0:j1-1] );
+  { check unweighted N's }
+  Col2Dim( "db01", db01, 0,    jtot-1, db01u, 0 );
+
+  { db02.1 processing }
+  jtot = tblcol( db021 );
+  jmax = tblcol( db021, degdis2 );   { A lot of difficulty or cannot do at all }
+  db021[*,jmax] = db021[*,jmax-1] + db021[*,jmax-2];
+  do j = 0 while j < jtot
+    db021[*,j] = db021[*,j] * 100 / db021[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "db021", db021, 0,    jtot-1, db021u, 0 );
+
+  { db02.2 processing }
+  jtot = tblcol( db022 );
+  jmax = tblcol( db022, degdis2 );   { A lot of difficulty or cannot do at all }
+  db022[*,jmax] = db022[*,jmax-1] + db022[*,jmax-2];
+  do j = 0 while j < jtot
+    db022[*,j] = db022[*,j] * 100 / db022[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "db022", db022, 0,    jtot-1, db022u, 0 );
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case endif;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = HV005 / 1000000;
+  endif;
+
+  hv024w  = HV024;
+  hv025w  = HV025;
+  hv270w  = HV270;
+
+  { table db.1 }
+  for i in RECHDIS do
+    if HV103(i) = 1 & HV105(i) in 5:98,missing then      { de-facto population age 5 and older }
+      disabage = notappl;
+      dis15    = notappl;
+      total    = notappl;
+
+      { first tabulate each type of disability one at a time }
+      do i1 = 1 while i1 <= 6
+        recode i1 -> degdisab;                      {  disab                                         degdisab                }
+                1 -> HDIS2;                         {  1;Difficulty seeing                           1;No difficulty         }
+                2 -> HDIS4;                         {  2;Difficulty hearing                          2;Some difficulty       }
+                3 -> HDIS5;                         {  3;Difficulty communicating                    3;A lot of difficulty   }
+                4 -> HDIS6;                         {  4;Difficulty remembering or concentrating     4;Can't do at all       }
+                5 -> HDIS7;                         {  5;Walking or climbing steps                   5;Don't know/ missing   }
+                  -> HDIS8;                         {  6;Difficulty washing all over or dressing     6;Total                 }
+        endrecode;
+        if degdisab = missing then degdisab = 8 endif;
+        somdisab = notappl;
+        if degdisab in 3,4 then somdisab = 1 endif;
+        disab = i1;
+        xtab( db01, rweight );
+        xtab( db01u );
+      enddo;
+      disab = notappl;
+
+      { now tabulate the pannel corresponding to age in groups }
+      recode HV105(i) -> disabage;
+                5:9   -> 1;
+               10:14  -> 2;
+               15:19  -> 3;
+               20:29  -> 4;
+               30:39  -> 5;
+               40:49  -> 6;
+               50:59  -> 7;
+               60:97  -> 8;
+          98,missing  -> 9;
+      endrecode;
+      total = 0;
+      dis15 = ( HV105(i) in 15:95 );
+      degdisab = HDIS9;
+      if degdisab = missing then degdisab = 8 endif;
+      somdisab = notappl;
+      if degdisab in 3,4 then somdisab = 1 endif;
+      xtab( db01, rweight );
+      coltotu = 1;
+      xtab( db01u );
+    endif;
+  enddo;
+
+  { tables db.2.1 & db.2.2 }
+  for i in RECHDIS do
+    if HV103(i) = 1 & HV105(i) in 15:98 then      { de-facto population age 15 and older }
+      recode HV115(i) -> v501w7;                  // HV115            v501w7
+                0     -> 0;                       // 0 Never married  0;Never married
+                1     -> 3;                       // 1 Married        3;Married/living together
+                3     -> 5;                       // 3 Widowed        4;Divorced or separated
+                4     -> 4;                       // 4 Divorced       5;Widowed
+                      -> 9;                       //                  9;Missing
+      endrecode;
+
+      v106w = HV106(i);
+      if HV106(i) in 8,missing then v106w = 9 endif;
+
+      degdis2 = notappl;
+      degdis3 = notappl;
+      disab2  = notappl;                   // Same as disab but with shorter labels....
+      numwom  = notappl;
+      numman  = notappl;
+      
+      total    = 0;
+      { tabulates: No difficulty in all domains, difficulty in at least one domain & number of cases }
+      degdisab = HDIS9;
+      nodisab  = ( degdisab = 1 );
+      if degdisab in 2:4 then degdis2 = degdisab endif;
+      coltotu = 1;
+      if HV104(i) = 2 then
+        numwom = 1;
+        xtab( db021, rweight );
+        xtab( db021u );
+      else
+        numman = 1;
+        xtab( db022, rweight );
+        xtab( db022u );
+      endif;
+      { A lot of difficulty or cannot do at all will be calculated in The postproc }
+
+      { now tabulate each type of disability one column at a time }
+      numwom  = notappl;
+      numman  = notappl;
+      nodisab = notappl;
+      degdis2 = notappl;
+      iall = 0;                            // count the lot of difficulty and the cannot do at all
+      do i1 = 1 while i1 <= 6
+        recode i1 -> degdisab;                // 1;No difficulty
+                1 -> HDIS2;                   // 2;Some difficulty
+                2 -> HDIS4;                   // 3;A lot of difficulty
+                3 -> HDIS5;                   // 4;Can't do at all
+                4 -> HDIS6;                   // 5;Don't know/ missing
+                5 -> HDIS7;                   // 6;Total
+                  -> HDIS8;
+        endrecode;
+        if degdisab in 2:4 then
+          disab2 = i1;
+          if HV104(i) = 2 then
+            xtab( db021, rweight );
+          else
+            xtab( db022, rweight );
+          endif;
+        endif;
+        if degdisab in 3:4 then
+          iall = iall + 1;
+        endif;
+      enddo;
+      disab2 = notappl;
+      { A lot of difficulty or cannot do at all in more than one domain }
+      if iall > 1 then
+        degdis3 = 1;
+        if HV104(i) = 2 then
+          xtab( db021, rweight );
+        else
+          xtab( db022, rweight );
+        endif;
+      endif;
+    endif;
+  enddo;
+
+

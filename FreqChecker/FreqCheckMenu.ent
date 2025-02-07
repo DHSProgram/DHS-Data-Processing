@@ -1,0 +1,25 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=FreqCheckMenu
+Name=FreqCheckMenu
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[External Dictionaries]
+File=.\vfreq.dcf
+File=.\afreq.dcf
+File=.\vars.dcf
+[AppCode]
+File=.\FreqCheckMenu.apc
+[Message]
+File=.\FreqCheckMenu.mgf
+[Help]
+File=.\FreqCheckMenu.qsf
+[Forms]
+File=.\FreqCheckMenu.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Menu.dcf,Input,.\FreqCheckMenu.fmf
+Dict-Type=.\vfreq.dcf,External
+Dict-Type=.\afreq.dcf,External
+Dict-Type=.\vars.dcf,External

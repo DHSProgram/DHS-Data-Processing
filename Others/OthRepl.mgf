@@ -1,0 +1,16 @@
+﻿1 Failed to retrieve "Other" answer for case %s question %s occ %s
+2 Code "%s" assigned for question(s): %s
+3 Code %s can not be used for question %s
+4 Question %s=%s: %s assigned for questions: %s
+5 Major category changed from %d to %d for question %s
+6 Response was "%s"
+9 Could not find original code "%s" in string "%s"
+10 New method code (%2d) is a precoded method in entry %2d in contraceptive table
+11 Became user of sterilization in entry %2d, code %2d, ever user=%1d
+12 Inconsistency between %s=%d and contraceptive table
+13 Inconsistency between method used in calendar row %1d=%s (%2d) and contraceptive table A301N(%1d)=%1d A301N(%1d)=%1d
+14 Inconsistency between method used in calendar row %1d=%s and current method A307=%1s
+15 Inconsistency between %s=%d and %s =%d B=%d C=%d
+20 Questions%6d: Others  Read  Recoded  Uncoded
+21 Code %10s:%6d %6d  %6d   %6d
+22 Total%10d:%6d %6d  %6d   %6d

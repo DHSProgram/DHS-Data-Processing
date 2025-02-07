@@ -1,0 +1,271 @@
+﻿---
+fileType: Question Text
+version: CSPro 7.7
+languages:
+  - name: EN
+    label: English
+  - name: ES
+    label: Español
+styles:
+  - name: Normal
+    className: normal
+    css: |
+      font-family: Arial;font-size: 21px;
+  - name: Instruction
+    className: instruction
+    css: |
+      font-family: Arial;font-size: 21px;color: #0000FF;
+questions:
+  - name: FIELDWKQ.FW101
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD FIELDWORKER NUMBER</span></p>
+          ES: |
+            <p><span class="instruction">REGISTRE EL CODIGO DEL TRABAJADOR DE CAMPO</span></p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW102
+    conditions:
+      - questionText:
+          EN: |
+            <p>In what [PROVINCE/REGION/STATE] do you live?</p>
+          ES: |
+            <p>En que [PROVINCIA/REGION/ESTADO] vive usted?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW103
+    conditions:
+      - questionText:
+          EN: |
+            <p>Do you live in a city, town, or rural area?</p>
+          ES: |
+            <p>Vive usted en una ciudad, pueblo, o area rural?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW104
+    conditions:
+      - questionText:
+          EN: |
+            <p>How old are you?</p>
+          ES: |
+            <p>Cual es su edad actual?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW105
+    conditions:
+      - questionText:
+          EN: |
+            <p>Are you male or female?</p>
+          ES: |
+            <p>Es usted un hombre o una mujer?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW106
+    conditions:
+      - questionText:
+          EN: |
+            <p>What is your current marital status?</p>
+          ES: |
+            <p>Cual es su estado civil actual?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW107
+    conditions:
+      - questionText:
+          EN: |
+            <p>How many living children do you have?</p>
+          ES: |
+            <p>Cuantos hijos vivos tiene usted?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW108
+    conditions:
+      - questionText:
+          EN: |
+            <p>Have you ever had a child who died?</p>
+          ES: |
+            <p>Ha tenido algun hijo que murio?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW109
+    conditions:
+      - questionText:
+          EN: |
+            <p>What is the highest level of school you attended: primary, secondary, or higher?</p>
+          ES: |
+            <p>Cual es el nivel mas alto de estudios al que usted asisitio: primaria, secundaria, o superior?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW110
+    conditions:
+      - questionText:
+          EN: |
+            <p>What is the highest [GRADE/FORM/YEAR] you completed at that level?</p>
+          ES: |
+            <p>Cual es el [GRADO/AÑO] que usted completo en ese nivel?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW111
+    conditions:
+      - questionText:
+          EN: |
+            <p>What is your religion?</p>
+          ES: |
+            <p>Cual es su religion?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW112
+    conditions:
+      - questionText:
+          EN: |
+            <p>What is your ethnicity?</p>
+          ES: |
+            <p>A que grupo etnico pertenece usted?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW113
+    conditions:
+      - questionText:
+          EN: |
+            <p>What languages can you speak?</p>
+          ES: |
+            <p>Que lenguajes habla usted?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW114
+    conditions:
+      - questionText:
+          EN: |
+            <p>What is your mother tongue/native language (language spoken at home growing up)?</p>
+          ES: |
+            <p>Cual es su lengua materna o lenguaje nativo (lenguaje hablado en casa cuando estaba creciendo)?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FW115_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>Have you ever worked on:</p>
+          ES: |
+            <p>Ha usted trabajado en:</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW115A
+    conditions:
+      - questionText:
+          EN: |
+            <p>a) a [DHS] prior to this survey?</p>
+          ES: |
+            <p>a) una [ENDES] antes de esta encuesta?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW115B
+    conditions:
+      - questionText:
+          EN: |
+            <p>b) an [MIS] prior to this survey?</p>
+          ES: |
+            <p>b) una [MIS] antes de esta encuesta?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW115C
+    conditions:
+      - questionText:
+          EN: |
+            <p>c) any other survey prior to this survey?</p>
+          ES: |
+            <p>c) alguna otra encuesta antes de esta encuesta?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW116
+    conditions:
+      - questionText:
+          EN: |
+            <p>Were you already working for [NAME OF IMPLEMENTING AGENCY 1 or NAME OF IMPLEMENTING AGENCY 2] at the time you were employed to work on this DHS?</p>
+          ES: |
+            <p>Estaba usted trabajando para [NOMBRE DE LA INSTITUCION IMPLEMENTADORA 1 o NOMBRE DE LA INSTITUCION IMPLEMENTADORA 2] al momento que fue contratado para trabajar en esta ENDES?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW117
+    conditions:
+      - questionText:
+          EN: |
+            <p>Are you a permanent or temporary employee of [NAME OF IMPLEMENTING AGENCY 1 or NAME OF IMPLEMENTING AGENCY 2]?</p>
+          ES: |
+            <p>Es usted un empleado permanente o temporal de [NOMBRE DE LA INSTITUCION IMPLEMENTADORA 1 o NOMBRE DE LA INSTITUCION IMPLEMENTADORA 2]?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+  - name: FIELDWKQ.FW118
+    conditions:
+      - questionText:
+          EN: |
+            <p>If you have any comments, please write them here</p>
+          ES: |
+            <p>Tiene algun comentario que desea escribir?</p>
+        helpText:
+          EN: |
+            
+          ES: |
+            
+...

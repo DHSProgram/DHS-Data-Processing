@@ -1,0 +1,1497 @@
+﻿PROC GLOBAL
+{+---------------------------------------------------------------------------+}
+{+                                                                           +}
+{+   Guidelines July 7, 2021          -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                           +}
+{+   CHAPTER 1.  INTRODUCTION                                                +}
+{+                                                                           +}
+{+   1.1   Results of the household and individual interviews     (MALARIA)  +}
+{+                                                                           +}
+{+   CHAPTER 2.  HOUSEHOLD POPULATION AND HOUSING CHARACTERISTICS            +}
+{+   2.1    Household characteristics                             (MALARIA)  +}
+{+   2.2    Household characteristics: Cooking                    (MALARIA)  +}
+{+   2.3    Household characteristics: Heating and lighting                  +}
+{+   2.4    Primary reliance on clean fuels and technologies                 +}
+{+   2.5    Household possessions                                 (MALARIA)  +}
+{+   2.6    Wealth quintiles                                      (MALARIA)  +}
+{+   2.7    Household population by age, sex, and residence       (MALARIA)  +}
+{+   2.7a   Population pyramid (Working table for Figure 2.1)     (MALARIA)  +}
+{+   2.8    Household composition                                 (MALARIA)  +}
+{+   2.9    Children's living arrangements and orphanhood                    +}
+{+   2.10   Birth registration of children under age five                    +}
+{+   2.11.1 Education attainment of female household population              +}
+{+   2.11.2 Education attainment of male household population                +}
+{+   2.12   School attendance ratios                                         +}
+{+   2.12a  Age-specific attendance rates (for Figure 2.2)                   +}
+{+   2.13   Participation rate in organized learning                         +}
+{+                                                                           +}
+{+---------------------------------------------------------------------------+}
+
+  numeric i, imin, imax, imax1, itot, itot1, itot2, itot3, j, jmin, jmax, jtot, jtot1, jtot2, jtot3, k;
+  numeric rweight, mothaliv, livemoth, fathaliv, livefath, mothdead, fathdead;
+  numeric parlivs, imean, maxeduc, jmed, jreg, ifem, sdgsex, temp;
+  numeric ginicoeff, wlthrng, wlthgrp, popdist, wlthdist, wlthgrps, idx;
+  numeric yeareduc, mntheduc, cmceduci, cmceducf, ageatsch, xtemp, cmctemp;
+
+  array cmcbirth(100);       { children's CMC of birth from level 2 to level 1 to properly calculate NAR and GAR in table 2.13 }
+  array SchoolAge(100);      { to store age at school needed for tables 2.12 and 2.13 }
+
+  array ScoreMin(100);       { stores the minimum score for each background category for which the Gini coefficient is calculated }
+  array ScoreMax(100);       { stores the maximum score for each background category for which the Gini coefficient is calculated }
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 2, [Country Survey Year]" );
+{EN+}
+{{ES}
+    title( "Cuadros para el Capítulo 2, [País Encuesta Año]" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 2, [Pays, Enquête, Année]" );
+{FR}}
+
+  crosstab float(0) t101  hhresult+hhrate+wresult+wrate+hhsubsam+hhratesu+mresult+mrate hv025w+total
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 1.1 }
+{+EN}
+   title( "Table 1.1 Results of the household and individual interviews"," ",
+          "Number of households, number of interviews, and response rates,",
+          "according to residence (unweighted), [Country Survey Year]" )
+    stub( "Result" );
+{EN+}
+{{ES}
+   title( "Cuadro 1.1 Resultado de las entrevistas de hogares e individuales"," ",
+          "Número de hogares, número de entrevistas y tasas de respuesta,",
+          "según zona de residencia (sin ponderar), [País Encuesta Año]" )
+    stub( "Resultado" );
+{ES}}
+{{FR}
+   title( "Tableau 1.1   Résultats des interviews ménage et individuelle"," ",
+          "Effectif de ménages, nombre d'interviews",
+          "et taux de réponse par milieu de résidence (non pondéré),",
+		  "[Pays, Enquête, Année]" )
+    stub( "Résultat" );
+{FR}}
+
+  crosstab float(1) t201 hv206w+totalt+hv213w+totalt+hv216w+totalt+hv252w+tothh2 hhandpop*(hv025w1+total)
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.5 }
+{+EN}
+    title( "Table 2.1 Household characteristics"," ",
+           "Percent distribution of households and de jure population by housing characteristics",
+		   "and percent distribution by frequency of smoking in the home, according to residence,",
+           "[Country Survey Year]" )
+     stub( "Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 2.1 Características de los hogares"," ",
+           "Percent distribution of households and de jure population by housing characteristics,",
+           "percentage using solid fuel for cooking, percentage using clean fuel for cooking,"
+           "and percent distribution by frequency of smoking in the home, according to residence,",
+           "[Country Survey Year]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 2.1  Caractéristiques du ménage: Logement"," ",
+           "Répartition (en %) des ménages et de la population de droit par certaines",
+           "caractéristiques du logement, et répartition (en %) des ménages par fréquence",
+           "à laquelle on fume dans le logement, selon le milieu de résidence,",
+		   "[Pays, Enquête, Année]" )
+     stub( "Caractéristique" );
+{FR}}
+
+  crosstab float(1) t202 cookplc+totalt+cooktech+totalt+cookfuel+tothh2 hhandpop*(hv025w1+total)
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.6 }
+{+EN}
+    title( "Table 2.2 Household characteristics: Cooking "," ",
+           "Percent distribution of households and de jure population by place for cooking,",
+		   "cooking technology, and cooking fuel, according to residence,",
+           "[Country Survey Year]" )
+     stub( "Characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 2.2  Caractéristiques du ménage : Cuisine"," ",
+           "Répartition (en %) des ménages et de la population de droit par endroit où se",
+           "fait la cuisine, par équipement de cuisine, et combustible utilisé pour cuisiner,",
+           "selon le milieu de résidence, [Pays, Enquête, Année]" )
+     stub( "Caractéristique" );
+{FR}}
+
+  crosstab float(1) t203 heatech+totalt+heatfuel+totalt+lightech+tothh2 hhandpop*(hv025w1+total)
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 2.3 Household characteristics: Heating and lighting"," ",
+           "Percent distribution of households and de jure population by heating technology,",
+		   "heating fuel, and main lighting fuel or technology, according to residence,",
+           "[Country Survey Year]" )
+     stub( "Characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 2.3 Caractéristiques du ménage : Chauffage et éclairage"," ",
+	       "Répartition (en %) des ménages et de la population de droit par technologie",
+		   "de chauffage, combustible pour le chauffage et principal combustible ou",
+		   "technologie pour l'éclairage, selon le milieu de résidence, [Pays, Enquête, Année]")
+     stub( "Caractéristique" );
+
+{FR}}
+
+  crosstab float(1) t204  hv025w+hv024w+hv270w+total cookheli
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 2.4 Primary reliance on clean fuels and technologies"," ",
+           "Percentage of de jure population relying on clean fuels and technologies",
+		   "for cooking, percentage relying on solid fuels for cooking, percentage",
+		   "relying on clean fuel and technologies for space heating, percentage",
+		   "relying on clean fuel and technologies for lighting, and percentage relying",
+		   "on clean fuels and technologies for cooking, space heating, and lighting,",
+		   "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 2.4  Dépendance principale à l'égard des combustibles et technologies propres"," ",
+           "Pourcentage de la population de droit dépendant de combustibles et de technologies propres pour la cuisine,","
+		   "pourcentage dépendant de combustibles solides pour la cuisine, pourcentage dépendant de combustibles et de technologies propres pour le chauffage d'appoint,",
+		   "pourcentage dépendant de combustibles et de technologies propres pour l'éclairage, ",
+		   "pourcentage dépendant de combustibles et de technologies propres pour la cuisine, le chauffage d'appoint et l'éclairage,",
+		   "selon certaines caractéristiques socio-économiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+
+  crosstab float(1) t205 heffects+transp+hv244w+hv246w+numhh  hv025w+total
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.7 }
+{+EN}
+    title( "Table 2.5 Household possessions"," ",
+           "Percentage of households possessing various household effects, means of transportation,",
+           "agricultural land and livestock/farm animals by residence, [Country Survey Year]" )
+     stub( "Possession" );
+{EN+}
+{{ES}
+    title( "Cuadro 2.5 Bienes de consumo duradero"," ",
+           "Porcentaje de hogares que poseen varios bienes generales, medios de transporte, tierras cultivables",
+           "y animales de granja, por zona de residencia, [País Encuesta Año]" )
+     stub( "Bienes" );
+{ES}}
+{{FR}
+    title( "Tableau 2.5 Biens possédés par le ménage"," ",
+           "Pourcentage de ménages possédant certains équipements, des moyens",
+           "de transport, de la terre agricole et du bétail/animaux de ferme",
+           "par milieu de résidence, [Pays, Enquête, Année]" )
+     stub( "Possession" );
+{FR}}
+
+  crosstab float(1) t206  hv025w+hv024w+total hv270w+totnum3+gini
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.8 }
+{+EN}
+    title( "Table 2.6 Wealth quintiles"," ",
+           "Percent distribution of the de jure population by wealth quintiles, and the Gini",
+           "coefficient, according to residence and region, [Country Survey Year]" )
+     stub( "Residence/region" );
+{EN+}
+{{ES}
+    title( "Cuadro 2.6 Quintiles de riqueza"," ",
+           "Distribución porcentual de la población de jure por quintiles de riqueza;",
+           "y el coeficiente de Gini, según región y zona de residencia, [País Encuesta Año]" )
+     stub( "Zona/región" );
+{ES}}
+{{FR}
+    title( "Tableau 2.6 Quintiles de bien-être économique"," ",
+           "Répartition (en %) de la population de droit par quintile de bien-être",
+           "économique et coefficient de Gini, selon le milieu de résidence",
+           "et la région, [Pays, Enquête, Année]" )
+     stub( "Résidence/région" );
+{FR}}
+  crosstab float(3) t206w hv025w+hv024w+total wigrp popwlth
+    exclude(rowzero,colzero,percents,totals,specval);
+
+  crosstab float(1) t207  hhage1+totalt+hhagea+totalt+hhageb+totalt+adol1019+numpers hv025w1*(hhsex+total)+total*(hhsex+total)
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.9 }
+{+EN}
+   title( "Table 2.7 Household population by age, sex, and residence"," ",
+          "Percent distribution of the de facto household population by",
+          "age groups, according to sex and residence,",
+          "[Country Survey Year]" )
+    stub( "Age");
+{EN+}
+{{ES}
+    title( "Cuadro 2.7 Población de los hogares por edad, sexo y residencia urbana-rural"," ",
+           "Distribución porcentual de la población de facto de los hogares por grupos",
+           "quinquenales de edad, según sexo y residencia urbana-rural, [País Encuesta Año]" )
+     stub( "Grupo de edad" );
+{ES}}
+{{FR}
+    title( "Tableau 2.7 Population des ménages par âge, sexe et milieu de résidence"," ",
+           "Répartition (en %) de la population de fait des ménages par différents",
+           "groupes d'âges et pourcentage de la population de fait des ménages de 10-19 ans,",
+           "selon le sexe et le milieu de résidence, [Pays, Enquête, Année]" )
+     stub( "Groupe d'âges" );
+{FR}}
+  crosstab float(0) t207w hsex
+    exclude(rowzero,colzero,specval)
+{+EN}
+    title( "2.7w de facto population by sex"," ",
+           "If there are household members with sex missing, add a footnote to table 2.7" );
+{EN+}
+{{ES}
+    title( "Cuadro 2.7w Población de facto por sexo"," ",
+           "Si hay miembros del hogar con información de sexo que falta, agregue una nota al Cuadro 2.7" );
+{ES}}
+{{FR}
+    title( "2.7w Population (de fait) par sexe"," ",
+           "S'il y a des membres du ménage dont le sexe est indéterminé, ajouter une note",
+           "au bas du tableau 2.7" );
+{FR}}
+
+  crosstab float(1) t207a hhage1+totnum1 hhsex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - figure 2.1W }
+{+EN}
+    title( "Figure 2.1W Population pyramid (WORKING TABLE ONLY)"," ",
+           "Percent distribution of the de facto household population by",
+           "5-year age groups, according to sex, [Country Survey Year]" )
+     stub( "Age" );
+{EN+}
+{{ES}
+    title( "Cuadro 2.1w Pirámide de población (cuadro de trabajo para Gráfico 2.1)"," ",
+           "Distribución porcentual de la población de facto de los hogares por",
+           "grupos quinquenales de edad según sexo, [País Encuesta Año]" )
+     stub( "Grupo de edad" );
+{ES}}
+{{FR}
+    title( "Graphique 2.1W  Pyramide de la population  (TABLEAU DE TRAVAIL SEULEMENT)"," ",
+           "Répartition (en%) de la population de fait des ménages par",
+           "groupe d'âges quinquennal, selon le sexe, [Pays, Enquête, Année]" )
+     stub( "Groupe d'âges" );
+{FR}}
+
+  crosstab float(1) t208 hv219w+totalt+hv012w+totmean1+dorphan+sorphan+foster+fostorph+numhh hv025w+total
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table 2.10 }
+{+EN}
+    title( "Table 2.8 Household composition"," ",
+           "Percent distribution of households by sex of head of household and by household size;",
+           "mean size of households; and percentage of households with orphans and children under",
+		   "age 18 not living with a biological parent, according to residence,",
+           "[Country Survey Year]" )
+     stub( "Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 2.8 Composición de los hogares"," ",
+           "Distribución porcentual de los hogares por sexo del jefe del hogar",
+           "y por tamaño del hogar; tamaño promedio de los hogares; y porcentaje de hogares",
+           "con niños/as huérfanos menores de 18 años de edad, según residencia urbana-rural, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 2.8 Composition des ménages"," ",
+           "Répartition (en %) des ménages par sexe du chef de ménage et par taille",
+		   "du ménage ; taille moyenne des ménages ; et pourcentage de ménages avec",
+		   "des enfants de moins de 18 ans qui sont orphelins ou ne vivant pas avec",
+		   "un parent biologique, selon le milieu de résidence, [Pays, Enquête, Année]" )
+     stub( "Caractéristique" );
+{FR}}
+  crosstab float(0) t208w numhhper hv025w+total
+    exclude(rowzero,colzero,percents,totals,specval);
+
+  crosstab float(1) t209 hhage18+hsex+hv025w+hv024w+hv270w+total15+total18
+                         parlivsa+parlivsb+parlivsc+parlivsd+totperc1+numchild
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 2.9 Children's living arrangements and orphanhood"," ",
+           "Percent distribution of de jure children under age 18 by",
+           "living arrangements and survival status of parents, percentage",
+           "of children not living with a biological parent, and percentage",
+           "of children with one or both parents dead,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 2.9 Situación de residencia de los niños/as y orfandad"," ",
+           "Distribución porcentual de la población de jure menor de 18 años",
+           "por situación de residencia y sobrevivencia de los padres; porcentaje de niños/as",
+           "que no viven con un padre biológico; y porcentaje de niños/as con uno o ambos padres",
+           "fallecidos, según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 2.9  Enfants orphelins et résidence des enfants avec les parents"," ",
+           "Répartition (en %) de la population de droit des enfants de moins de 18 ans",
+           "par état de survie des parents et résidence avec les parents, pourcentage d'enfants ne",
+		   "vivant avec aucun parent biologique et pourcentage d'enfants dont l'un ou les deux parents sont décédés,",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t209u hhage18+hsex+hv025w+hv024w+hv270w+total15+total18 total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 2.9 Children's living arrangements and orphanhood (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t210  hhage4+hsex+hv025w+hv024w+hv270w+total hv140w+chregist+numchild
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 2.10 Birth registration of children under age 5"," ",
+           "Percentage of de jure children under age 5 whose births are registered",
+           "with the civil authorities, according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 2.10 Registro del nacimiento para menores de 5 años"," ",
+           "Porcentaje de la población de jure menor de 5 años de edad cuyos nacimientos fueron",
+           "registrados ante la autoridad civil, según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 2.10  Enregistrement à l'état civil des naissances d'enfants de moins de 5 ans"," ",
+           "Pourcentage d'enfants de moins de 5 ans (population de droit)",
+           "dont la naissance a été enregistrée à l'état civil",
+           "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t210u  hhage4+hsex+hv025w+hv024w+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 2.10 Birth registration of children under age five (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t2111  hhage3+hv025w+hv024w+hv270w+total hheduc+totnmed1
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 2.11.1 Educational attainment of the female household population"," ",
+           "Percent distribution of the de facto female household",
+           "population age 6 and over by highest level of schooling",
+           "attended or completed and median years completed,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 2.11.1 Nivel de educación de la población femenina de los hogares"," ",
+           "Distribución porcentual de la población de facto femenina de 6 años o más de edad,",
+           "por nivel educativo más alto alcanzado o asistido, y mediana de años de estudio completados,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 2.11.1 Niveau d'instruction de la population des ménages: Femme"," ",
+           "Répartition (en %) de la population de fait des femmes des ménages",
+           "âgées de 6 ans et plus, en fonction du plus haut niveau d'instruction",
+           "atteint ou achevé et nombre médian d'années complétées,",
+           "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(1) t2111w hhage3+hv025w+hv024w+hv270w+total educmed
+    exclude(rowzero,colzero,percents,totals,specval);
+  crosstab float(0) t2111u  hhage3+hv025w+hv024w+hv270w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 2.11.1 Educational attainment of the female household population (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t2112  hhage3+hv025w+hv024w+hv270w+total hheduc+totnmed1
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 2.11.2 Educational attainment of the male household population"," ",
+           "Percent distribution of the de facto male household",
+           "population age 6 and over by highest level of schooling",
+           "attended or completed and median years completed,",
+           "according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 2.11.2 Nivel de educación de la población masculina de los hogares"," ",
+           "Distribución porcentual de la población de facto masculina de 6 años o más de edad,",
+           "por nivel educativo más alto alcanzado o asistido y mediana de años de estudio completados,",
+           "según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 2.11.2  Niveau d'instruction de la population des ménages : Homme"," ",
+		   "Répartition (en %) de la population de fait des hommes des ménages",
+           "âgés de 6 ans et plus, en fonction du plus haut niveau d'instruction atteint ou achevé",
+           "et nombre médian d'années complétées, selon certaines caractéristiques sociodémographiques,",
+           "[Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(1) t2112w hhage3+hv025w+hv024w+hv270w+total educmed
+    exclude(rowzero,colzero,percents,totals,specval);
+  crosstab float(0) t2112u  hhage3+hv025w+hv024w+hv270w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 2.11.2 Educational attainment of the male household population (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t212  hv025w+hv024w+hv270w+totalt attrat*(hhsex+total+gparity) schlev
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 2.12 School attendance ratios"," ",
+           "Net attendance ratios (NAR) and gross attendance ratios (GAR)",
+           "for the de facto household population by sex and level of schooling; and the",
+           "Gender Parity Index (GPI), according to background characteristics, [Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 2.12 Tasas de asistencia escolar"," ",
+           "Tasa neta de asistencia (TNA) y tasa bruta de asistencia (TBA) para la ",
+           "población de facto de los hogares, por sexo y nivel de escolaridad;",
+           "y el Indice de Paridad de Género (IPG), según características seleccionadas, [País Encuesta Año]" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 2.12 Taux de fréquentation scolaire"," ",
+           "Taux Net de Fréquentation scolaire (TNF) et",
+           "Taux Brut de Fréquentation scolaire (TBF), de la population de fait",
+		   "des ménages, par sexe et niveau d'études, et indice de parité entre les genres",
+		   "selon certaines caractéristiques sociodémographiques, [Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t212w hv025w+hv024w+hv270w+total attrat*(hhsex+total+gparity) schlev
+    exclude(rowzero,colzero,percents,totals,specval);
+
+  crosstab float(1) t212a agehhs tpercatt hsex
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Figure 2.2W Age-specific attendance rates of the de facto population age 5-24 years (WORKING TABLE ONLY)"," ",
+           "Percentage of the de facto household population age 5-24",
+           "years attending school, by age and sex, [Country Survey Year]" );
+{EN+}
+{{ES}
+    title( "Gráfico 2.2W Tasas de asistencia escolar por edades específicas para la población de facto 5-24 (TABLA DE TRABAJO)","",
+           "Porcentaje de la población de facto de 5-24 años de edad",
+           "asistiendo a la escuela, por edad y sexo, [País Encuesta Año]" );
+{ES}}
+{{FR}
+    title( "Graphique 2.2W Taux de fréquentation scolaire par âge de la population des 5-24 ans (population de fait) (TABLEAU DE TRAVAIL SEULEMENT)"," ",
+           "Pourcentage de la population de fait des ménages âgée de 5-24 ans",
+           "qui fréquente l'école, par âge et par sexe, [Pays, Enquête, Année]" );
+{FR}}
+
+  crosstab float(1) t213 hsex+hv025w+hv024w+hv270w+total chschool+narnumch
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 2.13 Participation rate in organized learning"," ",
+           "Percent distribution of children age one year younger than the official",
+		   "primary school entry age at the beginning of the school year by attendance",
+		   "at an early childhood education program or primary school, and the adjusted",
+		   "net attendance ratio (NAR), according to background characteristics,",
+           "[Country Survey Year]" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 2.13  Taux de participation dans des activités d'apprentissage organisées"," ",
+           "Répartition (en %) des enfants qui ont un an de moins que l'âge officiel d'entrée en cycle primaire au début de l'année scolaire par fréquentation d'un programme d'éducation préscolaire ou d'une école primaire,",
+		   "et taux net de frequentation scolaire ajusté (TNF), selon certaines caractéristiques sociodémographiques,",
+		   "[Pays, Enquête, Année]" )
+     stub( "Caractéristique sociodémographique" );
+
+
+{FR}}
+  crosstab float(0) t213u hsex+hv025w+hv024w+hv270w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 2.13 Participation rate in organized learning (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+PROC RECODE8_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  total    = 0;
+  totalt   = 0;
+  numhh    = 1;
+  numchild = 1;
+  numpers  = 1;
+  totmean1 = 0;
+  totnmed1 = 1;
+  totnum1  = 1;
+  totnum3  = 1;
+  totnum9  = 1;
+  maxeduc  = 15;
+  totperc1 = 3;
+  tothh2   = 1;
+
+  { !! run application GiniMinMax to obtain the minimums and maximums for the wealth index scores }
+  { !! make sure that arrays are initialized with the same index produced by that application     }
+  { !! Note that in the initialization below regions 8-11 don't exist                             }
+  { *** remove this comment after the values coming from GiniMinMax are copied and pasted
+  ScoreMin( 1) = -222285;  ScoreMax( 1) = 407319;   { Total               }
+  ScoreMin( 2) = -222285;  ScoreMax( 2) = 303669;   { Residence: Urban    }
+  ScoreMin( 3) = -156466;  ScoreMax( 3) = 407319;   { Residence: Rural    }
+  ScoreMin( 4) =  -85789;  ScoreMax( 4) = 291999;   { Region   :  1       }
+  ScoreMin( 5) = -156466;  ScoreMax( 5) = 237670;   { Region   :  2       }
+  ScoreMin( 6) =  -94416;  ScoreMax( 6) = 273493;   { Region   :  3       }
+  ScoreMin( 7) = -108586;  ScoreMax( 7) = 407319;   { Region   :  4       }
+  ScoreMin( 8) = -203554;  ScoreMax( 8) = 234452;   { Region   :  5       }
+  ScoreMin( 9) = -145587;  ScoreMax( 9) = 261429;   { Region   :  6       }
+  ScoreMin(10) = -102288;  ScoreMax(10) = 303669;   { Region   :  7       }
+  ScoreMin(15) = -222285;  ScoreMax(15) = 261832;   { Region   : 12       }
+  ScoreMin(16) =  -89788;  ScoreMax(16) = 282207;   { Region   : 13       }
+  ScoreMin(17) = -100214;  ScoreMax(17) = 302198;   { Region   : 14       }
+  ScoreMin(18) =  -87069;  ScoreMax(18) = 318995;   { Region   : 15       }
+  *** this comment also needs to be removed after copying the results from GiniMinMax    ********       }
+  wlthgrps = 100;          { Divide population into 100 groups for Gini calculations }
+
+  yeareduc = 2020;    { !! Survey academic year. Use first year if survey goes across two years }
+  mntheduc = 02;      { !! Month when survey academic starts. Ask for it to SM                  }
+  cmceduci = cmcode( mntheduc, yeareduc );
+  seed(101);               { to initiate ramdomization for members age at the beginning of school year }
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 1.1 processing }
+  itot = tblrow( t101, hhrate );         { household response rate }
+  t101[itot,*] = t101[itot-1,*] * 100 / t101[itot-2,*];
+  itot = tblrow( t101, wrate );          { women response rate }
+  t101[itot,*] = t101[itot-1,*] * 100 / t101[itot-2,*];
+  itot = tblrow( t101, hhratesu );       { household response rate in subsample }
+  t101[itot,*] = t101[itot-1,*] * 100 / t101[itot-2,*];
+  itot = tblrow( t101, mrate );          { men response rate }
+  t101[itot,*] = t101[itot-1,*] * 100 / t101[itot-2,*];
+
+  { Table 2.1 processing }
+  itot = tblrow( t201 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    t201[i,*] = t201[i,*] * 100 / t201[itot,*];
+  enddo;
+
+  { electricity }
+  imin = tblrow( t201,  hv206w   = 1 );
+  imax = tblrow( t201,  totalt(1) = 0 ) - 1;
+  t201[imax+1,*] = tblsum( row t201[imin:imax,*] );
+
+  { flooring material }
+  imin = tblrow( t201,  totalt(1) = 0 ) + 1;
+  imax = tblrow( t201,  totalt(2) = 0 ) - 1;
+  t201[imax+1,*] = tblsum( row t201[imin:imax,*] );
+
+  { rooms used for sleeping }
+  imin = tblrow( t201,  totalt(2) = 0 ) + 1;
+  imax = tblrow( t201,  totalt(3) = 0 ) - 1;
+  t201[imax+1,*] = tblsum( row t201[imin:imax,*] );
+
+  { frequency of smoking }
+  imin = tblrow( t201,  totalt(3) = 0 ) + 1;
+  imax = itot - 2;
+  t201[imax+1,*] = tblsum( row t201[imin:imax,*] );
+
+  { Table 2.2 processing }
+  itot = tblrow( t202 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    t202[i,*] = t202[i,*] * 100 / t202[itot,*];
+  enddo;
+
+  { total for place for cooking }
+  imax = tblrow( t202,  totalt(1) = 0 );
+  t202[imax,*] = tblsum( row t202[0:imax-1,*] );
+  { calculate cook in house }
+  imax = tblrow( t202, cookplc  = 1 );
+  t202[imax,*] = tblsum( row t202[imax+1:imax+2,*] );
+
+  { total for cooking technology }
+  imin = tblrow( t202,  totalt(1) = 0 ) + 1;
+  imax = tblrow( t202,  totalt(2) = 0 ) - 1;
+  t202[imax+1,*] = tblsum( row t202[imin:imax,*] );
+  { clean fuels and technology }
+  imin = tblrow( t202,  cooktech = 1 );
+  imax = tblrow( t202,  cooktech = 7 );
+  t202[imin,*] = tblsum( row t202[imin+1:imax,*] );
+  { other fuel and technologies }
+  imin = tblrow( t202,  cooktech = 8 );
+  imax = tblrow( t202,  cooktech = 17 );
+  t202[imin,*] = tblsum( row t202[imin+1:imax,*] );
+  { manufactured solid fuel stove }
+  imin = tblrow( t202,  cooktech = 10 );
+  imax = tblrow( t202,  cooktech = 12 );
+  t202[imin,*] = tblsum( row t202[imin+1:imax,*] );
+  { traditional solid fuel stove }
+  imin = tblrow( t202,  cooktech = 13 );
+  imax = tblrow( t202,  cooktech = 15 );
+  t202[imin,*] = tblsum( row t202[imin+1:imax,*] );
+
+  { totals for cooking fuel }
+  imin = tblrow( t202, totalt(2) = 0 ) + 1;
+  imax = itot - 2;
+  t202[imax+1,*] = tblsum( row t202[imin:imax,*] );
+  { solid fuels for cooking }
+  imin = tblrow( t202, cookfuel = 2 );
+  imax = tblrow( t202, cookfuel = 11 );
+  t202[imin,*] = tblsum( row t202[imin+1:imax,*] );
+  { other fuels }
+  imin = tblrow( t202, cookfuel = 12 );
+  imax = tblrow( t202, cookfuel = 15 );
+  t202[imin,*] = tblsum( row t202[imin+1:imax,*] );
+
+  { Table 2.3 processing }
+  itot = tblrow( t203 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    t203[i,*] = t203[i,*] * 100 / t203[itot,*];
+  enddo;
+
+  { heating technology }
+  imin = tblrow( t203,  heatech = 1 );
+  imax = tblrow( t203,  totalt(1) = 0 ) - 1;
+  t203[imax+1,*] = tblsum( row t203[imin:imax,*] );
+
+  { heating fuel }
+  imin = tblrow( t203,  totalt(1) = 0 ) + 1;
+  imax = tblrow( t203,  totalt(2) = 0 ) - 1;
+  t203[imax+1,*] = tblsum( row t203[imin:imax,*] );
+
+  { main lighting fuel or technology }
+  imin = tblrow( t203,  totalt(2) = 0 ) + 1;
+  imax = itot - 2;
+  t203[imax+1,*] = tblsum( row t203[imin:imax,*] );
+  { calculate subtotals }
+  temp = tblrow( t203,  heatech = 2 );             // manufactured heater
+  t203[temp,*] = t203[temp+1,*] + t203[temp+2,*];
+  temp = tblrow( t203,  heatech = 5 );             // traditional heater
+  t203[temp,*] = t203[temp+1,*] + t203[temp+2,*];
+  temp = tblrow( t203,  heatech = 8 );             // manufactured stove
+  t203[temp,*] = t203[temp+1,*] + t203[temp+2,*];
+  temp = tblrow( t203,  heatech = 11 );            // traditional stove
+  t203[temp,*] = t203[temp+1,*] + t203[temp+2,*];
+  temp = tblrow( t203,  heatfuel = 1 );            // clean fuels for heat
+  t203[temp,*] = tblsum( row t203[temp+1:temp+7,*] );
+  temp = tblrow( t203,  lightech = 1 );            // clean fuels for light
+  t203[temp,*] = tblsum( row t203[temp+1:temp+5,*] );
+  { write out SDG indicators }
+  imax   = tblrow( t203, lightech = 2 );
+  jmax   = tblcol( t203, hhandpop = 2 hv025w1 = 1 );
+  jtot   = tblcol( t203 );
+  SDGIndicator( "1.4.1.d", t203(imax,jmax), t203(imax,jmax+1), t203(imax,jtot) );
+  SDGIndicator( "7.1.1",   t203(imax,jmax), t203(imax,jmax+1), t203(imax,jtot) );  // same indicator?
+
+  { Table 2.4 processing }
+  t204[*,0] = 100 * t204[*,0] / t204[*,2]; 
+  t204[*,1] = 100 * t204[*,1] / t204[*,2];
+  t204[*,3] = 100 * t204[*,3] / t204[*,4];
+  t204[*,5] = 100 * t204[*,5] / t204[*,6];
+  t204[*,7] = 100 * t204[*,7] / t204[*,8];
+  { write out SDG indicators }
+  itot   = tblrow( t204 );
+  imax   = tblrow( t204, hv025w = 1 );
+  jtot   = tblcol( t204, cookheli = 8 );
+  SDGIndicator( "1.4.1.e", t204(imax,jtot), t204(imax+1,jtot), t204(itot,jtot) );
+  SDGIndicator( "7.1.2",   t204(imax,jtot), t204(imax+1,jtot), t204(itot,jtot) ); // same indicator?
+
+  { Table 2.5 processing }
+  itot = tblrow( t205 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    t205[i,*] = t205[i,*] * 100 / t205[itot,*];
+  enddo;
+
+  { Table 2.6 processing }
+  jtot = tblcol( t206, totnum3 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t206[*,j] = t206[*,j] * 100 / t206[*,jtot];
+  enddo;
+  t206[*,jmax+1] = tblsum( column t206[*,0:jmax] );
+  { Gini coefficient }
+  popdist  = 0;
+  wlthdist = 1;
+  do i = 0 while i <= tblrow(t206)  { loop through all rows }
+    { Cumulative population and wealth scores }
+    do j = 1 while j <= wlthgrps
+      t206w(i,j,popdist ) = t206w(i,j,popdist ) + t206w(i,j-1,popdist );
+      t206w(i,j,wlthdist) = t206w(i,j,wlthdist) + t206w(i,j-1,wlthdist);
+    enddo;
+    { Turn into cumulative proportions }
+    do j = 1 while j <= wlthgrps
+      t206w(i,j,popdist ) = t206w(i,j,popdist ) / t206w(i,wlthgrps,popdist );
+      t206w(i,j,wlthdist) = t206w(i,j,wlthdist) / t206w(i,wlthgrps,wlthdist);
+    enddo;
+    { Gini = |1-sum((Xk - Xk-1)*(Yk + Yk-1))|, where k=1,...,100, X0=0, Y0=0, X100=100%, Y100=100% }
+    ginicoeff = 0;
+    do k = 1 while k <= wlthgrps
+      { Xk = cumulative population distribution at group k }
+      { Yk = cumulative wealth distribution at group k }
+      { Sum (Xk-Xk-1) * (Yk + Yk-1) }
+      ginicoeff = ginicoeff +
+                 ( t206w(i,k,popdist ) - t206w(i,k-1,popdist ) ) *
+                 ( t206w(i,k,wlthdist) + t206w(i,k-1,wlthdist) )
+    enddo;
+    { last instruction for the coefficient formula }
+    ginicoeff = (1 - ginicoeff);
+    { take absolute value }
+    if ginicoeff < 0 then ginicoeff = 0 - ginicoeff endif;
+    t206(i,jmax+3) = ginicoeff;
+  enddo;
+
+  { Table 2.7 processing }
+  itot = tblrow( t207 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    t207[i,*] = t207[i,*] * 100 / t207[itot,*];
+  enddo;
+  { totals for first row panel }
+  imax  = tblrow( t207, hhage1 );
+  itot1 =  imax + 1;
+  t207[itot1,*] = tblsum( row t207[0:imax,*] );
+  { totals for second row panel }
+  imax  = tblrow( t207, hhagea );
+  itot2 =  imax + 1;
+  t207[itot2,*] = tblsum( row t207[itot1+1:imax,*] );
+  { totals for third row panel }
+  imax  = tblrow( t207, hhageb );
+  itot3 =  imax + 1;
+  t207[itot3,*] = tblsum( row t207[itot2+1:imax,*] );
+
+  { Table 2.7a processing for figure 2.1 }
+  itot = tblrow( t207a );
+  imax = itot - 2;
+  jtot = tblcol( t207a );
+  do j = 0 while j <= jtot   { for each column }
+    do i = 0 while i <= imax
+      t207a(i,j) = t207a(i,j) * 100 / t207a(itot,jtot);
+    enddo;
+  enddo;
+  t207a[imax+1,*] = tblsum( row t207a[0:imax,*] );
+
+  { Table 2.8 processing }
+  itot  = tblrow( t208 );
+  imax  = itot - 1;
+  do i = 0 while i <= imax
+    t208[i,*] = t208[i,*] * 100 / t208[itot,*];
+  enddo;
+  { mean size of households }
+  imean = tblrow( t208, totmean1 = 1 );
+  t208[imean,*] = t208w[1,*] / t208w[0,*];
+
+  { Table 2.9 processing }
+  { add age 0-4 from <2 and 2-4 }
+  t209[0,*] = t209[1,*] + t209[2,*];
+  jtot = tblcol( t209 );
+  jmax = jtot - 4;
+  do j = 0 while j <= jmax
+    t209[*,j] = t209[*,j] * 100 / t209[*,jtot];
+  enddo;
+  t209[*,jmax+1] = tblsum( column t209[*,0:jmax] );
+  { percentage not living with a biological parent }
+  jtot1 = tblcol( t209, totperc1 = 1 );
+  jmin  = tblcol( t209, parlivsd = 1 );
+  jmax  = tblcol( t209, parlivsd = 4 );
+  t209[*,jtot1] = tblsum( column t209[*,jmin:jmax] );
+  { percentage with one or both parents dead }
+  t209[*,jtot1+1] = t209[*,jtot1+1] * 100 / t209[*,jtot];
+  { check unweighted N's }
+  { add age 0-4 from <2 and 2-4 }
+  t209u[0,*] = t209u[1,*] + t209u[2,*];
+  Col2Dim( "t209", t209, 0,      jtot-4, t209u, 0 );
+  Col2Dim( "t209", t209, jtot-2, jtot-1, t209u, 0 );
+
+  { Table 2.10 processing }
+  jtot = tblcol( t210 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t210[*,j] = t210[*,j] * 100 / t210[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t210", t210, 0, jtot-1, t210u, 0 );
+  { write out SDG indicators }
+  itot   = tblrow( t210 );
+  sdgsex = tblrow( t210, hsex = 1 );
+  jtot   = tblcol( t210, chregist = 1 );
+  SDGIndicator( "16.9.1", t210(sdgsex,jtot), t210(sdgsex+1,jtot), t210(itot,jtot) );
+
+  { Table 2.11.1 processing }
+  jtot = tblcol( t2111, totnmed1 = 1 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t2111[*,j] = t2111[*,j] * 100 / t2111[*,jtot];
+  enddo;
+  t2111[*,jmax+1] = tblsum( column t2111[*,0:jmax] );
+  { calculates median }
+  jmed = tblcol( t2111, totnmed1 = 2 );
+  t2111[*,jmed] = tblmed( discrete column t2111w[*,0:maxeduc] intervals(highest default) );
+  { Check for defaults on medians to make them zero }
+  itot = tblrow(t2111);
+  do i = 0 while i <= itot
+    if t2111(i,jmed) = default then t2111(i,jmed) = 0; endif;
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t2111", t2111, 0,    jtot-2, t2111u, 0 );  { percentages }
+  Col2Dim( "t2111", t2111, jmed, jmed,   t2111u, 1 );  { median }
+
+  { Table 2.11.2 processing }
+  jtot = tblcol( t2112, totnmed1 = 1 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t2112[*,j] = t2112[*,j] * 100 / t2112[*,jtot];
+  enddo;
+  t2112[*,jmax+1] = tblsum( column t2112[*,0:jmax] );
+  { calculates median }
+  jmed = tblcol( t2112, totnmed1 = 2 );
+  t2112[*,jmed] = tblmed( discrete column t2112w[*,0:maxeduc] intervals(highest default) );
+  { Check for defaults on medians to make them zero }
+  itot = tblrow(t2112);
+  do i = 0 while i <= itot
+    if t2112(i,jmed) = default then t2112(i,jmed) = 0; endif;
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t2112", t2112, 0,    jtot-2, t2112u, 0 );  { percentages }
+  Col2Dim( "t2112", t2112, jmed, jmed,   t2112u, 1 );  { median }
+
+  { Table 2.12 processing }
+  t212 = t212 * 100 / t212w;
+  { to calculate gender parity index for net attendance }
+  jtot = tblcol( t212, attrat = 1 gparity = 1 );
+  ifem = tblcol( t212, attrat = 1 hhsex = 2 );
+  t212[*,jtot,*] = t212[*,ifem,*] / t212[*,ifem-1,*];
+  { to calculate gender parity index for gross attendance }
+  jtot = tblcol( t212 );
+  ifem = tblcol( t212, attrat = 2 hhsex = 2 );
+  t212[*,jtot,*] = t212[*,ifem,*] / t212[*,ifem-1,*];
+
+  { Table 2.12a  processing for figure 2.2 }
+  t212a[*,0,*] = 100 * t212a[*,0,*] / t212a[*,1,*];
+
+  { Table 2.13 processing }
+  jtot = tblcol( t213 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t213[*,j] = t213[*,j] * 100 / t213[*,jtot];
+  enddo;
+  t213[*,jmax-1] = tblsum( column t213[*,0:jmax-2] );
+  { check unweighted N's }
+  Col2Dim( "t213", t213, 0,      jtot-3, t213u, 0 );
+  Col2Dim( "t213", t213, jtot-1, jtot-1, t213u, 0 );
+  { write out SDG indicators }
+  itot   = tblrow( t213 );
+  sdgsex = tblrow( t213, hsex = 1 );
+  jtot   = tblcol( t213, narnumch = 0 );
+  SDGIndicator( "4.2.2", t213(sdgsex,jtot), t213(sdgsex+1,jtot), t213(itot,jtot) );
+
+PROC HOUSEHOLD
+preproc
+
+  { initialize array with children's CMC of birth }
+  do i = 1 while i <= 100
+    cmcbirth(i) = 0;
+    SchoolAge(i) = 0;
+  enddo;
+
+  hv024w  = HV024;
+  hv025w  = HV025;
+  hv025w1 = HV025;
+  hv270w  = HV270;
+
+{ -------------------------------------------------------------------- }
+{ tables 1.1 }
+
+  wresult  = notappl;
+  mresult  = notappl;
+  hhsubsam = notappl;
+  hhresult = 1;                    { households selected }
+  xtab( t101 );
+  if HV015 in 1,2,4,5,8 then
+    hhresult = 2;                  { households occupied }
+    xtab(t101);
+    if HV015 = 1 then
+      hhresult = 3;                { households interviewed }
+      xtab( t101 );
+    endif;
+  endif;
+  hhresult = notappl;
+  { !!! Following instructions needed if there is a HH subsample. It is assumed }
+  {     that the sub-sample is for men, but it could be related to other topics }
+  if HV027 = 1 then
+    hhsubsam = 1;                    { households selected }
+    xtab( t101 );
+    if HV015 in 1,2,4,5,8 then
+      hhsubsam = 2;                  { households occupied }
+      xtab(t101);
+      if HV015 = 1 then
+        hhsubsam = 3;                { households interviewed }
+        xtab( t101 );
+      endif;
+    endif;
+    hhsubsam = notappl;
+  endif;
+
+  if HV015 <> 1 then skip case; endif;
+
+  {-----------------------------------------------------------------------------------------------}
+  { table 1.1 male result }
+
+  for i in RECH1_EDT do
+    if HV118 = 1 then
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX(i)) );
+      if loadcase( MRecode8, MCASEID ) then
+        mresult = 1;
+        xtab( t101 );
+        if MV015 = 1 then         { complete men interview }
+          mresult = 2;
+          xtab( t101 );
+        endif;
+        mresult  = notappl;
+      endif;
+    endif;
+  enddo;
+
+postproc
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = HV005 / 1000000;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 2.1 }
+
+  { electricity }
+  recode HV206 -> hv206w;
+           0   -> 2;
+           1   -> 1;
+               -> 9;
+  endrecode;
+  { flooring }
+  hv213w = HV213;
+  if HV213 = missing then hv213w = 99 endif;
+  { rooms used for sleeping }
+  recode HV216 -> hv216w;
+           1   -> 1;
+           2   -> 2;
+          3:30 -> 3;
+               -> 9;
+  endrecode;
+  { frequency of smoking in the house }
+  recode HV252 -> hv252w;
+          1:4  -> HV252;    { daily, weekly, monthly, less than monthly }
+           0   -> 5;        { never }
+       missing -> 9;        { missing }
+               -> HV252;    { remain values }
+  endrecode;
+  { tabulate households }
+  hhandpop = 1;
+  xtab( t201, rweight );
+  { tabulate de jure HH members }
+  hhandpop = 2;
+  xtab( t201, HV012*rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 2.2 }
+
+  { cooking place }
+  recode HV222 :: HV241 :: HV242 -> cookplc;
+           95  ::       ::       -> HV222;
+               ::   1   ::   1   -> 2;
+               ::   1   ::       -> 3;
+               ::   2   ::       -> 4;
+               ::   3   ::       -> 5;
+               ::   6   ::       -> 6;
+               ::       ::       -> 9;
+  endrecode;
+  { cook stove used }
+  recode HV222 :: HV240 :: HV223 -> cooktech;
+           95  ::       ::       -> HV222;
+           1:5 ::       ::       -> HV222+1;
+            6  ::       ::    1  -> 7;
+            6  ::       ::       -> 9;
+            7  ::   1   ::       -> 11;
+            7  ::       ::       -> 12;
+            8  ::   1   ::       -> 14;
+            8  ::       ::       -> 15;
+            9  ::       ::       -> 16;
+           96  ::       ::       -> 17;
+  endrecode;
+  { cooking fuel }
+  recode HV222 :: HV223 -> cookfuel;
+           95  ::       -> HV222;
+           1:5 ::       -> 1;
+            6  ::   1   -> 1;
+               ::  4:12 -> HV223-1;
+               ::  2:3  -> HV223+11;
+               ::  1,96 -> 15;
+               ::       -> default;
+  endrecode;
+  { tabulate households }
+  hhandpop = 1;
+  xtab( t202, rweight );
+  { tabulate de jure HH members }
+  hhandpop = 2;
+  xtab( t202, HV012*rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 2.3 }
+
+  { heating thecnology }
+  recode HV259 :: HV260 -> heatech;
+          1,95 ::       -> HV259;
+           2   ::   1   -> 3;
+           2   ::       -> 4;
+           3   ::   1   -> 6;
+           3   ::       -> 7;
+           4   ::   1   -> 9;
+           4   ::       -> 10;
+           5   ::   1   -> 12;
+           5   ::       -> 13;
+           6   ::       -> 14;
+          96   ::       -> 15;
+               ::       -> default;
+  endrecode;
+  { heating fuel }
+  recode HV259 :: HV261 -> heatfuel;
+            1  ::       -> 2;
+           95  ::       -> 95;
+               ::  1:17 -> HV261+2;
+               ::   96  -> 20;
+		       ::       -> default;
+  endrecode;
+  if HV259 = 95 then heatfuel = 95 endif;  // temporal because didn't have code 95
+  { lighting technology }
+  recode HV262 -> lightech;
+           95  -> HV262;
+          1:14 -> HV262+1;
+           96  -> 16;
+               -> default;
+  endrecode;
+  { tabulate households }
+  hhandpop = 1;
+  xtab( t203, rweight );
+  { tabulate de jure HH members }
+  hhandpop = 2;
+  xtab( t203, HV012*rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 2.4 }
+
+  numeric cleancook = 0, cleanheat = 0, cleanlight = 0;
+  if HV222 in 1:5 | HV222 in 6 & HV223 = 1 then
+    cleancook = 1;
+    cookheli = 1;
+    xtab( t204, HV012*rweight );
+  endif;
+  if HV223 in 4:12 then
+    cookheli = 2;
+    xtab( t204, HV012*rweight );
+  endif;
+  if HV222 <> 95 then
+    cookheli = 3;
+    xtab( t204, HV012*rweight );
+  endif;
+  if HV259 = 1 | HV261 in 1:6 then
+    cleanheat = 1;
+    cookheli = 4;
+    xtab( t204, HV012*rweight );
+  endif;
+  if HV259 <> 95 then
+    cookheli = 5;
+    xtab( t204, HV012*rweight );
+  endif;
+  if HV262 in 1:5 then
+    cleanlight = 1;
+    cookheli = 6;
+    xtab( t204, HV012*rweight );
+  endif;
+  if HV262 <> 95 then
+    cookheli = 7;
+    xtab( t204, HV012*rweight );
+  endif;
+  if (cleancook  | HV222 = 95) &
+     (cleanheat  | HV259 = 95) &
+     (cleanlight | HV262 = 95) then
+    cookheli = 8;
+    xtab( t204, HV012*rweight );
+  endif;
+  cookheli = 9;
+  xtab( t204, HV012*rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 2.5 }
+
+  heffects  = notappl;
+  transp    = notappl;
+  hv244w    = notappl;
+  hv246w    = notappl;
+  numhh     = notappl;
+  if HV207  = 1 then heffects = 1; xtab( t205, rweight ); endif;           { radio }
+  if HV208  = 1 then heffects = 2; xtab( t205, rweight ); endif;           { TV }
+  if HV243A = 1 then heffects = 3; xtab( t205, rweight ); endif;           { mobile phone }
+  if HV221  = 1 then heffects = 4; xtab( t205, rweight ); endif;           { non-mobile telephone }
+  if HV243E = 1 then heffects = 5; xtab( t205, rweight ); endif;           { computer }
+  if HV209  = 1 then heffects = 6; xtab( t205, rweight ); endif;           { refrigerator }
+  heffects = notappl;
+  if HV210  = 1 then transp = 1;   xtab( t205, rweight ); endif;           { bicycle }
+  if HV243C = 1 then transp = 2;   xtab( t205, rweight ); endif;           { animal cart }
+  if HV211  = 1 then transp = 3;   xtab( t205, rweight ); endif;           { motorcycle }
+  if HV212  = 1 then transp = 4;   xtab( t205, rweight ); endif;           { car/truck }
+  if HV243D = 1 then transp = 5;   xtab( t205, rweight ); endif;           { boat with motor }
+  transp    = notappl;
+  hv244w    = ( HV244  = 1 );                                              { owns agricultural land }
+  hv246w    = ( HV246  = 1 );                                              { owns farm animals }
+  numhh     = 1;
+  xtab( t205, rweight );
+
+{ -------------------------------------------------------------------- }
+{ table 2.6 }
+
+  xtab( t206, HV012*rweight );
+  { Gini index is tallied in three steps }
+  { i = 1, for total }
+  { i = 2, for urban/rural residence }
+  { i = 3, for regions }
+  { IDX points to the proper set of minimum and maximum score values for the background variable to be tallied }
+  do i = 1 while i <= 3
+    if i = 1 then           { for total }
+      hv025w = notappl;
+      hv024w = notappl;
+      total  = 0;
+      idx    = 1;
+    elseif i = 2 then       { for urban/rural residence }
+      hv025w = HV025;
+      hv024w = notappl;
+      total  = notappl;
+      idx    = 1 + HV025;
+    elseif i = 3 then       { for region }
+      hv025w = notappl;
+      hv024w = HV024;
+      total  = notappl;
+      idx    = 3 + HV024;
+    endif;
+    { Determine tabulation categories as 1/100 of range of wealth scores  }
+    wlthrng = Scoremax(idx) - ScoreMin(idx);     { Note that ScoreMin is a negative number }
+    wlthgrp = int( ( HV271 - ScoreMin(idx) ) / ( wlthrng / (wlthgrps-1) ) ) + 1;          { Groups numbered from 1-100 }
+    if     wlthgrp <        1 then errmsg( "Index %d Factor=%8d min=%8d max=%8d group=%1d", idx, HV271, ScoreMin(idx), ScoreMax(idx), wlthgrp ); wlthgrp = 1
+    elseif wlthgrp > wlthgrps then errmsg( "Index %d Factor=%8d min=%8d max=%8d group=%1d", idx, HV271, ScoreMin(idx), ScoreMax(idx), wlthgrp ); wlthgrp = wlthgrps
+    endif;
+    wigrp = wlthgrp;
+    { Tabulate household population and wealth score by wealth groups }
+    popwlth = 0; xtab( t206w, rweight*HV012 );
+    popwlth = 1; xtab( t206w, rweight*(HV271-ScoreMin(idx)) );
+  enddo;
+  { reset variables as they were modified in the previous loop }
+  hv025w = HV025;
+  hv024w = HV024;
+  total  = 0;
+
+{ -------------------------------------------------------------------- }
+{ tables 2.7, 2.7a (figure 2.1) }
+
+  for i in RECH1_EDT do
+    hhsex   = HV104;
+    hsex    = HV104;
+    if HV104 = missing then hsex = 9 endif;
+    recode   HV105  -> hhage1;
+         98,missing -> 99;
+            80:97   -> 16;
+                    -> int( HV105/5 );
+    endrecode;
+    recode HV105 -> hhagea;
+            0:14 -> 1;
+           15:64 -> 2;
+           65:97 -> 3;
+                 -> 99;
+    endrecode;
+    recode HV105 -> hhageb;
+            0:17 -> 1;
+           18:97 -> 2;
+                 -> 99;
+    endrecode;
+    adol1019 = ( HV105 in 10:19 );
+    if HV103 = 1 then
+      xtab( t207,  rweight );
+      xtab( t207w, rweight );
+      xtab( t207a, rweight );
+    endif;
+  enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 2.8 }
+
+  { counts to calculate mean size of household }
+  numhhper = 1;
+  xtab( t208w, rweight );
+  numhhper = 2;
+  xtab( t208w, HV012*rweight );
+
+  { de jure household members }
+  hv012w = HV012;
+  if HV012 > 9 then hv012w = 9 endif;
+  { household head sex }
+  hv219w  = HV219;
+  if HV219 = missing then hv219w = 9 endif;
+  { double orphans, de jure children with both parents dead }
+  dorphan = ( count( RECH1 where HV105 in 0:17 & HV102 = 1 & HV111 = 0 & HV113 = 0 ) > 0 );
+  { single orphans, de jure children with only one parent dead }
+  sorphan = ( count( RECH1 where HV105 in 0:17 & HV102 = 1 & ( HV111 = 0 & HV113 <> 0 | HV111 <> 0 & HV113 = 0 ) ) > 0 );
+  { foster children, de jure children living with no parents }
+  foster  = ( count( RECH1 where HV105 in 0:17 & HV102 = 1 &
+                               ( HV112 in 0,missing | HV102(HV112) <> 1 ) &
+                               ( HV114 in 0,missing | HV102(HV114) <> 1 ) ) > 0 );
+  { foster and/or orphans }
+  fostorph = ( foster | dorphan | sorphan );
+  xtab( t208, rweight );
+
+{ -------------------------------------------------------------------- }
+{ tables 2.9 }
+
+  for i in RECH1_EDT do
+    hsex  = HV104;
+    if HV104 = missing then hsex = 9 endif;
+    if HV102 = 1 & HV105 in 0:17 then                { usual resident (de jure), 0-17 years old }
+      mothdead = ( HV111 = 0 );
+      fathdead = ( HV113 = 0 );
+      mothaliv = ( HV111 = 1 );
+      livemoth = ( HV112 in 1:HV009 & HV102(HV112) = 1 );   { mother in the household and de-jure }
+      fathaliv = ( HV113 = 1 );
+      livefath = ( HV114 in 1:HV009 & HV102(HV114) = 1 );   { father in the household and de-jure }
+      total15  = ( HV105 in 0:14 );     { children < 15 }
+      total18  = 1;                     { children < 18 }
+      recode HV105   -> hhage18;
+               0:1   -> 1;
+               2:4   -> 2;
+               5:9   -> 3;
+              10:14  -> 4;
+                     -> 5;
+      endrecode;
+      recode  mothaliv :: livemoth :: fathaliv :: livefath -> parlivs;
+                       ::    1     ::          ::     1    -> 1;   { live with both parents      }
+                       ::    1     ::    1     ::          -> 2;   { live mother  - father alive }
+                       ::    1     ::          ::          -> 3;   {              - father dead  }
+                 1     ::          ::          ::     1    -> 4;   { live father  - mother alive }
+                       ::          ::          ::     1    -> 5;   {              - mother dead  }
+                 1     ::          ::    1     ::          -> 6;   { live neither - both alive   }
+                 1     ::          ::          ::          -> 7;   {              - mother alive }
+                       ::          ::    1     ::          -> 8;   {              - father alive }
+                       ::          ::          ::          -> 9;   {              - none alive   }
+      endrecode;
+      if special( HV111 ) | HV111 = 8 |        { missing/DK in either }
+         special( HV113 ) | HV113 = 8 then     { mother/father alive  }
+        parlivs = 99
+      endif;
+      { living with both parents }
+      recode  parlivs -> parlivsa;
+                 1    -> parlivs;
+                      -> notappl;
+      endrecode;
+      { living with mother }
+      recode  parlivs -> parlivsb;
+                2:3   -> parlivs - 1;
+                      -> notappl;
+      endrecode;
+      { living with father }
+      recode  parlivs -> parlivsc;
+                4:5   -> parlivs - 3;
+                      -> notappl;
+      endrecode;
+      { not living with either parent }
+      recode  parlivs -> parlivsd;
+                6:9   -> parlivs - 5;
+                 99   -> 9;
+                      -> notappl;
+      endrecode;
+      { percentage with one or both parents dead }
+      totperc1 = notappl;
+      if HV111 = 0 | HV113 = 0 then totperc1 = 2 endif;
+      xtab( t209, rweight );
+      xtab( t209u );
+
+    endif;       { end de-jure children age 0-17 }
+  enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 2.10 }
+
+  for i in RECH1_EDT do
+    if HV102 = 1 & HV105 in 0:4 then      { de-jure children < 5 }
+      hsex = HV104;       { sex }
+      if HV104 = missing then hsex = 9 endif;
+      recode HV105 -> hhage4;
+               0   -> 1;
+                   -> 2;
+      endrecode;
+      { birth certificate }
+      recode HV140 -> hv140w;
+                1  -> 1;      { has a birth certificate }
+                2  -> 2;      { registered, didn't have birth certificate }
+                   -> notappl;
+      endrecode;
+	  chregist = ( HV140 in 1,2 );
+      xtab( t210, rweight );
+      xtab( t210u );
+    endif;
+  enddo;
+
+{ -------------------------------------------------------------------- }
+{ tables 2.11.1 & 12.11.2 }
+
+  for i in RECH1_EDT do
+    if HV103 = 1 & HV105 in 6:98,missing then      { de facto population 6+ years old including missing }
+      if HV105 in 98,missing then
+        hhage3 = 14
+      elseif HV105 > 65 then
+        hhage3 = 13
+      else
+        hhage3 = int( HV105/5 );
+      endif;
+      hheduc = HV109;
+      if special( HV109 ) | HV109 = 8 then hheduc = 9 endif;
+      { for women }
+      if HV104 = 2 then
+        xtab( t2111, rweight );
+        coltotu = 1;
+        xtab( t2111u );
+        if HV108 in 0:96 then
+          educmed = HV108;
+          if educmed > maxeduc then educmed = maxeduc endif;
+          xtab( t2111w, rweight );
+          coltotu = 2;
+          xtab( t2111u );
+        endif;
+      endif;
+      { for men }
+      if HV104 = 1 then
+        xtab( t2112, rweight );
+        coltotu = 1;
+        xtab( t2112u );
+        if HV108 in 0:96 then
+          educmed = HV108;
+          if educmed > maxeduc then educmed = maxeduc endif;
+          xtab( t2112w, rweight );
+          coltotu = 2;
+          xtab( t2112u );
+        endif;
+      endif;
+    endif;                       { end de facto 6+ years old }
+  enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 2.12, 2.12a (figure 2.2) }
+
+  { adjust the the country's CMC school year when the survey goes across two school calendar years }
+  cmceducf = cmceduci;
+  if HV008 >= cmceduci+12 then cmceducf = cmceduci + 12 endif;
+  for i in RECH1_EDT do
+    hhsex  = HV104;
+    hsex   = HV104;
+    { calculate age at the beginning of country's school year }
+    if cmcbirth(i) <> 0 then
+      ageatsch = int( (cmceducf-cmcbirth(i)) / 12 );
+    else
+      { impute an age at the beginnig of the school year when CMC of birth unknown }
+      xtemp    = HV008 - HV105*12;
+      cmctemp  = random( xtemp-11, xtemp );
+      ageatsch = int( (cmceducf-cmctemp) / 12 );
+    endif;
+	SchoolAge(i) = ageatsch;               { to make sure we have the same age for table 2.13 }
+    if HV103 = 1 & HV105 in 5:24 then      { de facto population 5-24 ( !! check if country asks for 6-24) }
+      { !! check primary school age for the country and adjust it }
+      if ageatsch in 7:12 then
+        schlev = 1;                             { primary }
+        attrat = 2;                             { denominator kids 7-12 for gross }
+        xtab( t212w, rweight );
+        attrat = 1;                             { denominator kids 7-12 for net }
+        xtab( t212w, rweight );
+        if HV122 = 1 then                       { in primary    }
+          xtab( t212, rweight );                { numerator 7-12 for net }
+        endif;
+      endif;
+      { !! check secondary school age for the country and adjust it }
+      if ageatsch in 13:18 then
+        schlev = 2;                             { secondary }
+        attrat = 2;                             { denominator kids 13-18 for gross }
+        xtab( t212w, rweight );
+        attrat = 1;                             { denominator kids 13-18 for net   }
+        xtab( t212w, rweight );
+        if HV122 = 2 then                       { in secondary  }
+          xtab( t212, rweight );                { numerator 13-18 for net }
+        endif;
+      endif;
+      { numerator all in school for gross attendance ratio }
+      schlev = notappl;
+      attrat = 2;
+      if HV122 = 1 then                       { in primary }
+        schlev = 1;
+      elseif HV122 = 2 then                   { in secondary }
+        schlev = 2;
+      endif;
+      xtab( t212, rweight );
+
+      { table 2.13a for figure 2.2 }
+      agehhs = HV105;
+      tpercatt = 2;
+      xtab( t212a, rweight );
+      if HV121 in 1,2 & HV122 <> 0 then
+        tpercatt = 1;
+        xtab( t212a, rweight );
+      endif;
+    endif;                    { end de facto 5-24 }
+  enddo;
+
+{ -------------------------------------------------------------------- }
+{ table 2.13 }
+
+  { adjust the the country's CMC school year when the survey goes across two school calendar years }
+  for i in RECH1_EDT do
+    { calculate age at the beginning of country's school year coming from table 2.12 }
+	ageatsch = SchoolAge(i);             { coming from table 2.12 }
+    if HV102 = 1 & ageatsch = 5 then     {!!! de jure children one year younger than official primary school }
+      hsex = HV104;       { sex }
+      if HV104 = missing then hsex = 9 endif;
+	  chschool = notappl;
+	  narnumch = 1;
+      xtab( t213, rweight );
+      xtab( t213u );
+	  if HV121 in 1,2 & HV122 in 0,1 then
+        narnumch = 0;
+        xtab( t213, rweight );
+	  endif;
+	  narnumch = notappl;
+	  if HV121 in 1,2 & HV122 = 0 then
+        chschool = 1;
+        xtab( t213, rweight );
+	  endif;
+	  if HV121 in 1,2 & HV122 = 1 then
+        chschool = 2;
+        xtab( t213, rweight );
+	  endif;
+	  if !(HV121 in 1,2 & HV122 in 0,1) then
+        chschool = 3;
+        xtab( t213, rweight );
+	  endif;
+    endif;
+  enddo;
+
+PROC WOMAN
+preproc
+
+{ -------------------------------------------------------------------- }
+{ tables 1.1 continuation }
+
+  wresult = 1;                     { all women }
+  xtab( t101 );
+  if V015 = 1 then
+    wresult = 2;                   { women interviewed }
+    xtab( t101 );
+  endif;
+
+  if V015 <> 1 then skip case; endif;
+
+  { store children's CMC of birth to be used in level 1 to calculate NAR and GAR in table 2.12 }
+  for i in REC21_EDT do
+    if B16 in 1:HV009 then
+      cmcbirth(B16) = B3
+    endif
+  enddo;

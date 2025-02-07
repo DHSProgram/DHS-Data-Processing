@@ -1,0 +1,7 @@
+﻿{ common strings used by application }
+  ES ( "Do you want to generate reports for:" ) Reporte que desea generar:
+  ES ( "1-Clusters in the sample" ) 1-Segmentos de la muestra
+  ES ( "2-Fieldwork personnel CAPI" ) 2-Personal de campo CAPI
+  ES ( "3-Households selected for cluster" ) 3-Hogares seleccionados por segmento
+  ES ( "4-Fieldwork personnel Questionnaire" ) 4-Cuestionario de Personal de campo
+  ES ( "9-Return to Main Menu" ) 9-Regresar al Menu Principal

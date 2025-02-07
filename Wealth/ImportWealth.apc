@@ -1,0 +1,24 @@
+﻿PROC GLOBAL
+
+PROC CCIQ81_FF
+preproc
+
+PROC HOUSEHOLD
+  
+  if AHRESULT = 1 then
+    WHCLUST  = AHCLUST;
+    WHNUMBER = AHNUMBER;
+    if loadcase( WEALTHINDEX, WHCLUST, WHNUMBER ) then
+      AHWLTHF = WLTHINDF * 100000;
+      AHWLTHI = WLTHIND5;
+      if AHTYPE = 1 then
+        AHWLTFUR = WLTHINDFU * 100000;
+        AHWLTIUR = WLTHIND5U;
+      else
+        AHWLTFUR = WLTHINDFR * 100000;
+        AHWLTIUR = WLTHIND5R;
+      endif;
+    else
+      errmsg( "Cluster %d household %d not found in scores file. Check because something is wrong", AHCLUST, AHNUMBER );
+    endif;    
+  endif;

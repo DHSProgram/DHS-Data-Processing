@@ -1,0 +1,112 @@
+﻿PROC GLOBAL
+{ application to check DHS bar codes with lab data and transmittal sheet }
+{ and constructing a file with DHS bar codes to check from lab to DHS    }
+
+  numeric i, j, nbars, dupbar, bardhs, match1, match2, match3;
+
+  FILE  DHSBarCode;                   { write out all bar codes from DHS questionnaire    }
+
+  array string wbarcode(53000);        { !! store barcodes to check if they are duplicated }
+  array wcluster(53000);              { !! cluster where a none duplicated barcode exist  }
+  array wnumber(53000);               { !! HH where a none duplicated barcode exist  }
+
+  { check for duplicates across questionnaires and prepare a file with }
+  { DHS bar codes to match later using application LabToDHS            }
+  function GenBarCode( string ThisBarCode, hnumber, line )
+    do j = 1 while j <= nbars by 1
+      if wbarcode(j) = ThisBarCode then
+        break;
+      endif;
+    enddo;
+    if j > nbars then
+      nbars    = nbars + 1;
+      wbarcode(nbars) = ThisBarCode;
+      wcluster(nbars) = AHCLUST;
+      wnumber(nbars)  = hnumber;
+      { make sure that this format agrees with layout for dictionary DHSBCode }
+      FileWrite( DHSBarCode, ThisBarCode + edit("ZZZ9",AHCLUST) + edit("ZZZ9",hnumber) + edit("Z9",line) );
+    else
+      errmsg( "BarCode %s in cluster %d also found in cluster %d household %d",
+              ThisBarCode, AHCLUST, wcluster(j), wnumber(j) );
+      dupbar = dupbar + 1;
+    endif;
+  end;
+
+PROC CCIQ81_FF
+preproc
+
+  nbars  = 0;  { keep track of none-duplicate bar codes }
+  dupbar = 0;  { duplicate barcodes }
+  bardhs = 0;  { number of bar codes in DHS questionnaire }
+  match1 = 0;  { bar codes in DHS that match lab }
+  match2 = 0;  { bar codes in DHS that don't match lab but found in transmittal }
+  match3 = 0;  { bar codes in DHS that don't match lab and not in transmittal }
+
+  { to be used with FileWrite for efficency purposes }
+  SetFile( DHSBarCode, ".\DHSBarCode.dat", create );
+
+postproc
+
+  write( " " );
+  write( "Summary of Matching DHS to Lab bar codes" );
+  write( "----------------------------------------" );
+  write( " " );
+  write( "  Bar codes in DHS questionnaire                                     : %5d", bardhs );
+  write( "  Bar codes with a match in lab                                      : %5d", match1 );
+  write( "  Bar codes didn't match the lab but present in transmittal sheet    : %5d", match2 );
+  write( "  Bar codes didn't match the lab and not present in transmittal sheet: %5d", match3 );
+  write( "  Bar codes duplicated across questionnaires                         : %5d", dupbar );
+  write( " " );
+  write( "Notes: 1-Duplicate barcodes were left as part of the first household " );
+  write( "         where they were found.  They should be fixed manually so    " );
+  write( "         that the bar code stays with the appropriate individual     " );
+  write( "       2-After analyzing this report for those cases where the DHS   " );
+  write( "         bar code is not present in the lab, the result code for HIV " );
+  write( "         measurement should be changed to code: 4-Specimen no tested " );
+  write( "         or sample was misplaced                                     " );
+
+PROC HOUSEHOLD
+
+  { for all women tested for HIV }
+  for i in ABSEC02_EDT do
+    if length( strip(ABWHIV9) ) & !ABWHIV9 in "?","99990":"99998" then           { there is a bar code }
+      bardhs = bardhs + 1;
+      { check the bar codes in the household questionnaire with those in the lab }
+      if loadcase( TESTLOG_DICT, ABWHIV9 ) then
+        match1 = match1 + 1;
+      else
+        { check if bar code exist in transmittal sheet }
+        if loadcase( NEWTRANS, ABWHIV9 ) then
+          match2 = match2 + 1;
+          errmsg( "DHS Barcode %s doesn't exist in lab but exist in transmittal sheet in cluster %d",
+                  ABWHIV9, NCLUSTER );
+        else
+          match3 = match3 + 1;
+          errmsg( "DHS Barcode %s doesn't exist in neither the lab and the transmittal sheet", ABWHIV9 );
+        endif;
+      endif;
+      GenBarCode( ABWHIV9, AHNUMBER, AB202 );
+    endif;
+  enddo;
+
+  { for all men tested for HIV }
+  for i in ABSEC03_EDT do
+    if length( strip(ABMHIV9) ) & !ABMHIV9 in "?","99990":"99998" then           { there is a bar code }
+      bardhs = bardhs + 1;
+      { check the bar codes in the household questionnaire with those in the lab }
+      if loadcase( TESTLOG_DICT, ABMHIV9 ) then
+        match1 = match1 + 1;
+      else
+        { check if bar code exist in transmittal sheet }
+        if loadcase( NEWTRANS, ABMHIV9 ) then
+          match2 = match2 + 1;
+          errmsg( "DHS Barcode %s doesn't exist in lab but exist in transmittal sheet in cluster %d",
+                  ABMHIV9, NCLUSTER );
+        else
+          match3 = match3 + 1;
+          errmsg( "DHS Barcode %s doesn't exist in neither the lab and the transmittal sheet", ABMHIV9 );
+        endif;
+      endif;
+      GenBarCode( ABMHIV9, AHNUMBER, AB302 );
+    endif;
+  enddo;

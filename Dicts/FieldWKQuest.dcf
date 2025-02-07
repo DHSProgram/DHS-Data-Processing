@@ -1,0 +1,521 @@
+﻿[Dictionary]
+Version=CSPro 7.7
+Label=Fieldworker questionnaire dictionary|Diccionario para trabajadores de campo
+Name=FIELDWKQ
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=711328B23D94E697E1CE28555116ED9D0473CD969CAA4B47F14B09AD120B3682
+
+[Languages]
+EN=English
+ES=Español
+
+[Level]
+Label=Level 1|Nivel 1
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=Fieldworker code|Codigo de trabajador de campo
+Name=FW101
+Start=1
+Len=4
+DataType=Numeric
+
+[Record]
+Label=Fieldworker record|Registro para trabajadores de campo
+Name=FWRECORD
+RecordTypeValue=''
+RecordLen=48
+
+[Item]
+Label=Country code and phase|Codigo de pais y fase
+Name=FW000
+Start=5
+Len=3
+DataType=Alpha
+
+[Item]
+Label=Fieldworker region of residence|Region de residencia del trabajador de campo
+Name=FW102
+Start=8
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Fieldworker region of residence|Region de residencia del trabajador de campo
+Name=FW102_VS1
+Value=1;Province/region/state|Provincia/region/estado
+Value=2;Province/region/state|Provincia/region/estado
+Value=3;Province/region/state|Provincia/region/estado
+
+[Item]
+Label=Fieldworker type of place of residence
+Name=FW103
+Start=10
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Fieldworker type of place of residence|Lugar de residencia del trabajador de campo
+Name=FW103_VS1
+Value=1;City|Ciudad
+Value=2;Town|Pueblo
+Value=3;Rural|Rural
+
+[Item]
+Label=Fieldworker age|Edad del trabajador de campo
+Name=FW104
+Start=11
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Fieldworker age|Edad del trabajador de campo
+Name=FW104_VS1
+Value=15:65
+
+[Item]
+Label=Fieldworker sex|Sexo del trabajador de campo
+Name=FW105
+Start=13
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Fieldworker sex|Sexo del trabajador de campo
+Name=FW105_VS1
+Value=1;Male|Hombre
+Value=2;Female|Mujer
+
+[Item]
+Label=Fieldworker marital status|Estado civil del trabajador de campo
+Name=FW106
+Start=14
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Fieldworker marital status|Estado civil del trabajador de campo
+Name=FW106_VS1
+Value=1;Currently married|Casada(o)
+Value=2;Living with a man/woman|Union libre
+Value=3;Widowed|Viuda(o)
+Value=4;Divorced|Divorciada(o)
+Value=5;Separated|Separada(o)
+Value=6;Never married or lived with a man/woman|Nunca casada(o)/unida(o)
+
+[Item]
+Label=Fieldworker number of living children|Numero de hijos vivos del trabajador de campo
+Name=FW107
+Start=15
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Fieldworker number of living children|Numero de hijos vivos del trabajador de campo
+Name=FW107_VS1
+Value=0:24
+
+[Item]
+Label=Fieldworker ever had a child who died|Trabajador de campo ha tenido hijos que murieron
+Name=FW108
+Start=17
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Fieldworker ever had a child who died|Trabajador de campo ha tenido hijos que murieron
+Name=FW108_VS1
+Value=1;Yes|Si
+Value=2;No|No
+
+[Item]
+Label=Highest level of school attended by fieldworker|Nivel de educacion alcanzado por trabajador de campo
+Name=FW109
+Start=18
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Highest level of school attended by fieldworker|Nivel de educacion alcanzado por trabajador de campo
+Name=FW109_VS1
+Value=1;Primary|Primaria
+Value=2;Secondary|Secundaria
+Value=3;Higher|Superior
+
+[Item]
+Label=Highest grade/form/year at that level completed by fieldworker|Grado/año de educacion terminado por trabajador de campo
+Name=FW110
+Start=19
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Highest grade/form/year at that level completed by fieldworker|Grado/año de educacion terminado por trabajador de campo
+Name=FW110_VS1
+Value=0;Less than one year at level|Menos de un año a ese nivel
+Value=1:7
+
+[Item]
+Label=Fieldworker religion|Religion del trabajador de campo
+Name=FW111
+Start=21
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Fieldworker religion|Religion del trabajador de campo
+Name=FW111_VS1
+Value=1;Religion|Religion
+Value=2;Religion|Religion
+Value=3;Religion|Religion
+Value=4;Religion|Religion
+Value=5;Religion|Religion
+Value=95;No religion|Sin religion
+Value=96;Other|Otra
+
+[Item]
+Label=Fieldworker ethnicity|Grupo etnico de trabajador de campo
+Name=FW112
+Start=23
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Fieldworker ethnicity|Grupo etnico de trabajador de campo
+Name=FW112_VS1
+Value=1;Ethnicity|Groupo etnico
+Value=2;Ethnicity|Groupo etnico
+Value=3;Ethnicity|Groupo etnico
+Value=4;Ethnicity|Groupo etnico
+Value=5;Ethnicity|Groupo etnico
+Value=96;Other|Otro
+
+[Item]
+Label=Languages spoken by fieldworker
+Name=FW113
+Start=26
+Len=15
+DataType=Alpha
+
+[ValueSet]
+Label=Languages spoken by fieldworker
+Name=FW113_VS1
+Value='A              ';Language A|Idioma A
+Value='B              ';Language B|Idioma B
+Value='C              ';Language C|Idioma C
+Value='D              ';Language D|Idioma D
+Value='E              ';Language E|Idioma E
+Value='F              ';Language F|Idioma F
+Value='G              ';Language G|Idioma G
+Value='H              ';Language H|Idioma H
+Value='I              ';Language I|Idioma I
+Value='J              ';Language J|Idioma J
+Value='K              ';Language K|Idioma K
+Value='L              ';Language L|Idioma L
+Value='M              ';Language M|Idioma M
+Value='X              ';Other|Otro
+
+[Item]
+Label=Language A|Idioma A
+Name=FW113A
+Start=26
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language A|Idioma A
+Name=FW113A_VS1
+Value='A';Language A|Idioma A
+
+[Item]
+Label=Language B|Idioma B
+Name=FW113B
+Start=27
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language B|Idioma B
+Name=FW113B_VS1
+Value='B';Language B|Idioma B
+
+[Item]
+Label=Language C|Idioma C
+Name=FW113C
+Start=28
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language C|Idioma C
+Name=FW113C_VS1
+Value='C';Language C|Idioma C
+
+[Item]
+Label=Language D|Idioma D
+Name=FW113D
+Start=29
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language D|Idioma D
+Name=FW113D_VS1
+Value='D';Language D|Idioma D
+
+[Item]
+Label=Language E|Idioma E
+Name=FW113E
+Start=30
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language E|Idioma E
+Name=FW113E_VS1
+Value='E';Language E|Idioma E
+
+[Item]
+Label=Language F|Idioma F
+Name=FW113F
+Start=31
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language F|Idioma F
+Name=FW113F_VS1
+Value='F';Language F|Idioma F
+
+[Item]
+Label=Language G|Idioma G
+Name=FW113G
+Start=32
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language G|Idioma G
+Name=FW113G_VS1
+Value='G';Language G|Idioma G
+
+[Item]
+Label=Language H|Idioma H
+Name=FW113H
+Start=33
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language H|Idioma H
+Name=FW113H_VS1
+Value='H';Language H|Idioma H
+
+[Item]
+Label=Language I|Idioma I
+Name=FW113I
+Start=34
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language I|Idioma I
+Name=FW113I_VS1
+Value='I';Language I|Idioma I
+
+[Item]
+Label=Language J|Idioma J
+Name=FW113J
+Start=35
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language J|Idioma J
+Name=FW113J_VS1
+Value='J';Language J|Idioma J
+
+[Item]
+Label=Language K|Idioma K
+Name=FW113K
+Start=36
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language K|Idioma K
+Name=FW113K_VS1
+Value='K';Language K|Idioma K
+
+[Item]
+Label=Language L|Idioma L
+Name=FW113L
+Start=37
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language L|Idioma L
+Name=FW113L_VS1
+Value='L';Language L|Idioma L
+
+[Item]
+Label=Language M|Idioma M
+Name=FW113M
+Start=38
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Language M|Idioma M
+Name=FW113M_VS1
+Value='M';Language M|Idioma M
+
+[Item]
+Label=Other language|Otro idioma
+Name=FW113X
+Start=39
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Other language|Otro idioma
+Name=FW113X_VS1
+Value='X';Other language|Otro idioma
+
+[Item]
+Label=No other language|No habla otro idioma
+Name=FW113Y
+Start=40
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=No other language|No habla otro idioma
+Name=FW113Y_VS1
+Value='Y';No other language|No habla otro idioma
+
+[Item]
+Label=Fieldworker's mother tongue/native language|Lenguaje materno/nativo del trabajador de campo
+Name=FW114
+Start=41
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Fieldworker's mother tongue/native language|Lenguaje materno/nativo del trabajador de campo
+Name=FW114_VS1
+Value=1;Language A|Idioma A
+Value=2;Language B|Idioma B
+Value=3;Language C|Idioma C
+Value=4;Language D|Idioma D
+Value=5;Language E|Idioma E
+Value=6;Language F|Idioma F
+Value=7;Language G|Idioma G
+Value=8;Language H|Idioma H
+Value=9;Language I|Idioma I
+Value=10;Language J|Idioma J
+Value=11;Language K|Idioma K
+Value=12;Language L|Idioma L
+Value=13;Language M|Idioma M
+Value=96;Other|Otro
+
+[Item]
+Label=Has fieldworker ever worked on a DHS prior to this survey|Trabajador de campo ha trabajado en una ENDES antes de esta encuesta
+Name=FW115A
+Start=43
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Has fieldworker ever worked on a DHS prior to this survey|Trabajador de campo ha trabajado en una ENDES antes de esta encuesta
+Name=FW115A_VS1
+Value=1;Yes|Si
+Value=2;No|No
+
+[Item]
+Label=Has fieldworker ever worked on an MIS prior to this survey|Trabajador de campo ha trabajado en una MIS antes de esta encuesta
+Name=FW115B
+Start=44
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Has fieldworker ever worked on an MIS prior to this survey|Trabajador de campo ha trabajado en una MIS antes de esta encuesta
+Name=FW115B_VS1
+Value=1;Yes|Si
+Value=2;No|No
+
+[Item]
+Label=Has fieldworker ever worked on any other survey prior to this survey|Trabajador de campo ha trabajado en otra encuesta antes de esta encuesta
+Name=FW115C
+Start=45
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Has fieldworker ever worked on any other survey prior to this survey|Trabajador de campo ha trabajado en otra encuesta antes de esta encuesta
+Name=FW115C_VS1
+Value=1;Yes|Si
+Value=2;No|No
+
+[Item]
+Label=Was fieldworker working for implementing agency at the time employed for DHS|Trabajador de campo trabajaba para institucion implementadora antes de contrato para ENDES
+Name=FW116
+Start=46
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Was fieldworker working for implementing agency at the time employed for DHS|Trabajador de campo trabajaba para institucion implementadora antes de contrato para ENDES
+Name=FW116_VS1
+Value=1;Yes, implementing agency 1|Si, institucion implementadora 1
+Value=2;Yes, implementing agency 2|Si, institucion implementadora 2
+Value=3;No|No
+
+[Item]
+Label=Is fieldworker a permanent or temporary employee of agency|Es trabajador de campo empleado permanente o temporal de institucion
+Name=FW117
+Start=47
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Is fieldworker a permanent or temporary employee of agency|Es trabajador de campo empleado permanente o temporal de institucion
+Name=FW117_VS1
+Value=1;Permanent|Permanente
+Value=2;Temporary|Temporal
+
+[Item]
+Label=Does fieldworker has any comments|Tiene el trabajador de campo algun comentario
+Name=FW118
+Start=48
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Does fieldworker has any comments|Tiene el trabajador de campo algun comentario
+Name=FW118_VS1
+Value=1;Yes|Si
+Value=2;No|No

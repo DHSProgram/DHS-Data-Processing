@@ -1,0 +1,136 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines December 5, 2023      -       Version 1.0.0 of 12/07/2023   +}
+{+                                                                          +}
+{+   CHAPTER HPV.  HPV VACCINATION MODULE                                   +}
+{+                                                                          +}
+{+   Table HPV.1  HPV vaccination coverage                                  +}
+{+   Table HPV.2  Source of HPV vaccinations                                +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  numeric i, j, jtot, jmax, itot, months, sdgsex;
+  numeric cnt, rweight;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+    title( "Tables for HPV vaccination module, Country survey 2020" );
+
+   crosstab float(1) thpv01 hpvage+v102w+v101w+v190w+total hpvdoses+hpvany+hpvcard+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}	
+    title( "Table HPV.1  HPV vaccination coverage","",
+           "Percent distribution of women age 15-17 by number of doses of HPV vaccine", 
+		   "received, percentage who have received any HPV vaccinations, and percentage", 
+		   "who ever received an HPV vaccination card," 
+		   "according to background characteristics, Country Survey 2020" )
+    stub( "Background characteristic" );
+{EN+}	
+{{FR}	
+{FR}}
+   crosstab float(0) thpv01u hpvage+v102w+v101w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table HPV.1  HPV vaccination coverage (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+
+   crosstab float(1) thpv02 hpvage+hpvcard1+hpvdose1+v102w+v101w+v190w+total hpvsrce+total+hpvwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}	
+    title( "Table HPV.2  Source of HPV vaccinations","",
+           "Among women age 15-17 who received any HPV vaccinations, percent distribution",
+		   "by source of most recent HPV vaccination,", 
+		   "according to background characteristics, Country Survey 2020" )
+    stub( "Background characteristic" );
+{EN+}	
+{{FR}	
+{FR}}
+   crosstab float(0) thpv02u hpvage+hpvcard1+hpvdose1+v102w+v101w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table HPV.2  Source of HPV vaccinations (Number of un-weighted cases)" )
+    stub( "Background characteristic" );
+   
+PROC RECODE8_FF
+preproc
+ 
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+  numwom   = 1;
+  hpvwom   = 1;
+  
+  unweight = ( sysparm()[1:1] = "U" );   { 1 - run unweighted tables }
+
+postproc
+
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table hpv.1 processing }
+  jtot = tblcol( thpv01 );                       
+  jmax = jtot - 1;  
+  do j = 0 while j <= jmax
+    thpv01[*,j] = thpv01[*,j] * 100 / thpv01[*,jtot];           // percentages
+  enddo;
+  thpv01[*,jmax-2] = tblsum( column thpv01[*,0:jmax-3] );  
+  { check unweighted N's }
+  Col2Dim( "thpv01", thpv01, 0,      jtot-4, thpv01u, 0 );  
+  Col2Dim( "thpv01", thpv01, jtot-2, jtot-1, thpv01u, 0 );  
+
+  { Table hpv.2 processing }
+  jtot = tblcol( thpv02 );                       
+  jmax = jtot - 2;  
+  do j = 0 while j <= jmax
+    thpv02[*,j] = thpv02[*,j] * 100 / thpv02[*,jtot];           // percentages
+  enddo;
+  thpv02[*,jmax+1] = tblsum( column thpv02[*,0:jmax] );  
+  { check unweighted N's }
+  Col2Dim( "thpv02", thpv02, 0, jtot-2, thpv02u, 0 );  
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 | !V012 in 15:17 then skip case; endif;     
+  
+  { !!! this weight approach assumes that all eligible children were selected 
+        use the appropiate subsample weight variable when only one child was selected } 
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;  
+  endif;
+
+  v101w  = V101;
+  v102w  = V102;
+  v190w  = V190;
+  hpvage = V012;  
+
+{ -------------------------------------------------------------------- }
+{ table hpv.1 }     
+
+  recode HPV03 -> hpvdoses;
+          0,8  -> 0;
+           1   -> HPV05;		
+               -> default;
+  endrecode;
+  hpvany  = ( HPV05 in 1:2,8 );   
+  hpvcard = ( HPV04 = 1 );   
+  xtab( thpv01, rweight);
+  xtab( thpv01U );       
+
+
+{ -------------------------------------------------------------------- }
+{ table hpv.2 }     
+
+  if HPV03 = 1 then
+    hpvsrce  = HPV06;  
+    recode HPV04 -> hpvcard1;
+             1   -> 1;
+             0   -> 2;
+                 -> default;
+    endrecode;				 
+    hpvdose1 = HPV05;   
+    xtab( thpv02, rweight);
+    xtab( thpv02U );       
+  endif;	

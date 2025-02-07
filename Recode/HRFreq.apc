@@ -1,0 +1,135 @@
+﻿PROC GLOBAL
+{ DHS-8 HH recode frequencies  version - 1.0.0 of 12/13/2021 }
+
+  numeric rweight, unweight, clweight, cdweight;
+
+PROC RECODE8_FF
+preproc
+
+  unweight = ( sysparm()[1:1] <> "W" );       // 0-Weighted, 1-Unweighted
+  if unweight then
+    errmsg( "Household recode frequencies for Country are UNWEIGHTED" );
+  else	
+    errmsg( "Household recode frequencies for Country are WEIGHTED" );
+  endif;	
+
+PROC HOUSEHOLD
+
+  if unweight then
+    rweight  = 1;
+	cdweight = 1;
+	clweight = 1;
+  else	
+    rweight  = HV005/1000000;
+	cdweight = HCDWGT/1000000;
+    clweight = HCHLWGT/1000000;	
+  endif;	
+
+  { Only households with complete interviews }
+  if HV015 = 1 then
+     { standard records }
+     freq include( RECH0 alpha numeric
+                   RECH1 alpha numeric
+                   RECH2 alpha numeric
+                   RECH3 alpha numeric
+                   RECH4 alpha numeric
+                   RECH5 alpha numeric
+                   RECH6 alpha numeric )
+          exclude( HHID, HV271, HV271A, HA40, HA62, HC70, HC71, HC72, HC73 )
+          title( "Country - Household Recode" )
+          weighted rweight;
+
+    { H/W -- women/Children statistics for z-scores }
+     freq include( HV271, HV271A, HA40, HC70, HC71, HC72, HC73 )
+          stat nofreq
+          title( "Country - Household Recode" )
+          weighted rweight;
+
+     { male height/weight & HIV }
+     freq include( RECHMA alpha numeric )
+          exclude( HB40, HB62 )
+          title( "Country - Household Recode" )
+          weighted rweight;
+
+    { H/W -- men statistics for z-scores }
+     freq include( HB40 )
+          stat nofreq
+          title( "Country - Household Recode" )
+          weighted rweight;
+
+     { blood pressure for women }
+     freq include( RECHBPW alpha numeric )
+          title( "Country - Household Recode" )
+          weighted rweight;
+
+     { blood pressure for men }
+     freq include( RECHBPM alpha numeric )
+          title( "Country - Household Recode" )
+          weighted rweight;
+
+     { malaria module }
+     freq include( RECHML alpha numeric
+                   RECHMH alpha numeric )
+          title( "Country - Household Recode" )
+          weighted rweight;
+
+     { disability }
+     if soccurs( RECHDIS ) then	 
+       freq include( RECHDIS alpha numeric )
+            title( "Country - Household Recode" )
+            weighted cdweight;
+     endif;			
+
+     { child labor module }
+     if soccurs( RECHCHL ) then	 
+       freq include( RECHCHL alpha numeric )
+            title( "Country - Household Recode" )
+            weighted clweight;
+     endif;			
+
+     { child discipline module }
+     if soccurs( RECHCHD ) then	 
+       freq include( RECHCHD alpha numeric )
+            title( "Country - Household Recode" )
+            weighted cdweight;
+     endif;			
+
+     { child wellbeing module }
+     if soccurs( RECHCW ) then	 
+       freq include( RECHCW alpha numeric )
+            title( "Country - Household Recode" )
+            weighted cdweight;
+     endif;			
+
+     { accident and injury module }
+     if soccurs( RECHAI ) then	 
+       freq include( RECHAI alpha numeric )
+            title( "Country - Household Recode" )
+            weighted rweight;
+     endif;			
+
+     { health expenditure eligibility module }
+     if soccurs( RECHHE1 ) then	 
+       freq include( RECHHE1 alpha numeric )
+            title( "Country - Household Recode" )
+            weighted rweight;
+     endif;			
+
+     { health expenditure inpatient module }
+     if soccurs( RECHHE2 ) then	 
+       freq include( RECHHE2 alpha numeric )
+            title( "Country - Household Recode" )
+            weighted rweight;
+     endif;			
+
+     { health expenditure outpatient module }
+     freq include( RECHHE3 alpha numeric )
+          title( "Country - Household Recode" )
+          weighted rweight;
+  
+     { food insecurity module }
+     freq include( RECHFS alpha numeric )
+          title( "Country - Household Recode" )
+          weighted rweight;
+		  
+  endif;

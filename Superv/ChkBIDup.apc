@@ -1,0 +1,85 @@
+﻿PROC GLOBAL
+{ CKID program master version - 1.4.0 of 12/19/03 }
+
+  numeric l, i, k;
+
+  FILE        filedups;                     { file with duplicates listing }
+
+  alpha(4) xcluster;                      { !!!! Cluster number, adjust according to survey cluster number of digits }
+  alpha(4) xnumber;                       { !!!! household number, adjust according to household number of digits }
+  alpha(2) xline;                         { Individual line number, it is normally 2 digits }
+
+  string   recordstr;                     { to read string from listing file }
+  string   fname;                         { file name }
+
+PROC FL_CNULL
+preproc
+
+  xcluster = sysparm()[1:4];                { cluster coming from SupMenu }
+  SetLanguage( GetLanguage() );
+
+  { set the name for the HTML file }
+  HTML_InitAlign();
+  HTMLname = "ChkBIDup.html";
+  if FileExist( HTMLname ) then
+    FileDelete( HTMLname )
+  endif;
+  setfile( HTMLFile, HTMLname );
+
+  { initialize the report headings }
+  zstring1 = MakeText( tr("DUPLICATED BIOMARKERS FOUND IN CLUSTER: %s"), xcluster );
+  zstring2 = tr("Problem(s) needs to be resolved before proceeding");
+  CellValues(1) = tr("HH");
+  CellValues(2) = tr("HH-Line");
+  CellValues(3) = tr("Individual Type");
+  CellValues(4) = tr("Individual's Name");
+  CellValues(5) = tr("Code-Biomarker");
+  { specify columns that are left aligned, strings are left aligned }
+  CellAlign(1) = 3;  // column 2 is individual type (woman/man/child)
+  CellAlign(2) = 4;  // column 4 is individual name
+  CellAlign(3) = 5;  // column 5 biomarker code/name
+  HTML_Header( CellAlign, zstring1 );  // generates a general HTML header
+
+  HTML_BeginTable( CellValues, zstring2, 5 );  // generates the HTML table script with the column headers
+
+  while FileRead( filedups, recordstr ) do
+    if pos( "Case ID:", recordstr ) = 1 then
+      { gets cluster, household and individual line number to access them in the individual data file }
+      xcluster = recordstr[10:4];    { !!!! adjust according to survey cluster number of digits }
+      xnumber  = recordstr[14:4];    { !!!! adjust according to survey household number of digits }
+      xline    = recordstr[18:2];    { !!!! adjust according to survey household number of digits }
+      { read all records until going through all duplicates for the same households }
+      while FileRead( filedups, recordstr ) do
+        if pos( "File: ", recordstr ) then
+          l = length( recordstr );
+          do k = l while( recordstr[k:1] <> " " ) by (-1)
+          enddo;
+          fname = recordstr[k+1:l-k];
+          { sets the appropriate file to the individual dictionary }
+          setfile( ccBIO80, fname );
+          if loadcase( ccBIO80, xcluster, xnumber, xline ) then
+            ICODE = XBCODE;
+            loadcase( INTERV, ICODE );
+   	        { populates the elements of a row based on household information }
+            CellValues(1) = edit("9999", XBNUMBER);
+            CellValues(2) = edit("99", XBLINE);
+            CellValues(3) = strip(XBPERSON);
+            CellValues(4) = strip(XBNAME);
+            CellValues(5) = edit("9999",XBCODE) + "-" + strip(INAME);
+            HTML_OneRow( CellValues, 5 );   // generates the HTML script for a row with relevant household data
+          else
+            zstring2 = maketext( tr("Case=%s%s%s not found in file: %s, check IDs in dict and logic"), xcluster, xnumber, xline, fname );
+            HTML_Subtitle( zstring2, 5 );          
+          endif;
+        { following instruction identifies when all duplicates for the same household are identified }
+        elseif pos( "---------------------------------------", recordstr ) = 1 then
+          break;
+        endif;
+      enddo;
+    endif;
+  enddo;
+  HTML_EndTable();
+  HTML_End();
+  view( "file://" + pathname(application) + HTMLName );
+
+  stop(1);

@@ -1,0 +1,70 @@
+[FormFile]
+Version=CSPro 2.6
+Name=FL_MENU
+Label=Menu
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+FieldEntryFont=0016 0000 0000 0000 0600 0000 0000 0000 0000 0000 0000 0000 0000 Courier New
+Type=SystemControlled
+  
+[Dictionaries]
+File=2/2/2009 9:20:48 AM,..\Dicts\Menu.dcf
+  
+[Form]
+Name=WFSEC01
+Label=WFSEC01
+QuestionTextHeight=217
+Level=1
+Size=708,236
+  
+Item=WFINAL
+Item=WCLUSTER
+  
+Box=17,13,683,53,Thick
+  
+[Text]
+Name=FT000000
+Position=132,20,536,43
+Text=Demographic and Health Surveys Program
+Form=1
+Font=-019 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Tahoma
+ 
+  
+[Text]
+Name=TEXT005
+Position=218,117,260,133
+Text=Option
+Form=1
+ 
+[EndForm]
+  
+[Level]
+Name=MENU_LEVEL
+Label=LEVEL1
+  
+[Group]
+Required=Yes
+Name=WSEC01
+Label=WSEC01
+Form=1
+LogicControl=No
+Max=1
+  
+[Field]
+Name=WFINAL
+Position=413,115,426,133
+Item=WFINAL,MENU_DICT
+Length=1
+Verify=No
+UpperCase=Yes
+Form=1
+  
+  
+[Field]
+Name=WCLUSTER
+Position=389,159,426,177
+Item=WCLUSTER,MENU_DICT
+Length=3
+Form=1
+  
+[EndGroup]
+  

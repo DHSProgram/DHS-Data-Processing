@@ -1,0 +1,67 @@
+﻿PROC GLOBAL
+{ SCLEAR sets all entries in the SUPERVISOR control file to zeroes             }
+{ The file SUPERVXXXX in the spervisor machine will be used to keep track      }
+{ of every household collected                                                 }
+{ This application should only be used once, prior to start of data collection }
+{ Use CLUSTERS.DAT as input and SUPERVXXXX.DAT as output.  File SUPERVXXXX.DAT }
+{ must be copied supervisors's machines in directory \PII\Ref                  }
+
+  File Transmit;
+
+  numeric i, maxhh, maxremeas;
+
+PROC CLUSTERS_FF
+preproc
+
+  SetLanguage( GetLanguage() );
+
+  maxhh     = maxocc( SALLHH );             { maximum number of entries for households per cluster }
+  maxremeas = maxocc( SREMEAS );            { maximum number of entries for remeasurement per cluster }
+
+postproc
+  SetFile( Transmit, "..\Pii\Ref\TransmitHxxxx.dat", create );     // !!! for HIV transmittal sheet
+  close( Transmit );
+  SetFile( Transmit, "..\Pii\Ref\TransmitMxxxx.dat", create );     // !!! for Malaria or other Biomarker transmittal sheet
+  close( Transmit );
+
+PROC CLSTREC_EDT
+postproc
+
+  { Cluster number }
+  SSAMPLE   = YCLUSTER;
+  { Totals }
+  { !!! number of HH selected for cluster based on urban/rural, please adjust accordingly }
+  if YURBRUR = 1 then
+    SHTOTAL = 25;    { !! for urban clusters }
+  else
+    SHTOTAL = 30;    { !! for rural clusters }
+  endif;         
+  SHCOMP    = 0;
+  SHINCOMP  = 0;
+  { Individual Totals }
+  SITOTAL   = 0;
+  SICOMP    = 0;
+  SIINCOMP  = 0;
+  { Date cluster crated }
+  SCRDATE  = 0;
+  { Final back up }
+  SFINDATE  = 0;
+  SEND      = " ";
+  do i = 1 while i <= maxhh 
+    SNUMBER(i)  = 0;
+    SINTNUM(i)  = 0;
+    SACCEPTH(i) = 0;
+    SACCEPTI(i) = 0;
+    SACCEPTHW(i) = 0;
+    SACCEPTF(i) = 0;
+  enddo;
+  SFLGMEAS = 0;
+  do i = 1 while i <= maxremeas
+    SREMHH(i)   = 0;
+    SREMLINE(i) = 0;
+  enddo;
+  if writecase( CONTSUP ) then
+    errmsg( 100, SSAMPLE )
+  else
+    errmsg( 101, SSAMPLE )
+  endif;

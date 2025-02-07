@@ -1,0 +1,34 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=Common
+Name=COMMON_DICT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=settings questionnaire
+Name=SETTINGS_QUEST
+
+[IdItems]
+
+[Item]
+Label=Survey ID
+Name=SETTINGS_ID
+Start=1
+Len=4
+DataType=Alpha
+
+[Record]
+Label=settings record
+Name=SETTINGS_REC
+RecordTypeValue=''
+RecordLen=9
+
+[Item]
+Label=Last laboratory id generated
+Name=SLASTID
+Start=5
+Len=5

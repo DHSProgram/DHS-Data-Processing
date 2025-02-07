@@ -1,0 +1,375 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+t1001 columns numbirth = 1 nodec
+              repweigt = 2 nodec;
+t1001 footnote
+{+EN}
+@1 Based on either a written record or the mother's recall
+{EN+}
+{{ES}
+@1 Basado en el carn? de salud o en informaci?n de la madre
+{ES}}
+{{FR}
+@1 Basé soit sur un enregistrement écrit, soit sur la déclaration de la mère
+{FR}}
+endfootnote;
+
+t1002   columns grpchild = 1 vaccard = 3 nodec
+                grpchild = 2 vaccard = 3 nodec;
+t1002 footnote
+{+EN}
+@1 Vaccination card, booklet or other home-based record
+{EN+}
+{{ES}
+@1 Vaccination card, booklet or other home-based record
+{ES}}
+{{FR}
+@1 Carnet, carte de vaccination, livret ou autre enregistrement écrit
+{FR}}
+endfootnote;
+
+t1003 rows    allvacc = 4 nodec
+      columns grpchild = 1 vacsourc = 4 suppress
+              grpchild = 2 vacsourc = 4 suppress;
+t1003 footnote
+{+EN}
+na = Not applicable~
+BCG = Bacille Calmette-Gu?rin~
+DPT = Diphtheria-pertussis-tetanus~
+HepB = Hepatitis B~
+Hib = Haemophilus influenzae type b~
+IPV = Inactivated polio vaccine~
+OPV = Oral polio vaccine~
+@1 Vaccination card, booklet or other home-based record~
+@2 Received by age 12 months~
+@3 For children whose vaccination information is based on the mother's report, date of
+   vaccination is not collected. The proportions of vaccinations given during the first
+   and second years of life are assumed to be the same as for children with a written
+   record of vaccination.~
+@4 Received by age 12 months for all vaccines except [MEASLES CONTAINING VACCINE] 2,
+   which should be received by age 24 months~
+@5 Children are considered to have received HepB (birth dose) if it was recorded on
+   their card or reported by their mother, regardless of timing.~
+@6 BCG, three doses of [DPT-CONTAINING VACCINE], three doses of polio vaccine
+   (excluding polio vaccine given at birth), and one dose of [MEASLES CONTAINING VACCINE]~
+@7 For children 12-23 months: BCG, HepB (birth dose), three doses of [DPT-HEPB-HIB],
+   [THREE/FOUR] doses of OPV, one dose of IPV, [THREE/TWO] doses of pneumococcal vaccine,
+   [THREE/TWO] doses of rotavirus vaccine, and one dose of [MEASLES CONTAINING VACCINE].
+   For children 24-35 months, all of these plus a fourth dose of [DPT-HEPB-HIB] and a
+   second dose of [MEASLES CONTAINING VACCINE].
+{EN+}
+{{ES}
+na = Not applicable~
+BCG = Bacille Calmette-Gu?rin~
+DPT = Diphtheria-pertussis-tetanus~
+HepB = Hepatitis B~
+Hib = Haemophilus influenzae type b~
+@1 Vaccination card, booklet or other home-based record~
+@2 Received by age 12 months~
+@3 For children whose vaccination information is based on the mother?s report, date of
+   vaccination is not collected. The proportions of vaccinations given during the first
+   and second years of life are assumed to be the same as for children with a written
+   record of vaccination.~
+@4 Received by age 12 months for all vaccines except [MEASLES CONTAINING VACCINE] 2,
+   which should be received by age 24 months~
+@5 For children whose vaccination information is based on the mother's report, children
+   reported to have received hepatitis B (birth dose) received the vaccine within 24
+   hours after birth. For children whose vaccination information is based on the written
+   record of vaccination, children are considered to have received hepatitis B (birth dose)
+   if this vaccine is recorded on their card, regardless of when the dose was administered.~
+@6 BCG, three doses of [DPT-HepB-Hib], three doses of oral polio vaccine (excluding polio
+   vaccine given at birth), and one dose of [MEASLES CONTAINING VACCINE]~
+@7 For children 12-23 months: BCG, hepatitis B (birth dose), three doses of [DPT-HEPB-HIB],
+   [THREE/FOUR] doses of oral polio vaccine, [THREE/TWO] doses of pneumococcal vaccine,
+   [THREE/TWO] doses of rotavirus vaccine, and one dose of [MEASLES CONTAINING VACCINE].
+   For children 24-35 months, all of these plus a second dose of [MEASLES CONTAINING VACCINE].
+{ES}}
+{{FR}
+na = Non applicable~
+BCG = Bacille Calmette-Guérin~
+DTC = Diphthérie-Tétanos-coqueluche~
+HepB = Hépatite B~
+Hib = Haemophilus influenzae type b~
+@1 Carnet, carte de vaccination, livret ou autre enregistrement écrit~
+@2 Reçu avant l'âge de 12 mois~
+@3 Pour les enfants dont les informations sur la vaccination sont basées sur la déclaration de la
+   mère, la date de la vaccination n'est pas collectée. On considère que les proportions de vaccins
+   donnés au cours de la première et de la deuxième année sont les mêmes que pour les enfants
+   possédant un enregistrement écrit des vaccins.~
+@4 Reçu avant l'âge de 12 mois pour tous les vaccins sauf pour [LE VACCIN CONTENANT UN
+   ANTIGÈNE CONTRE LA ROUGEOLE] 2, qui devrait être reçu avant l'âge de 24 mois~
+@5 En ce qui concerne les enfants dont les informations sur la vaccination sont basées sur la
+   déclaration de la mère, on considère que ceux pour lesquels on a déclaré qu'ils avaient reçu
+   l'hépatite B  (dose naissance) ont reçu ce vaccin dans les 24 heures suivant la naissance. En ce qui
+   concerne les enfants dont les informations sur la vaccination sont basées sur un enregistrement
+   écrit, on considère qu'ils ont reçu l'hépatite B (dose naissance) si ce vaccin est enregistré sur leur
+   carnet, sans tenir compte du moment où la dose a été administrée.~
+@6 BCG, trois doses de [DTC-HEPB-HIB], trois doses du vaccin oral contre la polio (non compris le vaccin
+   contre la polio donné à la naissance) et une dose de [VACCIN CONTENANT UN ANTIGÈNE CONTRE LA ROUGEOLE].~
+@7 Pour les enfants de 12-23 mois : BCG, hépatite B (dose naissance), trois doses de  [DTC-HEPB-HIB],
+   [TROIS/QUATRE] doses du vaccin oral contre la polio, [TROIS/DEUX] doses du vaccin contre le pneumocoque,
+   [TROIS/DEUX] doses du vaccin contre le rotavirus et une dose de [VACCIN CONTENANT UN ANTIGÈNE CONTRE LA ROUGEOLE].
+   Pour les enfants de 24-35 mois, tous ces vaccins plus une seconde dose de [VACCIN CONTENANT UN ANTIGÈNE CONTRE LA ROUGEOLE].
+{FR}}
+endfootnote;
+{t1003w  noprint;}
+
+t1004 stubsize = 1000 cellsize = 500;
+t1004 columns allvacc1 = 4 nodec
+              vacc2 = 4 nodec;
+t1004 footnote
+{+EN}
+Note: Children are considered to have received the vaccine if it was either written on the child's
+      vaccination card or reported by the mother. For children whose vaccination information is
+      based on the mother's report, date of vaccination is not collected. The proportions of
+      vaccinations given during the first and second years of life are assumed to be the same as for
+      children with a written record of vaccination.~
+BCG = Bacille Calmette-Guérin~
+DPT = Diphtheria-pertussis-tetanus~
+HepB = Hepatitis B~
+Hib = Haemophilus influenzae type b~
+OPV = Oral polio vaccine~
+IPV = Inactivated polio vaccine~
+@1 Children are considered to have received HepB (birth dose) if it was recorded on their card or
+   reported by their mother, regardless of timing.~
+@2 OPV 0 is the polio vaccination given at birth.~
+@3 BCG, three doses of [DPT-CONTAINING VACCINE], three doses polio vaccine (excluding polio vaccine
+   given at birth), and one dose of [MEASLES CONTAINING VACCINE]~
+@4 BCG, HepB (birth dose), three doses of [DPT-HEPB-HIB], [THREE/FOUR] doses of OPV, one dose of IPV,
+   [THREE/TWO] doses of pneumococcal vaccine, [THREE/TWO] doses of rotavirus vaccine, and one dose
+   of [MEASLES CONTAINING VACCINE]~
+@5 BCG, HepB (birth dose), [THREE/FOUR] doses of [DPT-HEPB-HIB], [THREE/FOUR] doses of OPV, one dose
+   of IPV, [THREE/TWO] doses of pneumococcal vaccine, [THREE/TWO] doses of rotavirus vaccine,
+   and two doses of [MEASLES CONTAINING VACCINE]~
+@6 Vaccination card, booklet or other home-based record
+{EN+}
+{{ES}
+Note: Children are considered to have received the vaccine if it was either written on the child's
+      vaccination card or reported by the mother. For children whose vaccination information is
+      based on the mother?s report, date of vaccination is not collected. The proportions of
+      vaccinations given during the first and second years of life are assumed to be the same as for
+      children with a written record of vaccination.~
+{ES}}
+{{FR}
+Note: On considère que les enfants sont vaccinés si l'information est inscrite sur le carnet de 
+      vaccination de l'enfant ou si c'est la mère qui le déclare . Pour les enfants dont l'information 
+      sur la vaccination est basée sur la déclaration de la mère, la date de la vaccination n'est pas 
+      collectée. On suppose que les proportions de vaccins effectués durant la première et la deuxième 
+      années sont les mêmes que pour les enfants pour lesquels on dispose d'un enregistrement écrit de 
+      la vaccination.~
+BCG = Bacille Calmette-Guérin~
+DTC = Diphthérie-tétanos-coqueluche~
+HepB = Hépatite B~
+Hib = Haemophilus influenzae type b~
+VPO = Vaccin contre la polio oral~
+VPI = Vaccin contre la polio inactivé~
+@1 On considère que les enfants ont reçu le vaccin HepB (dose à la naissance) si le vaccin a été 
+   enregistré sur leur carnet ou s'il a été déclaré par leur mère, quelque soit le moment où 
+   a été effectué la vacination.~
+@2 OPV 0 est le vaccin de la polio donné à la naissance.~
+@3 BCG, trois doses de [DTC-CONTENANT VACCIN], trois doses du vaccin contre la polio (non compris 
+   le vaccin contre la polio donné à la naissance), et une dose de [VACCIN CONTENANT UN ANTIGÈNE 
+   CONTRE LA ROUGEOLE].~
+@4 BCG, HepB (dose à la naissance), trois doses de [DTC-HEPB-HIB], [TROIS/QUATRE] doses du VPO, 
+   une dose de VPI, [TROIS/DEUX] doses du vaccin contre le pneumocoque, [TROIS/DEUX] doses du  
+   vaccin contre le rotavirus et une dose de [VACCIN CONTENANT UN ANTIGÈNE CONTRE LA ROUGEOLE].~
+@5 BCG, HepB (dose à la naissance), [TROIS/QUATRE] doses de [DTC-HEPB-HIB], [TROIS/QUATRE] doses 
+   du VPO, une dose de VPI, [TROIS/DEUX] doses du vaccin contre le pneumocoque, [TROIS/DEUX] 
+   doses du vaccin contre le rotavirus et deux doses de [VACCIN CONTENANT UN ANTIGÈNE CONTRE 
+   LA ROUGEOLE].~
+@6 Carnet, carte de vaccination, livret ou autre enregistrement écrit
+{FR}}
+endfootnote;
+
+t1005 columns grpch1 = 1 totnum15 = 1 nodec
+              grpch1 = 2 totnum15 = 1 nodec;
+
+t1006 columns arisympt = 2 nodec
+              aritreat = 3 nodec;
+t1006 footnote
+{+EN}
+@1 Symptoms of ARI include short, rapid breathing which was chest-related
+   and/or difficult breathing which was chest-related.~
+@2 Includes advice or treatment from the following sources: [PUBLIC SECTOR, PRIVATE
+   MEDICAL SECTOR, NGO MEDICAL SECTOR, SHOP, MARKET, AND ITINERANT DRUG SELLER].
+   Excludes advice or treatment from a traditional practitioner [ADD ANY
+   SURVEY-SPECIFIC NON-MEDICAL CATEGORY SUCH AS FRIENDS/RELATIVES OR CHURCH].~
+@3 Includes stove/cookers using electricity, LPG/natural gas/biogas, solar, and
+   alcohol/ethanol [LIST ANY ADDITIONAL CATEGORIES OF CLEAN FUELS AND TECHNOLOGIES
+   INCLUDED IN THE SURVEY QUESTIONNAIRE]~
+@4 Includes coal/lignite, charcoal, wood, straw/shrubs/grass, agricultural crops,
+   and animal dung/waste, processed biomass (pellets) or woodchips, garbage/plastic,
+   and sawdust [LIST ANY ADDITIONAL CATEGORIES OF SOLID FUELS INCLUDED IN THE SURVEY QUESTIONNAIRE]
+{EN+}
+{{ES}
+@1 Los s?ntomas de IRA se define como respiraci?n r?pida y agitada asociada con el pecho y/o
+   dificultad para respirar asociada con el pecho.~
+@2  Includes advice or treatment from the following sources: [PUBLIC SECTOR, PRIVATE
+    MEDICAL SECTOR, NGO MEDICAL SECTOR, SHOP, MARKET, AND ITINERANT DRUG SELLER].
+	Excludes advice or treatment from a traditional practitioner.~
+{ES}}
+{{FR}
+@1 Les symptômes d'IRA incluent une respiration courte et rapide associée à des problèmes 
+   de congestion dans la poitrine et/ou des difficultés respiratoires associées à des 
+   problèmes de congestion dans la poitrine.~
+@2 Sont inclus les conseils ou traitements des sources suivantes : [SECTEUR PUBLIC, 
+   SECTEUR MÉDICAL PRIVÉ, SECTEUR MÉDICAL ONG, BOUTIQUE, MARCHÉ ET VENDEUR DE MÉDICAMENTS AMBULANTS]. 
+   Ne sont pas pris en compte ici les conseils ou traitements fournis par un praticien traditionnel 
+   [AJOUTEZ TOUTE CATÉGORIE NON MÉDICALE SPÉCIFIQUE À L'ENQUÊTE COMME AMIS/PARENTS OU INSTITUTION RELIGIEUSE].~
+@3 Comprend les cuisinières/cuiseurs utilisant l'électricité, GPL/gaz naturel /biogaz, 
+   énergie solaire et alcool/éthanol [AJOUTER À LA LISTE D'AUTRES CATÉGORIES DE COMBUSTIBLES 
+   ET D'ÉQUIPEMENTS PROPRES FIGURANT DANS LE QUESTIONNAIRE D'ENQUÊTE]~
+@4 Y compris charbon/lignite, charbon de bois, bois, paille/branchages/herbes, résidus 
+   agricoles et bouse/déjections d'animaux, biomasse transformée (pellets) ou copeaux de 
+   bois, déchets/plastique, et sciure [AJOUTER À LA LISTE D'AUTRES CATÉGORIES DE COMBUSTIBLES 
+   SOLIDES FIGURANT DANS LE QUESTIONNAIRE D'ENQUÊTE]
+{FR}}
+endfootnote;
+
+t1007 rows numchild  = 1 nodec;
+t1007 footnote
+{+EN}
+Note: Advice or treatment for children with symptoms of ARI may have been sought from more 
+      than one source.~ 
+CHW = Community health worker~
+NGO = Non-governmental organization~
+@1 Symptoms of ARI include short, rapid breathing which was chest-related
+   and/or difficult breathing which was chest related.
+{EN+}
+{{ES}
+CHW = Community health worker~
+@1 Symptoms of ARI include short, rapid breathing which was chest-related
+   and/or difficult breathing which was chest related.
+{ES}}
+{{FR}
+Note: Les conseils ou traitements pour les enfants avec des symptômes d'IRA peuvent avoir 
+      été recherchés auprès de plus d'une source.~
+ASC : Agent de santé communautaire~
+ONG = Organisation non gouvernementale~
+@1 Les symptômes d'IRA incluent une respiration courte et rapide associée à des problèmes de 
+   congestion dans la poitrine et/ou des difficultés respiratoires associées à des problèmes de 
+   congestion dans la poitrine.
+{FR}}
+endfootnote;
+
+t1008   columns fevsympt  = 2 nodec
+                fevtreat  = 4 nodec;
+t1008 footnote
+{+EN}
+@1 Includes advice or treatment from the following sources: [PUBLIC SECTOR,
+   PRIVATE MEDICAL SECTOR, NGO MEDICAL SECTOR, SHOP, MARKET, AND ITINERANT 
+   DRUGS SELLER]. Excludes advice or treatment from a traditional practitioner
+   [ADD ANY SURVEY-SPECIFIC NON-MEDICAL CATEGORY SUCH AS FRIENDS/RELATIVES OR CHURCH].
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Sont inclus les conseils ou traitements des sources suivantes : [SECTEUR PUBLIC, 
+   SECTEUR MÉDICAL PRIVÉ, SECTEUR MÉDICAL ONG, BOUTIQUE, MARCHÉ ET VENDEUR DE MÉDICAMENTS 
+   AMBULANTS]. Ne sont pas pris en compte ici les conseils ou traitements fournis par un 
+   praticien traditionnel [AJOUTEZ TOUTE CATÉGORIE NON MÉDICALE SPÉCIFIQUE À L'ENQUÊTE 
+   COMME AMIS/PARENTS OU INSTITUTION RELIGIEUSE].
+{FR}}
+endfootnote;
+
+t1009   columns diasympt = 2 nodec
+                diatreat = 2 nodec;
+t1009 footnote
+{+EN}
+Note: Advice or treatment for children with diarrhea may have been sought 
+      from more than one source.
+@1 Includes advice or treatment from the following sources: [PUBLIC SECTOR,
+   PRIVATE MEDICAL SECTOR, NGO MEDICAL SECTOR, SHOP, MARKET, AND ITINERANT 
+   DRUGS SELLER]. Excludes advice or treatment from a traditional practitioner
+   [ADD ANY SURVEY-SPECIFIC NON-MEDICAL CATEGORY SUCH AS FRIENDS/RELATIVES OR CHURCH]~.
+@2 See Table 16.1 for definition of categories.~
+@3 See Table 16.6 for definition of categories.~
+{EN+}
+{{ES}
+@2 Ver Cuadro 16.1 para la definici?n de las categor?as.~
+@3 Ver Cuadro 16.6 para la definici?n de las categor?as.~
+{ES}}
+{{FR}
+Note : Des conseils ou des traitements pour les enfants ayant eu la diarhée ont 
+       pu être recherchés auprès de plus d'une source.~
+@1 Sont inclus les conseils ou traitements des sources suivantes : [SECTEUR PUBLIC, SECTEUR 
+   MÉDICAL PRIVÉ, SECTEUR MÉDICAL ONG, BOUTIQUE, MARCHÉ ET VENDEUR DE MÉDICAMENTS AMBULANTS]. 
+   Ne sont pas pris en compte ici les conseils ou traitements fournis par un praticien traditionnel 
+   [AJOUTEZ TOUTE CATÉGORIE NON MÉDICALE SPÉCIFIQUE À L'ENQUÊTE COMME AMIS/PARENTS OU INSTITUTION RELIGIEUSE].~
+@2 Se référer au Tableau 16.1 pour la définition des catégories.~
+@3 Se référer au Tableau 16.6 pour la définition des catégories.~
+{FR}}
+endfootnote;
+
+t1010 columns totdiarr = 1 nodec;
+t1010 footnote
+{+EN}
+Note: It is recommended that children should be given more liquids to drink during
+      diarrhea and food should not be reduced.~
+@1 Breastfeeding status is captured for children age 0-35 months only.	  
+{EN+}
+{{ES}
+Nota: Se recomienda dar a los ni?os/as  l?quidos para beber durante
+      la diarrea y no reducir los alimentos.
+{ES}}
+{{FR}
+Note: Il est recommandé, pendant les épisodes diarrhéiques, de donner davantage de
+      liquides à l'enfant et de ne pas réduire les rations alimentaires.~
+@1 Le statut par rapport à l'allaitement concerne seulement les enfants de 0-35 mois.	   
+{FR}}
+endfootnote;
+
+t1011 columns nontotal = 3 nodec;
+t1011 footnote
+{+EN}
+ORS = Oral rehydration salts~
+@1 Continued feeding includes children who were given more,
+   same as usual, or somewhat less food during the diarrhea episode.
+{EN+}
+{{ES}
+SRO = Sales de rehidratacion oral~
+@1 La pr?ctica de alimentaci?n continuada incluye ni?os/as que durante
+   la diarrea recibieron m?s alimento, lo mismo, o un poco menos de lo usual.
+{ES}}
+{{FR}
+SRO = Sels de réhydratation par voir orale
+@1 Par poursuite de l'alimentation, on entend ici les enfants à qui on a donné davantage de 
+   nourriture que d'habitude, la même quantité ou un peu moins que d'habitude pendant les 
+   épisodes diarrhéiques.
+{FR}}
+endfootnote;
+
+t1012 rows numchild  = 1 nodec;
+t1012 footnote
+{+EN}
+Note: Advice or treatment for children with diarrhea may have been sought from 
+      more than one source.~
+CHW = Community health worker~
+NGO = Non-governmental organization~
+ORS = Oral rehydration salts~
+@1 Fluids from ORS packet or pre-packaged ORS fluid
+{EN+}
+{{ES}
+Note: Advice or treatment for children with diarrhea may have been sought from 
+      more than one source.~
+CHW = Community health worker~
+NGO = Non-governmental organization~
+ORS = Oral rehydration salts~
+@1 Fluids from ORS packet or pre-packaged ORS fluid
+{ES}}
+{{FR}
+Note: Les conseils ou traitements pour les enfants ayant eu la diarrhée peuvent avoir 
+      été recherchés auprès de plus d'une source.~
+ASC = Agent de santé communautaire~
+ONG = Organisation non gouvernementale~
+SRO = Sels de réhydratation par voir orale~
+@1 Liquides de sachets SRO ou de sachets SRO préconditionnés
+{FR}}
+endfootnote;

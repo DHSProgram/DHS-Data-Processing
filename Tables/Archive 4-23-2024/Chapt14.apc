@@ -1,0 +1,1977 @@
+﻿PROC GLOBAL
+{+-----------------------------------------------------------------------------------+}
+{+                                                                                   +}
+{+   Guidelines July 7, 2021          -                Version 1.0.0 of 08/31/2021   +}
+{+                                                                                   +}
+{+   CHAPTER 14. HIV PREVALENCE                                                      +}
+{+                                                                                   +}
+{+   14.1    Coverage of HIV testing by residence and region                         +}
+{+   14.2    Coverage of HIV testing by background characteristics                   +}
+{+   14.2A   WORKING TABLE. HIV prevalence according to de facto and interview status+}
+{+   14.3    HIV prevalence by age                                                   +}
+{+   14.4    HIV prevalence by socioeconomic characteristics                         +}
+{+   14.5    HIV prevalence by demographic characteristics                           +}
+{+   14.6    HIV prevalence by sexual behavior                                       +}
+{+   14.7    HIV prevalence among young people by demographic characteristics        +}
+{+   14.8    HIV prevalence among young people by sexual behavior                    +}
+{+   14.9    HIV prevalence by other characteristics                                 +}
+{+   14.10   Prior HIV testing by current HIV status                                 +}
+{+   14.11   HIV prevalence by male circumcision                                     +}
+{+   14.12   HIV prevalence among couples                                            +}
+{+                                                                                   +}
+{+   HIV Appendix tables                                                             +}
+{+                                                                                   +}
+{+   14A.7  Coverage of HIV testing by social and demographic characteristics: Women +}
+{+   14A.8  Coverage of HIV testing by social and demographic characteristics: Men   +}
+{+   14A.9  Coverage of HIV testing by sexual behavior characteristics: Women        +}
+{+   14A.10 Coverage of HIV testing by sexual behavior characteristics: Men          +}
+{+                                                                                   +}
+{+-----------------------------------------------------------------------------------+}
+
+  numeric i, j, cnt, rweight, samptake, found;
+  numeric jwom, jman, nevmar, jtot, jmax, idef, itot, imax, iage, iage1, iage2;
+  numeric evtest, jcir1, jcir2, jcir3, jcir4, jcir5, jcir6, circum, lastsex, sexly, x766bw;
+  numeric ancare, hivwom, hivman, wifefound, diffage, condom, lastch;
+
+  alpha(15) maleid;       { male ID for external access to male data file }
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 14, Country Survey 2020" );
+{EN+}
+{{ES}
+    title( "Cuadros para el Capítulo 14, País Encuesta 2020" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 14, Enquête Pays 2020" );
+{FR}}
+
+  crosstab float(1) t1401 hv025w+hv024w+tot1549+men5059+totmen dbsresul*intvstat+totnum1 isex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.1  Coverage of HIV testing by residence and region","",
+           "Percent distribution of women and men age 15-49 and eligible",
+           "for HIV testing by testing status, according to residence and region",
+           "(unweighted), Country Survey 2020" )
+     stub( "Residence and region" );
+{EN+}
+{{ES}
+    title( "Cuadro 14.1  Cobertura de la prueba de VIH por residencia y región"," ",
+           "Distribución porcentual de mujeres y hombres de 15-49 elegibles",
+           "para la prueba de VIH por estatus de la prueba, según residencia y región",
+           "(sin ponderar), País Encuesta 2020" )
+     stub( "Residencia y región" );
+{ES}}
+{{FR}
+    title( "Tableau 14.1  Couverture du test du VIH par milieu de résidence et région"," ",
+           "Répartition (en %) des femmes et des hommes de 15-49 ans,",
+           "éligibles pour le test du VIH par couverture du test",
+           "selon le milieu de résidence et la région (non pondéré), Enquête Pays 2020" )
+     stub( "Résidence et région" );
+{FR}}
+
+  crosstab float(1) t1402 hivage+v106w+v190w+total dbsresul*intvstat+totnum1 isex
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.2  Coverage of HIV testing according to selected background characteristics","",
+           "Percent distribution of women and men age 15-49 eligible",
+           "for HIV testing by testing status, according to selected background",
+           "characteristics (unweighted), Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 14.2  Cobertura de la prueba de VIH por características seleccionadas","",
+           "Distribución porcentual de mujeres y hombres de 15-49 elegibles",
+           "para la prueba de VIH por estatus de la prueba, según características seleccionadas",
+           "(sin ponderar), País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 14.2  Couverture du test du VIH selon certaines caractéristiques sociodémographiques","",
+           "Répartition (en %) des femmes et des hommes de 15-49 ans ",
+           "éligibles pour le test du VIH par couverture",
+           "du test, selon certaines caractéristiques sociodémographiques (non pondéré), Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+
+  crosstab float(1) t1402a rowpop numdbs
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "WORKING TABLE. HIV prevalence according to de facto and interview status","",
+           "Country Survey 2020" )
+     stub( "Population" );
+{EN+}
+{{ES}
+    title( "WORKING TABLE. HIV prevalence according to de facto and interview status","",
+           "País Encuesta 2020" )
+     stub( "Population" );
+{ES}}
+{{FR}
+    title( "TABLEAU DE TRAVAIL.  Prévalence du VIH selon la situation de facto et statut de l'interview","",
+           "Enquête Pays 2020" )
+     stub( "Population" );
+{FR}}
+
+  { !!! table mutually exclusive with 14.3.a use it if HIV result doesn't differentiate the type }
+  {     check with CM to know which one to produce, if necessary }
+  crosstab float(1) t1403 hivage+tot1549+totmen isex*coltabs+coltabs
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.3  HIV prevalence by age","",
+           "Among the de facto women age 15-49 and men age 15-54[59] who",
+           "were interviewed and tested, the percentage HIV positive,",
+           "according to age, Country Survey 2020" )
+     stub( "Age" );
+{EN+}
+{{ES}
+    title( "Cuadro 14.3  Prevalencia de VIH por edad","",
+           "Entre las mujeres de 15-49 y hombres de 15-54[59] de facto que",
+           "fueron entrevistados y a quienes se les hizo la prueba,",
+           "porcentaje VIH positivo, por edad, País Encuesta 2020" )
+     stub( "Edad" );
+{ES}}
+{{FR}
+    title( "Tableau 14.3  Prévalence du VIH par âge","",
+           "Parmi les femmes de 15-49 ans et les hommes de 15-54[59] ans",
+           "(population de fait) qui ont été interviewés et testés,",
+           "pourcentage séropositif au VIH selon l'âge, Enquête Pays 2020" )
+     stub( "Groupe d'âges" );
+{FR}}
+  crosstab float(0) t1403u hivage+tot1549+totmen isex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14.3  HIV prevalence by age (Number of un-weighted cases)" )
+     stub( "Age" );
+
+  { !!! table mutually exclusive with 14.3 use if HIV result differentiates the type }
+  {     check with CM to know which one to produce, if necessary }
+  crosstab float(1) t1403a hivage+tot1549+totmen isex*hivpct+hivpct
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.3  HIV prevalence by age","",
+           "Among the de facto women age 15-49 and men age 15-54[59] who",
+           "were interviewed and tested, the percentage HIV positive,",
+           "according to age, Country Survey 2020" )
+     stub( "Age" );
+{EN+}
+{{ES}
+    title( "Cuadro 14.3  Prevalencia de VIH por edad","",
+           "Entre las mujeres de 15-49 y hombres de 15-54[59] de facto que",
+           "fueron entrevistados y a quienes se les hizo la prueba,",
+           "porcentaje VIH positivo, por edad, País Encuesta 2020" )
+     stub( "Edad" );
+{ES}}
+{{FR}
+    title( "Tableau 14.3  Prévalence du VIH par âge","",
+           "Parmi les femmes de 15-49 ans et les hommes de 15-54[59] ans",
+           "(population de fait) qui ont été interviewés et testés,",
+           "pourcentage VIH positif selon l'âge, Enquête Pays 2020" )
+     stub( "Groupe d'âges" );
+{FR}}
+  crosstab float(0) t1403au hivage+tot1549+totmen isex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14.3  HIV prevalence by age (Number of un-weighted cases)" )
+     stub( "Age" );
+
+  crosstab float(1) t1404 v131w+v130w+v731w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex*coltabs+coltabs
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.4  HIV prevalence by socioeconomic characteristics","",
+           "Percentage HIV positive among women and men age 15-49 who",
+           "were tested, according to socioeconomic characteristics, Country Survey 2020" )
+     stub( "Socioeconomic characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 14.4  Prevalencia de VIH por características socioeconómicas","",
+           "Porcentaje VIH positivo entre las mujeres y hombres 15-49 a quienes",
+           "se les hizo la prueba, por características socioeconómicas, País Encuesta 2020" )
+     stub( "Característica socioeconomica" );
+{ES}}
+{{FR}
+    title( "Tableau 14.4  Prévalence du VIH selon certaines caractéristiques socio-économiques","",
+           "Pourcentage de VIH positifs parmi les femmes et les hommes de 15-49 ans testés",
+           "selon certaines caractéristiques socio-économiques, Enquête Pays 2020" )
+     stub( "Caractéristique socio-économique" );
+{FR}}
+  crosstab float(0) t1404u v131w+v130w+v731w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14.4  HIV prevalence by socioeconomic characteristics (Number of un-weighted cases)" )
+     stub( "Socioeconomic characteristic" );
+	 
+  crosstab float(1) t1405 v501w7+v505w1+v213w+anclastb+tot1549+men5059+totmen isex*coltabs+coltabs
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.5  HIV prevalence by demographic characteristics","",
+           "Percentage HIV positive among women and men age 15-49 who were tested,",
+           "according to demographic characteristics, Country Survey 2020" )
+     stub( "Demographic characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 14.5  Prevalencia de VIH por características demogr ficas","",
+           "Porcentaje VIH positivo entre las mujeres y hombres 15-49 a quienes",
+           "se les hizo la prueba, por características demogr ficas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 14.5  Prévalence du VIH selon certaines caractéristiques démographiques","",
+           "Pourcentage de VIH-positifs parmi les femmes et les hommes de 15-49",
+           "ans testés, selon certaines caractéristiques démographiques, Enquête Pays 2020" )
+     stub( "Caractéristique démographique" );
+{FR}}
+  crosstab float(0) t1405u v501w7+v505w1+v213w+anclastb+tot1549+men5059+totmen isex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14.5  HIV prevalence by demographic characteristics (Number of un-weighted cases)" )
+     stub( "Demographic characteristic" );
+
+  crosstab float(1) t1406 v531w+v836w+v766bw+v766aw+v761w+v761w1+tot1549+men5059+totmen isex*coltabs+coltabs
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.6  HIV prevalence by sexual behavior","",
+           "Percentage HIV positive among women and men age 15-49 who ever",
+           "had sex and were tested for HIV, according to sexual behavior characteristics,",
+           "Country Survey 2020" )
+     stub( "Sexual behavior characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 14.6  Prevalencia de VIH por comportamiento sexual","",
+           "Porcentaje VIH positivo entre las mujeres y hombres 15-49 a quienes",
+           "se les hizo la prueba, por características de comportamiento sexual,",
+           "País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 14.6  Prévalence du VIH selon certaines caractéristiques du comportement sexuel","",
+           "Pourcentage de VIH-positifs parmi les femmes et les hommes de 15-49 ans",
+           "testés pour le VIH et qui ont déjà eu des rapports sexuels, selon certaines",
+           "caractéristiques du comportement sexuel, Enquête Pays 2020" )
+     stub( "Caractéristique du comportement sexuel" );
+{FR}}
+  crosstab float(0) t1406u v531w+v836w+v766bw+v766aw+v761w+v761w1+tot1549+men5059+totmen isex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14.6  HIV prevalence by sexual behavior (Number of un-weighted cases)" )
+     stub( "Sexual behavior characteristic" );
+
+  crosstab float(1) t1407 v012w1+v501w4+v213w+v102w+v101w+v106w+v190w+total isex*coltabs+coltabs
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.7  HIV prevalence among young people by background characteristics","",
+           "Percentage HIV-positive among women and men age 15-24 who were",
+           "tested for HIV, according to background characteristics, Country Survey 2020 ")
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 14.7  Prevalencia de VIH entre los jóvenes por características seleccionadas","",
+           "Porcentaje VIH positivo entre las mujeres y hombres 15-24 a quienes",
+           "se les hizo la prueba, por características seleccionadas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 14.7  Prévalence du VIH parmi les jeunes selon certaines caractéristiques sociodémographiques","",
+           "Pourcentage de VIH-positifs parmi les jeunes femmes et les jeunes hommes de 15-24 ans",
+           "qui ont été testés pour le VIH, selon certaines caractéristiques",
+           "sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1407u v012w1+v501w4+v213w+v102w+v101w+v106w+v190w+total isex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14.7  HIV prevalence among young people by background characteristics (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1408 v766bw+v766aw+v761w1+total isex*coltabs+coltabs
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.8  HIV prevalence among young people by sexual behavior","",
+           "Percentage HIV-positive among women and men age 15-24 who have ever had",
+           "sex and were tested for HIV, according to sexual behavior, Country Survey 2020 ")
+     stub( "Sexual behavior characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 14.8  Prevalencia de VIH entre los jóvenes por comportamiento sexual","",
+           "Porcentaje VIH positivo entre las mujeres y hombres 15-24 a quienes",
+           "se les hizo la prueba, por características de comportamiento sexual, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 14.8  Prévalence du VIH parmi les jeunes selon certaines caractéristiques du comportement sexuel","",
+           "Pourcentage de VIH-positifs parmi les femmes et les hommes de 15-24 ans qui ont",
+           "été testés pour le VIH et qui ont déjà eu des rapports sexuels,",
+           "selon certaines caractéristiques du comportement sexuel, Enquête Pays 2020" )
+     stub( "Caractéristique du comportement sexuel" );
+{FR}}
+  crosstab float(0) t1408u v766bw+v766aw+v761w1+total isex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14.8  HIV prevalence among young people by sexual behavior (Number of un-weighted cases)" )
+     stub( "Sexual behavior characteristic" );
+
+  crosstab float(1) t1409  v763w+hivbef1+tot1549 isex*coltabs+coltabs
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.9  HIV prevalence by other characteristics","",
+           "Percentage HIV positive among women and men age 15-49 who have ever had",
+           "sex and were tested for HIV, according to whether they had an STI in the last",
+           "12 months and prior testing for HIV, Country Survey 2020" )
+     stub( "Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 14.9  Prevalencia de VIH según otras características","",
+           "Porcentaje VIH positivo entre las mujeres y hombres 15-49 a quienes",
+           "se les hizo la prueba, según si tuvieron una ITS en los últimos 12 meses",
+           "y si ya habían tenido prueba de VIH, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 14.9  Prévalence du VIH selon d'autres caractéristiques","",
+           "Pourcentage de VIH-positifs parmi les femmes et les hommes de 15-49 ans ",
+           "qui ont été testés pour le VIH et qui ont déjà eu des rapports sexuels, selon qu'ils ont eu, ou non",
+           "une IST au cours des 12 derniers mois et selon qu'ils ont été testés, ou non,",
+		   "précédemment pour le VIH, Enquête Pays 2020" )
+     stub( "Caractéristique" );
+{FR}}
+  crosstab float(0) t1409u  v763w+hivbef1+tot1549 isex+total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14.9  HIV prevalence by other characteristics (Number of un-weighted cases)" )
+     stub( "Characteristic" );
+
+  crosstab float(1) t1410 hivbef2+totnum1 isex*hivstat+hivstat
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.10  Prior HIV testing by current HIV status","",
+	       "Percent distribution of women and men age 15-49 who tested HIV positive and who tested", 
+		   "HIV negative according to history of HIV testing prior to the survey, and self-reported", 
+		   "HIV test result and treatment status, Country Survey 2020" )
+     stub( "HIV testing prior to the survey" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+	title( "Tableau 14.10  Test du VIH antérieur à l'enquête et statut sérologique actuel","",
+	       "Répartition (en %) des femmes et des hommes de 15-49 ans qui ont été testés positifs",
+		   "et qui ont été testés négatifs selon les antécédents de test du VIH antérieur à l'enquête",
+		   "et selon les résultats autodéclarés du test du VIH et le suivi ou non d'un traitement,",
+		   "Enquête Pays 2020" )
+     stub( "Test du VIH antérieur à l'enquête" );
+{FR}}
+  crosstab float(0) t1410u total isex*hivstat+hivstat
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14.10  Prior HIV testing by current HIV status (Number of un-weighted cases)" )
+     stub( "HIV testing prior to the survey" );
+
+  crosstab float(1) t1411 v013w6+v130w+v131w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen circum1*coltabs
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.11  HIV prevalence by male circumcision","",
+           "Among men age 15-49 who were tested for HIV, percentage HIV positive by whether traditionally", 
+		   "or medically circumcised or not circumcised, according to background characteristics,",
+           "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 14.11  Prévalence selon la circoncision","",
+		   "Parmi les hommes de 15-49 ans qui ont été testés pour le VIH,",
+		   "pourcentage VIH-positifs selon qu'ils ont été circoncis, traditionnellement",
+		   "ou médicalement ou pas circoncis , selon certaines caractéristiques sociodémographiques,",
+		   "Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1411u v013w6+v130w+v131w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen circum1
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14.11  HIV prevalence by male circumcision (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1412 v013w7+v013w8+agedif+v505w2+multpart+v102w+v101w+v106w1+v106w2+v190w+total hivcoupl+totnum1
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 14.12  HIV prevalence among couples","",
+           "Percent distribution of couples living in the same household, both ",
+           "of whom were tested for HIV, by HIV status, according to ",
+           "background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 14.12  Prevalencia de VIH entre parejas","",
+           "Distribución porcentual de parejas que viven en el mismo hogar",
+           "y que ambos tuvieron la prueba de VIH, por estatus de VIH",
+           "según características seleccionadas, País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau 14.12  Prévalence du VIH parmi les couples","",
+           "Répartition (en %) des couples vivant dans le même ménage,",
+           "dont les deux conjoints ont été testés pour le VIH, par statut sérologique,",
+           "selon certaines caractéristiques sociodémographiques,",
+           "Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1412u v013w7+v013w8+agedif+v505w2+multpart+v102w+v101w+v106w1+v106w2+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 14.12  HIV prevalence among couples (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  { Appendix tables }
+
+  crosstab float(1) t14a7  v501w7+v505w1+v525w+v213w+v131w+v130w+total dbsresul+totnum2
+    exclude(colzero,rowzero,percents,totals,specval)
+{+EN}
+    title( "Appendix Table A.7  Coverage of HIV testing by social and demographic characteristics: Women","",
+           "Percent distribution of interviewed women age 15-49 by HIV testing status,",
+           "according to social and demographic characteristics (unweighted), Country Survey 2020" )
+     stub( "Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro A.7  Cobertura de la prueba de VIH por características socio-demogr ficas: Mujeres","",
+           "Distribución porcentual de mujeres entrevistadas de 15-49 por estatus de la prueba de VIH,",
+           "según características socio-demogr ficas (sin ponderar), País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau A.7  Couverture du test du VIH selon certaines caractéristiques sociodémographiques : Femme","",
+           "Répartition (en %) des femmes de 15-49 ans interviewées par couverture du test du VIH,",
+           "selon certaines caractéristiques sociodémographiques,(non pondéré), Enquête Pays 2020 " )
+     stub( "Caractéristique" );
+{FR}}
+
+  crosstab float(1) t14a8  v501w7+v505w1+v525w+circum2+v131w+v130w+tot1549+men5059+totmen dbsresul+totnum5
+    exclude(colzero,rowzero,percents,totals,specval)
+{+EN}
+    title( "Appendix Table A.8  Coverage of HIV testing by social and demographic characteristics: Men","",
+           "Percent distribution of interviewed men 15-49 by HIV testing status,",
+           "according to social and demographic characteristics (unweighted), Country Survey 2020" )
+     stub( "Characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro A.8  Cobertura de la prueba de VIH por características socio-demogr ficas: Hombres","",
+           "Distribución porcentual de hombres entrevistados de 15-49 por estatus de la prueba de VIH,",
+           "según características socio-demogr ficas (sin ponderar), País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau A.8  Couverture du test du VIH selon certaines caractéristiques sociodémographiques : Homme","",
+           "Répartition (en %) des hommes de 15-49[59] ans interviewés, par couverture du test du VIH,",
+           "selon certaines caractéristiques sociodémographiques (non pondéré), Enquête Pays 2020 " )
+     stub( "Caractéristique" );
+{FR}}
+
+  crosstab float(1) t14a9 v531w+v836w+multsex+v766aw+v761w+v761w1+hivbef1+total dbsresul+totnum2
+    exclude(colzero,rowzero,percents,totals,specval)
+{+EN}
+    title( "Appendix Table A.9  Coverage of HIV testing by sexual behavior characteristics: Women","",
+           "Percent distribution of interviewed women age 15-49 who ever had sexual intercourse by HIV test status, ",
+           "according to sexual behavior characteristics (unweighted), Country Survey 2020" )
+     stub( "Sexual behavior characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro A.9  Cobertura de la prueba de VIH por características de comportamiento sexual: Mujeres","",
+           "Distribución porcentual de mujeres entrevistadas de 15-49 que han tenido relaciones sexuales,",
+           "por estatus de la prueba de VIH, según características de comportamiento sexual (sin ponderar), País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau A.9  Couverture du test du VIH selon certaines caractéristiques du comportement sexuel: Femme","",
+           "Répartition (en %) des femmes interviewées qui ont déjà eu des rapports",
+           "sexuels par couverture du test du VIH, selon",
+           "certaines caractéristiques du comportement sexuel (non pondéré), Enquête Pays 2020" )
+     stub( "Caractéristique du comportement sexuel" );
+{FR}}
+
+  crosstab float(1) t14a10 v531w+v836w+multsex+v766aw+v761w+v761w1+hivbef1+tot1549+men5059+totmen dbsresul+totnum5
+    exclude(colzero,rowzero,percents,totals,specval)
+{+EN}
+    title( "Appendix Table A.10  Coverage of HIV testing by sexual behavior characteristics: Men","",
+           "Percent distribution of interviewed men age 15-49 who ever had sexual intercourse by HIV test status, ",
+           "according to sexual behavior characteristics (unweighted), Country Survey 2020" )
+     stub( "Sexual behavior characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro A.10  Cobertura de la prueba de VIH por características de comportamiento sexual: Hombres","",
+           "Distribución porcentual de hombres entrevistados de 15-49 que han tenido relaciones sexuales,",
+           "por estatus de la prueba de VIH, según características de comportamiento sexual (sin ponderar), País Encuesta 2020" )
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Tableau A.10  Couverture du test du VIH selon certaines caractéristiques du comportement sexuel: Homme","",
+           "Répartition (en %) des hommes interviewés qui ont déjà eu des rapports sexuels par couverture du test du VIH,",
+           "selon certaines caractéristiques du comportement sexuel (non pondéré), Enquête Pays 2020" )
+     stub( "Caractéristique du comportement sexuel" );
+{FR}}
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  totnum1  = 1;
+  totnum2  = 1;
+  totnum5  = 1;
+  total    = 0;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 14.1 }
+  jtot = tblcol( t1401 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t1401[*,j,*] = t1401[*,j,*] * 100 / t1401[*,jtot,*];
+  enddo;
+  t1401[*,jmax+1,*] = tblsum( column t1401[*,0:jmax,*] );
+  { eliminate extra row 15-49 for women and total }
+  itot = tblrow( t1401, tot1549 );
+  t1401[itot+1:itot+2,*,0] = default;       { for women }
+  t1401[itot+1:itot+2,*,2] = default;       { for total women and men }
+
+  { Table 14.2 }
+  jtot = tblcol( t1402 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t1402[*,j,*] = t1402[*,j,*] * 100 / t1402[*,jtot,*];
+  enddo;
+  t1402[*,jmax+1,*] = tblsum( column t1402[*,0:jmax,*] );
+
+  { Table 14.2a }
+  { compute totals }
+  itot = tblrow( t1402a );
+  imax = itot - 1;
+  t1402a[itot,*] = tblsum( row t1402a[0:imax,*] );
+  { compute prevalence }
+  jtot = tblcol( t1402a );
+  jmax = jtot - 2;
+  t1402a[*,jtot] = t1402a[*,jmax] * 100 / t1402a[*,jmax+1];
+
+  { Table 14.3 }
+  jtot = tblcol( t1403 );
+  jwom = tblcol( t1403, isex = 1 coltabs );
+  jman = tblcol( t1403, isex = 2 coltabs );
+  { women panel }
+  do j = 0 while j <= jwom-1
+    t1403[*,j] = t1403[*,j] * 100 / t1403[*,jwom];
+  enddo;
+  { men panel }
+  do j = jwom+1 while j <= jman-1
+    t1403[*,j] = t1403[*,j] * 100 / t1403[*,jman];
+  enddo;
+  { total panel }
+  do j = jman+1 while j <= jtot-1
+    t1403[*,j] = t1403[*,j] * 100 / t1403[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1403", t1403, 0,      jwom-1, t1403u, 0 );             { women }
+  Col2Dim( "t1403", t1403, jwom+1, jman-1, t1403u, 1 );             { men }
+  Col2Dim( "t1403", t1403, jman+1, jtot-1, t1403u, 2 );             { total }
+  { assing NA to not applicable rows }
+  itot = tblrow( t1403 );
+  t1403[itot-2,0:jwom] = NAcells;         { row women 50-54[59] }
+  t1403[itot,  0:jwom] = NAcells;         { row total 15-54[59] in women panel }
+  t1403[itot-2,jman+1:jtot] = NAcells;    { total women/men 50-54[59] }
+  t1403[itot,  jman+1:jtot] = NAcells;    { roe total 15-54[59] for total women/men  }
+
+  { Table 14.3.a }
+  jtot = tblcol( t1403a );
+  jwom = tblcol( t1403a, isex = 1 hivpct );
+  jman = tblcol( t1403a, isex = 2 hivpct );
+  { women panel }
+  do j = 0 while j <= jwom-1
+    t1403a[*,j] = t1403a[*,j] * 100 / t1403a[*,jwom];
+  enddo;
+  { men panel }
+  do j = jwom+1 while j <= jman-1
+    t1403a[*,j] = t1403a[*,j] * 100 / t1403a[*,jman];
+  enddo;
+  { total panel }
+  do j = jman+1 while j <= jtot-1
+    t1403a[*,j] = t1403a[*,j] * 100 / t1403a[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1403a", t1403a, 0,      jwom-1, t1403au, 0 );             { women }
+  Col2Dim( "t1403a", t1403a, jwom+1, jman-1, t1403au, 1 );             { men }
+  Col2Dim( "t1403a", t1403a, jman+1, jtot-1, t1403au, 2 );             { total }
+  { assing NA to not applicable rows }
+  itot = tblrow( t1403a );
+  t1403a[itot-2,0:jwom] = NAcells;         { row women 50-54[59] }
+  t1403a[itot,  0:jwom] = NAcells;         { row total 15-54[59] in women panel }
+  t1403a[itot-2,jman+1:jtot] = NAcells;    { total women/men 50-54[59] }
+  t1403a[itot,  jman+1:jtot] = NAcells;    { roe total 15-54[59] for total women/men  }
+
+  { Table 14.4 }
+  jtot = tblcol( t1404 );
+  jwom = tblcol( t1404, isex = 1 coltabs );
+  jman = tblcol( t1404, isex = 2 coltabs );
+  { women panel }
+  t1404[*,jwom-1] = t1404[*,jwom-1] * 100 / t1404[*,jwom];
+  { men panel }
+  t1404[*,jman-1] = t1404[*,jman-1] * 100 / t1404[*,jman];
+  { total panel }
+  t1404[*,jtot-1] = t1404[*,jtot-1] * 100 / t1404[*,jtot];
+  { check unweighted N's }
+  Col2Dim( "t1404", t1404, 0,      jwom-1, t1404u, 0 );             { women }
+  Col2Dim( "t1404", t1404, jwom+1, jman-1, t1404u, 1 );             { men }
+  Col2Dim( "t1404", t1404, jman+1, jtot-1, t1404u, 2 );             { total }
+  { assing NA to not applicable rows }
+  itot = tblrow( t1404 );
+  t1404[itot-1:itot,0:jwom]      = NAcells;         { last 2 rows for women panel }
+  t1404[itot-1:itot,jman+1:jtot] = NAcells;         { last 2 rows for total panel }
+
+  { Table 14.5 }
+  { calculate never married woman }
+  nevmar = tblrow( t1405, v501w7 = 0 );
+  t1405[nevmar,*] = t1405[nevmar+1,*] + t1405[nevmar+2,*];
+  { percentages }
+  jtot = tblcol( t1405 );
+  jwom = tblcol( t1405, isex = 1 coltabs );
+  jman = tblcol( t1405, isex = 2 coltabs );
+  { women panel }
+  t1405[*,jwom-1] = t1405[*,jwom-1] * 100 / t1405[*,jwom];
+  { men panel }
+  t1405[*,jman-1] = t1405[*,jman-1] * 100 / t1405[*,jman];
+  { total panel }
+  t1405[*,jtot-1] = t1405[*,jtot-1] * 100 / t1405[*,jtot];
+  { check unweighted N's }
+  t1405u[nevmar,*] = t1405u[nevmar+1,*] + t1405u[nevmar+2,*];
+  Col2Dim( "t1405", t1405, 0,      jwom-1, t1405u, 0 );             { women }
+  Col2Dim( "t1405", t1405, jwom+1, jman-1, t1405u, 1 );             { men }
+  Col2Dim( "t1405", t1405, jman+1, jtot-1, t1405u, 2 );             { total }
+  { assign NA for pregnancy and ANC }
+  idef = tblrow( t1405, v213w = 1 );
+  itot = tblrow( t1405, anclastb );
+  t1405[idef:itot,jwom+1:jtot] = NAcells;   { men and totals }
+  { assign NA to last 2 rows for women and total }
+  itot = tblrow( t1405 );
+  t1405[itot-1:itot,0:jwom]      = NAcells;        { last two rows for women }
+  t1405[itot-1:itot,jman+1:jtot] = NAcells;        { last two rows for men }
+
+  { Table 14.6 }
+  { percentages }
+  jtot = tblcol( t1406 );
+  jwom = tblcol( t1406, isex = 1 coltabs );
+  jman = tblcol( t1406, isex = 2 coltabs );
+  { women panel }
+  t1406[*,jwom-1] = t1406[*,jwom-1] * 100 / t1406[*,jwom];
+  { men panel }
+  t1406[*,jman-1] = t1406[*,jman-1] * 100 / t1406[*,jman];
+  { total panel }
+  t1406[*,jtot-1] = t1406[*,jtot-1] * 100 / t1406[*,jtot];
+  { check unweighted N's }
+  Col2Dim( "t1406", t1406, 0,      jwom-1, t1406u, 0 );             { women }
+  Col2Dim( "t1406", t1406, jwom+1, jman-1, t1406u, 1 );             { men }
+  Col2Dim( "t1406", t1406, jman+1, jtot-1, t1406u, 2 );             { total }
+  { assign NA to last 2 rows for women and total }
+  itot = tblrow( t1406 );
+  t1406[itot-1:itot,0:jwom] = NAcells;        { wommen }
+  t1406[itot-1:itot,jman+1:jtot] = NAcells;   { totals }
+
+  { Table 14.7 }
+  { calculate totals for age }
+  iage1  = tblrow( t1407, v012w1 = 1 );                 { group 15-19 }
+  t1407[iage1,*] = t1407[iage1+1,*] + t1407[iage1+2,*];
+  iage2  = tblrow( t1407, v012w1 = 4 );                 { group 20-24 }
+  t1407[iage2,*] = t1407[iage2+1,*] + t1407[iage2+2,*];
+  { calculate never married woman }
+  nevmar = tblrow( t1407, v501w4 = 0 );
+  t1407[nevmar,*] = t1407[nevmar+1,*] + t1407[nevmar+2,*];
+  { percentages }
+  jtot = tblcol( t1407 );
+  jwom = tblcol( t1407, isex = 1 coltabs );
+  jman = tblcol( t1407, isex = 2 coltabs );
+  { women panel }
+  t1407[*,jwom-1] = t1407[*,jwom-1] * 100 / t1407[*,jwom];
+  { men panel }
+  t1407[*,jman-1] = t1407[*,jman-1] * 100 / t1407[*,jman];
+  { total panel }
+  t1407[*,jtot-1] = t1407[*,jtot-1] * 100 / t1407[*,jtot];
+  { check unweighted N's }
+  t1407u[iage1,*]  = t1407u[iage1+1,*]  + t1407u[iage1+2,*];
+  t1407u[iage2,*]  = t1407u[iage2+1,*]  + t1407u[iage2+2,*];
+  t1407u[nevmar,*] = t1407u[nevmar+1,*] + t1407u[nevmar+2,*];
+  Col2Dim( "t1407", t1407, 0,      jwom-1, t1407u, 0 );             { women }
+  Col2Dim( "t1407", t1407, jwom+1, jman-1, t1407u, 1 );             { men }
+  Col2Dim( "t1407", t1407, jman+1, jtot-1, t1407u, 2 );             { total }
+  { assign NA for current pregnancy for men and total }
+  itot = tblrow( t1407, v213w );
+  t1407[itot-2:itot,jwom+1:jtot] = NAcells;                        { men and total }
+
+  { Table 14.8 }
+  jtot = tblcol( t1408 );
+  jwom = tblcol( t1408, isex = 1 coltabs = 2 );
+  jman = tblcol( t1408, isex = 2 coltabs = 2 );
+  { women panel }
+  t1408[*,jwom-1] = t1408[*,jwom-1] * 100 / t1408[*,jwom];
+  { men panel }
+  t1408[*,jman-1] = t1408[*,jman-1] * 100 / t1408[*,jman];
+  { total panel }
+  t1408[*,jtot-1] = t1408[*,jtot-1] * 100 / t1408[*,jtot];
+  { check unweighted N's }
+  Col2Dim( "t1408", t1408, 0,      jwom-1, t1408u, 0 );             { women }
+  Col2Dim( "t1408", t1408, jwom+1, jman-1, t1408u, 1 );             { men }
+  Col2Dim( "t1408", t1408, jman+1, jtot-1, t1408u, 2 );             { total }
+
+  { Table 14.9 }
+  jtot = tblcol( t1409 );
+  jwom = tblcol( t1409, isex = 1 coltabs );
+  jman = tblcol( t1409, isex = 2 coltabs );
+  { women panel }
+  t1409[*,jwom-1] = t1409[*,jwom-1] * 100 / t1409[*,jwom];
+  { men panel }
+  t1409[*,jman-1] = t1409[*,jman-1] * 100 / t1409[*,jman];
+  { total panel }
+  t1409[*,jtot-1] = t1409[*,jtot-1] * 100 / t1409[*,jtot];
+  { check unweighted N's }
+  t1409u[evtest,*] = t1409u[evtest+1,*] + t1409u[evtest+2,*];
+  Col2Dim( "t1409", t1409, 0,      jwom-1, t1409u, 0 );             { women }
+  Col2Dim( "t1409", t1409, jwom+1, jman-1, t1409u, 1 );             { men }
+  Col2Dim( "t1409", t1409, jman+1, jtot-1, t1409u, 2 );             { total }
+
+  { Table 14.10 }
+  itot = tblrow( t1410 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t1410[i,*] = t1410[i,*] * 100 / t1410[itot,*]
+  enddo;
+  t1410[itot-1,*] = tblsum( row t1410[0:imax,*] );
+  { compute total ever tested and recieved results }
+  t1410[0,*] = t1410[1,*] + t1410[2,*];
+  { check unweighted N's }
+  Row2Dim( "t1410", t1410, 0, itot-2, t1410u, 0 );
+
+  { Table 14.11 }
+  { Traditionally or medically circumcised }
+  jcir1 = tblcol( t1411, circum1 = 1 coltabs );
+  t1411[*,jcir1-1] = t1411[*,jcir1-1] * 100 / t1411[*,jcir1];
+  {  Traditionally circumcised only }
+  jcir2 = tblcol( t1411, circum1 = 2 coltabs );
+  t1411[*,jcir2-1] = t1411[*,jcir2-1] * 100 / t1411[*,jcir2];
+  { Medically circumcised only }
+  jcir3 = tblcol( t1411, circum1 = 3 coltabs );
+  t1411[*,jcir3-1] = t1411[*,jcir3-1] * 100 / t1411[*,jcir3];
+  { Both traditionally and medically circumcised }
+  jcir4 = tblcol( t1411, circum1 = 4 coltabs );
+  t1411[*,jcir4-1] = t1411[*,jcir4-1] * 100 / t1411[*,jcir4];
+  { Circumcised don't know type }
+  jcir5 = tblcol( t1411, circum1 = 5 coltabs );
+  t1411[*,jcir5-1] = t1411[*,jcir5-1] * 100 / t1411[*,jcir5];
+  { Not circumcised or don't know circumcision status }
+  jcir6 = tblcol( t1411, circum1 = 6 coltabs );
+  t1411[*,jcir6-1] = t1411[*,jcir6-1] * 100 / t1411[*,jcir6];
+  { check unweighted N's }
+  Col2Dim( "t1411", t1411, 0,       jcir1-1, t1411u, 0 );
+  Col2Dim( "t1411", t1411, jcir1+1, jcir2-1, t1411u, 1 );
+  Col2Dim( "t1411", t1411, jcir2+1, jcir3-1, t1411u, 2 );
+  Col2Dim( "t1411", t1411, jcir3+1, jcir4-1, t1411u, 3 );
+  Col2Dim( "t1411", t1411, jcir4+1, jcir5-1, t1411u, 4 );
+  Col2Dim( "t1411", t1411, jcir5+1, jcir6-1, t1411u, 5 );
+
+  { Table 14.12 }
+  jtot = tblcol( t1412 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t1412[*,j] = t1412[*,j] * 100 / t1412[*,jtot];
+  enddo;
+  t1412[*,jtot-1] = tblsum( column t1412[*,0:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t1412", t1412, 0, jtot-2, t1412u, 0 );
+
+  { appendix tables }
+
+  { Table 14.A7 }
+  { calculate never married woman }
+  nevmar = tblrow( t14a7, v501w7 = 0 );
+  t14a7[nevmar,*] = t14a7[nevmar+1,*] + t14a7[nevmar+2,*];
+  jtot = tblcol( t14a7 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t14a7[*,j] = t14a7[*,j] * 100 / t14a7[*,jtot];
+  enddo;
+  t14a7[*,jtot-1] = tblsum( column t14a7[*,0:jmax] );
+
+  { Table 14.A8 }
+  { calculate never married woman }
+  nevmar = tblrow( t14a8, v501w7 = 0 );
+  t14a8[nevmar,*] = t14a8[nevmar+1,*] + t14a8[nevmar+2,*];
+  { Traditionally or medically circumcised }
+  circum = tblrow( t14a8, circum2 = 1 );
+  t14a8[circum,*] = tblsum( row t14a7[circum+1:circum+4,*] );
+  jtot = tblcol( t14a8 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t14a8[*,j] = t14a8[*,j] * 100 / t14a8[*,jtot];
+  enddo;
+  t14a8[*,jtot-1] = tblsum( column t14a8[*,0:jmax] );
+
+  { Table 14.A9 }
+  jtot = tblcol( t14a9 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t14a9[*,j] = t14a9[*,j] * 100 / t14a9[*,jtot];
+  enddo;
+  t14a9[*,jtot-1] = tblsum( column t14a9[*,0:jmax] );
+
+  { Table 14.A10 }
+  jtot = tblcol( t14a10 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t14a10[*,j] = t14a10[*,j] * 100 / t14a10[*,jtot];
+  enddo;
+  t14a10[*,jtot-1] = tblsum( column t14a10[*,0:jmax] );
+
+PROC HOUSEHOLD
+PreProc
+
+  if HV015 <> 1 then skip case; endif;
+
+  { general variables }
+  hv025w   = HV025;
+  hv024w   = HV024;
+  v190w    = HV270;
+  totnum1  = 1;
+
+  { tabulate women for tables 14.1 & 14.2      }
+  { as they are based on all eligible women    }
+  isex = 1;
+  tot1549  = 0;
+  men5059  = notappl;
+  totmen   = notappl;
+  for i in RECH5_EDT do
+    v106w  = HA66;                           { education from individual interview }
+    if HA66 in 8,missing then v106w = 9 endif;
+    hivage = int( HA1/5 ) - 2;               { age in five years }
+    recode HA63 -> dbsresul;
+              1  -> 1;        { blood taken }
+              3  -> 2;        { refused }
+              2  -> 3;        { not present }
+                 -> 4;        { 4-not tested/5-inconclusive/6-other/missing }
+    endrecode;
+
+    { if blood taken check if test was successful }
+    samptake = 0;
+    if HA63 = 1 then
+      { load test data for women and modify dbsresul accordingly }
+      HIVCLUST = HV001;
+      HIVNUMB  = HV002;
+      HIVLINE  = HA0;
+      samptake = loadcase( HIVTESTDAT, HIVCLUST, HIVNUMB, HIVLINE );
+      if samptake then
+        if !HIV03 in 0:7,9 then
+          dbsresul  = 4;   { test was performed but protocol didn't reach the end }
+          samptake = 0;   { not enough blood will not be included in the denominator }
+        endif;
+      else
+        dbsresul = 4;     { blood taken but sample not on data file }
+      endif;
+    endif;
+
+    if HV103(HA0) = 1 then                   { de-facto population }
+      recode HA65 -> intvstat;  { result of individual interview }
+               1  ->   1;      { complete }
+                  ->   2;      { other }
+      endrecode;
+
+      xtab( t1401 );
+      xtab( t1402 );
+    endif;       { end de-facto population }
+
+{--------------------------------------------------------------}
+{ working table 14.2a }
+
+    if samptake then                       { sample taken with a valid result }
+      if HV103(HA0) = 1 & HA65 = 1 then        { de-facto population & interviewed }
+        rowpop = 1;
+        numdbs = 2;
+        xtab( t1402a );
+        if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+          numdbs = 1;
+          xtab( t1402a );
+        endif;
+      elseif HV103(HA0) = 1 then              { de-facto population & not interviewed }
+        rowpop = 2;
+        numdbs = 2;
+        xtab( t1402a );
+        if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+          numdbs = 1;
+          xtab( t1402a );
+        endif;
+      else                                    { non-de-facto population }
+        rowpop = 3;
+        numdbs = 2;
+        xtab( t1402a );
+        if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+          numdbs = 1;
+          xtab( t1402a );
+        endif;
+      endif;
+    endif;                                 { end sample taken with a valid result }
+
+  enddo;
+
+  { tabulate all tables for men }
+  isex = 2;
+  for i in RECHMA_EDT do
+    { general variables }
+    totnum1  = 1;         { necessary as it may get assigned notappl down for man > 49 }
+    totmen   = 0 ;
+    tot1549  = ( !HB1 in 15:49 );
+    men5059  = ( HB1 in 50:59 );
+    { general variables }
+    hv025w   = HV025;
+    hv024w   = HV024;
+    v190w    = HV270;
+    v106w    = HB66;                         { education from individual interview }
+    if HB66 in 8,missing then v106w = 9 endif;
+    hivage   = int( HB1/5 ) - 2;             { age in five years }
+    if hivage > 8 then hivage = 8 endif;
+    if !HB1 in 15:49 then
+      hv025w   = notappl;
+      hv024w   = notappl;
+      v106w    = notappl;
+      hivage   = notappl;
+      v190w    = notappl;
+    endif;
+    recode HB63 -> dbsresul;
+             1  -> 1;        { blood taken }
+             3  -> 2;        { refused }
+             2  -> 3;        { not present }
+                -> 4;        { other/missing }
+    endrecode;
+
+    { if blood taken check if test was successful }
+    samptake = 0;
+    if HB63 = 1 then
+      { load test data for men and modify dbsresul accordingly }
+      HIVCLUST = HV001;
+      HIVNUMB  = HV002;
+      HIVLINE  = HB0;
+      samptake = loadcase( HIVTESTDAT, HIVCLUST, HIVNUMB, HIVLINE );
+      if samptake then
+        if !HIV03 in 0:7,9 then
+          dbsresul  = 4;   { test was performed but protocol didn't reach the end  }
+          samptake = 0;   { not enough blood will not be included in the denominator }
+        endif;
+      else
+        dbsresul = 4;     { blood taken but sample not on data file }
+      endif;
+    endif;
+
+    if HV103(HB0) = 1 then                   { de-facto population }
+      recode HB65 -> intvstat;  { result of individual interview }
+	              1  ->   1;      { complete }
+      	           ->   2;      { other }
+      endrecode;
+
+{--------------------------------------------------------------}
+{ tables 14.1 is based on all men but 14.2 is only based in men 15-49 }
+
+      xtab( t1401 );
+      if HB1 in 15:49 then
+        xtab( t1402 );
+      endif;
+    endif;                                  { end de-facto population }
+
+{--------------------------------------------------------------}
+{ working table 14.2a, continuation  }
+
+    if samptake then                       { sample taken with a valid result }
+      if HV103(HB0) = 1 & HB65 = 1 then        { de-facto population & interviewed }
+        rowpop = 1;
+        numdbs = 2;
+        xtab( t1402a );
+        if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+          numdbs = 1;
+          xtab( t1402a );
+        endif;
+      elseif HV103(HB0) = 1 then              { de-facto population & not interviewed }
+        rowpop = 2;
+        numdbs = 2;
+        xtab( t1402a );
+        if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+          numdbs = 1;
+          xtab( t1402a );
+        endif;
+      else                                    { non-de-facto population }
+        rowpop = 3;
+        numdbs = 2;
+        xtab( t1402a );
+        if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+          numdbs = 1;
+          xtab( t1402a );
+        endif;
+      endif;
+    endif;                                 { end sample taken with a valid result }
+
+    if HV103(HB0) = 1 then                   { de-facto population }
+      { load male questionnaire }
+      maleid = concat( HHID, edit("ZZ9",HB0) );
+      if loadcase( MRECODE8, maleid ) & MV015 = 1 then
+
+        { general variables }
+        v106w  = MV106;
+        if MV106 in 8,missing then v106w = 9 endif;
+        v101w  = MV101;
+        v102w  = MV102;
+        v013w6 = MV013;
+
+        { age in four groups status }
+        recode MV012 -> v012w1;
+               15:17 -> 2;
+               18:19 -> 3;
+               20:22 -> 5;
+               23:24 -> 6;
+        endrecode;
+
+        { age in groups }
+        recode MV012 -> v013w4;
+               15:19 -> 2;
+               20:24 -> 3;
+               25:29 -> 4;
+               30:39 -> 5;
+               40:49 -> 6;
+        endrecode;
+  
+
+        { age in five years }
+        hivage   = MV013;
+        if hivage > 8 then hivage = 8 endif;
+
+        { ethnicity }
+        v131w   = MV131;
+        if MV131 = missing then v131w = 99 endif;
+
+        { religion }
+        v130w   = MV130;
+        if MV130 = missing then v130w =  9 endif;
+
+        { currently working }
+        recode MV731 -> v731w;
+                 0   -> 0;                              { not employed }
+                1:3  -> 1;                              { employed }
+                     -> 9;                              { missing  }
+        endrecode;
+
+        { marital status }
+        v501w2 = MV502;
+        if MV502 = missing then v501w2 = 9 endif;
+
+        { marital status }
+        recode MV501 ::   MV525   -> v501w4;
+                1,2  ::           -> 3;                       { married }
+                3:5  ::           -> 4;                       { divorced/separated/widowed }
+                     :: 0,missing -> 2;                       { never married, never had sex }
+                     ::           -> 1;                       { never married, had sex }
+        endrecode;
+
+        { marital status }
+        recode MV501 ::   MV525   -> v501w7;
+                1,2  ::           -> 3;                       { married }
+                4:5  ::           -> 4;                       { divorced/separated }
+                 3   ::           -> 5;                       { widowed }
+                     :: 0,missing -> 2;                       { never married, never had sex }
+                     ::           -> 1;                       { never married, had sex }
+        endrecode;
+
+        { polygamy }
+        recode MV502 :: MV505 -> v505w1;
+                0,2  ::       -> 3;                       { not currently in union }
+                 1   ::  0,1  -> 2;                       { not in polygynous union - MV505 total number of wives }
+                 1   ::  2:20 -> 1;                       { in polygynous union }
+                     ::       -> 9;                       { DK/missing }
+        endrecode;
+
+        { currently pregnant }
+        v213w = notappl;
+
+        { ever had sex }
+        recode MV525 -> v525w;
+                 0   -> 2;
+            missing  -> 9;
+                     -> 1;
+        endrecode;
+
+        { births in last 3 years }
+        anclastb = notappl;
+
+        { circumcision status }
+        recode MV483 :: MV483D :: MV483E -> circum2;
+                0,8  ::        ::        -> 6;       { not circumcised, DK  }
+                     ::   1    ::    0   -> 2;       { traditionally circumcised only }
+                     ::   0    ::    1   -> 3;       { medically circumcised only }
+                     ::   1    ::    1   -> 4;       { both traditional and medically circumcised }
+                     ::        ::        -> 5;       { circumcised others }
+        endrecode;
+
+        { age at first sexual intercourse }
+        recode MV531 -> v531w;
+                 0  -> 0;
+                <16 -> 1;
+              16:17 -> 2;
+              18:19 -> 3;
+              20:69 -> 4;
+                    -> 9;
+        endrecode;
+
+        { higher risk intercourse in last 12 months }
+        recode  MV527  -> lastsex;    { !!! check meaning of codes 197, 198, 995, 996, etc and adjust accordingly }
+               notappl -> notappl;
+               100:198 -> int( (MV527-100)/30 );    { days }
+               200:298 -> int( (MV527-200)/4.3 );   { weeks }
+               300:398 -> MV527-300;                { months }
+               400:450 -> (MV527-400)*12;           { years }
+                       -> missing;
+        endrecode;
+        sexly = ( lastsex in 0:11 );
+
+        { multiple sexual partners in last 12 months }
+        recode sexly ::  MV766B -> v766bw;
+                     ::   0:1   -> MV766B;    { 0-1 partners }
+                 1   ::         -> 2;         { includes DK/missing from sexual partners when 2 or more last year }
+                     ::         -> 9;         { missing }
+        endrecode;
+        { multiple non-marital, non-cohabiting sexual partners in last 12 months }
+        recode sexly ::  MV766A -> v766aw;
+                    ::   0:1   -> MV766A;    { 0-1 partners }
+                1   ::         -> 2;         { includes DK/missing from sexual partners when 2 or more last year }
+                    ::         -> 9;         { missing }
+        endrecode;
+        recode  MV766B -> multsex;
+                 0:1   -> MV766B;   { 0-1 partners }
+                 2:95  -> 2;        { 2+ partners }
+                       -> 9;        { missing }
+        endrecode;
+
+        { condom used at last sexual intercourse last 12 months }
+        recode   MV761 -> v761w;
+                  0    -> 2;
+                  1    -> 1;
+            8,missing  -> 9;
+             notappl   -> 3;       { no sex last 12 months }
+                       -> MV761;
+        endrecode;
+        { condom used at last sexual intercourse in last 12 months with a non-marital sexual partner }
+        condom = notappl;
+        if MV767A in 2:6,96,missing then          { assume missing is not cohabiting partner }
+          condom = MV761;
+        elseif MV767B in 2:6,96,missing then      { assume missing is not cohabiting partner }
+          condom = MV761B;
+        elseif MV767C in 2:6,96,missing then      { assume missing is not cohabiting partner }
+          condom = MV761C;
+        endif;
+        recode  condom -> v761w1;
+                  0    -> 2;
+                  1    -> 1;
+            8,missing  -> 9;
+             notappl   -> 3;       { no sex last 12 months }
+                       -> condom;
+        endrecode;
+        { lifetime sexual partners }
+        recode MV836 -> v836w;
+                0:2  -> MV836;
+                3:4  -> 3;
+                5:9  -> 4;
+               10:95 -> 5;
+                     -> 9;
+        endrecode;
+
+        { STI in last 12 months }
+        if MV763A = 1 | MV763B = 1 | MV763C = 1 then
+          v763w = 1
+        elseif MV763A = 0 & MV763B = 0 & MV763C = 0 then
+          v763w = 2
+        else
+          v763w = 9
+        endif;
+
+        { prior HIV testing }
+        recode MV781 -> hivbef1;
+                 1   -> 1;          { ever tested }
+                 0   -> 2;          { never tested }
+                     -> 9;          { missing }
+        endrecode;
+
+        { background variables for men >= 50 are set to NA }
+        { to avoid tallying them for the body of the table }
+        if !MV012 in 15:49 then             { men 15-49 }
+          v013w6   = notappl;
+          v013w4   = notappl;
+          v131w    = notappl;
+          v130w    = notappl;
+          v102w    = notappl;
+          v101w    = notappl;
+          v106w    = notappl;
+          v190w    = notappl;
+          v731w    = notappl;
+          v501w2   = notappl;
+          v501w7   = notappl;
+          v505w1   = notappl;
+          v213w    = notappl;
+          anclastb = notappl;
+          circum2  = notappl;
+          v531w    = notappl;
+          multsex  = notappl;
+          v766bw   = notappl;
+          v766aw   = notappl;
+          v761w    = notappl;
+          v761w1   = notappl;
+          v836w    = notappl;
+          v763w    = notappl;
+          hivbef1  = notappl;
+          hivbef2  = notappl;
+          totnum1  = notappl;
+          tot1549  = notappl;
+        endif;
+
+        { to tally all men regardless of age }
+        totmen   = 0;
+        { to tally total for men 15-49 0-menas it is 15-49 }
+        tot1549  = !( MV012 in 15:49 );
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:59 );
+
+{--------------------------------------------------------------}
+{ table 14.A8 }
+		
+        xtab( t14a8 );
+
+{--------------------------------------------------------------}
+{ table 14.A10 }
+		
+        if !MV525 in 0,missing then
+          xtab( t14a10 );
+        endif;
+
+        { exclude if no test data found or if test was indeterminate }
+        if samptake then
+          if unweight then
+            rweight = 1;
+          else
+            rweight = HIV05 / 1000000;           { in HIV file }
+          endif;
+
+{--------------------------------------------------------------}
+{ table 14.3 }
+
+          coltabs = 2;
+          xtab( t1403, rweight );
+          xtab( t1403u );
+          if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+            coltabs = 1;
+            xtab( t1403, rweight );
+          endif;
+
+{--------------------------------------------------------------}
+{ table 14.3.a }
+
+          hivpct = 4;
+          xtab( t1403a, rweight );
+          xtab( t1403au );
+          if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+            hivpct = 1;
+            xtab( t1403a, rweight );
+          endif;
+          if HIV03 in 2 then                        { HIV-2 only }
+            hivpct = 2;
+            xtab( t1403a, rweight );
+          endif;
+          if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+            hivpct = 3;
+            xtab( t1403a, rweight );
+          endif;
+
+{--------------------------------------------------------------}
+{ table 14.4, 14.5 }
+
+          coltabs = 2;
+          xtab( t1404, rweight );
+          xtab( t1404u );
+          xtab( t1405, rweight );
+          xtab( t1405u );
+          if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+            coltabs = 1;
+            xtab( t1404, rweight );
+            xtab( t1405, rweight );
+          endif;
+
+{--------------------------------------------------------------}
+{ table 14.6 }
+
+          if !MV525 in 0,missing then
+            coltabs = 2;
+            xtab( t1406, rweight );
+            xtab( t1406u );
+            if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+              coltabs = 1;
+              xtab( t1406, rweight );
+            endif;
+          endif;
+
+{--------------------------------------------------------------}
+{ table 14.7 }
+
+          if MV012 in 15:24 then
+            coltabs = 2;
+            xtab( t1407, rweight );
+            xtab( t1407u );
+            if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+              coltabs = 1;
+              xtab( t1407, rweight );
+            endif;
+          endif;
+
+{--------------------------------------------------------------}
+{ table 14.8 }
+
+          if MV012 in 15:24 & !MV525 in 0,missing then
+            coltabs = 2;
+            xtab( t1408, rweight );
+            xtab( t1408u );
+            if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+              coltabs = 1;
+              xtab( t1408, rweight );
+            endif;
+          endif;
+
+{--------------------------------------------------------------}
+{ table 14.9 }
+
+          if !MV525 in 0,missing then
+            coltabs = 2;
+            xtab( t1409, rweight );
+            xtab( t1409u );
+            if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+              coltabs = 1;
+              xtab( t1409, rweight );
+            endif;
+          endif;
+
+{--------------------------------------------------------------}
+{ table 14.10 }
+
+          if MV012 in 15:49 then
+            if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+              hivstat = 1;
+            else
+              hivstat = 2;
+            endif;
+			totnum1 = notappl;
+            recode MV781 :: MV828 -> hivbef2;
+                     1   ::   1   -> 1;		// tested and received results	  
+                     1   ::   2   -> 8;     // tested did not receive results			  
+                     0   ::       -> 9;     // not previously tested			  
+                         ::       -> 99;    // missing
+            endrecode;						   
+            xtab( t1410, rweight );
+            if MV828 = 1 then
+              recode MV861 -> hivbef2;
+                       1   -> 2;            // positive 			  
+                       2   -> 5;			// negative  
+                       3   -> 6;			// indeterminate
+                       4   -> 7;            // decline report result
+                           -> notappl;
+              endrecode;						   
+              xtab( t1410, rweight );
+              if MV861 = 1 then
+                recode MV863 -> hivbef2;
+                         1   -> 3;			// positive taking ART  
+                         0   -> 4;			// positive not taking ART  
+                             -> notappl;
+                endrecode;						   
+                xtab( t1410, rweight );
+              endif;			
+            endif;		
+            hivbef2 = notappl;			
+			totnum1 = 1;
+            xtab( t1410, rweight );
+            xtab( t1410u );
+          endif;
+
+{--------------------------------------------------------------}
+{ table 14.11 }
+		  
+          { Traditionally or medically circumcised }		  
+          if MV483 = 1 then
+            circum1 = 1;
+            coltabs = 2;
+            xtab( t1411, rweight );
+            xtab( t1411u );
+            if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+              coltabs = 1;
+              xtab( t1411, rweight );
+            endif;
+          endif;			
+          { Traditionally circumcised only }		  
+          if MV483D = 1 & MV483E = 0 then
+            circum1 = 2;
+            coltabs = 2;
+            xtab( t1411, rweight );
+            xtab( t1411u );
+            if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+              coltabs = 1;
+              xtab( t1411, rweight );
+            endif;
+          endif;			
+          { Medically circumcised only }		  
+          if MV483D = 0 & MV483E = 1 then
+            circum1 = 3;
+            coltabs = 2;
+            xtab( t1411, rweight );
+            xtab( t1411u );
+            if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+              coltabs = 1;
+              xtab( t1411, rweight );
+            endif;
+          endif;			
+          { Both traditionally and medically circumcised }		  
+          if MV483D = 1 & MV483E = 1 then
+            circum1 = 4;
+            coltabs = 2;
+            xtab( t1411, rweight );
+            xtab( t1411u );
+            if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+              coltabs = 1;
+              xtab( t1411, rweight );
+            endif;
+          endif;			
+          { Circumcised, don't know type }		  
+          if MV483 = 1 & (MV483D = 8 | MV483E = 8) then
+            circum1 = 5;
+            coltabs = 2;
+            xtab( t1411, rweight );
+            xtab( t1411u );
+            if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+              coltabs = 1;
+              xtab( t1411, rweight );
+            endif;
+          endif;			
+          { Not circumcised or don't know circumcision status }		  
+          if MV483 in 0,8 then
+            circum1 = 6;
+            coltabs = 2;
+            xtab( t1411, rweight );
+            xtab( t1411u );
+            if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+              coltabs = 1;
+              xtab( t1411, rweight );
+            endif;
+          endif;			
+
+        endif;     { loadcase HIV testing data }
+      endif;     { loadcase male questionnaire & MV015 = 1}
+    endif;     { end de-facto population }
+  enddo;
+
+PROC WOMAN
+PreProc
+
+  { !!! if only a subsample of women were tested for HIV, skip the case if the woman wasn't selected }
+  if V015 <> 1 then skip case; endif;
+
+  isex = 1;                                { women }
+
+  { general variables }
+  v106w   = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v101w   = V101;
+  v102w   = V102;
+  v013w6  = V013;
+  v190w   = HV270;
+  totnum1 = 1;
+
+  { woman's age }
+  hivage   = V013;
+
+  { totals for all men and men 50-54[59] set to NA }
+  totmen   = notappl;
+  men5059  = notappl;
+  { all women are tallyied }
+  tot1549  = 0;
+
+  { age in groups }
+  recode V012  -> v012w1;
+         15:17 -> 2;
+         18:19 -> 3;
+         20:22 -> 5;
+         23:24 -> 6;
+  endrecode;
+
+  { age in groups }
+  recode V012  -> v013w4;
+         15:19 -> 2;
+         20:24 -> 3;
+         25:29 -> 4;
+         30:39 -> 5;
+         40:49 -> 6;
+  endrecode;
+  
+  { ethnicity }
+  v131w   = V131;
+  if V131 = missing then v131w = 99 endif;
+
+  { religion }
+  v130w   = V130;
+  if V130 = missing then v130w =  9 endif;
+
+  { currently working }
+  recode V731 -> v731w;
+           0  -> 0;                              { not employed }
+          1:3 -> 1;                              { employed }
+              -> 9;                              { missing  }
+  endrecode;
+
+  { marital status }
+  recode V501 ::   V525    -> v501w4;
+         1,2  ::           -> 3;                       { married }
+         3:5  ::           -> 4;                       { divorced/separated/widowed }
+              :: 0,missing -> 2;                       { never married, never had sex }
+              ::           -> 1;                       { never married, had sex }
+  endrecode;
+
+  { marital status }
+  v501w2 = V502;
+  if V502 = missing then v501w2 = 9 endif;
+
+  { marital status }
+  recode V501 ::   V525    -> v501w7;
+         1,2  ::           -> 3;                       { married }
+         4:5  ::           -> 4;                       { divorced/separated }
+          3   ::           -> 5;                       { widowed }
+              :: 0,missing -> 2;                       { never married, never had sex }
+              ::           -> 1;                       { never married, had sex }
+  endrecode;
+
+  { polygamy }
+  recode V502 :: V505 -> v505w1;
+          0,2 ::      -> 3;                       { not currently in union }
+           1  ::  0   -> 2;                       { not in polygynous union - V505 number of other wives }
+           1  :: 1:20 -> 1;                       { in polygynous union }
+              ::      -> 9;                       { DK/missing }
+  endrecode;
+
+  { currently pregnant }
+  recode V213 -> v213w;
+           0  -> 2;
+           1  -> 1;
+              -> 9;
+  endrecode;
+
+  { ever had sex }
+  recode V525 -> v525w;
+           0  -> 2;
+      missing -> 9;
+              -> 1;
+  endrecode;
+
+  { births in last 2 years & ANC by a health professional }
+  lastch = 0;
+  for i in REC41 do
+    if M80 in 1,3 & P19(MIDXP) < 24 then
+      lastch = i
+    endif;
+  enddo;	
+  
+  anclastb = 3;                 { no births in last 2 years }
+  if lastch then { last birth under 24 }
+    if M2N(lastch) = 1 then
+      anclastb = 3;           { births but no antenatal care }
+    elseif M2N(lastch) = missing | M57E(lastch) = missing then
+      anclastb = 9;           { missing in either antenatal care or checking place }
+    elseif M57E(lastch) = 1 | M57F(lastch) = 1 | M57G(lastch) = 1 | M57H(lastch) = 1 |
+           M57I(lastch) = 1 | M57J(lastch) = 1 | M57K(lastch) = 1 | M57L(lastch) = 1 then
+      anclastb = 1;           { antenatal care in public health facility }
+    else
+      anclastb = 2;           { births antenatal care but not in a public facility }
+    endif;
+  endif;
+
+  { age at first sexual intercourse }
+  recode V531 -> v531w;
+           0  -> 0;
+          <16 -> 1;
+        16:17 -> 2;
+        18:19 -> 3;
+        20:69 -> 4;
+              -> 9;
+  endrecode;
+
+  { higher risk intercourse in last 12 months }
+  recode   V527  -> lastsex;    { !!! check meaning of codes 197, 198, 995, 996, etc and adjust accordingly }
+         notappl -> notappl;
+         100:198 -> int( (V527-100)/30 );    { days }
+         200:298 -> int( (V527-200)/4.3 );   { weeks }
+         300:398 -> V527-300;                { months }
+         400:450 -> (V527-400)*12;           { years }
+                 -> missing;
+  endrecode;
+  sexly = ( lastsex in 0:11 );
+
+  { multiple sexual partners in last 12 months }
+  recode sexly ::  V766B  -> v766bw;
+               ::   0:1   -> V766B;    { 0-1 partners }
+           1   ::         -> 2;         { includes DK/missing from sexual partners when 2 or more last year }
+               ::         -> 9;         { missing }
+  endrecode;
+  x766bw = v766bw;    { to be used to define variable MULTPART in table 14.2 }
+  { multiple non-marital, non-cohabiting sexual partners in last 12 months }
+  recode sexly ::  V766A  -> v766aw;
+               ::   0:1   -> V766A;    { 0-1 partners }
+           1   ::         -> 2;         { includes DK/missing from sexual partners when 2 or more last year }
+               ::         -> 9;         { missing }
+  endrecode;
+  recode V766B -> multsex;
+          0:1  -> V766B;    { 0-1 partners }
+          2:95 -> 2;        { 2+ partners }
+               -> 9;        { missing }
+  endrecode;
+
+  { condom used at last sexual intercourse last 12 months }
+  recode  V761  -> v761w;
+            0   -> 2;
+            1   -> 1;
+      8,missing -> 9;
+       notappl  -> 3;       { no sex last 12 months }
+                -> V761;
+  endrecode;
+  { condom used at last sexual intercourse in last 12 months with a non-marital sexual partner }
+  condom = notappl;
+  if V767A in 2:6,96,missing then          { assume missing is not cohabiting partner }
+    condom = V761;
+  elseif V767B in 2:6,96,missing then      { assume missing is not cohabiting partner }
+    condom = V761B;
+  elseif V767C in 2:6,96,missing then      { assume missing is not cohabiting partner }
+    condom = V761C;
+  endif;
+  recode  condom -> v761w1;
+            0    -> 2;
+            1    -> 1;
+      8,missing  -> 9;
+       notappl   -> 3;       { no sex last 12 months }
+                 -> condom;
+  endrecode;
+
+  { lifetime sexual partners }
+  recode V836  -> v836w;
+          0:2  -> V836;
+          3:4  -> 3;
+          5:9  -> 4;
+         10:95 -> 5;
+               -> 9;
+  endrecode;
+
+  { STI in last 12 months }
+  if V763A = 1 | V763B = 1 | V763C = 1 then
+    v763w = 1
+  elseif V763A = 0 & V763B = 0 & V763C = 0 then
+    v763w = 2
+  else
+    v763w = 9
+  endif;
+
+  { HIV testing }
+  recode V781 -> hivbef1;
+           1  -> 1;        //ever tested
+           0  -> 2;        //never tested
+              -> 9;
+  endrecode;
+
+  {----------------------------------------------------------------}
+  { find woman in RECH5 to get the test result for appendix tables }
+  found = 0;
+  for i in RECH5_EDT do
+    if V003 = HA0 then
+      found = i;
+      break;
+    endif;
+  enddo;
+
+  dbsresul = HA63(found);
+  recode dbsresul -> dbsresul;
+            1    -> 1;        { blood taken }
+            3    -> 2;        { refused }
+            2    -> 3;        { not present }
+                 -> 4;        { other/missing }
+  endrecode;
+
+  { load HIV testing data  for woman }
+  HIVCLUST = V001;
+  HIVNUMB  = V002;
+  HIVLINE  = V003;
+  samptake = loadcase( HIVTESTDAT, HIVCLUST, HIVNUMB, HIVLINE );
+  { if blood taken check if test was successful and modify HIVRES1 accordingly }
+  if dbsresul = 1 then
+    if samptake then
+      if !HIV03 in 0:7,9 then
+        dbsresul  = 4;   { test was performed but protocol didn't reach the end }
+      endif;
+    else
+      dbsresul = 4;     { blood taken but sample not on data file }
+    endif;
+  endif;
+
+  {--------------------------------------------------------------}
+  { table 14.A7 }
+
+  xtab( t14a7 );
+
+  {--------------------------------------------------------------}
+  { table 14.A9 }
+
+  if !V525 in 0,missing then
+    xtab( t14a9 );
+  endif;
+
+  { exclude if no test data found or if test was indeterminant }
+  if !samptake | !HIV03 in 0:7,9 then
+    skip case;
+  endif;
+  if unweight then
+    rweight = 1;
+  else
+    rweight = HIV05 / 1000000;
+  endif;
+
+  {--------------------------------------------------------------}
+  { table 14.3 }
+
+  coltabs = 2;
+  xtab( t1403, rweight );
+  xtab( t1403u );
+  if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+    coltabs = 1;
+    xtab( t1403, rweight );
+  endif;
+
+  {--------------------------------------------------------------}
+  { table 14.3.a }
+
+  hivpct = 4;
+  xtab( t1403a, rweight );
+  xtab( t1403au );
+  if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+    hivpct = 1;
+    xtab( t1403a, rweight );
+  endif;
+  if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+    hivpct = 2;
+    xtab( t1403a, rweight );
+  endif;
+  if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+    hivpct = 3;
+    xtab( t1403a, rweight );
+  endif;
+
+  {--------------------------------------------------------------}
+  { table 14.4, 14.5 }
+
+  coltabs = 2;
+  xtab( t1404, rweight );
+  xtab( t1404u );
+  xtab( t1405, rweight );
+  xtab( t1405u );
+  if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+    coltabs = 1;
+    xtab( t1404, rweight );
+    xtab( t1405, rweight );
+  endif;
+
+  {--------------------------------------------------------------}
+  { table 14.6 }
+
+  if !V525 in 0,missing then
+    coltabs = 2;
+    xtab( t1406, rweight );
+    xtab( t1406u );
+    if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+      coltabs = 1;
+      xtab( t1406, rweight );
+    endif;
+  endif;
+
+  {--------------------------------------------------------------}
+  { table 14.7 }
+
+  if V012 in 15:24 then
+    coltabs = 2;
+    xtab( t1407, rweight );
+    xtab( t1407u );
+    if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+      coltabs = 1;
+      xtab( t1407, rweight );
+    endif;
+  endif;
+
+  {--------------------------------------------------------------}
+  { table 14.8 }
+
+  if V012 in 15:24 & !V525 in 0,missing then
+    coltabs = 2;
+    xtab( t1408, rweight );
+    xtab( t1408u );
+    if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+      coltabs = 1;
+      xtab( t1408, rweight );
+    endif;
+  endif;
+
+  {--------------------------------------------------------------}
+  { table 14.9 }
+
+  if !V525 in 0,missing then
+    coltabs = 2;
+    xtab( t1409, rweight );
+    xtab( t1409u );
+    if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+      coltabs = 1;
+      xtab( t1409, rweight );
+    endif;
+  endif;
+
+  {--------------------------------------------------------------}
+  { table 14.10 }
+
+  if HIV03 in 1:3 then                      { HIV-1 or HIV-2 }
+    hivstat = 1;
+  else
+    hivstat = 2;
+  endif;
+  totnum1 = notappl;
+  recode  V781 :: V828 -> hivbef2;
+           1   ::   1  -> 1;	 // tested and received results	  
+           1   ::   2  -> 8;     // tested did not receive results			  
+           0   ::      -> 9;     // not previously tested			  
+               ::      -> 99;    // missing
+  endrecode;						   
+  xtab( t1410, rweight );
+  if V828 = 1 then
+    recode V861 -> hivbef2;
+             1   -> 2;            // positive 			  
+             2   -> 5;            // negative  
+             3   -> 6;            // indeterminate
+             4   -> 7;            // decline report result
+             5   -> 8;            // tested did not receive results			  
+                 -> notappl;
+    endrecode;						   
+    xtab( t1410, rweight );
+    if V861 = 1 then
+      recode V863 -> hivbef2;
+               1   -> 3;			// positive taking ART  
+               0   -> 4;			// positive not taking ART  
+                   -> notappl;
+      endrecode;						   
+      xtab( t1410, rweight );
+    endif;			
+  endif;		
+  hivbef2 = notappl;			
+  totnum1 = 1;
+  xtab( t1410, rweight );
+  xtab( t1410u );
+  
+  {--------------------------------------------------------------}
+  { table 14.11 doesn't apply to women }
+
+  {--------------------------------------------------------------}
+  { Table 14.12 couples }
+
+  { !! make sure to run this table last as the HIV data for men will be loaded }
+  if HIV03 in 0,1:3 then  { woman has a valid test HIV-1 positive or negative }
+    hivwom = HIV03;
+    if V502 = 1 & V034 in 1:HV009 & HV118(V034) = 1 then  { husband in HH & eligible}
+      maleid = concat( HHID, edit("ZZ9",V034) );
+      if loadcase( MRECODE8, maleid ) & MV015 = 1 & MV502 = 1 then    { husband/partner was interviewed }
+
+        WifeFound = 0;
+        do i = 1 while i <= noccurs( MREC01_GROUP ) & !WifeFound
+          if MV034(i) = V003 then
+            WifeFound = 1;
+          endif;
+        enddo;
+        if WifeFound then   { man declares current woman to be his wife/partner }
+
+          { education }
+          v106w1 = V106;    { woman }
+          v106w2 = MV106;   { man }
+
+          { age difference between partners }
+          agedif = MV012 - V012;
+          recode agedif -> agedif;
+                   <0   -> 1;
+                   0:4  -> 2;
+                   5:9  -> 3;
+                  10:14 -> 4;
+                        -> 5;
+          endrecode;
+
+          { age in groups }
+          recode V012  -> v013w7;  { woman }
+                 15:19 -> 1;
+                 20:29 -> 2;
+                 30:39 -> 3;
+                 40:49 -> 4;
+          endrecode;
+          recode MV012 -> v013w8;  { man }
+                 15:19 -> 1;
+                 20:29 -> 2;
+                 30:39 -> 3;
+                 40:49 -> 4;
+                       -> 5;
+          endrecode;
+
+          { ploygamy according to woman }
+          recode V505 -> v505w2;
+                  0   -> 1;                       { monogamous }
+                 1:20 -> 2;                       { polygynous }
+                      -> 9;                       { DK/missing }
+          endrecode;
+
+          { multiple partners in last 12 months }
+          recode  MV527  -> lastsex;    { !!! check meaning of codes 197, 198, 995, 996, etc and adjust accordingly }
+                 notappl -> notappl;
+                 100:198 -> int( (MV527-100)/30 );    { days }
+                 200:298 -> int( (MV527-200)/4.3 );   { weeks }
+                 300:398 -> MV527-300;                { months }
+                 400:450 -> (MV527-400)*12;           { years }
+                         -> missing;
+          endrecode;
+          sexly = ( lastsex in 0:11 );
+          { partners last 12 months }
+          recode sexly :: MV766B -> v766bw;
+                       ::  0:1   -> MV766B;   { 0-1 partners }
+                   1   ::        -> 2;        { includes DK/missing from sexual partners when more than 2 }
+                       ::        -> 9;
+          endrecode;
+
+	        { note: x766bw is defined at the beginnig of the woman's level }
+          recode x766bw :: v766bw -> multpart;
+                   0:1  ::   0:1  -> 1;             { both no }
+                   0:1  ::    2   -> 2;             { woman no, man yes }
+                    2   ::   0:1  -> 3;             { woman yes, man no }
+                    2   ::    2   -> 4;             { both yes }
+                        ::        -> 9;             { either DK/missing }
+          endrecode;
+
+          HIVCLUST = V001;
+          HIVNUMB  = V002;
+          HIVLINE  = V034;
+
+          if loadcase( HIVTESTDAT, HIVCLUST, HIVNUMB, HIVLINE ) & HIV03 in 0,1,3 then   { include HIV-1 positive/negative }
+            hivman = HIV03;
+            recode hivwom :: hivman ->   hivcoupl;
+                    1:3   ::  1:3   ->      1;
+                     0    ::  1:3   ->      2;
+                    1:3   ::   0    ->      3;
+                     0    ::   0    ->      4;
+                          ::        ->      9;
+            endrecode;
+            if unweight then
+              rweight = 1;
+            else
+              rweight = HIV05 / 1000000;  { using man's HIV wt just loaded }
+            endif;
+            xtab( t1412, rweight );
+            xtab( t1412u );
+          endif;          { Loadcase for husband's HIVDATA }
+        endif;         { wife/husband match }
+      endif;         { husband was interviewed }
+    endif;        { Husband in HH and eligible }
+  endif;       { end woman with a valid test }
+

@@ -1,0 +1,1761 @@
+﻿PROC GLOBAL
+{+---------------------------------------------------------------------------+}
+{+                                                                           +}
+{+   Guidelines July 7, 2021          -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                           +}
+{+   CHAPTER 15. WOMEN'S EMPOWERMENT                                         +}
+{+                                                                           +}
+{+   15.1     Employment and cash earnings of currently married women        +}
+{+   15.2.1   Control over women's cash earnings and relative magnitude of   +}
+{+            women's earnings:Women                                         +}
+{+   15.2.2   Control over men's cash earnings                               +}
+{+   15.3.1   House and land ownership: Women                                +}
+{+   15.3.2   House and land ownership: Men                                  +}
+{+   15.4.1   House ownership and documentation of ownership: Women          +}
+{+   15.4.2   House ownership and documentation of ownership: Men            +}
+{+   15.5.1   Land ownership and documentation of ownership: Women           +}
+{+   15.5.2   Land ownership and documentation of ownership: Men             +}
+{+   15.6.1   Ownership and use of mobile phones and bank accounts: Women    +}
+{+   15.6.2   Ownership and use of mobile phones and bank accounts: Men      +}
+{+   15.7     Participation in decision making                               +}
+{+   15.8.1   Women's participation in decision making by background         +} 
+{+            characteristics                                                +}
+{+   15.8.2   Men's participation in decision making by background           +}
+{+            characteristics                                                +}
+{+   15.9.1   Attitude toward wife beating: women                            +}
+{+   15.9.2   Attitude toward wife beating: men                              +}
+{+   15.10    Attitudes toward negotiating safer sexual relations with       +}
+{+            husband                                                        +}
+{+   15.11    Ability to negotiate sexual relations with husband             +}
+{+   15.12    Women's participation in decision making regarding sexual and  +}
+{+            reproductive health                                            +}
+{+                                                                           +}
+{+                                                                           +}
+{+---------------------------------------------------------------------------+}
+
+  numeric i, imin, itot, itot1, itot2, imax, j, jmin, jmax, jtot, jtot1, jtot2;
+  numeric rweight, decision, cnt, any, mod, trad, meth;
+  numeric xcount, currmarr, temp, iage, imar, xprovid, xtime, x;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for chapter 15, Country Survey 2020" );
+{EN+}
+{{ES}
+    title( "Cuadros para el cap?tulo 15, Pa¡s Encuesta 2020" );
+{ES}}
+{{FR}
+    title( "Tableaux du chapitre 15, Enquête Pays 2020" );
+{FR}}
+
+  crosstab float(1) t1501  v013w+tot1549+men5059+totmen employ12+v741w2+totnum16 isex
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15.1  Employment and cash earnings of currently married women and men","",
+           "Percentage of currently married women and men age 15-49 who were",
+           "employed at any time in the last 12 months and percent",
+           "distribution of currently married women and men employed in the last",
+           "12 months by type of earnings, according to age, Country Survey 2020" )
+     stub( "Age" );
+{EN+}
+{{ES}
+    title( "Cuadro 15.1  Empleo y tipo de ingresos de las personas entrevistadas actualmente en uni?n","",
+           "Porcentaje de mujeres y hombres de 15-49 a?os actualmente en uni?n con empleo",
+           "en los ?ltimos 12 meses; y distribuci?n porcentual de las personas empleadas",
+           "en los ?ltimos 12 meses, por tipo de ingresos, seg?n edad, Pa¡s Encuesta 2020")
+     stub( "Edad" );
+{ES}}
+{{FR}
+    title( "Tableau 15.1  Emploi et type de rémunération des femmes et des hommes actuellement en union","",
+           "Pourcentage de femmes et d'hommes de 15-49 ans, actuellement en union,",
+		   "ayant travaillé à n'importe quel moment, au cours des 12 derniers mois",
+		   "et répartition (en %) des femmes et des hommes actuellement en union et",
+		   "ayant travaillé au cours des 12 derniers mois par type de rémunération,",
+		   "selon l'âge, Enquête Pays 2020" )
+     stub( "Groupe d'âges" );
+{FR}}
+  crosstab float(0) t1501u  v013w+tot1549+men5059+totmen coltotu isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 15.1  Employment and cash earnings of currently married women and men (Number of un-weighted cases)" )
+     stub( "Age" );
+
+  crosstab float(1) t15021  v013w1+v218w+v102w+v101w+v106w+v190w+total v739w+total+v746w+totnum2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15.2.1  Control over women's cash earnings and relative magnitude of women's cash earnings","",
+           "Percent distribution of currently married women age 15-49 who",
+           "received cash earnings for employment in the 12 months preceding",
+           "the survey by person who decides how wife's cash earnings are used and",
+           "by whether she earned more or less than her husband,",
+           "according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 15.2.1  Control de los ingresos en dinero de las mujeres y magnitud relativa de los ingresos en dinero de las mujeres","",
+           "Distribuci?n porcentual de mujeres de 15-49 a?os en uni?n con remuneraci?n",
+           "en dinero durante los 12 meses anteriores a la encuesta por empleo, por persona",
+           "quien decide como usar los ingresos en dinero de la esposa/compa?era; y distribuci?n porcentual",
+           "seg?n si la mujer gana m?s o menos que el esposo/compa?ero,",
+           "seg?n caracter?sticas seleccionadas, Pa¡s Encuesta 2020")
+     stub( "Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 15.2.1  Contrôle de l'utilisation de l'argent gagné par les femmes et importance de l'argent gagné par les femmes par rapport à celui gagné par leur conjoint","",
+           "Répartition (en %) des femmes de 15-49 ans, actuellement en union,"
+		   "qui ont gagné de l'argent pour leur travail au cours des 12 mois ayant précédé",
+		   "l'enquête en fonction de la personne qui décide comment est utilisé l'argent gagné",
+		   "par la femme et répartition selon que les femmes gagnent plus ou moins que leur conjoint,",
+		   "selon certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t15021u  v013w1+v218w+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 15.2.1  Control over women's cash earnings and relative magnitude of women's cash earnings (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t15022  v013w1+v218w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen 
+                            isex2*(v739w1+total+numman+numwom)
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15.2.2  Control over men's cash earnings","",
+           "Percent distributions of currently married men age 15-49 who",
+           "receive cash earnings and of currently married women age 15-49",
+           "whose husbands receive cash earnings, by person who decides",
+           "how husband's cash earnings are used, according to background",
+           "characteristics,  Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 15.2.2  Control de los ingresos en dinero de los hombres","",
+           "Distribuci?n porcentual de hombres de 15-49 a?os en uni?n con remuneraci?n",
+           "en dinero y de mujeres de 15-49 a?os en uni?n cuyos esposos/compa?eros reciben",
+           "remuneracion en dinero, por persona quien decide como usar los ingresos en dinero del",
+           "esposo/compa?ero, seg?n caracter?sticas seleccionadas, Pa¡s Encuesta 2020")
+     stub( "Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 15.2.2  Contrôle de l'argent gagné par les hommes","",
+           "Répartition (en %) des hommes de 15-49 ans actuellement en union",
+		   "qui ont été rémunérés en argent et répartition (en %) des femmes de 15-49 ans",
+		   "actuellement en union dont le conjoint a été rémunéré en argent, en fonction de la personne",
+		   "qui décide comment est utilisé l'argent gagné par le conjoint,",
+		   "selon certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t15022u  v013w1+v218w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex2
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 15.2.2  Control over men's cash earnings (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t15031 housland+totnum2 v501w1+total typeown
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+     title( "Table 15.3.1  House and land ownership: Women","",
+            "Percent distribution of women age 15-49 by house ownership status and land", 
+			"ownership status, according to current marital status, Country Survey 2020" )
+     stub( "Ownership status" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+     title( "Tableau 15.3.1  Possession de maison et de terre: Femme","",
+            "Répartition (en %) des femmes de 15-49 ans selon qu'elle possèdent, ou non,", 
+			"une maison et des terres, en fonction de leur état matrimonial actuel,",
+			"Enquête Pays 2020" )
+     stub( "Type de possession" );
+{FR}}
+  crosstab float(0) t15031u total v501w1+total typeown
+    exclude(rowzero,colzero,percents,totals,specval)
+     title( "Table 15.3.1  House and land ownership: Women (Number of un-weighted cases)" )
+     stub( "Ownership status" );
+
+  crosstab float(1) t15032 housland+totnum5 v501w1+total typeown
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+     title( "Table 15.3.2  House and land ownership: Men","",
+            "Percent distribution of men age 15-49 by house ownership status and land ownership", 
+			"status, according to current marital status, Country Survey 2020" )
+     stub( "Ownership status" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+     title( "Tableau 15.3.2  Possession de maison et de terre: Homme","",
+            "Répartition (en %) des hommes de 15-49 ans selon qu'ils possèdent, ou non,", 
+			"une maison et des terres, en fonction de leur état matrimonial actuel,",
+			"Enquête Pays 2020" )
+     stub( "Type de possession" );
+{FR}}
+  crosstab float(0) t15032u total v501w1+total typeown
+    exclude(rowzero,colzero,percents,totals,specval)
+     title( "Table 15.3.2  House and land ownership: Men (Number of un-weighted cases)" )
+     stub( "Ownership status" );
+
+  crosstab float(1) t15041 v013w1+v102w+v101w+v106w+v190w+total v745w1+nohouse+totnum2+v745w2+nodeed+tothousw
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+     title( "Table 15.4.1  House ownership and documentation of ownership: Women","",
+            "Percent distribution of women age 15-49 by ownership of a house; and among women who own", 
+			"a house, percent distribution by whether the house owned has a title deed and whether or", 
+			"not the woman's name appears on the title deed, according to background characteristics,",
+            "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+     title( "Tableau 15.4.1  Possession de maison et documents prouvant la propriété : Femme","",
+            "Répartition (en %) des femmes de 15-49 ans par possession de maison;",
+			"parmi les femmes possédant une maison, répartition (en %) selon que",
+			"la maison a un titre de propriété et que le nom de la femme y figure, ou non,",
+			"en fonction de certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t15041u  v013w1+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+     title( "Table 15.4.1  House ownership and documentation of ownership: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t15042 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen  
+                           v745w1+nohouse+totnum5+v745w3+nodeed+tothousm
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+     title( "Table 15.4.2  House ownership and documentation of ownership: Men","",
+            "Percent distribution of men age 15-49 by ownership of a house; and among men who own", 
+			"a house, percent distribution by whether the house owned has a title deed and whether", 
+			"or not the man's name appears on the title deed, according to background characteristics,",
+            "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+     title( "Tableau 15.4.2  Possession de maison et documents prouvant la propriété : Homme","",
+            "Répartition (en %) des hommes de 15-49 ans par possession de maison ;",
+			"parmi les hommes possédant une maison, répartition (en %) selon que",
+			"la maison a un titre de propriété et que le nom de l'homme y figure, ou non,",
+			"en fonction de certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t15042u  v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+     title( "Table 15.4.2  House ownership and documentation of ownership: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t15051 v013w1+v102w+v101w+v106w+v190w+total v745w5+noland+totnum2+v745w6+nodeed+totlandw
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+     title( "Table 15.5.1  Land ownership and documentation of ownership: Women","",
+            "Percent distribution of women age 15-49 by ownership of land; and among women who own land,", 
+			"percent distribution by whether the land owned has a title deed and whether or not the woman's", 
+			"name appears on the title deed, according to background characteristics,",
+            "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+     title( "Tableau 15.5.1   Possession de terres et documents prouvant la propriété : Femme","",
+            "Répartition (en %) des femmes de 15-49 ans par possession de terres ;",
+			"parmi les femmes possédant des terres, répartition (en %) selon que",
+			"la terre a un titre de propriété et que le nom de la femme y figure, ou non,",
+			"en fonction de certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t15051u v013w1+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+     title( "Table 15.5.1  Land ownership and documentation of ownership: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t15052 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen 
+                           v745w5+noland+totnum5+v745w7+nodeed+totlandm 
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+     title( "Table 15.5.2  Land ownership and documentation of ownership: Men","",
+            "Percent distribution of men age 15-49 by ownership of land; and among men who own land,", 
+			"percent distribution by whether the land owned has a title deed and whether or not the man's", 
+			"name appears on the title deed, according to background characteristics,",
+            "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+     title( "Tableau 15.5.2 Possession de terres et documents prouvant la propriété: homme","",
+            "Répartition (en %) des hommes de 15-49 ans par  possession de terres ;",
+			"parmi les hommes possédant des terres, répartition (en %) selon que",
+			"la terre a un titre de propriété et que le nom de l'homme y figure, ou non,",
+			"en fonction de certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t15052u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+     title( "Table 15.5.2  Land ownership and documentation of ownership: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t15061 v013w1+v102w+v101w+v106w+v190w+total mobph1+mobph2+bankacc+bankphon+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+     title( "Table 15.6.1  Ownership and use of mobile phones and bank accounts: Women","",
+            "Percentage of women age 15-49 who own any mobile phone, percentage who own a smartphone,", 
+			"and percentage who used a mobile phone to make financial transactions in the last 12 months;", 
+			"percentage of women who have and use a bank account, percentage who have deposited or", 
+			"withdrawn money from their own bank account in the last 12 months, and percentage who have", 
+			"and use a bank account or used a mobile phone for financial transactions in the last 12 months,", 
+			"according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+     title( "Tableau 15.6.1  Possession et utilisation de téléphone portable et de compte bancaire : Femme","",
+            "Pourcentage de femmes de 15-49 ans qui possèdent un téléphone portable,",
+			"pourcentage qui possèdent un smartphone et pourcentage ayant utilisé",
+			"un téléphone portable pour effectuer une transaction financière au cours",
+			"des 12 derniers mois; pourcentage de femmes qui possèdent un compte en banque",
+			"et qui l'utilisent, pourcentage ayant effectué un dépôt ou un retrait d'argent",
+			"de leur propre compte en banque au cours des 12 derniers mois et pourcentage",
+			"qui possèdent et qui utilisent un compte bancaire ou qui ont utilisé un téléphone portable",
+			"pour effectuer des transactions financières au cours des 12 derniers mois,",
+			"selon certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t15061u v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+     title( "Table 15.6.1  Ownership and use of mobile phones and bank accounts: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t15062 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen 
+                           mobph1+mobph2+bankacc+bankphon+numman
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+     title( "Table 15.6.2  Ownership and use of mobile phones and bank accounts: Men","",
+            "Percentage of men age 15-49 who own any mobile phone, percentage who own a smartphone,", 
+			"and percentage who used a mobile phone to make financial transactions in the last 12 months;", 
+			"percentage of men who have and use a bank account, percentage who have deposited or withdrawn", 
+			"money from their own bank account in the last 12 months, and percentage who have and use a", 
+			"bank account or used a mobile phone for financial transactions in the last 12 months,", 
+			"according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+     title( "Tableau 15.6.2  Possession et utilisation de téléphone portable et de comptes bancaire : Homme","",
+            "Pourcentage d'hommes de 15-49 ans qui possèdent un téléphone portable,",
+			"pourcentage qui possèdent un smartphone et pourcentage ayant utilisé",
+			"un téléphone portable pour effectuer une transaction financière au cours des 12 derniers mois;",
+			"pourcentage d'hommes qui possèdent un compte en banque et qui l'utilisent,",
+			"pourcentage ayant effectué un dépôt ou un retrait d'argent de leur propre compte",
+			"en banque au cours des 12 derniers mois et pourcentage qui possèdent et qui utilisent",
+			"un compte bancaire ou qui ont utilisé un téléphone portable pour effectuer des transactions",
+			"financières au cours des 12 derniers mois, selon certaines caractéristiques sociodémographiques,",
+			"Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t15062u  v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+     title( "Table 15.6.2  Ownership and use of mobile phones and bank accounts: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1507 dectopic decimake+totnum1 isex
+     exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15.7  Participation in decision-making","",
+           "Percent distribution of currently married women and currently married men age 15-49 by person",
+           "who usually makes decisions about various issues, Country Survey 2020" )
+     stub( "Decision" );
+{EN+}
+{{ES}
+    title( "Cuadro 15.7  Participaci?n en la toma de decisiones","",
+           "Distribuci?n porcentual de mujeres y hombres de 15-49 a?os actualmente en uni?n por persona",
+           "quien generalmente decide sobre varios asuntos, Pa¡s Encuesta 2020" )
+     stub( "Decisi?n" );
+{ES}}
+{{FR}
+    title( "Tableau 15.7  Participation dans la prise de décision","",
+           "Répartition (en %) des femmes et des hommes de 15-49 ans, actuellement en union,",
+		   "en fonction de la personne qui prend, habituellement, les décisions dans certains domaines,",
+		   "Enquête Pays 2020" )
+     stub( "Décision" );
+{FR}}
+
+   crosstab float(1) t15081 v013w1+works+v218w+v102w+v101w+v106w+v190w+total decis1w+decis2w
+     exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15.8.1  Women's participation in decision-making according to background characteristics","",
+           "Percentage of currently married women age 15-49 who usually make specific",
+           "decisions either by themselves or jointly with their husband,",
+           "by background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title("Cuadro 15.8.1  Participaci?n de la mujer en decisiones del hogar por caracter?sticas seleccionadas","",
+          "Porcentaje de mujeres de 15-49 a?os en uni?n quienes generalmente toman decisiones especificas, bien",
+          "ellas solas o conjuntamente con sus esposos/compa?eros, por caracter?sticas seleccionadas, Pa¡s Encuesta 2020")
+     stub("Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 15.8.1  Participation des femmes dans la prise de décision selon certaines caractéristiques sociodémographiques","",
+           "Pourcentage de femmes de 15-49 ans, actuellement en union, qui",
+		   "habituellement prennent certaines décisions, soit seules, soit",
+		   "en commun avec leur conjoint, selon certaines caractéristiques",
+		   "sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+   crosstab float(0) t15081u v013w1+works+v218w+v102w+v101w+v106w+v190w+total total
+     exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 15.8.1  Women's participation in decision-making according to background characteristics (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+   crosstab float(1) t15082 v013w1+works+v218w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen decis1m+decis2m
+     exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15.8.2  Men's participation in decision-making according to background characteristics", "",
+           "Percentage of currently married men age 15-49 who usually make specific decisions either",
+           "alone or jointly with their wife, by background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Cuadro 15.8.2  Participaci?n del hombre en decisiones del hogar por caracter?sticas seleccionadas","",
+           "Porcentaje de hombres de 15-49 a?os en uni?n quienes generalmente toman decisiones especificas, bien",
+           "ellos solos o conjuntamente con sus esposas/compa?eras, por caracter?sticas seleccionadas, Pa¡s Encuesta 2020")
+     stub( "Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 15.8.2  Participation des hommes dans la prise de décision selon certaines caractéristiques sociodémographiques   ", "",
+           "Pourcentage des hommes de 15-49 ans, actuellement en union, qui",
+           "habituellement prennent certaines décisions, soit seuls, soit",
+           "en commun avec leur épouse/partenaire, selon certaines",
+           "caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+   crosstab float(0) t15082u v013w1+works+v218w+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+     exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 15.8.2  Men's participation in decision-making according to background characteristics (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t15091 v013w1+works+v218w+v501w2+v102w+v101w+v106w+v190w+total reasbt1+reasbt2+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15.9.1  Attitude toward wife beating: Women"," ",
+           "Percentage of all women age 15-49 who agree that a husband",
+           "is justified in hitting or beating his wife for specific",
+           "reasons, by background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+   title( "Cuadro 15.9.1  Actitud hacia que la esposa sea golpeada: Mujeres"," ",
+          "Porcentaje de mujeres de 15-49 quienes est?n de acuerdo que se justifica",
+          "que el esposo golpee a su esposa, por razones espec?ficas y",
+          "seg?n caracter?sticas seleccionadas, Pa¡s Encuesta 2020")
+    stub( "Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 15.9.1  Opinion des femmes concernant le fait qu'un mari batte sa femme"," ",
+           "Pourcentage de toutes les femmes de 15-49 ans qui pensent qu'il est justifié que,",
+		   "pour certaines raisons, un mari batte sa femme, par raison particulière et",
+		   "selon certaines caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t15091u v013w1+works+v218w+v501w2+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 15.9.1  Attitude toward wife beating: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t15092 v013w1+works+v218w+v501w2+v102w+v101w+v106w+v190w+tot1549+men5059+totmen 
+                           reasbt1+reasbt2+numman
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15.9.2  Attitude toward wife beating: Men"," ",
+           "Percentage of all men age 15-49 who agree that a husband",
+           "is justified in hitting or beating his wife for specific",
+           "reasons, by background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+   title( "Cuadro 15.9.2  Actitud hacia que la esposa sea golpeada: Hombres"," ",
+          "Porcentaje de hombres 15-49 quienes est?n de acuerdo que se justifica",
+          "que el esposo golpee a su esposa, por razones espec?ficas y",
+          "seg?n caracter?sticas seleccionadas, Pa¡s Encuesta 2020" )
+    stub( "Caracter?stica" );
+{ES}}
+{{FR}
+    title( "Tableau 15.9.2  Opinion des hommes concernant le fait qu'un mari batte sa femme"," ",
+           "Pourcentage de tous les hommes de 15-49 ans qui pensent qu'il est",
+		   "justifié que, pour certaines raisons, un mari batte sa femme,",
+		   "par raison particulière et selon certaines caractéristiques ",
+		   "sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t15092u v013w1+works+v218w+v501w2+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 15.9.2  Attitude toward wife beating: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1510 v013w4+v501w4+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex*(refsex1+numwom+numman)
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 15.10  Attitudes toward negotiating safer sexual relations with husband","",
+           "Percentage of women and men age 15-49 who believe that a woman is justified in refusing to",
+           "have sexual intercourse with her husband if she knows that he has sexual intercourse with other",
+           "women, and percentage who believe that a woman is justified in asking that they use a condom if",
+           "she knows that her husband has a sexually transmitted infection (STI), according to background",
+           "characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+     title("Tableau 15.10  Opinions concernant la négociation de rapports sexuels sans risque avec le mari/partenaire",""
+           "Pourcentage de femmes et d'hommes de 15-49 ans qui pensent qu'il est justifié qu'une femme",
+		   "refuse d'avoir des relations sexuelles avec son mari si elle sait qu'il a des relations",
+		   "sexuelles avec d'autres femmes et pourcentage qui pensent qu'il est justifié qu'une femme",
+		   "demande à ce qu'un condom soit utilisé au cours des rapports sexuels si elle sait que",
+		   "son mari a une infection sexuellement transmissible (IST), selon certaines caractéristiques",
+		   "sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1510u v013w4+v501w4+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex
+    exclude(totals,percents,specval)
+    title( "Table 15.10  Attitudes toward negotiating safer sexual relations with husband (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) t1511 v013w4+v102w+v101w+v106w+v190w+total refsex2
+    exclude(totals,percents,specval)
+{+EN}
+    title( "Table 15.11  Ability to negotiate sexual relations with husband","",
+           "Percentage of currently married women age 15-49 who can say no to their husband if they",
+           "do not want to have sexual intercourse, and percentage who can ask their husband to use a condom",
+           "if they wanted to, according to background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title ("Tableau 15.11  Capacité des femmes à négocier les rapports sexuels avec leur mari",""
+           "Pourcentage de femmes de 15-49 ans, actuellement en union, qui peuvent refuser des rapports",
+		   "sexuels à leur mari quand elles ne souhaitent pas en avoir et pourcentage qui peuvent",
+		   "demander à leur mari d'utiliser un condom quand elles le souhaitent, selon certaines",
+		   "caractéristiques sociodémographiques, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+  crosstab float(0) t1511u v013w4+v102w+v101w+v106w+v190w+total total
+    exclude(totals,percents,specval)
+    title( "Table 15.11  Ability to negotiate sexual relations with husband (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+   crosstab float(1) t1512 v013w1+works+v102w+v101w+v106w+v190w+total decreph
+     exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15.12  Women's participation in decision-making regarding sexual and reproductive health","",
+           "Percentage of currently married women age 15-49 years who make their own informed decisions", 
+		   "regarding sexual relations, contraceptive use, and reproductive health care,",
+           "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 15.12  Participation des femmes dans la prise de décision concernant la santé sexuelle et reproductive","",
+           "Pourcentage de femmes de 15-49 ans actuellement en union qui prennent leur propres décisions",
+		   "informées concernant les relations sexuelles, l'utilisation de la contraceptionet les soins de",
+		   "santé reproductive, Enquête Pays 2020" )
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+   crosstab float(0) t1512u v013w1+works+v102w+v101w+v106w+v190w+total total
+     exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table 15.12  Women's participation in decision making regarding sexual and reproductive health (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+  
+  crosstab float(1) t1513 lastword+total+wifebeat+totnum2 total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table 15.13W  [WORKING TABLE FOR EMPOWERMENT FIGURE]","",
+           "Percent distributions of currently married women age 15-49 according to the number of decisions", 
+		   "in which they participate and by number of the reasons justifying wife-beating,",
+           "Country Survey 2020" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+    title( "Tableau 15.13W  [TABLEAU DE TRAVAIL POUR LE GRAPHIQUE SUR LE POUVOIR D'ACTION ]","",
+           "Répartition (en %) des femmes de 15-49 ans actuellement en union par nombre",
+		   "de décisions dans lesquelles elles ont participé et par nombre de raisons pour",
+		   "lesquelles il est justifié qu'un homme batte sa femme, Enquête Pays 2020")
+	stub( "Caractéristique" );
+{FR}}
+
+  { function to recode decision making for man }
+  function recdecis( varx )
+    recode   varx -> temp;
+               1  -> 4;     { respondent which is husband }
+               2  -> 2;     { both equally }
+               4  -> 1;     { wife }
+               5  -> 5;     { someone else }
+        8,missing -> 9;     { missing }
+                  -> 6;  { other }
+    endrecode;
+    recdecis = temp;
+  end;
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+  numwom   = 1;
+  totnum1  = 1;
+  totnum2  = 1;
+  totnum5  = 1;
+  totnum10 = 1;
+  totnum11 = 1;
+  totnum16 = 1;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table 15.1 processing }
+  jtot1 = tblcol( t1501, employ12 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1501[*,j,*] = t1501[*,j,*] * 100 / t1501[*,jtot1,*];
+  enddo;
+  jtot2 = tblcol( t1501 );
+  jmax = jtot2 - 2;
+  do j = jtot1 + 1 while j <= jmax
+    t1501[*,j,*] = t1501[*,j,*] * 100 / t1501[*,jtot2,*];
+  enddo;
+  t1501[*,jmax+1,*] = tblsum( column t1501[*,jtot1+1:jmax,*] );
+  { check unweighted N's }
+  Col3Dim( "t1501", t1501, 0,       jtot1-1, t1501u, 0 );
+  Col3Dim( "t1501", t1501, jtot1+1, jtot2-2, t1501u, 1 );
+  { assign default to not applicable rows }
+  itot = tblrow( t1501, tot1549 );
+  t1501[itot+1:itot+2,*,0] = default;  
+  
+  { Table 15.2.1 processing }
+  jtot = tblcol( t15021 );
+  jmax = tblcol(t15021, total ) - 1;
+  do j = 0 while j <= jmax
+    t15021[*,j] = t15021[*,j] * 100 / t15021[*,jtot];
+  enddo;
+  t15021[*,jmax+1] = tblsum( column t15021[*,0:jmax] );
+  jmin = jmax + 2;
+  jmax = jtot - 2;
+  do j = jmin while j <= jmax
+    t15021[*,j] = t15021[*,j] * 100 / t15021[*,jtot];
+  enddo;
+  t15021[*,jmax+1] = tblsum( column t15021[*,jmin:jmax] );
+  { check unweighted N's }
+  jtot1 = tblcol( t15021, v739w );
+  jtot2 = tblcol( t15021, v746w );
+  Col2Dim( "t15021", t15021, 0,       jtot1, t15021u, 0 );          { wife earnings used }
+  Col2Dim( "t15021", t15021, jtot1+1, jtot2, t15021u, 0 );          { compare earnings with husband }
+
+  { Table 15.2.2 processing }
+  { panel for men }
+  jtot1 = tblcol( t15022, isex2 = 1 numman = 1 );
+  jmax  = jtot1 - 2;
+  do j = 0 while j <= jmax
+    t15022[*,j] = t15022[*,j] * 100 / t15022[*,jtot1];
+  enddo;
+  t15022[*,jmax+1] = tblsum( column t15022[*,0:jmax] );
+  { panel for women }
+  jtot2 = tblcol( t15022 );
+  jmax  = jtot2 - 3;
+  do j = jtot1+1 while j <= jmax
+    t15022[*,j] = t15022[*,j] * 100 / t15022[*,jtot2];
+  enddo;
+  t15022[*,jmax+1] = tblsum( column t15022[*,jtot1+1:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t15022", t15022, 0,       jtot1-2, t15022u, 0 );        { men }
+  Col2Dim( "t15022", t15022, jtot1+1, jtot2-3, t15022u, 1 );        { women }
+  { assign NA to last 2 rows for women }
+  itot = tblrow( t15022 );
+  t15022[itot-1:itot,jtot1+1:jtot2] = NAcells;   { women }
+
+  { Table 15.3.1 processing }
+  itot = tblrow( t15031 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t15031[i,*,*] = t15031[i,*,*] * 100 / t15031[itot,*,*];
+  enddo;
+  t15031[imax+1,*,*] = tblsum( row t15031[0:imax,*,*] );
+  { check unweighted N's }
+  Row3Dim( "t15031", t15031, 0,      itot-2, t15031u, 0 ); 
+  { assign NA to cells }
+  itot = tblrow( t15031, housland = 2 );
+  t15031[itot,  0,0] = NACells;
+  t15031[itot+2,0,0] = NACells;
+  t15031[itot,  0,1] = NACells;
+  t15031[itot+2,0,1] = NACells;
+
+  { Table 15.3.2 processing }
+  itot = tblrow( t15032 );
+  imax = itot - 2;
+  do i = 0 while i <= imax
+    t15032[i,*,*] = t15032[i,*,*] * 100 / t15032[itot,*,*];
+  enddo;
+  t15032[imax+1,*,*] = tblsum( row t15032[0:imax,*,*] );
+  { check unweighted N's }
+  Row3Dim( "t15032", t15032, 0,       itot-2, t15032u, 0 ); 
+  { assign NA to cells }
+  itot = tblrow( t15032, housland = 2 );
+  t15032[itot,  0,0] = NACells;
+  t15032[itot+2,0,0] = NACells;
+  t15032[itot,  0,1] = NACells;
+  t15032[itot+2,0,1] = NACells;
+
+  { Table 15.4.1 processing }
+  jtot1 = tblcol( t15041, totnum2 );
+  jmax  = jtot1 - 2;
+  do j = 0 while j <= jmax
+    t15041[*,j] = t15041[*,j] * 100 / t15041[*,jtot1];
+  enddo;
+  t15041[*,jmax+1] = tblsum( column t15041[*,0:jmax] );
+  jtot2 = tblcol( t15041 );
+  jmax  = jtot2 - 2;
+  do j = jtot1+1 while j <= jmax
+    t15041[*,j] = t15041[*,j] * 100 / t15041[*,jtot2];
+  enddo;
+  t15041[*,jmax+1] = tblsum( column t15041[*,jtot1+1:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t15041", t15041, 0,       jtot1-2, t15041u, 0 );
+  Col2Dim( "t15041", t15041, jtot1+1, jtot2-2, t15041u, 1 );
+
+  { Table 15.4.2 processing }
+  jtot1 = tblcol( t15042, totnum5 );
+  jmax  = jtot1 - 2;
+  do j = 0 while j <= jmax
+    t15042[*,j] = t15042[*,j] * 100 / t15042[*,jtot1];
+  enddo;
+  t15042[*,jmax+1] = tblsum( column t15042[*,0:jmax] );
+  jtot2 = tblcol( t15042 );
+  jmax  = jtot2 - 2;
+  do j = jtot1+1 while j <= jmax
+    t15042[*,j] = t15042[*,j] * 100 / t15042[*,jtot2];
+  enddo;
+  t15042[*,jmax+1] = tblsum( column t15042[*,jtot1+1:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t15042", t15042, 0,       jtot1-2, t15042u, 0 );
+  Col2Dim( "t15042", t15042, jtot1+1, jtot2-2, t15042u, 1 );
+
+  { Table 15.5.1 processing }
+  jtot1 = tblcol( t15051, totnum2 );
+  jmax  = jtot1 - 2;
+  do j = 0 while j <= jmax
+    t15051[*,j] = t15051[*,j] * 100 / t15051[*,jtot1];
+  enddo;
+  t15051[*,jmax+1] = tblsum( column t15051[*,0:jmax] );
+  jtot2 = tblcol( t15051 );
+  jmax  = jtot2 - 2;
+  do j = jtot1+1 while j <= jmax
+    t15051[*,j] = t15051[*,j] * 100 / t15051[*,jtot2];
+  enddo;
+  t15051[*,jmax+1] = tblsum( column t15051[*,jtot1+1:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t15051", t15051, 0,       jtot1-2, t15051u, 0 );
+  Col2Dim( "t15051", t15051, jtot1+1, jtot2-2, t15051u, 1 );
+
+  { Table 15.5.2 processing }
+  jtot1 = tblcol( t15052, totnum5 );
+  jmax  = jtot1 - 2;
+  do j = 0 while j <= jmax
+    t15052[*,j] = t15052[*,j] * 100 / t15052[*,jtot1];
+  enddo;
+  t15052[*,jmax+1] = tblsum( column t15052[*,0:jmax] );
+  jtot2 = tblcol( t15052 );
+  jmax  = jtot2 - 2;
+  do j = jtot1+1 while j <= jmax
+    t15052[*,j] = t15052[*,j] * 100 / t15052[*,jtot2];
+  enddo;
+  t15052[*,jmax+1] = tblsum( column t15052[*,jtot1+1:jmax] );
+  { check unweighted N's }
+  Col2Dim( "t15052", t15052, 0,       jtot1-2, t15052u, 0 );
+  Col2Dim( "t15052", t15052, jtot1+1, jtot2-2, t15052u, 1 );
+
+  { Table 15.6.1 processing }
+  jtot = tblcol( t15061 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t15061[*,j] = t15061[*,j] * 100 / t15061[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t15061", t15061, 0, jtot-1, t15061u, 0 );
+
+  { Table 15.6.2 processing }
+  jtot = tblcol( t15062 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t15062[*,j] = t15062[*,j] * 100 / t15062[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t15062", t15062, 0, jtot-1, t15062u, 0 );
+  { write out SDG indicators }
+  { use both 5.b.1 & 8.10.2 }
+  itot   = tblrow( t15061 );              
+  jtot   = tblcol( t15061, mobph1 = 1 );
+  itot1  = tblrow( t15062, tot1549 = 0 );  
+  jtot1  = tblcol( t15062, mobph1 = 1 );
+  x      = (t15061(itot,jtot) + t15062(itot1,jtot1)) / 2;   
+  SDGIndicator( "5.b.1", t15062(itot1,jtot1), t15061(itot,jtot), x );
+  jtot   = tblcol( t15061, bankphon = 1 );
+  jtot1  = tblcol( t15062, bankphon = 1 );
+  x      = (t15061(itot,jtot) + t15062(itot1,jtot1)) / 2;   
+  SDGIndicator( "8.10.2", t15062(itot1,jtot1), t15061(itot,jtot), x );
+
+  { Table 15.7 processing }
+  jtot = tblcol( t1507 );
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+    t1507[*,j,*] = t1507[*,j,*] * 100 / t1507[*,jtot,*];
+  enddo;
+  t1507[*,jmax+1,*] = tblsum( column t1507[*,0:jmax,*] );
+  { assign default to not applicable rows }
+  itot = tblrow( t1507 );
+  t1507[itot,*,1] = default;  
+
+  { Table 15.8.1 processing }
+  jtot = tblcol( t15081 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t15081[*,j] = t15081[*,j] * 100 / t15081[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t15081", t15081, 0, jtot-1, t15081u, 0 );
+
+  { Table 15.8.2 processing }
+  jtot = tblcol( t15082 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t15082[*,j] = t15082[*,j] * 100 / t15082[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t15082", t15082, 0, jtot-1, t15082u, 0 );
+
+  { Table 15.9.1 processing }
+  jtot = tblcol( t15091 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t15091[*,j] = t15091[*,j] * 100 / t15091[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t15091", t15091, 0, jtot-1, t15091u, 0 );
+
+  { Table 15.9.2 processing }
+  jtot = tblcol( t15092 );
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+    t15092[*,j] = t15092[*,j] * 100 / t15092[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t15092", t15092, 0, jtot-1, t15092u, 0 );
+
+  { table 15.10 }
+  iage = tblrow( t1510, v013w4 = 1 );
+  t1510[iage,*] = t1510[iage+1,*] + t1510[iage+2,*];
+  imar = tblrow( t1510, v501w4 = 0 );
+  t1510[imar,*] = t1510[imar+1,*] + t1510[imar+2,*];
+  jtot1 = tblcol( t1510, isex = 1 numwom = 1 );
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    t1510[*,j] = t1510[*,j] * 100 / t1510[*,jtot1];
+  enddo;
+  jtot2 = tblcol( t1510 );
+  jmax  = jtot2 - 1;
+  do j = jtot1 + 1 while j <= jmax
+    t1510[*,j] = t1510[*,j] * 100 / t1510[*,jtot2];
+  enddo;
+  { check unweighted N's }
+  t1510u[iage,*] = t1510u[iage+1,*] + t1510u[iage+2,*];
+  t1510u[imar,*] = t1510u[imar+1,*] + t1510u[imar+2,*];
+  Col2Dim( "t1510", t1510, 0,       jtot1-1, t1510u, 0 );
+  Col2Dim( "t1510", t1510, jtot1+1, jtot2-1, t1510u, 1 );
+  itot  = tblrow( t1510 );
+  t1510[itot-1:itot,0:jtot1] = NACells;
+
+  { table 15.11 }
+  iage = tblrow( t1511, v013w4 = 1 );
+  t1511[iage,*] = t1511[iage+1,*] + t1511[iage+2,*];
+  jtot = tblcol( t1511 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    t1511[*,j] = t1511[*,j] * 100 / t1511[*,jtot];
+  enddo;
+  { check unweighted N's }
+  t1511u[iage,*] = t1511u[iage+1,*] + t1511u[iage+2,*];
+  Col2Dim( "t1511", t1511, 0, jtot-1, t1511u, 0 );
+
+  { table 15.12 }
+  jtot = tblcol( t1512 );
+  jmax  = jtot - 1;
+  do j = 0 while j <= jmax
+    t1512[*,j] = t1512[*,j] * 100 / t1512[*,jtot];
+  enddo;
+  { check unweighted N's }
+  Col2Dim( "t1512", t1512, 0, jtot-1, t1512u, 0 );
+  { write out SDG indicators }
+  itot   = tblrow( t1512 );
+  jtot   = tblcol( t1512, decreph = 1 );
+  SDGIndicator( "5.6.1", NACells, t1512(itot,jtot), NACells );
+
+  { Table 15.13 }
+  itot1 = tblrow( t1513 );
+  imax  = itot1 - 2;
+  do i = 0 while i <= imax
+    t1513[i,*] = t1513[i,*] * 100 / t1513[itot1,*];
+  enddo;
+  itot2 = tblrow( t1513, total );
+  t1513[itot2,*]   = tblsum( row t1513[0:itot2-1,*] );
+  t1513[itot1-1,*] = tblsum( row t1513[itot2+1:itot1-2,*] );
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+
+postproc
+
+{-----------------------------------------------------------------------------------------------}
+{ male tables }
+
+  isex  = 2;                                    { men }
+  isex2 = 1;                                    { men is the first panel in table 15.2.2 }
+  for i in RECH1_EDT do
+    if HV118 = 1 then
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then { found & complete questionnaire }
+
+        if unweight then
+          rweight = 1;
+        else
+          rweight = MV005/1000000;
+        endif;
+
+        { to tally total for all men regardless of age }
+        totmen   = 0;
+        { to tally total for men 15-49 }
+        tot1549  = 0;
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:59 );
+        numwom   = notappl;
+
+        { general variables }
+        v102w  = MV102;
+        v101w  = MV101;
+        v106w  = MV106;
+        if MV106 in 8,missing then v106w = 9 endif;
+        v190w  = MV190;
+        v013w  = MV013;
+        v013w1 = MV013;
+
+        recode MV012 -> v013w4;
+               15:19 -> 2;
+               20:24 -> 3;
+               25:29 -> 4;
+               30:39 -> 5;
+                     -> 6;
+        endrecode;
+        recode MV501 ::   MV525   -> v501w4;
+               1,2   ::           -> 3;
+               3:5   ::           -> 4;
+                     :: 0,missing -> 2;
+                     ::           -> 1;
+        endrecode;
+
+        { marital status }
+        currmarr = ( MV502 = 1 );
+        recode MV501 -> v501w1;
+                  0  -> 0;
+                1:2  -> 1;
+                4:5  -> 2;
+                 3   -> 3;
+		             -> 9;
+        endrecode;
+        recode MV501 -> v501w2;
+                  0  -> 0;
+                1:2  -> 1;
+                3:5  -> 2;
+                     -> 9;
+        endrecode;
+
+        { number of living children }
+        recode MV218 -> v218w;
+                 0   -> 0;
+               1,2   -> 1;
+               3,4   -> 2;
+                     -> 3;
+        endrecode;
+
+        { employment last 12 months }
+        if MV731 = missing then
+          works = 9
+        elseif !MV731 in 1,2,3 then    { not employed last 12 months }
+          works = 1
+        elseif MV741 = missing then
+          works = 9
+        elseif MV741 in 1,2 then
+          works = 2                   { employed for cash }
+        else
+          works = 3                   { employed, not for cash }
+        endif;
+
+        { the tables' body is only for men 15-49 }
+        if MV012 > 49 then
+          tot1549 = notappl;
+          v102w   = notappl;
+          v101w   = notappl;
+          v106w   = notappl;
+          v190w   = notappl;
+          v013w   = notappl;
+          v013w1  = notappl;
+          v013w4  = notappl;
+          v218w   = notappl;
+          v501w2  = notappl;
+          v501w4  = notappl;
+          works   = notappl;
+        endif;
+
+{ -------------------------------------------------------------------- }
+{ table 15.1 }
+
+        v741w2   = notappl;
+        totnum16 = notappl;
+        if currmarr then                       { currently married men }
+          employ12 = 2;
+          xtab( t1501, rweight );
+          coltotu = 1;
+          xtab( t1501u );
+          if MV731 in 1,2,3 then               { worked in last 12 months }
+            employ12 = 1;
+            xtab( t1501, rweight );
+            employ12 = notappl;
+            totnum16 = 1;
+            recode MV741 -> v741w2;               { type of earnings, defined in CHAPT3 }
+                      0  -> 4;
+                    1:3  -> MV741;
+                         -> 9;
+            endrecode;
+            xtab( t1501, rweight );
+            coltotu = 2;
+            xtab( t1501u );
+          endif;
+        endif;                            { end currently married }
+        totnum14 = 1;
+
+{ -------------------------------------------------------------------- }
+{ table 15.2.2 }
+
+		numwom = notappl;
+        numman = 1;
+        if currmarr then                  { currently married men }
+          recode MV739  -> v739w1;           { person decides how earnings are spent }
+                missing -> 9;
+                   1    -> 3;                { respondent which is husband }
+                   2    -> 2;                { respondent(husband)and wife jointly }
+                   4    -> 1;                { wife/partner alone }
+               3,5:6    -> 4;                { other }
+                        -> MV739;
+          endrecode;
+
+          if MV731 in 1,2,3 & MV741 in 1,2 then     { worked in last 12 months & earns cash }
+            xtab( t15022, rweight );
+            xtab( t15022u );
+          endif;
+        endif;                            { end currently married }
+
+{ -------------------------------------------------------------------- }
+{ table 15.3.2 }
+
+        if MV012 in 15:49 then
+          { ownership of a house }
+		  typeown = 1;
+          recode MV745A -> housland;
+                missing -> 9;
+                  0     -> 6;                { does not own }
+                        -> MV745A;
+          endrecode;
+          xtab( t15032, rweight );
+          xtab( t15032u );
+          { ownership of land }
+		  typeown = 2;
+          recode MV745B -> housland;
+                missing -> 9;
+                  0     -> 6;                { does not own }
+                        -> MV745B;
+          endrecode;
+          xtab( t15032, rweight );
+          xtab( t15032u );
+        endif;  
+
+{ -------------------------------------------------------------------- }
+{ table 15.4.2 }
+
+        { ownership of a house }
+        v745w1   = notappl;
+        nohouse  = notappl;
+        v745w3   = notappl;
+        nodeed   = notappl;
+        tothousm = notappl;
+        if MV745A in 1:5 then
+          recode MV745A -> v745w1;
+   	               1   -> 1;
+                   2:4 -> 2;
+                    5  -> 3;			
+                       -> MV745A;
+          endrecode;
+        else
+          nohouse = 1;
+        endif;  
+        xtab( t15042, rweight );
+        coltotu = 1;
+        xtab( t15042u );
+        if MV745A in 1:5 then
+          v745w1   = notappl;
+          nohouse  = notappl;
+          totnum5  = notappl;
+          tothousm = 1;
+          if MV745C in 1:2 then
+            recode MV745C -> v745w3;
+                     1   -> 1;
+                         -> 2;
+            endrecode;	
+          else       	  
+            recode MV745C -> nodeed;
+                     0   -> 1;
+                         -> 2;
+            endrecode;	
+          endif;	  
+          xtab( t15042, rweight );
+          coltotu = 2;
+          xtab( t15042u );
+        endif;  
+        totnum5 = 1;
+
+{ -------------------------------------------------------------------- }
+{ table 15.5.2 }
+
+
+        { ownership of land }
+        v745w5   = notappl;
+        noland   = notappl;
+        v745w7   = notappl;
+        nodeed   = notappl;
+        totlandm = notappl;
+        if MV745B in 1:5 then
+          recode MV745B -> v745w5;
+                    1   -> 1;
+                   2:4  -> 2;
+                    5   -> 3;			
+                        -> MV745B;
+          endrecode;
+        else
+          noland = 1;
+        endif;  
+        xtab( t15052, rweight );
+        coltotu = 1;
+        xtab( t15052u );
+        if MV745B in 1:5 then
+          v745w5   = notappl;
+          noland   = notappl;
+          totnum5  = notappl;
+          totlandm = 1;
+          if MV745D in 1:2 then
+            v745w7 = MV745D;
+          else       	  
+            recode MV745D -> nodeed;
+                     0   -> 1;
+                         -> 2;
+            endrecode;	
+          endif;	  
+          xtab( t15052, rweight );
+          coltotu = 2;
+          xtab( t15052u );
+        endif;  
+        totnum5 = 1;
+
+{ -------------------------------------------------------------------- }
+{ table 15.6.2 }
+
+        numman   = 1;
+        mobph1   = (MV169A = 1);             // own a mobile phone
+        mobph2   = (MV169B = 1);             // used mobile phone for finanacial trnasactions
+        bankacc  = (MV170  = 1);             // own a bank account
+        bankphon = (MV169B = 1 | MV170 = 1);  // use a bank or a hone for financial transactions
+        xtab( t15062, rweight );
+        xtab( t15062u );
+        numman   = notappl;
+        mobph1   = notappl;
+        mobph2   = notappl;
+        bankacc  = notappl;
+        bankphon = notappl;
+        if MV169C = 1 then                   // is mobile a smartphone     
+          mobph1 = 2;  
+        endif;  
+        if MV177 = 1 then                    // deposited or withdraw money from bank account
+          bankacc = 2;  
+        endif;  
+        xtab( t15062, rweight );
+        numman   = 1;
+
+{ -------------------------------------------------------------------- }
+{ table 15.7 }
+
+        if MV012 in 15:49 & currmarr then
+          decimake = recdecis( MV743A );    { respndent's own health }
+          dectopic = 1;
+          xtab( t1507, rweight );
+          decimake = recdecis( MV743B );    { large household purchases }
+          dectopic = 2;
+          xtab( t1507, rweight );
+        endif;                     { end currently married }
+
+{ -------------------------------------------------------------------- }
+{ table 15.9.2 }
+
+        if currmarr then
+		  decision = 0;
+          decis2m = notappl;
+          { respondent's own health }
+          if MV743A in 1,2 then   { self or jointly with wife }
+            decision = decision + 1;
+            decis1m = 1;
+            xtab( t15082, rweight );
+          endif;
+          { major household purchases }
+          if MV743B in 1,2 then   { self or jointly with wife }
+            decision = decision + 1;
+            decis1m = 2;
+            xtab( t15082, rweight );
+          endif;
+          decis1m = notappl;
+          if decision = 2 then                         { all decisions }
+            decis2m = 1;
+            xtab( t15082, rweight );
+          elseif decision = 0 then                     { zero decisions }
+            decis2m = 2;
+            xtab( t15082, rweight );
+          endif;
+          decis2m = 3;                               { tally number of men }
+          xtab( t15082, rweight );
+          xtab( t15082u );
+        endif;                     { end currently married }
+
+{ -------------------------------------------------------------------- }
+{ table 15.10.2 }
+
+        numman  = notappl;
+        reasbt2 = notappl;
+        cnt = 0;		
+        if MV744A = 1 then                    { goes out without telling him }
+          cnt = cnt + 1;		
+          reasbt1 = 1;
+          xtab( t15092, rweight );
+        endif;
+        if MV744B = 1 then                    { neglects the children }
+          cnt = cnt + 1;		
+          reasbt1 = 2;
+          xtab( t15092, rweight );
+        endif;
+        if MV744C = 1 then                    { argues with him }
+          cnt = cnt + 1;		
+          reasbt1 = 3;
+          xtab( t15092, rweight );
+        endif;
+        if MV744D = 1 then                    { refuses sexual relations }
+          cnt = cnt + 1;		
+          reasbt1 = 4;
+          xtab( t15092, rweight );
+        endif;
+        if MV744E = 1 then                    { burns food }
+          cnt = cnt + 1;		
+          reasbt1 = 5;
+          xtab( t15092, rweight );
+        endif;
+        reasbt1 = notappl;
+        numman  = 1;
+        reasbt2 = ( cnt > 0 );
+        xtab( t15092, rweight );
+        xtab( t15092u );
+
+{ -------------------------------------------------------------------- }
+{ table 15.10 }
+
+        numman = notappl;
+        if MV633B = 1 then     { refuse to have sex he had sex with other women }
+          refsex1 = 1;
+          xtab( t1510, rweight );
+        endif;
+        if MV822  = 1 then     { ask to use condom if he has STI }
+          refsex1 = 2;
+          xtab( t1510, rweight );
+        endif;
+        refsex1 = notappl;
+        numman  = 1;
+        xtab( t1510, rweight );
+        xtab( t1510u );
+
+      endif     { end loadcase & complete interview }
+    endif;
+  enddo;
+
+PROC WOMAN
+preproc
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  isex  = 1;                                    { women }
+  isex2 = 2;                                    { women is the second panel in table 15.2.2 }
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  { totals for all men and men 50-54[59] set to NA }
+  totmen   = notappl;
+  men5059  = notappl;
+  numman   = notappl;
+  { to tally totals for all women, when necessary }
+  tot1549  = 0;
+  numwom   = 1;
+
+  { general variables }
+  v013w    = V013;
+  v013w1   = V013;
+  v102w    = V102;
+  v101w    = V101;
+  v106w    = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w    = V190;
+  recode  V012 -> v013w4 ;
+         15:19 -> 2;
+         20:24 -> 3;
+         25:29 -> 4;
+         30:39 -> 5;
+         40:49 -> 6;
+  endrecode;
+  recode V501 ::    V525   -> v501w4;
+         1,2  ::           -> 3;
+         3:5  ::           -> 4;
+              :: 0,missing -> 2;
+              ::           -> 1;
+  endrecode;
+
+  { marital status }
+  currmarr = ( V502 = 1 );
+  recode V501  -> v501w1;
+            0  -> 0;
+          1:2  -> 1;
+          4:5  -> 2;
+           3   -> 3;
+		       -> 9;
+  endrecode;
+  recode V501  -> v501w2;
+            0  -> 0;
+          1:2  -> 1;
+          3:5  -> 2;
+               -> 9;
+  endrecode;
+
+  { number of living children }
+  recode V218 -> v218w;
+           0  -> 0;
+         1,2  -> 1;
+         3,4  -> 2;
+              -> 3;
+  endrecode;
+
+  { employment last 12 months }
+  if V731 = missing then
+    works = 9
+  elseif !V731 in 1,2,3 then    { not employed last 12 months }
+    works = 1
+  elseif V741 = missing then
+    works = 9
+  elseif V741 in 1,2 then
+    works = 2                   { employed for cash }
+  else
+    works = 3                   { employed, not for cash }
+  endif;
+
+  { decisions in which respondent has the last word }
+  decision = 0;
+  { respondent's own health }
+  if V743A in 1:2 then { self or jointly with husband }
+    decision = decision + 1;
+  endif;
+  { major household purchases }
+  if V743B in 1:2 then { self or jointly with husband }
+    decision = decision + 1;
+  endif;
+  { visits to respondent's family }
+  if V743D in 1:2 then { self or jointly with husband }
+    decision = decision + 1;
+  endif;
+  lastword = decision;
+  { notappl for not currently married women }
+  if V502 <> 1 then lastword = notappl endif;
+
+  { reasons to justify wife beating }
+  wifebeat = 0;
+  if V744A = 1 then wifebeat = wifebeat + 1 endif;   { goes out without telling him }
+  if V744B = 1 then wifebeat = wifebeat + 1 endif;   { neglet children }
+  if V744C = 1 then wifebeat = wifebeat + 1 endif;   { argues with him }
+  if V744D = 1 then wifebeat = wifebeat + 1 endif;   { refusex to have sex }
+  if V744E = 1 then wifebeat = wifebeat + 1 endif;   { burns the food }
+
+{ -------------------------------------------------------------------- }
+{ table 15.1 }
+
+  v741w2    = notappl;
+  totnum16  = notappl;
+  if currmarr then                  { currently married women }
+    employ12 = 2;
+    xtab( t1501, rweight );
+    coltotu = 1;
+    xtab( t1501u );
+    if V731 in 1,2,3 then               { worked in last 12 months }
+      employ12 = 1;
+      xtab( t1501, rweight );
+      employ12 = notappl;
+      totnum16 = 1;
+      recode V741 -> v741w2;               { type of earnings, defined in CHAPT3 }
+               0  -> 4;
+              1:3 -> V741;
+                  -> 9;
+      endrecode;
+      xtab( t1501, rweight );
+      coltotu = 2;
+      xtab( t1501u );
+    endif;
+  endif;                            { end currently married }
+  totnum14 = 1;
+
+{ -------------------------------------------------------------------- }
+{ table 15.2.1 }
+
+  if currmarr then                 { currently married women }
+    { next two variables used by tables 15.2.2 & 15.3 }
+    recode V739  -> v739w;            { person decides how respondent earnings are spent }
+         missing -> 9;
+           1:2   -> V739;             { Mainly wife, Wife & husband }
+             3   -> 4;                { Respondent and other, if it exist goes into other }
+             4   -> 3;                { mainly husband }
+           5:6   -> 4;                { other }
+                 -> V739;
+    endrecode;
+    v746w = V746;                  { women's earnings compared to husband }
+    if V746 in missing then v746w = 9 endif;
+    { assign code 4 to women who declared that partners did not have earnings in question on who decides how husband earnings are used }
+    if V743F = 7 then v746w = 4 endif;
+
+    if V731 in 1:3 & V741 in 1,2 then     { worked in last 12 months & earns cash }
+      xtab( t15021, rweight );
+      xtab( t15021u );
+    endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 15.2.2 }
+
+  if currmarr then                 { currently married women }
+    { exclude husband doesn't bring any money or has no earnings }
+    if V746 <> 4 & V743F <> 7 then
+      recode V743F  -> v739w1;           { person decides how men's earnings are spent }
+            missing -> 9;
+              1     -> 1;                { respondent which is the wife }
+              2     -> 2;                { wife and husband jointly }
+              4     -> 3;                { husband/partner alone }
+           3,5:6    -> 4;                { other }
+                    -> V743F;
+      endrecode;
+      xtab( t15022, rweight );
+      xtab( t15022u );
+    endif;
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 15.3.1 }
+
+  { ownership of a house }
+  typeown = 1;
+  recode V745A  -> housland;
+        missing -> 9;
+          0     -> 6;                { does not own }
+                -> V745A;
+  endrecode;
+  xtab( t15031, rweight );
+  xtab( t15031u );
+  { ownership of land }
+  typeown = 2;
+  recode V745B  -> housland;
+        missing -> 9;
+          0     -> 6;                { does not own }
+                -> V745B;
+  endrecode;
+  xtab( t15031, rweight );
+  xtab( t15031u );
+
+{ -------------------------------------------------------------------- }
+{ table 15.4.1 }
+
+  { ownership of a house }
+  v745w1   = notappl;
+  nohouse  = notappl;
+  v745w2   = notappl;
+  nodeed   = notappl;
+  tothousw = notappl;
+  if V745A in 1:5 then
+    recode V745A -> v745w1;
+	         1   -> 1;
+            2:4  -> 2;
+             5   -> 3;			
+                 -> V745A;
+    endrecode;
+  else
+    nohouse = 1;
+  endif;  
+  xtab( t15041, rweight );
+  coltotu = 1;
+  xtab( t15041u );
+  if V745A in 1:5 then
+    v745w1   = notappl;
+    nohouse  = notappl;
+	totnum2  = notappl;
+	tothousw = 1;
+	if V745C in 1:2 then
+	  recode V745C -> v745w2;
+               1   -> 1;
+                   -> 2;
+      endrecode;	
+    else       	  
+	  recode V745C -> nodeed;
+               0   -> 1;
+                   -> 2;
+      endrecode;	
+    endif;	  
+    xtab( t15041, rweight );
+    coltotu = 2;
+    xtab( t15041u );
+  endif;  
+  totnum2 = 1;
+
+{ -------------------------------------------------------------------- }
+{ table 15.5.1 }
+
+  { ownership of land }
+  v745w5   = notappl;
+  noland   = notappl;
+  v745w6   = notappl;
+  nodeed   = notappl;
+  totlandw = notappl;
+  if V745B in 1:5 then
+    recode V745B -> v745w5;
+	         1   -> 1;
+            2:4  -> 2;
+             5   -> 3;			
+                 -> V745B;
+    endrecode;
+  else
+    noland = 1;
+  endif;  
+  xtab( t15051, rweight );
+  coltotu = 1;
+  xtab( t15051u );
+  if V745B in 1:5 then
+    v745w5   = notappl;
+    noland   = notappl;
+	totnum2  = notappl;
+	totlandw = 1;
+	if V745D in 1:2 then
+	  v745w6 = V745D;
+    else       	  
+	  recode V745D -> nodeed;
+               0   -> 1;
+                   -> 2;
+      endrecode;	
+    endif;	  
+    xtab( t15051, rweight );
+    coltotu = 2;
+    xtab( t15051u );
+  endif;  
+  totnum2 = 1;
+
+{ -------------------------------------------------------------------- }
+{ table 15.6.1 }
+
+  numwom   = 1;
+  mobph1   = (V169A = 1);             // own a mobile phone
+  mobph2   = (V169B = 1);             // used mobile phone for finanacial transactions
+  bankacc  = (V170  = 1);             // own a bank account
+  bankphon = (V169B = 1 | V170 = 1);  // use a bank or a phone for financial transactions
+  xtab( t15061, rweight );
+  xtab( t15061u );
+  numwom   = notappl;
+  mobph1   = notappl;
+  mobph2   = notappl;
+  bankacc  = notappl;
+  bankphon = notappl;
+  if V169C = 1 then                   // is mobile a smartphone     
+    mobph1 = 2;  
+  endif;  
+  if V177 = 1 then                    // deposited or withdraw money from bank account
+    bankacc = 2;  
+  endif;  
+  xtab( t15061, rweight );
+  numwom   = 1;
+
+{ -------------------------------------------------------------------- }
+{ table 15.7 }
+
+  if currmarr then                 { currently married women }
+    decimake = V743A;    { own health care }
+    if V743A = missing then decimake = 9 endif;
+    dectopic = 1;
+    xtab( t1507, rweight );
+    decimake = V743B;    { large household purchases }
+    if V743B = missing then decimake = 9 endif;
+    dectopic = 2;
+    xtab( t1507, rweight );
+    decimake = V743D;    { visits to family or relatives }
+    if V743D = missing then decimake = 9 endif;
+    dectopic = 3;
+    xtab( t1507, rweight );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 15.9.1 }
+
+  if currmarr then                 { currently married women }
+    decis2w  = notappl;
+    { own health }
+    if V743A in 1:2  then { self or jointly with husband }
+      decis1w = 1;
+      xtab( t15081, rweight );
+    endif;
+    { major household purchases }
+    if V743B in 1:2  then { self or jointly with husband }
+      decis1w = 2;
+      xtab( t15081, rweight );
+    endif;
+    { visits to respondet's family }
+    if V743D in 1:2  then { self or jointly with husband }
+      decis1w = 3;
+      xtab( t15081, rweight );
+    endif;
+    decis1w = notappl;
+    if decision = 3 then           { all three decisions }
+      decis2w = 1;
+      xtab( t15081, rweight );
+    elseif decision = 0 then       { zero decisions }
+      decis2w = 2;
+      xtab( t15081, rweight );
+    endif;
+    decis2w = 3;                  { tally number of women }
+    xtab( t15081, rweight );
+    xtab( t15081u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 15.10.1 }
+
+  numwom  = notappl;
+  reasbt2 = notappl;
+  cnt = 0;
+  if V744A = 1 then                    { goes out without telling him }
+    cnt = cnt + 1;
+    reasbt1 = 1;
+    xtab( t15091, rweight );
+  endif;
+  if V744B = 1 then                    { neglects the children }
+    cnt = cnt + 1;
+    reasbt1 = 2;
+    xtab( t15091, rweight );
+  endif;
+  if V744C = 1 then                    { argues with him }
+    cnt = cnt + 1;
+    reasbt1 = 3;
+    xtab( t15091, rweight );
+  endif;
+  if V744D = 1 then                    { refuses sexual relations }
+    cnt = cnt + 1;
+    reasbt1 = 4;
+    xtab( t15091, rweight );
+  endif;
+  if V744E = 1 then                    { burns food }
+    cnt = cnt + 1;
+    reasbt1 = 5;
+    xtab( t15091, rweight );
+  endif;
+  reasbt1 = notappl;
+  numwom  = 1;
+  reasbt2 = ( cnt > 0 );
+  xtab( t15091, rweight );
+  xtab( t15091u );
+
+{ -------------------------------------------------------------------- }
+{ table 15.10 }
+
+  numwom = notappl;
+  if V633B = 1 then     { refuse to have sex he had sex with other women }
+    refsex1 = 1;
+    xtab( t1510, rweight );
+  endif;
+  if V822  = 1 then     { ask to use condom if he has STI }
+    refsex1 = 2;
+    xtab( t1510, rweight );
+  endif;
+  refsex1 = notappl;
+  numwom = 1;
+  xtab( t1510, rweight );
+  xtab( t1510u );
+
+{ -------------------------------------------------------------------- }
+{ table 15.11 }
+
+  if currmarr then
+    if V850A = 1 then     { refuse to have sex he had sex with other women }
+      refsex2 = 1;
+      xtab( t1511, rweight );
+    endif;
+    if V850B = 1 then     { ask to use condom if he has STI }
+      refsex2 = 2;
+      xtab( t1511, rweight );
+    endif;
+    refsex2 = 3;
+    xtab( t1511, rweight );
+    xtab( t1511u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 15.12 }
+
+  if currmarr then
+    if V850A = 1 & V632 in 1,3 & V743A in 1,2 then 
+      decreph = 1;
+      xtab( t1512, rweight );
+    endif;
+    decreph = 2;
+    xtab( t1512, rweight );
+    xtab( t1512u );
+  endif;
+
+{ -------------------------------------------------------------------- }
+{ table 15.13 }
+
+  if currmarr then
+    xtab( t1513, rweight );
+  endif;

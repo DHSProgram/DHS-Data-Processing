@@ -1,0 +1,18 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=CLUSTERSENTRY
+Name=CLUSTERSENTRY
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[AppCode]
+File=.\ClustersEntry.apc
+[Message]
+File=.\ClustersEntry.mgf
+[Help]
+File=.\ClustersEntry.qsf
+[Forms]
+File=.\Clusters.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Clusters.dcf,Input,.\Clusters.fmf

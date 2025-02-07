@@ -1,0 +1,20 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=RemeasLst
+Name=RemeasLst
+AppType=DataEntry
+CAPI=Yes
+[External Dictionaries]
+File=..\Dicts\Remeasure.dcf
+[AppCode]
+File=.\RemeasLst.apc
+Include=..\Library\HTMLFunctions.apc
+[Message]
+File=.\RemeasLst.mgf
+[Help]
+File=.\RemeasSel.qsf
+[Forms]
+File=.\Cnull.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Remeasure.dcf,External
+Dict-Type=..\dicts\Cnull.dcf,Input,.\Cnull.fmf

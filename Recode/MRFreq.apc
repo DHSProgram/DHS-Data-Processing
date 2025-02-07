@@ -1,0 +1,78 @@
+﻿PROC GLOBAL
+  { DHS-8 male recode frequencies  version - 1.0.0 of 12/13/2021 }
+
+  numeric rweight, unweight;
+
+PROC MRECODE8_FF
+preproc
+
+  unweight = ( sysparm()[1:1] <> "W" );       // 0-Weighted, 1-Unweighted
+  if unweight then
+    errmsg( "Male recode frequencies for Country are UNWEIGHTED" );
+  else	
+    errmsg( "Male recode frequencies for Country are WEIGHTED" );
+  endif;	
+
+PROC MAN
+
+  if unweight then
+    rweight = 1;
+  else	
+    rweight = MV005/1000000;
+  endif;	
+
+  { Only Individual Males with complete interviews }
+  if MV015 = 1 then
+     freq include( MREC01 alpha numeric
+                   MREC11 alpha numeric
+                   MREC23 alpha numeric  )
+          exclude( MCASEID, MV008A, MV191, MV191A )
+          title( "Country - Male individual recode" )
+          weighted rweight;
+
+     { Contraceptive table disjoint }
+     freq include( MREC31 alpha numeric )
+          disjoint
+          title( "Country - Male individual recode" )
+           weighted rweight;
+
+     freq include( MREC32 alpha numeric
+                   MREC41 alpha numeric )
+          title( "Country - Male individual recode" )
+           weighted rweight;
+
+     freq include( MREC51 alpha numeric
+                   MREC61 alpha numeric
+                   MREC71 alpha numeric
+                   MREC75 alpha numeric
+                   MREC80 alpha numeric )
+          title( "Country - Male individual recode" )
+           weighted rweight;
+
+     { chronic disease module }
+     freq include( MRECCHD alpha numeric )
+          title( "Country - Male individual recode" )
+          weighted rweight;
+
+     { mental health module }
+     freq include( MRECMTH alpha numeric )
+          title( "Country - Male individual recode" )
+          weighted rweight;
+
+     { female genital cutting }
+     freq include( MRECGC alpha numeric )
+          title( "Country - Male individual recode" )
+           weighted rweight;
+{+
+     { Standard country specific sections }
+     freq include( MREC91 alpha numeric )
+          title( "Country - Male individual recode" )
+           weighted rweight;
+
+     { Additional country specific sections }
+     freq include( MREC92 alpha numeric
+                   MREC93 alpha numeric )
+          title( "Country - Male individual recode" )
+           weighted rweight;
++}
+  endif;

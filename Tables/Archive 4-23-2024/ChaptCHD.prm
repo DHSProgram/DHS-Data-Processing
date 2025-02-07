@@ -1,0 +1,51 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+tchd01 columns numchd = 1 nodec;
+tchd01 footnote
+{+EN}
+@1 Includes one or more of the following: (1) took away privileges, forbade something the 
+   child liked, or did not allow the child to leave the house, (2) explained why the behavior 
+   was wrong, or (3) gave the child something else to do~
+@2 Includes one or both of the following: (1) shouting, yelling, or screaming at the child, 
+   or (2) calling the child dumb, lazy, or other insult~
+@3 Includes one or more of the following: (1) shook the child, (2) spanked, hit, or slapped 
+   the child on the bottom with a bare hand, (3) hit the child on the bottom or elsewhere on 
+   the body with a belt, hairbrush, stick or other hard object, (4) hit or slapped the child 
+   on the face, head, or ears, (5) hit or slapped the child on the hand, arm, or leg, or 
+  (6) beat up the child, that is, hit over and over as hard as one could~
+@4 Severe physical punishment includes: 1) Hit or slapped the child on the face, head or 
+   ears or 2) Beat up the child, that is, hit over and over as hard as one could~
+@5 Children age 1 year are excluded, as functional difficulties are only collected for 
+   age 5-14 years~
+@6 Excludes children whose mothers are not listed in the Household Questionnaire~
+@7 Includes mothers who have "a lot of difficulty" or "cannot do at all" in at least one 
+   functional domain. See [Table DB.1] for the list of functional domains.~
+@8 For women who are not interviewed, information is taken from the Household Questionnaire. 
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+@1 MICS indicator PR.2 - Violent discipline; SDG 16.2.1~
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tchd02 columns chpunish = 2 nodec;
+tchd02 footnote
+{+EN}
+@1 Includes respondents to the child discipline module who have "a lot of difficulty" or 
+   "cannot do at all" in at least one functional domain. See [Table DB.1] for the list of 
+   functional domains.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;

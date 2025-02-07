@@ -1,0 +1,51 @@
+﻿PROC GLOBAL
+
+  numeric barlab, labinc, match1, match2, match3;
+  
+PROC TESTLOG_FF
+preproc
+
+  barlab = 0;  { number of bar codes in lab }
+  match1 = 0;  { bar codes in lab that match DHS }
+  match2 = 0;  { bar codes in lab that don't match DHS but found in transmittal }
+  match3 = 0;  { bar codes in lab that don't match DHS and not in transmittal }
+  labinc = 0;  { incomplete tests in the lab }
+
+postproc
+
+  write( " " );
+  write( "Summary of Matching Lab bar codes to DHS" );
+  write( "----------------------------------------" );
+  write( " " );
+  write( "  Bar codes in lab sample file                                   : %5d", barlab );
+  write( "  Bar codes with a match in DHS                                  : %5d", match1 );
+  write( "  Bar codes didn't match DHS but present in transmittal sheet    : %5d", match2 );
+  write( "  Bar codes didn't match DHS and not present in transmittal sheet: %5d", match3 );
+  write( "  Lab samples that were not completely tested                    : %5d", labinc );
+  write( " " );
+  write( "Notes: 1-For all messages where the sample was not completed, the HIV Result " );
+  write( "         code in the DHS questionnaire should be changed to code: 5-Test not " );
+  write( "         completed.  This is important to properly calculate weights         " );
+  write( "       2-There is a good chance to recover some samples that were not present" );
+  write( "         in DHS but were registered in transmittal sheet.  Look for missing  " );
+  write( "         data in the result of the measurement for all individuals eligible  " );
+  write( "         for the test in the cluster as some of them may have a bar code that" );
+  write( "         was skipped                                                         " );
+
+
+PROC TESTLOG_REC_EDT
+
+  barlab = barlab + 1;
+  if loadcase( DHSBCode, LBAR ) then
+    match1 = match1 + 1;
+  else
+    { check if lab bar code exist in transmittal sheet }
+    if loadcase( NEWTRANS, LBAR ) then
+      match2 = match2 + 1;
+      errmsg( "Lab Barcode %s doesn't exist in DHS but exist in transmittal sheet in cluster %d",
+              LBAR, NCLUSTER );
+    else
+      match3 = match3 + 1;
+      errmsg( "Lab Barcode %s with LabId %d doesn't exist in neither DHS and the transmittal sheet", LBAR, LABID );
+    endif;
+  endif;

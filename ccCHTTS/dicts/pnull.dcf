@@ -1,0 +1,27 @@
+[Dictionary]
+Version=CSPro 2.5
+Label=pnull
+Name=PNULL_DICT
+RecordTypeStart=1
+RecordTypeLen=1
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=pnull questionnaire
+Name=PNULL_QUEST
+
+[IdItems]
+
+[Item]
+Label=pnull identification
+Name=PNULL_ID
+Start=2
+Len=1
+
+[Record]
+Label=pnull record
+Name=PNULL_REC
+RecordTypeValue='1'
+RecordLen=1

@@ -1,0 +1,96 @@
+﻿[Dictionary]
+Version=CSPro 7.7
+Label=Assign households to interviewers
+Name=HHFORINT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=7B75B61719BF60D38FF36A6BAB54FF51FFDD0779BDE3AFAF2EA668E19727810A
+
+[Languages]
+EN=English
+ES=Español
+
+[Level]
+Label=Assign households to interviewers|Asignar hogares a entrevistadores(as)
+Name=HHFORINT_QUES
+
+[IdItems]
+
+[Item]
+Label=Household number|Numeo de hogar
+Name=VNUMBER
+Start=1
+Len=4
+DataType=Numeric
+ZeroFill=Yes
+
+[Record]
+Label=Households in cluster|Hogares en el segmento
+Name=HHINCLST
+RecordTypeValue=''
+RecordLen=84
+
+[Item]
+Label=Structure number|Numero de estructura
+Name=VSTRUCT
+Start=5
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Household address|Direccion del hogar
+Name=VADDRESS
+Start=9
+Len=40
+DataType=Alpha
+
+[Item]
+Label=Name of household head|Nombre del jefe del hogar
+Name=VNAME
+Start=49
+Len=30
+DataType=Alpha
+
+[Item]
+Label=Household selected for male survey|Hogar seleccionado para entrevista de hombres
+Name=VMALE
+Start=79
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Household selected for male survey|Hogar seleccionado para entrevista de hombres
+Name=VMALE_VS1
+Value=1;Yes|Si
+Value=2;No|No
+
+[Item]
+Label=Interviewer assigned to household|Entrevistador(a) asignado al hogar
+Name=VINTCODE
+Start=80
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Household result and whether collected or not|Resultado del hogar y si ya se recolecto
+Name=VRESULT
+Start=84
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Household result and whether collected or not|Resultado del hogar y si ya se recolecto
+Name=VRESULT_VS1
+Value=0;Not visited yet|No visitado aun
+Value=1;Completed|Completa
+Value=2;No member home|No miembros en la casa
+Value=3;Entire HH absent|Hogar ausente por un periodo extendido
+Value=4;Postponed|Pospuesta
+Value=5;Refused|Rechazo
+Value=6;Dwelling vacant/not dwell|Vivienda desocupada/no es una vivienda
+Value=7;Dwelling destroyed|Vivienda destruida
+Value=8;Dwelling not found|Vivienda no encontrada
+Value=9;Other|Otro

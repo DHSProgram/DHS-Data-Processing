@@ -1,0 +1,747 @@
+﻿PROC GLOBAL
+{+---------------------------------------------------------------------------+}
+{+                                                                           +}
+{+   Guidelines July 7, 2022         -       Version 1.0.0 of 12/05/2022     +}
+{+                                                                           +}
+{+   CHAPTER MTH.  MENTAL HEALTH MODULE                                      +}
+{+                                                                           +}
+{+   MTH.1   Symptoms of anxiety                                             +}
+{+   MTH.2.1 Severity of symptoms of anxiety: Women                          +}
+{+   MTH.2.2 Severity of symptoms of anxiety: Men                            +}
+{+   MTH.3   Symptoms of depression                                          +}
+{+   MTH.4.1 Severity of symptoms of depression: Women                       +}
+{+   MTH.4.2 Severity of symptoms of depression: Men                         +}
+{+   MTH.5.1 Careseeking and treatment for symptoms of anxiety or            +}
+{+           depression: Women                                               +}
+{+   MTH.5.2 Careseeking and treatment for symptoms of anxiety or            +}
+{+           depression: Men                                                 +}
+{+   MTH.6   Prevalence of symptoms of anxiety and depression adjusted       +}
+{+           for treatment                                                   +}
+{+                                                                           +}
+{+---------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, imin;
+  numeric j, jmax, jtot, jtot1, jtot2, jtot3, jtot4;
+  numeric x, rweight;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for Mental Health module, Country Survey 2020" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) tmth01 anxiety freqdis+total+numresp wom1549+man1549+men5059
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MTH.1 Symptoms of anxiety","",
+		   "Percent distributions of women and men age 15-49 and of men age 15-54[59] by", 
+		   "frequency of experiencing symptoms of anxiety in the 2 weeks preceding the", 
+		   "survey, according to specific symptoms included in the Generalized Anxiety", 
+		   "Disorder (GAD)-7 scale, Country Survey 2020" )
+     stub( "Symptom of anxiety" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmth01u anxiety total wom1549+man1549+men5059
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MTH.1 Symptoms of anxiety (Number of un-weighted cases)" )
+     stub( "Symptom of anxiety" );
+                    
+  crosstab float(1) tmth021 v013w1+v102w+v101w+v106w+v190w+total gadscore+total+pctanx+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}               
+    title( "Table MTH.2.1 Severity of symptoms of anxiety: Women"," ",
+           "Percent distribution of women age 15-49 by their GAD-7 score,", 
+		   "and percentage with symptoms of anxiety, according to",
+           "background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}               
+{{ES}               
+{ES}}               
+{{FR}               
+{FR}}               
+  crosstab float(0) tmth021u v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MTH.2.1 Severity of symptoms of anxiety: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+                    
+  crosstab float(1) tmth022 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen gadscore+total+pctanx+numman
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}               
+    title( "Table MTH.2.2 Severity of symptoms of anxiety: Men"," ",
+           "Percent distribution of men age 15-49 by their GAD-7 score," 
+		   "and percentage with symptoms of anxiety, according to", 
+           "background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}               
+{{ES}               
+{ES}}               
+{{FR}               
+{FR}}               
+  crosstab float(0) tmth022u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MTH.2.2 Severity of symptoms of anxiety: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  crosstab float(1) tmth03 depress freqdis+total+numresp wom1549+man1549+men5059
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table MTH.3 Symptoms of depression","",
+		   "Percent distribution of women and men age 15-49 and of men age 15-54[59] by", 
+		   "frequency of experiencing symptoms of depression in the 2 weeks preceding", 
+		   "the survey, according to specific symptoms included in the Patient Health", 
+		   "Questionnaire (PHQ)-9 scale, Country Survey 2020" )
+     stub( "Symptom of depression" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(0) tmth03u depress total wom1549+man1549+men5059
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MTH.3 Symptoms of depression (Number of un-weighted cases)" )
+     stub( "Symptom of depression" );
+                    
+  crosstab float(1) tmth041 v013w1+v102w+v101w+v106w+v190w+total phqscore+total+pctdep+numwom
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}               
+    title( "Table MTH.4.1 Severity of symptoms of depression: Women"," ",
+           "Percent distribution of women age 15-49 by their PHQ-9 score, and", 
+		   "percentage with symptoms of depression, according to",
+           "background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}               
+{{ES}               
+{ES}}               
+{{FR}               
+{FR}}               
+  crosstab float(0) tmth041u v013w1+v102w+v101w+v106w+v190w+total total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MTH.4.1 Severity of symptoms of depression: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+                    
+  crosstab float(1) tmth042 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen phqscore+total+pctdep+numman
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}               
+    title( "Table MTH.4.2 Severity of symptoms of depression: Men"," ",
+           "Percent distribution of men age 15-49 by their PHQ-9 score, and", 
+		   "percentage with symptoms of depression, according to", 
+           "background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}               
+{{ES}               
+{ES}}               
+{{FR}               
+{FR}}               
+  crosstab float(0) tmth042u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen total
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MTH.4.2 Severity of symptoms of depression: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+                    
+  crosstab float(1) tmth051 v013w1+gad2+phq2+v102w+v101w+v106w+v190w+total anxdepw1+anxdepw2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}               
+    title( "Table MTH.5.1 Careseeking and treatment for symptoms of anxiety or depression: Women"," ",
+           "Percentage of women age 15-49 who have ever been told by a healthcare provider", 
+		   "that they have anxiety or depression, percentage who took medicine prescribed", 
+		   "by a healthcare provider for depression or anxiety in the 2 weeks preceding the", 
+		   "survey; and among women with any symptoms of anxiety or depression in the 2 weeks", 
+		   "preceding the survey, the percentage who have ever sought help, according to", 
+           "background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}               
+{{ES}               
+{ES}}               
+{{FR}               
+{FR}}               
+  crosstab float(0) tmth051u v013w1+gad2+phq2+v102w+v101w+v106w+v190w+total coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MTH.5.1 Careseeking and treatment for symptoms of anxiety or depression: Women (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+                    
+  crosstab float(1) tmth052 v013w1+gad2+phq2+v102w+v101w+v106w+v190w+tot1549+men5059+totmen anxdepm1+anxdepm2
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}               
+    title( "Table MTH.5.2 Careseeking and treatment for symptoms of anxiety or depression: Men"," ",
+           "Percentage of men age 15-49 who have ever been told by a healthcare provider", 
+		   "that they have anxiety or depression, percentage who took medicine prescribed", 
+		   "by a healthcare provider for depression or anxiety in the 2 weeks preceding the", 
+		   "survey; and among men with any symptoms of anxiety or depression in the 2 weeks", 
+		   "preceding the survey, the percentage who have ever sought help, according to", 
+           "background characteristics, Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}               
+{{ES}               
+{ES}}               
+{{FR}               
+{FR}}               
+  crosstab float(0) tmth052u v013w1+gad2+phq2+v102w+v101w+v106w+v190w+tot1549+men5059+totmen coltotu
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MTH.5.2 Careseeking and treatment for symptoms of anxiety or depression: Men (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+                    
+  crosstab float(1) tmth06 v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen pctsympw+pctsympm
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}               
+    title( "Table MTH.6 Prevalence of symptoms of anxiety and depression adjusted for treatment"," ",
+           "Among women and men age 15-49, percentage with symptoms of anxiety or receiving", 
+		   "treatment, and percentage with symptoms of depression or receiving treatment,"
+           "Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}               
+{{ES}               
+{ES}}               
+{{FR}               
+{FR}}               
+  crosstab float(0) tmth06u v013w1+v102w+v101w+v106w+v190w+tot1549+men5059+totmen isex
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table MTH.6 Prevalence of symptoms of anxiety and depression adjusted for treatment (Number of un-weighted cases)" )
+     stub( "Background characteristic" );
+
+  { recode frequency for disorders }	 
+  function RecDis( frequen )
+    numeric z;
+    recode frequen -> z;
+             0:3   -> frequen + 1;
+             7:8   -> 8;
+                   -> default;			 
+    endrecode;
+    RecDis = z;
+  end;	
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  total    = 0;
+  numwom   = 1;
+  numman   = 1;
+  numresp  = 1;
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+                    
+  { Table MTH.1 processing }
+  jtot = tblcol( tmth01 );
+  jmax = jtot - 2;  
+  do j = 0 while j <= jmax
+    tmth01[*,j,*] = tmth01[*,j,*] * 100 / tmth01[*,jtot,*];
+  enddo;            
+  tmth01[*,jmax+1,*] = tblsum( column tmth01[*,0:jmax,*] );
+  { check unweighted N's }
+  Col3Dim( "tmth01", tmth01, 0,      jtot-2, tmth01u, 0 );
+                    
+  { Table MTH.2.1 processing }
+  jtot = tblcol( tmth021 );
+  jmax = jtot - 1;  
+  do j = 0 while j <= jmax
+    tmth021[*,j] = tmth021[*,j] * 100 / tmth021[*,jtot];
+  enddo;            
+  tmth021[*,jmax-1] = tblsum( column tmth021[*,0:jmax-2] );
+  { check unweighted N's }
+  Col2Dim( "tmth021", tmth021, 0,      jtot-3, tmth021u, 0 );
+  Col2Dim( "tmth021", tmth021, jtot-1, jtot-1, tmth021u, 0 );
+                    
+  { Table MTH.2.2 processing }
+  jtot = tblcol( tmth022 );
+  jmax = jtot - 1;  
+  do j = 0 while j <= jmax
+    tmth022[*,j] = tmth022[*,j] * 100 / tmth022[*,jtot];
+  enddo;            
+  tmth022[*,jmax-1] = tblsum( column tmth022[*,0:jmax-2] );
+  { check unweighted N's }
+  Col2Dim( "tmth022", tmth022, 0,      jtot-3, tmth022u, 0 );
+  Col2Dim( "tmth022", tmth022, jtot-1, jtot-1, tmth022u, 0 );
+                    
+  { Table MTH.3 processing }
+  jtot = tblcol( tmth03 );
+  jmax = jtot - 2;  
+  do j = 0 while j <= jmax
+    tmth03[*,j,*] = tmth03[*,j,*] * 100 / tmth03[*,jtot,*];
+  enddo;            
+  tmth03[*,jmax+1,*] = tblsum( column tmth03[*,0:jmax,*] );
+  { check unweighted N's }
+  Col3Dim( "tmth03", tmth03, 0,      jtot-2, tmth03u, 0 );
+                    
+  { Table MTH.4.1 processing }
+  jtot = tblcol( tmth041 );
+  jmax = jtot - 1;  
+  do j = 0 while j <= jmax
+    tmth041[*,j] = tmth041[*,j] * 100 / tmth041[*,jtot];
+  enddo;            
+  tmth041[*,jmax-1] = tblsum( column tmth041[*,0:jmax-2] );
+  { check unweighted N's }
+  Col2Dim( "tmth041", tmth041, 0,      jtot-3, tmth041u, 0 );
+  Col2Dim( "tmth041", tmth041, jtot-1, jtot-1, tmth041u, 0 );
+                    
+  { Table MTH.4.2 processing }
+  jtot = tblcol( tmth042 );
+  jmax = jtot - 1;  
+  do j = 0 while j <= jmax
+    tmth042[*,j] = tmth042[*,j] * 100 / tmth042[*,jtot];
+  enddo;            
+  tmth042[*,jmax-1] = tblsum( column tmth042[*,0:jmax-2] );
+  { check unweighted N's }
+  Col2Dim( "tmth042", tmth042, 0,      jtot-3, tmth042u, 0 );
+  Col2Dim( "tmth042", tmth042, jtot-1, jtot-1, tmth042u, 0 );
+                    
+  { Table MTH.5.1 processing }
+  jtot1 = tblcol( tmth051, anxdepw1 );
+  jmax  = jtot1 - 1;  
+  do j = 0 while j <= jmax
+    tmth051[*,j] = tmth051[*,j] * 100 / tmth051[*,jtot1];
+  enddo;            
+  jtot2 = tblcol( tmth051 );
+  jmax  = jtot2 - 1;  
+  do j = jtot1+1 while j <= jmax
+    tmth051[*,j] = tmth051[*,j] * 100 / tmth051[*,jtot2];
+  enddo;            
+  { check unweighted N's }
+  Col2Dim( "tmth051", tmth051, 0,       jtot1-1, tmth051u, 0 );
+  Col2Dim( "tmth051", tmth051, jtot1+1, jtot2-1, tmth051u, 1 );
+                    
+  { Table MTH.5.2 processing }
+  jtot1 = tblcol( tmth052, anxdepm1 );
+  jmax  = jtot1 - 1;  
+  do j = 0 while j <= jmax
+    tmth052[*,j] = tmth052[*,j] * 100 / tmth052[*,jtot1];
+  enddo;            
+  jtot2 = tblcol( tmth052 );
+  jmax  = jtot2 - 1;  
+  do j = jtot1+1 while j <= jmax
+    tmth052[*,j] = tmth052[*,j] * 100 / tmth052[*,jtot2];
+  enddo;            
+  { check unweighted N's }
+  Col2Dim( "tmth052", tmth052, 0,       jtot1-1, tmth052u, 0 );
+  Col2Dim( "tmth052", tmth052, jtot1+1, jtot2-1, tmth052u, 1 );
+                    
+  { Table MTH.6 processing }
+  jtot1 = tblcol( tmth06, pctsympw );
+  jmax  = jtot1 - 1;  
+  do j = 0 while j <= jmax
+    tmth06[*,j] = tmth06[*,j] * 100 / tmth06[*,jtot1];
+  enddo;            
+  jtot2 = tblcol( tmth06 );
+  jmax  = jtot2 - 1;  
+  do j = jtot1+1 while j <= jmax
+    tmth06[*,j] = tmth06[*,j] * 100 / tmth06[*,jtot2];
+  enddo;            
+  { check unweighted N's }
+  Col2Dim( "tmth06", tmth06, 0,       jtot1-1, tmth06u, 0 );
+  Col2Dim( "tmth06", tmth06, jtot1+1, jtot2-1, tmth06u, 1 );
+
+PROC HOUSEHOLD
+preproc
+
+  if HV015 <> 1 then skip case; endif;
+                    
+postproc            
+                    
+{-----------------------------------------------------------------------------------------------}
+{ male tables }     
+                    
+  isex = 2;					
+  for i in RECH1_EDT do
+    if HV118 = 1 then                                   { if eligible for male interview }
+      MCASEID = concat( HHID, edit("ZZ9", HVIDX) );
+      if loadcase( MRECODE8, MCASEID ) & MV015 = 1 then { found & complete questionnaire }
+                    
+        if unweight then
+          rweight = 1;
+        else        
+          rweight = MV005/1000000;
+        endif;      
+                    
+        { to tally total for all men regardless of age }
+        totmen   = 0;
+        { to tally total for men 15-49 }
+        tot1549  = 0;
+		{ layers for women/men 15:49 }
+		wom1549  = notappl;
+		man1549  = ( MV012 in 15:49 );
+        { to tally men 50-54[59] }
+        men5059  = ( MV012 in 50:59 );
+                    
+        { general variables }
+        v102w  = MV102;
+        v101w  = MV101;
+        v106w  = MV106;
+        if MV106 in 8,missing then v106w = 9 endif;
+        v190w  = MV190;
+        v013w1 = MV013;        { with var labels for printing purposes }
+                    
+        { to properly tabulate men, variables for men 50 and above are set to NotAppl }
+        if MV012 > 49 then
+          tot1549  = notappl;
+          v102w    = notappl;
+          v101w    = notappl;
+          v106w    = notappl;
+          v190w    = notappl;
+          v013w1   = notappl;
+        endif;		  
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.1 }
+
+        anxiety = 1;              // Feeling nervous, anxious or on edge
+        freqdis = RecDis( MMTH1 );  
+        xtab( tmth01, rweight );       
+        xtab( tmth01u );               
+        anxiety = 2;               // Not being able to stop or control worrying
+        freqdis = RecDis( MMTH2 );  
+        xtab( tmth01, rweight );       
+        xtab( tmth01u );               
+        anxiety = 3;               // Worrying too much about different things
+        freqdis = RecDis( MMTH3 );  
+        xtab( tmth01, rweight );       
+        xtab( tmth01u );               
+        anxiety = 4;               // Trouble relaxing
+        freqdis = RecDis( MMTH4 );  
+        xtab( tmth01, rweight );       
+        xtab( tmth01u );               
+        anxiety = 5;               // Being so restless that it is hard to sit still
+        freqdis = RecDis( MMTH5 );  
+        xtab( tmth01, rweight );       
+        xtab( tmth01u );               
+        anxiety = 6;               // Becoming easily annoyed or irritable
+        freqdis = RecDis( MMTH6 );  
+        xtab( tmth01, rweight );       
+        xtab( tmth01u );               
+        anxiety = 7;               // Feeling afraid as if something awful might happen
+        freqdis = RecDis( MMTH7 );  
+        xtab( tmth01, rweight );       
+        xtab( tmth01u );               
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.2.2 }
+
+        recode MMTH24 -> gadscore;	  
+                0:5   -> 1;
+                6:14  -> 2;
+               15:21  -> 3;
+                      -> default;
+        endrecode;	
+        pctanx = ( MMTH24 >= 6 );  
+        xtab( tmth022, rweight );
+        xtab( tmth022u );
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.3 }
+
+        depress = 1;              // Little interest or pleasure in doing things
+        freqdis = RecDis( MMTH8 ); 
+        xtab( tmth03, rweight );
+        xtab( tmth03u );
+        depress = 2;              // Feeling down, depressed or hopeless
+        freqdis = RecDis( MMTH9 ); 
+        xtab( tmth03, rweight );
+        xtab( tmth03u );
+        depress = 3;              // Trouble falling asleep, staying asleep, or sleeping too much
+        freqdis = RecDis( MMTH10 ); 
+        xtab( tmth03, rweight );
+        xtab( tmth03u );
+        depress = 4;              // Feeling tired or having little energy
+        freqdis = RecDis( MMTH11 ); 
+        xtab( tmth03, rweight );
+        xtab( tmth03u );
+        depress = 5;              // Poor appetite or overeating
+        freqdis = RecDis( MMTH12 ); 
+        xtab( tmth03, rweight );
+        xtab( tmth03u );
+        depress = 6;              // Feeling bad about yourself - or that you are a failure or have let yourself or your family down
+        freqdis = RecDis( MMTH13 ); 
+        xtab( tmth03, rweight );
+        xtab( tmth03u );
+        depress = 7;              // Trouble concentrating on things, such as reading the newspaper or watching television
+        freqdis = RecDis( MMTH14 ); 
+        xtab( tmth03, rweight );
+        xtab( tmth03u );
+        depress = 8;              // Moving or speaking so slowly that other people could have noticed. Or, the opposite - being so fidgety or restless that you have been moving around a lot more than usual
+        freqdis = RecDis( MMTH15 ); 
+        xtab( tmth03, rweight );
+        xtab( tmth03u );
+        depress = 9;              // Thoughts that you would be better off dead or of hurting yourself in some way
+        freqdis = RecDis( MMTH16 ); 
+        xtab( tmth03, rweight );
+        xtab( tmth03u );
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.4.2 }
+
+        recode MMTH22 -> phqscore;	  
+                 0:4  -> 1;
+                 5:9  -> 2;
+                10:14 -> 3;
+                15:19 -> 4;
+                20:27 -> 5;
+                      -> default;
+        endrecode;	
+        pctdep = ( MMTH22 >= 10 );  
+        xtab( tmth042, rweight );
+        xtab( tmth042u );
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.5.2 }
+
+        recode MMTH24 -> gad2;	  
+                0:5   -> 1;
+                6:21  -> 2;
+                      -> default;
+        endrecode;	
+        recode MMTH22 -> phq2;	  
+                0:9   -> 1;
+               10:27  -> 2;
+                      -> default;
+        endrecode;	
+        anxdepm2 = notappl;
+        anxdepm1 = 4;  
+        xtab( tmth052, rweight );
+        coltotu = 1;
+        xtab( tmth052u );
+        if MMTH20 = 1 then           // Ever told had anxiety
+          anxdepm1 = 1;  
+          xtab( tmth052, rweight );
+        endif;	
+        if MMTH19 = 1 then           // Ever told had depression 
+          anxdepm1 = 2;  
+          xtab( tmth052, rweight );
+        endif;	
+        if MMTH21 = 1 then           // In past 2 weeks took medicine for depression or anxiety
+          anxdepm1 = 3;  
+          xtab( tmth052, rweight );
+        endif;	
+        anxdepm1 = notappl;
+        { respondents with symptoms of anxiety or depression }
+        if MMTH24 >= 1 | MMTH22 >= 1 then  
+          anxdepm2 = 2;  
+          xtab( tmth052, rweight );
+          coltotu = 2;
+          xtab( tmth052u );
+          if MMTH17 = 1 then	      // Ever sought help
+            anxdepm2 = 1;  
+            xtab( tmth052, rweight );
+          endif;
+        endif;	
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.6 }
+
+        pctsympw = notappl;
+        pctsympm = 3;  
+        xtab( tmth06, rweight );
+        xtab( tmth06u );
+        if MMTH24 >= 6 | MMTH21 = 1 then   // Percentage with symptoms of anxiety or receiving treatment
+          pctsympm = 1;  
+          xtab( tmth06, rweight );
+        endif;	
+        if MMTH22 >= 10 | MMTH21 = 1 then  // Percentage with symptoms of depression or receiving treatment
+          pctsympm = 2;  
+          xtab( tmth06, rweight );
+        endif;	
+                              
+      endif        { end loadcase & complete interview }
+    endif;      { end eligible for men interview }
+  enddo;            
+                    
+PROC WOMAN          
+preproc             
+                    
+  if V015 <> 1 then skip case; endif;
+                    
+postproc            
+                    
+  if unweight then  
+    rweight = 1;    
+  else              
+    rweight = V005 / 1000000;
+  endif;            
+                    
+  { totals for all men and men 50-54[59] set to NA }
+  totmen   = notappl;
+  men5059  = notappl;
+  { to tally totals for all women, when necessary }
+  tot1549  = 0;     
+  { totals women/men for table 3.16 }
+  wom1549  = 1;     
+  man1549  = notappl;
+  isex = 1;					
+                    
+  { general variables }
+  v013w1   = V013;  
+  v102w    = V102;  
+  v101w    = V101;  
+  v106w    = V106;  
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w    = V190;  
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.1 }
+
+  anxiety = 1;              // Feeling nervous, anxious or on edge
+  freqdis = RecDis( MTH1 ); 
+  xtab( tmth01, rweight );
+  xtab( tmth01u );
+  anxiety = 2;              // Not being able to stop or control worrying
+  freqdis = RecDis( MTH2 ); 
+  xtab( tmth01, rweight );
+  xtab( tmth01u );
+  anxiety = 3;              // Worrying too much about different things
+  freqdis = RecDis( MTH3 ); 
+  xtab( tmth01, rweight );
+  xtab( tmth01u );
+  anxiety = 4;              // Trouble relaxing
+  freqdis = RecDis( MTH4 ); 
+  xtab( tmth01, rweight );
+  xtab( tmth01u );
+  anxiety = 5;              // Being so restless that it is hard to sit still
+  freqdis = RecDis( MTH5 ); 
+  xtab( tmth01, rweight );
+  xtab( tmth01u );
+  anxiety = 6;              // Becoming easily annoyed or irritable
+  freqdis = RecDis( MTH6 ); 
+  xtab( tmth01, rweight );
+  xtab( tmth01u );
+  anxiety = 7;              // Feeling afraid as if something awful might happen
+  freqdis = RecDis( MTH7 ); 
+  xtab( tmth01, rweight );
+  xtab( tmth01u );
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.2.1 }
+
+  recode MTH24 -> gadscore;	  
+          0:5  -> 1;
+          6:14 -> 2;
+         15:21 -> 3;
+               -> default;
+  endrecode;	
+  pctanx = ( MTH24 >= 6 );  
+  xtab( tmth021, rweight );
+  xtab( tmth021u );
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.3 }
+
+  depress = 1;              // Little interest or pleasure in doing things
+  freqdis = RecDis( MTH8 ); 
+  xtab( tmth03, rweight );
+  xtab( tmth03u );
+  depress = 2;              // Feeling down, depressed or hopeless
+  freqdis = RecDis( MTH9 ); 
+  xtab( tmth03, rweight );
+  xtab( tmth03u );
+  depress = 3;              // Trouble falling asleep, staying asleep, or sleeping too much
+  freqdis = RecDis( MTH10 ); 
+  xtab( tmth03, rweight );
+  xtab( tmth03u );
+  depress = 4;              // Feeling tired or having little energy
+  freqdis = RecDis( MTH11 ); 
+  xtab( tmth03, rweight );
+  xtab( tmth03u );
+  depress = 5;              // Poor appetite or overeating
+  freqdis = RecDis( MTH12 ); 
+  xtab( tmth03, rweight );
+  xtab( tmth03u );
+  depress = 6;              // Feeling bad about yourself - or that you are a failure or have let yourself or your family down
+  freqdis = RecDis( MTH13 ); 
+  xtab( tmth03, rweight );
+  xtab( tmth03u );
+  depress = 7;              // Trouble concentrating on things, such as reading the newspaper or watching television
+  freqdis = RecDis( MTH14 ); 
+  xtab( tmth03, rweight );
+  xtab( tmth03u );
+  depress = 8;              // Moving or speaking so slowly that other people could have noticed. Or, the opposite - being so fidgety or restless that you have been moving around a lot more than usual
+  freqdis = RecDis( MTH15 ); 
+  xtab( tmth03, rweight );
+  xtab( tmth03u );
+  depress = 9;              // Thoughts that you would be better off dead or of hurting yourself in some way
+  freqdis = RecDis( MTH16 ); 
+  xtab( tmth03, rweight );
+  xtab( tmth03u );
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.4.1 }
+
+  recode MTH22 -> phqscore;	  
+          0:4  -> 1;
+          5:9  -> 2;
+         10:14 -> 3;
+         15:19 -> 4;
+         20:27 -> 5;
+               -> default;
+  endrecode;	
+  pctdep = ( MTH22 >= 10 );  
+  xtab( tmth041, rweight );
+  xtab( tmth041u );
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.5.1 }
+
+  recode MTH24 -> gad2;	  
+          0:5  -> 1;
+          6:21 -> 2;
+               -> default;
+  endrecode;	
+  recode MTH22 -> phq2;	  
+          0:9  -> 1;
+         10:27 -> 2;
+               -> default;
+  endrecode;	
+  anxdepw2 = notappl;
+  anxdepw1 = 4;  
+  xtab( tmth051, rweight );
+  coltotu = 1;
+  xtab( tmth051u );
+  if MTH20 = 1 then           // Ever told had anxiety
+    anxdepw1 = 1;  
+    xtab( tmth051, rweight );
+  endif;	
+  if MTH19 = 1 then           // Ever told had depression 
+    anxdepw1 = 2;  
+    xtab( tmth051, rweight );
+  endif;	
+  if MTH21 = 1 then           // In past 2 weeks took medicine for depression or anxiety
+    anxdepw1 = 3;  
+    xtab( tmth051, rweight );
+  endif;	
+  anxdepw1 = notappl;
+  { respondents with symptoms of anxiety or depression }
+  if MTH24 >= 1 | MTH22 >= 1 then  
+    anxdepw2 = 2;  
+    xtab( tmth051, rweight );
+    coltotu = 2;
+    xtab( tmth051u );
+    if MTH17 = 1 then	      // Ever sought help
+      anxdepw2 = 1;  
+      xtab( tmth051, rweight );
+    endif;
+  endif;	
+
+{ --------------------------------------------------------------------------- }
+{ Table MTH.6 }
+
+  pctsympm = notappl;
+  pctsympw = 3;  
+  xtab( tmth06, rweight );
+  xtab( tmth06u );
+  if MTH24 >= 6 | MTH21 = 1 then   // Percentage with symptoms of anxiety or receiving treatment
+    pctsympw = 1;  
+    xtab( tmth06, rweight );
+  endif;	
+  if MTH22 >= 10 | MTH21 = 1 then  // Percentage with symptoms of depression or receiving treatment
+    pctsympw = 2;  
+    xtab( tmth06, rweight );
+  endif;	

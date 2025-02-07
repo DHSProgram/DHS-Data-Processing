@@ -1,0 +1,62 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.4
+
+[LANGUAGES]
+EN=English
+ES=Español
+
+[QUESTION]
+Field=TRANSMIT.TAUXILIAR
+EN={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Select an option according to the task you wish to accomplish
+EN=\par
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Seleccione una opcion de acuerdo a la operacion que desea realizar
+ES=\par
+ES=\par }
+
+[QUESTION]
+Field=TRANSMIT.TBARCODE
+Occurrences=1:100
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+EN=\pard\cf1\fs24\lang1033 Enter/scan the barcode to be added\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES={\*\generator Riched20 10.0.17134}\viewkind4\uc1
+ES=\pard\cf1\fs24\lang1033 Ingrese/escanee el codigo de barra a ser agregado\par
+ES=}
+
+[QUESTION]
+Field=TRANSMIT.TLINE
+Occurrences=1:100
+EN={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 To delete a barcode from the transmittal sheet, enter zero ("0") for line number
+EN=\par
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Para eliminar un codigo de barra de la hoja de transmision ingrese cero ("0") en el numero de linea
+ES=\par
+ES=\par }
+
+[QUESTION]
+Field=TRANSMIT.TMORE
+Occurrences=1:100
+EN={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 Do you wish to add more barcodes to the transmittal sheet?
+EN=\par
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Desea agregar mas codigos de barra a la hoja de transmision?
+ES=\par
+ES=\par }
+

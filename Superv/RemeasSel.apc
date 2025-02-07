@@ -1,0 +1,423 @@
+﻿PROC GLOBAL
+{ RemeasSel program master version - 1.4.0 of 12/19/03 }
+  
+  numeric i, j, n, m, x, found, xtempd, xtempm, xtempy, hwsub, subhh, cnthh;
+  numeric zcluster, xht, hhe, xch, selch, xsel, chbio, bioe;
+  numeric casepart, ransel, scoresel, dateflag, agechild;
+  array eligw(50);
+  
+  string heading, AlphaMSG, xhw, FileHH, xbiom;
+  
+  list string MessageAvail;              { to load the error messages depending on language used }
+  list string ListErrMsg;                { to keep track of error messages }
+  
+  array chselected(15);
+
+  FILE      ReadMSG;                       { file used to read the error messages }
+  
+  function CloseApp()
+    if ListErrMsg.length() then
+      { heading for report with FileWrite command }
+      HTML_Paragraph( " " );
+	  if xch = 0 & ListErrMsg.length() = 1 then     // no children available in cluster for selection
+        HTML_ParagraphS( tr("MESSAGE JUST FOR INFORMATION") );
+      else		
+        HTML_ParagraphS( tr("SUMMARY OF OUTSTANDING ISSUES THAT NEED TO BE RESOLVED BEFORE SELECTION CAN BE PERFORMED") );
+      endif;		
+	  do i = 1 while i <= ListErrMsg.length()
+        HTML_Paragraph( ListErrMsg(i) );
+	  enddo;
+    endif;
+    HTML_End();
+  end;
+
+  { function used to load messages according to the language used by the application }
+  { massages are stored in string list MessageAvail and used later by function       }
+  { GetMessage to retrieve the actual message                                        }
+  function LoadMSG()
+    numeric k, l, langfound = 0, endlang = 0;
+	string ylang;
+    open( ReadMSG );
+    while FileRead( ReadMSG, AlphaMSG ) & !endlang do
+      if length(AlphaMSG) then
+	    if pos("LANGUAGE", toupper(AlphaMSG)) = 1 then
+          do k = 1 while AlphaMSG[k:1] <> "=" enddo;
+          do k = k+1 while AlphaMSG[k:1] = " " enddo;
+          l = length(AlphaMSG);
+		  ylang = AlphaMSG[k:l-k+1];
+          if toupper(ylang) = toupper(getlanguage()) then
+		    langfound = 1;
+            while FileRead( ReadMSG, AlphaMSG ) & !endlang do
+              if length(AlphaMSG) then
+	            if pos("LANGUAGE", toupper(AlphaMSG)) = 1 then
+                  endlang = 1;
+			    else
+                  do k = 1 while AlphaMSG[k:1] = " " enddo;
+				  if AlphaMSG[k:1] in "0":"9" then
+                    MessageAvail.add( AlphaMSG )
+				  endif;
+			    endif;
+			  endif;
+            enddo;
+          endif;  
+        endif;
+      endif;
+    enddo;
+	LoadMSG = langfound;
+  end;
+
+  { function to go over string list MessageAvail to retrieve errors numbers passed by the application.   }
+  { Once a message is found, ListErrMsg stores all messages identified in the run and display them later }
+  function GetMessage( error )
+    numeric errorno, k, l, p, errfound = 0;
+    do p = 1 while p <= MessageAvail.length() 
+	  AlphaMSG = MessageAvail(p);
+      do k = 1   while AlphaMSG[k:1] =  " " enddo;
+      do l = k+1 while AlphaMSG[l:1] <> " " enddo;
+      errorno = tonumber( AlphaMSG[k:l-k] );
+      if errorno = error then
+        errfound = 1;
+        break;
+      endif;
+    enddo;
+    if !errfound then
+	  hhe = errmsg( 50001, error );
+    endif;
+    close( ReadMSG );
+  end;
+
+  { determines if a score requires the child to be re-measured }
+  function ValidScore( xvar )
+    numeric xx = 0;
+    if xvar in -3:3,9996,9997 then    // 9996 and 9997 are children 5+ years old or with implausible lengths/heights
+      xx = 1;
+    endif;
+    ValidScore = xx;
+  end;
+
+PROC FL_CNULL
+preproc
+
+  xht      = 0;           { households }
+  hhe      = 0;           { to control if there are outstanding issues in the household data files }
+  xch      = 0;           { number of children eligible for remeasurement }
+  xsel     = 2;           { !!! number of children to be selected for remeasurement in a cluster }
+  hwsub    = 0;           { !!! if there is subsampling for height and weight "0-All households, 1-Subsample" }
+  subhh    = 0;           { number of subsample households according to sample file }
+  cnthh    = 0;           { number of subsample households according households collected }
+
+  zcluster = tonumber( sysparm()[1:4] ); 
+  seed( zcluster );
+
+  { initialize arrays to store the randomly selected children for measurement }
+  do i = 1 while i <= 15
+    chselected(i) = 0;
+  enddo;
+  
+  { set files to read error messages (MGF) and to report errors (ERR) }
+  setfile( ReadMsg,  ".\RemeasSel.mgf" );
+  MessageAvail.clear();                     { clear list of messages available for the run }
+  if !LoadMSG() then
+    errmsg( 50000 );
+	stop(1);
+  endif;
+  ListErrmsg.clear();                       { clear the array of error messages }
+ 
+  { set the name for the HTML file }
+  HTML_InitAlign();
+  HTMLname = "RemeasSel.HTML";
+  if FileExist( HTMLname ) then
+    FileDelete( HTMLname )
+  endif;
+  setfile( HTMLFile, HTMLname, create );
+
+  { initialize the report headings }
+  zstring1 = MakeText( tr("CHILDREN SELECTED FOR REMEASUREMENT IN CLUSTER: %04d"), zcluster );
+  zstring2 = tr("Children eligible for remeasurement identified");
+  CellValues(1)  = tr("HH");
+  CellValues(2)  = tr("Line");
+  CellValues(3)  = tr("Health Spec.");
+  CellValues(4)  = tr("Child Name");
+  CellValues(5)  = tr("Date of Birth");
+  CellValues(6)  = tr("Lying/Stand");
+  CellValues(7)  = tr("Household Head");
+  CellValues(8)  = tr("Household Address");
+  { specify columns that are left aligned, strings are left aligned }
+  CellAlign(1) = 4;   // column 2 child'sname 
+  CellAlign(2) = 7;   // column 7 household head
+  CellAlign(3) = 8;   // column 8 household address
+  HTML_Header( CellAlign, zstring1 );  // generates a general HTML header
+ 
+  xhw   = tr("height & weight");
+  xbiom = tr("child");
+  
+  { load HH assigned to interviewers to check interviewer assigned to collect household }
+  XCLUSTER = zcluster;
+  if !loadcase( SAMPSEL, XCLUSTER )  then
+    getmessage( 50042 );
+    ListErrMsg.add( maketext(alphaMSG, XCLUSTER) );
+	CloseApp();
+    stop(1);
+  else
+    subhh = count( SAMPSEL.SAMREC2 where XMALE = 1 );   { !!! if subsampling, normally it occurs in households selected for men otherwise adjust }
+  endif;
+  
+  { load supervisor control to check if selection for remeasurement already done }
+  SSAMPLE = zcluster;
+  if !loadcase( CONTSUP, SSAMPLE ) then
+    getmessage( 50041 );
+    ListErrMsg.add( maketext(alphaMSG, SSAMPLE) );
+	CloseApp();
+    stop(1);
+  endif;
+  if SFLGMEAS then
+    heading = maketext( tr("Children in cluster %d were already selected for remeasurement. Do you want to select them again?"), SSAMPLE );
+    x = accept( heading, tr("Yes"), tr("No") );
+	if x = 1 then
+	  do i = 1 while i <= maxocc(SREMEAS) & SREMHH(i) 
+	    RCLUSTER = SSAMPLE;
+		RNUMBER  = SREMHH(i);
+		R102L    = SREMLINE(i);
+		if loadcase( RMEASURE, RCLUSTER, RNUMBER, R102L ) then
+		  Delcase( RMEASURE );
+		endif;
+        SREMHH(i)   = 0;
+	    SREMLINE(i) = 0;
+	  enddo;
+	  SFLGMEAS = 0;
+      Writecase( CONTSUP );
+	else
+      getmessage( 50162 );
+      ListErrMsg.add( alphaMSG );
+      CloseApp();
+      stop(1);
+	endif;
+  endif;
+
+  { loops over households to check structural problems and to count eligible children for remeasurment }
+  while loadcase( CCHH80 ) do
+    casepart = partialcs( 1, AHCLUST, AHNUMBER, 0, FileHH );
+    xht      = xht + 1;   { total households }
+
+    if AHRESULT = 1 & casepart then
+      { no structure checked for partial cases }
+      getmessage( 50055 );
+      hhe = ListErrMsg.add( maketext(alphaMSG, AHNUMBER) );
+    endif;
+	
+	{ check that household is part of the sample file }
+    found = 0;
+    do j = 1 while j <= soccurs( SAMREC2 ) & !found
+	  if XNUMBER(j) = AHNUMBER then
+	    found = 1;
+	  endif;
+	enddo;
+	if !found then
+      getmessage( 50160 );
+      hhe = ListErrMsg.add( maketext(alphaMSG, AHNUMBER) )
+    endif;
+	{ count households in subsample for height & weight }
+	if AHELIGM = 1 then
+	  cnthh = cnthh + 1;
+	endif;
+
+    { biomarker front page questionnaire }
+    chbio = count( ccHH80.AHSEC01 where AH11 <> 0 );
+    if chbio & soccurs( ABSECOVER ) <> 1 then
+      getmessage( 50100 );
+      bioe = ListErrMsg.add( maketext(alphaMSG, AHNUMBER, GetLabel(ABSECOVER)) )
+    endif;
+    for i in record AHSEC01 do
+      if AH11 <> 0 then
+        found = 0;
+        do j = 1 while j <= soccurs( ABSEC01 ) & !found
+          if AH11 = AB102(j) then
+            found = 1;
+            if AB104(j) = notappl | AB104(j) in 0:4 & (AB106(j) = notappl | AB108(j) = notappl) then      { height & weight }
+              getmessage( 50057 );
+              bioe = ListErrMsg.add( maketext(alphaMSG, AHNUMBER, xhw, xbiom, AH11) );
+			elseif AB104(j) in 0:4 & !AB106(j) in 99.90:99.98,missing & !AB108(j) in 999.0:999.8, missing then
+              xch   = xch + 1;   { number of children eligible for random selection }
+            endif;
+          endif;
+        enddo;
+        if !found then             { biomarker record missing for child }
+          getmessage( 50056 );
+          bioe = ListErrMsg.add( maketext(alphaMSG, AHNUMBER, xbiom, AH11) );
+        endif;
+      endif;
+    enddo;
+  enddo;
+  close( CCHH80 );
+  if !hwsub & XTOTAL <> xht then
+    getmessage( 50161 );
+    hhe = ListErrMsg.add( maketext(alphaMSG, xht, XTOTAL) )
+  elseif hwsub & subhh <> cnthh then
+    getmessage( 50161 );
+    hhe = ListErrMsg.add( maketext(alphaMSG, xht, XTOTAL) )
+  endif;
+  
+  { if all households interviewed and no errors found in biomarkers for children, do selection }
+  if xch = 0 then
+    getmessage( 50163 );
+    ListErrMsg.add( alphaMSG );
+    if !hhe & !bioe then                        // if no structural errors but 0 children eligible, declare cluster as selected
+	  SFLGMEAS = 1;
+	  WriteCase( CONTSUP );
+	endif;
+  endif;
+  if !hhe & !bioe & xch then
+    HTML_BeginTable( CellValues, zstring2, 8 );  // generates the HTML table script with the column headers
+    SFLGMEAS = 1;                            // no structural errors and at leat one child eligible, declare cluster as selected
+    { select ramdom kids for remeasurement }
+	if xch <= xsel then
+	  do j = 1 while j <= xch
+	    chselected(j) = j;
+      enddo;
+	else
+	  do j = 1 while j <= xsel
+        x = int( random(1,xch) );
+        chselected(j) = x;
+      enddo;
+	endif;
+	open( CCHH80 );
+    { loop over all households in cluster }
+	selch = 0;
+    while loadcase( CCHH80 ) do
+	  { initialize array of eligible women }
+	  do j = 1 while j <= 50
+	    eligw(j) = 0;
+	  enddo;
+	  { populates array of eligible women in household }
+      for i in record AHSEC01 do
+	    if AH09 <> 0 then
+		  do j = 1 while eligw(j) <> 0 & j <= 50
+          enddo;
+          eligw(j) = AH09;
+        endif;  		  
+	  enddo;
+      { identify children to be reamesured }
+      for i in record AHSEC01 do
+        if AH11 <> 0 then
+          do j = 1 while j <= soccurs( ABSEC01 )
+            if AH11 = AB102(j) then
+			  { first find out if child was randomly selected }
+			  if AB104(j) in 0:4 & !AB106(j) in 99.90:99.98,missing & !AB108(j) in 999.0:999.8,missing then
+                selch   = selch + 1;             { count children to know if this one has to be selected }
+			    do n = 1 while n <= xsel
+			      if chselected(n) = selch then
+					break
+		          endif;
+			    enddo;
+			    ransel = ( n <= xsel );
+              
+				{ check if child is declared by any aligible women and in that case take the date birth from the mother }
+                xtempd = AB103D(j);
+                xtempm = AB103M(j);
+                xtempy = AB103Y(j);
+				found = 0;
+				do n = 1 while eligw(n) <> 0 & !found
+				  ALINE = eligw(n);
+				  if loadcase( ccIN80, AHCLUST, AHNUMBER, ALINE ) then
+				    do m = 1 while m <= soccurs( AWSEC2B ) & !found
+					  if A227(m) = AB102(j) then
+					    if validyr(A220Y(m)) & valid(A220M(m)) then
+						  xtempy = A220Y(m);
+						  xtempm = A220M(m);
+						  xtempd = A220D(m);
+						endif;
+                        found = 1;
+					  endif;
+					enddo;
+				  endif;
+				enddo;
+                { second calculate Z-scores to determine if child has to be remeasured }
+                dateflag = 9;
+                if validyr(xtempy) & valid(xtempm) then
+                  { Age of child in days }
+                  if !xtempd in 1:31 then xtempd = 15 endif;
+                  agechild = CDCode(AB109Y(j), AB109M(j), AB109D(j)) - CDCode(xtempy, xtempm, xtempd);
+                  dateflag = 1;
+                else
+                  agechild = 9999;
+                endif;
+              
+                { Calculate anthropometric Z-scores }
+                       // weightch, lengthch, lyingstanding, sexchild, agechild, dateflag, child line no
+                WHO_anthro( AB106(j), AB108(j), AB110(j), AH04(AB102(j)), agechild, dateflag, AB102(j) );
+              
+                { Just for testing }
+//                AlphaMSG = maketext( "HH=%04d Line%02d: BMI:%5.2f Weight-for-length %5.2f Weight-for-age %5.2f Length-for-age %5.2f BMI-for-age %5.2f",
+//                                     AHNUMBER, AB102(j), bmi/100, zwhz/100, zwaz/100, zhaz/100, zbmi/100 );
+//                ListErrMsg.add( maketext(alphaMSG );
+                scoresel = ( dateflag <> 9 & (!ValidScore(zwhz) | !ValidScore(zwaz) | !ValidScore(zhaz)) );
+				{ if randomly selected or if selected because of the Z-score }
+				if ransel | scoresel then
+				  { mark the child in supervisor control file }
+				  do n = 1 while n <= maxocc( SREMEAS )
+				    if SREMHH(n) = 0 then
+					  SREMHH(n)   = AHNUMBER;
+					  SREMLINE(n) = AB102(j);
+					  WriteCase( CONTSUP );
+					  break;
+					endif;
+			      enddo;
+				  { write file for children selected for remeasurement }
+				  RCLUSTER = AHCLUST;
+				  RNUMBER  = AHNUMBER;
+				  R102L    = AB102(j);
+				  recode ransel :: scoresel -> RTYPE;
+				            1   ::    1     -> 3;
+						    1   ::          -> 1;
+						        ::    1     -> 2;
+							    ::          -> default;
+				  endrecode;
+				  RTYPET    = GetValueLabel( RTYPE );
+				  RADDRESS  = AHADDRESS;
+				  R102N     = ACNAME(j);
+				  RSEX      = AH04(R102L);
+				  RAGE      = AH07(R102L);
+				  RHEADHH   = AH02(1);
+				  RBIOMARK  = AB115(j);
+                  RFINTD    = AB109D(j);
+                  RFINTM    = AB109M(j);
+                  RFINTY    = AB109Y(j);
+				  RFWEIGHT  = AB106(j);
+				  RFHEIGHT  = AB108(j);
+				  RFLYNSTN  = AB110(j);
+				  R103D     = AB103D(j);
+				  R103M     = AB103M(j);
+				  R103Y     = AB103Y(j);
+				  RLAST     = "Z";
+				  WriteCase( RMEASURE );
+                  CellValues(1)  = edit("9999",RNUMBER);
+                  CellValues(2)  = edit("99",R102L);
+                  CellValues(3)  = edit("9999",RBIOMARK);
+                  CellValues(4)  = strip(R102N);
+                  CellValues(5)  = edit("99",R103D) + "/" + edit("99",R103M) + "/" + edit("9999",R103Y);
+                  CellValues(6)  = edit("9",RFLYNSTN);
+                  CellValues(7)  = strip(RHEADHH);
+                  CellValues(8)  = strip(RADDRESS);
+                  HTML_OneRow( CellValues, 8 );   // generates the HTML script for a row with relevant household data
+				endif;
+			  endif;  
+			  break;
+            endif;
+          enddo;
+        endif;
+      enddo;
+    enddo;
+  endif;
+  if !hhe & !bioe & !xch then
+    HTML_EndTable();
+  endif;  
+  CloseApp();
+  { closefiles }
+  close( CONTSUP );
+  close( SAMPSEL );
+  close( RMEASURE );
+  close( CCHH80 );
+  close( CCIN80 );
+  view( "file://" + pathname(application) + HTMLName );
+
+  stop(1);

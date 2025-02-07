@@ -1,0 +1,6 @@
+1 %d HW indices calculated. %d cases flagged. %d with height/weight missing. %d notappl.
+2 %d AC indices calculated. %d cases flagged. %d with arm circ./height missing. %d notappl.
+2171 E Child %02d: Age of child and date of birth inconsistent: dob AH503=%02d/%02d int=%02d/%02d age AH07=%02d
+2172 M Child %02d: Month of birth inconsistent with other information: cmc=%04d-%04d month Q215M=%02d
+9919 E Minimum and maximum date of event %02d cross over: cmc=%04d-%04d
+

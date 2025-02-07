@@ -1,0 +1,95 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=Working dictionary for factors
+Name=NPAWFP
+RecordTypeStart=2
+RecordTypeLen=2
+Positions=Absolute
+ZeroFill=No
+DecimalChar=No
+
+[Level]
+Label=LEVEL1
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=Level1 Identification
+Name=LEVEL1ID
+Start=1
+Len=1
+DataType=Alpha
+
+[Record]
+Label=WS1
+Name=WS1
+RecordTypeValue='AA'
+RecordLen=12
+
+[Item]
+Label=Age in household
+Name=AGEHH
+Start=6
+Len=3
+
+[ValueSet]
+Label=Age in household
+Name=AGEHH_VS1
+Value=15:54
+Value=55;Total
+
+[Item]
+Label=Total
+Name=TOTAL
+Start=9
+Len=1
+
+[ValueSet]
+Label=Total
+Name=TOTAL_VS1
+Value=0;Total
+
+[Item]
+Label=Education according to country report
+Name=EDUCAT1
+Start=10
+Len=1
+
+[ValueSet]
+Label=Education according to country report
+Name=EDUCAT1_VS1
+Value=0;No education
+Value=1;Some primary
+Value=2;Completed primary
+Value=3;Some secondary
+Value=4;Secondary +
+Value=5;Don't know/Missing
+
+[Item]
+Label=Education standard
+Name=EDUCAT2
+Start=11
+Len=1
+
+[ValueSet]
+Label=Education standard
+Name=EDUCAT2_VS1
+Value=0;No education
+Value=1;Primary
+Value=2;Secondary
+Value=3;Higher
+Value=4;DK/Missing
+
+[Item]
+Label=Marital status
+Name=WMSTAT
+Start=12
+Len=1
+
+[ValueSet]
+Label=Marital status
+Name=WMSTAT_VS1
+Value=0;Never married
+Value=1;Ever married
+Value=2;Total

@@ -1,0 +1,55 @@
+﻿language = EN  
+0025 %s %04d not registered in the fieldwork personnel data file
+0030 The anthropometrist measurer must be different from assistant
+0035 Biomarker technician that measured child the first time %d different for biomarker technician that took the remeasurement
+0036 Biomarker technician should be the same as the one registered to collect height and weight for remeasurement %d 
+0100 No child selected for remeasurement
+0200 Date of remeasurement greater than current date (%02d/%02d/%04d)
+0201 Date of remeasurement has to be greater or equal to date registered for the first measurement (%02d/%02d/%04d)
+0435 Response inconsistent with year of birth
+0442 Weight is different from the weight entered previously
+0451 Height %5.1f smaller than weight %6.2f; they should possibly be reversed!
+0452 Height is different from the height entered previously
+0460 Children under 2 are usually measured lying down, children 2+ measured standing up
+0462 Inconsistency between age (%d), how child was measured(%d) and answer to this question
+0463 It is necessary to write a reason
+2145 Date of birth out of range or combination of day/month/year incorrect
+
+language = ES
+{ common strings used by application }
+  ES ( "Return to selection" ) Regresar a seleccion
+  ES ( "STANDING UP" ) DE PIE
+  ES ( "LYING DOWN" ) ACOSTADO
+  ES ( "Weight" ) Peso
+  ES ( "Height" ) Talla
+  ES ( "Continue" ) Continue
+  ES ( "Initial weight" ) Peso inicial
+  ES ( "Initial height" ) Talla inicial
+  ES ( "Measure lying/standing" ) Medicion acostado/de pie
+  ES ( "Correct measure" ) Correcta medicion
+  ES ( "Remeasurement date" ) Fecha de medicion
+  ES ( "Reason not measured properly" ) Razon no fue medido correctamente
+  ES ( "Fieldworker" ) Trabajador de campo
+  ES ( "Assistant" ) Asistente de medicion
+  ES ( "End of Remeasurement, do you want to:" ) Fin de la Remedicion, desea:
+  ES ( "Review Remeasurement" ) Revisar Remedicion
+  ES ( "Finalize Remeasurement" ) Grabar Remedicion
+  ES ( "Please use this information to complete the Referral form \n\n" ) Por favor usar esta informacion para diligenciar la forma de remison
+  ES ( "Name: %s \nAge in Months: %02d \n" ) Nombre: %s \nEdad en meses: %02d \n
+  ES ( "Weight: %6.2f \nHeight: %6.1f \nWeight-for-height (Z-score): %6.2f" ) Peso: %6.2f \nTalla: %6.1f \nPeso-para-talla (Z-score): %6.2f
+  
+0025 %s %04d no se encuentra registrada(o) en el archivo de personal de trabajo de campo
+0030 La antropometrista principal debe ser diferente de la asistente
+0035 Especialista de peso y talla que tomo la medicion la primera vez %d diferente de la(el) que hizo la remedicion
+0036 El especialista de peso y talla debe ser el mismo que el que se registro para la remedicion %d 
+0100 No se selecciono ningun niño(a) para la remedicion
+0200 Fecha de remedicion mayor que la fecha actual (%02d/%02d/%04d)
+0201 Fecha de remedicion debe ser mayor o igual que la fecha registrada para la primera medicion (%02d/%02d/%04d)
+0435 Respuesta inconsistente con el año de nacimiento
+0442 El peso es diferente del peso que se ingreso anteriormente
+0451 La talla %5.1f es menor que el peso %6.2f; probablemente estan reversados!
+0452 La talla es diferente de la talla ingresada anteriormente
+0460 Niños menores de 2 años se miden normalmente acostados, niños de 2 años o mas se miden de pie
+0462 Inconsistency between age (%d), how child was measured(%d) and answer to this question
+0463 Es necesario escibir una razon
+2145 Fecha de nacimiento fuera de rango o la combinacion dia/mes/año es incorrecta

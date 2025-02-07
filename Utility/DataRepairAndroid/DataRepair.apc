@@ -1,0 +1,11 @@
+///Executes Data Repair utility
+///Parameters:
+///string drXml - path to the input XML file
+///string drLanguage - UI language. Values can be "English", "French", "Russian", "Spanish"
+function RunDataRepair(string drXml, string drLanguage)
+  SystemApp dataRepairApp;
+  dataRepairApp.Clear();
+  dataRepairApp.SetArgument("xmlfile", drXml);
+  dataRepairApp.setArgument("language", drLanguage);
+  dataRepairApp.exec("com.dec.datarepair");
+end;

@@ -1,0 +1,13 @@
+﻿Language = EN
+99999 Dummy message until a CSPro bug is fixed to properly handle languages
+
+Language = ES
+{ common strings used by application }
+  ES ( "DUPLICATED HOUSEHOLDS FOUND IN CLUSTER: %s" ) HOGARES DUPLICADOS ENCONTRADOS EN SEGMENTO: %s
+  ES ( "Problem(s) needs to be resolved before proceeding" ) Es necesario resolver el(los) problema(s) antes de continuar
+  ES ( "HH" ) Hogar
+  ES ( "Household Address" ) Direccion del hogar
+  ES ( "Interviewer" ) Entrevistadora
+  ES ( "Result" ) Resultado
+  ES ( "Partial" ) Parcial
+  ES ( "Case=%s%s not found in file: %s, check IDs in Dict and logic" ) Caso=%s%s no existe en archivo: %s, revise IDs en dicc y logica

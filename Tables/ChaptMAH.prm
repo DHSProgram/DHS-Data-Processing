@@ -1,0 +1,204 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+tmah01 columns womanc = 1 nodec;
+tmah01 footnote
+{+EN}
+Notes: The denominator for this table includes all women with a birth in the 2 years preceding the 
+       survey who received ANC for this birth. Stillbirths are fetal deaths in pregnancies lasting 28 
+       or more weeks. When pregnancy duration is reported in months, stillbirths are fetal deaths in 
+       pregnancies lasting 7 or more months.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding the survey, 
+   data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmah02 columns womanc = 1 nodec;
+tmah02 footnote
+{+EN}
+Notes: The denominator for this table includes all women with a birth in the 2 years preceding the 
+       survey who received ANC for this birth. Stillbirths are fetal deaths in pregnancies lasting 28 
+       or more weeks. When pregnancy duration is reported in months, stillbirths are fetal deaths in 
+       pregnancies lasting 7 or more months.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding the survey, 
+   data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmah03 columns numwom = 1 nodec;
+tmah03 footnote
+{+EN}
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding the survey, 
+   data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmah04 columns totbirth = 1 nodec;
+tmah04 footnote
+{+EN}
+@1 Excludes births by cesarean section.~
+@2 Birth order refers to the order of the birth among the respondent's live births.~
+@3 If a mother had both a live birth and a stillbirth in the 2 years preceding the survey and 
+   both occurred in a health facility, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmah05 columns compan  = 3 nodec
+               colabor = 3 nodec
+               codeliv = 3 nodec;
+tmah05 footnote
+{+EN}
+Notes: This table excludes women who said that they had a planned cesarean section, or 
+       who said that they did not labor in the health facility. A companion refers to a person 
+       who is not a member of the health facility staff, such as a relative, friend, or 
+       traditional birth attendant.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding the survey 
+   and both occurred in a health facility, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmah06 columns totnumla = 1 nodec
+               totnumde = 1 nodec;
+tmah06 footnote
+{+EN}
+Notes: This table excludes women who said that they had a planned cesarean section, or 
+       who said that they did not labor in the health facility. A companion refers to a person 
+       who is not a member of the health facility staff, such as a relative, friend, or 
+       traditional birth attendant.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding the survey 
+   and both occurred in a health facility, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmah07 columns numwom = 1 nodec;
+tmah07 footnote
+{+EN}
+@1 Excludes women who said that they had a planned cesarean section, or who said that they 
+   did not labor in the health facility.~
+@2 Birth order refers to the order of the birth among the respondent's live births.~
+@3 If a mother had both a live birth and a stillbirth in the 2 years preceding the survey 
+   and both occurred in a health facility, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+
+tmah08 columns numwom = 1 nodec;
+tmah08 footnote
+{+EN}
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding the survey 
+   and both occurred in a health facility, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+
+tmah09 columns numwom = 1 nodec;
+tmah09 footnote
+{+EN}
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 If a mother had both a live birth and a stillbirth in the 2 years preceding the survey 
+   and both occurred in a health facility, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+
+tmah10 columns toilet1 = 2 nodec
+               toilet2 = 2 nodec;
+tmah10 footnote
+{+EN}
+@1 If a mother had both a live birth and a stillbirth in the 2 years preceding the survey 
+   and both occurred in a health facility, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmah11 columns numwom = 1 nodec;
+tmah11 footnote
+{+EN}
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 If a mother had both a live birth and a stillbirth in the 2 years preceding the survey 
+   and both occurred in a health facility, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmah12 columns numwom = 1 nodec;
+tmah12 footnote
+{+EN}
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 If a mother had both a live birth and a stillbirth in the 2 years preceding the survey 
+   and both occurred in a health facility, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+tmah13 columns sameroom = 2 nodec;

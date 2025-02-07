@@ -1,0 +1,7987 @@
+﻿[Dictionary]
+Version=CSPro 7.7
+Label=Male Recode  DHS-8  1.1.1 - Country, Year
+Name=MRECODE8
+RecordTypeStart=16
+RecordTypeLen=3
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=C8C4989115C86999C3DCE7E00C70733A4AE4724D99289F772746EA462EE0CA92
+
+[Level]
+Label=MAN
+Name=MAN
+
+[IdItems]
+
+[Item]
+Label=Case Identification
+Name=MCASEID
+Start=1
+Len=15
+DataType=Alpha
+
+[Record]
+Label=Respondent's basic data
+Name=MREC01
+RecordTypeValue='M01'
+RecordLen=190
+
+[Item]
+Label=Country code and phase
+Name=MV000
+Start=19
+Len=3
+DataType=Alpha
+
+[Item]
+Label=Cluster number
+Name=MV001
+Start=22
+Len=6
+DataType=Numeric
+
+[Item]
+Label=Household number
+Name=MV002
+Start=28
+Len=6
+DataType=Numeric
+
+[Item]
+Label=Respondent's line number
+Name=MV003
+Start=34
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Respondent's line number
+Name=MV003_VS1
+Value=1:90
+
+[Item]
+Label=Ultimate area unit
+Name=MV004
+Start=37
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Men's sample weight (6 decimals)
+Name=MV005
+Start=41
+Len=8
+DataType=Numeric
+
+[Item]
+Label=Month of interview
+Name=MV006
+Start=49
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Month of interview
+Name=MV006_VS1
+Value=1:12
+
+[Item]
+Label=Year of interview
+Name=MV007
+Start=51
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Year of interview
+Name=MV007_VS1
+Value=2020:2027
+
+[Item]
+Label=Date of interview (CMC)
+Name=MV008
+Start=55
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Date of interview (CMC)
+Name=MV008_VS1
+Value=1320:1540
+
+[Item]
+Label=Date of interview Century Day Code (CDC)
+Name=MV008A
+Start=59
+Len=5
+DataType=Numeric
+
+[Item]
+Label=Month of birth
+Name=MV009
+Start=64
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Month of birth
+Name=MV009_VS1
+Value=1:12
+
+[Item]
+Label=Year of birth
+Name=MV010
+Start=66
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Year of birth
+Name=MV010_VS1
+Value=1950:2015
+
+[Item]
+Label=Date of birth (CMC)
+Name=MV011
+Start=70
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Date of birth (CMC)
+Name=MV011_VS1
+Value=600:1400
+
+[Item]
+Label=Current age
+Name=MV012
+Start=74
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Current age
+Name=MV012_VS1
+Value=15:64
+
+[Item]
+Label=Age in 5-year groups
+Name=MV013
+Start=76
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age in 5-year groups
+Name=MV013_VS1
+Value=1;15-19
+Value=2;20-24
+Value=3;25-29
+Value=4;30-34
+Value=5;35-39
+Value=6;40-44
+Value=7;45-49
+Value=8;50-54
+Value=9;55-59
+Value=10;60-64
+
+[Item]
+Label=Completeness of age information
+Name=MV014
+Start=78
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Completeness of age information
+Name=MV014_VS1
+Value=1;Month and year - information complete
+Value=2;Month and age - year imputed
+Value=3;Year and age - month imputed
+Value=4;Year and age - year ignored
+Value=5;Year - age/month imputed
+Value=6;Age - year/month imputed
+Value=7;Month - age/year imputed
+Value=8;None - all imputed
+
+[Item]
+Label=Result of interview
+Name=MV015
+Start=79
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Result of interview
+Name=MV015_VS1
+Value=1;Completed
+Value=2;Not at home
+Value=3;Postponed
+Value=4;Refused
+Value=5;Partly completed
+Value=6;Incapacitated
+Value=7;Other
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Day of interview
+Name=MV016
+Start=80
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Day of interview
+Name=MV016_VS1
+Value=1:31
+
+[Item]
+Label=Primary sampling unit
+Name=MV021
+Start=82
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Sample strata fro sampling errors
+Name=MV022
+Start=86
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Stratification used in sample design
+Name=MV023
+Start=90
+Len=4
+DataType=Numeric
+
+[Item]
+Label=Region
+Name=MV024
+Start=94
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Region
+Name=MV024_VS1
+Value=1;Region 1
+Value=2;Region 2
+Value=3;Region 3
+Value=4;Region 4
+
+[Item]
+Label=Type of place of residence
+Name=MV025
+Start=96
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Type of place of residence
+Name=MV025_VS1
+Value=1;Urban
+Value=2;Rural
+
+[Item]
+Label=De facto place of residence
+Name=MV026
+Start=97
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=De facto place of residence
+Name=MV026_VS1
+Value=0;Capital, large city
+Value=1;Small city
+Value=2;Town
+Value=3;Countryside
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of visits
+Name=MV027
+Start=98
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Number of visits
+Name=MV027_VS1
+Value=1:8
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Interviewer identification
+Name=MV028
+Start=99
+Len=5
+DataType=Numeric
+
+[Item]
+Label=Keyer identification
+Name=MV029
+Start=104
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Keyer identification
+Name=MV029_VS1
+Value=1:50
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Field supervisor
+Name=MV030
+Start=107
+Len=5
+DataType=Numeric
+
+[Item]
+Label=Field editor
+Name=MV031
+Start=112
+Len=5
+DataType=Numeric
+
+[Item]
+Label=Office editor
+Name=MV032
+Start=117
+Len=3
+DataType=Numeric
+
+[Item]
+Label=Wives/partner list
+Name=MREC01_GROUP
+Start=120
+Len=5
+DataType=Alpha
+Occurrences=8
+
+[Item]
+Label=Line number of wife/partner
+Name=MV034
+Start=120
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Line number of wife/partner
+Name=MV034_VS1
+Value=0;Wife not in household
+Value=1:90
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife or partner
+Name=MV034A
+Start=122
+Len=1
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Wife or partner
+Name=MV034A_VS1
+Value=1;Wife
+Value=2;Partner
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Age of wife/partner
+Name=MV034B
+Start=123
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Age of wife/partner
+Name=MV034B_VS1
+Value=5:90
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of wives/partners
+Name=MV035
+Start=160
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Number of wives/partners
+Name=MV035_VS1
+Value=0;No wives/partners
+Value=1:8
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Language of questionnaire
+Name=MV045A
+Start=161
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Language of questionnaire
+Name=MV045A_VS1
+Value=1;English
+Value=2;Language 2
+Value=3;Language 3
+Value=4;Language 4
+Value=5;Language 5
+Value=6;Language 6
+
+[Item]
+Label=Language of interview
+Name=MV045B
+Start=164
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Language of interview
+Name=MV045B_VS1
+Value=1;English
+Value=2;Language 2
+Value=3;Language 3
+Value=4;Language 4
+Value=5;Language 5
+Value=6;Language 6
+
+[Item]
+Label=Native language of respondent
+Name=MV045C
+Start=167
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Native language of respondent
+Name=MV045C_VS1
+Value=1;English
+Value=2;Language 2
+Value=3;Language 3
+Value=4;Language 4
+Value=5;Language 5
+Value=6;Language 6
+
+[Item]
+Label=Translator used
+Name=MV046
+Start=170
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Translator used
+Name=MV046_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Team number
+Name=MV047
+Start=171
+Len=5
+DataType=Numeric
+
+[Item]
+Label=Team supervisor
+Name=MV048
+Start=176
+Len=5
+DataType=Numeric
+
+[Item]
+Label=Time interview started (hhmm - 24 hour clock)
+Name=MV801
+Start=181
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Time interview started (hhmm - 24 hour clock)
+Name=MV801_VS1
+Value=500:2330
+Value=9999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Time interview ended (hhmm - 24 hour clock)
+Name=MV802
+Start=185
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Time interview ended (hhmm - 24 hour clock)
+Name=MV802_VS1
+Value=500:2330
+Value=9999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Length of interview in minutes
+Name=MV803
+Start=189
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Length of interview in minutes
+Name=MV803_VS1
+Value=0:94
+Value=95;95+
+Value=96;2+ visits
+Value=97;Inconsistent
+Value=99;Missing
+Name=MISSING,Special
+
+[Record]
+Label=Respondent's basic data (continued)
+Name=MREC11
+RecordTypeValue='M11'
+Required=No
+RecordLen=95
+
+[Item]
+Label=Region
+Name=MV101
+Start=19
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Region
+Name=MV101_VS1
+Value=1;Region 1
+Value=2;Region 2
+Value=3;Region 3
+Value=4;Region 4
+
+[Item]
+Label=Type of place of residence
+Name=MV102
+Start=21
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Type of place of residence
+Name=MV102_VS1
+Value=1;Urban
+Value=2;Rural
+
+[Item]
+Label=Childhood place of residence
+Name=MV103
+Start=22
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Childhood place of residence
+Name=MV103_VS1
+Value=0;Capital, large city
+Value=1;City
+Value=2;Town
+Value=3;Countryside
+Value=4;Abroad
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Years lived in place of residence
+Name=MV104
+Start=23
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Years lived in place of residence
+Name=MV104_VS1
+Value=0:90
+Value=95;Always
+Value=96;Visitor
+Value=97;Inconsistent
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Type of place of previous residence
+Name=MV105
+Start=25
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Type of place of previous residence
+Name=MV105_VS1
+Value=0;Capital, large city
+Value=1;City
+Value=2;Town
+Value=3;Countryside
+Value=4;Abroad
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Region of previous residence
+Name=MV105A
+Start=26
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Region of previous residence
+Name=MV105A_VS1
+Value=1;Region 1
+Value=2;Region 2
+Value=3;Region 3
+Value=4;Region 4
+Value=96;Abroad
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Educational level
+Name=MV106
+Start=28
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Educational level
+Name=MV106_VS1
+Value=0;No education
+Value=1;Primary
+Value=2;Secondary
+Value=3;Higher
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Highest year of education (at level in MV106)
+Name=MV107
+Start=29
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Highest year of education (at level in MV106)
+Name=MV107_VS1
+Value=0;No years completed at level MV106
+Value=1:15
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Religion
+Name=MV130
+Start=31
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Religion
+Name=MV130_VS1
+Value=96;Other
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Ethnicity
+Name=MV131
+Start=33
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Ethnicity
+Name=MV131_VS1
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Total number of years of education
+Name=MV133
+Start=36
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Total number of years of education
+Name=MV133_VS1
+Value=0:25
+Value=97;Inconsistent
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=De facto place of residence
+Name=MV134
+Start=38
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=De facto place of residence
+Name=MV134_VS1
+Value=0;Capital, large city
+Value=1;Small city
+Value=2;Town
+Value=3;Countryside
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Usual resident or visitor
+Name=MV135
+Start=39
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Usual resident or visitor
+Name=MV135_VS1
+Value=1;Usual resident
+Value=2;Visitor
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of household members (total listed)
+Name=MV136
+Start=40
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of household members (total listed)
+Name=MV136_VS1
+Value=1:90
+
+[Item]
+Label=Number of eligible men in household (de facto)
+Name=MV138
+Start=42
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of eligible men in household (de facto)
+Name=MV138_VS1
+Value=1:20
+
+[Item]
+Label=Educational attainment
+Name=MV149
+Start=44
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Educational attainment
+Name=MV149_VS1
+Value=0;No education
+Value=1;Incomplete primary
+Value=2;Complete primary
+Value=3;Incomplete secondary
+Value=4;Complete secondary
+Value=5;Higher
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Relationship to household head
+Name=MV150
+Start=45
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Relationship to household head
+Name=MV150_VS1
+Value=1;Head
+Value=2;Husband
+Value=3;Son
+Value=4;Son-in-law
+Value=5;Grandson
+Value=6;Father
+Value=7;Father-in-law
+Value=8;Brother
+Value=10;Other relative
+Value=11;Adopted/foster child
+Value=12;Not related
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sex of household head
+Name=MV151
+Start=47
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sex of household head
+Name=MV151_VS1
+Value=1;Male
+Value=2;Female
+
+[Item]
+Label=Age of household head
+Name=MV152
+Start=48
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age of household head
+Name=MV152_VS1
+Value=0:96
+Value=97;97+
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Literacy
+Name=MV155
+Start=50
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Literacy
+Name=MV155_VS1
+Value=0;Cannot read at all
+Value=1;Able to read only parts of sentence
+Value=2;Able to read whole sentence
+Value=3;No card with required language
+Value=4;Blind/visually impaired
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Ever participated in a literacy program (excluding primary school)
+Name=MV156
+Start=51
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever participated in a literacy program (excluding primary school)
+Name=MV156_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Frequency of reading newspaper or magazine
+Name=MV157
+Start=52
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Frequency of reading newspaper or magazine
+Name=MV157_VS1
+Value=0;Not at all
+Value=1;Less than once a week
+Value=2;At least once a week
+Value=3;Almost every day
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Frequency of listening to radio
+Name=MV158
+Start=53
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Frequency of listening to radio
+Name=MV158_VS1
+Value=0;Not at all
+Value=1;Less than once a week
+Value=2;At least once a week
+Value=3;Almost every day
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Frequency of watching television
+Name=MV159
+Start=54
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Frequency of watching television
+Name=MV159_VS1
+Value=0;Not at all
+Value=1;Less than once a week
+Value=2;At least once a week
+Value=3;Almost every day
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Times away from home in last 12 months
+Name=MV167
+Start=55
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Times away from home in last 12 months
+Name=MV167_VS1
+Value=0;None
+Value=1:89
+Value=90;90+
+Value=97;Inconsistent
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Away for more than one month in last 12 months
+Name=MV168
+Start=57
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Away for more than one month in last 12 months
+Name=MV168_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Owns a mobile telephone
+Name=MV169A
+Start=58
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Owns a mobile telephone
+Name=MV169A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Last 12 months use mobile telephone for financial transactions
+Name=MV169B
+Start=59
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 12 months use mobile telephone for financial transactions
+Name=MV169B_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Is respondent's mobile phone a smart phone
+Name=MV169C
+Start=60
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Is respondent's mobile phone a smart phone
+Name=MV169C_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Has an account in a bank or other financial institution
+Name=MV170
+Start=61
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Has an account in a bank or other financial institution
+Name=MV170_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Use of internet
+Name=MV171A
+Start=62
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Use of internet
+Name=MV171A_VS1
+Value=0;Never
+Value=1;Yes, last 12 months
+Value=2;Yes, before last 12 months
+Value=3;Yes, can't establish when
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Frequency of using internet last month
+Name=MV171B
+Start=63
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Frequency of using internet last month
+Name=MV171B_VS1
+Value=0;Not at all
+Value=1;Less than once a week
+Value=2;At least once a week
+Value=3;Almost every day
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Respondent state of birth
+Name=MV172
+Start=64
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Respondent state of birth
+Name=MV172_VS1
+Value=1;[PROVINCE/REGION/STATE]
+Value=2;[PROVINCE/REGION/STATE]
+Value=3;[PROVINCE/REGION/STATE]
+Value=96;Outside of [COUNTRY]
+
+[Item]
+Label=Respondent country of birth
+Name=MV173
+Start=66
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Respondent country of birth
+Name=MV173_VS1
+Value=1;Country 1
+Value=2;Country 2
+Value=3;Country 3
+Value=4;Country 4
+Value=5;Country 5
+Value=96;Other country
+
+[Item]
+Label=Month move to current place of residence
+Name=MV174M
+Start=68
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Month move to current place of residence
+Name=MV174M_VS1
+Value=1:12
+Value=98;Don't know month
+
+[Item]
+Label=Year move to current place of residence
+Name=MV174Y
+Start=70
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Year move to current place of residence
+Name=MV174Y_VS1
+Value=2015:2025
+Value=9998;Don't know year
+
+[Item]
+Label=Reason for moving to current place of residence
+Name=MV175
+Start=74
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Reason for moving to current place of residence
+Name=MV175_VS1
+Value=1;Employment
+Value=2;Education/training
+Value=3;Marriage formation
+Value=4;Family reunification/other family-related reason
+Value=5;Forced displacement
+Value=10;CS
+Value=11;CS
+Value=19;CS
+Value=96;Other
+
+[Item]
+Label=Self reported health status
+Name=MV176
+Start=76
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Self reported health status
+Name=MV176_VS1
+Value=1;Very good
+Value=2;Good
+Value=3;Moderate
+Value=4;Bad
+Value=5;Very bad
+
+[Item]
+Label=Money put/taken from bank account last 12 months
+Name=MV177
+Start=77
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Money put/taken from bank account last 12 months
+Name=MV177_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Wealth index combined
+Name=MV190
+Start=78
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wealth index combined
+Name=MV190_VS1
+Value=1;Poorest
+Value=2;Poorer
+Value=3;Middle
+Value=4;Richer
+Value=5;Richest
+
+[Item]
+Label=Wealth index factor score combined (5 decimals)
+Name=MV191
+Start=79
+Len=8
+DataType=Numeric
+
+[Item]
+Label=Wealth index for urban/rural
+Name=MV190A
+Start=87
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wealth index for urban/rural
+Name=MV190A_VS1
+Value=1;Poorest
+Value=2;Poorer
+Value=3;Middle
+Value=4;Richer
+Value=5;Richest
+
+[Item]
+Label=Wealth index factor score for urban/rural (5 decimals)
+Name=MV191A
+Start=88
+Len=8
+DataType=Numeric
+
+[Record]
+Label=Reproduction
+Name=MREC23
+RecordTypeValue='M23'
+Required=No
+RecordLen=51
+
+[Item]
+Label=Total children ever born
+Name=MV201
+Start=19
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Total children ever born
+Name=MV201_VS1
+Value=0:50
+
+[Item]
+Label=Sons at home
+Name=MV202
+Start=21
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Sons at home
+Name=MV202_VS1
+Value=0:40
+
+[Item]
+Label=Daughters at home
+Name=MV203
+Start=23
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Daughters at home
+Name=MV203_VS1
+Value=0:40
+
+[Item]
+Label=Sons elsewhere
+Name=MV204
+Start=25
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Sons elsewhere
+Name=MV204_VS1
+Value=0:40
+
+[Item]
+Label=Daughters elsewhere
+Name=MV205
+Start=27
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Daughters elsewhere
+Name=MV205_VS1
+Value=0:40
+
+[Item]
+Label=Sons who have died
+Name=MV206
+Start=29
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Sons who have died
+Name=MV206_VS1
+Value=0:20
+
+[Item]
+Label=Daughters who have died
+Name=MV207
+Start=31
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Daughters who have died
+Name=MV207_VS1
+Value=0:20
+
+[Item]
+Label=Age of respondent at 1st birth
+Name=MV212
+Start=33
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age of respondent at 1st birth
+Name=MV212_VS1
+Value=10:64
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Partner currently pregnant
+Name=MV213
+Start=35
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Partner currently pregnant
+Name=MV213_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Unsure
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Knowledge of ovulatory cycle
+Name=MV217
+Start=36
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Knowledge of ovulatory cycle
+Name=MV217_VS1
+Value=1;During her period
+Value=2;After period ended
+Value=3;Middle of the cycle
+Value=4;Before period begins
+Value=5;At any time
+Value=6;Other
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of living children
+Name=MV218
+Start=37
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of living children
+Name=MV218_VS1
+Value=0:40
+
+[Item]
+Label=Most recent pregnancy wanted
+Name=MV225
+Start=39
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Most recent pregnancy wanted
+Name=MV225_VS1
+Value=1;Then
+Value=2;Later
+Value=3;Not at all
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of women fathered children with
+Name=MV245
+Start=40
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of women fathered children with
+Name=MV245_VS1
+Value=0:20
+Value=95;More than one woman, but unknown number
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Married to mother when first child was born
+Name=MV246
+Start=42
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Married to mother when first child was born
+Name=MV246_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Age of most recent child
+Name=MV247
+Start=43
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age of most recent child
+Name=MV247_VS1
+Value=0:41
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Antenatal check-ups for the mother of most recent child
+Name=MV248
+Start=45
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Antenatal check-ups for the mother of most recent child
+Name=MV248_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Respondent present during check-ups for most recent child
+Name=MV249
+Start=46
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Respondent present during check-ups for most recent child
+Name=MV249_VS1
+Value=0;Not present
+Value=1;Present
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place of birth of most recent child
+Name=MV250
+Start=47
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place of birth of most recent child
+Name=MV250_VS1
+Value=1;Hospital, health facility
+Value=2;Other
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Reason for not delivering most recent child in health facility
+Name=MV251
+Start=48
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Reason for not delivering most recent child in health facility
+Name=MV251_VS1
+Value=1;Cost too much
+Value=2;Facility closed
+Value=3;Too far/no transportation
+Value=4;Don't trust facility/poor quality service
+Value=5;No female provider
+Value=6;Not the first child
+Value=7;Mother did not think it necessary
+Value=8;Respondent did not think it necessary
+Value=9;Family did not think it necessary
+Value=96;Other
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Amount a child should drink, when that child has diarrhea
+Name=MV252
+Start=50
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Amount a child should drink, when that child has diarrhea
+Name=MV252_VS1
+Value=0;Nothing to drink
+Value=2;Less than usual/much less
+Value=3;Somewhat less
+Value=4;About the same
+Value=5;More
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Did go with child's mother to health facility for birth
+Name=MV253
+Start=51
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Did go with child's mother to health facility for birth
+Name=MV253_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Record]
+Label=Contraception table
+Name=MREC31
+RecordTypeValue='M31'
+Required=No
+RecordLen=100
+
+[Item]
+Label=Knowledge of any contraceptive method
+Name=MV301
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Knowledge of any contraceptive method
+Name=MV301_VS1
+Value=0;Knows no method
+Value=1;Knows only folkloric method
+Value=2;Knows only traditional method
+Value=3;Knows modern method
+
+[Item]
+Label=Ever use of any contraceptive method
+Name=MV302
+Start=20
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever use of any contraceptive method
+Name=MV302_VS1
+Value=0;Never used
+Value=1;Used only folkloric method
+Value=2;Used only traditional method
+Value=3;Used modern method
+
+[Item]
+Label=Contraceptive method variable group
+Name=MREC31_GROUP
+Start=21
+Len=4
+DataType=Alpha
+Occurrences=20
+
+[Item]
+Label=Type of contraceptive method
+Name=M304A
+Start=21
+Len=1
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Type of contraceptive method
+Name=M304A_VS1
+Value=1;Modern method
+Value=2;Traditional method
+Value=3;Folkloric method
+
+[Item]
+Label=Knows contraceptive method
+Name=MV304
+Start=22
+Len=1
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Knows contraceptive method
+Name=MV304_VS1
+Value=0;No
+Value=1;Yes
+Value=7;Not in contraception table, but as a current method
+Value=8;Not asked
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Ever used contraceptive method
+Name=MV305
+Start=23
+Len=1
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Ever used contraceptive method
+Name=MV305_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Contraceptive method currently used
+Name=MV307
+Start=24
+Len=1
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Contraceptive method currently used
+Name=MV307_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Record]
+Label=Contraception knowledge and use
+Name=MREC32
+RecordTypeValue='M32'
+Required=No
+RecordLen=55
+
+[Item]
+Label=Current contraceptive method
+Name=MV312
+Start=19
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Current contraceptive method
+Name=MV312_VS1
+Value=0;Not using
+Value=1;Pill
+Value=2;IUD
+Value=3;Injections
+Value=4;Diaphragm
+Value=5;Male condom
+Value=6;Female sterilization
+Value=7;Male sterilization
+Value=8;Periodic abstinence
+Value=9;Withdrawal
+Value=10;Other traditional
+Value=11;Implants/Norplant
+Value=12;Prolonged abstinence
+Value=13;Lactational amenorrhea (LAM)
+Value=14;Female condom
+Value=15;Foam or jelly
+Value=16;Emergency contraception
+Value=17;Other modern method
+Value=18;Standard days method (SDM)
+Value=19;Specific method 1
+Value=20;Specific method 2
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=You/your partner used any method to avoid pregnancy during last intercourse
+Name=MV312A
+Start=21
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=You/your partner used any method to avoid pregnancy during last intercourse
+Name=MV312A_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+
+[Item]
+Label=Current contraceptive by method type
+Name=MV313
+Start=22
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Current contraceptive by method type
+Name=MV313_VS1
+Value=0;No method
+Value=1;Folkloric method
+Value=2;Traditional method
+Value=3;Modern method
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Brand of condom used
+Name=MV323A
+Start=23
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Brand of condom used
+Name=MV323A_VS1
+Value=96;Other
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Cost of condoms (in CURRENCY) last time obtained
+Name=MV325B
+Start=25
+Len=7
+DataType=Numeric
+
+[ValueSet]
+Label=Cost of condoms (in CURRENCY) last time obtained
+Name=MV325B_VS1
+Value=1:2000
+Value=9999995;Free
+Value=9999998;Don't know
+Value=9999999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Interviewer shown condom package
+Name=MV372A
+Start=32
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Interviewer shown condom package
+Name=MV372A_VS1
+Value=0;Package not seen
+Value=1;Package seen
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On radio heard about Family Planning in the last few months
+Name=MV384A
+Start=33
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=On radio heard about Family Planning in the last few months
+Name=MV384A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On TV saw about Family Planning in the last few months
+Name=MV384B
+Start=34
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=On TV saw about Family Planning in the last few months
+Name=MV384B_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=In newspaper read about Family Planning in the last few months
+Name=MV384C
+Start=35
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=In newspaper read about Family Planning in the last few months
+Name=MV384C_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Heard family planning by text messages on mobile phone
+Name=MV384D
+Start=36
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Heard family planning by text messages on mobile phone
+Name=MV384D_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Seen about family planning on facebook, twitter, instagram, others
+Name=MV384E
+Start=37
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Seen about family planning on facebook, twitter, instagram, others
+Name=MV384E_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Seen about family planning on poster, brochure
+Name=MV384F
+Start=38
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Seen about family planning on poster, brochure
+Name=MV384F_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Seen about family planning on outdoor sign, billboard
+Name=MV384G
+Start=39
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Seen about family planning on outdoor sign, billboard
+Name=MV384G_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Heard family planning at community meetings events
+Name=MV384H
+Start=40
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Heard family planning at community meetings events
+Name=MV384H_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Heard/seen family planning CS
+Name=MV384I
+Start=41
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Heard/seen family planning CS
+Name=MV384I_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Heard/seen family planning CS
+Name=MV384J
+Start=42
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Heard/seen family planning CS
+Name=MV384J_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Heard/seen family planning CS
+Name=MV384K
+Start=43
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Heard/seen family planning CS
+Name=MV384K_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Discussed Family Planning with health worker in last few months
+Name=MV395
+Start=44
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Discussed Family Planning with health worker in last few months
+Name=MV395_VS1
+Value=0;No
+Value=1;Yes
+Value=2;Depends
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Possible for a breastfeeding woman to get pregnant
+Name=MV396
+Start=45
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Possible for a breastfeeding woman to get pregnant
+Name=MV396_VS1
+Value=0;No
+Value=1;Yes
+Value=2;Depends
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Can women get pregnant after birth of a child before period return
+Name=MV396A
+Start=46
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Can women get pregnant after birth of a child before period return
+Name=MV396A_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Source of family planning for non-users: no source
+Name=MV3A00Y
+Start=47
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Source of family planning for non-users: no source
+Name=MV3A00Y_VS1
+Value=0;No: knows a source
+Value=1;Yes: knows no source
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Source of family planning for non-users: any source
+Name=MV3A00Z
+Start=48
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Source of family planning for non-users: any source
+Name=MV3A00Z_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of condoms did get last time
+Name=MV3A09B
+Start=49
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Number of condoms did get last time
+Name=MV3A09B_VS1
+Value=1:300
+Value=998;Don't know
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Source of condoms
+Name=MV3B17
+Start=52
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Source of condoms
+Name=MV3B17_VS1
+Value=10;PUBLIC SECTOR
+Value=11;Government hospital
+Value=12:19;Government sector
+Value=20;PRIVATE SECTOR
+Value=21;Private hospital
+Value=22:29;Private sector
+Value=30;NGO
+Value=31;NGO hospital
+Value=32:39;NGO sector
+Value=40;OTHER SOURCE
+Value=41:46
+Value=96;Other
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Contraception is woman's business, man should not worry
+Name=MV3B25A
+Start=54
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Contraception is woman's business, man should not worry
+Name=MV3B25A_VS1
+Value=0;Disagree
+Value=1;Agree
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Women who use contraception become promiscuous
+Name=MV3B25B
+Start=55
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Women who use contraception become promiscuous
+Name=MV3B25B_VS1
+Value=0;Disagree
+Value=1;Agree
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Record]
+Label=Tobacco use and other health issues
+Name=MREC41
+RecordTypeValue='M41'
+Required=No
+RecordLen=140
+
+[Item]
+Label=Smokes cigarettes
+Name=MV463A
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Smokes cigarettes
+Name=MV463A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Smokes pipe
+Name=MV463B
+Start=20
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Smokes pipe
+Name=MV463B_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Uses chewing tobacco
+Name=MV463C
+Start=21
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Uses chewing tobacco
+Name=MV463C_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Uses snuff
+Name=MV463D
+Start=22
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Uses snuff
+Name=MV463D_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Smokes/uses CS
+Name=MV463E
+Start=23
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Smokes/uses CS
+Name=MV463E_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Smokes/uses CS
+Name=MV463F
+Start=24
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Smokes/uses CS
+Name=MV463F_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Smokes/uses CS
+Name=MV463G
+Start=25
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Smokes/uses CS
+Name=MV463G_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Smokes/uses other
+Name=MV463X
+Start=26
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Smokes/uses other
+Name=MV463X_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Smokes nothing
+Name=MV463Z
+Start=27
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Smokes nothing
+Name=MV463Z_VS1
+Value=0;No
+Value=1;Yes, smokes nothing
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Frequency currently smokes tobacco
+Name=MV463AA
+Start=28
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Frequency currently smokes tobacco
+Name=MV463AA_VS1
+Value=0;Does not smoke
+Value=1;Every day
+Value=2;Some days
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Frequency currently uses smokeless tobacco
+Name=MV463AB
+Start=29
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Frequency currently uses smokeless tobacco
+Name=MV463AB_VS1
+Value=0;Does not use
+Value=1;Every day
+Value=2;Some days
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=In the past smoked tobacco every day
+Name=MV463AC
+Start=30
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=In the past smoked tobacco every day
+Name=MV463AC_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Frequency in the past smoked tobacco
+Name=MV463AD
+Start=31
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Frequency in the past smoked tobacco
+Name=MV463AD_VS1
+Value=0;Did not smoke
+Value=1;Every day
+Value=2;Some days
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of cigarettes in last 24 hours
+Name=MV464
+Start=32
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of cigarettes in last 24 hours
+Name=MV464_VS1
+Value=0:95
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes daily: manufactured cigarettes
+Name=MV464A
+Start=34
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes daily: manufactured cigarettes
+Name=MV464A_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes daily: hand roll cigarettes
+Name=MV464B
+Start=37
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes daily: hand roll cigarettes
+Name=MV464B_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes daily: kreteks
+Name=MV464C
+Start=40
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes daily: kreteks
+Name=MV464C_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes daily: pipes full of tobacco
+Name=MV464D
+Start=43
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes daily: pipes full of tobacco
+Name=MV464D_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes daily: cigars, cheroots, cigarillos
+Name=MV464E
+Start=46
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes daily: cigars, cheroots, cigarillos
+Name=MV464E_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes daily: water pipe sessions
+Name=MV464F
+Start=49
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes daily: water pipe sessions
+Name=MV464F_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes daily: others
+Name=MV464G
+Start=52
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes daily: others
+Name=MV464G_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent uses daily: snuff by mouth
+Name=MV464H
+Start=55
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent uses daily: snuff by mouth
+Name=MV464H_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent uses daily: snuff by nose
+Name=MV464I
+Start=58
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent uses daily: snuff by nose
+Name=MV464I_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent uses daily: chewing tobacco
+Name=MV464J
+Start=61
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent uses daily: chewing tobacco
+Name=MV464J_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent uses daily: betel quid with tobacco
+Name=MV464K
+Start=64
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent uses daily: betel quid with tobacco
+Name=MV464K_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent uses daily: any others
+Name=MV464L
+Start=67
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent uses daily: any others
+Name=MV464L_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every day
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of injections in last 12 months
+Name=MV477
+Start=70
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of injections in last 12 months
+Name=MV477_VS1
+Value=0;None
+Value=1:89
+Value=90;90+
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of injections administered by a health worker
+Name=MV478
+Start=72
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of injections administered by a health worker
+Name=MV478_VS1
+Value=0;None
+Value=1:89
+Value=90;90+
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place where given injection by health worker
+Name=MV479
+Start=74
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Place where given injection by health worker
+Name=MV479_VS1
+Value=10;PUBLIC SECTOR
+Value=11:19;[ list public sector locations here ]
+Value=20;PRIVATE SECTOR
+Value=21:29;[ list private sector locations here ]
+Value=30;OTHER
+Value=31:35;[ list other locations here ]
+Value=96;Other
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Syringe and needle from new, unopened package
+Name=MV480
+Start=76
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Syringe and needle from new, unopened package
+Name=MV480_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Covered by health insurance
+Name=MV481
+Start=77
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Covered by health insurance
+Name=MV481_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Health insurance type: mutual/community organization
+Name=MV481A
+Start=78
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Health insurance type: mutual/community organization
+Name=MV481A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Health insurance type: provided by employer
+Name=MV481B
+Start=79
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Health insurance type: provided by employer
+Name=MV481B_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Health insurance type: social security
+Name=MV481C
+Start=80
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Health insurance type: social security
+Name=MV481C_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Health insurance type: private/commercially purchased
+Name=MV481D
+Start=81
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Health insurance type: private/commercially purchased
+Name=MV481D_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Health insurance type: CS
+Name=MV481E
+Start=82
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Health insurance type: CS
+Name=MV481E_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Health insurance type: CS
+Name=MV481F
+Start=83
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Health insurance type: CS
+Name=MV481F_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Health insurance type: CS
+Name=MV481G
+Start=84
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Health insurance type: CS
+Name=MV481G_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Health insurance type: CS
+Name=MV481H
+Start=85
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Health insurance type: CS
+Name=MV481H_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Health insurance type: other
+Name=MV481X
+Start=86
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Health insurance type: other
+Name=MV481X_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Arrange care of biological children under age 18
+Name=MV482A
+Start=87
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Arrange care of biological children under age 18
+Name=MV482A_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Unsure
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Primary caregiver of children under age 18
+Name=MV482B
+Start=88
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Primary caregiver of children under age 18
+Name=MV482B_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Arrange care of non-biological children < 18
+Name=MV482C
+Start=89
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Arrange care of non-biological children < 18
+Name=MV482C_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Unsure
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Respondent circumcised
+Name=MV483
+Start=90
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Respondent circumcised
+Name=MV483_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Age at traditional circumcision
+Name=MV483A
+Start=91
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age at traditional circumcision
+Name=MV483A_VS1
+Value=0:49
+Value=95;During childhood <5 years
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Who performed the circumcision
+Name=MV483B
+Start=93
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Who performed the circumcision
+Name=MV483B_VS1
+Value=1;Traditional practitioner / family friend
+Value=2;Health worker / professional
+Value=96;Other
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place where circumcision was done
+Name=MV483C
+Start=95
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Place where circumcision was done
+Name=MV483C_VS1
+Value=1;Health facility
+Value=2;Home of a health worker / professional
+Value=3;Circumcision done at home
+Value=4;Ritual site
+Value=96;Other home / place
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Is respondent traditionally circumcised
+Name=MV483D
+Start=97
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Is respondent traditionally circumcised
+Name=MV483D_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Is respondent medically circumcised
+Name=MV483E
+Start=98
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Is respondent medically circumcised
+Name=MV483E_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Age at medical circumcision
+Name=MV483F
+Start=99
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age at medical circumcision
+Name=MV483F_VS1
+Value=5:49
+Value=95;During childhood (<5 years)
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes weekly: manufactured cigarettes
+Name=MV484A
+Start=101
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes weekly: manufactured cigarettes
+Name=MV484A_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes weekly: hand roll cigarettes
+Name=MV484B
+Start=104
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes weekly: hand roll cigarettes
+Name=MV484B_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes weekly: kreteks
+Name=MV484C
+Start=107
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes weekly: kreteks
+Name=MV484C_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes weekly: pipes full of tobacco
+Name=MV484D
+Start=110
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes weekly: pipes full of tobacco
+Name=MV484D_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes weekly: cigars, cheroots, cigarillos
+Name=MV484E
+Start=113
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes weekly: cigars, cheroots, cigarillos
+Name=MV484E_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes weekly: water pipe sessions
+Name=MV484F
+Start=116
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes weekly: water pipe sessions
+Name=MV484F_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent smokes weekly: others
+Name=MV484G
+Start=119
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent smokes weekly: others
+Name=MV484G_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent uses weekly: snuff by mouth
+Name=MV484H
+Start=122
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent uses weekly: snuff by mouth
+Name=MV484H_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent uses weekly: snuff by nose
+Name=MV484I
+Start=125
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent uses weekly: snuff by nose
+Name=MV484I_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent uses weekly: chewing tobacco
+Name=MV484J
+Start=128
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent uses weekly: chewing tobacco
+Name=MV484J_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent uses weekly: betel quid with tobacco
+Name=MV484K
+Start=131
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent uses weekly: betel quid with tobacco
+Name=MV484K_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=On average respondent uses weekly: any others
+Name=MV484L
+Start=134
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=On average respondent uses weekly: any others
+Name=MV484L_VS1
+Value=0;Product not used
+Value=1:300
+Value=888;Not every week
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of days respondent drank alcoholic drinks in the past month
+Name=MV485A
+Start=137
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of days respondent drank alcoholic drinks in the past month
+Name=MV485A_VS1
+Value=0;Did not have even one drink
+Value=1:31
+Value=95;Every day/almost every day
+Value=96;Never have consumed alcohol
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of alcoholic drinks per day
+Name=MV485B
+Start=139
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of alcoholic drinks per day
+Name=MV485B_VS1
+Value=1:39
+Value=40;40+
+Value=99;Missing
+Name=MISSING,Special
+
+[Record]
+Label=Marriage and sexual activity
+Name=MREC51
+RecordTypeValue='M51'
+Required=No
+RecordLen=56
+
+[Item]
+Label=Current marital status
+Name=MV501
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Current marital status
+Name=MV501_VS1
+Value=0;Never in union
+Value=1;Married
+Value=2;Living with partner
+Value=3;Widowed
+Value=4;Divorced
+Value=5;No longer living together/separated
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Currently/formerly/never in union
+Name=MV502
+Start=20
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Currently/formerly/never in union
+Name=MV502_VS1
+Value=0;Never in union
+Value=1;Currently in union/living with a woman
+Value=2;Formerly in union/living with a woman
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of unions
+Name=MV503
+Start=21
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Number of unions
+Name=MV503_VS1
+Value=1;Once
+Value=2;More than once
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Currently residing with wife/partner
+Name=MV504
+Start=22
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Currently residing with wife/partner
+Name=MV504_VS1
+Value=1;Living with him
+Value=2;Staying elsewhere
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of wives/partners
+Name=MV505
+Start=23
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of wives/partners
+Name=MV505_VS1
+Value=0:20
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Month of first cohabitation
+Name=MV507
+Start=25
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Month of first cohabitation
+Name=MV507_VS1
+Value=1:12
+
+[Item]
+Label=Year of first cohabitation
+Name=MV508
+Start=27
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Year of first cohabitation
+Name=MV508_VS1
+Value=1965:2030
+
+[Item]
+Label=Date of first cohabitation (CMC)
+Name=MV509
+Start=31
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Date of first cohabitation (CMC)
+Name=MV509_VS1
+Value=600:1600
+
+[Item]
+Label=Completeness of date information in MV509
+Name=MV510
+Start=35
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Completeness of date information in MV509
+Name=MV510_VS1
+Value=1;Month and year - information complete
+Value=2;Month and age - year imputed
+Value=3;Year and age - month imputed
+Value=5;Year - age/month imputed
+Value=6;Age - year/month imputed
+Value=7;Month - age/year imputed
+Value=8;None - all imputed
+
+[Item]
+Label=Age at first cohabitation
+Name=MV511
+Start=36
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age at first cohabitation
+Name=MV511_VS1
+Value=10:64
+
+[Item]
+Label=Years since first cohabitation
+Name=MV512
+Start=38
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Years since first cohabitation
+Name=MV512_VS1
+Value=0:54
+
+[Item]
+Label=Cohabitation duration (grouped)
+Name=MV513
+Start=40
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Cohabitation duration (grouped)
+Name=MV513_VS1
+Value=0;Never married
+Value=1;0-4
+Value=2;5-9
+Value=3;10-14
+Value=4;15-19
+Value=5;20-24
+Value=6;25-29
+Value=7;30+
+
+[Item]
+Label=Age at first sex
+Name=MV525
+Start=41
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age at first sex
+Name=MV525_VS1
+Value=0;Not had sex
+Value=7:49
+Value=96;At first union
+Value=97;Inconsistent
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Time since last sex
+Name=MV527
+Start=43
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Time since last sex
+Name=MV527_VS1
+Value=100;<1 day ago
+Value=101;Days: 1
+Value=102:198
+Value=199;Days: number missing
+Value=201;Weeks: 1
+Value=202:298
+Value=299;Weeks: number missing
+Value=301;Months: 1
+Value=302:398
+Value=399;Months: number missing
+Value=401;Years: 1
+Value=402:498
+Value=499;Years: number missing
+Value=995;Within last 4 weeks
+Value=996;Before last birth
+Value=997;Inconsistent
+Value=998;Don't know
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Time since last sex (in days)
+Name=MV528
+Start=46
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Time since last sex (in days)
+Name=MV528_VS1
+Value=0:30
+Value=31;31+ days
+Value=95;Within last 4 weeks
+Value=96;Before last birth
+Value=97;Inconsistent
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Time since last sex (in months)
+Name=MV529
+Start=48
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Time since last sex (in months)
+Name=MV529_VS1
+Value=0:600
+Value=995;Within last 4 weeks
+Value=996;Before last birth
+Value=997;Inconsistent
+Value=998;Don't know
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Age at first sex (imputed)
+Name=MV531
+Start=51
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age at first sex (imputed)
+Name=MV531_VS1
+Value=0;Not had sex
+Value=7:64
+Value=97;Inconsistent
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Flag for MV531
+Name=MV532
+Start=53
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Flag for MV531
+Name=MV532_VS1
+Value=0;No flag
+Value=1;After interview
+Value=2;After conception >= 1 year
+Value=3;After conception < 1 year
+Value=4;At marriage, but never married
+Value=5;At marriage, but after conception
+Value=6;After marriage
+
+[Item]
+Label=Ever been married or in union
+Name=MV535
+Start=54
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been married or in union
+Name=MV535_VS1
+Value=0;No
+Value=1;Formerly married
+Value=2;Formerly lived with a woman
+Value=3;Both, formerly married and lived with a woman
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Recent sexual activity
+Name=MV536
+Start=55
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Recent sexual activity
+Name=MV536_VS1
+Value=0;Never had sex
+Value=1;Active in last 4 weeks
+Value=3;Not active in last 4 weeks
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Intends to wait until marriage to have sex
+Name=MV541
+Start=56
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Intends to wait until marriage to have sex
+Name=MV541_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Record]
+Label=Fertility preferences
+Name=MREC61
+RecordTypeValue='M61'
+Required=No
+RecordLen=49
+
+[Item]
+Label=Fertility preference
+Name=MV602
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Fertility preference
+Name=MV602_VS1
+Value=1;Have another
+Value=2;Undecided
+Value=3;No more
+Value=4;Respondent sterilized
+Value=5;Declared infecund (respondent or partner(s))
+Value=6;Never had sex
+Value=7;Man declared infecund
+Value=8;Man has no partner
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Preferred waiting time for birth of a/another child
+Name=MV603
+Start=20
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Preferred waiting time for birth of a/another child
+Name=MV603_VS1
+Value=100;Wanted now
+Value=101;Months: 1
+Value=102:198
+Value=199;Months: number missing
+Value=201;Years: 1
+Value=202:298
+Value=299;Years: number missing
+Value=993;After marriage
+Value=994;Soon, now
+Value=996;Other, non-numeric
+Value=997;Inconsistent
+Value=998;Don't know
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Preferred waiting time for birth of a/another child (grouped)
+Name=MV604
+Start=23
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Preferred waiting time for birth of a/another child (grouped)
+Name=MV604_VS1
+Value=0;<12 months
+Value=1;1 year
+Value=2;2 years
+Value=3;3 years
+Value=4;4 years
+Value=5;5 years
+Value=6;6+ years
+Value=7;Non-numeric
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Desire for more children
+Name=MV605
+Start=24
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Desire for more children
+Name=MV605_VS1
+Value=1;Wants within 2 years
+Value=2;Wants after 2+ years
+Value=3;Wants, unsure timing
+Value=4;Undecided
+Value=5;Wants no more
+Value=6;Sterilized (respondent or partner(s))
+Value=7;Declared infecund (respondent or partner(s))
+Value=8;Never had sex
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Ideal number of children
+Name=MV613
+Start=25
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Ideal number of children
+Name=MV613_VS1
+Value=0:50
+Value=96;Non-numeric response
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Ideal number of children (grouped)
+Name=MV614
+Start=27
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ideal number of children (grouped)
+Name=MV614_VS1
+Value=0:5
+Value=6;6+
+Value=7;Non-numeric response
+
+[Item]
+Label=Desired time for future birth
+Name=MV616
+Start=28
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Desired time for future birth
+Name=MV616_VS1
+Value=100;Wanted now
+Value=101;Months: 1
+Value=102:198
+Value=199;Months: number missing
+Value=201;Years: 1
+Value=202:298
+Value=299;Years: number missing
+Value=993;After marriage
+Value=994;Soon/now
+Value=995;Can't get pregnant
+Value=996;Other
+Value=998;Don't know
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife's desire for children
+Name=MV621
+Start=31
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife's desire for children
+Name=MV621_VS1
+Value=1;Both want same
+Value=2;Wife wants more
+Value=3;Wife wants fewer
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Ideal number of boys
+Name=MV627
+Start=32
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Ideal number of boys
+Name=MV627_VS1
+Value=0:50
+Value=96;Other
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Ideal number of girls
+Name=MV628
+Start=34
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Ideal number of girls
+Name=MV628_VS1
+Value=0:50
+Value=96;Other
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Ideal number of either sex
+Name=MV629
+Start=36
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Ideal number of either sex
+Name=MV629_VS1
+Value=0:50
+Value=96;Other
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Problem if wife became pregnant
+Name=MV631
+Start=38
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Problem if wife became pregnant
+Name=MV631_VS1
+Value=1;Big problem
+Value=2;Small problem
+Value=3;No problem
+Value=4;Says she can't get pregnant/not having sex
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife justified refusing sex: husband has STI
+Name=MV633A
+Start=39
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife justified refusing sex: husband has STI
+Name=MV633A_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife justified refusing sex: husband has other women
+Name=MV633B
+Start=40
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife justified refusing sex: husband has other women
+Name=MV633B_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife justified refusing sex: recent birth
+Name=MV633C
+Start=41
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife justified refusing sex: recent birth
+Name=MV633C_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife justified refusing sex: tired, not in mood
+Name=MV633D
+Start=42
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife justified refusing sex: tired, not in mood
+Name=MV633D_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife justified refusing sex: CS reason
+Name=MV633E
+Start=43
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife justified refusing sex: CS reason
+Name=MV633E_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife justified refusing sex: CS reason
+Name=MV633F
+Start=44
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife justified refusing sex: CS reason
+Name=MV633F_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife justified refusing sex: CS reason
+Name=MV633G
+Start=45
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife justified refusing sex: CS reason
+Name=MV633G_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife refuses to have sex, husband has right to: get angry
+Name=MV634A
+Start=46
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife refuses to have sex, husband has right to: get angry
+Name=MV634A_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know, depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife refuses to have sex, husband has right to: refuse financial support
+Name=MV634B
+Start=47
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife refuses to have sex, husband has right to: refuse financial support
+Name=MV634B_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know, depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife refuses to have sex, husband has right to: use force for sex
+Name=MV634C
+Start=48
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife refuses to have sex, husband has right to: use force for sex
+Name=MV634C_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know, depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife refuses to have sex, husband has right to: have sex with another women
+Name=MV634D
+Start=49
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife refuses to have sex, husband has right to: have sex with another women
+Name=MV634D_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know, depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Record]
+Label=Employment and gender roles
+Name=MREC71
+RecordTypeValue='M71'
+Required=No
+RecordLen=53
+
+[Item]
+Label=Currently working
+Name=MV714
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Currently working
+Name=MV714_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Have a job, but currently absent
+Name=MV714A
+Start=20
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Have a job, but currently absent
+Name=MV714A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Occupation
+Name=MV716
+Start=21
+Len=5
+DataType=Numeric
+
+[ValueSet]
+Label=Occupation
+Name=MV716_VS1
+Value=0;Not working and didn't work in last 12 months
+Value=99999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Occupation (grouped)
+Name=MV717
+Start=26
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Occupation (grouped)
+Name=MV717_VS1
+Value=0;Not working
+Value=1;Professional/technical/managerial
+Value=2;Clerical
+Value=3;Sales
+Value=4;Agriculture - self employed
+Value=5;Agriculture - employee
+Value=6;Household and domestic
+Value=7;Services
+Value=8;Skilled manual
+Value=9;Unskilled manual
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Works for family, others, self
+Name=MV719
+Start=28
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Works for family, others, self
+Name=MV719_VS1
+Value=1;For family member
+Value=2;For someone else
+Value=3;Self-employed
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Works at home or away
+Name=MV721
+Start=29
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Works at home or away
+Name=MV721_VS1
+Value=1;At home
+Value=2;Away
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Worked in last 12 months
+Name=MV731
+Start=30
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Worked in last 12 months
+Name=MV731_VS1
+Value=0;No
+Value=1;In the past year
+Value=2;Currently working
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Employment all year/seasonal
+Name=MV732
+Start=31
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Employment all year/seasonal
+Name=MV732_VS1
+Value=1;All year
+Value=2;Seasonal
+Value=3;Occasional
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Person who usually decides how to spend respondent's earnings
+Name=MV739
+Start=32
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person who usually decides how to spend respondent's earnings
+Name=MV739_VS1
+Value=1;Respondent alone
+Value=2;Respondent and wife/partner
+Value=3;Respondent and other person
+Value=4;Wife/partner alone
+Value=5;Someone else
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Type of land where respondent works
+Name=MV740
+Start=33
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Type of land where respondent works
+Name=MV740_VS1
+Value=0;Own land
+Value=1;Family land
+Value=2;Someone else's land
+Value=3;Rented land
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Type of earnings from respondent's work
+Name=MV741
+Start=34
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Type of earnings from respondent's work
+Name=MV741_VS1
+Value=0;Not paid
+Value=1;Cash only
+Value=2;Cash and in-kind
+Value=3;In-kind only
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Person who usually decides on: respondent's health care
+Name=MV743A
+Start=35
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person who usually decides on: respondent's health care
+Name=MV743A_VS1
+Value=1;Respondent alone
+Value=2;Respondent and wife/partner
+Value=3;Respondent and other person
+Value=4;Wife/partner alone
+Value=5;Someone else
+Value=6;Other
+Value=8;Don't know/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Person who usually decides on: large household purchases
+Name=MV743B
+Start=36
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person who usually decides on: large household purchases
+Name=MV743B_VS1
+Value=1;Respondent alone
+Value=2;Respondent and wife/partner
+Value=3;Respondent and other person
+Value=4;Wife/partner alone
+Value=5;Someone else
+Value=6;Other
+Value=8;Don't know/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Person who usually decides on: daily household purchases
+Name=MV743C
+Start=37
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person who usually decides on: daily household purchases
+Name=MV743C_VS1
+Value=1;Respondent alone
+Value=2;Respondent and wife/partner
+Value=3;Respondent and other person
+Value=4;Wife/partner alone
+Value=5;Someone else
+Value=6;Decision not made/not applicable
+Value=8;Don't know/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Person who usually decides on: visits to family or relatives
+Name=MV743D
+Start=38
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person who usually decides on: visits to family or relatives
+Name=MV743D_VS1
+Value=1;Respondent alone
+Value=2;Respondent and wife/partner
+Value=3;Respondent and other person
+Value=4;Wife/partner alone
+Value=5;Someone else
+Value=6;Decision not made/not applicable
+Value=8;Don't know/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Person who usually decides on: food to be cooked each day
+Name=MV743E
+Start=39
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person who usually decides on: food to be cooked each day
+Name=MV743E_VS1
+Value=1;Respondent alone
+Value=2;Respondent and wife/partner
+Value=3;Respondent and other person
+Value=4;Wife/partner alone
+Value=5;Someone else
+Value=6;Decision not made/not applicable
+Value=8;Don't know/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Person who usually decides on: deciding what to do with money wife earns
+Name=MV743F
+Start=40
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person who usually decides on: deciding what to do with money wife earns
+Name=MV743F_VS1
+Value=1;Respondent alone
+Value=2;Respondent and wife/partner
+Value=3;Respondent and other person
+Value=4;Wife/partner alone
+Value=5;Someone else
+Value=6;Decision not made/not applicable
+Value=8;Don't know/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Person who usually decides on: deciding how many children to have
+Name=MV743G
+Start=41
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person who usually decides on: deciding how many children to have
+Name=MV743G_VS1
+Value=1;Respondent alone
+Value=2;Respondent and wife/partner
+Value=3;Respondent and other person
+Value=4;Wife/partner alone
+Value=5;Someone else
+Value=6;Decision not made/not applicable
+Value=8;Don't know/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Beating justified: wife goes out without telling husband
+Name=MV744A
+Start=42
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Beating justified: wife goes out without telling husband
+Name=MV744A_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Beating justified: wife neglects the children
+Name=MV744B
+Start=43
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Beating justified: wife neglects the children
+Name=MV744B_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Beating justified: wife argues with husband
+Name=MV744C
+Start=44
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Beating justified: wife argues with husband
+Name=MV744C_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Beating justified: wife refuses to have sex with husband
+Name=MV744D
+Start=45
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Beating justified: wife refuses to have sex with husband
+Name=MV744D_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Beating justified: wife burns food
+Name=MV744E
+Start=46
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Beating justified: wife burns food
+Name=MV744E_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Owns a house alone or jointly
+Name=MV745A
+Start=47
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Owns a house alone or jointly
+Name=MV745A_VS1
+Value=0;Does not own
+Value=1;Alone only
+Value=2;Jointly with wife/partner only
+Value=3;Jointly with someone else only
+Value=4;Jointly with wife/partner and someone else
+Value=5;Both alone and jointly
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Owns land alone or jointly
+Name=MV745B
+Start=48
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Owns land alone or jointly
+Name=MV745B_VS1
+Value=0;Does not own
+Value=1;Alone only
+Value=2;Jointly with wife/partner only
+Value=3;Jointly with someone else only
+Value=4;Jointly with wife/partner and someone else
+Value=5;Both alone and jointly
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Title deed on house own by respondent
+Name=MV745C
+Start=49
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Title deed on house own by respondent
+Name=MV745C_VS1
+Value=0;Does not have a title deed
+Value=1;Has a title deed and respondent on title
+Value=2;Has a title deed but respondent not on title
+Value=3;Has a title deed, don't know if respondent on title
+Value=8;Don't know if has a title deed
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Title deed on land own by respondent
+Name=MV745D
+Start=50
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Title deed on land own by respondent
+Name=MV745D_VS1
+Value=0;Does not have a title deed
+Value=1;Has a title deed and respondent on title
+Value=2;Has a title deed but respondent not on title
+Value=3;Has a title deed, don't know if respondent on title
+Value=8;Don't know if has a title deed
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Childbearing is a woman's concern
+Name=MV747A
+Start=51
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Childbearing is a woman's concern
+Name=MV747A_VS1
+Value=0;Disagree
+Value=1;Agree
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Important for mother/child health to get assistance at delivery
+Name=MV747B
+Start=52
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Important for mother/child health to get assistance at delivery
+Name=MV747B_VS1
+Value=0;Disagree
+Value=1;Agree
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Respondent's father ever beat his mother
+Name=MD121
+Start=53
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Respondent's father ever beat his mother
+Name=MD121_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Record]
+Label=HIV/AIDS and other sexually transmitted infections
+Name=MREC75
+RecordTypeValue='M75'
+Required=No
+RecordLen=125
+
+[Item]
+Label=Ever heard of a Sexually Transmitted Infection (STI)
+Name=MV750
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever heard of a Sexually Transmitted Infection (STI)
+Name=MV750_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Ever heard of AIDS
+Name=MV751
+Start=20
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever heard of AIDS
+Name=MV751_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Reduce risk of getting HIV: do not have sex at all
+Name=MV754BP
+Start=21
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Reduce risk of getting HIV: do not have sex at all
+Name=MV754BP_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Reduce risk of getting HIV: always use condoms during sex
+Name=MV754CP
+Start=22
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Reduce risk of getting HIV: always use condoms during sex
+Name=MV754CP_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Reduce risk of getting HIV: have 1 sex partner only, who has no other partners
+Name=MV754DP
+Start=23
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Reduce risk of getting HIV: have 1 sex partner only, who has no other partners
+Name=MV754DP_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Can get HIV from mosquito bites
+Name=MV754JP
+Start=24
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Can get HIV from mosquito bites
+Name=MV754JP_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Can get HIV by sharing food with person who has AIDS
+Name=MV754WP
+Start=25
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Can get HIV by sharing food with person who has AIDS
+Name=MV754WP_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=A healthy looking person can have HIV
+Name=MV756
+Start=26
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=A healthy looking person can have HIV
+Name=MV756_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Condom used during last sex with most recent partner
+Name=MV761
+Start=27
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Condom used during last sex with most recent partner
+Name=MV761_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Condom used during last sex with 2nd to most recent partner
+Name=MV761B
+Start=28
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Condom used during last sex with 2nd to most recent partner
+Name=MV761B_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Condom used during last sex with 3rd to most recent partner
+Name=MV761C
+Start=29
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Condom used during last sex with 3rd to most recent partner
+Name=MV761C_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Source of condoms used for last sex
+Name=MV762
+Start=30
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Source of condoms used for last sex
+Name=MV762_VS1
+Value=10;PUBLIC SECTOR
+Value=11;Government hospital
+Value=12:19;Government sector
+Value=20;PRIVATE SECTOR
+Value=21;Private hospital
+Value=22:29;Private sector
+Value=30;NGO
+Value=31;NGO hospital
+Value=32:39;NGO sector
+Value=40;OTHER SOURCE
+Value=41:46
+Value=96;Other
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Brand of condom used for last sex
+Name=MV762A
+Start=32
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Brand of condom used for last sex
+Name=MV762A_VS1
+Value=96;Other
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Had any STI in last 12 months
+Name=MV763A
+Start=34
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Had any STI in last 12 months
+Name=MV763A_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Had genital sore/ulcer in last 12 months
+Name=MV763B
+Start=35
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Had genital sore/ulcer in last 12 months
+Name=MV763B_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Had genital discharge in last 12 months
+Name=MV763C
+Start=36
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Had genital discharge in last 12 months
+Name=MV763C_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Had CS STI in last 12 months
+Name=MV763D
+Start=37
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Had CS STI in last 12 months
+Name=MV763D_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Had CS STI in last 12 months
+Name=MV763E
+Start=38
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Had CS STI in last 12 months
+Name=MV763E_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Had CS STI in last 12 months
+Name=MV763F
+Start=39
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Had CS STI in last 12 months
+Name=MV763F_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Had CS STI in last 12 months
+Name=MV763G
+Start=40
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Had CS STI in last 12 months
+Name=MV763G_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of sex partners, excluding spouse, in last 12 months
+Name=MV766A
+Start=41
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of sex partners, excluding spouse, in last 12 months
+Name=MV766A_VS1
+Value=0:90
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of sex partners, including spouse, in last 12 months
+Name=MV766B
+Start=43
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of sex partners, including spouse, in last 12 months
+Name=MV766B_VS1
+Value=0:94
+Value=95;95+
+Value=98;Unknown
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Relationship with most recent sex partner
+Name=MV767A
+Start=45
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Relationship with most recent sex partner
+Name=MV767A_VS1
+Value=1;Spouse
+Value=2;Girlfriend/fiance
+Value=3;Other friend
+Value=4;Casual acquaintance
+Value=5;Relative
+Value=6;Commercial sex worker
+Value=7;Live-in partner
+Value=96;Other
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Relationship with 2nd to most recent sex partner
+Name=MV767B
+Start=47
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Relationship with 2nd to most recent sex partner
+Name=MV767B_VS1
+Value=1;Spouse
+Value=2;Girlfriend/fiance
+Value=3;Other friend
+Value=4;Casual acquaintance
+Value=5;Relative
+Value=6;Commercial sex worker
+Value=7;Live-in partner
+Value=96;Other
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Relationship with 3rd to most recent sex partner
+Name=MV767C
+Start=49
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Relationship with 3rd to most recent sex partner
+Name=MV767C_VS1
+Value=1;Spouse
+Value=2;Girlfriend/fiance
+Value=3;Other friend
+Value=4;Casual acquaintance
+Value=5;Relative
+Value=6;Commercial sex worker
+Value=7;Live-in partner
+Value=96;Other
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Length of time had sex relations with most recent partner
+Name=MV768A
+Start=51
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Length of time had sex relations with most recent partner
+Name=MV768A_VS1
+Value=101;Days: 1
+Value=102:198
+Value=199;Days: number missing
+Value=201;Months: 1
+Value=202:298
+Value=299;Months: number missing
+Value=301;Years: 1
+Value=302:398
+Value=399;Years: number missing
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Length of time had sex relations with 2nd to most recent partner
+Name=MV768B
+Start=54
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Length of time had sex relations with 2nd to most recent partner
+Name=MV768B_VS1
+Value=101;Days: 1
+Value=102:198
+Value=199;Days: number missing
+Value=201;Months: 1
+Value=202:298
+Value=299;Months: number missing
+Value=301;Years: 1
+Value=302:398
+Value=399;Years: number missing
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Length of time had sex relations with 3rd to most recent partner
+Name=MV768C
+Start=57
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Length of time had sex relations with 3rd to most recent partner
+Name=MV768C_VS1
+Value=101;Days: 1
+Value=102:198
+Value=199;Days: number missing
+Value=201;Months: 1
+Value=202:298
+Value=299;Months: number missing
+Value=301;Years: 1
+Value=302:398
+Value=399;Years: number missing
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought advice/treatment for last STI infection
+Name=MV770
+Start=60
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought advice/treatment for last STI infection
+Name=MV770_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: government hospital
+Name=MV770A
+Start=61
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: government hospital
+Name=MV770A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770B
+Start=62
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770B_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770C
+Start=63
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770C_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770D
+Start=64
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770D_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770E
+Start=65
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770E_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770F
+Start=66
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770F_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770G
+Start=67
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770G_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770H
+Start=68
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770H_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770I
+Start=69
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770I_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770J
+Start=70
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS public
+Name=MV770J_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: private hospital/clinic/doctor
+Name=MV770K
+Start=71
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: private hospital/clinic/doctor
+Name=MV770K_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770L
+Start=72
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770L_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770M
+Start=73
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770M_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770N
+Start=74
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770N_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770O
+Start=75
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770O_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770P
+Start=76
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770P_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770Q
+Start=77
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770Q_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770R
+Start=78
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770R_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770S
+Start=79
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS private
+Name=MV770S_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS other
+Name=MV770T
+Start=80
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS other
+Name=MV770T_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS other
+Name=MV770U
+Start=81
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS other
+Name=MV770U_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS other
+Name=MV770V
+Start=82
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS other
+Name=MV770V_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: CS other
+Name=MV770W
+Start=83
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: CS other
+Name=MV770W_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Sought STI advice/treatment from: other
+Name=MV770X
+Start=84
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Sought STI advice/treatment from: other
+Name=MV770X_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=HIV transmitted during pregnancy
+Name=MV774A
+Start=85
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=HIV transmitted during pregnancy
+Name=MV774A_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=HIV transmitted during delivery
+Name=MV774B
+Start=86
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=HIV transmitted during delivery
+Name=MV774B_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=HIV transmitted by breastfeeding
+Name=MV774C
+Start=87
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=HIV transmitted by breastfeeding
+Name=MV774C_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Knows someone who has, or is suspected of having, HIV
+Name=MV775
+Start=88
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Knows someone who has, or is suspected of having, HIV
+Name=MV775_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Would want HIV infection in family to remain secret
+Name=MV777
+Start=89
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Would want HIV infection in family to remain secret
+Name=MV777_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know/not sure/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Would be ashamed if someone in the family had HIV
+Name=MV777A
+Start=90
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Would be ashamed if someone in the family had HIV
+Name=MV777A_VS1
+Value=0;Disagree
+Value=1;Agree
+Value=8;Don't know/not sure/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Willing to care for relative with AIDS
+Name=MV778
+Start=91
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Willing to care for relative with AIDS
+Name=MV778_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know/not sure/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=A female teacher infected with HIV, but is not sick, should be allowed to continue teaching
+Name=MV779
+Start=92
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=A female teacher infected with HIV, but is not sick, should be allowed to continue teaching
+Name=MV779_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know/not sure/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Children should be taught about condoms to avoid AIDS
+Name=MV780
+Start=93
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children should be taught about condoms to avoid AIDS
+Name=MV780_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know/not sure/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Ever been tested for HIV
+Name=MV781
+Start=94
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been tested for HIV
+Name=MV781_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Know a place to get HIV test
+Name=MV783
+Start=95
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Know a place to get HIV test
+Name=MV783_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: government hospital
+Name=MV784A
+Start=96
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: government hospital
+Name=MV784A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS public
+Name=MV784B
+Start=97
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS public
+Name=MV784B_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS public
+Name=MV784C
+Start=98
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS public
+Name=MV784C_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS public
+Name=MV784D
+Start=99
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS public
+Name=MV784D_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS public
+Name=MV784E
+Start=100
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS public
+Name=MV784E_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS public
+Name=MV784F
+Start=101
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS public
+Name=MV784F_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS public
+Name=MV784G
+Start=102
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS public
+Name=MV784G_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS public
+Name=MV784H
+Start=103
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS public
+Name=MV784H_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS public
+Name=MV784I
+Start=104
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS public
+Name=MV784I_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS public
+Name=MV784J
+Start=105
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS public
+Name=MV784J_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: private hospital/clinic/doctor
+Name=MV784K
+Start=106
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: private hospital/clinic/doctor
+Name=MV784K_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS private
+Name=MV784L
+Start=107
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS private
+Name=MV784L_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS private
+Name=MV784M
+Start=108
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS private
+Name=MV784M_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS private
+Name=MV784N
+Start=109
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS private
+Name=MV784N_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS private
+Name=MV784O
+Start=110
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS private
+Name=MV784O_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS private
+Name=MV784P
+Start=111
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS private
+Name=MV784P_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS private
+Name=MV784Q
+Start=112
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS private
+Name=MV784Q_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS private
+Name=MV784R
+Start=113
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS private
+Name=MV784R_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS other
+Name=MV784S
+Start=114
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS other
+Name=MV784S_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS other
+Name=MV784T
+Start=115
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS other
+Name=MV784T_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS other
+Name=MV784U
+Start=116
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS other
+Name=MV784U_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: CS other
+Name=MV784V
+Start=117
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: CS other
+Name=MV784V_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place for HIV test: other
+Name=MV784X
+Start=118
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Place for HIV test: other
+Name=MV784X_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Heard about other STIs
+Name=MV785
+Start=119
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Heard about other STIs
+Name=MV785_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Have ever paid anyone in exchange for sex
+Name=MV791
+Start=120
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Have ever paid anyone in exchange for sex
+Name=MV791_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Last 12 months have given gifts or other goods to have sex
+Name=MV791A
+Start=121
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 12 months have given gifts or other goods to have sex
+Name=MV791A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Have ever given gifts or other goods to have sex
+Name=MV791B
+Start=122
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Have ever given gifts or other goods to have sex
+Name=MV791B_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Paid for sex in last 12 months
+Name=MV793
+Start=123
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Paid for sex in last 12 months
+Name=MV793_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Condom used last time paid for sex in last 12 months
+Name=MV793A
+Start=124
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Condom used last time paid for sex in last 12 months
+Name=MV793A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Condom used every time paid for sex in last 12 months
+Name=MV793B
+Start=125
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Condom used every time paid for sex in last 12 months
+Name=MV793B_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Record]
+Label=HIV/AIDS, sexual behavior, HIV test
+Name=MREC80
+RecordTypeValue='M80'
+Required=No
+RecordLen=106
+
+[Item]
+Label=Condom used at first sex
+Name=MV820
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Condom used at first sex
+Name=MV820_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Wife justified asking husband to use condom if he has STI
+Name=MV822
+Start=20
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Wife justified asking husband to use condom if he has STI
+Name=MV822_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Can get HIV by witchcraft or supernatural means
+Name=MV823
+Start=21
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Can get HIV by witchcraft or supernatural means
+Name=MV823_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Drugs to avoid HIV transmission to baby during pregnancy
+Name=MV824
+Start=22
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Drugs to avoid HIV transmission to baby during pregnancy
+Name=MV824_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Would buy vegetables from vendor with HIV
+Name=MV825
+Start=23
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Would buy vegetables from vendor with HIV
+Name=MV825_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Last time tested for HIV
+Name=MV826
+Start=24
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last time tested for HIV
+Name=MV826_VS1
+Value=1;Less than 12 months
+Value=2;12-23 months
+Value=3;2 years or more
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Months ago most recent HIV test
+Name=MV826A
+Start=25
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Months ago most recent HIV test
+Name=MV826A_VS1
+Value=0:95
+Value=96;Eight or more years
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Last HIV test: on your own, offered or required
+Name=MV827
+Start=27
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last HIV test: on your own, offered or required
+Name=MV827_VS1
+Value=1;Asked for the test
+Value=2;Offered and accepted
+Value=3;Required
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Received result from last HIV test
+Name=MV828
+Start=28
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Received result from last HIV test
+Name=MV828_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Place where last HIV test was taken
+Name=MV829
+Start=29
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Place where last HIV test was taken
+Name=MV829_VS1
+Value=10;PUBLIC SECTOR
+Value=11;Government hospital
+Value=12:19;Government sector
+Value=20;PRIVATE SECTOR
+Value=21;Private hospital
+Value=22:29;Private sector
+Value=30;NGO
+Value=31;NGO hospital
+Value=32:39;NGO sector
+Value=40;OTHER SOURCE
+Value=41:46
+Value=96;Other
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Time since last sex with 2nd to most recent partner
+Name=MV832B
+Start=31
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Time since last sex with 2nd to most recent partner
+Name=MV832B_VS1
+Value=100;<1 day ago
+Value=101;Days: 1
+Value=102:160
+Value=199;Days: number missing
+Value=201;Weeks: 1
+Value=202:220
+Value=299;Weeks: number missing
+Value=301;Months: 1
+Value=302:312
+Value=399;Months: number missing
+Value=401;Years: 1
+Value=995;Within last 4 weeks
+Value=996;Before last birth
+Value=997;Inconsistent
+Value=998;Don't know
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Time since last sex with 3rd to most recent partner
+Name=MV832C
+Start=34
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=Time since last sex with 3rd to most recent partner
+Name=MV832C_VS1
+Value=100;<1 day ago
+Value=101;Days: 1
+Value=102:160
+Value=199;Days: number missing
+Value=201;Weeks: 1
+Value=202:220
+Value=299;Weeks: number missing
+Value=301;Months: 1
+Value=302:312
+Value=399;Months: number missing
+Value=401;Years: 1
+Value=995;Within last 4 weeks
+Value=996;Before last birth
+Value=997;Inconsistent
+Value=998;Don't know
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Used condom every time had sex with most recent partner in last 12 months
+Name=MV833A
+Start=37
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Used condom every time had sex with most recent partner in last 12 months
+Name=MV833A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Used condom every time had sex with 2nd to most recent partner in last 12 months
+Name=MV833B
+Start=38
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Used condom every time had sex with 2nd to most recent partner in last 12 months
+Name=MV833B_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Used condom every time had sex with 3rd to most recent partner in last 12 months
+Name=MV833C
+Start=39
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Used condom every time had sex with 3rd to most recent partner in last 12 months
+Name=MV833C_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Age of most recent partner
+Name=MV834A
+Start=40
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age of most recent partner
+Name=MV834A_VS1
+Value=10:94
+Value=95;95+
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Age of 2nd to most recent partner
+Name=MV834B
+Start=42
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age of 2nd to most recent partner
+Name=MV834B_VS1
+Value=10:94
+Value=95;95+
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Age of 3rd to most recent partner
+Name=MV834C
+Start=44
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Age of 3rd to most recent partner
+Name=MV834C_VS1
+Value=10:94
+Value=95;95+
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Alcohol consumption at last sex with most recent partner
+Name=MV835A
+Start=46
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Alcohol consumption at last sex with most recent partner
+Name=MV835A_VS1
+Value=0;No
+Value=1;Respondent drunk only
+Value=2;Partner drunk only
+Value=3;Both drunk
+Value=4;Neither drunk but consumed alcohol
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Alcohol consumption at last sex with 2nd to most recent partner
+Name=MV835B
+Start=47
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Alcohol consumption at last sex with 2nd to most recent partner
+Name=MV835B_VS1
+Value=0;No
+Value=1;Respondent drunk only
+Value=2;Partner drunk only
+Value=3;Both drunk
+Value=4;Neither drunk but consumed alcohol
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Alcohol consumption at last sex with 3rd to most recent partner
+Name=MV835C
+Start=48
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Alcohol consumption at last sex with 3rd to most recent partner
+Name=MV835C_VS1
+Value=0;No
+Value=1;Respondent drunk only
+Value=2;Partner drunk only
+Value=3;Both drunk
+Value=4;Neither drunk but consumed alcohol
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Total lifetime number of sex partners
+Name=MV836
+Start=49
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Total lifetime number of sex partners
+Name=MV836_VS1
+Value=1:94
+Value=95;95+
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Heard of drugs to help HIV infected people live longer
+Name=MV837
+Start=51
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Heard of drugs to help HIV infected people live longer
+Name=MV837_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=How long ago first had sex with most recent partner
+Name=MV852A
+Start=52
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=How long ago first had sex with most recent partner
+Name=MV852A_VS1
+Value=101;Days: 1
+Value=102:198
+Value=199;Days: number missing
+Value=201;Weeks: 1
+Value=202:298
+Value=299;Weeks: number missing
+Value=301;Months: 1
+Value=302:398
+Value=399;Months: number missing
+Value=401;Years: 1
+Value=402:498
+Value=499;Years: number missing
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=How long ago first had sex with 2nd most recent partner
+Name=MV852B
+Start=55
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=How long ago first had sex with 2nd most recent partner
+Name=MV852B_VS1
+Value=101;Days: 1
+Value=102:198
+Value=199;Days: number missing
+Value=201;Weeks: 1
+Value=202:298
+Value=299;Weeks: number missing
+Value=301;Months: 1
+Value=302:398
+Value=399;Months: number missing
+Value=401;Years: 1
+Value=402:498
+Value=499;Years: number missing
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=How long ago first had sex with 3rd most recent partner
+Name=MV852C
+Start=58
+Len=3
+DataType=Numeric
+
+[ValueSet]
+Label=How long ago first had sex with 3rd most recent partner
+Name=MV852C_VS1
+Value=101;Days: 1
+Value=102:198
+Value=199;Days: number missing
+Value=201;Weeks: 1
+Value=202:298
+Value=299;Weeks: number missing
+Value=301;Months: 1
+Value=302:398
+Value=399;Months: number missing
+Value=401;Years: 1
+Value=402:498
+Value=499;Years: number missing
+Value=999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Times in last 12 months had sex with most recent partner
+Name=MV853A
+Start=61
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Times in last 12 months had sex with most recent partner
+Name=MV853A_VS1
+Value=1:94
+Value=95;95+
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Times in last 12 months had sex with 2nd most recent partner
+Name=MV853B
+Start=63
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Times in last 12 months had sex with 2nd most recent partner
+Name=MV853B_VS1
+Value=1:94
+Value=95;95+
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Times in last 12 months had sex with 3rd most recent partner
+Name=MV853C
+Start=65
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Times in last 12 months had sex with 3rd most recent partner
+Name=MV853C_VS1
+Value=1:94
+Value=95;95+
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Knowledge and use of HIV test kits
+Name=MV856
+Start=67
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Knowledge and use of HIV test kits
+Name=MV856_VS1
+Value=0;Never heard of HIV test kits
+Value=1;Has tested with HIV test kits
+Value=2;Knows test kits but never tested with them
+Value=3;Knows test kits un-known if tested
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Children with HIV should be allowed to attend school with children without HIV
+Name=MV857A
+Start=68
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Children with HIV should be allowed to attend school with children without HIV
+Name=MV857A_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know/not sure/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=People hesitate to take HIV test because reaction of other people if positive
+Name=MV857B
+Start=69
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=People hesitate to take HIV test because reaction of other people if positive
+Name=MV857B_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know/not sure/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=People talk badly about people with or believed to have HIV
+Name=MV857C
+Start=70
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=People talk badly about people with or believed to have HIV
+Name=MV857C_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know/not sure/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=People with or believed to have HIV lose respect from other people
+Name=MV857D
+Start=71
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=People with or believed to have HIV lose respect from other people
+Name=MV857D_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know/not sure/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Would be afraid to get HIV from contact with saliva from infected person
+Name=MV858
+Start=72
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Would be afraid to get HIV from contact with saliva from infected person
+Name=MV858_VS1
+Value=0;No
+Value=1;Yes
+Value=2;Says he has HIV
+Value=8;Don't know/not sure/depends
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Knowledge and attitude to PrEP to prevent getting HIV
+Name=MV859
+Start=73
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Knowledge and attitude to PrEP to prevent getting HIV
+Name=MV859_VS1
+Value=0;Haven't heard
+Value=1;Heard and approve to take it every day
+Value=2;Heard, but don't approve to take it every day
+Value=3;Heard, but not sure about approving its use
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Month of most recent HIV test
+Name=MV860M
+Start=74
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Month of most recent HIV test
+Name=MV860M_VS1
+Value=1:12
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Year of most recent HIV test
+Name=MV860Y
+Start=76
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Year of most recent HIV test
+Name=MV860Y_VS1
+Value=1980:2027
+Value=9998;Don't know
+Value=9999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Date of most recent HIV test (CMC)
+Name=MV860C
+Start=80
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Date of most recent HIV test (CMC)
+Name=MV860C_VS1
+Value=1080:1600
+Value=9998;Don't know
+Value=9999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Result of HIV test
+Name=MV861
+Start=84
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Result of HIV test
+Name=MV861_VS1
+Value=1;Positive
+Value=2;Negative
+Value=3;Indeterminate
+Value=4;Declined to answer
+Value=5;Did not receive test result
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Month received first HIV test positve
+Name=MV862M
+Start=85
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Month received first HIV test positve
+Name=MV862M_VS1
+Value=1:12
+Value=95;Same as most recent
+Value=98;Don't know
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Year received first HIV test positve
+Name=MV862Y
+Start=87
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Year received first HIV test positve
+Name=MV862Y_VS1
+Value=1980:2027
+Value=9995;Same as most recent
+Value=9998;Don't know
+Value=9999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Date received first HIV test positve (CMC)
+Name=MV862C
+Start=91
+Len=4
+DataType=Numeric
+
+[ValueSet]
+Label=Date received first HIV test positve (CMC)
+Name=MV862C_VS1
+Value=1080:1600
+Value=9998;Don't know
+Value=9999;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Currently taking ARVs
+Name=MV863
+Start=95
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Currently taking ARVs
+Name=MV863_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Number of HIV tests
+Name=MV864
+Start=96
+Len=2
+DataType=Numeric
+
+[ValueSet]
+Label=Number of HIV tests
+Name=MV864_VS1
+Value=1:94
+Value=95;95+
+Value=99;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Disclosed HIV status to others
+Name=MV865
+Start=98
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Disclosed HIV status to others
+Name=MV865_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Respondent feels ashamed of HIV status
+Name=MV866
+Start=99
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Respondent feels ashamed of HIV status
+Name=MV866_VS1
+Value=0;Disagree
+Value=1;Agree
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Things happened because HIV positive status: people talk badly
+Name=MV867A
+Start=100
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Things happened because HIV positive status: people talk badly
+Name=MV867A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Things happened because HIV positive status: someone else disclosed status
+Name=MV867B
+Start=101
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Things happened because HIV positive status: someone else disclosed status
+Name=MV867B_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Things happened because HIV positive status: verbally insulted/harassed/threatened
+Name=MV867C
+Start=102
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Things happened because HIV positive status: verbally insulted/harassed/threatened
+Name=MV867C_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Things happened because HIV positive status: healthcare workers talked badly
+Name=MV867D
+Start=103
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Things happened because HIV positive status: healthcare workers talked badly
+Name=MV867D_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Things happened because HIV positive status: healthcare workers verbally abused
+Name=MV867E
+Start=104
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Things happened because HIV positive status: healthcare workers verbally abused
+Name=MV867E_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Things happened because HIV positive status: CS
+Name=MV867F
+Start=105
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Things happened because HIV positive status: CS
+Name=MV867F_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Things happened because HIV positive status: CS
+Name=MV867G
+Start=106
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Things happened because HIV positive status: CS
+Name=MV867G_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Record]
+Label=Female genital cutting module
+Name=MRECGC
+RecordTypeValue='MG1'
+Required=No
+RecordLen=34
+
+[Item]
+Label=Ever heard of female circumcision
+Name=MG100
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever heard of female circumcision
+Name=MG100_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Ever heard of genital cutting (probed)
+Name=MG101
+Start=20
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever heard of genital cutting (probed)
+Name=MG101_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision benefit: cleanliness/hygiene
+Name=MG117A
+Start=21
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision benefit: cleanliness/hygiene
+Name=MG117A_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision benefit: social acceptance
+Name=MG117B
+Start=22
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision benefit: social acceptance
+Name=MG117B_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision benefit: better marriage prospects
+Name=MG117C
+Start=23
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision benefit: better marriage prospects
+Name=MG117C_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision benefit: virginity/prevent premarital sex
+Name=MG117D
+Start=24
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision benefit: virginity/prevent premarital sex
+Name=MG117D_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision benefit: greater sexual pleasure for men
+Name=MG117E
+Start=25
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision benefit: greater sexual pleasure for men
+Name=MG117E_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision benefit: religious approval
+Name=MG117F
+Start=26
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision benefit: religious approval
+Name=MG117F_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision benefit: CS
+Name=MG117G
+Start=27
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision benefit: CS
+Name=MG117G_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision benefit: CS
+Name=MG117H
+Start=28
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision benefit: CS
+Name=MG117H_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision benefit: CS
+Name=MG117I
+Start=29
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision benefit: CS
+Name=MG117I_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision benefit: CS
+Name=MG117J
+Start=30
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision benefit: CS
+Name=MG117J_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision benefit: other
+Name=MG117X
+Start=31
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision benefit: other
+Name=MG117X_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=No benefit from female circumcision
+Name=MG117Y
+Start=32
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=No benefit from female circumcision
+Name=MG117Y_VS1
+Value=0;No
+Value=1;Yes
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision required by religion
+Name=MG118
+Start=33
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision required by religion
+Name=MG118_VS1
+Value=0;No
+Value=1;Yes
+Value=3;No religion
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Item]
+Label=Female circumcision: continue or be stopped
+Name=MG119
+Start=34
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Female circumcision: continue or be stopped
+Name=MG119_VS1
+Value=1;Continued
+Value=2;Stopped
+Value=3;Depends
+Value=8;Don't know
+Value=9;Missing
+Name=MISSING,Special
+
+[Record]
+Label=Chronic diseases module
+Name=MRECCHD
+RecordTypeValue='MCH'
+Required=No
+RecordLen=41
+
+[Item]
+Label=Ever had blood pressure measured by doctor other healthcare worker
+Name=MCHD01
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever had blood pressure measured by doctor other healthcare worker
+Name=MCHD01_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+
+[Item]
+Label=Ever been told that you have high blood pressure or hypertension
+Name=MCHD02
+Start=20
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been told that you have high blood pressure or hypertension
+Name=MCHD02_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=In past 12 months have been told that you have high blood pressure or hypertension
+Name=MCHD03
+Start=21
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=In past 12 months have been told that you have high blood pressure or hypertension
+Name=MCHD03_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Have been prescribed medication to control high blood pressure
+Name=MCHD04
+Start=22
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Have been prescribed medication to control high blood pressure
+Name=MCHD04_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Are you taking medication to control your blood pressure
+Name=MCHD05
+Start=23
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Are you taking medication to control your blood pressure
+Name=MCHD05_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Ever had blood sugar measured by doctor other healthcare worker
+Name=MCHD06
+Start=24
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever had blood sugar measured by doctor other healthcare worker
+Name=MCHD06_VS1
+Value=0;No
+Value=1;Yes
+Value=8;Don't know
+
+[Item]
+Label=Ever been told that you have high blood sugar or diabetes
+Name=MCHD07
+Start=25
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been told that you have high blood sugar or diabetes
+Name=MCHD07_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=In past 12 months have been told that you have high blood sugar or diabetes
+Name=MCHD08
+Start=26
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=In past 12 months have been told that you have high blood sugar or diabetes
+Name=MCHD08_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Have been prescribed medication to control high blood sugar
+Name=MCHD09
+Start=27
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Have been prescribed medication to control high blood sugar
+Name=MCHD09_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Are you taking medication to control your blood sugar
+Name=MCHD10
+Start=28
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Are you taking medication to control your blood sugar
+Name=MCHD10_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Ever been told by a doctor or other healthcare worker that you have heart disease
+Name=MCHD11
+Start=29
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been told by a doctor or other healthcare worker that you have heart disease
+Name=MCHD11_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Are you receiving any treatment for your heart disease or chronic heart condition
+Name=MCHD12
+Start=30
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Are you receiving any treatment for your heart disease or chronic heart condition
+Name=MCHD12_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Ever been told by a doctor or other healthcare worker that you have lung disease
+Name=MCHD13
+Start=31
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been told by a doctor or other healthcare worker that you have lung disease
+Name=MCHD13_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Are you receiving any treatment for your lung disease
+Name=MCHD14
+Start=32
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Are you receiving any treatment for your lung disease
+Name=MCHD14_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Ever been told by a doctor or other healthcare worker that you have cancer or a tumor
+Name=MCHD15
+Start=33
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been told by a doctor or other healthcare worker that you have cancer or a tumor
+Name=MCHD15_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Are you receiving any treatment for cancer or tumor
+Name=MCHD16
+Start=34
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Are you receiving any treatment for cancer or tumor
+Name=MCHD16_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Ever been told by a doctor or other healthcare worker that you have depression
+Name=MCHD17
+Start=35
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been told by a doctor or other healthcare worker that you have depression
+Name=MCHD17_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Ever been told by a doctor or other healthcare worker that you have anxiety
+Name=MCHD18
+Start=36
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been told by a doctor or other healthcare worker that you have anxiety
+Name=MCHD18_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Are you receiving any treatment for depression or anxiety
+Name=MCHD19
+Start=37
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Are you receiving any treatment for depression or anxiety
+Name=MCHD19_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Ever been told by a doctor or other healthcare worker that you have arthritis
+Name=MCHD20
+Start=38
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been told by a doctor or other healthcare worker that you have arthritis
+Name=MCHD20_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Are you receiving any treatment for arthritis
+Name=MCHD21
+Start=39
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Are you receiving any treatment for arthritis
+Name=MCHD21_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Ever been told by a doctor or other healthcare worker that you have other chronic disease
+Name=MCHD22
+Start=40
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been told by a doctor or other healthcare worker that you have other chronic disease
+Name=MCHD22_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Are you receiving any treatment for other chronic disease
+Name=MCHD23
+Start=41
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Are you receiving any treatment for other chronic disease
+Name=MCHD23_VS1
+Value=0;No
+Value=1;Yes
+
+[Record]
+Label=Mental health module
+Name=MRECMTH
+RecordTypeValue='MMT'
+Required=No
+RecordLen=60
+
+[Item]
+Label=Last 2 weeks: feeling nervous, anxious, on edge
+Name=MMTH1
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: feeling nervous, anxious, on edge
+Name=MMTH1_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: not able to stop/control worrying
+Name=MMTH2
+Start=20
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: not able to stop/control worrying
+Name=MMTH2_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: worrying about things
+Name=MMTH3
+Start=21
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: worrying about things
+Name=MMTH3_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: trouble relaxing
+Name=MMTH4
+Start=22
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: trouble relaxing
+Name=MMTH4_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: restless and hard to sit still
+Name=MMTH5
+Start=23
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: restless and hard to sit still
+Name=MMTH5_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: become easily annoyed/irritable
+Name=MMTH6
+Start=24
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: become easily annoyed/irritable
+Name=MMTH6_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: feeling afraid as something awful might happen
+Name=MMTH7
+Start=25
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: feeling afraid as something awful might happen
+Name=MMTH7_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: little interest/pleasure in doing things
+Name=MMTH8
+Start=26
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: little interest/pleasure in doing things
+Name=MMTH8_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: feeling down, depressed or hopeless
+Name=MMTH9
+Start=27
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: feeling down, depressed or hopeless
+Name=MMTH9_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: trouble falling asleep or sleeping too much
+Name=MMTH10
+Start=28
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: trouble falling asleep or sleeping too much
+Name=MMTH10_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: feeling tired or having little energy
+Name=MMTH11
+Start=29
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: feeling tired or having little energy
+Name=MMTH11_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: poor appetite or overeating
+Name=MMTH12
+Start=30
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: poor appetite or overeating
+Name=MMTH12_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: feeling bad about yourself, you are a failure or let yourself or family down
+Name=MMTH13
+Start=31
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: feeling bad about yourself, you are a failure or let yourself or family down
+Name=MMTH13_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: trouble concentrating in reading or watching TV
+Name=MMTH14
+Start=32
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: trouble concentrating in reading or watching TV
+Name=MMTH14_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: moving/speaking slowly or moving around a lot more than usual
+Name=MMTH15
+Start=33
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: moving/speaking slowly or moving around a lot more than usual
+Name=MMTH15_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Last 2 weeks: thoughts of better off dead or hurting yourself
+Name=MMTH16
+Start=34
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks: thoughts of better off dead or hurting yourself
+Name=MMTH16_VS1
+Value=0;Never
+Value=1;Rarely
+Value=2;Often
+Value=3;Always
+Value=7;Refused to answer
+Value=8;Don't know
+
+[Item]
+Label=Ever tried to seek help for the things you experienced
+Name=MMTH17
+Start=35
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever tried to seek help for the things you experienced
+Name=MMTH17_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: doctor/medical personnel
+Name=MMTH18A
+Start=36
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: doctor/medical personnel
+Name=MMTH18A_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: social service organization
+Name=MMTH18B
+Start=37
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: social service organization
+Name=MMTH18B_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: social worker
+Name=MMTH18C
+Start=38
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: social worker
+Name=MMTH18C_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: community health worker/fieldworker
+Name=MMTH18D
+Start=39
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: community health worker/fieldworker
+Name=MMTH18D_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: religious leader
+Name=MMTH18E
+Start=40
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: religious leader
+Name=MMTH18E_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: current/former spouse/partner
+Name=MMTH18F
+Start=41
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: current/former spouse/partner
+Name=MMTH18F_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: other family member
+Name=MMTH18G
+Start=42
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: other family member
+Name=MMTH18G_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: friend
+Name=MMTH18H
+Start=43
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: friend
+Name=MMTH18H_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: neighbor
+Name=MMTH18I
+Start=44
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: neighbor
+Name=MMTH18I_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: CS
+Name=MMTH18J
+Start=45
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: CS
+Name=MMTH18J_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: CS
+Name=MMTH18K
+Start=46
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: CS
+Name=MMTH18K_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: CS
+Name=MMTH18L
+Start=47
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: CS
+Name=MMTH18L_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: CS
+Name=MMTH18M
+Start=48
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: CS
+Name=MMTH18M_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: CS
+Name=MMTH18N
+Start=49
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: CS
+Name=MMTH18N_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: CS
+Name=MMTH18O
+Start=50
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: CS
+Name=MMTH18O_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: CS
+Name=MMTH18P
+Start=51
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: CS
+Name=MMTH18P_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Person sought help from: other
+Name=MMTH18X
+Start=52
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Person sought help from: other
+Name=MMTH18X_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Ever been told by a doctor/health care worker you have: depression
+Name=MMTH19
+Start=53
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been told by a doctor/health care worker you have: depression
+Name=MMTH19_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Ever been told by a doctor/health care worker you have: anxiety
+Name=MMTH20
+Start=54
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Ever been told by a doctor/health care worker you have: anxiety
+Name=MMTH20_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=Last 2 weeks took medication prescribed by doctor/health worker for depression/anxiety
+Name=MMTH21
+Start=55
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Last 2 weeks took medication prescribed by doctor/health worker for depression/anxiety
+Name=MMTH21_VS1
+Value=0;No
+Value=1;Yes
+
+[Item]
+Label=PHQ score
+Name=MMTH22
+Start=56
+Len=2
+DataType=Numeric
+
+[Item]
+Label=Referral based on PHQ score
+Name=MMTH23
+Start=58
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Referral based on PHQ score
+Name=MMTH23_VS1
+Value=1;Referral card provided
+Value=2;No referral, other
+
+[Item]
+Label=GAD score
+Name=MMTH24
+Start=59
+Len=2
+DataType=Numeric
+
+[Record]
+Label=Survey specific variables
+Name=MREC91
+RecordTypeValue='M91'
+Required=No
+RecordLen=18
+
+[Record]
+Label=Survey specific
+Name=MREC92
+RecordTypeValue='M92'
+Required=No
+MaxRecords=6
+RecordLen=18
+
+[Record]
+Label=Survey specific
+Name=MREC93
+RecordTypeValue='M93'
+Required=No
+MaxRecords=6
+RecordLen=18

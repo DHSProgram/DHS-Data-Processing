@@ -1,0 +1,20 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=TEST
+Name=TEST
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+[External Dictionaries]
+File=..\Dicts\testlog.dcf
+[AppCode]
+File=.\test.apc
+[Message]
+File=.\test.mgf
+[Help]
+File=.\test.qsf
+[Forms]
+File=.\plate.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\plate.dcf,Input,.\plate.fmf
+Dict-Type=..\Dicts\testlog.dcf,External

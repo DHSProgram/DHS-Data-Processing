@@ -1,0 +1,22 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=REMEASENTRY
+Name=REMEASENTRY
+AppType=DataEntry
+ShowEndCaseDialog=No
+CAPI=Yes
+[External Dictionaries]
+File=..\Dicts\FieldWKQuest.dcf
+[AppCode]
+File=.\RemeasEntry.apc
+Include=..\Library\DPCollect.apc
+Include=..\Library\Anthrop.apc
+[Message]
+File=.\RemeasEntry.mgf
+[Help]
+File=.\RemeasEntry.qsf
+[Forms]
+File=.\RemeasEntry.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\Remeasure.dcf,Input,.\RemeasEntry.fmf
+Dict-Type=..\Dicts\FieldWKQuest.dcf,External

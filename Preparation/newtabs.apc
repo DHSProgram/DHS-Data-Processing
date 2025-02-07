@@ -1,0 +1,39 @@
+﻿if H32A = 1 | H32B = 1 | H32C = 1 | H32D = 1 | H32E = 1 |
+   H32F = 1 | H32G = 1 | H32H = 1 | H32I = 1 | H32J = 1 |
+   H32K = 1 | H32L = 1 | H32M = 1 | H32N = 1 | H32O = 1 |
+   H32P = 1 | H32Q = 1 | H32R = 1 | H32S = 1 | {H32T = 1 | - exclude traditional practitioner }
+   H32U = 1 | H32V = 1 | H32W = 1 | H32X = 1 then
+  col1005b = 1;
+  xtab( t1005, rweight );
+endif;  
+if H46B in 0,1 then             { treatment sought same or next day }
+  col1005b = 2;
+  xtab( t1005, rweight );
+endif;
+
+
+if H32A = 1 | H32B = 1 | H32C = 1 | H32D = 1 | H32E = 1 |
+   H32F = 1 | H32G = 1 | H32H = 1 | H32I = 1 | H32J = 1 |
+   H32K = 1 | H32L = 1 | H32M = 1 | H32N = 1 | H32O = 1 |
+   H32P = 1 | H32Q = 1 | H32R = 1 | H32S = 1 | {H32T = 1 | - exclude traditional practitioner }
+   H32U = 1 | H32V = 1 | H32W = 1 | H32X = 1 then
+  col1005b = 1;
+  xtab( t1005, rweight );
+  if H46B in 0,1 then             { treatment sought same or next day }
+    col1005b = 2;
+    xtab( t1005, rweight );
+  endif;
+endif;
+
+if H32A = 1 | H32B = 1 | H32C = 1 | H32D = 1 | H32E = 1 |
+   H32F = 1 | H32G = 1 | H32H = 1 | H32I = 1 | H32J = 1 |
+   H32K = 1 | H32L = 1 | H32M = 1 | H32N = 1 | H32O = 1 |
+   H32P = 1 | H32Q = 1 | H32R = 1 | H32S = 1 | {H32T = 1 | - exclude traditional practitioner }
+   H32U = 1 | H32V = 1 | H32W = 1 | H32X = 1 then
+  col1007b = 1;
+  xtab( t1007, rweight );
+  if H46B in 0,1 then
+    col1007b = 2;                         { treatment sought same or next day }
+    xtab( t1007, rweight );
+  endif;
+endif;

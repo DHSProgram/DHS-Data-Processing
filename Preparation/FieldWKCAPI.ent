@@ -1,0 +1,18 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=FIELDWKCAPI
+Name=FIELDWKCAPI
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[AppCode]
+File=.\FieldWKCAPI.apc
+[Message]
+File=.\Preparation.mgf
+[Help]
+File=.\FieldWKCAPI.qsf
+[Forms]
+File=.\Interv.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Interv.dcf,Input,.\Interv.fmf

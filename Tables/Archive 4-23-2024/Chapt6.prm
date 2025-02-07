@@ -1,0 +1,176 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+t601 rows    totnum1  = 1 nodec;
+t601 footnote
+{+EN}
+na=Not applicable~
+@1 The number of living children includes a woman's the current pregnancy.~
+@2 Wants next birth within 2 years~
+@3 Wants to delay next birth for 2 or more years~
+@4 Includes both female and male sterilization~
+@5 The number of living children includes one additional child if
+   respondent's wife is pregnant (or if any wife is pregnant
+   for men with more than one current wife).
+{EN+}
+{{ES}
+na = No aplicable~
+@1 El n£mero de hijos/as sobrevivientes incluye el embarazo actual.~
+@2 Desea el pr¢ximo hijo/a antes de 2 a¤os~
+@3 Desea esperar 2 o m s a¤os para el pr¢ximo hijo/a~
+@4 Incluye esterilizaci¢n femenina y masculina~
+@5 El n£mero de hijos/as sobrevivientes incluye un hijo/a adicional si la esposa/compa¤era del entrevistado
+   esta embarazada (o si alguna otra esposa/compa¤era est embarazada si el entrevistado tiene m s de una esposa/compa¤era).
+{ES}}
+{{FR}
+na = Non applicable~
+@1 Le nombre d'enfants vivants comprend la grossesse actuelle d'une femme.~
+@2 Veut la prochaine naissance dans les 2 ans~
+@3 Veut espacer la prochaine naissance de 2 ans ou plus~
+@4 Y compris la stérilisation féminine et masculine~
+@5 Le nombre d'enfants vivants pour les hommes comprend un enfant supplémentaire si
+   l'épouse de l'enquêté est enceinte (ou si l'une des épouses est enceinte pour les
+   hommes ayant actuellement plus d'une épouse).
+{FR}}
+endfootnote;
+
+t6021 footnote
+{+EN}
+Note:  Women who have been sterilized are considered to want no more children.~
+@1 The number of living children includes a woman's current pregnancy.
+{EN+}
+{{ES}
+Nota:  Se considera que las mujeres esterilizadas no desean m s hijos/as.~
+@1 El n£mero de hijos/as sobrevivientes incluye el embarazo actual.
+{ES}}
+{{FR}
+Note : Les femmes stérilisées ou celles dont le partenaire/mari est stérilisé sont considérées comme ne
+ voulant plus d'enfant.~
+@1 Le nombre d'enfants vivants inclut la grossesse actuelle d'une femme.
+{FR}}
+endfootnote;
+{t6021w noprint;}
+
+t6022 footnote
+{+EN}
+Note: Men who have been sterilized or who state in response to the question about
+      desire for children that their wife has been sterilized are considered to
+      want no more children.~
+@1 The number of living children includes one additional child if respondent's
+   wife is pregnant (or if any wife is pregnant for men with more than
+   one current wife).
+{EN+}
+{{ES}
+Nota:  Se considera que los hombres esterilizados, o quienes a la pregunta sobre deseo de m s hijos/as
+responden que la esposa/compa¤era est  esterilizada, no desean m s hijos/as.~
+@1 El n£mero de hijos/as sobrevivientes incluye un hijo/a adicional si la esposa/compa¤era del entrevistado
+est embarazada (o si alguna otra esposa/compa¤era est embarazada si el entrevistado tiene m s de una esposa/compa¤era).
+{ES}}
+{{FR}
+Note : Les hommes stérilisés ou qui ont déclaré à la question concernant le désir d'enfants
+      que leur épouse/partenaire était stérilisée sont considérés comme ne voulant plus d'enfant.~
+@1 Le nombre d'enfants vivants comprend un enfant supplémentaire si
+   l'épouse/partenaire de l'enquêté est enceinte (ou si une des épouses est enceinte,
+   pour les hommes qui ont actuellement plus d'une épouse).
+{FR}}
+endfootnote;
+{t6022w noprint;}
+
+t603 rows totnum1  = 1 nodec
+          totmean4 = 1 nodec totmean4 = 3 nodec
+          totmean7 = 1 nodec totmean7 = 3 nodec;
+t603 footnote
+{+EN}
+@1 The number of living children includes current pregnancy for women.~
+@2 Means are calculated excluding respondents who gave non-numeric
+   responses.~
+@3 The number of living children includes one additional child
+   if respondent's wife is pregnant (or if any wife is pregnant
+   for men with more than one current wife).
+{EN+}
+{{ES}
+@1 El n£mero de hijos/as sobrevivientes incluye embarazo actual para mujeres.~
+@2 Los promedios son calculados excluyendo las respuestas no num‚ricas.~
+@3 El n£mero de hijos/as sobrevivientes incluye un hijo adicional si la esposa/compa¤era del entrevistado
+esta embarazada (o si alguna otra esposa/compa¤era est embarazada si el entrevistado tiene m s de una esposa/compa¤era).
+{ES}}
+{{FR}
+@1 Le nombre d'enfants vivants inclut la grossesse actuelle pour les femmes.~
+@2 Les moyennes sont calculées en excluant les enquêtés qui ont fourni des réponses non numériques.~
+@3 Pour les hommes, le nombre d'enfants vivants comprend un enfant supplémentaire si l'épouse de l'enquêté est enceinte
+   (ou si l'une des épouses est enceinte si l'homme a actuellement plus d'une épouse).
+{FR}}
+endfootnote;
+
+t604 columns totmean5 = 1 nodec;
+t604 footnote
+{+EN}
+@1 Number of women who gave a numeric response
+{EN+}
+{{ES}
+@1 N£mero de mujeres quienes dieron una respuesta num‚rica
+{ES}}
+{{FR}
+@1 Effectif de femmes ayant donné une réponse numérique
+{FR}}
+endfootnote;
+
+t605 columns totoutc = 1 nodec;
+t605 footnote
+{+EN}
+Note: Note: A pregnancy outcome refers to a miscarriage, abortion, live birth or stillbirth.
+      Some pregnancies produce multiple outcomes, for example in the case of twins.
+      In this table, each pregnancy outcome is counted individually. Therefore, a pregnancy
+      will be counted more than once if it produces multiple births (live births or stillbirths).
+      Current pregnancies, miscarriages, and abortions are always counted as one pregnancy outcome.~
+@1 For pregnancies that resulted in multiple outcomes (for example, twins), each outcome is
+   counted individually.~
+@2 For current pregnancies, the maternal age at birth is estimated as the mother's expected age
+   at the time of the birth.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Une issue de grossesse fait référence à une fausse couche, un avortement, une naissance
+      vivante ou une mortinaissance. Certaines grossesses produisent des issues multiples comme dans
+      dans le cas de jumeaux . Dans ce tableau, chaque issue de grossesse est comptée individuellement.
+      Par conséquent, une grossesse sera comptée plus d'une fois si elle se termine par des naissances
+      multiples (naissances vivantes ou mort-nés). Les grossesses actuelles, les fausses couches et les
+      avortements sont toujours comptés comme une issue de grossesse.~
+@1 Pour les grossesses ayant abouti à des issues multiples (par exemple, des jumeaux), chaque issue est
+   comptée individuellement.~
+@2 Pour les grossesses actuelles, l'âge de la mère à la naissance est estimé comme étant l'âge attendu
+   de la mère au moment de la naissance.
+{FR}}
+endfootnote;
+
+t605a columns totoutc = 1 nodec;
+
+t606 footnote
+{+EN}
+Note: Rates are calculated based on births to women age 15-49 in the period
+      1-36 months preceding the survey. The total fertility rates are the same
+      as those presented in Table 5.2.
+{EN+}
+{{ES}
+Nota:  Las tasas se calculan a partir de los nacimientos ocurridos a mujeres de 15-49
+a¤os en el per¡odo de 1-36 meses anteriores a la encuesta. Las tasas globales de fecundidad
+ son las mismas presentadas en el Cuadro 4.2.
+{ES}}
+{{FR}
+Note : Les taux sont basés sur les naissances des femmes de 15-49 ans durant la période 1-36 
+     mois précédant l'enquête. L'Indice Synthétique de Fécondité est le même que celui 
+     présenté au Tableau 5.2.
+{FR}}
+endfootnote;
+{t606f  noprint;}
+{t606e  noprint;}
+{t606b  noprint;}
+
+

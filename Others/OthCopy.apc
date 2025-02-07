@@ -1,0 +1,57 @@
+﻿PROC GLOBAL
+
+  numeric found = 1, start = 1, x, y;
+
+  string kothques;
+
+PROC OTHERS_FF
+preproc
+
+  open(xothers);
+
+postproc
+
+  close(xothers);
+
+proc OTHLEV
+preproc
+
+  if start then
+    xothques = " ";
+    xothresp = " ";
+    start    = 0;
+  endif;
+  othcode    = 0;
+
+  kothques = othques;
+
+  while found & ( kothques > xothques |
+                ( kothques = xothques & compare(othresp, xothresp) > 0 ) ) do
+    if x then
+      errmsg( 11, xothques, xothresp, xothcode, xothnum);
+      errmsg( 12, othques,  othresp,  othid);
+      y = 1;
+    endif;
+    found = loadcase(xothers);
+    if not found then 
+	  errmsg(13) 
+	endif;
+    x = found;
+  enddo;
+
+  if found & ( kothques = xothques &
+               compare(othresp, xothresp) = 0 ) then
+    othcode = xothcode;
+    x = 0;
+    if y then
+      errmsg( 31, othques,  othresp,  othid );
+      errmsg( 32, xothques, xothresp, xothcode, xothnum );
+      y = 0;
+    endif;
+  else
+    errmsg( 21, othques, othresp, othid );
+    if found then
+      errmsg( 22, xothques, xothresp, xothcode, xothnum );
+      y = 1;
+    endif
+  endif;

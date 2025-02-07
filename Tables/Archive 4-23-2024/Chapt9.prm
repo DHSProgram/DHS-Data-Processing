@@ -1,0 +1,531 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+t901  columns totnum7 = 2 nodec;
+t901 footnote
+{+EN}
+Notes: If more than one source of ANC was mentioned, only the provider with the highest 
+       qualifications is considered in this tabulation. Stillbirths are fetal deaths 
+       in pregnancies lasting 28 or more weeks. When pregnancy duration is reported in 
+       months, stillbirths are fetal deaths in pregnancies lasting 7 or more months.~
+@1 Skilled provider includes [INSERT CADRES THAT ARE CONSIDERED SKILLED ATTENDANTS
+   IN PROVISION OF ANC IN THE COUNTRY].~
+@2 Birth order refers to the order of the birth among the respondent's live births.~
+@3 For women who had both a live birth and a stillbirth in the 2 years preceding
+   the survey, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+Nota:  Si se mencioné més de una fuente de atencién prenatal, sélo es considerada la més calificada
+para este cuadro.~
+@1 Proveedor de salud calificado incluye [INSERT CADRES THAT ARE CONSIDERED SKILLED
+   ATTENDANTS IN PROVISION OF ANC IN THE COUNTRY]~
+@2 Birth order refers to the order of the birth among the respondent's live births.~
+@3 For women who had both a live birth and a stillbirth in the 2 years preceding
+   the survey, data are tabulated for the most recent birth only.
+{ES}}
+{{FR}
+Notes: Si plus d'un prestataire de soins prénatals a été déclaré, seul celui possédant 
+       les qualifications les plus élevées a été pris en compte dans ce tableau. Les mort-nés 
+       sont des décès foetaux qui se sont produits après une grossesse de 28 semaines ou plus. 
+       Quand la durée de la grossesse est déclarée en mois, les mort-nés sont des décès 
+       foetaux qui se sont produits après une grossesse de 7 mois ou plus.~
+@1 Sont considérés comme prestataires de soins prénatals qualifiés
+   [INSÉRER LES CATÉGORIES QUI SONT CONSIDÉRÉES, DANS LE PAYS, COMME DES PRESTATAIRES 
+   QUALIFIÉS POUR FOURNIR DES SOINS PRÉNATALS].~
+@2 Le rang de naissance fait référence au rang de naissance parmi les naissances vivantes
+   de l'enquêtée.~
+@3 Pour les femmes qui ont eu une naissance vivante et un mort-né au cours des 2 années 
+   ayant précédé l'enquête, les données sont calculées sur la naissance la plus récente 
+   seulement.
+{FR}}
+endfootnote;
+
+t902 columns numwom   = 1 nodec
+             mednum   = 1 nodec;
+t902 footnote
+{+EN}
+Note: Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks. 
+      When pregnancy duration is reported in months, stillbirths are fetal deaths 
+      in pregnancies lasting 7 or more months.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@1 For women who had both a live birth and a stillbirth in the 2 years preceding
+   the survey, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les mort-nés sont des décès foetaux qui se sont produits après une grossesse 
+      de 28 semaines ou plus. Quand la durée de la grossesse est déclarée en mois, 
+      les mort-nés sont des décès foetaux qui se sont produits après une 
+      grossesse de 7 mois ou plus.~
+@1 Le rang de naissance fait référence au rang de naissance parmi les naissances
+   vivantes de l'enquêtée~
+@2 Pour les femmes qui ont eu une naissance vivante et un mort-né au cours des 2
+   années ayant précédé l'enquête, les données sont calculées sur la naissance la
+   plus récente seulement.
+{FR}}
+endfootnote;
+
+t9031 columns womanc = 1 nodec;
+t9031 footnote
+{+EN}
+Notes: The denominator for this table includes all women with a birth in the 2 years 
+       preceding the survey who received ANC for this birth. Stillbirths are fetal 
+       deaths in pregnancies lasting 28 or more weeks. When pregnancy duration is 
+       reported in months, stillbirths are fetal deaths in pregnancies lasting 
+       7 or more months.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding the
+   survey, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Notes: Le dénominateur de ce tableau comprend toutes les femmes ayant eu une naissance 
+       au cours des 2 années ayant précédé l'enquête et qui ont reçu des soins prénatals 
+       pour cette naissance. Les mort-nés sont des décès foetaux qui se sont produits 
+       après une grossesse de 28 semaines ou plus. Quand la durée de la grossesse est 
+       déclarée en mois, les mort-nés sont des décès foetaux qui se sont produits 
+       après une grossesse de 7 mois ou plus.~
+@1 Le  rang de naissance fait référence au rang de naissance parmi les naissances 
+   vivantes de l'enquêtée~
+@2 Pour les femmes qui ont eu une naissance vivante et un mort-né au cours des 2 
+   années ayant précédé l'enquête, les données sont calculées sur la naissance la 
+   plus récente seulement.
+{FR}}
+endfootnote;
+
+t9032 columns womprg = 1 nodec;
+t9032 footnote
+{+EN}
+Notes: The denominator for this table includes all women with a birth in the 2 years 
+       preceding the survey, whether or not they received ANC for this birth. 
+       Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks. 
+       When pregnancy duration is reported in months, stillbirths are fetal deaths in 
+       pregnancies lasting 7 or more months.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding the
+   survey, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Notes: Le dénominateur de ce tableau comprend toutes les femmes ayant eu une naissance 
+       au cours des 2 années ayant précédé l'enquête, qu'elles aient reçu ou non des soins 
+       prénatals pour cette naissance. Les mort-nés sont des décès foetaux qui se sont 
+       produits après une grossesse de 28 semaines ou plus. Quand la durée de la 
+       grossesse est déclarée en mois, les mort-nés sont des décès foetaux qui se 
+       sont produits après une grossesse de 7 mois ou plus.~
+@1 Le  rang de naissance fait référence au rang de naissance parmi les naissances 
+   vivantes de l'enquêtée~
+@2 Pour les femmes qui ont eu une naissance vivante et un mort-né au cours des 
+   2 années ayant précédé l'enquête, les données sont calculées sur la naissance 
+   la plus récente seulement.
+{FR}}
+endfootnote;
+
+t904 columns womprg = 1 nodec;
+t904 footnote
+{+EN}
+Note: Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks. 
+      When pregnancy duration is reported in months, stillbirths are fetal deaths 
+      in pregnancies lasting 7 or more months.~
+@1 Food or cash assistance program(s) include [INSERT NAME OR NAMES OF PROGRAM
+   IDENTIFIED IN THE QUESTIONNAIRE].~
+@2 [Iron tablets and syrup OR PHRASING USED IN WOMAN'S QUESTIONNAIRE Q426]~
+@3 Birth order refers to the order of the birth among the respondent's live births.~
+@4 For women who had both a live birth and a stillbirth in the 2 years preceding the
+   survey, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les mort-nés sont des décès foetaux qui se sont produits après une grossesse 
+      de 28 semaines ou plus. Quand la durée de la grossesse est déclarée en mois, 
+      les mort-nés sont des décès foetaux qui se sont produits après une grossesse 
+      de 7 mois ou plus.~
+@1 [Comprimés de fer et sirop OU FORMULATION UTILISÉE DANS LE QUESTIONNAIRE FEMME À Q426]~
+@2 Le rang de naissance fait référence au rang de naissance parmi les naissances 
+   vivantes de l'enquêtée.~
+@3 Pour les femmes qui ont eu une naissance vivante et un mort-né au cours des 2 années
+   ayant précédé l'enquête, les données sont calculées sur la naissance la plus récente seulement.
+{FR}}
+endfootnote;
+
+t905 rows numwom = 1 nodec;
+t905 footnote
+{+EN}
+Notes: Supplements may have been obtained from more than one source. Stillbirths 
+       are fetal deaths in pregnancies lasting 28 or more weeks. When pregnancy 
+       duration is reported in months, stillbirths are fetal deaths in pregnancies 
+       lasting 7 or more months.~
+CHW = Community health worker~
+NGO = Non-governmental organization~
+@1 [Iron tablets and syrup OR PHRASING USED IN WOMAN'S QUESTIONNAIRE Q426]~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding the
+   survey, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Notes: Les suppléments peuvent être obtenus auprès de plus d'une source. Les mort-nés 
+       sont des décès foetaux qui se sont produits après une grossesse de 28 semaines 
+       ou plus. Quand la durée de la grossesse est déclarée en mois, les mort-nés sont 
+       des décès foetaux qui se sont produits après une grossesse de 7 mois ou plus.~
+ASC = Agent de santé communautaire~
+ONG = Organisation non gouvernementale~
+@1 [Comprimés de fer et sirop OU FORMULATION UTILISÉE DANS LE QUESTIONNAIRE FEMME À Q426]~
+@2 Pour les femmes qui ont eu une naissance vivante et un mort-né au cours des 2 années
+   ayant précédé l'enquête, les données sont calculées sur la naissance la plus récente seulement.
+{FR}}
+endfootnote;
+
+t906   columns tetanus  = 9 nodec;
+t906 footnote
+{+EN}
+@1 Includes women with two injections during the pregnancy for the
+   most recent live birth, or two or more injections (the last within 3 years
+   of the most recent live birth), or three or more injections (the last
+   within 5 years of the most recent live birth), or four or more injections
+   (the last within 10 years of the most recent live birth), or five or
+   more injections at any time prior to the most recent birth~
+@2 Birth order refers to the order of the birth among the respondent's live births.
+{EN+}
+{{ES}
+@1 Incluye madres que recibieron dos o més inyecciones durante el embarazo del
+   nacimiento més reciente, o dos o més inyecciones (la éltima dosis en los
+   tres aéos antes del nacimiento més reciente), o tres o més inyecciones
+   (la éltima dosis en los cinco aéos antes del nacimiento més reciente),
+   o cuatro o més inyecciones (la éltima dosis en los 10 aéos antes del nacimiento
+   més reciente), o cinco o més inyecciones antes del nacimiento més reciente~
+@2 Birth order refers to the order of the birth among the respondent's live births.
+{ES}}
+{{FR}
+@1 Y compris les femmes ayant reçu deux injections au cours de la grossesse de la
+   naissance vivante la plus récente ou, au moins, deux injections (la dernière
+   ayant été effectuée au cours des 3 années ayant précédé la dernière naissance
+   vivante), ou, au moins, trois injections (la dernière ayant été effectuée au
+   cours des 5 années ayant précédé la dernière naissance vivante), ou, au moins,
+   quatre injections (la dernière ayant été effectuée au cours des 10 années ayant
+   précédé la dernière naissance vivante), ou, au moins, cinq injections avant la
+   dernière naissance vivante.~
+@2 Le rang de naissance fait référence au rang de naissance parmi les naissances
+   vivantes de l'enquêtée.
+{FR}}
+endfootnote;
+
+t907   columns totbirt2 = 2 nodec;
+t907 footnote
+{+EN}
+Note: Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks. 
+      When pregnancy duration is reported in months, stillbirths are fetal deaths 
+      in pregnancies lasting 7 or more months.~
+NGO = non governmental organization~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 Includes only the most recent birth in the 2 years preceding the survey
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les mort-nés sont des décès foetaux qui se sont produits après une grossesse 
+      de 28 semaines ou plus. Quand la durée de la grossesse est déclarée en mois, 
+      les mort-nés sont des décès foetaux qui se sont produits après une grossesse 
+      de 7 mois ou plus.~
+ONG = Organisation non gouvernementale~
+@1 Le rang de naissance fait référence au rang de naissance parmi les naissances 
+   vivantes de l'enquêtée.~
+@2 Concerne seulement la naissance vivante la plus récente ayant eu lieu au cours 
+   des 2 années ayant précédé l'enquête.
+{FR}}
+endfootnote;
+
+t908   columns numbirth = 1 nodec;
+t908 footnote
+{+EN}
+Notes: The question on C-section is asked only of women who delivered in a health facility. 
+       In this table, it is assumed that women who did not give birth in health facility 
+       did not receive a C-section. Stillbirths are fetal deaths in pregnancies lasting 
+       28 or more weeks. When pregnancy duration is reported in months, stillbirths are 
+       fetal deaths in pregnancies lasting 7 or more months.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 Includes only the most recent birth in the 2 years preceding the survey.
+{EN+}
+{{ES}
+Note: The question on C-section is asked only of women who delivered in a health facility. In this table,
+      it is assumed that women who did not give birth in health facility did not receive a c-section.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 Includes only the most recent birth in the five years preceding the survey.
+{ES}}
+{{FR}
+Notes: La question sur la césarienne n'est posée qu'aux femmes qui ont accouché dans un établissement 
+       de santé. Dans ce tableau, on suppose que les femmes qui n'ont pas accouché dans un 
+       établissement de santé n'ont pas accouché par césarienne. Les mort-nés sont des décès foetaux 
+       qui se sont produits après une grossesse de 28 semaines ou plus. Quand la durée de la grossesse 
+       est déclarée en mois, les mort-nés sont des décès foetaux qui se sont produits après une 
+       grossesse de 7 mois ou plus.~
+@1 Le rang de naissance fait référence au rang de naissance parmi les naissances 
+   vivantes de l'enquêtée.~
+@2 Concerne seulement la naissance la plus récente ayant eu lieu au cours des 2 années ayant précédé l'enquête.
+{FR}}
+endfootnote;
+
+t909   columns numbist  = 1 nodec
+               deliver3 = 2 nodec;
+t909 footnote
+{+EN}
+na = Not applicable~
+Notes: If the respondent mentioned more than one person attending during 
+       delivery, only the most qualified person is considered in this tabulation. 
+       Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks. 
+       When pregnancy duration is reported in months, stillbirths are fetal 
+       deaths in pregnancies lasting 7 or more months.~
+@1 Skilled provider includes [INSERT CADRES THAT ARE CONSIDERED SKILLED ATTENDANTS
+   IN PROVISION OF ANC IN THE COUNTRY].~
+@2 Birth order refers to the order of the birth among the respondent's live births.~
+@3 Includes only the most recent birth in the 2 years preceding the survey
+{EN+}
+{{ES}
+na = Not applicable~
+Notes: Si l'enquêtée déclare que plus d'une personne a assisté l'accouchement, 
+       seule celle possédant les qualifications les plus élevées est prise en compte 
+       dans ce tableau. Les mort-nés sont des décès foetaux qui se sont produits 
+       après une grossesse de 28 semaines ou plus. Quand la durée de la grossesse 
+       est déclarée en mois, les mort-nés sont des décès foetaux qui se sont 
+       produits après une grossesse de 7 mois ou plus.~
+@1 Skilled provider includes [INSERT CADRES THAT ARE CONSIDERED SKILLED ATTENDANTS
+   IN PROVISION OF ANC IN THE COUNTRY].~
+@2 Birth order refers to the order of the birth among the respondent's live births.~   
+@3 Solamente incluye el nacimiento més reciente en los dos aéos que precedieron la encuesta
+{ES}}
+{{FR}
+na = Non applicable~
+Note : Si l'enquêtée déclare que plus d'une personne a assisté l'accouchement, seule 
+       celle possédant les qualifications les plus élevées est prise en compte dans ce tableau.~
+@1 Le personnel qualifié comprend [INSÉRER LES CATÉGORIES DE PRESTATAIRES CONSIDÉRÉES 
+   DANS LE PAYS COMME ÉTANT DU PERSONNEL QUALIFIÉ POUR FOURNIR UNE ASSISTANCE DURANT 
+   L'ACCOUCHEMENT].~
+@2 Le rang de naissance fait référence au rang de naissance parmi les naissances 
+   vivantes de l'enquêtée.~
+@3 Concerne seulement la naissance vivante la plus récente ayant eu lieu au cours 
+   des 2 années ayant précédé l'enquête.
+{FR}}
+endfootnote;
+
+t910   columns totnum2  = 1 nodec;
+t910 footnote
+{+EN}
+Note: Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks. 
+      When pregnancy duration is reported in months, stillbirths are fetal deaths 
+      in pregnancies lasting 7 or more months.~
+@1 For women who had both a live birth and a stillbirth in the 2 years preceding the survey, 
+   data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les mort-nés sont des décès foetaux qui se sont produits après une grossesse de 
+      28 semaines ou plus. Quand la durée de la grossesse est déclarée en mois, les mort-nés 
+      sont des décès foetaux qui se sont produits après une grossesse de 7 mois ou plus.~
+@1 Pour les femmes qui ont eu une naissance vivante et un mort-né au cours des 2 années ayant 
+   précédé l'enquête, les données sont calculées sur la naissance la plus récente seulement.
+{FR}}
+endfootnote;
+
+t911 columns numwom = 1  nodec;
+t911 footnote
+{+EN}
+Note: Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks. 
+      When pregnancy duration is reported in months, stillbirths are fetal deaths 
+      in pregnancies lasting 7 or more months.~
+@1 Includes women who received a check from a doctor, nurse/midwife, auxiliary midwife, 
+   community health worker/fieldworker, or traditional birth attendant~   
+@2 Includes women who received a check after 41 days~
+@3 Birth order refers to the order of the birth among the respondent's live births.~
+@4 For women who had both a live birth and a stillbirth in the 2 years preceding the 
+   survey, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les mort-nés sont des décès foetaux qui se sont produits après une grossesse de 
+      28 semaines ou plus. Quand la durée de la grossesse est déclarée en mois, les mort-nés 
+      sont des décès foetaux qui se sont produits après une grossesse de 7 mois ou plus.~
+@1 Y compris les femmes qui ont eu un examen postnatal dispensé par [INSÉRER LES CATÉGORIES 
+   DE PRESTATAIRES CONSIDÉRÉES DANS LE PAYS COMME ÉTANT DU PERSONNEL QUALIFIÉ POUR FOURNIR 
+   UNE ASSISTANCE DURANT L'ACCOUCHEMENT].~
+@2 Y compris les femmes qui ont eu un examen postnatal après 41 jours.~
+@3 Le rang de naissance fait référence au rang de naissance parmi les naissances vivantes de l'enquêtée.~
+@4 Pour les femmes qui ont eu une naissance vivante et un mort-né au cours des 2 années ayant 
+   précédé l'enquête, les données sont calculées sur la naissance la plus récente seulement.
+{FR}}
+endfootnote;
+
+t912 columns totnum2 = 1 nodec;
+t912 footnote
+{+EN}
+Note: Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks. 
+      When pregnancy duration is reported in months, stillbirths are fetal deaths 
+      in pregnancies lasting 7 or more months.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding 
+   the survey, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les mort-nés sont des décès foetaux qui se sont produits après une grossesse 
+      de 28 semaines ou plus. Quand la durée de la grossesse est déclarée en mois, 
+      les mort-nés sont des décès foetaux qui se sont produits après une grossesse 
+      de 7 mois ou plus.~
+@1 Le  rang de naissance fait référence au rang de naissance parmi les naissances 
+   vivantes de l'enquêtée.~
+@2 Pour les femmes qui ont eu une naissance vivante et un mort-né au cours des
+   2 années ayant précédé l'enquête, les données sont calculées sur la naissance
+   la plus récente seulement.
+{FR}}
+endfootnote;
+
+
+t913 columns numwom = 1 nodec;
+t913 footnote
+{+EN}
+Note: Stillbirths are fetal deaths in pregnancies lasting 28 or more weeks. 
+      When pregnancy duration is reported in months, stillbirths are fetal deaths 
+      in pregnancies lasting 7 or more months.~
+@1 Birth order refers to the order of the birth among the respondent's live births.~
+@2 For women who had both a live birth and a stillbirth in the 2 years preceding 
+   the survey, data are tabulated for the most recent birth only.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Les mort-nés sont des décès foetaux qui se sont produits après une grossesse 
+      de 28 semaines ou plus. Quand la durée de la grossesse est déclarée en mois, 
+      les mort-nés sont des décès foetaux qui se sont produits après une grossesse 
+      de 7 mois ou plus.~
+@1 Le  rang de naissance fait référence au rang de naissance parmi les naissances 
+   vivantes de l'enquêtée.~
+@2 Pour les femmes qui ont eu une naissance vivante et un mort-né au cours des
+   2 années ayant précédé l'enquête, les données sont calculées sur la naissance
+   la plus récente seulement.
+{FR}}
+endfootnote;
+
+t914 columns numbirth = 1  nodec;
+t914 footnote
+{+EN}
+@1 Includes newborns who received a check from a doctor, nurse/midwife, auxiliary midwife, 
+   community health worker/fieldworker, or traditional birth attendant~
+@2 Includes newborns who received a check after the first week of life~
+@3 Birth order refers to the order of the birth among the respondent's live births.
+{EN+}
+{{ES}
+@1 Includes newborns who received a check from a doctor, nurse/midwife, auxiliary midwife, 
+   community health worker/fieldworker, or traditional birth attendant~
+@2 Incluye recién nacidos que recibieron el control después de la primera semana~
+@3 Birth order refers to the order of the birth among the respondent's live births.
+{ES}}
+{{FR}
+@1 Y compris les nouveau-nés qui ont eu un examen postnatal dispensé par 
+   [INSÉRER LES CATÉGORIES DE PRESTATAIRES CONSIDÉRÉES DANS LE PAYS COMME ÉTANT 
+   DU PERSONNEL QUALIFIÉ POUR FOURNIR UNE ASSISTANCE DURANT L'ACCOUCHEMENT].~
+@2 Y compris les nouveau-nés qui ont eu un examen après la première semaine.~
+@3 Le rang de naissance fait référence au rang de naissance parmi les naissances 
+   vivantes de l'enquêtée.
+{FR}}
+endfootnote;
+
+t915 columns totbirth = 1 nodec;
+t915 footnote
+{+EN}
+@1 Birth order refers to the order of the birth among the respondent's live births.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Le rang de naissance fait référence au rang de naissance parmi les naissances vivantes 
+   de l'enquêtée.
+{FR}}
+endfootnote;
+
+t916 columns numbirth = 1 nodec;
+t916 footnote
+{+EN}
+@1 Captures newborns who were weighed “at birth.” May exclude some newborns who were weighed
+   during the 2 days after birth.~
+@2 The functions are 1) examining the umbilical cord, 2) measuring temperature, 
+   3) observing and/or counseling on breastfeeding, 4) telling the mother about danger 
+   signs/how to recognize if the baby needs immediate attention, and 5) weighing. 
+   Corresponds to the definition of the five signal functions to assess the content 
+   of postnatal care for newborns described in Moran et al, 2013.~
+@3 Birth order refers to the order of the birth among the respondent's live births.   
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Concerne les nouveau-nés qui ont été pesés "à la naissance". Il se peut que certains 
+   nouveau-nés pesés au cours des 2 jours ayant suivi la naissance aient été exclus.~
+@2 Le actes/conseils sont 1) l'examen du cordon, 2) la prise de la température, 
+   3) l'observation et/ou le conseil sur l'allaitement, 4) Avertir la mère sur les signes 
+   de danger /comment reconnaître si l'enfant a besoin de soins médicaux immédiats, et 
+   5) la prise du poids. Correspond à la définition des cinq actes/conseils sur laquelle 
+   est basée l'évaluation du contenu des soins postnatals décrite dans Moran et al, 2013.~
+@3 Le rang de naissance fait référence au rang de naissance parmi les naissances vivantes 
+   de l'enquêtée.
+{FR}}
+endfootnote;
+
+t917 columns numbirth = 1 nodec;
+t917 footnote
+{+EN}
+NGO = Non-governmental organization~
+@1 Includes checks from a doctor, nurse/midwife, auxiliary midwife, 
+   community health worker/fieldworker, or traditional birth attendant.~
+@2 Includes checks after the first 2 days or by other persons.~
+@3 Birth order refers to the order of the birth among the respondent's live births.   
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+ONG = Organisation non gouvernementale~
+@1 Y compris un examen effectué par un médecin, une infirmière/sage-femme, une sage-femme 
+   auxiliaire, un agent de santé communautaire/agent de terrain ou une accoucheuse 
+   traditionnelle.~
+@2 Y compris un examen effectué après les 2 jours qui ont suivi la naissance ou dispensés 
+   par d'autres personnes.~
+@3 Le rang de naissance fait référence au rang de naissance parmi les naissances vivantes 
+   de l'enquêtée.
+{FR}}
+endfootnote;
+
+t918 columns mv248w = 2 nodec
+             mv249w = 2 nodec
+             mv250w = 2 nodec
+             mv253w = 2 nodec;
+
+t919 columns cervcan = 3 nodec;
+
+t920 columns hlthaccs  = 10 nodec;
+
+t921 columns numwom = 1 nodec;
+t921 footnote
+{+EN}
+na = not applicable~
+@1 Includes car/truck, public bus, motorcycle/scooter, and boat with motor.~
+@2 Includes animal-drawn cart, bicycle, boat without motor, and walking.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+na = non applicable~
+@1 Comprend voiture/camion, bus public, motocyclette/scooter et bateau à moteur.~
+@2 Comprend charette tirée par un animal, bicyclette, bateau sans moteur et marche.
+{FR}}
+endfootnote;
+

@@ -1,0 +1,97 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+}
+
+tfgc1 columns isex = 1 knowcirc = 2 nodec isex = 2 knowcirc = 2 nodec;
+tfgc1 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{FR}
+na = Non applicable
+{FR}}
+
+tfgc2 columns pctcirc = 2 nodec numwomc = 1 nodec;
+
+tfgc3 columns numwomc = 1 nodec;
+
+tfgc4 columns totgirls = 2 nodec;
+tfgc4 footnote
+{+EN}
+Note: The circumcision status of girls is reported by their mothers.~
+na = Not applicable due to censoring
+{EN+}
+{{FR}
+Note : L’information sur l’excision de la fille est basée sur la déclaration de la mère.~
+na = Non applicable pour cause de troncature
+{FR}}
+endfootnote;
+
+tfgc5 footnote
+{+EN}
+Note: The circumcision status of girls is reported by their mothers.
+{EN+}
+{{FR}
+Note : L’information sur l’excision des filles est basée sur la déclaration de la mère.
+{FR}}
+endfootnote;
+
+tfgc6 columns totnumg = 1 nodec;
+tfgc6 footnote
+{+EN}
+Note: The circumcision status of girls is reported by their mothers.
+{EN+}
+{{FR}
+Note : L’information sur l’excision des filles est basée sur la déclaration de la mère.
+{FR}}
+endfootnote;
+
+tfgc7 rows tnumber = 1 nodec;
+tfgc7 footnote
+{+EN}
+Note: The circumcision status of girls is reported by their mothers.
+{EN+}
+{{FR}
+Note : L’information sur l’excision des filles est basée sur la déclaration de la mère.
+{FR}}
+endfootnote;
+
+tfig4 rows    totw1549 = 1 nodec
+      columns girls014 = 2 nodec;
+tfig4 footnote
+{+EN}
+Note: Exact age at circumcision for years of age less than 5 not available
+      for women due to recall issues~
+na = Not applicable~
+@1 Percentage of women circumcised after exact age 14
+{EN+}
+{{FR}
+Note: Du fait de problème de mémoire, l'âge exact à l'excision pour des âges inférieurs à 5 ans n'est pas disponible.~
+na = Non applicable~
+@1 Pourcentage de femmes excisées après l'âge de 14 ans
+{FR}}
+endfootnote;
+
+tfgc8 columns isex = 1 relcirc = 5 nodec isex = 2 relcirc = 5 nodec;
+tfgc8 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{FR}
+na = Non applicable
+{FR}}
+endfootnote;
+
+tfgc9 columns isex = 1 contcirc = 5 nodec isex = 2 contcirc = 5 nodec;
+tfgc9 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{FR}
+na = Non applicable
+{FR}}
+endfootnote;
+{EN+}
+

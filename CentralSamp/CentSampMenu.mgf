@@ -1,0 +1,39 @@
+﻿Language = EN
+001 Cluster=%03d, not defined in sample file
+007 Cluster %d not defined in control file
+008 Cluster %d already closed
+009 Cluster %d hasn't arrvied therefore can't be closed
+010 Coordinates for cluster %d hasn't been captured, therefore cluster can't be closed
+011 Cluster %d hasn't arrived, therefore no operations can be done on it
+012 Cluster %d hasn't been reviewed, therefore can't be closed
+070 Make sure that flash memory is in computer to make a data BACKUP to directory %s
+071 Memory flash is not connected to the computer or directory %s doesn't exist.  Data will not be backed-up to flash memory
+072 Completed data backup from %s directory to %s directory
+080 Cluster %d sucessfully closed
+102 There are no data for cluster %d in directory %s for Cluster
+110 File: %s was deleted
+115 Press OK to display content of duplicated file(%d): %s for cluster %04d
+300 Central office connected to: %s
+301 Central office can't connect to: %s
+
+Language = ES
+{ common strings used by application }
+  ES ( "LIST OF FILES DELETED BECAUSE THEY CAME EMPTY" ) LISTA DE ARCHIVOS BORRADOS PORQUE LLEGARON BACIOS
+  ES ( "LIST OF NEW CLUSTERS THAT ARRIVED FROM THE FIELD AS OF TODAY" ) LISTA DE ARCHIVOS QUE LLEGARON DEL CAMPO A LA FECHA 
+  ES ( "Cluster:" ) Segmento:
+  ES ( "Arrived on:" ) Llego en:
+  ES ( "LIST OF CLUSTERS THAT ARRIVED PREVIOUSLY BUT WERE MODIFIED OR ENUMERATOR CHANGED" ) LISTA DE ARCHIVOS QUE LLEGARON ANTERIORMENTE PERO FUERON MODIFICADOS O LOS ENUMERADORES LOS CAMBIARON
+  ES ( "Duplicated files are displayed and only one of them must be left" ) Los archivos duplicados se listaran pero solo uno de ellos debera permanecer
+  ES ( "and arrived previously on:" ) y habia llegado anteriormente en:
+  ES ( "Previous Enumerator:" ) Enumerador anterior:
+  ES ( "New Enumerator:" ) Enumerador Nuevo:
+  ES ( "Delete incorrect file" ) Borrar el archivo incorrecto
+  ES ( "LIST OF CLUSTERS CLOSED THAT CAME BACK AGAIN FROM THE FIELD" ) LISTA DE SEGMENTOS CERRADOS QUE LLEGARON DE NUEVO DEL CAMPO  
+  ES ( "but already closed on:" ) pero ya fue cerrado en:
+  ES ( "Select the correct file/enumerator for cluster:" ) Seleccione el archivo/enumerador correcto para el segmento:
+  ES ( "Will Decide Later" ) Decidir Mas Tarde
+  ES ( "Clusters arrived from the field since last time the central office system was executed" ) Segmentos que llegaron desde la ultima vez que se ejecuto el sistema para la oficina central
+  ES ( "Central Office Menu, Cluster:" ) Menu de oficina central, Segmento:
+
+072 Finalizo copia de resplado de folder %s a folder %s
+110 Archivo: %s se borro

@@ -1,0 +1,33 @@
+[Dictionary]
+Version=CSPro 2.5
+Label=Header dictionary for Control
+Name=CNULL
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+
+[Level]
+Label=LEVEL1
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=Level1 Identification
+Name=ID
+Start=1
+Len=5
+
+[Record]
+Label=CNULLS
+Name=CNULLS
+RecordTypeValue=''
+RecordLen=8
+
+[Item]
+Label=CNULSAMP
+Name=CNULSAMP
+Start=6
+Len=3

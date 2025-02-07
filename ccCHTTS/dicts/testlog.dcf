@@ -1,0 +1,434 @@
+﻿[Dictionary]
+Version=CSPro 7.7
+Label=testlog
+Name=TESTLOG_DICT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=36D92F888CB7015330AFFA04861E914176DF4074B91131B748B112B3FCE5530B
+
+[Level]
+Label=Log for HIV test samples
+Name=LEVEL1
+
+[IdItems]
+
+[Item]
+Label=Sample ID bar code
+Name=LBAR
+Start=1
+Len=5
+DataType=Alpha
+
+[Record]
+Label=testlog record
+Name=TESTLOG_REC
+RecordTypeValue=''
+RecordLen=942
+
+[Item]
+Label=Sample identification (lab version)
+Name=LABID
+Start=6
+Len=5
+DataType=Numeric
+ZeroFill=Yes
+
+[Item]
+Label=Date received
+Name=LDATE
+Start=11
+Len=8
+DataType=Numeric
+
+[Item]
+Label=Testing stage
+Name=LSTAGE
+Start=19
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Testing stage
+Name=LSTAGE_VS1
+Value=1;A1 = Murex HIV Ag/Ab Combination
+Value=2;A2=  Genscreen™ HIV-1/2 Version 2 
+Value=3;Repeat A1 and A2
+Value=4;A3 = Geenius HIV 1/2 Supplementary Assay
+Value=5;not used
+Value=7;Indeterminate
+Value=9;Testing completed
+
+[Item]
+Label=Testing stage
+Name=LSTAGET
+Start=20
+Len=32
+DataType=Alpha
+
+[Item]
+Label=Stage completed
+Name=LSTATUS
+Start=52
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Stage completed
+Name=LSTATUS_VS1
+Value=0;No
+Value=1;Yes
+Value=' '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Stage completed
+Name=LSTATUST
+Start=53
+Len=3
+DataType=Alpha
+
+[Item]
+Label=Grouips of a to 10 plates for a sample
+Name=LTEST
+Start=56
+Len=88
+DataType=Alpha
+Occurrences=10
+
+[Item]
+Label=Test type
+Name=LTYPE
+Start=56
+Len=1
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Test type
+Name=LTYPE_VS1
+Value=1;Murex HIV Ag/Ab Combination
+Value=2;Genscreen™ HIV-1/2 Version 2
+Value=3;Murex HIV Ag/Ab Combination (Repeat)
+Value=4;Genscreen™ HIV-1/2 Version 2  (Repeat)
+Value=' '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Test type
+Name=LTYPET
+Start=57
+Len=25
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Test type
+Name=LTYPET_VS1
+Value='                         '
+
+[Item]
+Label=Date plate created : day
+Name=LCDATED
+Start=82
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Date plate created : day
+Name=LCDATED_VS1
+Value='  '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Date plate created : month
+Name=LCDATEM
+Start=84
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Date plate created : month
+Name=LCDATEM_VS1
+Value='  '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Date plate created : year
+Name=LCDATEY
+Start=86
+Len=4
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Date plate created : year
+Name=LCDATEY_VS1
+Value='    '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Date of test : day
+Name=LTDATED
+Start=90
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Date of test : day
+Name=LTDATED_VS1
+Value='  '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Date of test : month
+Name=LTDATEM
+Start=92
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Date of test : month
+Name=LTDATEM_VS1
+Value='  '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Date of test : year
+Name=LTDATEY
+Start=94
+Len=4
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Date of test : year
+Name=LTDATEY_VS1
+Value='    '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Plate id
+Name=LPLATE
+Start=98
+Len=7
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Column position in plate
+Name=LCOL
+Start=105
+Len=2
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Column position in plate
+Name=LCOL_VS1
+Value='  '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Row position in plate
+Name=LROW
+Start=107
+Len=1
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Row position in plate
+Name=LROW_VS1
+Value=' '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Optical Density measurement
+Name=LMEAS
+Start=108
+Len=6
+ItemType=SubItem
+DataType=Numeric
+Decimal=3
+DecimalChar=Yes
+
+[ValueSet]
+Label=Optical Density measurement
+Name=LMEAS_VS1
+Value='      '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Cutoff
+Name=LCUTOFF
+Start=114
+Len=6
+ItemType=SubItem
+DataType=Numeric
+Decimal=4
+DecimalChar=Yes
+
+[Item]
+Label=Test result
+Name=LTRES
+Start=120
+Len=1
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Test result
+Name=LTRES_VS1
+Value=0;N
+Value=1;P
+Value=2;G
+Value=' '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Test result
+Name=LTRETT
+Start=121
+Len=1
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Plate flag
+Name=LTFLAG
+Start=122
+Len=1
+ItemType=SubItem
+DataType=Numeric
+
+[ValueSet]
+Label=Plate flag
+Name=LTFLAG_VS1
+Value=0;No flag
+Value=1;Controls invalid
+Value=2;High % of positives
+Value=' '
+Name=NOTAPPL,Special
+
+[Item]
+Label=Plate flag
+Name=LTFLAGT
+Start=123
+Len=20
+ItemType=SubItem
+DataType=Alpha
+
+[ValueSet]
+Label=Plate flag
+Name=LTFLAGT_VS1
+Value='                    '
+
+[Item]
+Label=Plate canceled
+Name=LCANCEL
+Start=143
+Len=1
+ItemType=SubItem
+DataType=Numeric
+
+[Item]
+Label=Western Blot test result
+Name=LDETERM1
+Start=936
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Western Blot test result
+Name=LDETERM1_VS1
+Value=0;Negative
+Value=1;Positive
+Value=7;Indeterminate
+Value=9;Inconclusive
+
+[Item]
+Label=Pepti Lav test result
+Name=LDETERM2
+Start=937
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Pepti Lav test result
+Name=LDETERM2_VS1
+Value=1;Positive : HIV Type I
+Value=2;Positive : HIV Type II
+Value=3;Positive : Dual reactive
+Value=7;Indeterminate
+Value=9;Inconclusive
+
+[Item]
+Label=Selected for random retest after Elisa 1 negative
+Name=LRET
+Start=938
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Selected for random retest after Elisa 1 negative
+Name=LRET_VS1
+Value=0;No
+Value=1;Yes
+Value=2;In the grey area for first level
+
+[Item]
+Label=Selected for external retest
+Name=LEXT
+Start=939
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Selected for external retest
+Name=LEXT_VS1
+Value=0;Not selected
+Value=1;Selected
+
+[Item]
+Label=Sample locked
+Name=LLOCK
+Start=940
+Len=1
+DataType=Numeric
+
+[Item]
+Label=Final result
+Name=LFINRES
+Start=941
+Len=1
+DataType=Numeric
+
+[ValueSet]
+Label=Final result
+Name=LFINRES_VS1
+Value=0;HIV negative
+Value=1;HIV positive
+Value=2;HIV2 positive
+Value=3;HIV1 & HIV2 positive
+Value=4;ERROR : V-, W+, M+
+Value=5;ERROR : V-, W+, M-
+Value=6;ERROR : V-, W-, M+
+Value=7;Indeterminant
+Value=8;Not enough samples to complete protocol
+Value=9;Inconclusive
+Value=' '
+Name=NOTAPPL,Special
+
+[Item]
+Label=To make records of fix length since the bginning
+Name=LFIXLAST
+Start=942
+Len=1
+DataType=Alpha

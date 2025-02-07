@@ -1,0 +1,25 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=ASSIGNHH
+Name=ASSIGNHH
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[External Dictionaries]
+File=..\Dicts\CONTSUP.dcf
+File=..\Dicts\Interv.dcf
+File=..\Dicts\HHForInt.dcf
+[AppCode]
+File=.\assignhh.apc
+[Message]
+File=.\assignhh.mgf
+[Help]
+File=.\assignhh.qsf
+[Forms]
+File=.\assignhh.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\SampSel.dcf,Input,.\assignhh.fmf
+Dict-Type=..\Dicts\CONTSUP.dcf,External
+Dict-Type=..\Dicts\Interv.dcf,External
+Dict-Type=..\Dicts\HHForInt.dcf,External

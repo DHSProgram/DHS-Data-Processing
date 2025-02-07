@@ -1,0 +1,117 @@
+﻿PROC GLOBAL
+
+  numeric x, n, oldhh, i, maxhh;
+  string  strtxt;
+
+  { set up basic user bar }
+  function userbase();
+    userbar( clear );
+    userbar( add button, "<",    do("PreviousField") );
+    userbar( add button, ">",    do("NextField") );
+    userbar( add button, ">>|",  do("AdvanceToEnd") );
+    userbar( add button, "Lang", do("ChangeLanguage") );
+  end;
+
+  { set value sets based on language }
+  function OnChangeLanguage()
+    SetLanguage( getlanguage() );
+  end;
+
+PROC FL_CONTSUP
+preproc
+
+  { converts parameter to numbers  }
+  maxhh    = maxocc( SALLHH );             { maximum number of households selected per cluster }
+  SetLanguage( getlanguage() );
+
+  setproperty(CONTSUP, "ShowExtendedControlTitle", "No");
+
+  { set font for value sets }
+  setfont( All, "Arial", 18, bold );
+
+  { set up minimal user bar }
+  userbase();
+  userbar( show );
+
+postproc
+  stop(1);
+
+PROC SCHANGE
+preproc
+  $ = notappl;
+
+postproc
+  if $ = 1 then
+    set attributes( SHTOTAL ) autoskip;
+  elseif $ = 2 then
+    set attributes( SNUMBER ) autoskip;
+    advance SNUMBER(1);
+  elseif $ = 3 then
+    advance SEND
+  elseif $ = 4 then
+    stop(-1)
+  endif;
+
+PROC SHTOTAL
+  if !$ then
+    errmsg( 010 );
+    reenter SCHANGE
+  endif;
+
+PROC SCRDATE
+preproc
+  if visualvalue($) = 0 then
+    $ = sysdate()
+  endif;
+
+PROC SNUMBER
+preproc
+  { by entering zero, the household will be eliminated }
+  { the household number can also be changed            }
+  if curocc() > SHTOTAL then
+    advance send
+  endif;
+
+onfocus
+  n     = curocc();
+  oldhh = visualvalue($(n));
+
+postproc
+  if oldhh <> 0 & $ = 0 then
+    n = curocc();
+    do i = n while i < maxhh & visualvalue( SNUMBER(i+1) ) <> 0 by 1
+      SNUMBER(i)   = visualvalue( SNUMBER(i+1) );
+      SINTNUM(i)   = visualvalue( SINTNUM(i+1) );
+      SACCEPTH(i)  = visualvalue( SACCEPTH(i+1) ) ;
+      SACCEPTI(i)  = visualvalue( SACCEPTI(i+1) );
+      SACCEPTHW(i) = visualvalue( SACCEPTHW(i+1) );
+      SACCEPTF(i)  = visualvalue( SACCEPTF(i+1) );
+    enddo;
+    SNUMBER(i)   = 0;
+    SINTNUM(i)   = 0;
+    SACCEPTH(i)  = 0;
+    SACCEPTI(i)  = 0;
+    SACCEPTHW(i) = 0;
+    SACCEPTF(i)  = 0;
+    advance send;
+  endif;
+
+PROC SEND
+preproc
+  $ = " ";
+  noinput;
+
+postproc
+  if SCHANGE = 1 then
+    strtxt = tr("Number of households") + " " + edit("99",SHTOTAL) + " " + tr("Correct?");
+    x = accept( strtxt, "Yes", "No" );
+    if x <> 1 then
+      reenter SCHANGE
+    endif;
+  endif;
+  if count( SNUMBER000 where SNUMBER <> 0 ) then
+    show( SNUMBER000, SNUMBER, SINTNUM, SACCEPTH, SACCEPTI, SACCEPTHW
+      title( tr("HH#"), tr("Int"), tr("HH"), tr("Indv"), tr("H&W") ) where SNUMBER <> 0 );
+  endif;
+  endlevel;
+

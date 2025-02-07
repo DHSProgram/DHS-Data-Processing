@@ -1,0 +1,23 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=FIELDWKQUEST
+Name=FIELDWKQUEST
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[External Dictionaries]
+File=..\dicts\Interv.dcf
+[AppCode]
+File=.\FieldWKQuest.apc
+[Message]
+File=.\Preparation.mgf
+[Help]
+File=.\FieldWKQuest.qsf
+[Forms]
+File=.\FieldWKQuest.fmf
+File=.\Others.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\FieldWKQuest.dcf,Input,.\FieldWKQuest.fmf
+Dict-Type=..\Dicts\Others.dcf,External,.\Others.fmf
+Dict-Type=..\dicts\Interv.dcf,External

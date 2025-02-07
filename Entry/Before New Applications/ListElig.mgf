@@ -1,0 +1,22 @@
+﻿Language = EN
+99999 Dummy message until a CSPro bug is fixed to properly handle languages
+
+Language = ES
+{ strings commonly used by application }
+  ES ( "Eligible Individuals in Cluster: %04d Household: %04d" ) Personas Elegibles en Segmento: %04d Hogar: %04d
+  ES ( "Women/men eligible for individual interview" ) Mujeres/hombres elegibles para entrevista individual
+  ES ( "Children eligible for biomarkers" ) Niños elegibles para biomarcadores
+  ES ( "Line" ) Linea
+  ES ( "Sex" ) Sexo
+  ES ( "AgeHH" ) EdadHog
+  ES ( "Name" ) Nombre
+  ES ( "Age" ) Edad
+  ES ( "Marital Status" ) Estado Civil
+  ES ( "Pregnant" ) Embarazo
+  ES ( "Date of birth" ) Fecha nacimiento
+  ES ( "There are no individuals eligible for individual survey neither children eligible for biomarkers" ) No hay individuos elegibles para entrevista individual tampoco niños elegibles para biomarcadores
+  ES ( "Women eligible for biomarkers" ) Mujeres elegibles para biomarcadores
+  ES ( "Never in union" ) Nunca unida(o)
+  ES ( "Other" ) Otro
+  ES ( "Men eligible for biomarkers" ) Hombres elegibles para biomarcadores
+  ES ( "The household selected was not found in this cluster" ) El hogar seleccionado no se encontro en este segmento

@@ -1,0 +1,624 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+t1101 columns hghtage  = 4 nodec
+              wghthght = 5 nodec
+              wghtage  = 4 nodec
+              hghtage  = 3 negative
+              wghthght = 4 negative
+              wghtage  = 3 negative;
+t1101 footnote
+{+EN}
+Note: Each of the indices is expressed in standard deviation units (SD) from the
+      median of the WHO Child Growth Standards.~
+@1 Recumbent length is measured for children under age 2; standing height is
+   measured for all other children.~
+@2 Includes children who are below -3 standard deviations (SD)
+   from the WHO Child Growth standards population median~
+@3 Excludes children whose mothers were not interviewed~
+@4 First-born twins (triplets, etc.) are counted as first births because
+   they do not have a previous birth interval.~
+@5 Information available only for children age 0-35 months
+@6 Includes children whose mothers are deceased~
+@7 Excludes children whose mothers were not weighed and measured, children whose
+   mothers were not interviewed, and children whose mothers are pregnant or gave
+   birth within the preceding 2 months. Mother's nutritional status defined using
+   body mass index (BMI) for mothers age 20-49 and using BMI-for-age for mothers
+   age 15-19 as presented in Tables 11.14.1 and 11.14.2.~
+@8 For women who are not interviewed, information is taken from the
+   Household Questionnaire.  Excludes children whose mothers are not listed in
+   the Household Questionnaire.
+{EN+}
+{{ES}
+Note: Each of the indices is expressed in standard deviation units (SD) from the
+      median of the WHO Child Growth Standards.~
+@1 Recumbent length is measured for children under age 2; standing height is
+   measured for all other children.~
+@2 Incluye ni?os/as que est?n por debajo de -3 desviaciones est?ndar (DE) de la mediana
+   de la poblaci?n para los Est?ndares de Crecimiento de los Ni?os de la OMS~
+@3 Excluye ni?os/as cuyas madres no fueron entrevistadas~
+@4 Los mellizos (trillizos, etc) primerizos son contados como primeros nacimientos
+   porque no tienen intervalo con nacimiento previo.~
+@5 Information available only for children age 0-35 months
+@6 Includes children whose mothers are deceased~
+@7 Excludes children whose mothers were not weighed and measured, children whose
+   mothers were not interviewed, and children whose mothers are pregnant or gave
+   birth within the preceding 2 months. Mother's nutritional status defined using
+   body mass index (BMI) for mother's age 20-49 and using BMI-for-age for mother's
+   age 15-19 as presented in Tables 11.14.1 and 11.14.2.~
+@8 Para las mujeres no entrevistadas, la informaci?n se toma del Cuestionario de Hogar.
+   Excluye ni?os/as cuyas madres no fueron listadas en el Cuestionario de Hogar.
+{ES}}
+{{FR}
+Note : Chaque indice est exprimé en termes d'unités d'écart type (ET) par rapport 
+       à la médiane des Normes OMS de la croissance de l'enfant.~
+@1 Les enfants de moins de 2 ans sont mesurés en position allongée alors que tous 
+   les autres enfants sont mesurés en position debout.~
+@2 Y compris les enfants qui se situent en-dessous de -3 ET de la médiane des Normes 
+   OMS de la croissance de l'enfant~
+@3 Non compris les enfants dont la mère n'a pas été interviewé~
+@4 Les premières naissances multiples (jumeaux, triplés, etc.) sont comptées comme 
+   première naissance parce qu'elles n'ont pas d'intervalle avec la naissance précédente.~
+@5 L'information n'est disponible que pour les enfants de 0-35 mois~
+@6 Y compris les enfants dont la mère est décédée~
+@7 Non compris les enfants dont la mère n'a pas été pesée et mesurée, les enfants 
+   dont la mère n'a pas été interviewée et les enfants dont la mère est enceinte ou a
+   donné naissance à un enfants dans les deux mois précédents. L'état nutritionnel 
+   de la mère, basé sur l'IMC (Indice de Masse Corporelle) pour les mères de 20-49 ans 
+   et sur l'IMC -pour-âge pour les mères de 15-19 ans tels qu'ils sont présentés aux 
+   Tableaux 11.14.1 et 11.14.2.~
+@8 Pour les femmes qui n'ont pas été interviewées, l'information provient du questionnaire 
+   Ménage. Non compris les enfants dont la mère n'est pas listée dans le questionnaire Ménage.
+{FR}}
+endfootnote;
+
+t1101w columns remeas = 2 nodec;
+t1101w footnote
+{+EN}
+@1 Children selected for remeasurement are either selected at random or because their
+   first measurement is flagged (a Z-score of +/-3 SD).
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Les enfants sélectionnés pour la remesure sont ceux qui ont été soit sélectionnés 
+   aléatoirement ou ceux dont la première mesure a été signalée (un Z-score de +/-3 SD).
+{FR}}
+endfootnote;
+
+t1101a columns meanscor = 1 negative
+	           meanscor = 2 nodec
+               meanscor = 3 negative
+	           meanscor = 4 nodec
+               meanscor = 5 negative
+	           meanscor = 6 nodec;
+
+t1102 columns h70w = 6 nodec;
+t1102 footnote
+{+EN}
+Note: "Height" refers to length (recumbent measurement) or height (standing measurement).
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: "Taille" fait référence à la longueur (mesure en position couchée) ou taille 
+      (mesure en position debout).
+{FR}}
+endfootnote;
+
+t1103 columns brfedst1 = 4 nodec;
+t1103 footnote
+{+EN}
+Note: Table is based on children born in the 2 years preceding the survey regardless
+      of whether the children are living or dead at the time of interview.~
+ANC = antenatal care~
+PNC = postnatal care~
+@1 Children given nothing other than breast milk to eat or drink during the
+   first 2 days after delivery~
+@2 Information available for the most recent live birth only~
+@3 Doctor, nurse/midwife, or auxiliary midwife~
+@4 Women were asked about counseling of breastfeeding by any healthcare
+   provider in the first 2 days after their most recent live birth regardless
+   of where they gave birth.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: Le tableau est basé sur les enfants dont la naissance a eu lieu au cours 
+      des 2 années ayant précédé l'enquête, cela qu'ils soient en vie ou décédés 
+      au moment de l'enquête.~
+@1 Concerne les enfants qui n'ont reçu rien d'autre que le lait maternel pour 
+   manger et pour boire au cours des 2 premiers jours après l'accouchement.~
+@2 L'information n'est disponible que pour la naissance vivante la plus récente.~
+@3 Médecin, infirmière/sage-femme ou auxiliaire sage-femme.~
+@4 On a demandé aux femmes si un prestataire de santé leur avait donné des conseils 
+   sur l'allaitement dans les 2 premiers jours après leur naissance vivante la plus 
+   récente, quel que soit le lieu de l'accouchement .
+{FR}}
+endfootnote;
+
+t1104 columns brfedst2 = 3 nodec
+              currbrf  = 2 nodec
+              usenipp  = 2 nodec;
+t1104 footnote
+{+EN}
+Note: Breastfeeding status refers to a “24-hour” period (yesterday during the day or at night).~
+na = Not applicable~
+@1 Received breast milk and infant formula and/or animal milk. Excludes yogurt drinks because 
+   they are generally not fed as a substitute for breast milk.Excludes soy and nut milks.~
+@2 Corresponds to IYCF indicator 'Continued breastfeeding'
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: L'allaitement se réfère à une période de “24-heures” (hier durant le jour ou la nuit).~
+na = Non applicable~
+@1 A reçu le lait maternel et une préparation pour nourrissons et/ou du lait d'animal frais, 
+   en boîte, ou en poudre. Exclut les boissons au yaourt car elles ne sont généralement 
+   pas données comme un substitut au lait maternel . N'inclut pas les laits de soja 
+   et de noix.~
+@2 Corresponds à l'indicateur ANJE 'Allaitement continu'~
+{FR}}
+endfootnote;
+
+t1105 columns brfedst3 = 9 nodec;
+t1105 footnote
+{+EN}
+Note: Breastfeeding status refers to a “24-hour” period (yesterday during the day or at night). 
+      The categories of breast milk only, breast milk and plain water only, breast milk and non-milk 
+      liquids, breast milk and formula and/or animal milk, breast milk and solid, semi-solid, or 
+      soft foods, and not breastfed are hierarchical and mutually exclusive. When combined with 
+      children whose feeding category is classified as unknown due to “don’t know” responses, 
+      the percentages in each row add to 100%.~
+@1 Children fed breast milk plus non-milk liquids (e.g. juice, herbal tea, sweetened water, 
+   flavored water, etc.). Children in this category may have also been fed plain water.~
+@2 Children fed breast milk plus animal milk, and/or infant formula, and/or animal milk-based 
+   yogurt drinks. Children in this category may have also been fed non-milk liquids 
+   and/or plain water.~
+@3 Children fed breast milk plus solid, semi-solid or soft food from any food group. 
+   This may include grains, meat, eggs, fruits, vegetables, etc. Children in this category may 
+   have also been fed plain water, non-milk liquids and/or animal milk/infant formula/animal 
+   milk-based yogurt drinks.~
+@4 Not classified elsewhere due to "don't know" responses.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: La période de référence de l'allaitement est la période de “24-heures” (hier durant le 
+      jour ou la nuit). Les catégories "Allaité seulement", "allaité et eau plate seulement", 
+      "allaité et liquides non lactés", "allaité et lait maternisé et/ou lait d'animal", 
+      "allaité et aliments solide, semi-solides, ou mous", et "non allaité" sont hiérarchiques 
+      et mutuellement exclusives. Par conséquent, les enfants qui reçoivent le lait maternel et 
+      des liquides non lactés et qui ne reçoivent pas le lait maternel et du lait maternisé et/ou 
+      du lait d'animal et qui ne reçoivent pas d'aliments solides, semi-solides ou mous sont 
+      classés dans la catégorie "liquide non lacté" même s'ils peuvent recevoir aussi de l'eau 
+      plate. Lorsqu'ils sont combinés avec les enfants classés dans la catégorie d'alimentation 
+      "Ne sait pas", les pourcentages de chaque ligne atteignent 100%.~
+@1 Les liquides non lactés comprennent les jus de fruit ou les boissons aromatisées au fruits, 
+   les boissons aromatisées au chocolat, les sodas, les boissons à base de malt, les boissons 
+   énergétiques ou les boissons énergisantes, les bouillons clairs ou soupe claires, le thé, 
+   le café, les tisanes, les boissons à base de soja, le lait à base de noix ou d'autres liquides.~
+@2 Ici, le lait d'animal inclut les yaourts liquides mais pas les yaourts solides. Par contre, 
+   notez que le lait d'animal au Tableau 11.4 n'inclut pas le yaourt liquide et le yaourt solide.~
+@3 les aliments solides, semi-solides ou mous incluent les yaourts solides mais les yaourts liquides.~
+@4 Non classifié à cause de réponses "Ne sait pas"
+{FR}}
+endfootnote;
+
+t1106 columns numch2 = 1 nodec;
+
+t1107 columns numch2 = 1 nodec;
+t1107 footnote
+{+EN}
+Note: See Woman's Questionnaire for list of liquids and foods.~
+@1 Sentinel sweet foods such as chocolates, candies, pastries, cakes, biscuits, ice cream, or popsicles~ 
+@2 Sentinel fried and salty foods include foods such as chips, crisps, puffs, French fries, fried dough, 
+   or instant noodles
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+t1108 columns brfmin  = 4 nodec
+              nbrfmin = 5 nodec
+              allmin  = 4 nodec;
+t1108 footnote
+{+EN}
+@1 Minimum dietary diversity is receiving foods from 5 or more of the following 8 food groups: 
+   a. breast milk; b. grains, white/pale starchy roots, tubers, and plantains; 
+   c. beans, peas, lentils, nuts and seeds; d. dairy products (tinned, powdered, or fresh animal milk, 
+   infant formula, yogurt, cheese); e. flesh foods (meat, fish, poultry, organ meats); 
+   f. eggs; g. vitamin A-rich fruits and vegetables; h. other fruits and vegetables.~
+@2 For breastfed children, minimum meal frequency is receiving solid, semi-solid, or soft food at 
+   least twice a day for infants 6-8 months and at least 3 times a day for children 9-23 months.~
+@3 For breastfed children, minimum acceptable diet is receiving minimum dietary diversity 
+   (footnote 1) and minimum meal frequency (footnote 2).~
+@4 For non-breastfed children, minimum milk feeding frequency is 2 or more feedings of infant 
+   formula, tinned, powdered, or fresh animal milk, and yogurt drink or solid.~
+@5 For non-breastfed children, minimum meal frequency is receiving solid, semi-solid food or soft 
+   food or milk feeds at least 4 times a day. At least 1 of the feeds must be a solid, semi-solid, 
+   or soft feed.~
+@6 For non-breastfed children, minimum acceptable diet is receiving minimum dietary diversity 
+   (footnote 1), minimum milk feeding frequency (footnote 4), and minimum meal frequency (footnote 5).~
+@7 Minimum meal frequency is receiving the minimum recommended number of feeds per day according 
+   to age and breastfeeding status as defined in footnotes 2 and 5.~
+@8 Minimum acceptable diet is receiving minimum dietary diversity (footnote 1), minimum meal 
+   frequency (footnote 2 for breastfed and footnote 5 for non-breastfed children), and minimum milk 
+   feeding frequency (footnote 4 for non-breastfed children).   
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Les enfants qui ont reçu une diversité alimentaire minimale sont ceux qui ont consommé des 
+   aliments appartenant à, au moins, 5 groupes d'aliments parmi les 8 groupes suivants : 
+   a. lait maternel; b. céréales, racines, tubercules blancs/pâles et plantains ; 
+   c. haricots, pois, lentilles, noix et graines; d. produits laitiers (en boite, 
+   en poudre, ou lait d'animal frais, lait maternisé, yaourt, fromage); e. produits 
+   carnés (viande, pousson, volaille, abats); f. oeufs; g. fruits et légumes riches 
+   en vitamine ; h. autres fruits et légumes.~
+@2 Les enfants allaités qui ont reçu la fréquence minimale des repas sont ceux qui ont 
+   consommé des aliments solides, semi-solides ou mous au moins 2 fois par jour dans le 
+   groupe d'âges 6-8 mois et au moins 3 fois par jour dans le groupe d'âges 9-23 mois.~
+@3 Sont considérés comme ayant reçu un apport alimentaire minimum acceptable les enfants 
+   allaités dont l'alimentation comprend la diversité alimentaire minimale (footnote 1) 
+   et la fréquence minimale des repas (footnote 2).~
+@4 Sont considérés comme ayant reçu la fréquence minimale des repas lactés, les enfants 
+   non allaités ayant reçu au moins 2 repas comprenant du lait maternisé, du lait en 
+   conserve ou en poudre, ou du lait frais d'animal ainsi que du yaourt solide ou à boire.~
+@5 Les enfants non allaités qui ont reçu la fréquence minimale des repas sont ceux qui 
+   ont reçu des aliments solides, semi-solides ou mous ou des aliments lactés au moins 
+   4 fois par jour. Au moins un de ces repas doit contenir de aliments solides, 
+   semi-solides, ou mous.~
+@6 Sont considérés comme ayant reçu un apport alimentaire minimum acceptable, les enfants 
+   non allaités dont l'alimentation comprend la diversité alimentaire minimale (footnote 1), 
+   la fréquence minimale des repas lactés (footnote 4), et la fréquence minimale des 
+   repas (footnote 5).~
+@7 La fréquence minimale des repas consiste à recevoir le nombre minimum recommandé de 
+   repas par jour en fonction de l'âge de l'enfant et selon qu'il est, ou non, allaité 
+   tel que défini aux notes de bas de page 2 et 5.~
+@8 Sont considérés comme ayant reçu un apport alimentaire minimum acceptable, les enfants 
+   dont l'alimentation comprend la diversité alimentaire minimale (footnote 1), la fréquence 
+   minimale des repas (footnote 2 pour ceux allaités et footnote 5 pour ceux non allaités), 
+   et la fréquence minimale des repas lactés (footnote 4 pour les enfants non allaités).
+{FR}}
+endfootnote;
+
+t1109 columns numch3 = 1 nodec;
+t1109 footnote
+{+EN}
+@1 Sweet beverages include sweet/flavored milk, and yogurt drinks, sweet/flavored soy 
+   milks or nut milks, fruit juice and fruit-flavored drinks, chocolate flavored drinks, 
+   sodas, malt drinks, sports drinks, and energy drinks, sweetened tea, coffee, herbal 
+   drinks, and other sweetened liquids.~
+@2 Unhealthy foods are a group of sentinel food types which include sweet foods such 
+   as chocolates, candies, pastries, cakes, biscuits, ice cream, or popsicles; and fried 
+   and salty foods such as chips, crisps, puffs, french fries, fried dough, 
+   or instant noodles.~
+@3 No Vitamin A-rich fruits or vegetables and no other fruits or vegetables.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Oeuf et/ou produits d'origine animale incluant la viande, le poisson, la volaille, les abats et les oeufs.~
+@2 Boissons sucrées incluant lait sucré/aromatisé et yaourts à boire, laits à base de soja ou de noix 
+   sucrés/aromatisés, jus de fruit et boissons aromatisées aux fruits, boissons aromatisées au chocolat, 
+   sodas, boissons à base de malt, boissons énergétiques, et boissons énergisantes, thé, café, tisane 
+   sucré et autres boissons sucrées.~
+@3 Les aliments malsains comprennent des types d'aliments courants incluant des aliments sucrés comme le 
+   chocolat, les bonbons, les pâtisseries, gâteaux, biscuits, crémes glacées, glaces à l'eau, [INSÉRER 
+   D'AUTRES ALIMENTS SUCRÉS LISTÉS DANS LE QUESTIONNAIRE]; et des aliments frits at salés comme les 
+   chips, crisps, chips soufflés, les frites et les beignets frits, [INSÉRER D'AUTRES ALIMENTS FRIS 
+   ET SALÉS LISTÉS DANS LE QUESTIONNAIRE].~
+@4 Les légumes ou les fruits incluent les légumes à feuilles vert foncé, les légumes feuillus comme 
+   [INSÉRER LÉGUMES À FEUILLES VERT FONCÉ RICHES EN VITAMINE A, LÉGUMES FEUILLUS LISTÉS DANS LE 
+   QUESTIONNAIRE], citrouille, carotte, courge ou patate douce jaune ou orange à l'intérieur, 
+   mangue et papaye mûre, [INSÉRER D'AUTRES FRUITS ET LÉGUMES RICHES EN VITAMINE A LISTÉS DANS 
+   LE QUESTIONNAIRE], et d'autres fruits et légumes incluant [INSÉRER DES FRUITS ET LÉGUMES COURAMMENT 
+   CONSOMMÉS LISTÉS DANS LE QUESTIONNAIRE].
+{FR}}
+endfootnote;
+
+t1110 columns numpct = 2 nodec;
+t1110 footnote
+{+EN}
+@1 Includes children born in the 2 years preceding the survey regardless of 
+   whether the children are living or dead at the time of interview.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Y compris les enfants nés au cours des 2 années ayant précédé l'enquête, 
+   que les enfants soient en vie ou décédés au moment de l'enquête.
+{FR}}
+endfootnote;
+
+
+t1111 columns counself = 2 nodec;
+
+t1112w columns tanemiac = 2 nodec;
+t1112w footnote
+{+EN}
+@1 Includes children whose mothers are deceased~
+@2 For women who are not interviewed, information is taken from the Household Questionnaire. 
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+t1112 columns chanemia = 1 nodec;
+t1112 footnote
+{+EN}
+Notes: Table is based on children who stayed in the household on the night 
+       before the interview and who were tested for anemia. Prevalence of anemia, based
+       on hemoglobin levels, is adjusted for altitude using formulas in CDC, 1998 and 
+       cutoffs defined in WHO 2017. Hemoglobin is measured in grams per deciliter (g/dl)
+       using the [HemoCue 201+] device.
+@1 Includes children whose mothers are deceased~
+@2 For women who are not interviewed, information is taken from the Household Questionnaire. 
+   Excludes children whose mothers are not listed in the Household Questionnaire.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Notes : Le tableau est basé sur les enfants qui ont passé la nuit ayant précédé l'interview dans 
+        le ménage et qui ont été testés pour l'anémie. La prévalence de l'anémie, basée sur le niveau 
+        d'hémoglobine, est ajustée en fonction de l'altitude en utilisant les formules du CDC, 1998 et 
+        seuils définis dans OMS, 2017. Hémoglobine est en grammes par décilitre (g/dl) en utilisant 
+        l'appareil [HemoCue 201+].~
+@1 Y compris les enfants dont la mère est décédée~
+@2 Pour les femmes qui n'ont pas été interviewées, l'information provient du questionnaire Ménage. 
+   Non compris les enfants dont la mère n'est pas listée dans le questionnaire Ménage.
+{FR}}
+endfootnote;
+
+t1113 columns consump1 = 5 nodec
+              consump2 = 2 nodec;
+t1113 footnote
+{+EN}
+na = Not applicable~
+@1 Based on mother's recall.~
+@2 Local multiple micronutrient powders name(s) include [LOCAL NAME FOR MULTIPLE MICRONUTRIENT POWDERS].~
+@3 Iron-containing supplements includes tablets, syrup, or micronutrient powders.~
+@4 Based on both mother's recall and the vaccination card (where available).~
+@5 Deworming for intestinal parasites is commonly done for helminths and schistosomiasis.~
+@6 Information available for children age 0-35 months only
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+na = Non applicable~
+@1 Basé sur la déclaration de la mère.~
+@2 Le/les noms de poudres de micronutriments multiples incluent [NOM LOCAL POUR POUDRES DE MICRONUTRIMENTS MULTIPLES].~
+@3 Les suppléments contenant du fer incluent les comprimés, le sirop ou les poudres de micronutriments .~
+@4 Basé sur la déclaration de la mère et le carnet de vaccination (quand il est disponible).~
+@5 Les médicaments pour les parasites intestinaux sont couramment donnés pour traiter les helminthes et la schistosomiase.~
+@6 Information disponible pour les enfants de 0-35 mois seulement
+{FR}}
+endfootnote;
+
+t11141 columns height1 = 2 nodec  
+               bmiw = 9 nodec;
+t11141 footnote
+{+EN}
+Note: The Body Mass Index (BMI) is expressed as the ratio of weight in kilograms
+      to the square of height in meters (kg/m{\super 2}).~
+@1 Excludes pregnant women and women with a birth in the preceding 2 months
+{EN+}
+{{ES}
+Nota: El Indice de Masa Corporal (IMC) est? expresado como la raz?n entre el peso en kilogramos
+      y el cuadrado de la talla en metros (Kg/m{\super 2}).~
+@1 Excluye mujeres embarazadas y mujeres con un nacimiento en los dos meses anteriores.
+{ES}}
+{{FR}
+Note : L'Indice de Masse Corporelle (IMC) est le ratio du poids en kilogrammes par rapport au 
+       carré de la taille en mètres (kg/m2) pour les adultes de 20-49 ans. 														
+@1 Sont exclues les femmes enceintes et les femmes ayant eu une naissance dans les 2 mois précédents
+{FR}}
+endfootnote;
+
+t11142 columns heighage = 2 nodec  
+               bmiw2    = 1 negative 
+               bmiw2    = 9 nodec;
+t11142 footnote
+{+EN}
+Note: Height-for-age and body mass index (BMI)-for-age are expressed in standard 
+      deviation units (SD) from the median of the WHO Growth Reference for 
+	  adolescent women age 15-19.~
+@1 Excludes pregnant women and women with a birth in the preceding 2 months~
+@2 Includes adolescent women age 15-19 who are below -2 standard deviations (SD) 
+   from the WHO Growth Reference population median~
+@3 Includes adolescent women age 15-19 who are above +2 standard deviations (SD) 
+   from the WHO Growth Reference population median   
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: La taille-pour âge et l'Indice de Masse Corporelle (IMC)-pour-âge sont exprimés en terme 
+      d'unités d'écart type (ET) par rapport à la médiane des normes OMS de croissance des femmes 
+      adolescentes de 15-19 ans.~
+@1 Non compris les femmes enceintes et les femmes ayant eu une naissance dans les 2 mois précédents~
+@2 Y compris les femmes adolescentes de 15-19 ans qui sont en dessous de -2 écart type (ET) 
+   par rapport à la médiane de la population de référence de croissance de l'OMS~
+@3 Y compris les adolescentes de 15-19 ans qui sont au-dessus de +2 écart type (ET) par rapport 
+   à la médiane de la population de référence de croissance de l'OMS
+{FR}}
+endfootnote;
+
+t11143 columns bmim = 9 nodec;
+t11143 footnote
+{+EN}
+Note:  The Body Mass Index (BMI) is expressed as the ratio of weight in kilograms
+       to the square of height in meters (kg/m{\super 2}).
+{EN+}
+{{ES}
+Nota: El Indice de Masa Corporal (IMC) est? expresado como la raz?n entre el peso en kilogramos
+      y el cuadrado de la talla en metros (Kg/m{\super 2}).
+{ES}}
+{{FR}
+Note : L'Indice de Masse Corporelle (IMC) est le ratio du poids en kilogrammes par rapport au 
+       carré de la taille en mètres (kg/m2) pour les adultes de 20-[49 ans]. ~
+{FR}}
+endfootnote;
+
+t11144 columns bmim2 = 9 nodec
+               bmim2 = 1 negative;
+t11144 footnote
+{+EN}
+Note: Body mass index (BMI)-for-age are expressed in standard deviation units (SD) from 
+      the median of the WHO Growth Reference for adolescent men age 15-19.~
+@1 Includes adolescent men age 15-19 who are below -2 standard deviations (SD) 
+   from the WHO Growth Reference population median~
+@2 Includes adolescent men age 15-19 who are above +2 standard deviations (SD) 
+   from the WHO Growth Reference population median   
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: L'Indice de Masse Corporelle (IMC)-pour-âge est exprimé en terme d'unités d'écart 
+      type (ET) par rapport à la médiane des normes OMS de croissance des adolescents de 15-19 ans.~
+@1 Y compris les hommes adolescents de 15-19 ans qui sont en dessous de -2 écart type (ET) par 
+   rapport à la médiane de la population de référence de croissance. de l'OMS~
+@2 Y compris les femmes adolescentes de 15-19 ans qui sont au dessus de +2 écart type (ET) 
+   par rapport à la médiane de la population de référence de croissance. de l'OMS
+{FR}}
+endfootnote;
+
+t1115 columns foodsw = 20 nodec;
+t1115 footnote
+{+EN}
+Note: See Woman's Questionnaire for list of liquids and foods.~
+@1 Sentinel sweet foods such as chocolates, candies, pastries, cakes, biscuits, ice cream, 
+   or popsicles~
+@2 Sentinel fried and salty foods include foods such as chips, crisps, puffs, French fries, 
+   fried dough, or instant noodles~
+@3 Other sweetened beverages include beverages like sweet/flavored milk, and yogurt drinks, 
+   sweet/flavored soy milks or nut milks, and chocolate flavored drinks~
+@4 Includes women who do not know if they are pregnant
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+t1116 columns foodsw2 = 5 nodec;
+t1116 footnote
+{+EN}
+@1 Minimum dietary diversity for women defined as consuming foods from 5 or more of the 
+   10 food groups: a. grains, roots, tubers, and plantains; b. pulses (beans, peas, lentils); 
+   c. nuts and seeds; d. dairy products (milk, cheese, yogurt); e. flesh foods 
+   (meat, fish, poultry, organ meats); f. eggs; g. dark green leafy vegetables; 
+   h. vitamin A-rich fruits and vegetables; i. other vegetables; j. other fruits~
+@2 Sweet beverages include sweet/flavored milk, and yogurt drinks, sweet/flavored soy 
+   milks or nut milks, fruit juice and fruit-flavored drinks, chocolate flavored drinks, 
+   sodas, malt drinks, sports drinks, and energy drinks, sweetened tea, coffee, 
+   herbal drinks and other sweetened liquids.~
+@3 Unhealthy foods are a group of sentinel food types which include sweet foods such as 
+   chocolates, candies, pastries, cakes, biscuits, ice-cream, or popsicles, and fried and 
+   salty foods such as chips, crisps, puffs, french fries, fried dough, or instant noodles.~
+@4 Includes women who do not know if they are pregnant
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Par définition, la diversification alimentaire minimum pour les femmes comprend la 
+   consommation d'aliments d'au moins 5 groupes d'aliments parmi les 10 groupes : 
+   a. Céréales, racines blanches/pâles contenant de l'amidon, tubercules, et plantains; 
+   b. Légumes secs (haricots, pois , lentilles); 
+   c. Noix et graines; d. Produits laitiers (lait, fromage, yaourt, autres produits laitiers); 
+   e. Viande, poisson, volaille, abats; f. Oeufs; g. Légumes à feuille vert foncé ; 
+   h. Autres légumes et fruits riches en vitamine A; i. Autres légumes; j. Autres fruits.~
+@2 Les boissons sucrées incluent les jus de fruit et boissons aromatisées au fruit, 
+   les sodas, boissons à base de malt, boissons énergétiques et boissons énergisantes, 
+   the, café, et tisane sucrés [INSÉRER D'AUTRES BOISSONS SUCRÉES COURAMMENT CONSOMMÉES 
+   COMME LES BOISSONS AROMATISÉES AU CHOCOLAT ET LES YAOURTS À BOIRE OU BOISSONS AROMATISÉES 
+   AU YAOURT] et d'autres liquides sucrés.~
+@3 Les aliments malsains incluent les aliments sucrés comme les chocolats, bonbons, 
+   pâtisseries, gâteaux, biscuits, crèmes glacées, glaces à l'eau, [INSÉRER D'AUTRES 
+   ALIMENTS SUCRÉS LISTÉS DANS LE QUESTIONNAIRE]; et des aliments fris et salés comme 
+   les chips, crisps, chips soufflés, frites, beignets frits, ou [INSÉRER D'AUTRES 
+   ALIMENTS FRIS ET SALÉS LISTÉS DANS LE QUESTIONNAIRE].~
+@4 Y compris les femmes qui ne savent pas si elles sont enceintes
+{FR}}
+endfootnote;
+
+t11171w columns tanemiaw = 2 nodec;
+t11171w footnote
+{+EN}
+@1 Includes women who do not know if they are pregnant
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+t11171 columns anemiaw = 5 nodec;
+t11171 footnote
+{+EN}
+Note: Prevalence of anemia, based on hemoglobin levels, is adjusted for altitude and 
+      for cigarette smoking, if known, using formulas in CDC, 1998 and cutoffs defined 
+	  in WHO, 2017. Hemoglobin is measured in grams per deciliter (g/dl)
+	  using the [HemoCue 201+] device.~
+@1 Includes women who do not know if they are pregnant	  
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note : La prévalence, de l'anémie, basée sur le niveau d'hémoglobine, est ajustée en fonction de 
+       l'altitude et du fait de fumer, ou non, des cigarettes, si l'information est disponible, en 
+       utilisant les formules du CDC, 1998 et les seuils définis dans WHO, 2017. L'hémoglobine est 
+       mesurée en grammes par décilitre (g/dl) en utilisant l'appareil [HemoCue 201+].~
+@1 Y compris les femmes qui ne savent pas si elles sont enceintes
+{FR}}
+endfootnote;
+
+t11172w columns tanemiam = 2 nodec;
+
+t11172 columns anemiam = 5 nodec;
+t11172 footnote
+{+EN}
+Note: Prevalence of anemia, based on hemoglobin levels, is adjusted for altitude and 
+      for cigarette smoking, if known, using formulas in CDC, 1998 and cutoffs defined 
+	  in WHO, 2017. Hemoglobin is measured in grams per deciliter (g/dl)
+	  using the [HemoCue 201+] device.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note : La prévalence, de l'anémie, basée sur le niveau d'hémoglobine, est ajustée en fonction de 
+       l'altitude et et du fait de fumer, ou non, des cigarettes, si l'information est disponible, en 
+       utilisant les formules du CDC, 1998 et les seuils définis dans WHO, 2017. L'hémoglobine est 
+       mesurée en grammes par décilitre (g/dl) en utilisant l'appareil [HemoCue 201+].
+{FR}}
+endfootnote;
+
+t1118 columns salt1 = 4 nodec
+              salt2 = 2 nodec;
+t1118 footnote
+{+EN}
+Note: Salt was tested for the presence of potassium [iodate/iodide].~
+@1 Includes households in which salt could not be tested for technical or logistical
+   reasons, including availability of test kits
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note : Le sel a été testé pour la présence de potassium [iodate/iodure].~
+@1 Y compris les ménages dans lesquels le sel n'a pas pu être testé pour des raisons 
+   techniques ou logistiques incluant la disponibilité de kits de tests
+{FR}}
+endfootnote;
+
+

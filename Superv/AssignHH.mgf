@@ -1,0 +1,26 @@
+﻿language = EN
+005 This option is not permitted
+010 Only households not previously selected for men can be changed
+015 Household number already exists for cluster, select option again
+020 A male interviewer is assigned to a household not selected for male interview
+025 Interviewer %d was originally assigned this household, and now it's changed to interviewer %d
+026 Interviewer %d successfully interviewed the household, therefore changing assignment it isn't permitted
+
+language = ES
+{ common strings used by the application }
+  ES ( "No." ) No.
+  ES ( "Name" ) Nombre
+  ES ( "Structure" ) Estructure
+  ES ( "Male" ) Hombre
+  ES ( "Int" ) Ent
+  ES ( "Not to be assigned yet" ) No se asigna aun
+  ES ( "Advance to end" ) Avanzar al final
+  ES ( "and lives at address" ) y vive en la direccion
+  
+005 Esta opcion no esta permitida
+010 Solo se pueden cambiar hogares no seleccionados para hombres
+015 Este numero de hogar ya existe para segmento, seleccione de nuevo la opcion
+020 Entrevistador masculino se asigno a un hogar no seleccionado para encuesta de hombres
+025 Entrevistador(a) %d se asigno inicialmente a este hogar y ahora se cambio por entrevistador(a) %d
+026 Entrevistador(a) %d exitosamente entrevisto el hogar, por tal razon no es permitido cambiar la asignacion
+

@@ -1,0 +1,112 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=Clusters included in the sample|Segmentos incluidos en la muestra
+Name=CLUSTERS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=E38400514504322B25C5E34B473D1CE2FB3A0319F62986AF148B6323E829D02F
+
+[Languages]
+EN=English
+ES=Español
+
+[Level]
+Label=Cluster level|Nivel segmento
+Name=CLUST_LEVEL
+
+[IdItems]
+
+[Item]
+Label=Cluster number|Numero de segmento
+Name=YCLUSTER
+Start=1
+Len=4
+ZeroFill=Yes
+
+[Record]
+Label=Cluster variables|Variables del segmento
+Name=CLSTREC
+RecordTypeValue=''
+RecordLen=130
+
+[Item]
+Label=Urban/rural|Urbano/rural
+Name=YURBRUR
+Start=5
+Len=1
+
+[ValueSet]
+Label=Urban/rural|Urbano/rural
+Name=YURBRUR_VS1
+Value=1;Urban|Urbano
+Value=2;Rural|Rural
+
+[Item]
+Label=Region code|Codigo de region
+Name=YREGION
+Start=6
+Len=5
+
+[ValueSet]
+Label=Region code|Codigo de region
+Name=YREGION_VS1
+Value=1;Region 1|Region 1
+Value=2;Region 2|Region 2
+Value=3;Region 3|Region 3
+Value=4;Region 4|Region 4
+Value=5;Region 5|Region 5
+
+[Item]
+Label=Region name|Nombre de la region
+Name=YREGIONN
+Start=11
+Len=25
+DataType=Alpha
+
+[Item]
+Label=State code|Codigo de departamento
+Name=YSTATE
+Start=36
+Len=5
+
+[Item]
+Label=State name|Nombre de departamento
+Name=YSTATEN
+Start=41
+Len=25
+DataType=Alpha
+
+[Item]
+Label=District code|Codigo de distrito
+Name=YDISTRICT
+Start=66
+Len=5
+
+[Item]
+Label=District name|Nombre de distrito
+Name=YDISTRICTN
+Start=71
+Len=25
+DataType=Alpha
+
+[Item]
+Label=City/municipality code|Codigo de municipio
+Name=YCITY
+Start=96
+Len=5
+
+[Item]
+Label=City/municipality name|Nombre de municipio
+Name=YCITYN
+Start=101
+Len=25
+DataType=Alpha
+
+[Item]
+Label=Total HH in cluster (used for sampling purposes)
+Name=YTOTHH
+Start=126
+Len=5

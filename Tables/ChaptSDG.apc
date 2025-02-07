@@ -1,0 +1,128 @@
+﻿PROC GLOBAL
+{+--------------------------------------------------------------------------+}
+{+                                                                          +}
+{+   Guidelines November 4, 2022      -       Version 1.0.0 of 1/04/2023    +}
+{+                                                                          +}
+{+   CHAPTER SDG.  SUSTAINABLE DEVELOPMENT GOALS                            +}
+{+                                                                          +}
+{+   Table SDG1: Indicators by sex                                          +}
+{+   Table SDG2: Indicators by urban/rural                                  +}
+{+                                                                          +}
+{+--------------------------------------------------------------------------+}
+
+  alpha(10) SDGName;    { to store indicator number }
+
+  numeric nsdg = 0, i, k, j, idxrow, x, Indicator1, Indicator2, Indicator3, grp;
+  string  SDGFname, SDGRecord;
+  FILE    SDGLayout;
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for SDG Indicators, [Country Survey Year]" );
+{EN+}
+{{ES}
+    title( "Cuadros para apendices, [País Encuesta Año]" );
+{ES}}
+{{FR}
+    title( "Tableaux des indicateurs sur les ODD, [Pays, Enquête, Année]" );
+{FR}}
+
+  crosstab float(1) tsdg1 sdggrp*sdgind sexa+total+tabnum
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Sustainable Development Goals Indicators","",
+           "[Country Survey Year]" )
+    stub( "Indicator" );
+{EN+}
+{{ES}
+    title( "Sustainable Development Goals Indicators","",
+           "[Country Survey Year]" )
+    stub( "Indicator" );
+{ES}}
+{{FR}
+    title( "Indicateurs sur les objectifs de développement durable","",
+           "[Pays, Enquête, Année]" )
+    stub( "Indicateur" );
+{FR}}
+
+  crosstab float(1) tsdg2 sdggrp*sdgind hv025w+total+tabnum
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Sustainable Development Goals Indicators","",
+           "[Country Survey Year]" )
+    stub( "Indicator" );
+{EN+}
+{{ES}
+    title( "Sustainable Development Goals Indicators","",
+           "[Country Survey Year]" )
+    stub( "Indicator" );
+{ES}}
+{{FR}
+    title( "Indicateurs sur les objectifs de développement durable","",
+           "[Pays, Enquête, Année]" )
+    stub( "Indicateur" );
+{FR}}
+
+PROC CNULL_FF
+preproc
+
+  {+EN} SetLanguage("EN"); {EN+}   // !!!change to language to be used from valuesets in working dictionary
+  {{FR} SetLanguage("FR"); {FR}}
+  {{ES} SetLanguage("ES"); {ES}}
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { analyzing and tabulating SDG indicators }
+  SDGFname = ".\AllSDG.DAT";
+  FileConcat( SDGFname, ".\SDG*.txt" );
+  SetFile( SDGLayout, SDGFname );
+  while FileRead( SDGLayout, SDGRecord ) do    { read one SDG indicator record at a time }
+    nsdg = nsdg + 1;
+    k = 1;
+    do i = 1 while i <= 4
+      do j = k while( SDGRecord[j:1] = " " ) & j <= length( SDGRecord )
+      enddo;
+      k = j;
+      do j = k while( SDGRecord[j:1] <> " " ) & j <= length( SDGRecord)
+      enddo;
+      if i = 1 then
+        SDGName = SDGRecord[k:j-k];
+      else
+        x = tonumber( SDGRecord[k:j-k] );
+        if i = 2 then
+          Indicator1 = x;
+        elseif i = 3 then
+          Indicator2 = x;
+        elseif i = 4 then
+          Indicator3 = x;
+        endif;
+      endif;
+      k = j;
+    enddo;
+    SDGCODE = SDGName;
+    if loadcase( SDGDEFINED, SDGCODE ) then
+      grp = tonumber(SDGCODE[1:pos(".",SDGCODE)]);
+      idxrow = tblrow(tsdg1, SDGGRP = grp SDGIND = SDGNUM);
+      if !SDGNUM in 1:7,43:52 then
+        tsdg1( idxrow, 0 ) = Indicator1;
+        tsdg1( idxrow, 1 ) = Indicator2;
+        tsdg1( idxrow, 2 ) = Indicator3;
+        tsdg1( idxrow, 3 ) = DHSTAB;
+      else
+        tsdg2( idxrow, 0 ) = Indicator1;
+        tsdg2( idxrow, 1 ) = Indicator2;
+        tsdg2( idxrow, 2 ) = Indicator3;
+        tsdg2( idxrow, 3 ) = DHSTAB;
+      endif;
+    else
+      errmsg( "Indicator: %s not defined in look-up table of indicators", SDGCODE );
+    endif;
+    write( "%2d %-20s %11.1f %11.1f %11.1f", nsdg, SDGCODE, Indicator1, Indicator2, Indicator3 );
+  enddo;
+
+  stop(1);
+

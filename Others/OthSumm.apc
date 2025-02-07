@@ -1,0 +1,33 @@
+﻿PROC GLOBAL
+
+  string kothques;
+
+PROC OTHERS_FF
+preproc
+  kothques = "";
+  open( xothers, create );
+
+  write("Question,No.,Count,Code,Response");
+
+postproc
+  writecase( xothers );
+  close( xothers );
+  write('%s,%d,%d,%d,"%s"',strip(xothques),xothnum,xothcnt,xothcode,strip(xothresp));
+
+PROC OTHLEV
+  if othresp = xothresp & kothques = othques then
+    xothcnt = xothcnt +	1;
+  else
+    if length(kothques) then
+      writecase( xothers );
+      write('%s,%d,%d,%d,"%s"',strip(xothques),xothnum,xothcnt,xothcode,strip(xothresp));
+    endif;
+    if kothques	<> othques then	xothnum	= 0 endif;
+    xothques = othques;
+    xothnum  = xothnum + 1;
+    xothcnt  = 1;
+    xothresp = othresp;
+    xothcode = 0;
+  endif;
+  kothques = othques;
+

@@ -1,0 +1,2936 @@
+﻿---
+fileType: Question Text
+version: CSPro 7.7
+languages:
+  - name: EN
+    label: English
+  - name: ES
+    label: Español
+  - name: FR
+    label: French
+styles:
+  - name: Normal
+    className: normal
+    css: |
+      font-family: Arial;font-size: 21px;
+  - name: Instruction
+    className: instruction
+    css: |
+      font-family: Arial;font-size: 21px;color: #0000FF;
+  - name: Red
+    className: red
+    css: |
+      font-family: Arial;font-size: 21px;color: #FF0000;
+  - name: Italic
+    className: italic
+    css: |
+      font-family: Arial;font-size: 21px;font-style: italic
+  - name: Heading 1
+    className: heading1
+    css: |
+      font-family: Arial;font-size: 36px;
+  - name: Heading 2
+    className: heading2
+    css: |
+      font-family: Arial;font-size: 24px;
+  - name: Heading 3
+    className: heading3
+    css: |
+      font-family: Arial;font-size: 18px;
+questions:
+  - name: CCHH80.AHADDRESS
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">Enter correct address for new household.</span></p>
+  - name: CCHH80.AHVRESULT
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">VISIT ~~AHVLINE~~, ENTER 1 TO START INTERVIEW OR RECORD THE RESULT OF THE INTERVIEW.</span></p>
+  - name: CCHH80.AHCONSENT
+    conditions:
+      - questionText:
+          EN: |
+            <p>INTRODUCTION AND CONSENT</p>
+            <p>Hello.  My name is __________. I am working with [NAME OF ORGANIZATION].  We are conducting a survey about health and other topics all over [NAME OF COUNTRY]. The information we collect will help the government to plan health services. Your household was selected for the survey. I would like to ask you some questions about your household. The questions usually take about 15 to 20 minutes. All of the answers you give will be confidential and will not be shared with anyone other than members of our survey team. You don't have to be in the survey, but we hope you will agree to answer the questions since your views are important. If I ask you any question you don't want to answer, just let me know and I will go on to the next question or you can stop the interview at any time. In case you need more information about the survey, you may contact the person listed on this card.</p>
+            <p><span class="instruction">GIVE CARD WITH CONTACT INFORMATION</span></p>
+            <p>Do you have any questions?</p>
+            <p>May I begin the interview now?</p>
+  - name: CCHH80.AHFIRSTN
+    conditions:
+      - logic: curocc() in 1
+        questionText:
+          EN: |
+            <p>Please give me the names of the persons who usually live in your household and guests of the household who stayed here last night, starting with the head of the household.</p>
+            <p><span class="instruction">RECORD THE FIRST NAME OF THE HEAD OF THE HOUSEHOLD</span></p>
+      - logic: curocc() in 2:50
+        questionText:
+          EN: |
+            <p><span class="instruction">RECORD FIRST NAME OF HOUSEHOLD MEMBER.</span></p>
+  - name: CCHH80.AHLASTN
+    conditions:
+      - logic: curocc() in 1
+        questionText:
+          EN: |
+            <p><span class="instruction">RECORD THE LAST NAME OF THE HEAD OF THE HOUSEHOLD.</span></p>
+      - logic: curocc() in 2:50
+        questionText:
+          EN: |
+            <p><span class="instruction">RECORD THE LAST NAME OF HOUSEHOLD MEMBER.</span></p>
+  - name: CCHH80.AHRELAT
+    conditions:
+      - logic: curocc() in 1
+        questionText:
+          EN: |
+            <p><span class="instruction">ENTER 1 FOR HEAD OF HOUSEHOLD</span></p>
+      - logic: curocc() in 2:50
+        questionText:
+          EN: |
+            <p>What is the relationship of ~~AHFIRSTN~~ ~~AHLASTN~~ to the head of the household?</p>
+  - name: CCHH80.AHSEX
+    conditions:
+      - questionText:
+          EN: |
+            <p>Is ~~AHFIRSTN~~ ~~AHLASTN~~ male or female?</p>
+  - name: CCHH80.AHLIVES
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does ~~AHFIRSTN~~ ~~AHLASTN~~ usually live here?</p>
+  - name: CCHH80.AHSTAYED
+    conditions:
+      - questionText:
+          EN: |
+            <p>Did ~~AHFIRSTN~~ ~~AHLASTN~~ stay here last night?</p>
+  - name: CCHH80.AHAGE
+    conditions:
+      - questionText:
+          EN: |
+            <p>How old is ~~AHFIRSTN~~  ~~AHLASTN~~?</p>
+            <p><span class="instruction">IF 95 OR MORE, RECORD '95'</span></p>
+  - name: CCHH80.AHMORE
+    conditions:
+      - questionText:
+          EN: |
+            <p>Are there any other persons living in this household?</p>
+  - name: CCHH80.AHRESP
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD THE LINE NUMBER OF THE RESPONDENT TO THE HOUSEHOLD QUESTIONNAIRE.</span></p>
+  - name: CCHH80.AH07A
+    conditions:
+      - questionText:
+          EN: |
+            <p>Just to make sure that I have a complete listing: are there any other persons such as small children or infants that we have not listed?</p>
+  - name: CCHH80.AH07B
+    conditions:
+      - questionText:
+          EN: |
+            <p>Are there any other people who may not be members of your family, such as domestic servants, lodgers, or friends who usually live here?</p>
+  - name: CCHH80.AH07C
+    conditions:
+      - questionText:
+          EN: |
+            <p>Are there any guests or temporary visitors staying here, or anyone else who stayed here last night, who have not been listed?</p>
+  - name: CCHH80.AH08
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>What is ~~AH02~~'s current marital status?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>What is your current marital status?</p>
+  - name: CCHH80.AH12
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>Is ~~AH02~~'s biological mother alive?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>Is your biological mother alive?</p>
+  - name: CCHH80.AH12A
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>12A.  In what year did ~~AH02~~&#39;s biological mother die?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>12A.  In what year did your biological mother die?</p>
+  - name: CCHH80.AH13
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>Does ~~AH02~~'s biological mother usually live in this household or was she a guest last night?</p>
+            <p><span class="instruction">IF YES:</span> What is her name? <span class="instruction">RECORD MOTHER'S LINE NUMBER.</span></p>
+            <p><span class="instruction">IF NO: RECORD '0'.</span></p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>Does your biological mother usually live in this household or was she a guest last night?</p>
+            <p><span class="instruction">IF YES:</span> What is her name? <span class="instruction">RECORD MOTHER'S LINE NUMBER.</span></p>
+            <p><span class="instruction">IF NO: RECORD '0'.</span></p>
+  - name: CCHH80.AH14
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>Is ~~AH02~~'s biological father alive?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>Is your biological father alive?</p>
+  - name: CCHH80.AH14A
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>14A.  In what year did ~~AH02~~&#39;s biological father die?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>14A.  In what year did your biological father die?</p>
+  - name: CCHH80.AH15
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>Does ~~AH02~~'s biological father usually live in this household or was he a guest last night?</p>
+            <p><span class="instruction">IF YES:</span> What is his name? <span class="instruction">RECORD FATHER'S LINE NUMBER.</span></p>
+            <p><span class="instruction">IF NO: RECORD '0'.</span></p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>Does your biological father usually live in this household or was he a guest last night?</p>
+            <p><span class="instruction">IF YES:</span> What is his name? <span class="instruction">RECORD FATHER'S LINE NUMBER.</span></p>
+            <p><span class="instruction">IF NO: RECORD '0'.</span></p>
+  - name: CCHH80.AH15C
+    conditions:
+      - questionText:
+          EN: |
+            <p>15C.  Who is ~~AH02~~&#39;s primary caregiver? </p><p>That is, the person who provides daily care for the child?</p>
+  - name: CCHH80.AH15D
+    conditions:
+      - questionText:
+          EN: |
+            <p>15D.  What is the relationship of the primary caregiver to ~~AH02~~?</p>
+  - name: CCHH80.AH16
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>Has ~~AH02~~ ever attended school or any early childhood education program?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>Have you ever attended school or any early childhood education program?</p>
+  - name: CCHH80.AH17A
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>What is the highest level of school ~~AH02~~ has attended?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>What is the highest level of school you have attended?</p>
+  - name: CCHH80.AH17B
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>What is the highest grade ~~AH02~~ completed at that level?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>What is the highest grade you completed at that level?</p>
+  - name: CCHH80.AH18
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>Did ~~AH02~~ attend school or any early childhood education program at any time during the [2019-2020] school year?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>Did you attend school or any early childhood education program at any time during the [2019-2020] school year?</p>
+  - name: CCHH80.AH19A
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>During [this/that] school year, what level [is/was] ~~AH02~~ attending?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>During [this/that] school year, what level [are/were] you attending?</p>
+  - name: CCHH80.AH19B
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>During [this/that] school year, what grade [is/was] ~~AH02~~ attending?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>During [this/that] school year, what grade [are/were] you attending?</p>
+  - name: CCHH80.AH20
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does ~~AH02~~ have a birth certificate?</p>
+            <p><span class="instruction">IF NO, PROBE:</span></p>
+            <p>Has ~~AH02~~'s birth ever been registered with the civil authority?</p>
+  - name: CCHH80.AH21
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>In the last six months, was ~~AH02~~ admitted overnight to stay at a health facility?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>In the last six months, were you admitted overnight to stay at a health facility?</p>
+  - name: CCHH80.AH23
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>In the last four weeks, did ~~AH02~~ receive care from a health provider, a pharmacy, or a traditional healer without staying overnight at a health facility?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>In the last four weeks, did you receive care from a health provider, a pharmacy, or a traditional healer without staying overnight at a health facility?</p>
+  - name: CCHH80.AH24
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>The last time ~~AH02~~ received care, was any money paid?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>The last time you received care, was any money paid?</p>
+  - name: CCHH80.AH26
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>Does ~~AH02~~ wear glasses or contact lenses to help them see?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>Do you wear glasses or contact lenses to help you see?</p>
+  - name: CCHH80.AH27
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if ~~AH02~~ has difficulty seeing even when wearing glasses or contact lenses. Would you say that ~~AH02~~ has no difficulty seeing, some difficulty, a lot of difficulty, or cannot see at all?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if you have difficulty seeing even when wearing glasses or contact lenses. Would you say that you have no difficulty seeing, some difficulty, a lot of difficulty, or cannot see at all?</p>
+  - name: CCHH80.AH28
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if ~~AH02~~ has difficulty seeing. Would you say that ~~AH02~~ has no difficulty seeing, some difficulty, a lot of difficulty, or cannot see at all?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if you have difficulty seeing. Would you say that you have no difficulty seeing, some difficulty, a lot of difficulty, or cannot see at all?</p>
+  - name: CCHH80.AH29
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>Does ~~AH02~~ wear a hearing aid?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>Do you wear a hearing aid?</p>
+  - name: CCHH80.AH30
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if ~~AH02~~ has difficulty hearing even when using a hearing aid. Would you say that ~~AH02~~ has no difficulty hearing, some difficulty, a lot of difficulty, or cannot hear at all?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if you have difficulty hearing even when using a hearing aid. Would you say that you have no difficulty hearing, some difficulty, a lot of difficulty, or cannot hear at all?</p>
+  - name: CCHH80.AH31
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if ~~AH02~~ has difficulty hearing. Would you say that ~~AH02~~ has no difficulty hearing, some difficulty, a lot of difficulty, or cannot hear at all?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if you have difficulty hearing. Would you say that you have no difficulty hearing, some difficulty, a lot of difficulty, or cannot hear at all?</p>
+  - name: CCHH80.AH32
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if ~~AH02~~ has difficulty communicating when using his/her usual language. Would you say that ~~AH02~~ has no difficulty understanding or being understood, some difficulty, a lot of difficulty, or cannot communicate at all?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if you have difficulty communicating when using your usual language. Would you say that you have no difficulty understanding or being understood, some difficulty, a lot of difficulty, or cannot communicate at all?</p>
+  - name: CCHH80.AH33
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if ~~AH02~~ has difficulty remembering or concentrating. Would you say that ~~AH02~~ has no difficulty remembering or concentrating, some difficulty, a lot of difficulty, or cannot remember or concentrate at all?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if you have difficulty remembering or concentrating. Would you say that you have no difficulty remembering or concentrating, some difficulty, a lot of difficulty, or cannot remember or concentrate at all?</p>
+  - name: CCHH80.AH34
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if ~~AH02~~ has difficulty walking or climbing steps. Would you say that ~~AH02~~ has no difficulty walking or climbing steps, some difficulty, a lot of difficulty, or cannot walk or climb steps at all?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if you have difficulty walking or climbing steps. Would you say that you have no difficulty walking or climbing steps, some difficulty, a lot of difficulty, or cannot walk or climb steps at all?</p>
+  - name: CCHH80.AH35
+    conditions:
+      - logic: AH01 <> AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if ~~AH02~~ has difficulty washing all over or dressing. Would you say that ~~AH02~~ has no difficulty washing all over or dressing, some difficulty, a lot of difficulty, or cannot wash all over or dress at all?</p>
+      - logic: AH01 = AHRESP
+        questionText:
+          EN: |
+            <p>I would like to know if you have difficulty washing all over or dressing. Would you say that you have no difficulty washing all over or dressing, some difficulty, a lot of difficulty, or cannot wash all over or dress at all?</p>
+  - name: CCHH80.AHAI1
+    conditions:
+      - questionText:
+          EN: |
+            <p>Now I would like to ask you about road traffic accidents that anyone in your household may have been involved in. </p>
+            <p>During the past 12 months, was anyone in your household killed in a road traffic accident, or injured in a road traffic accident with injuries severe enough that for at least one day they could not carry out their normal daily activities?</p>
+  - name: CCHH80.AHAI2
+    conditions:
+      - logic: curocc() in 1
+        questionText:
+          EN: |
+            <p>What is the name of the first person killed or injured in a road traffic accident?</p>
+      - logic: curocc() in 2:10
+        questionText:
+          EN: |
+            <p>What is the name of the next person (~~AHAI1L~~) killed or injured in a road traffic accident?</p>
+  - name: CCHH80.AHAI4
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was ~~AHAI2~~ in a car, truck, bus, motorcycle, bicycle, another kind of vehicle, or was ~~AHAI2~~ a pedestrian?</p>
+  - name: CCHH80.AHAI5
+    conditions:
+      - questionText:
+          EN: |
+            <p>Is ~~AHAI2~~ still alive?</p>
+  - name: CCHH80.AHAI6
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was ~~AHAI2~~ male or female?</p>
+  - name: CCHH80.AHAI7
+    conditions:
+      - questionText:
+          EN: |
+            <p>What was ~~AHAI2~~'s age when ~~AHAI2~~ died?</p>
+            <p><span class="instruction">IF LESS THAN ONE YEAR, RECORD '0'.</span></p>
+  - name: CCHH80.AHAI8
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was ~~AHAI2~~&rsquo;s death related to the road traffic accident?</p>
+  - name: CCHH80.AHAI9
+    conditions:
+      - questionText:
+          EN: |
+            <p>What kind of injuries did ~~AHAI2~~ have as a result of the accident?</p>
+  - name: CCHH80.AHAI10
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">SELECT HOUSEHOLD MEMBER NAME FROM LIST PROVIDED.</span></p>
+            <p><span class="instruction">SELECT '0' IF PERSON NOT LISTED.</span></p>
+  - name: CCHH80.AHAI11
+    conditions:
+      - questionText:
+          EN: |
+            <p>Is ~~AHAI2~~ male or female?</p>
+  - name: CCHH80.AHAI12
+    conditions:
+      - questionText:
+          EN: |
+            <p>How old is ~~AHAI2~~?</p>
+  - name: CCHH80.AHAI13
+    conditions:
+      - questionText:
+          EN: |
+            <p>What kind of injuries did ~~AHAI2~~ have as a result of the accident?</p>
+  - name: CCHH80.AHAI14
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does ~~AHAI2~~ continue to have any health problems as a result of the road traffic accident?</p>
+  - name: CCHH80.AHAI15
+    conditions:
+      - questionText:
+          EN: |
+            <p>In what ways does ~~AHAI2~~ continue to have health problems as a result of the road traffic accident?</p>
+  - name: CCHH80.AHAI16
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was any other member of this household killed or injured in a road traffic accident in the past 12 months?</p>
+  - name: CCHH80.AHAI17
+    conditions:
+      - questionText:
+          EN: |
+            <p>In the last 12 months, was anyone in your household killed or injured in an incident other than a road traffic accident? </p>
+            <p>By injured, I mean that their injuries were severe enough that for at least one day they could not carry out their normal daily activities.</p>
+  - name: CCHH80.AHAI19
+    conditions:
+      - logic: curocc() in 1
+        questionText:
+          EN: |
+            <p>What is the name of the first person killed or injured?</p>
+      - logic: curocc() in 2:10
+        questionText:
+          EN: |
+            <p>What is the name of the next person (~~AHAI17L~~) killed or injured?</p>
+  - name: CCHH80.AHAI20
+    conditions:
+      - questionText:
+          EN: |
+            <p>In what type of incident was ~~AHAI19~~ killed or injured?</p>
+  - name: CCHH80.AHAI21
+    conditions:
+      - questionText:
+          EN: |
+            <p>How did the death or injury happen?</p>
+  - name: CCHH80.AHAI22
+    conditions:
+      - questionText:
+          EN: |
+            <p>Is ~~AHAI19~~ still alive?</p>
+  - name: CCHH80.AHAI23
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was ~~AHAI19~~ male or female?</p>
+  - name: CCHH80.AHAI24
+    conditions:
+      - questionText:
+          EN: |
+            <p>What was ~~AHAI19~~'s age when ~~AHAI19~~ died?</p>
+  - name: CCHH80.AHAI25
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was ~~AHAI19~~&rsquo;s death related to this incident?</p>
+  - name: CCHH80.AHAI26
+    conditions:
+      - questionText:
+          EN: |
+            <p>What kind of injuries did ~~AHAI19~~ have as a result of the incident?</p>
+  - name: CCHH80.AHAI27
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">SELECT HOUSEHOLD MEMBER NAME FROM LIST PROVIDED.</span></p>
+            <p><span class="instruction">SELECT '0' IF PERSON NOT LISTED.</span></p>
+  - name: CCHH80.AHAI28
+    conditions:
+      - questionText:
+          EN: |
+            <p>Is ~~AHAI19~~ male or female?</p>
+  - name: CCHH80.AHAI29
+    conditions:
+      - questionText:
+          EN: |
+            <p>How old is ~~AHAI19~~?</p>
+  - name: CCHH80.AHAI30
+    conditions:
+      - questionText:
+          EN: |
+            <p>What kind of injuries did ~~AHAI19~~ have as a result of the incident?</p>
+  - name: CCHH80.AHAI31
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does ~~AHAI19~~ continue to have any health problems as a result of the incident?</p>
+  - name: CCHH80.AHAI32
+    conditions:
+      - questionText:
+          EN: |
+            <p>In what ways does ~~AHAI19~~ continue to have health problems as a result of the injury?</p>
+  - name: CCHH80.AHAI33
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was any other member of this household killed or injured in an incident other than a road traffic accident in the past 12 months?</p>
+  - name: CCHH80.ACHL2A
+    conditions:
+      - questionText:
+          EN: |
+            <p>Now I would like to ask about any work ~~ACHLNAME~~ may do.</p>
+            <p>Since last ~~dayalpha~~, did ~~ACHLNAME~~ do any of the following activities, even for only one hour?</p>
+            <p>Did ~~ACHLNAME~~ do any work or help on ~~hisher~~ own or the household's plot, farm, or food garden or looked after animals? For example, growing farm produce, harvesting, or feeding, grazing, or milking animals?</p>
+  - name: CCHH80.ACHL2B
+    conditions:
+      - questionText:
+          EN: |
+            <p>Did ~~ACHLNAME~~ help in a family business or relative's business with or without pay, or run ~~hisher~~ own business?</p>
+  - name: CCHH80.ACHL2C
+    conditions:
+      - questionText:
+          EN: |
+            <p>Did ~~ACHLNAME~~ produce or sell articles, handicrafts, clothes, food or agricultural products?</p>
+  - name: CCHH80.ACHL2D
+    conditions:
+      - questionText:
+          EN: |
+            <p>Since last ~~dayalpha~~, did ~~ACHLNAME~~ engage in any other activity in return for income in cash or in kind, even for only one hour?</p>
+  - name: CCHH80.ACHL4
+    conditions:
+      - logic: activity1 <> 1
+        questionText:
+          EN: |
+            <p>Since last ~~dayalpha~~ about how many hours did ~~ACHLNAME~~ engage in these activities, in total?</p>
+            <p><span class="instruction">IF LESS THAN ONE HOUR, RECORD '0'.</span></p>
+      - logic: activity1 = 1
+        questionText:
+          EN: |
+            <p>Since last ~~dayalpha~~ about how many hours did ~~ACHLNAME~~ engage in this activity, in total?</p>
+            <p><span class="instruction">IF LESS THAN ONE HOUR, RECORD '0'.</span></p>
+  - name: CCHH80.ACHL5
+    conditions:
+      - logic: activity1 <> 1
+        questionText:
+          EN: |
+            <p>Do these activities require carrying heavy loads?</p>
+      - logic: activity1 = 1
+        questionText:
+          EN: |
+            <p>Does the activity require carrying heavy loads?</p>
+  - name: CCHH80.ACHL6
+    conditions:
+      - logic: activity1 <> 1
+        questionText:
+          EN: |
+            <p>Do these activities require working with dangerous tools, such as knives, or operating heavy machinery?</p>
+      - logic: activity1 = 1
+        questionText:
+          EN: |
+            <p>Does the activity require working with dangerous tools, such as knives, or operating heavy machinery?</p>
+  - name: CCHH80.ACHL7A
+    conditions:
+      - questionText:
+          EN: |
+            <p>How would you describe the work environment of ~~ACHLNAME~~?</p>
+            <p>Is ~~ACHLNAME~~ exposed to dust, fumes or gas?</p>
+  - name: CCHH80.ACHL7B
+    conditions:
+      - questionText:
+          EN: |
+            <p>Is ~~ACHLNAME~~ exposed to extreme cold, heat or humidity?</p>
+  - name: CCHH80.ACHL7C
+    conditions:
+      - questionText:
+          EN: |
+            <p>Is ~~ACHLNAME~~ exposed to loud noise or vibration?</p>
+  - name: CCHH80.ACHL7D
+    conditions:
+      - questionText:
+          EN: |
+            <p>Is ~~ACHLNAME~~ required to work at heights?</p>
+  - name: CCHH80.ACHL7E
+    conditions:
+      - questionText:
+          EN: |
+            <p>Is ~~ACHLNAME~~ required to work with chemicals, pesticides, glues, etc., or explosives?</p>
+  - name: CCHH80.ACHL7F
+    conditions:
+      - questionText:
+          EN: |
+            <p>Is ~~ACHLNAME~~ exposed to other things, processes or conditions bad for ~~ACHLNAME~~'s health or safety?</p>
+  - name: CCHH80.ACHL8
+    conditions:
+      - questionText:
+          EN: |
+            <p>Since last ~~dayalpha~~, did ~~ACHLNAME~~ fetch water for household use?</p>
+  - name: CCHH80.ACHL9
+    conditions:
+      - questionText:
+          EN: |
+            <p>In total, how many hours did ~~ACHLNAME~~ spend on fetching water for household use, since last ~~dayalpha~~?</p>
+            <p><span class="instruction">IF LESS THAN ONE HOUR, RECORD '0'.</span></p>
+  - name: CCHH80.ACHL10
+    conditions:
+      - questionText:
+          EN: |
+            <p>Since last ~~dayalpha~~, did ~~ACHLNAME~~ collect firewood for household use?</p>
+  - name: CCHH80.ACHL11
+    conditions:
+      - questionText:
+          EN: |
+            <p>In total, how many hours did ~~ACHLNAME~~ spend on collecting firewood for household use, since last ~~dayalpha~~?</p>
+            <p><span class="instruction">IF LESS THAN ONE HOUR, RECORD '0'.</span></p>
+  - name: ACHL12_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>Since last ~~dayalpha~~, did ~~ACHLNAME~~ do any of the following for this household?</p>
+  - name: CCHH80.ACHL12A
+    conditions:
+      - questionText:
+          EN: |
+            <p>Shopping for the household?</p>
+  - name: CCHH80.ACHL12B
+    conditions:
+      - questionText:
+          EN: |
+            <p>Cooking?</p>
+  - name: CCHH80.ACHL12C
+    conditions:
+      - questionText:
+          EN: |
+            <p>Washing dishes or cleaning around the house?</p>
+  - name: CCHH80.ACHL12D
+    conditions:
+      - questionText:
+          EN: |
+            <p>Washing clothes?</p>
+  - name: CCHH80.ACHL12E
+    conditions:
+      - questionText:
+          EN: |
+            <p>Caring for children?</p>
+  - name: CCHH80.ACHL12F
+    conditions:
+      - questionText:
+          EN: |
+            <p>Caring for someone old or sick?</p>
+  - name: CCHH80.ACHL12G
+    conditions:
+      - questionText:
+          EN: |
+            <p>Other household tasks?</p>
+  - name: CCHH80.ACHL14
+    conditions:
+      - logic: activity2 <> 1
+        questionText:
+          EN: |
+            <p>Since last ~~dayalpha~~, about how many hours did ~~ACHLNAME~~ engage in these activities, in total?</p>
+            <p><span class="instruction">IF LESS THAN ONE HOUR, RECORD '0'.</span></p>
+      - logic: activity2 = 1
+        questionText:
+          EN: |
+            <p>Since last ~~dayalpha~~, about how many hours did ~~ACHLNAME~~ engage in this activity, in total?</p>
+            <p><span class="instruction">IF LESS THAN ONE HOUR, RECORD '0'.</span></p>
+  - name: CCHH80.ACDI3
+    conditions:
+      - questionText:
+          EN: |
+            <p>Adults use certain ways to teach children the right behaviour or to address a behaviour problem. I will read various methods that are used. Please tell me if you or any other adult in this household has used this method with ~~ACDINAME~~ in the past month.</p>
+  - name: CCHH80.ACDI3A
+    conditions:
+      - logic: xsex <> 1
+        questionText:
+          EN: |
+            <p>Took away privileges, forbade something ~~ACDINAME~~ liked or did not allow her to leave the house.</p>
+      - logic: xsex = 1
+        questionText:
+          EN: |
+            <p>Took away privileges, forbade something ~~ACDINAME~~ liked or did not allow him to leave the house.</p>
+  - name: CCHH80.ACDI3B
+    conditions:
+      - questionText:
+          EN: |
+            <p>Explained why ~~ACDINAME~~'s behaviour was wrong.</p>
+  - name: CCHH80.ACDI3C
+    conditions:
+      - logic: xsex <> 1
+        questionText:
+          EN: |
+            <p>Shook her.</p>
+      - logic: xsex = 1
+        questionText:
+          EN: |
+            <p>Shook him.</p>
+  - name: CCHH80.ACDI3D
+    conditions:
+      - logic: xsex <> 1
+        questionText:
+          EN: |
+            <p>Shouted, yelled at or screamed at her.</p>
+      - logic: xsex = 1
+        questionText:
+          EN: |
+            <p>Shouted, yelled at or screamed at him.</p>
+  - name: CCHH80.ACDI3E
+    conditions:
+      - logic: xsex <> 1
+        questionText:
+          EN: |
+            <p>Gave her something else to do.</p>
+      - logic: xsex = 1
+        questionText:
+          EN: |
+            <p>Gave him something else to do.</p>
+  - name: CCHH80.ACDI3F
+    conditions:
+      - logic: xsex <> 1
+        questionText:
+          EN: |
+            <p>Spanked, hit or slapped her on the bottom with bare hand.</p>
+      - logic: xsex = 1
+        questionText:
+          EN: |
+            <p>Spanked, hit or slapped him on the bottom with bare hand.</p>
+  - name: CCHH80.ACDI3G
+    conditions:
+      - logic: xsex <> 1
+        questionText:
+          EN: |
+            <p>Hit her on the bottom or elsewhere on the body with something like a belt, hairbrush, stick, or other hard object.</p>
+      - logic: xsex = 1
+        questionText:
+          EN: |
+            <p>Hit him on the bottom or elsewhere on the body with something like a belt, hairbrush, stick, or other hard object.</p>
+  - name: CCHH80.ACDI3H
+    conditions:
+      - logic: xsex <> 1
+        questionText:
+          EN: |
+            <p>Called her dumb, lazy, or another name like that.</p>
+      - logic: xsex = 1
+        questionText:
+          EN: |
+            <p>Called him dumb, lazy, or another name like that.</p>
+  - name: CCHH80.ACDI3I
+    conditions:
+      - logic: xsex <> 1
+        questionText:
+          EN: |
+            <p>Hit or slapped her on the face, head, or ears.</p>
+      - logic: xsex = 1
+        questionText:
+          EN: |
+            <p>Hit or slapped him on the face, head, or ears.</p>
+  - name: CCHH80.ACDI3J
+    conditions:
+      - logic: xsex <> 1
+        questionText:
+          EN: |
+            <p>Hit or slapped her on the hand, arm, or leg.</p>
+      - logic: xsex = 1
+        questionText:
+          EN: |
+            <p>Hit or slapped him on the hand, arm, or leg.</p>
+  - name: CCHH80.ACDI3K
+    conditions:
+      - logic: xsex <> 1
+        questionText:
+          EN: |
+            <p>Beat her up, that is hit her over and over as hard as one could.</p>
+      - logic: xsex = 1
+        questionText:
+          EN: |
+            <p>Beat him up, that is hit him over and over as hard as one could.</p>
+  - name: CCHH80.ACDI4
+    conditions:
+      - questionText:
+          EN: |
+            <p>Do you believe that in order to bring up, raise or educate a child properly, the child needs to be physically punished?</p>
+  - name: CCHH80.AH101
+    conditions:
+      - questionText:
+          EN: |
+            <p>What is the main source of drinking water for members of your household?</p>
+  - name: CCHH80.AH102
+    conditions:
+      - questionText:
+          EN: |
+            <p>What is the main source of water used by your household for other purposes such as cooking and handwashing?</p>
+  - name: CCHH80.AH103
+    conditions:
+      - questionText:
+          EN: |
+            <p>Where is that water source located?</p>
+  - name: CCHH80.AH104
+    conditions:
+      - questionText:
+          EN: |
+            <p>How long does it take to go there, get water, and come back?</p>
+  - name: CCHH80.AH105
+    conditions:
+      - questionText:
+          EN: |
+            <p>Who usually goes to this source to collect the water for your household?</p>
+            <p><span class="instruction">RECORD THE PERSON'S NAME AND LINE NUMBER FROM THE HOUSEHOLD SCHEDULE.  IF THE PERSON IS NOT LISTED IN THE HOUSEHOLD ROSTER, RECORD '0'.</span></p>
+  - name: CCHH80.AH106
+    conditions:
+      - questionText:
+          EN: |
+            <p>In the last month, has there been any time when your household did not have sufficient quantities of drinking water when needed?</p>
+  - name: CCHH80.AH107
+    conditions:
+      - questionText:
+          EN: |
+            <p>Do you do anything to the water to make it safer to drink?</p>
+  - name: CCHH80.AH108
+    conditions:
+      - questionText:
+          EN: |
+            <p>What do you usually do to make the water safer to drink?</p>
+            <p>Anything else?</p>
+            <p><span class="instruction">RECORD ALL MENTIONED.</span></p>
+  - name: CCHH80.AH109
+    conditions:
+      - questionText:
+          EN: |
+            <p>What kind of toilet facility do members of your household usually use?</p>
+            <p><span class="instruction">IF NOT POSSIBLE TO DETERMINE, ASK PERMISSION TO OBSERVE THE FACILITY.</span></p>
+  - name: CCHH80.AH110
+    conditions:
+      - questionText:
+          EN: |
+            <p>Do you share this toilet facility with other households?</p>
+  - name: CCHH80.AH111
+    conditions:
+      - questionText:
+          EN: |
+            <p>Including your own household, how many households use this toilet facility?</p>
+  - name: CCHH80.AH112
+    conditions:
+      - questionText:
+          EN: |
+            <p>Where is this toilet facility located?</p>
+  - name: CCHH80.AH114
+    conditions:
+      - logic: faciltype = 1
+        questionText:
+          EN: |
+            <p>Has your septic tank ever been emptied?</p>
+      - logic: faciltype = 2
+        questionText:
+          EN: |
+            <p>Has your pit latrine ever been emptied?</p>
+      - logic: faciltype = 3
+        questionText:
+          EN: |
+            <p>Has your composting toilet ever been emptied?</p>
+  - name: CCHH80.AH115
+    conditions:
+      - logic: faciltype = 1
+        questionText:
+          EN: |
+            <p>The last time the septic tank was emptied, was it emptied by a service provider?</p>
+      - logic: faciltype = 2
+        questionText:
+          EN: |
+            <p>The last time the pit latrine was emptied, was it emptied by a service provider?</p>
+      - logic: faciltype = 3
+        questionText:
+          EN: |
+            <p>The last time the composting toilet was emptied, was it emptied by a service provider?</p>
+  - name: CCHH80.AH116
+    conditions:
+      - questionText:
+          EN: |
+            <p>Where were the contents emptied to?</p>
+  - name: CCHH80.AH117
+    conditions:
+      - questionText:
+          EN: |
+            <p>In your household, what type of cookstove is mainly used for cooking?</p>
+  - name: CCHH80.AH118
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does the stove have a chimney?</p>
+  - name: CCHH80.AH120
+    conditions:
+      - questionText:
+          EN: |
+            <p>What type of fuel or energy source is used in this cookstove?</p>
+  - name: CCHH80.AH121
+    conditions:
+      - questionText:
+          EN: |
+            <p>Is the cooking usually done in the house, in a separate building, or outdoors?</p>
+  - name: CCHH80.AH122
+    conditions:
+      - questionText:
+          EN: |
+            <p>Do you have a separate room which is used as a kitchen?</p>
+  - name: CCHH80.AH123
+    conditions:
+      - questionText:
+          EN: |
+            <p>What does this household use to heat the home when needed?</p>
+            <p><span class="instruction">IF THE RESPONDENT SAYS ELECTRICITY OR GAS, ASK: What type of heater is the (electricity/gas) used in?</span></p>
+  - name: CCHH80.AH124
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does it have a chimney?</p>
+  - name: CCHH80.AH125
+    conditions:
+      - questionText:
+          EN: |
+            <p>What type of fuel or energy source is used in this heater?</p>
+  - name: CCHH80.AH126
+    conditions:
+      - questionText:
+          EN: |
+            <p>At night, what does your household mainly use to light the home?</p>
+  - name: CCHH80.AH127
+    conditions:
+      - questionText:
+          EN: |
+            <p>How many rooms in this household are used for sleeping?</p>
+  - name: CCHH80.AH128
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does this household own any livestock, herds, other farm animals, or poultry?</p>
+  - name: AH129_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>How many of the following animals does this household own?</p>
+            <p><span class="instruction">IF NONE, RECORD '0'.</span></p>
+            <p><span class="instruction">IF MORE THAN 95, RECORD '95'.</span></p>
+            <p><span class="instruction">IF UNKNOWN, RECORD '98'.</span></p>
+  - name: CCHH80.AH129A
+    conditions:
+      - questionText:
+          EN: |
+            <p>Milk cows or bulls?</p>
+  - name: CCHH80.AH129B
+    conditions:
+      - questionText:
+          EN: |
+            <p>Other cattle?</p>
+  - name: CCHH80.AH129C
+    conditions:
+      - questionText:
+          EN: |
+            <p>Horses, donkeys, or mules?</p>
+  - name: CCHH80.AH129D
+    conditions:
+      - questionText:
+          EN: |
+            <p>Goats?</p>
+  - name: CCHH80.AH129E
+    conditions:
+      - questionText:
+          EN: |
+            <p>Sheep?</p>
+  - name: CCHH80.AH129F
+    conditions:
+      - questionText:
+          EN: |
+            <p>Chickens or other poultry?</p>
+  - name: CCHH80.AH130
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does any member of this household own any agricultural land?</p>
+  - name: CCHH80.AH131
+    conditions:
+      - questionText:
+          EN: |
+            <p>How many hectares of agricultural land do members of this household own?</p>
+            <p><span class="instruction">IF 95 OR MORE, RECORD '950'.</span></p>
+  - name: AH132_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does your household have:</p>
+  - name: CCHH80.AH132A
+    conditions:
+      - questionText:
+          EN: |
+            <p>Electricity?</p>
+  - name: CCHH80.AH132B
+    conditions:
+      - questionText:
+          EN: |
+            <p>A radio?</p>
+  - name: CCHH80.AH132C
+    conditions:
+      - questionText:
+          EN: |
+            <p>A television?</p>
+  - name: CCHH80.AH132D
+    conditions:
+      - questionText:
+          EN: |
+            <p>A non-mobile telephone?</p>
+  - name: CCHH80.AH132E
+    conditions:
+      - questionText:
+          EN: |
+            <p>A computer?</p>
+  - name: CCHH80.AH132F
+    conditions:
+      - questionText:
+          EN: |
+            <p>A refrigerator?</p>
+  - name: AH133_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p> Does any member of this household own:</p>
+  - name: CCHH80.AH133A
+    conditions:
+      - questionText:
+          EN: |
+            <p>A watch?</p>
+  - name: CCHH80.AH133B
+    conditions:
+      - questionText:
+          EN: |
+            <p>A mobile telephone?</p>
+  - name: CCHH80.AH133C
+    conditions:
+      - questionText:
+          EN: |
+            <p>A bicycle?</p>
+  - name: CCHH80.AH133D
+    conditions:
+      - questionText:
+          EN: |
+            <p>A motorcycle or motor scooter?</p>
+  - name: CCHH80.AH133E
+    conditions:
+      - questionText:
+          EN: |
+            <p>An animal-drawn cart?</p>
+  - name: CCHH80.AH133F
+    conditions:
+      - questionText:
+          EN: |
+            <p>A car or truck?</p>
+  - name: CCHH80.AH133G
+    conditions:
+      - questionText:
+          EN: |
+            <p>A boat with a motor?</p>
+  - name: CCHH80.AH134
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does any member of this household have an account in a bank or other financial institution?</p>
+  - name: CCHH80.AH135
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does any member of this household use a mobile phone to make financial transactions such as sending or receiving money, paying bills, purchasing goods or services, or receiving wages?</p>
+  - name: CCHH80.AH136
+    conditions:
+      - questionText:
+          EN: |
+            <p>How often does anyone smoke inside your house?</p>
+            <p>Would you say daily, weekly, monthly, less often than once a month, or never?</p>
+  - name: CCHH80.AH137
+    conditions:
+      - questionText:
+          EN: |
+            <p>Does your household have any mosquito nets?</p>
+  - name: CCHH80.AH138
+    conditions:
+      - questionText:
+          EN: |
+            <p>How many mosquito nets does your household have?</p>
+            <p><span class="instruction">IF 7 OR MORE NETS, RECORD '7'.</span></p>
+  - name: CCHH80.AH140
+    conditions:
+      - logic: curocc() in 1 & AH138 = 1
+        questionText:
+          EN: |
+            <p>I would like to take a look at the net.  Can you show me the net?</p>
+            <p><span class="instruction">RECORD IF THE NET WAS OBSERVED OR NOT OBSERVED.</span></p>
+      - logic: curocc() in 1 & AH138 <> 1
+        questionText:
+          EN: |
+            <p>I would like to take a look at the nets.  Can you show me the first net?</p>
+            <p><span class="instruction">RECORD IF THE NET WAS OBSERVED OR NOT OBSERVED.</span></p>
+      - logic: curocc() in 2:7
+        questionText:
+          EN: |
+            <p>Can you show me the next net?</p>
+            <p><span class="instruction">RECORD IF THE NET WAS OBSERVED OR NOT OBSERVED.</span></p>
+  - name: CCHH80.AH141
+    conditions:
+      - questionText:
+          EN: |
+            <p>How many months ago did your household get the mosquito net?</p>
+            <p><span class="instruction">IF LESS THAN ONE MONTH AGO, RECORD '0'.</span></p>
+  - name: CCHH80.AH142
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">OBSERVE OR ASK THE BRAND/TYPE OF MOSQUITO NET.</span></p>
+            <p><span class="instruction">IF BRAND IS UNKNOWN AND YOU CANNOT OBSERVE THE NET, SHOW PICTURES OF TYPICAL NET TYPES/BRANDS TO RESPONDENT.</span></p>
+  - name: CCHH80.AH143
+    conditions:
+      - questionText:
+          EN: |
+            <p>Did you get the net through a [LOCAL NAME OF MASS DISTRIBUTION CAMPAIGN], during an antenatal care visit, or during an immunization visit?</p>
+  - name: CCHH80.AH144
+    conditions:
+      - questionText:
+          EN: |
+            <p>Where did you get the net?</p>
+  - name: CCHH80.AH145
+    conditions:
+      - questionText:
+          EN: |
+            <p>Did anyone sleep under this mosquito net last night?</p>
+  - name: CCHH80.AH146A
+    conditions:
+      - questionText:
+          EN: |
+            <p>Who slept under this mosquito net last night?</p>
+            <p><span class="instruction">SELECT THE PERSON'S NAME AND LINE NUMBER WHO SLEPT UNDER THE NET.</span></p>
+  - name: CCHH80.AH146B
+    conditions:
+      - questionText:
+          EN: |
+            <p>Who else slept under this mosquito net last night?</p>
+            <p><span class="instruction">SELECT THE PERSON'S NAME AND LINE NUMBER WHO SLEPT UNDER THE NET. SELECT '0' IF NO ONE ELSE SLEPT UNDER THE NET.</span></p>
+  - name: CCHH80.AH146C
+    conditions:
+      - questionText:
+          EN: |
+            <p>Who else slept under this mosquito net last night?</p>
+            <p><span class="instruction">SELECT THE PERSON'S NAME AND LINE NUMBER WHO SLEPT UNDER THE NET. SELECT '0' IF NO ONE ELSE SLEPT UNDER THE NET.</span></p>
+  - name: CCHH80.AH146D
+    conditions:
+      - questionText:
+          EN: |
+            <p>Who else slept under this mosquito net last night?</p>
+            <p><span class="instruction">SELECT THE PERSON'S NAME AND LINE NUMBER WHO SLEPT UNDER THE NET. SELECT '0' IF NO ONE ELSE SLEPT UNDER THE NET.</span></p>
+  - name: CCHH80.AH147
+    conditions:
+      - questionText:
+          EN: |
+            <p>What was the main reason this net was not used last night?</p>
+  - name: CCHH80.AH149
+    conditions:
+      - questionText:
+          EN: |
+            <p>We would like to learn about the places that households use to wash their hands. Can you please show me where members of your household most often wash their hands?</p>
+  - name: CCHH80.AH150
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">OBSERVE PRESENCE OF WATER AT THE PLACE FOR HANDWASHING.</span></p>
+            <p><span class="instruction">RECORD OBSERVATION.</span></p>
+  - name: CCHH80.AH151
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">OBSERVE PRESENCE OF SOAP, DETERGENT, OR OTHER CLEANSING AGENT AT THE PLACE OF HANDWASHING.</span></p>
+            <p><span class="instruction">RECORD OBSERVATION.</span></p>
+  - name: CCHH80.AH152
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">OBSERVE MAIN MATERIAL OF THE FLOOR OF THE DWELLING.</span></p>
+            <p><span class="instruction">RECORD OBSERVATION.</span></p>
+  - name: CCHH80.AH153
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">OBSERVE MAIN MATERIAL OF THE ROOF OF THE DWELLING.</span></p>
+            <p><span class="instruction">RECORD OBSERVATION.</span></p>
+  - name: CCHH80.AH154
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">OBSERVE MAIN MATERIAL OF THE EXTERIOR WALLS OF THE DWELLING.</span></p>
+            <p><span class="instruction">RECORD OBSERVATION.</span></p>
+  - name: CCHH80.AH155
+    conditions:
+      - questionText:
+          EN: |
+            <p>I would like to check whether the salt used in your household is iodized. May I have a sample of the salt used to cook meals in your household?</p>
+            <p><span class="instruction">TEST SALT FOR IODINE.</span></p>
+  - name: CCHH80.AHCW05
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">SELECT THE LINE NUMBER OF ONE OF THE CHILDREN LISTED BELOW</span><br><p></p></p>
+  - name: CCHH80.AHCW06
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW06.  Now I would like to ask you some questions about ~~AHCW05N~~.</p><p><font color="#0000ff">Press enter to continue</font></p>
+  - name: AHCW08_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW08.  How long has it been since ~~AHCW05N~~ and ~~AHCW05N~~&#39;s mother have lived together?</p><p><span class="instruction">IF LESS THAN 1 YEAR, RECORD ANSWER IN MONTHS. IF 1 YEAR OR MORE, RECORD ANSWER IN COMPLETED YEARS.</span></p><p><span class="instruction">IF ~~AHCW05N~~ AND ~~AHCW05N~~&#39;S MOTHER NEVER LIVED TOGETHER, RECORD &#39;95&#39; AND &#39;9&#39; FOR THE UNITS. </span></p>
+  - name: CCHH80.AHCW08N
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">﻿RECORD THE AMOUNT OF TIME</span></p>
+  - name: CCHH80.AHCW08U
+    conditions:
+      - questionText:
+          EN: |
+            <span class="instruction">RECORD THE UNIT OF TIME</span><p></p>
+  - name: CCHH80.AHCW11
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW11.  Does ~~AHCW05N~~ have the same biological mother as another child I have already asked you about?</p>
+  - name: CCHH80.AHCW12
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW12.  Which child has the same biological mother as ~~AHCW05N~~?</p><p><span class="instruction">RECORD THE HOUSEHOLD LINE NUMBER OF THE CHILD WITH THE SAME BIOLOGICAL MOTHER AS ~~AHCW05N~~.</span></p>
+  - name: CCHH80.AHCW13
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW13.  Is ~~AHCW05N~~&#39;s biological mother married or living with a man as if married? </p>
+  - name: CCHH80.AHCW14
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW14.  Is this man ~~AHCW05N~~&#39;s biological father?</p>
+  - name: CCHH80.AHCW15
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW15.  Does ~~AHCW05N~~&#39;s biological mother send money or goods to this household?</p>
+  - name: CCHH80.AHCW16
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW16.  Does ~~AHCW05N~~&#39;s biological mother receive money or goods from this household?</p>
+  - name: CCHH80.AHCW17
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW17.  Where does ~~AHCW05N~~&#39;s biological mother live?</p>
+  - name: AHCW19_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW19.  How long has it been since ~~AHCW05N~~ and ~~AHCW05N~~&#39;s father have lived together?</p><p><span class="instruction">IF LESS THAN 1 YEAR, RECORD ANSWER IN MONTHS. IF 1 YEAR OR MORE, RECORD ANSWER IN COMPLETED YEARS.</span></p><p>IF ~~AHCW05N~~ AND ~~AHCW05N~~&#39;s FATHER NEVER LIVED TOGETHER, RECORD &#39;95&#39; AND &#39;9&#39; FOR THE UNITS. </p>
+  - name: CCHH80.AHCW19N
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">﻿RECORD THE AMOUNT OF TIME</span><p></p>
+  - name: CCHH80.AHCW19U
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD THE UNIT OF TIME</span><p></p>
+  - name: CCHH80.AHCW22
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW22.  Does ~~AHCW05N~~ have the same biological father as another child I have already asked you about?</p>
+  - name: CCHH80.AHCW23
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW23.  Which child has the same biological father as ~~AHCW05N~~?</p><p><span class="instruction">RECORD THE HOUSEHOLD LINE NUMBER OF THE CHILD WITH THE SAME BIOLOGICAL FATHER AS ~~AHCW05N~~.</span></p>
+  - name: CCHH80.AHCW25
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW25.  Is ~~AHCW05N~~&#39;s biological father married or living with a woman as if married? </p>
+  - name: CCHH80.AHCW26
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW26.  Does ~~AHCW05N~~&#39;s biological father send money or goods to this household?</p>
+  - name: CCHH80.AHCW27
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW27.  Does ~~AHCW05N~~&#39;s biological father receive money or goods from this household?</p>
+  - name: CCHH80.AHCW28
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW28.  Where does ~~AHCW05N~~&#39;s biological father live?</p>
+  - name: CCHH80.AH202
+    conditions:
+      - questionText:
+          EN: |
+            <p>Now I would like to ask some questions about the household members who stayed overnight in a health facility in the last six months.</p><p><font color="#ff0000">Press the enter key to continue</font></p>
+  - name: CCHH80.AH204
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>Where did ~~AH203N~~ most recently stay overnight for health care?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>Where did you most recently stay overnight for health care?</p>
+  - name: CCHH80.AH205
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>What was the main reason for ~~AH203N~~ to seek care this most recent time?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>What was the main reason for you to seek care this most recent time?</p>
+  - name: CCHH80.AH206
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>During the most recent overnight stay, did ~~AH203N~~ have surgery?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>During the most recent overnight stay, did you have surgery?</p>
+  - name: CCHH80.AH207
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>How much money was spent on treatment and services ~~AH203N~~ received during the most recent overnight stay? We want to know about all the costs for the stay, including any charges for laboratory tests, drugs, or other items.</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>How much money was spent on treatment and services you received during the most recent overnight stay? We want to know about all the costs for the stay, including any charges for laboratory tests, drugs, or other items.</p>
+  - name: CCHH80.AH208
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>Did ~~AH203N~~ stay overnight at a health facility another time in the last six months?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>Did you stay overnight at a health facility another time in the last six months?</p>
+  - name: CCHH80.AH209
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>Where did ~~AH203N~~ stay the next-to-last time (he/she) stayed overnight for health care?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>Where did you stay the next-to-last time (he/she) stayed overnight for health care?</p>
+  - name: CCHH80.AH210
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>What was the main reason for ~~AH203N~~ to seek care this next-to-last time?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>What was the main reason for you to seek care this next-to-last time?</p>
+  - name: CCHH80.AH211
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>During the next-to-last overnight stay, did ~~AH203N~~ have surgery?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>During the next-to-last overnight stay, did you have surgery?</p>
+  - name: CCHH80.AH212
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>How much money was spent on treatment and services ~~AH203N~~ received during the next-to-last overnight stay? We want to know about all the costs for the stay, including any charges for laboratory tests, drugs, or other items.</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>How much money was spent on treatment and services you received during the next-to-last overnight stay? We want to know about all the costs for the stay, including any charges for laboratory tests, drugs, or other items.</p>
+  - name: CCHH80.AH213
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>Besides the two stays you have told me about, did ~~AH203N~~ stay overnight in a health facility another time in the last six months?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>Besides the two stays you have told me about, did you stay overnight in a health facility another time in the last six months?</p>
+  - name: CCHH80.AH214
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>Where did ~~AH203N~~ stay the second-to-last time (he/she) stayed overnight for health care?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>Where did you stay the second-to-last time (he/she) stayed overnight for health care?</p>
+  - name: CCHH80.AH215
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>What was the main reason for ~~AH203N~~ to seek care this second-to-last time?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>What was the main reason for you to seek care this second-to-last time?</p>
+  - name: CCHH80.AH216
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>During the second-to-last overnight stay, did ~~AH203N~~ have surgery?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>During the second-to-last overnight stay, did you have surgery?</p>
+  - name: CCHH80.AH217
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>How much money was spent on treatment and services ~~AH203N~~ received during the second-to-last overnight stay? We want to know about all the costs for the stay, including any charges for laboratory tests, drugs, or other items.</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>How much money was spent on treatment and services you received during the second-to-last overnight stay? We want to know about all the costs for the stay, including any charges for laboratory tests, drugs, or other items.</p>
+  - name: CCHH80.AH218
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>Besides the three stays you have told me about, did ~~AH203N~~ stay overnight in a health facility another time in the last six months?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>Besides the three stays you have told me about, did you stay overnight in a health facility another time in the last six months?</p>
+  - name: CCHH80.AH219
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>In total, how many times did ~~AH203N~~ stay overnight in a health facility in the last six months?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>In total, how many times did you stay overnight in a health facility in the last six months?</p>
+  - name: CCHH80.AH220
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>Is ~~AH203N~~ covered by any health insurance?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>Are you covered by any health insurance?</p>
+  - name: CCHH80.AH221
+    conditions:
+      - logic: AH203 <> AHRESP
+        questionText:
+          EN: |
+            <p>What is ~~AH203N~~'s main type of health insurance?</p>
+      - logic: AH203 = AHRESP
+        questionText:
+          EN: |
+            <p>What is your main type of health insurance?</p>
+  - name: CCHH80.AH303
+    conditions:
+      - logic: AH302 <> AHRESP
+        questionText:
+          EN: |
+            <p>Now I would like to ask some questions about health care that ~~AH302N~~ received in the last four weeks, without having to stay overnight. Where did ~~AH302N~~ get care most recently without staying overnight?</p>
+      - logic: AH302 = AHRESP
+        questionText:
+          EN: |
+            <p>Now I would like to ask some questions about health care that you received in the last four weeks, without having to stay overnight. Where did you get care most recently without staying overnight?</p>
+  - name: CCHH80.AH304
+    conditions:
+      - logic: AH302 <> AHRESP
+        questionText:
+          EN: |
+            <p>How much money was spent on treatment and services ~~AH302N~~ received from ~~provider~~? Please include the consulting fee and any expenses for other items including drugs and tests.</p>
+      - logic: AH302 = AHRESP
+        questionText:
+          EN: |
+            <p>How much money was spent on treatment and services you received from ~~provider~~? Please include the consulting fee and any expenses for other items including drugs and tests.</p>
+  - name: CCHH80.AH305
+    conditions:
+      - logic: AH302 <> AHRESP
+        questionText:
+          EN: |
+            <p>What was the main reason for ~~AH302N~~ to seek care this most recent time?</p>
+      - logic: AH302 = AHRESP
+        questionText:
+          EN: |
+            <p>What was the main reason for you to seek care this most recent time?</p>
+  - name: CCHH80.AH306
+    conditions:
+      - logic: AH302 <> AHRESP
+        questionText:
+          EN: |
+            <p>Did ~~AH302N~~ get care another time in the last four weeks from a health provider, a pharmacy, or a traditional healer, without staying overnight?</p>
+      - logic: AH302 = AHRESP
+        questionText:
+          EN: |
+            <p>Did you get care another time in the last four weeks from a health provider, a pharmacy, or a traditional healer, without staying overnight?</p>
+  - name: CCHH80.AH307
+    conditions:
+      - logic: AH302 <> AHRESP
+        questionText:
+          EN: |
+            <p>How many other times did ~~AH302N~~ get care in the last four weeks?</p>
+      - logic: AH302 = AHRESP
+        questionText:
+          EN: |
+            <p>How many other times did you get care in the last four weeks?</p>
+  - name: CCHH80.AH308
+    conditions:
+      - questionText:
+          EN: |
+            <p>How many times was money spent?</p>
+  - name: CCHH80.AH309
+    conditions:
+      - logic: AH302 <> AHRESP
+        questionText:
+          EN: |
+            <p>Is ~~AH302N~~ covered by any health insurance?</p>
+      - logic: AH302 = AHRESP
+        questionText:
+          EN: |
+            <p>Are you covered by any health insurance?</p>
+  - name: CCHH80.AH310
+    conditions:
+      - logic: AH302 <> AHRESP
+        questionText:
+          EN: |
+            <p>What is ~~AH302N~~'s main type of health insurance?</p>
+      - logic: AH302 = AHRESP
+        questionText:
+          EN: |
+            <p>What is your main type of health insurance?</p>
+  - name: CCHH80.AH311
+    conditions:
+      - questionText:
+          EN: |
+            <p>Sometimes people buy vitamins, medicines, and herbal remedies without consulting with a health provider, pharmacy, or traditional healer. They may also buy other health-related items such as band-aids/plasters, thermometers, or other medical devices, and so on without a consultation. In the last four weeks, how much money was spent on these types of health-related items for all the members of your household?</p>
+  - name: AHFS_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>Now I would like to ask you some questions about food. During the last 12 months, was there a time when:</p>
+  - name: CCHH80.AHFS1
+    conditions:
+      - questionText:
+          EN: |
+            <p>You or others in your household worried about not having enough food to eat because of a lack of money or other resources?</p>
+  - name: CCHH80.AHFS2
+    conditions:
+      - questionText:
+          EN: |
+            <p>Still thinking about the last 12 months, was there a time when you or others in your household were unable to eat healthy and nutritious food because of a lack of money or other resources? </p>
+  - name: CCHH80.AHFS3
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was there a time when you or others in your household ate only a few kinds of foods because of a lack of money or other resources? </p>
+  - name: CCHH80.AHFS4
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was there a time when you or others in your household had to skip a meal because there was not enough money or other resources to get food? </p>
+  - name: CCHH80.AHFS5
+    conditions:
+      - questionText:
+          EN: |
+            <p>Still thinking about the last 12 months, was there a time when you or others in your household ate less than you thought you should because of a lack of money or other resources?</p>
+  - name: CCHH80.AHFS6
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was there a time when your household ran out of food because of a lack of money or other resources?</p>
+  - name: CCHH80.AHFS7
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was there a time when you or others in your household were hungry but did not eat because there was not enough money or other resources for food?</p>
+  - name: CCHH80.AHFS8
+    conditions:
+      - questionText:
+          EN: |
+            <p>Was there a time when you or others in your household went without eating for a whole day because of a lack of money or other resources?</p>
+  - name: CCHH80.AHLANGQ
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER THE LANGUAGE OF THE QUESTIONNAIRE</span></p>
+  - name: CCHH80.AHLANGI
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER THE LANGUAGE OF THE INTERVIEW</span></p>
+  - name: CCHH80.AHLANGR
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER THE NATIVE LANGUAGE OF THE RESPONDENT</span></p>
+  - name: CCHH80.AHTRANS
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER WHETHER A TRANSLATOR WAS USED DURING THE INTERVIEW</span></p>
+  - name: CCHH80.GHAUX
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">Coordinates for the household were already collected, do you want to replace the current coordinates?</span></p>
+  - name: CCHH80.GHINTRO
+    conditions:
+      - logic: capturecoor = 0
+        questionText:
+          EN: |
+            <p><span class="instruction">Are you sure that you want to replace the current coordinates?</span></p>
+      - logic: capturecoor = 1
+        questionText:
+          EN: |
+            <p><span class="instruction">As part of the CC DHS/MIS survey, it is necessary to take coordinates for households in the sample.  Please make sure that the dongle is connected to the tablet and step in the household front door (away from blocking buildings/trees).</span></p>
+            <p><span class="instruction">Are you ready to capture the coordinates?</span></p>
+  - name: CCHH80.AHFINISH
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">END OF HOUSEHOLD QUESTIONNAIRE.</span></p>
+            <p><span class="instruction">A WINDOW WILL BE DISPLAYED TO WRITE ANY NOTES.  AFTER THAT THE QUESTIONNAIRE WILL BE SAVED AUTOMATICALLY.</span></p>
+  - name: CCHH80.ABINTD
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">Record the day of the visit</span></p>
+  - name: CCHH80.ABINTM
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">Record the month of the visit</span></p>
+  - name: CCHH80.ABINTY
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">Record the year of the visit</span></p>
+  - name: CCHH80.ABVISITS
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">Register the number of visits necessary to complete the biomarker questionnaire</span></p>
+  - name: CCHH80.AB102
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD LINE NUMBER OF CHILD</span></p>
+  - name: CCHH80.ACAUXIL
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">Do you want to enter biomarker measurements for ~~ACNAME~~?</span></p>
+  - name: AB103_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>What is ~~ACNAME~~'s date of birth?</p>
+  - name: CCHH80.AB103D
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD DAY</span></p>
+  - name: CCHH80.AB103M
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD MONTH</span></p>
+  - name: CCHH80.AB103Y
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD YEAR</span></p>
+  - name: CCHH80.AB104
+    conditions:
+      - questionText:
+          EN: |
+            <p>How old was ~~ACNAME~~ at ~~ACNAME~~'s last birthday? </p>
+  - name: CCHH80.AB106
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD ~~ACNAME~~'S WEIGHT IN KILOGRAMS.</span></p>
+            <p><span class="instruction">(Use format xx.xx and enter the decimal point)</span></p>
+  - name: CCHH80.AB106W
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RE-ENTER ~~ACNAME~~'S WEIGHT IN KILOGRAMS.</span></p>
+            <p><span class="instruction">(Use format xx.xx and enter the decimal point)</span></p>
+  - name: CCHH80.AB107
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">WAS THE CHILD MINIMALLY DRESSED?</span></p>
+  - name: CCHH80.AB108
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD ~~ACNAME~~'S HEIGHT IN CENTIMETERS.</span></p>
+            <p><span class="instruction">(Use format xxx.x and enter the decimal point)</span></p>
+  - name: CCHH80.AB108W
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RE-ENTER ~~ACNAME~~'S HEIGHT IN CENTIMETERS.</span></p>
+            <p><span class="instruction">(Use format xxx.x and enter the decimal point)</span></p>
+  - name: AB109_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>RECORD THE DATE OF MEASUREMENT</p>
+  - name: CCHH80.AB109D
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD DAY</span></p>
+  - name: CCHH80.AB109M
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD MONTH</span></p>
+  - name: CCHH80.AB109Y
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD YEAR</span></p>
+  - name: CCHH80.AB110
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER ~~ACNAME~~'S WAS MEASURED LYING DOWN OR STANDING UP.</span></p>
+  - name: CCHH80.AB112
+    conditions:
+      - logic: chage = 0
+        questionText:
+          EN: |
+            <p><span class="instruction">PRESS ENTER AND RECORD THE REASON WHY ~~ACNAME~~ WAS MEASURED STANDING UP</span></p>
+      - logic: chage = 1
+        questionText:
+          EN: |
+            <p><span class="instruction">PRESS ENTER AND RECORD THE REASON WHY ~~ACNAME~~ WAS MEASURED LYING DOWN</span></p>
+  - name: CCHH80.AB113
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">WAS THE RECORDED MEASUREMENT INTERFERED WITH BY BRAIDED OR ORNAMENTED HAIR?</span></p>
+  - name: CCHH80.AB114
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">WAS HEIGHT/LENGTH AND WEIGHT FOR&nbsp;</font><span style="color: rgb(0, 0, 255);">&nbsp;~~ACNAME~~&nbsp;</span><font color="#0000ff">RECORDED IN THE [ANTHROPOMETRY AND ANEMIA PAMPHLET]?</font><p></p>
+  - name: CCHH80.AB115
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER OF THE BIOMARKER MEASURER.</span></p>
+  - name: CCHH80.AB116
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER OF ASSISTANT MEASURER.</span></p>
+            <p><span class="instruction">IF NO ASSISTANT MEASURER, ENTER 9999.</span></p>
+  - name: CCHH80.AB118
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD LINE NUMBER OF PARENT/OTHER ADULT RESPONSIBLE FOR ~~ACNAME~~.</span></p>
+            <p><span class="instruction">RECORD '0' IF NOT LISTED</span></p>
+  - name: CCHH80.AB120
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER CONSENT FOR ANEMIA TESTING WAS GRANTED FOR ~~ACNAME~~</span></p>
+  - name: CCHH80.AB121
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.</span></p>
+  - name: CCHH80.ABM112
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD BAR CODE ASSIGNED TO ~~ACNAME~~ FOR MALARIA LAB</span></p>
+  - name: CCHH80.AB123
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD HEMOGLOBIN LEVEL FOR ~~ACNAME~~.</span></p>
+            <p><span class="instruction">(Use format xx.x and enter the decimal point)</span></p>
+  - name: CCHH80.AB123W
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RE-ENTER HEMOGLOBIN LEVEL FOR ~~ACNAME~~.</span></p>
+            <p><span class="instruction">(Use format xx.x and enter the decimal point)</span></p>
+  - name: CCHH80.ABM114
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD THE RESULT OF THE MALARIA RDT </span></p>
+  - name: ABM115_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER ~~ACNAME~~ SUFFER FROM THIS ILLNESS/SYMPTOM:</span></p>
+  - name: CCHH80.ABM115A
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">a) EXTREME WEAKNESS?</span></p>
+  - name: CCHH80.ABM115B
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">b) HEART PROBLEMS?</span></p>
+  - name: CCHH80.ABM115C
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">c) LOSS OF CONSCIOUSNESS?</span></p>
+  - name: CCHH80.ABM115D
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">d) RAPID OR DIFFICULT BREATHING?</span></p>
+  - name: CCHH80.ABM115E
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">e) SEIZURES?</span></p>
+  - name: CCHH80.ABM115F
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">f) ABNORMAL BLEEDING?</span></p>
+  - name: CCHH80.ABM115G
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">g) JAUNDICE OR YELLOW SKIN?</span></p>
+  - name: CCHH80.ABM115H
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">h) DARK URINE?</span></p>
+  - name: CCHH80.ABM117
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD HEMOGLOBIN RESULT</span></p>
+  - name: CCHH80.ABM119
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD IF ~~ACNAME~~ IN THE PAST 2 WEEKS OR IS TAKING [FIRST LINE MEDICATION] GIVEN BY A DOCTOR</span></p>
+  - name: CCHH80.ABM122
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD IF PARENT/RESPONSIBLE ADULT ACCEPTED OR REFUSED [FIRST LINE OF MEDICATION] FOR CHILD</span></p>
+  - name: CCHH80.ABM123
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER FOR ACCEPTANCE OF MALARIA MEDICINE.</span></p>
+  - name: CCHH80.AB124
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">CHECK 122: HEMOGLOBIN RESULT</span></p>
+  - name: CCHH80.AB125
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD THE RESULT OF THE ANEMIA TEST ON THE SEVERE ANEMIA REFERRAL FORM FOR ~~ACNAME~~</font><p></p>
+  - name: ABM128_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>RECORD THE DATE OF MEASUREMENT</p>
+  - name: CCHH80.ABM128D
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD DAY</span></p>
+  - name: CCHH80.ABM128M
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD MONTH</span></p>
+  - name: CCHH80.ABM128Y
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD YEAR</span></p>
+  - name: CCHH80.AB202
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD LINE NUMBER OF WOMAN</span></p>
+  - name: CCHH80.AWAUXIL
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">Do you want to enter biomarker measurements for ~~AWNAME~~?</span></p>
+  - name: CCHH80.AB203
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER AGE OF ~~AWNAME~~ IS 15-17 YEARS, OR 18-49 YEARS</span></p>
+  - name: CCHH80.AB204
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD ~~AWNAME~~'S MARITAL STATUS</span></p>
+  - name: CCHH80.AB205
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD ~~AWNAME~~'S WEIGHT IN KILOGRAMS.</span></p>
+            <p><span class="instruction">(Use format xxx.xx and enter the decimal point)</span></p>
+  - name: CCHH80.AB205W
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RE-ENTER ~~AWNAME~~'S WEIGHT IN KILOGRAMS</span></p>
+            <p><span class="instruction">(Use format xx.x and enter the decimal point)</span></p>
+  - name: CCHH80.AB206
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">WAS THE WOMAN WEARING ONLY LIGHTWEIGHT CLOTHING?</span></p>
+  - name: CCHH80.AB207
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD ~~AWNAME~~'S HEIGHT IN CENTIMETERS.</span></p>
+            <p><span class="instruction">(Use format xxx.x and enter the decimal point)</span></p>
+  - name: CCHH80.AB207W
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RE-ENTER ~~AWNAME~~'S HEIGHT IN CENTIMETERS</span></p>
+            <p><span class="instruction">(Use format xxx.x and enter the decimal point)</span></p>
+  - name: AB208_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>RECORD THE DATE OF MEASUREMENT</p>
+  - name: CCHH80.AB208D
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD DAY</span></p>
+  - name: CCHH80.AB208M
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD MONTH</span></p>
+  - name: CCHH80.AB208Y
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD YEAR</span></p>
+  - name: CCHH80.AB209
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">WAS THE RECORDED MEASUREMENT INTERFERED WITH BY BRAIDED OR ORNAMENTED HAIR?</span></p>
+  - name: CCHH80.AB210
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">WAS HEIGHT/LENGTH AND WEIGHT RECORDED IN THE [ANTHROPOMETRY AND ANEMIA PAMPHLET]?</font><p></p>
+  - name: CCHH80.AB211
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD FIELDWORKER NUMBER OF BIOMARKER MEASURER.</span></p>
+  - name: CCHH80.AB212
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER OF ASSISTANT MEASURER.</span></p>
+            <p><span class="instruction">IF NO ASSISTANT MEASURER, ENTER 9999.</span></p>
+  - name: CCHH80.AB212A
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD LINE NUMBER OF PARENT/OTHER ADULT RESPONSIBLE FOR ~~AWNAME~~</span></p>
+            <p><span class="instruction">RECORD '0' IF NOT LISTED</span></p>
+  - name: CCHH80.AB214A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD WHETHER BLOOD PRESSURE CONSENT WAS GRANTED BY PARENT/RESPONSIBLE ADULT FOR ~~AWNAME~~</span><p></p>
+  - name: CCHH80.AB214B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD FIELDWORKER NUMBER FOR BLOOD PRESSURE MEASURER.</span><p></p>
+  - name: CCHH80.AB215C
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD WHETHER BLOOD PRESSURE CONSENT WAS GRANTED BY ~~AWNAME~~</span><p></p>
+  - name: CCHH80.AB215D
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">ENTER FIELDWORKER NUMBER FOR BLOOD PRESSURE MEASURER.</span><p></p>
+  - name: CCHH80.AB217A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD WHETHER ANEMIA TEST CONSENT WAS GRANTED BY PARENT/RESPONSIBLE ADULT FOR ~~AWNAME~~</span><p></p>
+  - name: CCHH80.AB217B
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER FOR BLOOD PRESSURE MEASURER.</span></p>
+  - name: CCHH80.AB218C
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER ANEMIA TEST CONSENT WAS GRANTED BY ~~AWNAME~~</span></p>
+  - name: CCHH80.AB218D
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.</span></p>
+  - name: CCHH80.AB220A
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER&nbsp;</span><span style="color: rgb(0, 0, 255);">CONSENT</span><span style="color: rgb(0, 0, 255);">&nbsp;FOR&nbsp;</span><span style="color: rgb(0, 0, 255);">OTHER TEST WAS GRANTED BY PARENT/RESPONSILBE ADULT FOR ~~AWNAME~~</span></p>
+  - name: CCHH80.AB220B
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD FIELDWORKER NUMBER FOR OTHER TEST MEASURER.</span></p>
+  - name: CCHH80.AB221C
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER CONSENT FOR OTHER TEST WAS GRANTED BY&nbsp;</span><span style="color: rgb(0, 0, 255);">~~AWNAME~~</span></p>
+  - name: CCHH80.AB221D
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD FIELDWORKER NUMBER OF BIOMARKER MEASURER.</span></p>
+  - name: CCHH80.AB214
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD WHETHER BLOOD PRESSURE CONSENT WAS GRANTED BY ~~AWNAME~~</span><p></p>
+  - name: CCHH80.AB215
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD FIELDWORKER NUMBER FOR BLOOD PRESSURE MEASURER.</span><p></p>
+  - name: CCHH80.AB217
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER CONSENT WAS GRANTED FOR ANEMIA TESTING BY&nbsp;</span><span style="color: rgb(0, 0, 255);">~~AWNAME~~</span></p>
+  - name: CCHH80.AB218
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.</span></p>
+  - name: CCHH80.AB220
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER&nbsp;</span><span style="color: rgb(0, 0, 255);">CONSENT</span><span style="color: rgb(0, 0, 255);">&nbsp;FOR OTHER&nbsp;</span><span style="color: rgb(0, 0, 255);">TEST WAS GRANTED BY ~~AWNAME~~</span></p>
+  - name: CCHH80.AB221
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">ENTER FIELDWORKER NUMBER FOR OTHER TEST MEASURER.</span><p></p>
+  - name: CCHH80.AB222
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">PREPARE EQUIPMENT AND SUPPLIES ONLY FOR THE TEST(S) FOR WHICH CONSENT HAS BEEN GRANTED.</font><p></p>
+  - name: AB224_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD WHETHER ~~AWNAME~~ HAVE DONE THIS WITHIN LAST 30 MINUTES:</span><p></p>
+  - name: CCHH80.AB224A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">a) EATEN ANYTHING?</span><p></p>
+  - name: CCHH80.AB224B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">B) HAD COFFEE, TEA, COLA OR OTHER DRINK THAT HAS CAFFEINE?</span><p></p>
+  - name: CCHH80.AB224C
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">c) SMOKED ANY TOBACCO PRODUCT?</span><p></p>
+  - name: CCHH80.AB224D
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">d) CONDUCTED ANY PHYSICAL ACTIVITY OR EXERCISES THAT MADE BREATHE HARDER THAN USUAL?</span><p></p>
+  - name: CCHH80.AB225
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD ARM CIRCUMFERENCE.</font><p></p>
+  - name: CCHH80.AB226
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD THE APPROPRIATE BLOOD PRESSURE MONITOR MODEL AND CUFF SIZE.&nbsp;</font><p></p>
+  - name: AB228_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">TIME OF THE FIRST BP READING</font><p></p>
+  - name: CCHH80.AB227A
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD FIRST READING OF THE SYSTOLIC BLOOD PRESSURE</font>&nbsp;<p></p>
+  - name: CCHH80.AB227AW
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RE-ENTER FIRST READING OF THE SYSTOLIC BLOOD PRESSURE</font>&nbsp;<p></p>
+  - name: CCHH80.AB227B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD FIRST READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB227BW
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RE-ENTER FIRST READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB228H
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD HOUR</font><p></p>
+  - name: CCHH80.AB228M
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD MINUTES</span><p></p>
+  - name: CCHH80.AB230
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD IF EVER HAD BLOOD PRESSURE MEASURED</font><p></p>
+  - name: CCHH80.AB231
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF EVER BEEN TOLD BY A DOCTOR OR OTHER HEALTH WORKER THAT HAVE HIGH BLOOD PRESSURE&nbsp;</span><p></p>
+  - name: CCHH80.AB232
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF IN LAST 12 MONTHS HAVE BEEN TOLD BY A DOCTOR OR OTHER HEALTH WORKER THAT HAVE HIGH BLOOD PRESSURE&nbsp;</span><p></p>
+  - name: CCHH80.AB233
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF DOCTOR OR OTHER HEALTH WORKER PRESCRIBED MEDICATION TO CONTROL BLOOD PRESSURE&nbsp;</span><p></p>
+  - name: CCHH80.AB234
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF TAKING MEDICATION TO CONTROL BLOOD PRESSURE&nbsp;</span><p></p>
+  - name: CCHH80.AB235
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF AGREED TO TAKE SECOND READING FOR BLOOD PRESSURE&nbsp;</span><p></p>
+  - name: CCHH80.AB236A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD SECOND READING OF THE SYSTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB236AW
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RE-ENTER SECOND READING OF THE SYSTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB236B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD SECOND READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB236BW
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RE-ENTER SECOND READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: AB237_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">TIME OF THE SECOND BP READING</span><p></p>
+  - name: CCHH80.AB237H
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD HOUR</span><p></p>
+  - name: CCHH80.AB237M
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD MINUTES</span><p></p>
+  - name: CCHH80.AB238
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF AGREED TO TAKE THIRD READING FOR BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB239A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD THIRD READING OF THE SYSTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB239AW
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RE-ENTER THIRD READING OF THE SYSTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB239B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD THIRD READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB239BW
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RE-ENTER THIRD READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: AB240_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">TIME OF THE THIRD BP READING</span><p></p>
+  - name: CCHH80.AB240H
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD HOUR</span><p></p>
+  - name: CCHH80.AB240M
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD MINUTES</span><p></p>
+  - name: CCHH80.AB250A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD THE FINAL SYSTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB250B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD THE FINAL DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB252
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD THE VALUE OF BLOOD PRESSURE REPORT AND REFERRAL.</font>&nbsp;&nbsp;<p></p>
+  - name: CCHH80.AB253
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD IF RESPONDENT PROVIDED THE BLOOD PRESSURE REPORTING FORM</font><p></p>
+  - name: CCHH80.AB255
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD ~~AWNAME~~'S HEMOGLOBIN LEVEL.</span></p>
+            <p><span class="instruction">(Use format xx.x and enter the decimal point)</span></p>
+  - name: CCHH80.AB255W
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RE-ENTER ~~AWNAME~~'S HEMOGLOBIN LEVEL</span></p>
+            <p><span class="instruction">(Use format xx.x and enter the decimal point)</span></p>
+  - name: CCHH80.AB256
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">CHECK 257: HEMOGLOBIN RESULT</span></p>
+  - name: CCHH80.AB257
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD THE RESULT OF THE ANEMIA TEST ON THE SEVERE ANEMIA REFERRAL FORM.</font><p></p>
+  - name: CCHH80.AB259
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">CONDUCT TEST AND RECORD RESULT HERE AND IN [ANTHROPOMETRY AND ANEMIA AND OTHER TEST PAMPHLET].</font><p></p>
+  - name: CCHH80.AB260
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD THE RESULT OF [OTHER TEST] ON THE [TEST] REFERRAL FORM.</font><p></p>
+  - name: CCHH80.ABWDBS
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD BAR CODE ASSIGNED TO ~~AWNAME~~'S DBS SAMPLE</span></p>
+  - name: CCHH80.AB302
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD LINE NUMBER OF MAN</span></p>
+  - name: CCHH80.AMAUXIL
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">Do you want to enter biomarker measurements for ~~AMNAME~~?</span></p>
+  - name: CCHH80.AB303
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER AGE OF ~~AMNAME~~ IS 15-17 YEARS, OR 18-[49] YEARS</span></p>
+  - name: CCHH80.AB304
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD ~~AMNAME~~'S MARITAL STATUS</span></p>
+  - name: CCHH80.AB305
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD ~~AMNAME~~'S WEIGHT IN KILOGRAMS.</span></p>
+            <p><span class="instruction">(Use format xxx.xx and enter the decimal point)</span></p>
+  - name: CCHH80.AB305W
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RE-ENTER ~~AMNAME~~'S WEIGHT IN KILOGRAMS</span></p>
+            <p><span class="instruction">(Use format xxx.xx and enter the decimal point)</span></p>
+  - name: CCHH80.AB306
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">WAS THE MAN WEARING ONLY LIGHTWEIGHT CLOTHING?</span></p>
+  - name: CCHH80.AB307
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD ~~AMNAME~~'S HEIGHT IN CENTIMETERS.</span></p>
+            <p><span class="instruction">(Use format xxx.x and enter the decimal point)</span></p>
+  - name: CCHH80.AB307W
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RE-ENTER ~~AMNAME~~'S HEIGHT IN CENTIMETERS</span></p>
+            <p><span class="instruction">(Use format xxx.x and enter the decimal point)</span></p>
+  - name: CCHH80.AB310
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD FIELDWORKER NUMBER OF BIOMARKER MEASURER.</span></p>
+  - name: CCHH80.AB311
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER OF ASSISTANT MEASURER.</span></p>
+            <p><span class="instruction">IF NO ASSISTANT MEASURER, ENTER 9999.</span></p>
+  - name: CCHH80.AB312
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">WAS HEIGHT/LENGTH AND WEIGHT RECORDED IN THE [ANTHROPOMETRY AND ANEMIA PAMPHLET]?</font><p></p>
+  - name: CCHH80.AB312A
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD LINE NUMBER OF PARENT/OTHER ADULT RESPONSIBLE FOR ~~AMNAME~~</span></p>
+            <p><span class="instruction">RECORD '0' IF NOT LISTED</span></p>
+  - name: CCHH80.AB314A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD WHETHER BLOOD PRESSURE CONSENT WAS GRANTED BY PARENT/RESPONSIBLE ADULT FOR ~~AMNAME~~</span><p></p>
+  - name: CCHH80.AB314B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD FIELDWORKER NUMBER FOR BLOOD PRESSURE MEASURER.</span><p></p>
+  - name: CCHH80.AB315C
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD WHETHER BLOOD PRESSURE CONSENT WAS GRANTED BY ~~AMNAME~~</span><p></p>
+  - name: CCHH80.AB315D
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">ENTER FIELDWORKER NUMBER FOR BLOOD PRESSURE MEASURER.</span><p></p>
+  - name: CCHH80.AB317A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD WHETHER ANEMIA TEST CONSENT WAS GRANTED BY PARENT/RESPONSIBLE ADULT FOR ~~AMNAME~~</span><p></p>
+  - name: CCHH80.AB317B
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER FOR BLOOD PRESSURE MEASURER.</span></p>
+  - name: CCHH80.AB318C
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER ANEMIA TEST CONSENT WAS GRANTED BY ~~AMNAME~~</span></p>
+  - name: CCHH80.AB318D
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.</span></p>
+  - name: CCHH80.AB320A
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER&nbsp;</span><span style="color: rgb(0, 0, 255);">CONSENT</span><span style="color: rgb(0, 0, 255);">&nbsp;FOR&nbsp;</span><span style="color: rgb(0, 0, 255);">OTHER TEST WAS GRANTED BY PARENT/RESPONSILBE ADULT FOR ~~AMNAME~~</span></p>
+  - name: CCHH80.AB320B
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD FIELDWORKER NUMBER FOR OTHER TEST MEASURER.</span></p>
+  - name: CCHH80.AB321C
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER CONSENT FOR OTHER TEST WAS GRANTED BY&nbsp;</span><span style="color: rgb(0, 0, 255);">~~AMNAME~~</span></p>
+  - name: CCHH80.AB321D
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD FIELDWORKER NUMBER OF BIOMARKER MEASURER.</span></p>
+  - name: CCHH80.AB314
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD WHETHER BLOOD PRESSURE CONSENT WAS GRANTED BY ~~AMNAME~~</span><p></p>
+  - name: CCHH80.AB315
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD FIELDWORKER NUMBER FOR BLOOD PRESSURE MEASURER.</span><p></p>
+  - name: CCHH80.AB317
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER CONSENT WAS GRANTED FOR ANEMIA TESTING BY&nbsp;</span><span style="color: rgb(0, 0, 255);">~~AMNAME~~</span></p>
+  - name: CCHH80.AB318
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.</span></p>
+  - name: CCHH80.AB320
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER&nbsp;</span><span style="color: rgb(0, 0, 255);">CONSENT</span><span style="color: rgb(0, 0, 255);">&nbsp;FOR OTHER&nbsp;</span><span style="color: rgb(0, 0, 255);">TEST WAS GRANTED BY ~~AMNAME~~</span></p>
+  - name: CCHH80.AB321
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">ENTER FIELDWORKER NUMBER FOR OTHER TEST MEASURER.</span><p></p>
+  - name: CCHH80.AB322
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">PREPARE EQUIPMENT AND SUPPLIES ONLY FOR THE TEST(S) FOR WHICH CONSENT HAS BEEN GRANTED.</font><p></p>
+  - name: AB324_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD WHETHER ~~AMNAME~~ HAVE DONE THIS WITHIN LAST 30 MINUTES:</span><p></p>
+  - name: CCHH80.AB324A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">a) EATEN ANYTHING?</span><p></p>
+  - name: CCHH80.AB324B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">B) HAD COFFEE, TEA, COLA OR OTHER DRINK THAT HAS CAFFEINE?</span><p></p>
+  - name: CCHH80.AB324C
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">c) SMOKED ANY TOBACCO PRODUCT?</span><p></p>
+  - name: CCHH80.AB324D
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">d) CONDUCTED ANY PHYSICAL ACTIVITY OR EXERCISES THAT MADE BREATHE HARDER THAN USUAL?</span><p></p>
+  - name: CCHH80.AB325
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD ARM CIRCUMFERENCE.</font><p></p>
+  - name: CCHH80.AB326
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD THE APPROPRIATE BLOOD PRESSURE MONITOR MODEL AND CUFF SIZE.&nbsp;</font><p></p>
+  - name: CCHH80.AB327A
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD FIRST READING OF THE SYSTOLIC BLOOD PRESSURE</font>&nbsp;<p></p>
+  - name: CCHH80.AB327AW
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RE_ENTER FIRST READING OF THE SYSTOLIC BLOOD PRESSURE</font>&nbsp;<p></p>
+  - name: CCHH80.AB327B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD FIRST READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB327BW
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RE-ENTER FIRST READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: AB328_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">TIME OF THE FIRST BP READING</font><p></p>
+  - name: CCHH80.AB328H
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD HOUR</font><p></p>
+  - name: CCHH80.AB328M
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD MINUTES</span><p></p>
+  - name: CCHH80.AB330
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD IF EVER HAD BLOOD PRESSURE MEASURED</font><p></p>
+  - name: CCHH80.AB331
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF EVER BEEN TOLD BY A DOCTOR OR OTHER HEALTH WORKER THAT HAVE HIGH BLOOD PRESSURE&nbsp;</span><p></p>
+  - name: CCHH80.AB332
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF IN LAST 12 MONTHS HAVE BEEN TOLD BY A DOCTOR OR OTHER HEALTH WORKER THAT HAVE HIGH BLOOD PRESSURE&nbsp;</span><p></p>
+  - name: CCHH80.AB333
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF DOCTOR OR OTHER HEALTH WORKER PRESCRIBED MEDICATION TO CONTROL BLOOD PRESSURE&nbsp;</span><p></p>
+  - name: CCHH80.AB334
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF TAKING MEDICATION TO CONTROL BLOOD PRESSURE&nbsp;</span><p></p>
+  - name: CCHH80.AB335
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF AGREED TO TAKE SECOND READING FOR BLOOD PRESSURE&nbsp;</span><p></p>
+  - name: CCHH80.AB336A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD SECOND READING OF THE SYSTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB336AW
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RE-ENTER SECOND READING OF THE SYSTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB336B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD SECOND READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB336BW
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RE-ENTER SECOND READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: AB337_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">TIME OF THE SECOND BP READING</span><p></p>
+  - name: CCHH80.AB337H
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD HOUR</span><p></p>
+  - name: CCHH80.AB337M
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD MINUTES</span><p></p>
+  - name: CCHH80.AB338
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD IF AGREED TO TAKE THIRD READING FOR BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB339A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD THIRD READING OF THE SYSTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB339AW
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RE-ENTER THIRD READING OF THE SYSTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB339B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD THIRD READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB339BW
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RE-ENTER THIRD READING OF DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: AB340_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">TIME OF THE THIRD BP READING</span><p></p>
+  - name: CCHH80.AB340H
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD HOUR</span><p></p>
+  - name: CCHH80.AB340M
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD MINUTES</span><p></p>
+  - name: CCHH80.AB350A
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD THE FINAL SYSTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB350B
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD THE FINAL DIASTOLIC BLOOD PRESSURE</span><p></p>
+  - name: CCHH80.AB352
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD THE VALUE OF BLOOD PRESSURE REPORT AND REFERRAL.</font>&nbsp;&nbsp;<p></p>
+  - name: CCHH80.AB353
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD IF RESPONDENT PROVIDED THE BLOOD PRESSURE REPORTING FORM</font><p></p>
+  - name: CCHH80.AB355
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD ~~AMNAME~~'S HEMOGLOBIN LEVEL</span></p>
+            <p><span class="instruction">(Use format xx.x and enter the decimal point)</span></p>
+  - name: CCHH80.AB355W
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RE-ENTER ~~AMNAME~~'S HEMOGLOBIN LEVEL</span></p>
+            <p><span class="instruction">(Use format xx.x and enter the decimal point)</span></p>
+  - name: CCHH80.AB356
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">CHECK 357: HEMOGLOBIN RESULT</span></p>
+  - name: CCHH80.AB357
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD THE RESULT OF THE ANEMIA TEST ON THE SEVERE ANEMIA REFERRAL FORM.</font><p></p>
+  - name: CCHH80.AB359
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">CONDUCT TEST AND RECORD RESULT HERE AND IN [ANTHROPOMETRY AND ANEMIA AND OTHER TEST PAMPHLET].</font><p></p>
+  - name: CCHH80.AB360
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD THE RESULT OF [OTHER TEST] ON THE [TEST] REFERRAL FORM.</font><p></p>
+  - name: CCHH80.ABMDBS
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD THE BARCODE USED FOR THE TEST</span><p></p>
+  - name: CCHH80.ABFINISH
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">END OF BIOMARKER QUESTIONNAIRE.</span></p>
+            <p><span class="instruction">A WINDOW WILL BE DISPLAYED TO WRITE ANY NOTES.  AFTER THAT THE QUESTIONNAIRE WILL BE SAVED AUTOMATICALLY.</span></p>
+  - name: OTHERS.OTHRESP
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD 'OTHER' ANSWER</span></p>
+  - name: AB309_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <p>RECORD THE DATE OF MEASUREMENT</p>
+  - name: AB314_BLOCK
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">TIME OF THE THIRD BP READING</span><p></p>
+  - name: CCHH80.AB236M
+    conditions:
+      - questionText:
+          EN: |
+            <font color="#0000ff">RECORD MINUTES</font><p></p>
+  - name: CCHH80.AB308
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">WAS THE RECORDED MEASUREMENT INTERFERED WITH BY BRAIDED OR ORNAMENTED HAIR?</span></p>
+  - name: CCHH80.AB309D
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD DAY</span></p>
+  - name: CCHH80.AB309M
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD MONTH</span></p>
+  - name: CCHH80.AB309Y
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD YEAR</span></p>
+  - name: CCHH80.AB318B
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">ENTER FIELDWORKER NUMBER OF HEMOGLOBIN MEASURER.</span></p>
+  - name: CCHH80.ABMHIV1
+    conditions:
+      - questionText:
+          EN: |
+            <span style="color: rgb(0, 0, 255);">RECORD BAR CODE ASSIGNED TO ~~AMNAME~~'S DBS SAMPLE</span><p></p>
+  - name: CCHH80.ABXXX
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">CHECK 104 AND 109: BASED ON CHILD'S AGE, WAS CORRECT MEASUREMENT PROCEDURE FOLLOWED?</span></p>
+  - name: CCHH80.AHCW09
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW09.  In the last 6 months, how often has ~~AHCW05N~~&#39;s biological mother seen or communicated with ~~AHCW05N~~: almost every day, at least once a week, at least once a month, less than once a month, or not at all?</p>
+  - name: CCHH80.AHCW20
+    conditions:
+      - questionText:
+          EN: |
+            <p>AHCW20.  In the last 6 months, how often has ~~AHCW05N~~&#39;s biological father seen or communicated with ~~AHCW05N~~: almost every day, at least once a week, at least once a month, less than once a month, or not at all?</p>
+  - name: CCHH80.ZBMHIV3
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER RESPONDENT GRANTED CONSENT FOR ADDITIONAL TESTING</span></p>
+  - name: CCHH80.ZBMHIV7
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER CONSENT FOR ADDITIONAL TESTING WAS GRANTED BY CARETAKER FOR ~~AMNAME~~</span></p>
+  - name: CCHH80.ZBMHIV8
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER CONSENT FOR ADDITIONAL TESTING WAS GRANTED BY ~~AMNAME~~</span></p>
+  - name: CCHH80.ZBWHIV3
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER RESPONDENT GRANTED CONSENT FOR ADDITIONAL TESTING</span></p>
+  - name: CCHH80.ZBWHIV7
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER CONSENT FOR ADDITIONAL TESTING WAS GRANTED BY CARETAKER FOR ~~AWNAME~~</span></p>
+  - name: CCHH80.ZBWHIV8
+    conditions:
+      - questionText:
+          EN: |
+            <p><span class="instruction">RECORD WHETHER CONSENT FOR ADDITIONAL TESTING WAS GRANTED BY ~~AWNAME~~</span></p>
+...

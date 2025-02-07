@@ -1,0 +1,54 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+the01 columns female1 = 1 1
+              male1   = 1 1			   
+              totalh1 = 1 1;			   			   
+the01 footnote
+{+EN}
+@1 The de jure population are the usual residents of the household and do not 
+   include de facto-only members (guests who stayed in the household 
+   the previous night).~
+@2 Outpatient visits include visits to a health provider, pharmacy, and 
+   traditional healer.   
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+the02 footnote
+{+EN}
+@1 The de jure population are the usual residents of the household and do not 
+   include de facto-only members (guests who stayed in the household 
+   the previous night).
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+the03 footnote
+{+EN}
+@1 The de jure population are the usual residents of the household and do not 
+   include de facto-only members (guests who stayed in the household 
+   the previous night).~
+@2 Health-related expenditures include annualized expenditures on outpatient 
+   visits (including consulting fees, drugs, and tests), inpatient admissions 
+   (including laboratory tests, drugs, and other items), and items purchased 
+   without consulting a health provider (including vitamins, medicines, herbal 
+   remedies, plasters, thermometers, medical devices, etc.).   
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;

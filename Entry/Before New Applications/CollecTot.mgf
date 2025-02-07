@@ -1,0 +1,1512 @@
+﻿language = EN
+ 0001 E Cluster %04d not found in the sample design file
+ 0002 E Filename for %s file incorrect (%s): Quit, correct the filename and then restart
+ 0003 E Date on computer incorrect (%02d/%02d/%04d): Quit, correct the date and then restart
+ 0005 W Can't move to this section because it is empty
+
+ 0010 E Cluster number in filename (%03d) different from cluster number entered (%03d)
+ 0011 E Identification for %s incorrect: %3d, expected %3d
+ 0012 W Household number not in increasing order: %02d %02d
+ 0013 E Questionnaire already entered. Check household number
+ 0014 W Household questionnaire incomplete. Check result code
+ 0015 E More eligible women/men than household members: %02d %02d
+ 0016 E Date of interview impossible
+ 0017 E Line number of respondent out of range
+ 0018 E There are no adults 15+ to answer the questionnaire. Review HH members age, otherwise assign code 2 to the result of the interview
+ 0019 W Result incomplete, but there is information already collected and will be lost if continue 
+ 0020 E Identification variable %s inconsistent with sample design definition, expected %d
+ 0025 E %s %04d not registered in the fieldwork personnel data file
+ 0026 E Assistant to measurer %04d not registered in the fieldwork personnel data file or code is the same as measurer
+
+ 0029 E Can only be one head in the household
+ 0030 W Can only be one spouse/parent/parent-in-law of each sex in the household
+ 0031 E Head of household should be first line
+ 0032 E For co-wives, head of household must be female
+ 0033 E Spouse should be second line
+ 0050 E Member neither resident nor slept last night
+ 0051 W The head of the household should be usual resident of the household
+ 0060 W Sex of spouse (%1d) must be different from sex of head of household (%1d)
+ 0062 E Sex of co-wife not valid
+ 0063 E The presence of other wives requires that there should be one wife defined before
+ 0069 W Age %02d of %s seems inconsistent with age %02d of %s
+ 0071 W Age (%02d) of %s is under %02d
+ 0072 W Check age of head of household (line %02d age %02d) and his/her parent (line %02d age %02d)
+ 0073 W Check age of spouse (line %02d age %02d) and his/her parent (line %02d age %02d)
+ 0075 E Check age with age in household schedule (%02d)
+ 0076 W Check age of person with age in household schedule (%02d)
+ 0090 E Level and grade of education inconsistent
+ 0120 E Line number of mother/father not valid
+ 0121 E Sex of %s (%d) incorrect
+ 0122 W Relationship between %s (%02d) and child (%02d) not correct
+ 0123 W Child has different %s in household reported in %s (%02d) vs expected (%02d) according to relationship codes
+ 0124 W Age of %s (%02d) unlikely when compared with child's age (%02d)
+ 0130 E If a household member has more than one accident only the last one must be reported 
+ 0150 E Eligibility of household member incorrect
+ 0151 E Number of eligible %s incorrect: Expected %02d, found %02d
+ 0152 E Inconsistent with parents survival status AH12=%1d AH14=%1d
+ 0155 W Liquid fuel declared as cookstove (AH117=%d), but fuel used is not liquid
+ 0160 E Highest level of education attended %1d greater than level attending in current school year %d
+ 0161 E Highest level & grade of education attended %1d:%02d inconsistent with most recent level and grade of education %1d:%02d
+ 0165 W Declared that household doesn't have electricity, but electricity used for cooking, heat, or light (AH117=%d %s AH125=%d %s AH126=%d %s) 
+ 0180 E Declared that household own animals, but 00 was entered for all different type of animals
+
+ 0201 E Line number of member who slept under a net out of range (total members %02d)
+ 0202 E Member already listed under this net
+ 0205 E Number of sick people incorrect, expected %02d
+ 0207 E Person sick/vulnerable child to be entered incorrect, expected %02d
+ 0208 W Age inconsistent with age in the household, expected %02d
+ 0210 E Woman selected for domestic violence %02d inconsistent with potential number of women eligible %02d
+ 0211 E Woman selected for domestic violence incorrect (Sex %d marital status %d eligibility criteria %02d)
+
+ 0410 E Line number in column %1d incorrect: Expected %02d
+ 0415 W Sex (%1d) different from sex in household schedule (AH04=%1d)
+ 0420 W Age (%02d) different from age in household schedule (AH07=%02d)
+ 0435 E Age inconsistent based on date of birth and date of household interview
+ 0437 W Age of this child in roster (AH07=%d) and DOB entered in biomarker (AB103=%d-%d-%d) are not consistent
+ 0440 W Weight outside range expected
+ 0441 W Second decimal for weight different from 0,5
+ 0442 E Weight is different from the weight entered previously
+ 0450 W Height (length) outside range expected
+ 0451 E Height "%s" smaller than weight "%s"; they should possibly be reversed!
+ 0452 E Height is different from the height entered previoulsy
+ 0460 W Children under 2 are usually measured lying down, children 2+ measured standing up
+ 0462 E Inconsistency between age (%d), how child was measured (%d-%s) and answer to this question
+ 0470 E Consent for Anemia not given (AB120=%01d), thus hemoglobin measurement AB122=%4.1f should not have a valid value
+ 0471 E Consent for Anemia not given by respondent (%01d), thus hemoglobin=%4.1f should not have a valid value
+ 0472 E Consent for Anemia not given parent/caretaker (%01d) or minor (%01d), thus hemoglobin=%4.1f should not have a valid value 
+ 0473 W Implausible hemoglobin level %4.1f, check for keying errors
+ 0474 E Hemoglobin is different from the hemoglobin entered previously
+ 0475 E Check marital status with marital status in household schedule (%01d)
+ 0476 E The code entered is inconsistent with the household interviewer code %d
+ 0477 E Check consistency of hemoglobin level with answer to this question
+ 0480 E Result of measurement (%1d) inconsistent with measurements recorded (g/dl=%03d)
+ 0481 E Result of measurement (%1d) inconsistent with measurements recorded (consent=%d barcode=%s)
+ 0482 E Age %02d and result of informed consent inconsistent
+ 0483 W Check that there isn't an HIV barcode for this person.  If there is one, change the inform consent code to "1-Granted"
+ 0484 E Duplicate current barcode with line number %d
+ 0485 E This barcode was already used in household %d by %s line number %d
+ 0486 E Duplicate current barcode with barcode for woman number %d
+ 0487 E HIV consent refused by respondent (%01d) thus barcode=%s should not be valid
+ 0488 E HIV consent refused by parent/caretaker (%01d) or minor (%01d), thus barcode=%s should not be valid
+ 0489 E Duplicate current barcode with barcode for child number %d
+ 0490 E Result of testing (%1d) and consent results (%d) inconsistent
+ 0494 E For missing put one "?" in first position only (%5s)
+ 0495 E Invalid sequence of characters in barcode (%5s)
+ 0496 E Invalid check field (last character) for barcode (%5s)
+ 0501 E Consent for malaria not given (%01d) inconsistent with barcode=%s
+ 0502 E Consent for malaria not given (AB120=%01d) inconsistent with result of malaria RDT
+
+ 1000 E Line number of respondent incorrect: Please enter woman number %02d
+ 1002 W Individual questionnaire incomplete.  Check result code
+ 1005 E The blood pressure monitor model registered doesn't agree with arm circumference %d
+ 1030 E Time respondent living in current place of residence (A104=%02d) exceeds current age
+ 1031 W Respondent is a visitor, however she is a usual resident in the household schedule (%1d)
+ 1035 W Date moved to current place of residence inconsistent with years living in current place A104=%d
+ 1060 E Neither date of birth nor age specified: %02d/%04d %02d
+ 1061 W Age of respondent and age in household different: %02d %02d
+ 1062 E Date of birth and age inconsistent: dob=%02d/%04d age=%02d interview=%02d/%04d
+ 1080 W Level of education %02d different from level in household %02d
+ 1090 W Grade of education %02d different from grade in household %02d
+ 1091 E Level and grade of respondent's education inconsistent
+
+ 2030 E Number of boys and girls must be greater than zero
+ 2080 E Number of children ever born incorrect
+ 2090 E Probe and correct 201-208 as necessary
+ 2100 E Number of pregnancies already recorded (%d) exceeds number given in A212 (%d). Either correct the number of pregnancies in A201-A212 or delete the incorrect pregnancy from the pregnancy history
+ 2120 E Single or multiple pregnancy code incorrect
+ 2121 W Usually outcome of multiple pregnancy is the same. Please confirm and ensure it is correct.
+ 2122 E Multiple pregnancy, but only one pregnancy outcome A212W=%d
+ 2123 E If this pregnancy is %s the total number of pregnancies will exceed the number given %d.  Please go back and correct 201-212, or change the number of babies for this pregnancy in 215
+ 2125 E Check consistency of the pregnancy duration between units and numbers
+ 2141 W Child has different sex in household (AH04=%1d, A219=%1d)
+ 2142 E Pregnancy duration combination incorrect, verify units and numbers
+ 2143 E Pregnancy duration of %02d %s is not consistent with the pregnancy outcome reported ( %s )
+ 2144 E Duration of pregnancy (%d %s) is different from duration given for prior twin (%d %s)
+ 2145 E Date of end of pregnancy out of range or combination of day/month/year incorrect
+ 2146 E Date of measurement out of range or combination of day/month/year incorrect
+ 2150 E Date of end of pregnancy after date of interview
+ 2151 E Date of end of pregnancy and twin are different
+ 2152 E Date of end of pregnancy not in order
+ 2153 E Pregnancy should be coded as multiple pregnancy if on the same date as previous pregnancy
+ 2155 E Date of delivery (%s %d/%d/%d) inconsistent between twins/triplets (%s %d/%d/%d)
+ 2156 E Date of delivery should be within one day of each other for twins/triplets: %s %d/%d/%d, %s %d/%d/%d
+ 2160 E Child is alive, but was declared as "Born dead" in A216
+ 2170 E Age of child and age of twin different
+ 2171 E Age of child (%d) and date of birth (%d/%d/%d) inconsistent
+ 2173 W Child has different age in household (AH07=%02d, A225=%02d)
+ 2175 W Age of child (A225=%d) and DOB entered (A220=%d-%d-%d) are not consistent
+ 2181 E Household line number of child invalid
+ 2182 W Child has different mother in household (AH11=%02d, Mother's Line=%02d)
+ 2183 W Child has different residence status in household (AH05=%1d, A226=%1d)
+ 2184 E Line number of child from household already used for child %d
+ 2185 W Mother has child %02d listed in household, but not in birth history
+ 2190 E Age at death invalid for units=9
+ 2191 W Age at death out of range %1d-%2d for the units=%1d. Record days if less than 1 month; Months if if less than 2 years; or years
+ 2192 W Age at death and date of birth inconsistent: dob=%d/%d/%d, death=%d %s, interview=%d/%d/%d
+ 2193 E Age at death is not accepted as 1 year, please get an estimate in number of months
+ 2194 E For a child reported as stillbirth, but who breathed, cried or moved, age at death is expected to be in the first day
+ 2231 W Stillbirth in %d/%d/%d is now classified as a live birth as the baby cried, moved or breathed
+ 2232 W %s in %d/%d/%d is classified as a %s as the duration of pregnancy was %d %s
+ 2240 E %s inconsistent: %s=%02d, count=%02d
+ 2241 W Interval between pregnancy %02d (%02d/%04d) and pregnancy %02d (%02d/%04d) too small
+ 2250 E Number of births since %04d (%1d) different from births in birth history (%1d)
+ 
+ 2270 E Current pregnancy information inconsistent with calendar.
+ 2280 E Duration of pregnancy in calendar (%02d) and questionnaire (%02d) different
+ 2300 E Pregnancy termination in calendar (row %02d), but never terminated a pregnancy
+ 2310 E Last pregnancy termination date (cmc=%04d-%04d) different from termination date given in calendar (%04d=row %02d)
+ 2330 E Duration of last terminated pregnancy (%02d) different from duration in calendar (%02d)
+ 2340 E Earlier terminated pregnancy in calendar (row %02d), but no other terminated pregnancy mentioned (%1d)
+ 2360 W Last period before last birth but never gave birth
+ 2374 E Termination year after year %04d
+ 2375 E Terminations that occur in the calendar window require a valid month
+
+ 2400 Insert a new pregnancy before the current pregnancy?
+ 2401 Add a new pregnancy after the last pregnancy?
+ 2402 Delete the pregnancy of %s in %s %d
+ 2403 Move the pregnancy of %s in %s %d before the pregnancy of %s in %s %d
+
+ 3030 E Sterilized but currently pregnant
+ 3031 E Sterilized but not currently using sterilization according to calendar
+ 3050 E Ever use of a method inconsistent between contraceptive table and calendar
+ 3051 E Ever use of a method inconsistent with contraceptive table
+ 3090 W Living children before first use exceeds children ever born
+ 3130 W Current use of contraception inconsistent with calendar.  Please check
+ 3131 E Methods used (%s) inconsistent with current method in calendar (%1s).
+ 3132 W Used emergency contraception last 12 months but doesn't know the method in contraceptive table
+ 3141 E Respondent's sterilization status inconsistent with current method
+ 3142 E Current method (%s) never heard of according to contraceptive table
+ 3143 W Method used at last sex (%s) never heard of according to contraceptive table
+ 3145 E Respondent sterilized according to A304 inconsistent with current method 
+ 3146 E Respondent's partner sterilized according to A304 inconsistent with current method 
+ 3150 E Check consistency of A304=%d with current method
+ 3160 E Declared no method used at last sexual intercourse, but respondent is currently using %s
+ 3211 W Date of start of use of current method (%04d-%04d) does not agree with calendar (%04d row %02d)
+ 3212 W Sterilization use in calendar in row %02d
+ 3270 E Current method in question A307=%1s must be the same in this question
+
+ 4030 E Line number of child in column %1d incorrect: Expected %02d
+ 4160 E Timing of first antenatal visit incorrect
+ 4165 E Timing for first bath incorrect
+ 4170 E Timing for applying chlohersidine to the cord incorrect
+ 4211 W Months with no period %02d inconsistent with interval: interview=%02d/%04d dob=%02d/%04d
+ 4212 W Duration of amenorrhea between pregnancies %02d inconsistent dob=%02d/%04d dob=%02d/%04d
+ 4220 W Years since injection greater than age: age %02d
+ 4241 W Duration of abstinence %02d inconsistent with interval: interview=%02d/%04d dob=%02d/%04d
+ 4242 W Duration of abstinence between pregnancies %02d inconsistent dob=%02d/%04d dob=%02d/%04d
+ 4280 W Still breastfeeding child that is not the last child
+ 4290 W Duration of breastfeeding %02d inconsistent with interval: interview=%02d/%04d dob=%02d/%04d
+ 4292 E Currently breastfeeding code not accepted for last births
+ 4295 E If the child ate any solid or semi-solid food yesterday there has to be at least one yes (code 1) in questions A637A to A637R
+
+ 4430 E Line number of child in column %1d incorrect: Expected %02d
+ 4460 E Combination of possession (A504=%d) and observation (A507=%d) of card and/or other document inconsistent
+ 4465 W Sorry, no photograph was taken for child %02d-%s
+ 4470 E Date of vaccination (%02d/%02d/%04d) out of range or combination of day/month/year incorrect
+ 4471 E Vaccination date given (%02d/%02d/%04d) for child %02d before child's date of birth (%02d/%02d/%04d)
+ 4475 W Date of birth recoded here (%02d/%02d/%04d) is different from date of birth according to pregnancy history (%02d/%02d/%04d)
+ 4480 E Receipt of other vaccinations inconsistent with other vaccinations recorded with code 66 above
+ 4485 E Code for this question must be present in previous question
+ 4490 E Drug (%s) is being declared as already at home, but drug wasn't declared in previous question (drugs=%s)
+ 4495 E Check consistency for vaccination %s, between mother's report and what is recorded for vaccination day
+ 
+ 5020 E Current marital status (%1d) and marital status from calendar (%1s) inconsistent
+ 5040 E Never in union, but recorded as in union in last 5 years on calendar
+ 5060 E Line number of husband exceeds number of household members
+ 5061 E Sex (AH04=%1d) of respondent's partner incorrect
+ 5062 W Age (%02d) of the husband/partner (line=%02d) is under %02d
+ 5064 W For partner (%02d) check consistency of respondent's relationship to the household head (%02d) and that of partner (%02d)
+ 5065 E Respondent declared only once married but separated.  However, she is currently married according to A701=%d
+ 5066 E Respondent declared only once married but and continues in union.  However, she is not currently married according to A701=%d
+ 5100 W Rank (%02d) of wife exceeds number of wives (%02d - including respondent)
+ 5120 W First union after date of interview: dou=%02d/%04d age at u=%02d interview=%02d/%04d dob=%02d/%04d age=%02d
+ 5121 W First union before age %02d: dob=%02d/%04d age=%02d dou=%02d/%04d age at u=%02d
+ 5122 W First union after first month of union on calendar
+ 5123 W First union before first month of union on calendar
+ 5124 W Whether in union more than once (%1d) inconsistent with unions found in calendar and date of first union (unions=%1d)
+ 5125 W First union after Jan. %04d, but no union in calendar
+ 5130 W Age at first/current marriage exceeds the interview date: interview=%02d/%04d birth=%02d/%04d age=%02d union=%02d/%04d age at union=%02d
+ 5131 E Age at first/current union greater than current age (%02d)
+ 5132 E Age at current union greater than age at first union (%02d)
+ 5135 W No information given for date of first/current union: age at u=%02d dou=%02d/%04d
+ 5140 W Age at marriage based on year of marriage (%02d) less than 10 years
+ 5141 E Age at marriage (%02d) based on year of marriage greater than current age (%02d)
+ 5150 E Never had sex, but either has been pregnant or is currently pregnant
+ 5151 W Never had sex, but was been in union or lived with a man
+ 5190 W Age at first sex exceeds current age: interview=%02d/%04d dob=%02d/%04d age=%02d first sex=%02d
+ 5191 W Age at first sex after age at first conception: child born=%02d/%04d birth=%02d/%04d first sex=%02d
+ 5192 E First sex when first married, but never in union
+ 5193 E Time since last sexual intercourse A723=%d/%02d greater than current age (%02d)
+ 5240 W Answer husband but has never been in union (A701=%1d, A702=%1d)
+ 5241 W Answer live-in-partner, but has never been married or lived with a man (A701=%1d, A702=%1d)
+ 5243 W Number of partners should be 3 or more
+ 5245 W Total number of partners must be greater or equal to partners in the last year (%d)
+
+ 6020 E Response (%1d) inconsistent with current pregnancy status (A232=%1d)
+ 6031 W Time to next birth seems incorrect
+ 6032 W Answered after marriage, but respondent is currently married (%1d)
+ 6100 W Respondent in union (%1d), but responded "Not married"
+ 6101 W Answered "knows no method", but methods known in contraceptive table
+ 6131 E Boys, girls, and either should add up to total ideal number of children
+ 6280 W Used condom with partner but have never used condom in contraceptive table
+
+ 7051 E Level and grade of partner's education inconsistent
+ 7250 W Respondent mentioned husband/partner (%1d) but not in union (A701=%1d)
+
+ 8110 E Inconsistency between time of beginning (%02d:%02d) and end of interview (%02d:%02d)
+ 9000 E Siblings listed out of order: Sibling %02d years since birth=%02d, Sibling %02d years since birth=%02d
+ 9001 W More than 30 years between oldest (%02d) and youngest (%02d) sibling
+ 9002 E Preceding births to respondent greater than mother's total number of births
+
+ 9006 E Injections administered by health personnel can't be more than injections in last year (zzA1101=%02d)
+
+ 9110 W No name entered, means you don't have any brothers and sisters either alive or dead
+ 9111 E Order number (%d) can not be duplicate with prior order number (%d), please correct
+ 9112 E Number entered in AMM07 (%d) is not consistent with the number listed in AMM01 (%d)
+ 9113 E Order number of brother/sister is not yet entered, please enter
+ 9114 E Order number must be between 1 - %d for all lines, please correct
+ 9115 E Order number (%d) entered in row number %d found duplicate in row number %d, please correct one of those duplicate numbers
+ 9120 E Order number (%d) can not be duplicate with prior order number (%d), please correct
+ 9121 E Number entered in AMM07 (%d) is not consistent with the number listed in AMM01 (%d)
+ 9200 W Respondent declared that fistula problem started after delivering a baby, but she hasn't had any live births
+ 9201 W Respondent declared that fistula problem started after having a stillbirth, but she hasn't had any stillbirths
+
+
+ 9800 E No entries allowed before the date of interview in calendar column 1 in %s, %04d
+ 9801 E Invalid code %1s in calendar column %1d in %s, %04d
+ 9802 E Birth in %s, %04d in calendar (cmc=%04d) out of range from birth history (child%02d=%04d-%04d)
+ 9803 W Birth in %s, %04d in calendar has gestation length of %02d months that and doesn't agree with that declared in A221=%d/%02d
+ 9804 E Birth %02d in pregnancy history does not have entry in calendar
+ 9805 E Discontinuation of use but no code given in column 2 row %02d
+ 9806 W Discontinuation in consecutive months %02d & %02d. Please check!
+ 9807 E No discontinuation of use, but code for discontinuation given in row %02d
+ 9818 E Pregnancy code in %s, %04d in column 1 of calendar not followed by a termination code
+ 9819 W Terminated pregnancy in %s, %04d of calendar has gestation length of %02d which is different from that reported reported in A221=%d/%02d
+ 9820 E Start of new method, but no code given in column 3 in %s, %04d
+
+ 9980 E Please select from the categories within the major groups
+ 9981 E Blanks are not allowed for alpha variables
+ 9990 E Zero is not allowed for the type of units 
+ 9992 E Date must be before date of interview
+ 9993 W Please check the value entered
+ 9994 E Special answers inconsistent
+ 9995 E Response "No/No one/Nothing" inconsistent with other responses
+ 9996 E Response "Don't know" inconsistent with other answers
+ 9997 E The response code '%s' is not used for this question
+ 9998 E Codes given for alpha variable not acceptable
+ 9999 E Code out of range, expected %s
+
+11001 E Number of years in abusive relationship greater than respondent's current age %d
+11005 E Age when forced to have sexual acts greater than current age (%02d)
+11010 E Date when HIV positive result was received is more than one month after the most recent test 
+11011 E Date when HIV positive result was received is before date of birth (%d/%d)
+11012 E Date for most recent HIV test is before date of birth (%d/%d)
+11050 E Respondent age at circumcision greater than current age (%02d)
+11051 E Daughters circumcised greater than number of daughter (%02d)
+11052 E Line number should be less than number of children (%02d)
+11053 E Line number %02d in birth history is not female (%1d) or is not alive (%1d)
+11054 E Age at circumcision greater than age of daughter %02d/%02d in birth history
+11055 E Respondent declared that he is circumcised, but he was neither traditionally or medicallly circumcised
+11056 W Respondent declared that he is circumcised, but has not reported being traditionally ormedically circumcised
+
+21030 W Number of years lived in current place of residence (AM104=%02d) exceeds age
+21031 W Respondent is a visitor, however he is a usual resident in the household schedule (%1d)
+21060 E Neither date of birth nor age specified: %02d/%04d %02d
+21061 W Age of respondent and age in household different: %02d %02d
+21062 E Date of birth and age inconsistent: dob=%02d/%04d age=%02d interview=%02d/%04d
+21080 W Level of education %02d different from level in household %02d
+21090 W Grade of education %02d different from grade in household %02d
+21091 E Level and grade of respondent's education inconsistent
+
+22030 E Number of boys and girls must be greater than zero
+22031 E Age at circumcision greater than the respondent's age %2d vs %2d
+22080 E Number of children ever born incorrect
+22130 E Age at first birth %02d exceeds current age %02d
+22140 W Age of youngest child %d not plausible with father's age %02d minimum age at birth %d
+
+23142 E Current method (%s) never heard of/known according to contraceptive table
+
+24520 E Age at first use of condoms greater than current age (AM111=%02d/%02d)
+
+25060 E Line number of wife exceeds number of household members
+25061 E Incorrect sex (%1d) for the wife (%02d)
+25062 W Age (%02d) of the wife/partner (line=%02d) is under %02d
+25064 W For partner (%02d) check consistency of respondent's relationship to the household head (%02d) and that of partner (%02d)
+25065 E Line number of wife/partner %02d already entered
+25068 W Wife age different from that given in the household AH07=%02d
+25110 W Number of lifetime wives %2d is less than the number of women he lives with (%2d)
+25120 W First union after date of interview: dou=%02d/%04d age at u=%02d interview=%02d/%04d dob=%02d/%04d age=%02d
+25121 W First union before age %02d: dob=%02d/%04d age=%02d dou=%02d/%04d age at u=%02d
+25130 W Age at first marriage exceeds the interview date: interview=%02d/%04d birth=%02d/%04d age=%02d union=%02d/%04d age at union=%02d
+25135 W No information given for date of first union: age at u=%02d dou=%02d/%04d
+25150 E Never had sex, but has children
+25151 W Never had sex, but has a sex partner or is/was in union or live/lived with a women (wives=%1d , AM401=%1d, AM402=%1d)
+25190 W Age at first sex exceeds current age: interview=%02d/%04d dob=%02d/%04d age=%02d first sex=%02d
+25192 E First sex when first married, but never in union
+25193 E Time since last sexual intercourse AM415=%d/%02d greater than current age (%02d)
+25220 W Method never used according to contraceptive table
+25240 W Answer wife but has never been in union (AM401=%1d, AM402=%1d)
+25241 W Answer live-in-partner, but has never been married or lived with a man (AM401=%1d, AM402=%1d)
+25245 W Number of partners should be greater than partners in the last year %02d
+
+26031 W Time to next birth seems incorrect
+26032 W Answered after marriage, but respondent is currently married (%1d)
+26100 W Respondent in union (%1d), but responded "Not married"
+26101 W Answered "knows no method", but methods known in contraceptive table
+26120 W Never heard of method but would prefer to use it
+26131 W Boys, girls, and either should add up to total ideal number of children
+26280 W Used condom with partner but have never used condom in contraceptive table
+
+27250 W Respondent mentioned wife/partner (%1d) but not in union (AM401=%1d)
+
+28110 E Inconsistency between time of beginning (%02d:%02d) and end of interview
+29006 E Injections administered by health personnel can't be more than injections in the last 12 months (zzAM805=%02d)
+29010 W Age at circumcision greater than current age (%02d)
+
+29993 W Please check the value entered
+29994 E Special answers inconsistent
+29995 E Response "No one" inconsistent with other responses
+29996 E Response "Don't know" inconsistent with other answers
+29998 E Codes given for alpha variable not acceptable
+
+60045 E GPS dongle/port couldn't be found, please remove and insert the GPS dongle and try again
+60050 E GPS signal could not be acquired, please insert GPS dongle and go to an appropriate location and try again
+
+80004 E Household %d not found in file where households are assigned to interviewers
+80005 E From this point on household number %d will become part of households assigned to you
+80006 E Household %d does not exist in cluster %d
+
+82142 E Number of boys %02d exceed the total number of boys declared in A203=%02d A205=%02d A207=%02d
+82143 E Number of girls %02d exceed the total number of girls declared in A203=%02d A205=%02d A207=%02d
+82144 E Number of pregnacy losses %02d exceed the total number of losses declared in A211=%02d
+82283 E The pregnancy duration is inconsistent with other events in %s, %d
+82284 E The termination duration is inconsistent with other events in %s, %d
+82285 E The date the episode begins should be before the date the respondent started using the current method in %02d/%04d
+82363 W Respondent in menopause but she is less than 30 years old (A111=%02d)
+82364 W Last period greater than age minus 10 (A111=%02d)
+82365 E Age at first period greater than current age (A111=%02d)
+82369 W Never menstruated but had pregnancies (A212=%02d) or is currently pregnant (A232=%d)
+82371 E Termination date not in descending order
+82372 E This termination should be after termination declared in zzA231=%02d/%04d
+83132 E Current method began to be used before the birth reported in %s, %d
+83133 E Current method began to be used before the termination reported in %s, %d
+83134 E Dates when episode begins and ends are inconsistent
+83135 E Method never used according to contraceptive table
+83136 E Sterilization is a permanent method and as a result can't be used intermittently
+83137 E Method has to be different from method in previous episode
+83138 E It is not accepted to exceed the maximum duration of episode (%d) plus at least one month for use
+83140 E The method being declared (%s) is not accepted as another episode of use
+83142 E The date entered occurs before the previous episode
+
+89823 E Respondent is pregnant but pregnancy not registered in calendar
+89824 E The termination registered in %s=%02d/%04d wasn't registered in calendar row %02d
+89825 E There are terminations registered in calendar but respondent never had a termination according to zzA230=%d
+89991 E First character must be a letter
+89997 E The date for current union is before the date of first union (%02d/%04d), the problem has to be resolved
+89998 E Invalid date, it can't be after the date of interview
+89999 E Entry cannot be blank
+
+Language = ES
+{ common strings used by data collection applications }
+  ES ( "Note" ) Notas
+  ES ( "Lang" ) Idioma
+  ES ( "Ver" ) Ver
+  ES ( "Section" ) Seccion
+  ES ( "Go to section:" ) Vaya a seccion
+  ES ( "Cancel" ) Cancelar
+  ES ( "Select location for responses" ) Seleccione la localizacion de las respuestas
+  ES ( "Top left corner beneath questions" ) En esquina izquierda debajo la ventana de preguntas
+  ES ( "Next to field on the form" ) Junto a la pregunta en la forma
+  ES ( "Monday" ) Lunes
+  ES ( "Tuesday" ) Martes
+  ES ( "Wednesday" ) Miercoles
+  ES ( "Thursday" ) Jueves
+  ES ( "Friday" ) Viernes
+  ES ( "Saturday" ) Sabado
+  ES ( "Sunday" ) Domingo
+  ES ( "Changing this will remove %d household member(s) after %s. Please confirm that you want to remove them" ) Al modificar este campo se borraran %d miembros del hogar despues de %s. Favor confirmar que desea borrarlos
+  ES ( "Yes" ) Si
+  ES ( "No" ) No
+  ES ( "Husband" ) Esposo
+  ES ( "Son" ) Hijo
+  ES ( "Son-in-law" ) Yerno
+  ES ( "Father" ) Padre
+  ES ( "Father-in-law" ) Suegro
+  ES ( "Brother" ) Hermano
+  ES ( "Wife" ) Esposa
+  ES ( "Daughter" ) Hija
+  ES ( "Daughter-in-law" ) Hijastra
+  ES ( "Mother" ) Madre
+  ES ( "Mother-in-law" ) Suegra
+  ES ( "Sister" ) Hermana
+  ES ( "Household members" ) Personas del hogar
+  ES ( "Line" ) Linea
+  ES ( "First name" ) Nombre propio
+  ES ( "Last name" ) Apellido
+  ES ( "Relation" ) Relacion
+  ES ( "Sex" ) Sexo
+  ES ( "Usual" ) Habitual
+  ES ( "Last night" ) Última noche
+  ES ( "Age" ) Edad
+  ES ( "Household" ) Hogar
+  ES ( "Interview result" ) Resultado entrevista
+  ES ( "Continue" ) Continue
+  ES ( "Please confirm that the result of this interview is a refusal" ) Por favor confirme si el entrevistado(a) rechazo la entrevista
+  ES ( "Yes, Refused" ) Si, Rechazo
+  ES ( "No, consent given" ) No, acepto
+  ES ( "Name" ) Nombre
+  ES ( "Sex of head" ) Sexo jefe
+  ES ( "Sex spouse" ) Sexo conyugue
+  ES ( "Usual Resident" ) Residencia habitual
+  ES ( "Place slept" ) Lugar durmio
+  ES ( "Relationship" ) Relacion
+  ES ( "HH Member's Age" ) Edad miembro hogar
+  ES ( "Respondent HH" ) Responde hogar
+  ES ( "Eligibility" ) Elegibilidad
+  ES ( "Not a household member" ) No es miembro del hogar
+  ES ( "mother" ) madre
+  ES ( "father" ) padre
+  ES ( "Level of education" ) Nivel de educacion
+  ES ( "Grade/year/form" ) Grado/año/forma
+  ES ( "Level attended" ) Nivel alcanzado
+  ES ( "Level current" ) Nivel actual
+  ES ( "her" ) ella
+  ES ( "his" ) el
+  ES ( "Current line number" ) Numero de linea actual
+  ES ( "Previous line number" ) Numero de linea anterior
+  
+  ES ( "Child (%02d-%s) selected for the child labor module" ) Niño(a) (%02d-%s) seleccionado(a) para modulo de trabajo
+  ES ( "Child (%02d-%s) selected for child discipline module" ) Niño(a) (%02d-%s) seleccionado(a) para modulo de disciplina de los niños
+  ES ( "Minutes" ) Minutos
+  ES ( "Fix answers marked" ) Corrija las opciones marcadas
+  ES ( "Cookstove" ) Estufa
+  ES ( "Fuel" ) Energia
+  ES ( "Own animals" ) Posesion animales
+  ES ( "Chickens" ) Gallinas
+  ES ( "Electricity" ) Electricidad
+  ES ( "Cooking stove" ) Estufa
+  ES ( "Heating fuel" ) Calefaccion
+  ES ( "Lighting fuel" ) Alumbrado
+  ES ( "Person slept in net" ) Persona durmio en mosquitero 
+  ES ( "Nobody else slept under mosquito net" ) "Nadie durmio bajo el mosquitero"
+  ES ( "%s (%02d) selected for domestic violence" ) %s (%02d) seleccionada para violencia domestica
+  ES ( "GPS device acquiring GPS satellites. Please wait to complete its capture" ) Dispositivo GPS obteniendo satelites. Por favor espere para obtenerlos
+  ES ( "Date biomarker" ) Fecha biomarcador 
+  ES ( "Date of birth" ) Fecha de nacimiento
+  ES ( "Weight" ) Peso
+  ES ( "Height" ) Talla
+  ES ( "Lying/Standing" ) Acostado/de pie
+  ES ( "Correct measure" ) Correcta medicion
+  ES ( "Fieldworker" ) Trabajador de campo
+  ES ( "Assistant" ) Asistente
+  ES ( "Date measurement" ) Fecha medicion
+  ES ( "Consent" ) Consentimiento
+  ES ( "Barcode" ) Codigo de barra
+  ES ( "Hemoglobin" ) Hemoglobina
+  ES ( "Result RDT" ) Resultado RDT
+  ES ( "Result" ) Resultado
+  ES ( "Age group" ) Grupo de edad
+  ES ( "Marital status" ) Estado civil
+  ES ( "Coordinates were already collected. Are you sure that you need to recollect them?" ) Las coordenadas ya fueron capturadas. Esta seguro(a) que quiere registrarlas de nuevo?
+  ES ( "No, do not recollect the coordinates" ) No, no deseo re-capturar las coordenadas de nuevo
+  ES ( "Yes, recollect the coordinates" ) Si, si deseo re-capturarlas de nuevo
+  ES ( "Marital status grouped" ) Estado civil agrupado
+  ES ( "Consent adult" ) Consentimiento adulto
+  ES ( "Consent minor" ) Consentimiento menor
+  ES ( "Enter text" ) Entre texto
+  ES ( "End of questionnaire, do you want to:" ) Fin del cuestionario, desea:
+  ES ( "Review Interview" ) Revisar la entrevista
+  ES ( "Finalize Interview" ) Finalizar la entrevista
+
+{ strings used by CollectIN some strings were translated for CollectHH }
+{ translations in functions } 
+  ES ( "End of questionnaire" ) Fin de cuestionario
+  ES ( "Click OK to continue" ) Presione OK para continuar
+  ES ( "Do you want to take another picture of the document" ) Desea tomar otra fotografia del documento
+  ES ( "Boy" ) Niño
+  ES ( "Girl" ) Niña
+  ES ( "Alive" ) Vivo
+  ES ( "Dead" ) Muerto
+  ES ( "DK" ) No sabe
+  ES ( "Male" ) Masculino
+  ES ( "Female" ) Femenino
+  ES ( "Pregnancy history" ) Historia de embarazos
+  ES ( "expecting" ) esperados
+  ES ( "pregnancy outcomes" ) resultado del embarazo
+  ES ( "Initial Outcome" ) Resultado inicial
+  ES ( "Final Outcome" ) Resultado final
+  ES ( "Date" ) Fecha
+  ES ( "Live Mother" ) Madre viva
+  ES ( "Years-D" ) Años-M
+  ES ( "Age-D" ) Edad-M
+  ES ( "List of events" ) Listado de eventos
+  ES ( "Event" ) Evento
+  ES ( "Dur/Preg" ) Dur/Emb
+  ES ( "Stayed" ) Durmio
+  ES ( "Line number" ) Numero de linea
+  ES ( "Correct the number of pregnancies in A201-A212" ) Corregir el numero de embarazos en A201-A212
+  ES ( "Continue to pregnancy history to remove the incorrect pregnancy" ) Continue con la historia de embarazos para remover el embarazo incorrecto
+  ES ( "Date of birth/end of pregnancy" ) Fecha nacimiento/fin de embarazo
+  ES ( "Pregnancy inserted" ) Embarazo agregado
+  ES ( "Pregnancy deleted" ) Embarazo borrado
+  ES ( "Pregnancy moved" ) Embarazo re-acomodado
+  ES ( "Yes, delete the pregnancy of %s in %s %d" ) Si, borrar el embarazo de %s en %s %d
+  ES ( "No, make no change" ) No, no haga el cambio
+  ES ( "No change made" ) No se hicieron cambios
+  ES ( "Yes, move the pregnancy of %s in %s %d before the pregnancy of %s in %s %d" ) Si, mueva el embarazo de %s en %s %d antes del embarzo de %s en %s %d
+  ES ( "Select the pregnancy to move the current pregnancy before" ) Seleccione el embarazo a donde se va a mover el embarazo actual 
+  ES ( "Outcome" ) Resultado
+  ES ( "Pregnancies" ) Embarazos
+  ES ( "Insert pregnancy before current pregnancy" ) Insertar un embarazo antes del embarazo actual
+  ES ( "Delete current pregnancy" ) Borrar el embarazo actual
+  ES ( "Move current pregnancy" ) Mover el embarazo actual
+  ES ( "Currently pregnant" ) Embarazo actual
+  ES ( "Duration of pregnancy" ) Duracion del embarazo
+{ translations in functions used by the calendar }
+  ES ( "Calendar" ) Calendario
+  ES ( "Year" ) Año
+  ES ( "Month" ) Mes
+  ES ( "Row" ) Fila
+  ES ( "Episode" ) Episodio
+  ES ( "Use" ) Uso
+  ES ( "Disc" ) Disc
+  ES ( "Label" ) Titulo
+  ES ( "Date started using" ) Fecha empezo a usar
+  ES ( "Current method" ) Metodo actual
+  ES ( "(the beginning of the calendar)" ) (el inicio del calendario)
+  ES ( "the time when you were using the" ) cuando estaba usando el(la)
+  ES ( "the month of the interview" ) el mes de la entrevista
+  ES ( "the time when you were not using any method" ) cuando no estaba usando ningun metodo
+  ES ( "the time when the" ) el momento cuando el
+  ES ( "ended" ) termino
+  ES ( "the time when" ) el momento cuando 
+  ES ( "was born" ) nacio
+  ES ( "the time when the current pregnancy started" ) cuando se inicio el embarazo actual
+  ES ( "has an undefined error" ) hay un error indefinido
+  ES ( "the start of the pregnancy of" ) el inicio del embarazo de
+  ES ( "the start of the pregnancy that ended in") el comienzo del embarazo que termino en
+  ES ( "the start of the current pregnancy" ) el comienzo del embarazo actual
+  ES ( "when you started to use the" ) cuando empezo a usar el(la)
+  ES ( "when you were not using any method" ) cuando no estaba usando ningun metodo
+{ remaining translations in functions } 
+  ES ( "Display food or drink categories" ) Desplegar categorias de comidas o bebidas
+  ES ( "No food or drink categories exist for this question" ) No existen categorias de comidas o bebidas para esta pregunta
+  ES ( "VaccCard" ) TarjVacc 
+  ES ( "Vaccination" ) Vacuna
+  ES ( "Date of vaccination" ) Fecha de vacuanacion
+  ES ( "first twin" ) primer gemelo
+  ES ( "second twin" ) segundo gemelo
+  ES ( "third twin" ) tercer gemelo
+  ES ( "fourth twin" ) cuarto gemelo
+  ES ( "fifth twin" ) quinto gemelo
+
+{ translations in application's logic for sections 1 and 2 }
+  ES ( "Time living in place of interview" ) Tiempo viviendo en lugar de residencia
+  ES ( "Monitor model" ) Modelo de monitor
+  ES ( "Arm circumference" ) Circunferencia del brazo
+  ES ( "Date moved here" ) Fecha vino a vivir aqui  
+  ES ( "Years living in place of residence" ) Años viviendo en lugar de residencia
+  ES ( "Less than one year" ) Menos de un año
+  ES ( "Any children living at home" ) Algun hijo viviendo en casa
+  ES ( "Number of children living at home" ) Numero de hijos viviendo en casa
+  ES ( "Any children living away" ) Algun hijo viviendo fuera de casa
+  ES ( "Number of children living away" ) Numero de hijos viviendo fuera de casa
+  ES ( "Any boys or girls who died" ) hijos o hijas que murieron
+  ES ( "Number of boys or girls who died" ) Numero de hijos o hijas que murieron
+  ES ( "Any children ever born" ) Algun nacido vivo
+  ES ( "Check children ever born" ) Revisar nacidos vivos
+  ES ( "Reconfirm number of children" ) Reconfirmar numero de hijos
+  ES ( "Boys at home" ) Hijos en casa
+  ES ( "Begin reproduction" ) Inicio reproduccion
+  ES ( "Begin pregnancy history" ) Comienzo historia de ambarazos
+  ES ( "Girls at home" ) Hijas en casa
+  ES ( "Boys living away" ) Hijos viviendo fuera
+  ES ( "Girls living away" ) Hijas viviendo fuera
+  ES ( "Boys who died" ) Hijos que murieron
+  ES ( "Girls who died" ) Hijas que murieron
+  ES ( "Boys" ) Niños
+  ES ( "Girls" ) Niñas
+  ES ( "Pregnancy losses" ) Perdidas
+  ES ( "Date of end of pregnancy for %s in %s %d is before date of end of pregnancy for %s in %s %d. Reorder these pregnancies?" ) Fecha de embarazo para %s en %s %d es anterior a fecha de embarazo para %s en %s %d. Reordene estos embarazos 
+  ES ( "Correct date of pregnancy for %s" ) Corrija fecha de embarazo de %s
+  ES ( "Single or multiple pregnancy" ) Embarazo simple o multiple
+  ES ( "Number of pregnancies" ) Numero de embarazos
+  ES ( "Pregnancy outcome" ) Resultado del embarazo
+  ES ( "Prior pregnancy outcome" ) Resultado del embarazo anterior
+  ES ( "STILLBIRTH" ) MORTINATO
+  ES ( "MISCARRIAGE" ) PERDIDA
+  ES ( "ABORTION" ) ABORTO
+  ES ( "Date of pregnancy" ) Fecha de embarazo
+  ES ( "Date of prior pregnancy" ) Fecha de embarazo anterior
+  ES ( "Date of" ) Fecha de
+  ES ( "Duration of pregnancy of" ) Duración del embarazo del 
+  ES ( "Born dead" ) Nacido muerto
+  ES ( "Stillbirth" ) Mortinato
+  ES ( "Child alive" ) Niño vivo
+  ES ( "Age of child" ) Edad del niño(a)
+  ES ( "Age of twin" ) Edad del gemelo
+  ES ( "Child not listed in household" ) Niño(a) no se listo en el hogar
+  ES ( "Line number in the household" ) Numero de linea en el hogar
+  ES ( "Line number for this child" ) Numero de linea de este niño(a)
+  ES ( "Line number for child" ) Numero de linea del niño(a)
+  ES ( "Sex of child" ) Sexo del niño(a)
+  ES ( "Child living with respondent" ) Niño vive con entrevistada
+  ES ( "Age at death number" ) Edad a la muerte (numero)
+  ES ( "Unit" ) Unidad
+  ES ( "Age at death" ) Edad a la muerte
+  ES ( "Time since last period" ) Tiempo desde ultima regla
+  ES ( "Age at menarche" ) Edad a primera regla
+{ translations for section 3 }
+  ES ( "Record other modern method" ) Registre otro metodo moderno
+  ES ( "Record other traditional method" ) Registre otro metodo tradicional
+  ES ( "Respondent or partner sterilized" ) Entrevistada o pareja esterelizados
+  ES ( "Knowledge of" ) Conocimiento de
+  ES ( "Date of sterilization" ) Fecha de esterilizacion
+  ES ( "Date started using method" ) Fecha empezaron a usar metodo
+  ES ( "Events" ) Eventos
+  ES ( "Go back to pregnancy history to reset calendar" ) Regrese a hisotria de embarzos para reiniciar calendario
+  ES ( "Introduction to calendar" ) Introduccion al calendario
+  ES ( "Go back to current pregnancy" ) Regrese a embarazo actual
+  ES ( "Date of start of current method" ) Fecha empezo a usar metodo actual
+  ES ( "Current-Pregnancy" ) Embarazo-Actual
+  ES ( "Method used" ) Metodo usado
+  ES ( "Knowledge of method" ) Conocimiento de metodo
+  ES ( "Months not using" ) Meses no estaba usando
+  ES ( "Date began using" ) Fecha empezo a usar
+  ES ( "Months using" ) Meses usando
+  ES ( "Date end using" ) Fecha dejo de usar
+  ES ( "The date of end of the episode exceeds by" ) La fecha de finalizacion del episodio excede en
+  ES ( "months" ) meses
+  ES ( "the pregnancy of" ) el embarazo de
+  ES ( "in" ) en
+  ES ( "the" ) la
+  ES ( "that occurred in" ) que ocurrio en
+  ES ( "the current pregnancy" ) el embarazo actual
+  ES ( "another (unexpected) event" ) un evento no contemplado por la logica
+  ES ( "the birth of" ) el nacimiento de
+  ES ( "Reason stop using" ) Razon dejo de usar
+  ES ( "Use of emergency contraception" ) Uso de anticoncepcion de emergencia
+  ES ( "Ever use of contraception" ) Uso alguna vez de anticonceptivos
+{ translation for sections 4-9 }
+  ES ( "Timing of 1st antenatal visit" ) Tiempo para primera visita prenatal
+  ES ( "Timing for 1st bath" ) Tiempo para el primer baño 
+  ES ( "Timing to apply chlorhexidine" ) Tiempo para aplicar chlorhexidine  
+  ES ( "Possession of card" ) Posecion de tarjeta
+  ES ( "Observation of card" ) Observacion de tarjeta
+  ES ( "Date of birth on card" ) Fecha de nacimiento en tarjeta
+  ES ( "Date of birth in pregnancy history" ) Fecha de nacimiento en historia de embarazos
+  ES ( "Children for child health module" ) Niños para el modulo de salud
+  ES ( "Any treatment" ) Algun tratamiento
+  ES ( "First treatment" ) Primer tratamiento
+  ES ( "Foods and drinks" ) Comidas y bebidas
+  ES ( "Child drank: " ) Niño(a) tomo
+  ES ( "Drinks not included in the options above" ) Bebidas no incluidas en las opciones arriba  
+  ES ( "Foods not included in the options above" ) Comidas no incluidas en las opciones arriba
+  ES ( "Line number of husband/partner" ) Linea de esposo/pareja
+  ES ( "husband" ) esposo
+  ES ( "partner" ) compañero
+  ES ( "(husband/partner)" ) (esposo/compañero)
+  ES ( "Number of wives" ) Numero de esposas
+  ES ( "Wife rank" ) Numero de esposa
+  ES ( "Date of 1st union" ) Fecha de primera union
+  ES ( "Age at 1st union" ) Edad a la primera union
+  ES ( "Date of current union" ) Fecha de union actual
+  ES ( "Age at current union" ) Edad a union actual
+  ES ( "Age at first intercourse" ) Edad a primera relacion sexual
+  ES ( "Current age" ) Edad actual
+  ES ( "Date of first pregnancy" ) Fecha de primer embarazo
+  ES ( "Number" ) Numero
+  ES ( "Time since last sex" ) Fecha desde ultima relacion sexual
+  ES ( "Method used during last sex" ) Metodo usado durante ultima relacion sexual
+  ES ( "Relationship with last sex partner" ) Relacion con ultima pareja sexual
+  ES ( "Relationship with prior sex partner" ) Relacion con pareja sexual anterior
+  ES ( "Relationship with third prior sex partner" ) Relacion con tercera pareja sexual anterior
+  ES ( "Lifetime number of sex partners" ) Total de parejas sexuales 
+  ES ( "Timing for future birth" ) Tiempo para proximo nacimiento
+  ES ( "Time to wait for future birth" ) Tiempo de espera para proximo nacimiento
+  ES ( "Reason not using" ) Rason no esta usando
+  ES ( "Knowledge of methods" ) Conocimiento de metodos
+  ES ( "Either" ) Cualquier
+  ES ( "Total" ) Total
+  ES ( "Ideal number of children by sex" ) Numero ideal de hijos por sexo
+  ES ( "Ideal number of children" ) Numero ideal de hijos
+  ES ( "Partner's level of education" ) Nivel de educacion del esposo
+  ES ( "Partner's grade/year/form" ) Grado de educacion de esposo
+  ES ( "Person deciding how earnings are used" ) Persona decide como se gasta ingreso
+  ES ( "Person deciding how husband's earnings are used" ) Persona decide como se gasta ingreso de esposo
+  ES ( "Final say on health care" ) Ultima palabra en cuidado
+  ES ( "Final say on large purchases" ) Ultima palabra en compras grandes
+  ES ( "Final say on visits to family" ) Ultima palabra en visitas a familia
+  ES ( "Presence of husband/partner" ) Presencia de esposo
+{ translation for sections 10, 11, MMM, DV, FGC }
+  ES ( "Date most recent HIV test" ) Fecha reciente de prueba VIV 
+  ES ( "Date tested positive" ) Fecha en salio el test positivo
+  ES ( "Date first HIV test" ) Fecha primera prueba VIH
+  ES ( "Modify" ) Modificar
+  ES ( "Order numbers" ) Ordenar numeros
+  ES ( "Number of siblings" ) Numero de hermanas(os)
+  ES ( "Introduction Maternal Mortality" ) Introduccion Mortalidad Materna
+  ES ( "Order number for" ) Ordenar el numero para
+  ES ( "Siblings born before respondent" ) Hermanos nacieron antes de entrevistada
+  ES ( "Siblings" ) Hermanas(os)
+  ES ( "Status for" ) Estado para
+  ES ( "Status for first sibling" ) Estado para primer hermano
+  ES ( "current" ) actual
+  ES ( "last" ) ultimo
+  ES ( "male partner" ) pareja masculina
+  ES ( "Age at first time forced to have sex" ) Edad a primera relacion sexual forzada
+  ES ( "Age at circumcision" ) Edad a la circumcision
+  ES ( "Daughter's age at circumcision" ) Edad de la hija a la cicumcision
+  ES ( "Daughter's current age" ) Edad actual de la hija
+{ translations for men questionnaire - most strings for men were already translated }  
+  ES ( "Age at birth of first child" ) Edad al primer hijo
+  ES ( "Age of youngest child" ) Edad del hijo mas joven
+  ES ( "Line number of wife/partner" ) Numero de linea de la esposa
+  ES ( "this wife or partner" ) esta esposa o compañera
+  ES ( "Age of wife/partner" ) Edad de la esposa
+  ES ( "Used condom during last intercourse" ) Uso condom en ultima relacion sexual
+  ES ( "Knowledge of condom" ) Conocimiento de condon
+  ES ( "Age at traditional circumcision" ) Edad a circumcision tradicional
+  ES ( "Circumcision" ) Circuncision
+  ES ( "Traditional" ) Tradicional
+  ES ( "Medical" ) Medica
+  ES ( "Age at medical circumcision" ) Edad a circumcision medica
+  ES ( "Change this response" ) Cambie esta respuesta  
+ 
+Language = FR
+
+  { strings translation to French }  
+  FR ( "End of questionnaire, do you want to:" ) Fin du questionnaire, voulez-vous:
+  FR ( "Review Interview" ) Revoir l'entrevue
+  FR ( "Finalize Interview" ) Finaliser l'entrevue
+{ common strings used by data collection applications }
+  FR ( "Not a household member" ) Pas un membre du ménage
+  FR ( "father" ) père
+  FR ( "mother" ) mère
+  FR ( "Wife" ) Epouse
+  FR ( "Husband" ) Epoux
+  FR ( "Son" ) Fils
+  FR ( "Daughter" ) Fille
+  FR ( "Daughter-in-law" ) Belle-fille
+  FR ( "Son-in-law" ) Gendre
+  FR ( "Mother-in-law" ) Belle-mère
+  FR ( "Father-in-law" ) Beau-père
+  FR ( "Sister" ) Soeur
+  FR ( "Brother" ) Frère
+  FR ( "Fieldworker" ) Agent de terrain
+  FR ( "Household" ) Ménage
+  FR ( "Births" ) Naissances
+  FR ( "Siblings" ) Frères/Sœurs
+  FR ( "Events" ) Evénements
+  FR ( "Monday" ) Lundi
+  FR ( "Tuesday" ) Mardi
+  FR ( "Wednesday" ) Mercredi
+  FR ( "Thursday" ) Jeudi
+  FR ( "Friday" ) Vendredi
+  FR ( "Saturday" ) Samedi
+  FR ( "Sunday" ) Dimanche
+  FR ( "Name" ) Nom
+  FR ( "Last name" ) Nom
+  FR ( "First name" ) Prénom
+  FR ( "Relation" ) Relation
+  FR ( "Sex" ) Sexe
+  FR ( "Age" ) Age
+  FR ( "Day" ) Jour   
+  FR ( "Month" ) Mois   
+  FR ( "Year" ) Année
+  FR ( "Alive" ) Vivant
+  FR ( "Liv Moth" ) Vit avec mère
+  FR ( "Line" ) Ligne
+  FR ( "Y-D" ) A-D
+  FR ( "A-D" ) A-D
+  FR ( "S/M" ) S/M
+  FR ( "List of events" ) Liste des événements
+  FR ( "Event" ) Evénement
+  FR ( "Date" ) Date
+  FR ( "Dur/Preg" ) Dur/Grossesse
+  FR ( "Please confirm that the result of this interview is a refusal" ) Veuillez confirmer que le résultat de cette enterview est un refus
+  FR ( "Yes, Refused" ) Oui, refusé 
+  FR ( "No, consent given" ) Non, consentement donné
+  FR ( "Sex of head" ) Sexe du Chef de ménage
+  FR ( "Sex spouse" ) Sexe de l'épouse/époux
+  FR ( "Relationship" ) Relation
+  FR ( "Continue" ) Continuer
+  FR ( "HH Member's Age" ) Age du membre de ménage
+  FR ( "Interview result" ) Résultat de l'interview
+  FR ( "Child (%02d-%s) selected for the child labor module" ) Enfant (%02d-%s) sélectionné pour le module travail des enfants
+  FR ( "%s (line %02d) selected for the child labor module" ) %s (ligne %02d) sélectionné pour le module travail des enfants
+  FR ( "Child (%02d-%s) selected for child discipline module" ) Enfant (%02d-% s) sélectionné pour le module discipline des enfants
+  FR ( "%s (line %02d) selected for child discipline module" ) %s (ligne %02d) sélectionné pour le module discipline des enfants
+  FR ( "GPS device acquiring GPS satellites, Please wait to complete its capture" ) Appareil GPS entrain de capturer les données de satellites GPS, veuillez patienter pour terminer la capture 
+  FR ( "Nobody else slept under mosquito net" ) "Personne d'autre n'a dormi sous la moustiquaire"
+  FR ( "Woman (%02d) selected for domestic violence" ) Femme (%02d) sélectionnée pour violence domestique
+  FR ( "%s (%02d) selected for domestic violence module" ) %s (%02d) sélectionnée pour violence domestique
+  FR ( "Reproduction" ) La reproduction
+  FR ( "Child sex" ) Sexe de l'enfant
+  FR ( "Begin reproduction" ) Commencer la reproduction
+  FR ( "Begin pregnancy history" ) Commencer l’historique des grossesses
+  FR ( "Pregnancy losses" ) Pertes de grossesse
+  FR ( "Boys" ) Fils
+  FR ( "Girls" ) Filles
+  FR ( "Reorder, remove or add children as necessary" ) Réordonner, supprimer ou ajouter des enfants si nécessaire
+  FR ( "First child" ) Premier enfant
+  FR ( "Boys at home" ) Fils à la maison
+  FR ( "Girls at home" ) Filles à la maison
+  FR ( "Boys living away" ) Fils vivant ailleurs
+  FR ( "Girls living away" ) Filles vivant ailleurs
+  FR ( "Boys who died" ) Fils décédés
+  FR ( "Girls who died" ) Filles décédées
+  FR ( "Date of birth" ) Date de naissance
+  FR ( "Child not listed in household" ) Enfant non listé dans le ménage
+  FR ( "Current-Pregnancy" ) Grossesse Actuelle
+  FR ( "Termination" ) Fin de grossesse
+  FR ( "Click OK to continue" ) Cliquez sur OK pour continuer
+  FR ( "Disease by sexual contact" ) Infection par contact sexuel
+  FR ( "Genital discharge" ) Pertes vaginales Secrecion vaginal anormal
+  FR ( "or" ) ou 
+  FR ( "Genital sore or ulcer" ) plaie ou un ulcère génital
+  FR ( "Modify" ) Modifier
+  FR ( "this wife" ) Cette femme
+  FR ( "Abnormal discharge" ) un écoulement anormal du pénis
+  FR ( "T-Methods" ) T-Méthodes 
+  FR ( "Method" ) Méthode
+  FR ( "(the beginning of the calendar)") (le début du calendrier)
+  FR ( "the time when you were using the" ) le moment auquel vous utilisiez le(la)
+  FR ( "the month of the interview" ) le mois de l'enterview 
+  FR ( "the time when you were not using any method" ) le moment où vous n'utilisiez aucune méthode
+  FR ( "the time when the" ) le moment où le/la
+  FR ( "ended" ) terminé(e)
+  FR ( "the time when" ) le moment où 
+  FR ( "was born" ) est né(e) 
+  FR ( "the time when the current pregnancy started" ) le moment où la grossesse actuelle a commencé
+  FR ( "has an undefined error" ) a une erreur indéfinie
+  FR ( "the start of the pregnancy of" ) le début de la grossesse de
+  FR ( "the start of the pregnancy that ended in") le début de la grossesse qui s'est terminée par 
+  FR ( "the start of the current pregnancy" ) le début de la grossesse actuelle
+  FR ( "when you started to use the" ) quand vous avez commencé à utiliser le(la)
+  FR ( "when you were not using any method" ) quand vous n'utilisiez aucune méthode
+  FR ( "The date of end of episode exceeds by" ) La date de la fin de l'épisode excède de
+  FR ( "months" ) mois
+  FR ( "the pregnancy of" ) la grossesse de
+  FR ( "in" ) en
+  FR ( "the termination that occurred in" ) la fin de la grossesse qui a eu lieu en
+  FR ( "the" ) le/la
+  FR ( "that occurred in" ) qui a eu lieu en 
+  FR ( "the current pregnancy" ) la grossesse actuelle
+  FR ( "another (unexpected) event" ) un autre événement (inattendu)
+  FR ( "the birth of" ) la naissance de
+  FR ( "Do you want to take another picture of the document" ) Voulez-vous prendre une autre photo du document 
+  FR ( "Yes" ) Oui
+  FR ( "No" ) Non
+  FR ( "Foods not included in options" ) des aliments non inclus dans la liste des options
+  FR ( "Yes, delete the pregnancy of %s in %s %d" ) Oui, supprimez la grossesse de %s en %s %d
+  FR ( "No, make no change" ) Non, ne changer rien
+  FR ( "Any children ever born" ) Les naissances
+  FR ( "Check children ever born" ) Vérifiez les naissances
+  FR ( "Reconfirm number of children" ) Reconfirmer le nombre d'enfants
+  FR ( "Born dead") Mort-né
+  FR ( "Stillbirth") Mort-né
+  FR ( "Line number for this child" ) Numéro de ligne pour cet enfant
+  FR ( "Line number for child" ) Numéro de ligne pour L'enfant
+  FR ( "Age at death number" ) Âge au décès/Nombre
+  FR ( "Pregnancy outcome" ) résultat de la grossesse
+  FR ( "Unit" ) Unité
+  FR ( "Number" ) Nombre
+  FR ( "Age at death" ) Âge au décès
+  FR ( "Date of birth on card" ) Date de naissance sur la carte
+  FR ( "Date of birth in pregnancy history" ) Date de naissance dans l’historique des grossesses
+  FR ( "Select the pregnancy to move the current pregnancy before" ) Sélectionnez la grossesse avant laquelle la grossesse actuelle sera positionnée
+  FR ( "Yes, move the pregnancy of %s in %s %d before the pregnancy of %s in %s %d") Oui, déplacez la grossesse de %s en %s %d avant la grossesse de %s en %s %d
+  FR ( "Date tested positive" ) Date testé(e) positif(ve)
+  FR ( "Date tested positive" ) Date testé(e) positif(ve)
+  FR ( "Duration of pregnancy" ) Durée de la grossesse
+  FR ( "Continue" ) Continuer 
+  FR ( "Date of pregnancy" ) Date de la grossesse 
+  FR ( "Record other modern method" ) Enregistrer autre méthode moderne
+  FR ( "Record other traditional method" ) Enregistrer autre méthode traditionnelle
+  FR ( "Current method" ) Méthode actuelle
+  FR ( "Knowledge of" ) La connaissance de
+  FR ( "Date started using" ) Date de début utilisation 
+  FR ( "Date started using method" ) Date de début utilisation de la méthode
+  FR ( "Go back to pregnancy history to reset calendar" ) Revenir à l'historique de grossesses pour réinitialiser le calendrier
+  FR ( "Line number" ) Numéro de ligne
+  FR ( "Date of birth/end of pregnancy" ) Date de naissance/fin de grossesse
+  FR ( "Age at first intercourse" ) Age au premier rapport sexuel 
+  FR ( "Marital status" ) Etat matrimonial 
+  FR ( "Current age" ) Age actuel 
+  FR ( "Date of first pregnancy" ) Date de la première grossesse 
+  FR ( "Lifetime number of sex partners" ) Nombre de partenaires sexuels sur la durée de vie 
+  FR ( "Time to wait for future birth" ) Temps d'attente pour la prochaine naissance 
+  FR ( "Ideal number of children by sex" )  Nombre idéal d'enfants par sexe 
+  FR ( "Ideal number of children" ) Nombre idéal d'enfants 
+  FR ( "Age at circumcision" ) Age à l'excision 
+  FR ( "Daughter's age at circumcision" ) Age de la fille à l'excision 
+  FR ( "Daughter's current age" ) Age actuel de la fille
+  FR ( "Level of education" ) Niveau d’éducation
+  FR ( "Level attended" ) Niveau atteint
+  FR ( "Level current" ) Niveau actuel
+  FR ( "Any children living at home" ) Enfants vivant à la maison
+  FR ( "Number of children living at home" ) Nombre d'enfants vivant à la maison
+  FR ( "Any children living away" ) Enfants vivant ailleurs
+  FR ( "Number of children living away" ) Nombre d'enfants vivant ailleurs
+  FR ( "Any boys or girls who died" ) Garçons ou de filles décédés
+  FR ( "Number of boys or girls who died" ) Nombre de garçons ou de filles décédés
+  FR ( "Presence of husband/partner" ) Présence du mari/partenaire
+  FR ( "No, Consent given" ) Non, consentement donné
+  FR ( "Pregnancies" ) Grossesses
+  FR ( "Select location for responses" ) Sélectionnez un emplacement pour les réponses
+  FR ( "Top left corner beneath questions" ) Au coin supérieur gauche en dessous des questions
+  FR ( "Next to field on the form" ) A côté du champ dans le formulaire
+  FR ( "Display food or drink categories" ) Afficher les catégories d'aliments ou de boissons
+  FR ( "No food or drink categories exist for this question") Aucune catégorie d'aliments ou de boissons n'existe pour cette question
+  FR ( "Grade/year/form" ) Grade/Année/Forme
+  FR ( "Level of education" ) Niveau d'éducation
+  FR ( "her" ) elle
+  FR ( "his" ) il
+  FR ( "Do you want to take another picture of the document" ) Voulez-vous prendre une autre photo du document
+  FR ( "Add pregnancy after last pregnancy" ) Ajouter une grossesse après la dernière grossesse
+  FR ( "Insert pregnancy before current pregnancy" ) Insérer la grossesse avant la grossesse actuelle
+  FR ( "Delete current pregnancy" ) Supprimer la grossesse actuelle
+  FR ( "Move current pregnancy" ) Déplacer la grossesse actuelle
+  FR ( "Show pregnancies" ) Afficher les grossesses
+  FR ( "Cancel" ) Annuler
+  FR ( "Currently pregnant" ) Actuellement enceinte
+  FR ( "Date of vaccination" ) Date de vaccination
+  FR ( "Vaccination" ) Vaccination
+  FR ( "Time living in place of interview" )  Temps vécu au lieu de l'interview
+  FR ( "Years living in place of residence" ) Années vécu au lieu de résidence
+  FR ( "Single or multiple pregnancy" ) Grossesse simple ou multiple
+  FR ( "Prior pregnancy outcome" ) Résultat antérieur de la grossesse
+  FR ( "Prior pregnancy outcome" ) Résultat antérieur de la grossesse
+  FR ( "Date of end of pregnancy" ) Date de fin de grossesse
+  FR ( "Date of prior pregnancy" ) Date de la grossesse antérieure
+  FR ( "Child alive" ) Enfant vivant
+  FR ( "Age of child" ) Age de l'enfant
+  FR ( "Age of twin" ) Age des jumeaux
+  FR ( "Line number in the household" ) Numéro de ligne dans le ménage
+  FR ( "Sex of child" ) Sexe de l'enfant
+  FR ( "Age of child" ) Age de l'enfant
+  FR ( "Child living with respondent" ) Enfant vivant avec l’enquêtée
+  FR ( "Time since last period" ) Durée depuis les dernières règles 
+  FR ( "Age at menarche" ) Age aux premières règles
+  FR ( "Respondent or partner sterilized" ) L’enquêtée ou partenaire stérilisé
+  FR ( "Date of sterilization" ) Date de stérilisation
+  FR ( "Go back to current pregnancy" ) Revenir à la grossesse actuelle
+  FR ( "Date of start of current method" ) Date de début de la méthode actuelle
+  FR ( "Current-Pregnancy" ) Grossesse-Actuelle
+  FR ( "Method used" ) Méthode utilisée
+  FR ( "Knowledge of method" ) Connaissance de la méthode
+  FR ( "Months not using" ) Mois sans utilisation
+  FR ( "Date began using" ) Date de début d'utilisation
+  FR ( "Months using" ) Mois d'utilisation
+  FR ( "The date of end of the episode exceeds by" ) La date de fin de l'épisode dépasse de
+  FR ( "Use of emergency contraception" ) Utilisation de la contraception d'urgence
+  FR ( "Ever use of contraception" ) N'a jamais utilisé de contraception
+  FR ( "Timing of 1st antenatal visit" ) Moment de la première visite prénatale
+  FR ( "Weight" ) Poids
+  FR ( "Line number of husband/partner" ) Numéro de ligne du mari/partenaire
+  FR ( "Number of wives" ) Nombre d'épouses
+  FR ( "Wife rank" ) Rang de l'épouse
+  FR ( "Date of 1st union" ) Date de la première union
+  FR ( "Date of current union" ) Date de l'union actuelle
+  FR ( "Age at current union" ) Age de l'union actuelle
+  FR ( "Time since last sex" ) Temps écoulé depuis le dernier rapport sexuel
+  FR ( "Method used during last sex" ) Méthode utilisée lors du dernier(ère) rapport sexuel(le)
+  FR ( "Relationship with last sex partner" ) Relation avec le dernier(ère) partenaire sexuel(le) 
+  FR ( "Relationship with prior sex partner" ) Relation avec l'avant-dernier(ère) partenaire sexuel(le)
+  FR ( "Relationship with third prior sex partner" ) Relation avec l'avant-avant dernier(ère) partenaire sexuel(le)
+  FR ( "Timing for future birth" ) Temps d’attente pour une naissance dans l'avenir 
+  FR ( "Time to wait for future birth" ) Temps d’attente pour une naissance dans l'avenir
+  FR ( "Reason not using" ) Raison de ne pas utiliser
+  FR ( "Partner's level of education" ) Niveau d'éducation du partenaire
+  FR ( "Partner's grade/year/form" )  Grade/Année/Forme du partenaire
+  FR ( "Person deciding how earnings are used" ) Personne qui décide de la manière dont les revenus sont utilisés
+  FR ( "Person deciding how husband's earnings are used" ) Personne qui décide de la manière dont les revenus du mari sont utilisés
+  FR ( "Final say on health care" ) Dernier mot sur les soins de santé
+  FR ( "Final say on large purchases" ) Dernier mot sur les achats importants
+  FR ( "Final say on visits to family" ) Dernier mot sur les visites à la famille
+  FR ( "Number of siblings" ) Nombre de frères et sœurs
+  FR ( "Order numbers" ) Ordoner les numéros
+  FR ( "Order number for" ) Ordoner le numéro pour
+  FR ( "Status for" ) Statut pour
+  FR ( "Siblings born before respondent" ) Frères et sœurs nés avant l’enquêtée
+  FR ( "Status for first sibling" ) Le statut du(de la) premier(ère) frère (Sœur)
+  FR ( "Age at first time forced to have sex" ) Age pour la première fois forcée d'avoir des relations sexuelles
+  FR ( "Age at birth of first child" ) Age à la naissance du premier enfant
+  FR ( "Age of youngest child" ) Age du plus jeune enfant
+  FR ( "Line number of wife/partner" ) Numéro de ligne de l'épouse/partenaire
+  FR ( "Age of wife/partner" ) Age de l'épouse/partenaire
+  FR ( "Age at 1st union" ) Age à la première union
+  FR ( "Used condom during last intercourse" ) Préservatif utilisé lors du dernier rapport sexuel
+  FR ( "Knowledge of condom" ) Connaissance du préservatif
+  FR ( "Age at traditional circumcision" ) Age à la circoncision traditionnelle
+  FR ( "Date of" ) Date de
+  FR ( "Duration of pregnancy of" ) Durée de la grossesse de
+  FR ( "first twin" ) premier jumeau
+  FR ( "second twin" ) deuxième jumeau
+  FR ( "third twin" ) troisième jumeau
+  FR ( "fourth twin" ) quatrième jumeau
+  FR ( "fifth twin" ) cinquième jumeau
+  FR ( "Pregnancies for pregnancy and postnatal care module" ) Les Grossesses pour la section grossesse et soins postnatals
+  FR ( "Children for vaccination module" ) Les enfants pour la section vaccination
+  FR ( "Children for child health module" ) Les enfants pour la section santé de l'enfant et nutrition
+  FR ( "Number of pregnancies" ) Nombre de grossesses
+  FR ( "Fix answers marked" ) Corriger les réponses/options marquées
+  FR ( "current" ) actuel
+  FR ( "last" ) dernier
+  FR ( "husband" ) Epoux/Mari
+  FR ( "male partner" ) partenaire homme 
+  FR ( "Yes, delete the pregnancy of %s in %s %d" ) Oui, supprimez la grossesse de %s en %s %d
+  FR ( "Foods not included in options" ) Aliments non inclus dans la liste
+  FR ( "Own animals" ) Animaux possédés
+  FR ( "Cows/Bulls" ) Vaches/Taureaux
+  FR ( "Cooking" ) Cuisine
+  FR ( "Heater" ) Chauffe-eau
+  FR ( "Light" ) Lumière
+  FR ( "Invalid date to calculate CDC Year=%04d, Month=%02d, day=%02d" ) Date non valide pour calculer CDC Année=%04d, Mois=%02d, jour=%02d
+  FR ( "Usual" ) Resid. habituel
+  FR ( "Last night" ) Nuit dernière
+  FR ( "End of questionnaire, do you want to:" ) Fin du questionnaire, vous souhaitez :
+  FR ( "Review Interview" ) Revoir l'entretien
+  FR ( "Finalize Interview" ) Terminer l'entretien
+  FR ( "Version: Date %d Time %d" ) Version: Date %d Heure %d
+  FR ( "Pregnancy history" ) Historique de la grossesse
+  FR ( "Outcome" ) Issue de la grossesse
+  FR ( "End of questionnaire" ) Fin du questionnaire
+  FR ( "Drinks not included in the options above" ) Boissons non comprises dans les options ci-dessus
+  FR ( "her" ) elle
+  FR ( "his" ) il
+  FR ( "Foods not included in the options above" ) Aliments non inclus dans les options ci-dessus
+  FR ( "this wife or partner" ) cette épouse ou partenaire
+  FR ( "Responses" ) Réponses
+  
+  
+{ !! French !! }
+language = FR
+ 0001 E La grappe %04d n'existe pas dans le fichier de l'échantillon
+ 0002 E Le nom du fichier %s est incorrect (%s): Quittez, corrigez le nom du fichier et redémarrez
+ 0003 E La date de la tablette est incorrecte (%02d/%02d/%04d): Quittez, corrigez la date et redémarrez
+ 0010 E Le numéro de grappe dans le nom du fichier (%04d) diffère du numéro introduit (%04d)
+ 0011 E L'identification de %s est incorrecte: %03d, attendu %03d
+ 0012 W Numéro de ménage pas dans un ordre croissant: %02d %02
+ 0013 E Le questionnaire est déjà  saisi. Vérifiez le numéro de ménage
+ 0014 W Questionnaire ménage incomplet. Vérifiez le code résultat
+ 0015 E Il y a plus de femmes/hommes éligibles que de membres du ménage: %02d %02d
+ 0016 E Date d'enquête impossible
+ 0017 E Le numéro de ligne de l'enquêté(e) est en dehors des limites
+ 0018 Il n'y a pas d'adultes de 15 ans et plus pour répondre au questionnaire. Revoyez l'âge des membres de Ménage, sinon attribuer le code 2 au résultat de de l'entretien.
+ 0020 E Variable d'identification %s incohérente avec la définition de l'échantillion, attendu %d
+ 0025 E %s %04d n'est pas enregistré dans le fichier des agents de terrain
+ 0026 E L'assistant du mesureur %04d n'est pas enregistré dans le fichier des agents de terrain ou le code est le même que le mesureur
+ 0029 E Il ne peut y avoir qu'un seul chef de ménage
+ 0030 W Pour un sexe donné, il ne peut y avoir dans le ménage qu'un seul époux/épouse/parent/beau-parent
+ 0031 E Le chef de ménage doit être en première ligne
+ 0032 E Pour des co-épouses, le chef du ménage doit être de sexe féminin
+ 0033 W L'époux/épouse doit être en seconde ligne
+ 0050 E Membre n'est ni résident ni visiteur/pas dormi ici la nuit dernière
+ 0051 W Le chef de ménage doit être un résident habituel du ménage.
+ 0060 W Sexe de l'époux/épouse (%1d) doit être différent du sexe du chef de ménage (%1d)
+ 0062 E Le sexe de la co-épouse n'est pas valide
+ 0063 E La présence d’autres épouses exige qu’il y ait une épouse définie avant 
+ 0069 W L'Age %02d de %s semble incohérent avec l'âge %02d de %s
+ 0071 W Age ( %02d) de  %s est inférieur à  %02d
+ 0072 W Vérifiez l'âge du chef de ménage (ligne %02d âge %02d) et de ses parents (ligne %02d âge %02d)
+ 0073 W Vérifiez l'âge de l'époux/épouse (ligne %02d âge %02d) et de ses parents (ligne %02d âge %02d)
+ 0075 W Vérifier l'âge de la femme avec son âge dans le tableau de ménage (%02d)
+ 0076 W Vérifier l'âge de la personne avec l'âge dans le tableau de ménage (%02d)
+ 0090 E Classe et niveau d'instruction incohérents
+ 0091 E L'enqueteur n'est pas authoriser a utiliser cette option
+ 0120 E Numéro de ligne de la mère/père non valide
+ 0121 E Sexe de %s (%d) incorrect
+ 0122 W Lien de parenté entre %s (%02d) et l'enfant (%02d) incorrect
+ 0123 W L'enfant a différente %s dans le ménage déclaré en %s (%02d) par rapport aux attentes (%02d) selon les codes de relation
+ 0124 W Age de %s (%02d) peu probable en comparant avec l'âge de l'enfant (%02d)
+ 0150 E Eligibilité du membre du ménage incorrecte
+ 0151 E Nombre de %s éligibles incorrect: attendu %02d, trouvé %02d
+ 0152 E Incohérence avec le statut de survie des parents QH12=%1d QH14=%1d
+ 0155 W Cuisinière à combustible liquide déclaré (QH117=%d), mais le combustible utilisé n'est pas liquide
+ 0160 W Le plus haut niveau d'études atteint %1d est supérieur au niveau d'études de l'année en cours %d
+ 0161 W Niveau et classe atteints %1d:%02d incohérents avec le niveau et la classe les plus récents %1d:%02d
+ 0165 W A déclaré que le ménage n'a pas d'électricité, mais l'électricité utilisée pour la cuissine, le chauffage ou l'éclairage (QH117=%d QH125=%d QH126=%d)
+ 0180 E A déclaré que le ménage possédait des animaux, mais 00 a été entré pour tous les différents types d'animaux
+ 0190 E L'âge au quel %s a débuté l'école (%d ans) ne peut être superieur à son âge actuel (%d ans)
+ 0201 E Numéro de ligne du membre qui a dormi sous une moustiquaire est hors limites (total des membres %02d)
+ 0202 E Membre déjà listé sous cette moustiquaire
+ 0205 E Nombre de personnes malades incorrect, prévu %02d
+ 0207 E La personne malade / enfant vulnérable à saisir est incorrect, attendu %02d
+ 0208 W Âge incohérent avec l'âge dans le ménage, attendu %02d
+ 0210 E Femme sélectionnée pour la violence domestique %02d incohérente avec le nombre potentiel de femmes éligibles %02d
+ 0211 E Femme sélectionnée pour la violence domestique incorrecte (sexe %d état matrimonial %d critères d'éligibilité %02d)
+ 0410 E Numéro de ligne dans la colonne %1d incorrect: attendu %02d
+ 0415 W Sexe ( %1d) différent du sexe dans le tableau du ménage (QH04 = %1d)
+ 0420 W Âge ( %02d) différent de l'âge dans le tableau du ménage (QH07=%02d)
+ 0435 E Âge incohérent selon la date de naissance et la date de l'interview du ménage
+ 0437 W L'âge de cet enfant dans la liste (QH07 = %d) et la date de naissance entrée dans le biomarqueur (QB103 = %d- %d- %d) ne sont pas cohérents
+ 0440 W Poids en dehors de la plage prévue
+ 0441 W Deuxième décimale pour un poids différent de 0,5
+ 0442 E Le poids est différent du poids saisi précédemment
+ 0450 W Hauteur (taille) en dehors de la plage prévue
+ 0451 E Taille " %s" inférieure au poids " %s"; ils devraient éventuellement être inversés
+ 0452 E La Taille est différente de la Taille saisie précédemment.
+ 0460 W Les enfants de moins de 2 ans sont généralement mesurés couchés, les enfants de 2 ans et plus sont mesurés debout.
+ 0462 E Incohérence entre l'âge (%d), la façon dont l'enfant a été mesuré (%d-%s) et la réponse à cette question
+ 0470 E Le consentement pour l'anémie n'est pas accordé (QB120=%01d), ainsi la mesure de l'hémoglobine QB124=%4.1f ne devrait pas avoir une valeur valide
+ 0471 E Consentement pour l'anémie non donné par le répondant (%01d), donc hémoglobine=%4.1f ne devrait pas avoir une valeur valide
+ 0472 E Consentement pour l'anémie non donné au parent/gardien (%01d) ou mineur (%01d), donc l'hémoglobine=%4.1f ne devrait pas avoir une valeur valide
+ 0473 W Niveau d'hémoglobine non plausible/invraisemblable %4.1f, recherchez les erreurs de saisie.
+ 0474 E L'hémoglobine est différente de l'hémoglobine saisie précédemment
+ 0475 E Vérifier l'état matrimonial avec l'état matrimonial dans le tableau du ménage ( %01d)
+ 0476 E Le code entré est incohérent avec le code de l'intervieweur du ménage %d
+ 0477 E Vérifier la cohérence du niveau d'hémoglobine avec la réponse à cette question
+ 0478 E Résultat %s est différent du résultat %s saisi précédemment
+ 0480 E Résultat de la mesure ( %1d) incohérent avec les mesures enregistrées (g / dl = %03d)
+ 0481 E Résultat de la mesure ( %1d) incohérent avec les mesures enregistrées (consentement = %d Code barres = %s)
+ 0482 E Age %02d et résultat du consentement incohérent
+ 0483 W Vérifiez qu'il n'y a pas de Code barres pour le VIH pour cette personne. S'il en existe un, changez le code de consentement par "1-Accordé".
+ 0484 E Dubliquer le Code barres actuel avec le numéro de ligne %d
+ 0485 E Ce Code barres était déjà utilisé dans le ménage %d par %s numéro de ligne %d
+ 0486 E Dubliquer le Code barres actuel avec le Code barres pour la femme numéro %d
+ 0487 E consentement pour le test VIH refusé par la femme (zQBWHIV1=%01d) ou par le parent / responsable (zQBWHIV4=%01d) ou par la femme mineure (zQBWHIV6=%d), ainsi le Code-barres zQBWHIV9=%s ne devrait pas avoir un Code-barres valide
+ 0488 E Le consentement pour le test VIH est refusé par l'homme (zQBMHIV1=%01d) ou le parent / responsable (zQBMHIV4=%01d) ou l'homme mineur (zQBMHIV6=%d), ainsi le code-barres zQBMHIV9=%s ne devrait pas avoir un Code-barres valide
+ 0489 E Le code-barres actuel est en double avec le code-barres pour de l’enfant numéro %d
+ 0490 E Le résultat du test ( %1d) et le résultat du consentement ( %d) sont incohérents
+ 0494 E Pour le manquant saisir un "?" en première position seulement ( %5s)
+ 0495 E Séquence de caractères dans le code-barres invalide ( %5s)
+ 0496 E Champ de vérification invalide (dernier caractère) pour le Code-barres ( %5s)
+ 0499 E Consentement test du niveau d'hémoglobine refusé par l'adulte responsable (QB120=%01d), donc le code à  barres QB123=%s doit être "99995"
+ 0501 E Consentement pour le paludisme non donné (%01d) incompatible avec le code-barres=%s
+ 0502 E Consentement pour le paludisme non donné (QB120=%01d) incompatible avec le résultat du TDR du paludisme
+ 1000 E Numéro de ligne du répondant incorrect: Veuillez entrer le numéro de femme %02d
+ 1002 W Questionnaire individuel incomplet. Vérifier le code de résultat
+ 1030 E Le temps vécu par le répondant sur le lieu de résidence actuel (Q104=%02d) dépasse son âge actuel
+ 1031 W La répondante est une visiteuse, mais elle est une résidente habituelle dans le tableau du ménage ( %1d)
+ 1035 W Date d'emménagement au lieu de résidence actuelle incohérente avec le nombre d'années vécues dans le lieu actuel Q104=%d
+ 1060 E Ni la date de naissance ni l'âge spécifiés: %02d/%04d %02d
+ 1061 W Âge du répondant et âge dans le ménage différents: %02d %02d
+ 1062 E Date de naissance et âge incohérents: dob =%02d/%04d age = %02d entretien =%02d/%04d
+ 1080 W Niveau d'éducation %02d différent du niveau dans ménage %02d
+ 1090 W Grade d'études %02d différent du grade dans ménage %02d
+ 1091 E Niveau et grade ou classe d'études du répondant incohérents
+ 2030 E Le nombre de garçons et de filles doit être supérieur à zéro
+ 2080 E Nombre d'enfants nés incorrect
+ 2090 E Insister et corriger 201-208 si nécessaire
+ 2120 E Code de naissance multiple incorrect
+ 2121 W Idéalement le résultat des naissances multiples devraient être le même, assurez-vous que c'est correct 
+ 2122 E Grossesses multiples, mais un seul résultat de grossesse Q212W=%d
+ 2123 E Si cette grossesse est %s, le nombre total de grossesses dépassera le nombre indiqué %d. Veuillez revenir en arrière et corriger 201-212, ou modifier le nombre de bébés pour cette grossesse en 215
+ 2125 E Vérifier la cohérence de la durée de grossesse entre les unités et les nombres
+ 2141 W L'enfant a un sexe différent dans le ménage (QH04=%1d, Q219=%1d)
+ 2142 E La combinaison de la durée de grossesse est incorrecte, vérifier les unités et nombres
+ 2143 E La durée de grossesse en mois est fausse pour le type de résultat de grossesse
+ 2144 E La durée de la grossesse (%d %s) est différente de la durée donnée pour le jumeau précédent (%d %s)
+ 2145 E Date de naissance hors limites ou la combinaison de jour/mois/année est incorrecte
+ 2146 E Date de remesure hors limites ou la combinaison de jour/mois/année est incorrecte
+ 2150 E Date de naissance de l'enfant après la date de l'entretien
+ 2151 E La date de naissance de l'enfant et celle de son(sa) jumeau(elle) sont différentes
+ 2152 E La date de naissance de l'enfant n'est pas en ordre
+ 2147 E %s de naissance ne peut pas être "Ne sait pas", specifiez SVP.
+ 2153 E L'enfant doit être codé comme naissance multiple s'il est né le même jour que l'enfant précédent.
+ 2155 E Date d’accouchement (%s %d/%d/%d) incohérente entre les jumeaux/triplets (%s %d/%d/%d) 
+ 2156 E La date d'accouchement doit se situer à moins d'un jour pour les jumeaux/triplés: %s %d/%d/%d, %s %d/%d/%d
+ 2160 E L'enfant est vivant, mais il a été déclaré comme "Mort né" à Q216
+ 2170 E L'âge de l'enfant et l'âge du jumeau (de la jumelle) sont différents
+ 2171 E L'âge de l'enfant (%d) et sa date de naissance (%d/%d/%d) sont incohérents
+ 2173 W L'enfant a un âge différent dans le ménage (QH07=%02d, Q225=%02d)
+ 2175 W L'âge de l'enfant (Q225=%d) et la date de naissance entrée (Q220=%d-%d-%d) ne sont pas cohérents
+ 2181 E Numéro de ligne de l'enfant dans le ménage invalide
+ 2182 W L'enfant a une mère différente dans le ménage (QH11 = %02d, Ligne de la mère = %02d) 
+ 2183 W L'enfant a un statut de résidence différent dans le ménage (QH05=%1d, Q226=%1d)
+ 2184 E Numéro de ligne de l'enfant %d de ce ménage déjà utilisé
+ 2185 W La mère a l'enfant %02d inscrit dans le ménage mais pas dans l'historique de naissance
+ 2190 E Âge au décès invalide pour les unités = 9
+ 2191 W Âge au décès hors limites %1d - %2d pour les unités = %1d. Enregistrer en jours si moins de 1 mois; en Mois si moins de 2 ans; ou en années
+ 2192 W Âge au décès et date de naissance incohérents:  ddn = %d/%d/%d, décès = %d %s, entretien =%d/%d/%d
+ 2193 E L’âge au décès n’est pas accepté comme 1 an (une année), veuillez obtenir une estimation en nombre de mois
+ 2194 E Pour un enfant déclaré mort-né, mais qui respirait, pleurait ou bougeait, l'âge au décès devrait être le premier jour
+ 2231 W Le mort-né en %d/%d/%d est désormais classé comme une naissance vivante puisque le bébé a pleuré, bougé ou respiré
+ 2232 W %s en %d/%d/%d est classé comme %s puisque la durée de la grossesse était de %d %s
+ 2240 E %s incohérent: %s = %02d, compte = %02d
+ 2375 E Les arrêts (ou fins) des évènements qui ont lieu dans la fenêtre du calendrier recquièrent un mois valide
+ 2241 W Intervalle entre la naissance %02d ( %02d/%04d) et la naissance %02d ( %02d/%04d) trop petit
+ 2250 E Nombre de naissances depuis %04d ( %1d) différent des naissances dans l'historique des naissances ( %1d)
+ 2270 E Informations sur la grossesse en cours incohérentes avec le calendrier.
+ 2280 E Durée de la grossesse dans le calendrier ( %02d) et dans le questionnaire ( %02d) différente
+ 2300 E Interruption de grossesse dans le calendrier (rangée ou ligne %02d), mais n'a jamais interrompu une grossesse
+ 2310 E Date de fin de la dernière grossesse (cmc = %04d- %04d) différente de la date de fin indiquée dans le calendrier ( %04d = rangée ou ligne %02d)
+ 2330 E Durée de la dernière grossesse terminée ( %02d) différente de celle dans le calendrier ( %02d)
+ 2340 E Interruption antérieure de la grossesse dans le calendrier (rangée ou ligne %02d), mais aucune autre interruption de grossesse mentionnée ( %1d)
+ 2360 W Dernière période avant la dernière naissance mais elle n'a jamais donné naissance
+ 2374 E Terminaison année après année %04d
+ 2375 E La fin de l'épisode dans le calendrier doit correspondre à un mois valide
+ 2400 Insérer une nouvelle grossesse avant la grossesse actuelle ?
+ 2401 Ajouter une nouvelle grossesse après la dernière grossesse?
+ 2402 Supprimer la grossesse de %s en %s %d
+ 2403 Déplacer la grossesse de %s en %s %d avant la grossesse de %s en %s %d
+ 3030 E Stérilisé mais actuellement enceinte
+ 3031 E Stérilisé mais n'utilisant pas actuellement la stérilisation selon le calendrier
+ 3050 E Méthode utilisée incohérente entre le tableau contraceptif et le calendrier
+ 3051 E Méthode utilisée incohérente avec le tableau de contraception
+ 3090 W Les enfants vivants avant la première utilisation dépassent l'ensemble des enfants nés
+ 3130 W Utilisation actuelle de la contraception incohérente avec le calendrier. Vérifiez s'il vous plaît
+ 3131 E Méthodes utilisées ( %s) incohérentes avec la méthode actuelle dans le calendrier ( %1s).
+ 3132 W Contraception d'urgence utilisée durant les 12 derniers mois mais elle ne connait pas la méthode dans le tableau contraceptif
+ 3141 E Statut de stérilisation de la répondante incohérent avec la méthode actuelle
+ 3142 E Méthode actuelle ( %s) jamais utilisée selon le tableau sur les contraceptifs
+ 3143 W Méthode utilisée au dernier rapport sexuel (%s) n'a jamais été utilisée selon le tableau des contraceptions
+ 3145 E La Répondante est stérilisée selon la question Q304, ce qui est incohérent avec la méthode actuelle
+ 3146 E Le partenaire de la répondante est stérilisée selon la question Q304, ce qui est incohérent avec la méthode actuelle 
+ 3150 E Vérifier la cohérence de Q304=%d avec la méthode actuelle
+ 3211 W Date de début d'utilisation de la méthode actuelle (%04d-%04d) n'est pas conforme avec le calendrier (%04d ligne %02d)
+ 3212 W Utilisation de la stérilisation dans le calendrier à la ligne %02d
+ 3270 E Méthode actuelle à la question Q307 = %1s doit être la même dans cette question
+ 4030 E Le numéro de ligne de l'enfant dans la colonne %1d est incorrect: attendu %02d
+ 4160 E Le Moment de la première visite prénatale incorrect
+ 4211 W Mois sans période %02d incohérent avec l'intervalle: interview = %02d/%04d ddn = %02d/%04d
+ 4212 W Durée de l'aménorrhée entre les grossesses %02d dd incohérente ddn= %02d/%04d ddn= %02d/%04d
+ 4220 W Années depuis l'injection supérieure à l'âge: âge %02d
+ 4241 W Durée d'abstinence %02d incohérente avec l'intervalle: interview = %02d/%04d ddn = %02d/%04d
+ 4242 W Durée de l'abstinence entre les grossesses %02d incohérente ddn = %02d/%04d ddn = %02d/%04d
+ 4280 W Toujours allaitant un enfant qui n'est pas le dernier enfant
+ 4290 W Durée d'allaitement %02d incohérente avec l'intervalle: entretien = %02d/%04d ddn = %02d/%04d
+ 4292 E Code d'allaitement actuel non accepté pour les dernières naissances
+ 4295 E Si l'enfant a mangé des aliments solides ou semi-solides hier, il doit y avoir au moins un "oui" (code 1) aux questions Q637A à Q637R.
+ 4430 E Numéro de ligne de l'enfant dans la colonne %1d incorrect: attendu %02d
+ 4460 E Combinaison de possession (Q504 = %d) et d'observation (Q507 = %d) de carte et/ou autre document incohérent
+ 4470 E Date de vaccination (%02d/%02d/%04d) hors limites ou combinaison jour/mois/année incorrecte
+ 4471 F Date de vaccination indiquée (%02d/%02d/%04d) pour l'enfant %02d avant la naissance de l'enfant (%02d/%02d/%04d)
+ 4475 W Date de naissance enregistrée ici (%02d/%02d/%04d), différente de la date de naissance selon l'historique des grossesses (%02d/%02d/%04d)
+ 4480 E Réception d'autres vaccins incohérente avec les autres vaccins enregistrés avec le code 66 ci-dessus
+ 4485 E Code pour cette question doit être présent dans la question précédente
+ 4490 E Le médicament ( %s) est déclaré comme étant déjà à la maison, mais le médicament n'a pas été déclaré à la question précédente (médicaments = %s)
+ 4495 E Vérifier la cohérence pour la vaccination %s, entre ce que la mère a reporté et ce qui est enregistré pour le jour de vaccination
+ 5020 E État matrimonial actuel ( %1d) et état matrimonial de calendrier ( %1s) incohérents
+ 5040 E N'a jamais été en union, mais enregistré comme dans une union au cours des 5 dernières années dans le calendrier
+ 5060 E Le numéro de ligne du mari plus grand que le nombre de membres du ménage
+ 5061 E Sexe (QH04=%1d) du partenaire du répondant incorrect
+ 5062 W Age ( %02d) du mari/partenaire (ligne = %02d) est inférieur à %02d
+ 5064 W pour le partenaire ( %02d), vérifiez la cohérence de lien de parenté du répondant avec le chef de ménage ( %02d) et celui du partenaire ( %02d)
+ 5065 E Le répondant a déclaré avoir été marié une seule fois, mais séparé. Cependant, elle est actuellement mariée selon  Q701 = %d
+ 5066 E Le répondant a déclaré avoir été marié une seule fois mais continue de vivre en union. Cependant, elle n'est pas actuellement mariée selon Q701 = %d
+ 5100 W Le rang ( %02d) de l'épouse dépasse le nombre d'épouses ( %02d - y compris la répondante)
+ 5120 W Première union après la date de l’entretien: ddu = %02d / %04d âge à l'union = %02d entretien = %02d / %04d ddn = %02d / %04d âge = %02d
+ 5121 W Première union avant l'âge %02d: ddn = %02d / %04d âge = %02d ddu = %02d / %04d age à l'union = %02d
+ 5122 W Première union après le premier mois d'union inscrit dans le calendrier
+ 5123 W Première union avant le premier mois d'union inscrit dans le calendrier
+ 5124 W Etant en union plus d'une fois ( %1d) est incohérente avec les unions figurant dans le calendrier et la date de la première union (unions = %1d)
+ 5125 W Première union après janvier 04 %, mais pas d'union dans le calendrier
+ 5130 W L'âge au premier/actuel mariage dépasse la date d'entretien: entretien = %02d/%04d naissance = %02d/%04d âge = %02d union = %02d/%04d âge à l'union = %02d
+ 5131 E Age à la première/actuelle union plus grande que âge actuelle (%02d)
+ 5132 E Age à l'union actuelle plus grande que l'âge à la première union (%02d)
+ 5135 W Aucune information n'est fournie pour la date de la première/actuelle union: âge à l'union = %02d ddu = %02d/%04d
+ 5140 W Age au mariage basé sur l'année de mariage (%02d) inférieur à 10 ans
+ 5141 E Age au mariage (%02d) basé sur l'année de mariage plus grand que l'âge actuel (%02d)
+ 5150 E N'a jamais eu de rapport sexuel, mais soit elle a été enceinte ou elle est  enceinte actuellement
+ 5151 W N'a jamais eu de relation sexuelle, mais était en union ou vivait avec un homme
+ 5190 W L'âge au premier rapport sexuel est supérieur à l'âge actuel: entretien = %02d/%04d ddn = %02d/%04d âge = %02d premier sexe = %02d
+ 5191 W Âge au premier rapport sexuel après l’âge à la première conception: enfant né =%02d/%04d naissance = %02d/%04d premier rapport sexuel = %02d
+ 5192 E Premier rapport sexuel lors du premier mariage, mais n'a jamais été en union
+ 5193 E Temps écoulé depuis le dernier rapport sexuel Q723 =%d/%02d supérieur à l'âge actuel ( %02d)
+ 5240 W A répondu "mari" mais n'a jamais été en union (Q701=%1d, Q702=%1d)
+ 5241 W A répondu "vit-avec-partenaire", mais n'a jamais été mariée ou n'a pas vécu avec un homme (Q701=%1d, Q702=%1d)
+ 5243 W Nombre de partenaires devrait être 3 ou plus 
+ 5245 W Le nombre total de partenaires doit être supérieur ou égal au nombre de partenaires au cours de la dernière année (%d)
+ 6020 E Réponse ( %1d) incohérente avec l'état de grossesse actuel (Q232=%1d
+ 6031 W La date de la prochaine naissance semble incorrecte
+ 6032 W A répondu "après le mariage", mais le répondant est actuellement marié ( %1d)
+ 6100 W Répondant en union ( %1d), mais a répondu "Pas marié"
+ 6101 W A répondu "ne connaît aucune méthode", mais méthodes connues dans le tableau sur les contraceptifs
+ 6131 E Garçons, filles, et l’un ou l’autre: leur addition devrait être égale au nombre idéal d’enfants
+ 6280 W a utilisé un préservatif avec son partenaire mais n’a jamais utilisé de préservatif dans un tableau des contraceptifs
+ 7051 E Niveau et grade (classe) d'études du partenaire incohérents
+ 7250 W Soins pour enfant (prise en charge de l'enfant) fournie par le mari/partenaire ( %02d) mais la répondante n'a pas été mariée (Q701=%1d)
+ 8110 E Incohérence entre l'heure de début ( %02d: %02d) et la fin de l'interview ( %02d: %02d)
+ 9000 E Frères et soeurs non cités en ordre:  Le nombre d'années depuis la naissance du/de la Frère/soeur (col.%02d) est =%02d, et le nombre d'années depuis la naissance du/de la Frère/soeur (col.%02d) est =%02d
+ 9001 W Plus de 30 ans entre le(la) plus âgé(e) ( %02d) et le(la) plus jeune des frères et soeurs ( %02d)
+ 9002 E Le nombre de naissances précédant la naissance de la répondante supérieur au nombre total de naissances de la mère
+ 9006 E Les injections administrées par le personnel de santé ne peuvent pas dépasser le nombre d'injections durant l'année dernière (zzQ1101=%02d)
+ 9110 W Aucun nom entré, cela signifie que vous n'avez pas de frères ni de sœurs vivants ou décédés
+ 9111 E Le numéro d'ordre ( %d) ne peut pas être dupliqué avec le numéro d'ordre précédent ( %d), veuillez corriger.
+ 9112 E Le nombre entré à Q1207 (%d) n'est pas cohérent avec le numéro indiqué à Q1201 (%d)
+ 9113 E Le numéro d'ordre du frère / de la soeur n'est pas encore entré, veuillez entrer
+ 9114 E Le numéro d'ordre doit être compris entre 1 - %d pour toutes les lignes, veuillez corriger
+ 9115 E Numéro d'ordre ( %d) entré à la ligne numéro %d trouvé en doublon à la ligne numéro %d, veuillez corriger l'un de ces numéros dupliqués 
+ 9120 E Numéro d'ordre (%d) cne peut pas être dupliqué avec le numéro d'ordre précédent (%d), veuillez corriger
+ 9121 E Le nombre entré à Q1207 (%d) n'est pas cohérent avec le numéro indiqué à Q1201 (%d)
+ 9800 E Aucune entrée autorisée avant la date de l'interview dans la colonne 1 du calendrier en %s, %04d
+ 9801 E Code invalide %1s dans la colonne %1d de calendrier en %s, %04d
+ 9802 E Naissance en %s, %04d dans le calendrier (cmc = %04d) hors limites à partir de l'historique de naissance (enfant %02d = %04d- %04d)
+ 9803 W La naissance en %s, %04d dans le calendrier a une durée de gestation de %02d mois, ce qui ne correspond pas à celle déclarée dans Q221=%d/%02d
+ 9804 E La naissance %02d dans l’histoire des naissances n’a pas été inscrite dans calendrier
+ 9805 E Arrêt d'utilisation mais pas de code donné dans la colonne 2 ligne (rangée) %02d
+ 9806 W Arrêt pendant des mois consécutifs %02d & %02d. Vérifiez s'il vous plaît!
+ 9807 E Pas d'interruption d'utilisation, mais code d'interruption indiqué à la ligne %02d
+ 9818 E Code de grossesse en %s, %04d dans la colonne 1 du calendrier n'est pas suivi par un code d'interruption
+ 9819 W La grossesse terminée en %s, %04d du calendrier a une durée de gestation de %02d qui est différente de celle indiquée à Q221=%d/%02d
+ 9820 E Début de la nouvelle méthode, mais pas de code dans la colonne 3 en %s, %04d
+ 9980 E Veuillez sélectionner parmi les sous-catégories des grands groupes
+ 9981 E Espace vide pas autorisée pour les variables alpha 
+ 9990 E Zéro n'est pas accepté (ou permis) pour les types d'unités 
+ 9992 E La date doit être antérieure à la date de l'entretien
+ 9993 W Veuillez vérifier la valeur entrée
+ 9994 E Réponses spéciales incohérentes
+ 9995 E Réponse "Non / Aucun(e) / Rien" incohérente avec d'autres réponses
+ 9996 E Réponse "Ne sait pas" incohérente avec d'autres réponses
+ 9997 E Le code de réponse '%s' n'est pas utilisé pour cette question.
+ 9998 E Codes donnés pour la variable alpha non acceptables
+ 9999 E Code hors limites, attendu %s
+11001 E Nombre d'années de relation abusive plus grand que l'âge actuel du répondant %d
+11005 E Âge auquel elle est forcée d'avoir des actes sexuels supérieur à l'âge actuel (%02d)
+11010 E Date de reception du résultat positif du VIH après la date du test de VIH
+11011 E La date à laquelle le résultat positif du VIH a été reçue est avant la date de naissance (%d/%d)
+11012 E La date du dernier test VIH est antérieure à la date de naissance (%d/%d)
+11050 E Age de l'enquêtée à  l'excision superieur à  son âge actuel (Q103=%02d)
+11051 E Nombre de filles excisées supérieur au nombre de filles (%02d)
+11052 E Le numéro de ligne doit être inférieur au nombre d'enfants (%02d)
+11053 E Le numéro de ligne %02d dans l’histoire des naissances n’est pas une femme (%1d) ou n’est pas en vie ( %1d)
+11054 E Âge à la circoncision supérieur à l'âge de la fille %02d/%02d dans l'historique des naissances
+11055 E Le répondant a déclaré qu'il était circoncis, mais la circoncision n'était ni traditionnelle ni médicale faite
+11056 W Le répondant a déclaré qu'il était circoncis, mais n'a pas déclaré avoir été circoncis traditionnellement ou médicalement
+21030 W Le nombre d'années vécues dans le lieu de résidence actuel (QM104= %02d) dépasse l'âge
+21031 W Le répondant est un visiteur, mais il est un résident habituel dans le tableau du ménage ( %1d)
+21060 E Ni la date de naissance ni l'âge ne sont spécifiés: %02d/%04d %02d
+21061 W Âge du répondant et âge dans le ménage différents: %02d %02d
+21062 E Date de naissance et âge incohérents: date de naissance (ddn) = %02d/%04d âge = %02d entretien = %02d/%04d
+21080 W Niveau d'éducation %02d différent du niveau de ménage %02d
+21090 W Grade/Classe d'études %02d différent du grade/classe du ménage %02d
+21091 E Niveau et Grade/Classe d'étdues du répondant incohérents
+22030 E Le nombre de garçons et de filles doit être supérieur à zéro
+22031 E Âge à la circoncision supérieur à l'âge du répondant %2d contre %2d
+22080 E Nombre d'enfants nés incorrect
+22130 E L'âge à la première naissance %02d dépasse l'âge actuel %02d
+22140 W Âge du plus jeune enfant %d non plausible avec l'âge du père %02d, âge minimum à la naissance %d
+23142 E Méthode actuelle ( %s) n'a jamais été utilisée/connue selon le tableau sur les contraception
+24520 E Âge à la première utilisation de préservatifs supérieur à l'âge actuel (QM111=%02d/%02d)
+25060 E Le numéro de ligne de la femme dépasse le nombre de membres du ménage
+25061 E Sexe incorrect ( %1d) pour l'épouse (la femme) ( %02d)
+25062 W Âge ( %02d) de l'épouse/partenaire (ligne = %02d) est inférieur à %02d
+25064 W Pour le partenaire (%02d), vérifiez la cohérence de lien de parenté du répondant avec le chef de ménage ( %02d) et celui du partenaire ( %02d)
+25065 E Numéro de ligne de l'épouse/partenaire %02d déjà entré
+25068 W Age de la femme différent de son âge indiqué dans le ménage QH07=%02d
+25110 W Nombre d'épouses dans sa vie %2d est inférieur au nombre de femmes avec lesquelles il vit ( %2d)
+25120 W Première union après la date de l'entretien: ddu = %02d/%04d âge à l'union = %02d entretien = %02d/%04d ddn = %02d/%04d âge = %02d
+25121 W Première union avant l'âge %02d: ddn = %02d/%04d age = %02d ddu = %02d/%04d age à l'union = %02d
+25130 W L'âge au premier mariage dépasse la date d'entretien: entretien = %02d/%04d naissance = %02d/%04d âge = %02d union = %02d/%04d âge à l'union = %02d
+25135 W Aucune information fournie pour la date de la première union: âge à l'u = %02d ddu = %02d/%04d
+25150 E N'a jamais eu de relation sexuelle, mais a des enfants
+25151 W N'a jamais eu de relation sexuelle, mais a une partenaire sexuelle ou est/était en union ou vivait/a vécu avec une femme (épouses = %1d, QM401=%1d, QM402=%1d)
+25190 W L'âge au premier rapport sexuel est supérieur à l'âge actuel: entretien = %02d/%04d ddn = %02d/%04d âge = %02d premier sexe = %02d
+25192 E Premier rapport sexuel lorsque marié pour la première fois, mais n'a jamais été en union
+25193 E Temps écoulé depuis le dernier rapport sexuel QM415=%d/%02d supérieur à l'âge actuel ( %02d)
+25220 W Une méthode n'a jamais été utilisée selon le tableau contraceptif
+25240 W A répondu "femme" mais n'a jamais été en union (QM401=%1d, QM402=%1d)
+25241 W A répondu "vit-avec-un partenaire", mais n'a jamais été marié ou n'a pas vécu avec un homme (QM401=%1d, QM402=%1d)
+25245 W Le nombre de partenaires devrait être supérieur au nombre de partenaires au cours de la dernière année %02d
+26031 W Le temps (période) jusqu'à la prochaine naissance semble incorrecte
+26032 W A répondu "après le mariage", mais le répondant est actuellement marié ( %1d)
+26100 W Le répondant est "en union ( %1d)", mais avait répondu "Non marié"
+26101 W A répondu "ne connaît aucune méthode", mais méthodes connues dans le tableau sur les contraceptifs
+26120 W N'a jamais entendu parler de la méthode, mais préférerait l’utiliser
+26131 W Garçons, filles, l’un ou l’autre: leur addition devrait être égale au nombre total idéal d'enfants
+26280 W a utilisé un préservatif avec le partenaire mais n’a jamais utilisé de préservatif dans un tableau contraceptif
+27250 W Garde d'enfants fournie par l'épouse/partenaire ( %02d) mais le répondant n'a pas été en union (QM401=%1d)
+28110 E Incohérence entre l'heure de début ( %02d:%02d) et la fin de l'interview
+29006 E Les injections administrées par le personnel de santé ne peuvent pas dépasser le nombre d'injections des 12 derniers mois (zzQM805=%02d).
+29010 W Âge à la circoncision supérieur à l'âge actuel ( %02d)
+29993 W Veuillez vérifier la valeur entrée
+29994 E Réponses spéciales incohérentes
+29995 E Réponse "Aucun(e)" incohérente avec les autres réponses
+29996 E Réponse "Ne sait pas" incohérente avec d'autres réponses
+29998 E Codes donnés pour la variable alpha non acceptables
+60045 E Le dongle/port de GPS n'a pas été trouvé, S'il vous plait enlever et réinsérer le dongle/port de GPS et essayer encore
+60050 E Le signal GPS n'a pas été acquis, S'il vous plait réinsérer le dongle/port de GPS et aller dans un endroit approprié et essayer encore
+80004 E Ménage %d introuvable dans le fichier où les ménages sont affectés aux enquêteurs
+80005 E À partir de ce point, le ménage numéro %d fera partie des ménages qui vous sont attribués (affectés)
+80006 E Le ménage %d n'existe pas dans la grappe %d
+82142 E Nombre de garçons %02d dépasse le nombre total de garçons déclarés à A203=%02d A205=%02d A207=%02d
+82143 E Nombre de filles %02d dépasse le nombre total de filles déclarées à A203=%02d A205=%02d A207=%02d
+82144 E Nombre de pertes de grossesses %02d dépasse le nombre total de pertes déclarées à Q211=%02d
+82283 E La durée de la grossesse est inconsistante avec les autres évènements à %s, %d
+82284 E La durée de terminaison est inconsistante avec les autres évènements à %s, %d
+82285 E La date de début de l'épisode devrait précéder la date à laquelle la répondante a commencé à utiliser la méthode actuelle à %02d/%04d
+82363 W La répondante en ménopause mais elle est agé de moins de 30 ans (Q111=%02d)
+82364 W La dernière période plus grande que l'âge réduit (diminué) de 10 (âge moins 10) (Q111=%02d)
+82365 E Age à la première période plus grand que l'âge actuel (Q111=%02d)
+82369 W Elle n'a jamais menstrué mais elle a un enfant (Q212=%02d) ou elle est actuellement enceinte (Q232=%d)
+82371 E La date de terminaison n'est pas en ordre décroissant
+82372 E Cette terminaison devrait être après la terminaison déclarée à zzA231=%02d/%04d
+83132 E La méthode courante a commençé à être utilisée avnt la naissance rapportée à %s, %d
+83133 E La méthode courante a commençé à être utilisée avant la terminaison rapportée en %s, %d
+83134 E Les dates de début et de fin de l'épispde sont incohérentes
+83135 E La méthode n'a jamais été utilisée selon le tableau de contraception
+83136 E La sterilisation est une méthode permanente, donc elle ne peut être utilisée en intermittence
+83137 E La méthode doit être différente de celle de la précédente épisode
+83138 E Ce n'est pas accepté de dépasser le maximum de la durée de l'épisode (%d) plus au moins un mois d'utilisation
+83140 E La méthode qui a été déclarée (%s) n'est pas acceptée comme une autre épisode d'utilisation
+83142 E La date saisie vient avant l'épisode précédente
+89823 E La répondante est enceinte mais la grossesse n'a jamais été enrégistrée dans le calendrier
+89824 E Terminaison enrégistrée à %s=%02d/%04d n'était pas enrégistrée dans la ligne du calendrier %02d
+89825 E Il y a des terminaisons enrégistrées dans le calendrier mais le répondant n'a jamais eu de terminaison selon zzA230=%d
+89997 E La date de l'union actuelle est avant la date de la première union (%02d/%04d), le problème doit être résolu 
+89998 E Date invalide, elle ne doit pas être après la date d'interview
+89991 E Le premier caractère doit être une lettre
+89999 E L'entrée ne peut pas être vide
+
+SECTION6 = FR
+Q636A De l'eau plate?
+Q636B Substitut du lait maternel comme Nan, Nativa, Guigoz, Primalac, Gallia, Nidal, Célia, Nido, ou France lait?
+Q636C Du lait d'animaux, tel que du lait frais, en boite, ou en poudre  ?
+Q636D Du yaourt à boire tel que degué?
+Q636E Du lait de soja, ou horchata?
+Q636F Du gapal ou des boissons aromatisées au chocolat telles que Nesquick?
+Q636G Du jus de fruit, bissap, ou zoom koom?
+Q636H Des sucreries comme Coca Cola, Fanta, Sprite, ou Moka-café?
+Q636I Du thé, du café ou de la tisane ?
+Q636J Du bouillon clair ou de la soupe claire ?
+Q636K D'autres liquides ?
+Q637A Du lait caillé ou des yaourts autres que les yaourts à boire ?
+Q637B Du riz, pain, pates alimentaire, bouillie, fonio, couscous, ou tô?
+Q637C Des carottes, patates douces qui sont jaunes ou oranges  à l'intérieur, ou des citrouilles qui sont jaunes ou oranges  à l'intérieur? 
+Q637D Des ignames, manioc, pomme de terre, patate douce à chair blanche, foufou, attiéké, ou banane plantain?
+Q637E Babenda, feuilles de boulvaka, feuilles de baobab, feuilles d'oseille, feuilles de moringa, ou feuilles sauvages?
+Q6371 Feuilles de haricot, feuilles de courge, feuilles d’aubergine, ou feuilles de patate douce?
+Q637F N'importe quel autre légume telle que des tomates, aubergines, choux, gombos, fleurs de kapok ou d'autres légumes?
+Q637G Des mangues mûres, papayes mûres, nérés, melons à chair orange, ou abricots?
+Q637H N'importe quel autre fruit tel que des bananes, oranges, goyaves, pastèques, fruits de baobab, ou d'autres fruits?
+Q637I Des abats?
+Q637J Des saucisses, conserves de viande, ou jambon?
+Q637K N'importe quelle autre viande telle que le boeuf, la chèvre, le mouton, le porc, le poulet, la pintade, la viande sauvage, ou des oiseaux sauvages?
+Q637L Des œufs ?
+Q637M Du poisson frais, poisson séché, poisson fumé, ou des fruits de mer?
+Q637N Des haricots secs (niébé), soja, pois de terre, lentilles, pois chiches?
+Q637O De la pâte d'arachide, cacahuète, ou sésame?
+Q637P Du fromage?
+Q637Q Des chenilles, éphémères ou criquets?
+Q637R N'importe quelle nourriture sucrée telle que des biscuits, gateaux, galettes sucrée, crèmes glacées, bonbons, ou chocolat?
+Q637S Chips, frites, aloco, frites de patates douces, frites d’igname, samsa, ou des beignets?
+Q637T Huile de palme brute, non raffinée, de couleur rouge?
+Q637U N'importe quel autre aliment solide, semi-solide ou mou ?
+Q643A Du riz, pain, pâtes alimentaires, bouillie, fonio, couscous, ou tô?
+Q643B Des carottes, patates douces qui sont jaunes ou oranges  à l'intérieur, ou des citrouilles qui sont jaunes ou oranges  à l'intérieur? 
+Q643C Des ignames, manioc, pomme de terre, patate douce à chair blanche, foufou, attiéké, ou banane plantain?
+Q643D De la sauce feuille, babenda, feuilles de boulvaka, feuilles de baobab, feuilles d'oseille, feuilles de moringa, ou feuilles sauvages?
+Q6431 Feuilles de haricot, feuilles de courge, feuilles d’aubergine, ou feuilles de patate douce?
+Q643E N'importe quelle autre légumes tels que des tomates, aubergines, choux, gombos, fleurs de kapok, haricots verts, poivrons ou d'autres légumes?
+Q643F Des mangues mûres, papayes mûres, néré, melon à chair orange, ou abricot?
+Q643G N'importe quel autre fruit tel que des bananes, oranges, goyaves, pastèques, fruits de baobab, ou d'autres fruits?
+Q643H Les abats?
+Q643I Des saucisses, conserves de viande, ou jambon?
+Q643J N'importe quelle autre viande telle que le boeuf, la chèvre, le mouton, le porc, la poulet, la pintade, la viande sauvage, ou des oiseaux sauvages?
+Q643K Des œufs ?
+Q643L Du poisson frais, poisson séché, poisson fumé, ou des fruits de mer?
+Q643M Des haricots secs (niébé), lentilles, soja, pois chiches, ou pois de terre? 
+Q643N Des cacahuètes, arachides, pâtes d'arachide, noix de cajou, ou sésame?
+Q643O Lait frais, lait en poudre, fromage, yaourt, lait caillé, ou dèguè?
+Q643P Des chenilles, éphémères ou criquets?
+Q643Q N'importe quelle nourriture sucrée telle que des biscuits, gateaux, galettes sucrée, crèmes glacées, bonbons, ou chocolat?
+Q643R Chips, frites, aloco, frites de patates douces, frites d’igname, samsa, ou des beignets?
+Q643S Jus de fruit, bissap, ou zoom koom?
+Q643T Des sucreries comme Coca Cola, Fanta, Sprite, ou Moka-café?
+Q643U Du café sucré, thé sucré, gapal, nesquick, ou chicoré?
+Q643V Huile de palme brute, non raffinée, de couleur rouge?
+Q643W D'autres liquides ?
+Q643X D'autres aliments ?

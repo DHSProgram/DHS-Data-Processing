@@ -1,0 +1,30 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=RemeasSel
+Name=RemeasSel
+AppType=DataEntry
+CAPI=Yes
+[External Dictionaries]
+File=..\Dicts\ccHH80.dcf
+File=..\Dicts\ContSup.dcf
+File=..\Dicts\Remeasure.dcf
+File=..\Dicts\SampSel.dcf
+File=..\Dicts\ccIN80.dcf
+[AppCode]
+File=.\RemeasSel.apc
+Include=..\Library\DPCollect.apc
+Include=..\Library\Anthrop.apc
+Include=..\Library\HTMLFunctions.apc
+[Message]
+File=.\RemeasSel.mgf
+[Help]
+File=.\RemeasSel.qsf
+[Forms]
+File=.\Cnull.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\ccHH80.dcf,External
+Dict-Type=..\Dicts\ContSup.dcf,External
+Dict-Type=..\Dicts\Remeasure.dcf,External
+Dict-Type=..\dicts\Cnull.dcf,Input,.\Cnull.fmf
+Dict-Type=..\Dicts\SampSel.dcf,External
+Dict-Type=..\Dicts\ccIN80.dcf,External

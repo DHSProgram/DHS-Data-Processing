@@ -1,0 +1,60 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=Summarized other answers
+Name=XOTHERS
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+SecurityOptions=04306B8B53D3A235F2A9B655B983367B7C974DAA91760C44DAE84EB02DAAA502
+
+[Level]
+Label=LEVEL1
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=Question number code
+Name=XOTHQUES
+Start=1
+Len=10
+DataType=Alpha
+
+[Item]
+Label=Sequence number for question
+Name=XOTHNUM
+Start=11
+Len=4
+
+[Record]
+Label=Other answers
+Name=XOTHSEC
+RecordTypeValue=''
+RecordLen=104
+
+[Item]
+Label=Count of occurrences of response
+Name=XOTHCNT
+Start=15
+Len=5
+
+[Item]
+Label=Code assigned to response
+Name=XOTHCODE
+Start=20
+Len=5
+
+[ValueSet]
+Label=Code assigned to response
+Name=XOTHCODE_VS1
+Value=0;No change to code
+Value=1:9999
+
+[Item]
+Label=Text of response
+Name=XOTHRESP
+Start=25
+Len=80
+DataType=Alpha

@@ -1,0 +1,26 @@
+﻿Language = ES
+{ common strings used by the application }
+  ES ("Report of Overall Missing Information" ) Reporte Global de Informacion Faltante
+  ES ( "Date: %s" ) Fecha: %s
+  ES ( "Cluster" ) Segmento
+  ES ( "GPS missing" ) GPS faltante
+  ES ( "Not accepted" ) Sin aceptar 
+  ES ( "Not closed" ) Sin Cerrar
+  ES ( "Observations" ) Observaciones
+  ES ( "Y" ) S
+  ES ( "Cluster not defined in control file" ) Segmento no esta definido en el archivo de control
+  ES ( "Cluster listed by 2 different enumerators" ) Segmento listado por 2 enumeradores diferentes
+  ES ( "Cluster hasn't arrived yet to the central office" ) Segmento no ha llegado aun a la oficina central
+
+Language = FR
+  FR ("Report of Overall Missing Information" ) Rapport d'Information Manquant
+  FR ( "Date: %s" ) Data: %s
+  FR ( "Cluster" ) Grappe
+  FR ( "GPS missing" ) GPS Manquant
+  FR ( "Not accepted" ) Non Accepté
+  FR ( "Not closed" ) Non Fermée
+  FR ( "Observations" ) Observations
+  FR ( "Y" ) O
+  FR ( "Cluster not defined in control file" ) Grappe non definée dans le fichier de contrôle
+  FR ( "Cluster listed by 2 different enumerators" ) Grappe listé par 2 enumerateurs differents
+  FR ( "Cluster hasn't arrived yet to the central office" ) Grappe n'arrivée pas dans le bureau central

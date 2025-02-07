@@ -1,0 +1,324 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+{{FR}
+decimals comma;
+thousands blank;
+{FR}}
+{{ES}
+decimals period;
+thousands comma;
+{ES}}
+{{PT}
+decimals comma;
+thousands blank;
+{PT}}
+
+t101 rows hhrate   = 1 1
+          wrate    = 1 1
+          hhratesu = 1 1
+          mrate    = 1 1;
+t101 footnote
+{+EN}
+@1 Households interviewed/households occupied~
+@2 Respondents interviewed/eligible respondents
+{EN+}
+{{ES}
+@1 (Hogares entrevistados)/(hogares ocupados)~
+@2 (Personas entrevistadas)/(personas elegibles)
+{ES}}
+{{FR}
+@1 Ménages enquêtés/ménages occupés~
+@2 Enquêtés interviewés/enquêtés éligibles
+{FR}}
+endfootnote;
+
+t201 rows tothh2 = 1 nodec;
+
+t202 rows tothh2 = 1 nodec;
+t202 footnote
+{+EN}
+LPG = Liquefied petroleum gas~
+@1 Includes stoves/cookers using electricity, LPG/natural gas/biogas, solar,
+   and alcohol/ethanol [LIST ANY ADDITIONAL CATEGORIES OF CLEAN FUELS AND
+   TECHNOLOGIES INCLUDED IN THE SURVEY QUESTIONNAIRE]
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+GPL = Gaz propane liquéfié~
+@1 Comprend les cuisinières/réchauds utilisant l'électricité, le GPL/gaz
+   naturel/biogaz, énergie solaire et alcool/éthanol [AJOUTER À LA LISTE
+   D'AUTRES CATÉGORIES DE COMBUSTIBLES ET D'ÉQUIPEMENTS PROPRES FIGURANT
+   DANS LE QUESTIONNAIRE D'ENQUÊTE ].
+{FR}}
+endfootnote;
+
+t203 rows tothh2 = 1 nodec;
+t203 footnote
+{+EN}
+LPG = Liquefied petroleum gas~
+@1 Includes central heating, electricity, LPG/natural gas/biogas, solar air
+   heater, and alcohol/ethanol [LIST ANY ADDITIONAL CATEGORIES OF CLEAN FUELS
+   AND TECHNOLOGIES INCLUDED IN THE SURVEY QUESTIONNAIRE]
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+GPL = Gaz Propane Liquéfié~
+@1 Comprend le chauffage central, l'électricité, le GPL/gaz naturel/biogaz,
+   chauffage à air soufflant solaire et alcool/éthanol [AJOUTER À LA LISTE
+   D'AUTRES CATÉGORIES DE COMBUSTIBLES ET DE TECHNOLOGIES PROPRES FIGURANT
+   DANS LE QUESTIONNAIRE D'ENQUÊTE]
+{FR}}
+endfootnote;
+
+t204 columns cookheli = 3 nodec
+             cookheli = 5 nodec
+             cookheli = 7 nodec
+             cookheli = 9 nodec;
+t204 footnote
+{+EN}
+@1 Includes stoves/cookers using electricity, LPG/natural gas/biogas, solar,
+   and alcohol/ethanol [LIST ANY ADDITIONAL CATEGORIES OF CLEAN FUELS AND
+   TECHNOLOGIES INCLUDED IN THE SURVEY QUESTIONNAIRE]~
+@2 Includes coal/lignite, charcoal, wood, straw/shrubs/grass, agricultural
+   crops, and animal dung/waste, processed biomass (pellets) or woodchips,
+   garbage/plastic, and sawdust [LIST ANY ADDITIONAL CATEGORIES OF SOLID
+   FUELS INCLUDED IN THE SURVEY QUESTIONNAIRE]~
+@3 Includes central heating, electricity, LPG/natural gas/biogas, solar air
+   heater, and alcohol/ethanol [LIST ANY ADDITIONAL CATEGORIES OF CLEAN
+   FUELS AND TECHNOLOGIES INCLUDED IN THE SURVEY QUESTIONNAIRE]~
+@4 Includes electricity, solar lantern, rechargeable flashlight/torch/lantern,
+   battery powered flashlight/torch/lantern, and biogas lamp [LIST ANY
+   ADDITIONAL CATEGORIES OF CLEAN FUELS AND TECHNOLOGIES  INCLUDED IN THE
+   SURVEY QUESTIONNAIRE]~
+@5 In order to calculate SDG indicator 7.1.2, persons living in households
+   that report no cooking, no space heating, or no lighting are included
+   from the numerator.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Comprend les cuisinières/cuiseurs utilisant l'électricité, GPL/gaz
+   naturel /biogaz, énergie solaire et alcool/éthanol [AJOUTER À LA LISTE
+   D'AUTRES CATÉGORIES DE COMBUSTIBLES ET D'ÉQUIPEMENTS PROPRES FIGURANT
+   DANS LE QUESTIONNAIRE D'ENQUÊTE].~
+@2 Comprend le charbon/lignite, charbon de bois, bois, paille/branchages/herbes,
+   résidus agricoles et bouse/déjections animales, biomasse transformée (granulés de bois)
+   ou copeaux de bois, déchets/plastique et sciure [AJOUTER À LA LISTE D'AUTRES CATÉGORIES
+   DE COMBUSTIBLES SOLIDES FIGURANT DANS LE QUESTIONNAIRE D'ENQUÊTE]~
+@3 Comprend le chauffage central, l'électricité, le GPL/gaz naturel /biogaz,
+   chauffe-air solaire et alcool/éthanol [AJOUTER À LA LISTE D'AUTRES CATÉGORIES
+   DE COMBUSTIBLES ET DE TECHNOLOGIES PROPRES FIGURANT DANS LE QUESTIONNAIRE D'ENQUÊTE].~
+@4 Comprend l'électricité, lanterne solaire, lampe de poche/torche/lanterne à piles,
+   lampe de poche/torche/lanterne rechargeable et lampe biogaz [AJOUTER À LA LISTE
+   D'AUTRES CATÉGORIES DE COMBUSTIBLES ET DE TECHNOLOGIES PROPRES FIGURANT DANS LE
+   QUESTIONNAIRE D'ENQUÊTE]~
+@5 Pour pouvoir calculer l'indicateur ODD 7.1.2, les personnes vivant dans les ménages
+   ayant déclaré pas de cuisine, pas de chauffage d'appoint ou pas d'éclairage sont incluses
+   du numérateur.
+{FR}}
+endfootnote;
+
+t205 rows numhh = 1 nodec;
+t205 footnote
+{+EN}
+@1 Cows, bulls, other cattle, horses, donkeys, goats, sheep, chickens or other poultry
+{EN+}
+{{ES}
+@1 Bobinos, vacas, toros, caballos, burros, cabras, ovejas o pollos
+{ES}}
+{{FR}
+@1 Vaches, taureaux, autre bétail, chevaux, ânes, mules, chèvres, moutons, poulets ou autre volaille
+{FR}}
+endfootnote;
+
+t206 columns totnum3  = 1 nodec
+             gini     = 1 2;
+t206 footnote
+{+EN}
+@1 The Gini coefficient indicates the level of concentration of wealth, with 0 representing
+   an equal wealth distribution and 1 representing a totally unequal distribution.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Le coefficient de Gini mesure le niveau de concentration de la richesse, 0 représentant une
+   distribution égale de la richesse et 1 signifiant une distribution totalement inégalitaire.
+{FR}}
+endfootnote;
+t206W noprint;
+
+t207 rows numpers = 1 nodec;
+{t207W noprint;}
+
+{ population pyramid for country managers, may want to 'noprint' for production }
+t207A rows totnum1 = 1 nodec;
+
+t208 rows numhh = 1 nodec;
+t208 footnote
+{+EN}
+Note: Table is based on de jure household members, i.e., usual residents.~
+@1 Includes children with one dead parent and an unknown survival status of the other parent~
+@2 Children not living with a biological parent are those under age 18 living in
+   households with neither their mother nor their father present.
+{EN+}
+{{ES}
+Nota: Este cuadro está basado en la población de jure, es decir, residentes habituales.~
+@1 Incluye niños/as con uno de los padres muerto y se desconoce el estado de supervivencia para el otro~
+@2 Children not living with a biological parent are those under age 18 living in
+   households with neither their mother nor their father present.
+{ES}}
+{{FR}
+Note : Le tableau est basé sur la population de droit des ménages, c'est-à-dire les résidents habituels.~
+@1 Comprend les enfants dont l'un des deux parents est décédé et
+   dont l'état de survie de l'autre est inconnu~
+@2 Les enfants ne vivant pas avec un parent biologique sont les
+   enfants de moins de 18 ans qui vivent dans un ménage dans lequel
+   il n'y a ni leur mère, ni leur père.
+{FR}}
+endfootnote;
+{t208W noprint;}
+
+t209 columns numchild = 1 nodec;
+t209 footnote
+{+EN}
+Note: Table is based on de jure members, i.e., usual residents.~
+@1 Includes children with father dead, mother dead, both dead and one parent dead but
+   missing information on survival status of the other parent
+{EN+}
+{{ES}
+Nota: El cuadro está basado en la población de jure, es decir, residentes habituales.~
+@1 Incluye niños/as con el padre muerto, la madre muerta, o ambos muertos; o uno de ellos muerto
+   pero sin información disponible sobre el estado de supervivencia del otro
+{ES}}
+{{FR}
+Note : Le tableau est basé sur la population de droit des ménages, c'est-à-dire les résidents habituels.~
+@1 Comprend les enfants dont le père est décédé, ceux dont la mère est décédée, ceux dont les deux parents
+   sont décédés et ceux dont un parent est décédé et dont l'information sur l'état de survie de l'autre est manquante
+{FR}}
+endfootnote;
+
+t210 columns numchild = 1 nodec;
+
+t2111 columns totnmed1 = 1 nodec;
+t2111 footnote
+{+EN}
+@1 Completed X grade at the primary level~
+@2 Completed Y grade at the secondary level
+{EN+}
+{{ES}
+@1 Completó X años del nivel primario~
+@2 Completó Y años del nivel secundario
+{ES}}
+{{FR}
+@1 A A achevé X classes du niveau primaire~
+@2 A A achevé X classes du niveau secondaire
+{FR}}
+endfootnote;
+{t2111W noprint;}
+
+t2112 columns TOTNMED1 = 1 nodec;
+t2112 footnote
+{+EN}
+@1 Completed X grade at the primary level~
+@2 Completed Y grade at the secondary level
+{EN+}
+{{ES}
+@1 Completó X años del nivel primario~
+@2 Completó Y años del nivel secundario
+{ES}}
+{{FR}
+@1 A achevé X classes du niveau primaire~
+@2 A achevé X classes du niveau secondaire
+{FR}}
+endfootnote;
+{t2112W noprint;}
+
+t212 columns attrat = 1 gparity = 1 2
+             attrat = 2 gparity = 1 2;
+t212 footnote
+{+EN}
+@1 The NAR for primary school is the percentage of the primary-school age
+ (A-B years) population that is attending primary school. The NAR for secondary
+ school is the percentage of the secondary-school age (C-D years) population
+ that is attending secondary school. By definition the NAR cannot exceed
+ 100.0.~
+@2 The GAR for primary school is the total number of primary school students,
+ expressed as a percentage of the official primary-school-age population.
+ The GAR for secondary school is the total number of secondary school students,
+ expressed as a percentage of the official secondary-school-age population.
+ If there are significant numbers of overage and underage students at a
+ given level of schooling, the GAR can exceed 100.0.~
+@3 The Gender Parity Index for primary school is the ratio of the primary
+ school NAR (GAR) for females to the NAR (GAR) for males. The Gender Parity Index for
+ secondary school is the ratio of the secondary school NAR (GAR) for females to
+ the NAR (GAR) for males.
+{EN+}
+{{ES}
+@1 La tasa neta de asistencia (TNA) a la escuela primaria es el porcentaje
+ de la población en edad para la primaria (A-B años) que están actualmente
+ asistiendo a la escuela primaria. La tasa neta de asistencia (TNA) a la escuela
+ secundaria es el porcentaje de la población en edad para la secundaria
+ (C-D años) que están actualmente asistiendo a la escuela secundaria.
+ Por definición la TNA no puede exceder el 100.0.~
+@2 La tasa bruta de asistencia (TBA) a la escuela primaria es el número total
+ de los estudiantes de primaria, expresado como un porcentaje de la población
+ en edad escolar oficial para primaria. La tasa bruta de asistencia (TBA) a la escuela
+ secundaria es el número total de estudiantes de secundaria, expresado como
+ porcentaje de la población en edad escolar oficial para secundaria.
+ Si aparece un número significativo de estudiantes por debajo o por encima
+ de la edad escolar oficial en un nivel específico, entonces la TBA puede exceder el
+ 100.0 .~
+@3 El Índice de Paridad de Género para la escuela primaria es la razón entre la
+ TBA femenina a la escuela primaria y la TBA masculina.
+ El Índice de Paridad de Género para la escuela secundaria es la razón entre la
+ TBA femenina a la escuela secundaria y la TBA masculina.
+{ES}}
+{{FR}
+@1 Le taux net de fréquentation scolaire (TNF) au niveau primaire est le pourcentage
+   de la population d'âge officiel de fréquentation du niveau primaire (A-B ans) qui
+   fréquente l'école primaire. Le taux net de fréquentation scolaire pour le niveau
+   secondaire est le pourcentage de la population d'âge officiel de fréquentation du
+   niveau secondaire (C-D ans) qui fréquente l'école secondaire. Par définition le
+   taux net de fréquentation ne peut pas excéder 100 %.~
+@2 Le taux brut de fréquentation scolaire (TBF) au niveau primaire est le nombre total
+   d'élèves du niveau primaire, exprimé en pourcentage de la population d'âge officiel de
+   fréquentation du niveau primaire. Le taux brut de fréquentation scolaire au niveau
+   secondaire est le nombre total d'élèves du niveau secondaire, exprimé en pourcentage
+   de la population d'âge officiel de fréquentation du niveau secondaire. S'il y a pour
+   un niveau donné un nombre important d'élèves plus âgés ou plus jeunes que l'âge
+   officiel pour ce niveau, le TBF peut excéder 100 %.~
+@3 L'indice de parité entre les genres au niveau primaire est le ratio du TNF (TBF) au niveau
+   primaire des filles sur le TNF (TBF) des garçons. L'indice de parité entre les genres au niveau
+   secondaire est le ratio du TNF (TBF) au niveau secondaire des filles sur le TNF (TBF) des garçons.
+{FR}}
+endfootnote;
+{t212W noprint;}
+
+t212A columns tpercatt = 2 nodec;
+
+t213  columns narnumch = 1 nodec;
+t213 footnote
+{+EN}
+@1 The adjusted net attendance ratio (NAR) to organized learning is the percentage of
+   children of age one year younger than official primary school entry age (at the
+   beginning of school year) who are attending early childhood education or primary school.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Le taux net de fréquentation scolaire ajusté  (TNF) pour l'apprentissage organisé est
+   équivalent au pourcentage d'enfants d'un an plus jeune que l'âge officiel d'entrée en
+   cycle primaire  (au début de l'année scolaire) qui fréquentent un programme d'éducation
+   préscolaire ou l'école primaire.
+{FR}}
+endfootnote;
+   

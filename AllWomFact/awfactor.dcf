@@ -1,0 +1,34 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=All women factors
+Name=AWFACTOR
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=No
+
+[Level]
+Label=LEVEL1
+Name=LEVEL_1
+
+[IdItems]
+
+[Item]
+Label=AWAGE
+Name=AWAGE
+Start=1
+Len=3
+
+[Record]
+Label=AWFSEC
+Name=AWFSEC
+RecordTypeValue=''
+RecordLen=363
+
+[Item]
+Label=AWF
+Name=AWF
+Start=4
+Len=6
+Occurrences=60

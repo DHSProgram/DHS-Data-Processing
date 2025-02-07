@@ -1,0 +1,19 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=CAPTUREGPS
+Name=CAPTUREGPS
+AppType=DataEntry
+ShowEndCaseDialog=No
+CAPI=Yes
+[AppCode]
+File=.\CaptureGPS.apc
+[Message]
+File=.\SampList.mgf
+[Help]
+File=.\SampList.qsf
+[Forms]
+File=.\Cnull.fmf
+File=.\GPS.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\GPS.dcf,External,.\GPS.fmf
+Dict-Type=..\Dicts\Cnull.dcf,Input,.\Cnull.fmf

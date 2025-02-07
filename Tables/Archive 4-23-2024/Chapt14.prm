@@ -1,0 +1,345 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+
+Note: Figures in parentheses are based on 25-49 unweighted cases. An asterisk indicates
+      that a figure is based on fewer than 25 unweighted cases and has been suppressed.~
+}
+
+t1401 columns totnum1 = 1 nodec;
+t1401 footnote
+{+EN}
+@1 Includes all Dried Blood Spot (DBS) specimens tested at the lab and for which there is a final
+   result, i.e., positive, negative, or inconclusive~
+@2 Includes: 1) other results of blood collection (e.g., technical problem in the field), 2) lost
+   specimens, 3) noncorresponding bar codes, and 4) lab results such as blood not tested for technical
+   reason or not enough blood to complete the algorithm
+{EN+}
+{{ES}
+@1 Incluye todas las Muestras de Sangre Seca (MSS) procesadas en el laboratorio y para las cuales
+   hay un resultado, es decir, negativo, positivo o inconcluso~
+@2 Incluye: 1) otros resultados de recolecci?n de sangre (es decir, problemas t?cnicos en el
+   campo; 2) p?rdida de muestras; 3) c?digos de barras que no correspond?an; y 4) otros resultados
+   de laboratorio tales como la sangre no analizada por razones t?cnicas, sangre insuficiente
+   para completar el algoritmo, etc.
+{ES}}
+{{FR}
+@1 Y compris les prélèvements de sang séchés (Dried Blood Spots) testés au laboratoire et
+   pour lesquels on dispose d’un résultat final, qu’il soit positif, négatif, ou non concluant~
+@2 Y compris : 1) autres résultats de la collecte de sang tels que des problèmes techniques sur
+   le terrain, 2) spécimens perdus, 3) codes-barres ne correspondant pas, et 4) autres résultats
+   du laboratoire comme du sang non testé pour raisons techniques, insuffisance de sang pour 
+   compléter l’algorithme
+{FR}}
+endfootnote;
+
+t1402  columns totnum1  = 1 nodec;
+t1402 footnote
+{+EN}
+@1 Includes all Dried Blood Spot (DBS) specimens tested at the lab and for which there is a final
+   result, i.e., positive, negative, or inconclusive~
+@2 Includes: 1) other results of blood collection (e.g., technical problem in the field), 2) lost
+   specimens, 3) noncorresponding bar codes, and 4) lab results such as blood not tested for technical
+   reason or not enough blood to complete the algorithm
+{EN+}
+{{ES}
+@1 Incluye todas las Muestras de Sangre Seca (MSS) procesadas en el laboratorio y para las cuales
+   hay un resultado, es decir, negativo, positivo o inconcluso~
+@2 Includes: 1) other results of blood collection (e.g., technical problem in the field), 2) lost
+   specimens, 3) noncorresponding bar codes, and 4) lab results such as blood not tested for technical
+   reason or not enough blood to complete the algorithm
+{ES}}
+{{FR}
+@1 Y compris les prélèvements de sang séchés (Dried Blood Spots) testés au laboratoire et pour lesquels
+   on dispose d’un résultat final, qu’il soit positif, négatif, ou non concluant~
+@2 Y compris : 1) autres résultats de la collecte de sang tels que des problèmes techniques sur le terrain,
+   2) spécimens perdus, 3) codes-barres ne correspondant pas, et 4) autres résultats du laboratoire comme
+   du sang non testé pour raisons techniques, insuffisance de sang pour compléter l’algorithme
+{FR}}
+endfootnote;
+
+t1402a columns numdbs = 1 nodec
+               numdbs = 2 nodec;
+
+t1403  columns isex = 1 coltabs = 2 nodec
+               isex = 2 coltabs = 2 nodec
+                        coltabs = 2 nodec;
+t1403 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+na = No aplicable
+{ES}}
+{{FR}
+na = Non applicable
+{FR}}
+endfootnote;
+
+t1404  columns isex = 1 coltabs = 2 nodec
+               isex = 2 coltabs = 2 nodec
+                        coltabs = 2 nodec;
+t1404 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+na = No aplicable
+{ES}}
+{{FR}
+na = Non applicable
+{FR}}
+endfootnote;
+
+t1405  columns isex = 1 coltabs = 2 nodec
+               isex = 2 coltabs = 2 nodec
+                        coltabs = 2 nodec;
+t1405 footnote
+{+EN}
+na = Not applicable~
+@1 Includes the last live birth or stillbirth a women had in the last 2 years.
+{EN+}
+{{ES}
+na = No aplicable~
+@1 Includes the last live birth or stillbirth a women had in the last 2 years.
+{ES}}
+{{FR}
+na = Non applicable~
+@1 Y compris la dernière naissance vivante ou l'enfant mort-né que la femme a eu dans
+   les 2 dernières années.
+{FR}}
+endfootnote;
+
+t1406  columns isex = 1 coltabs = 2 nodec
+               isex = 2 coltabs = 2 nodec
+                        coltabs = 2 nodec;
+t1406 footnote
+{+EN}
+na = Not applicable~
+@1 Any partner who was not a spouse and did not live with the respondent
+{EN+}
+{{ES}
+na = No aplicable~
+@1 Any partner who was not a spouse and did not live with the respondent
+{ES}}
+{{FR}
+na = Non applicable~
+@1 Un partenaire qui n'était ni le mari/épouse, ni la personne avec qui l'enquêté vivait
+{FR}}
+endfootnote;
+
+t1407  columns isex = 1 coltabs = 2 nodec
+               isex = 2 coltabs = 2 nodec
+                        coltabs = 2 nodec;
+t1407 footnote
+{+EN}
+na = Not applicable
+{EN+}
+{{ES}
+na = No aplicable
+{ES}}
+{{FR}
+na = Non applicable
+{FR}}
+endfootnote;
+
+t1408  columns isex = 1 coltabs = 2 nodec
+               isex = 2 coltabs = 2 nodec
+                        coltabs = 2 nodec;
+t1408 footnote
+{+EN}
+@1 Any partner who was not a spouse and did not live with the respondent
+{EN+}
+{{ES}
+@1 Any partner who was not a spouse and did not live with the respondent
+{ES}}
+{{FR}
+@1 Un partenaire qui n'était ni le mari/épouse, ni la personne avec qui l'enquêté vivait
+{FR}}
+endfootnote;
+
+t1409  columns isex = 1 coltabs = 2 nodec
+               isex = 2 coltabs = 2 nodec
+                        coltabs = 2 nodec;
+
+t1410  rows    totnum1 = 1 nodec;
+t1410 footnote
+{+EN}
+ART = Antiretroviral treatment
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+ARV = médicaments Antirétroviraux
+{FR}}
+endfootnote;
+
+t1411  columns circum1 = 1 coltabs = 2 nodec
+               circum1 = 2 coltabs = 2 nodec
+               circum1 = 3 coltabs = 2 nodec
+               circum1 = 4 coltabs = 2 nodec
+               circum1 = 5 coltabs = 2 nodec;
+t1411 footnote
+{+EN}
+@1 Includes all men who report they are circumcised.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 Y compris tous les hommes ayant déclaré être circoncis.
+{FR}}
+endfootnote;
+
+t1412  columns totnum1 = 1 nodec;
+t1412 footnote
+{+EN}
+Note: The table is based on couples for which a valid test result (positive or negative)
+      is available for both partners.~
+@1 A respondent is considered to have had multiple sexual partners in the last 12 months
+   if he or she had sexual intercourse with 2 or more people during this time period.
+   (Respondents with multiple partners include polygynous men who had sexual intercourse
+   with 2 or more wives.)~
+{EN+}
+{{ES}
+Nota: El cuadro se basa en parejas para las cuales el resultado de una prueba v?lida
+      (positivo o negativo) est? disponible para ambas parejas.~
+@1 Se considera que una persona entrevistada ha tenido m?ltiples parejas sexuales en los
+   ?ltimos 12 meses si ?l o ella ha tenido relaciones sexuales con 2 o m?s personas
+   durante este per?odo. (Los hombres pol?gamos que tienen relaciones sexuales
+   con 2 o m?s esposas se clasifican como entrevistados con parejas m?ltiples).~
+{ES}}
+{{FR}
+Note : Le tableau est basé sur les couples pour lesquels on dispose d'un résultat valable au test du VIH
+       (positif ou négatif) pour les deux conjoints.~
+@1 Un enquêté est considéré comme ayant eu des partenaires multiples au cours des 12 derniers mois si il
+   ou elle a eu des rapports sexuels avec deux personnes ou plus au cours de cette période.
+  (Les enquêtés avec des partenaires multiples comprennent les hommes polygames qui ont eu des rapports 
+   sexuels avec, au moins, deux de leurs épouses).
+{FR}}
+endfootnote;
+
+t14a7  columns totnum2 = 1 nodec;
+t14a7 footnote
+{+EN}
+@1 Includes all Dried Blood Spot (DBS) specimens tested at the lab and for which there is a 
+   final result, i.e., positive, negative, or inconclusive~
+@2 Includes: 1) other results of blood collection (e.g., technical problem in the field), 
+   2) lost specimens, 3) noncorresponding bar codes, and 4) lab results such as blood not tested for technical 
+   reason, not enough blood to complete the algorithm, etc.
+{EN+}
+{{ES}
+@1 Incluye todas las Muestras de Sangre Seca (MSS) procesadas en el laboratorio y para las cuales
+   hay un resultado, es decir, negativo, positivo o inconcluso~
+@2 Incluye: 1) otros resultados de recolecci?n de sangre (es decir, problemas t?cnicos en el
+   campo; 2) p?rdida de muestras; 3) c?digos de barras que no correspond?an; y 4) otros resultados
+   de laboratorio tales como la sangre no analizada por razones t?cnicas, sangre insuficiente
+   para completar el algoritmo, etc.
+{ES}}
+{{FR}
+@1 Y compris les pr?l?vements de sang s?ch?s, test?s au laboratoire et pour lesquels
+   on dispose d?un r?sultat, qu?il soit positif, n?gatif, ou n?a pas ?t? concluant.~
+@2 Y compris: 1) autres r?sultats de la collecte de sang (tels que des probl?mes techniques sur le terrain),
+   2) sp?cimens perdus, 3) codes barre ne correspondant pas, et 4) autres r?sultats du laboratoire
+   comme du sang non test? pour raisons techniques, insuffisance de sang pour compl?ter l?algorithme, etc.
+{FR}}
+endfootnote;
+
+t14a8  columns totnum5 = 1 nodec;
+t14a8 footnote
+{+EN}
+@1 Includes all Dried Blood Spot (DBS) specimens tested at the lab and for which there is a 
+   final result, i.e., positive, negative, or inconclusive~
+@2 Includes: 1) other results of blood collection (e.g. technical problem in the field),
+   2) lost specimens, 3) noncorresponding bar codes, and 4) lab results such as
+   blood not tested for technical reason, not enough blood to complete the algorithm, etc.~
+@3 Includes all men who report they are circumcised.~   
+@4 Includes men who report they are 1) medically circumcised, but don't know whether they are 
+   traditionally circumcised, 2) traditionally circumcised, but don't know whether they are 
+   medically circumcised, or 3) circumcised, but don't know the type of circumcision.
+{EN+}
+{{ES}
+@1 Incluye todas las Muestras de Sangre Seca (MSS) procesadas en el laboratorio y para las cuales
+   hay un resultado, es decir, negativo, positivo o inconcluso~
+@2 Incluye: 1) otros resultados de recolecci?n de sangre (es decir, problemas t?cnicos en el
+   campo; 2) p?rdida de muestras; 3) c?digos de barras que no correspond?an; y 4) otros resultados
+   de laboratorio tales como la sangre no analizada por razones t?cnicas, sangre insuficiente
+   para completar el algoritmo, etc.
+{ES}}
+{{FR}
+@1 Y compris les pr?l?vements de sang s?ch?s, test?s au laboratoire et pour lesquels
+   on dispose d?un r?sultat, qu?il soit positif, n?gatif, ou n?a pas ?t? concluant.~
+@2 Y compris: 1) autres r?sultats de la collecte de sang (tels que des probl?mes techniques sur le terrain),
+   2) sp?cimens perdus, 3) codes barre ne correspondant pas, et 4) autres r?sultats du laboratoire
+   comme du sang non test? pour raisons techniques, insuffisance de sang pour compl?ter l?algorithme, etc.
+{FR}}
+endfootnote;
+
+t14a9  columns totnum2 = 1 nodec;
+t14a9 footnote
+{+EN}
+@1 Includes all Dried Blood Spot (DBS) specimens tested at the lab and for which there is a 
+   final result, i.e., positive, negative, or inconclusive~
+@2 Includes: 1) other results of blood collection (e.g. technical problem in the field),
+   2) lost specimens, 3) noncorresponding bar codes, and 4) lab results such as
+   blood not tested for technical reason, not enough blood to complete the algorithm, etc.~
+@3 A respondent is considered to have had concurrent partners if he or she had overlapping sexual
+   partnerships with two or more people during the 12 months before the survey
+{EN+}
+{{ES}
+@1 Incluye todas las Muestras de Sangre Seca (MSS) procesadas en laboratorio y para las cuales
+   hay un resultado, es decir, negativo, positivo o inconcluso~
+@2 Incluye: 1) otros resultados de recolecci?n de sangre (es decir, problemas t?cnicos en el
+   campo; 2) p?rdida de muestras; 3) c?digos de barras que no correspond?an; y 4) otros resultados
+   de laboratorio tales como la sangre no analizada por razones t?cnicas, sangre insuficiente
+   para completar el algoritmo, etc.~
+@3 Se considera que la mujer entrevistada ha tenido parejas concurrentes si en los 12 meses que
+   precedieron la encuesta ha tenido  asociaciones sexuales con dos o m?s personas las cuales traslaparon.
+{ES}}
+{{FR}
+@1 Y compris les pr?l?vements de sang s?ch?s, test?s au laboratoire et pour lesquels
+   on dispose d?un r?sultat, qu?il soit positif, n?gatif, ou n?a pas ?t? concluant.~
+@2 Y compris: 1) autres r?sultats de la collecte de sang (tels que des probl?mes techniques sur le terrain),
+   2) sp?cimens perdus, 3) codes barre ne correspondant pas, et 4) autres r?sultats du laboratoire
+   comme du sang non test? pour raisons techniques, insuffisance de sang pour compl?ter l?algorithme, etc.~
+@3 Une enqu?t?e est consid?r?e comme ayant eu des partenaires sexuels concomitants si elle a eu des rapports sexuels
+   avec deux personnes ou plus au cours de p?riodes qui se chevauchent durant les 12 derniers mois.
+{FR}}
+endfootnote;
+
+t14a10  columns totnum5 = 1 nodec;
+t14a10 footnote
+{+EN}
+@1 Includes all Dried Blood Spot (DBS) specimens tested at the lab and for which there is a 
+   final result, i.e., positive, negative, or inconclusive~
+@2 Includes: 1) other results of blood collection (e.g. technical problem in the field),
+   2) lost specimens, 3) noncorresponding bar codes, and 4) lab results such as
+   blood not tested for technical reason, not enough blood to complete the algorithm, etc.~
+@3 A respondent is considered to have had concurrent partners if he or she had overlapping
+   sexual partnerships with two or more people during the 12 months before the survey.
+   (Respondents with concurrent partners includes polygynous men who had overlapping sexual
+   partnerships with two or more wives).
+{EN+}
+{{ES}
+@1 Incluye todas las Muestras de Sangre Seca (MSS) procesadas en el laboratorio y para las cuales
+   hay un resultado, es decir, negativo, positivo o o inconcluso~
+@2 Incluye: 1) otros resultados de recolecci?n de sangre (es decir, problemas t?cnicos en el
+   campo; 2) p?rdida de muestras; 3) c?digos de barras que no correspond?an; y 4) otros resultados
+   de laboratorio tales como la sangre no analizada por razones t?cnicas, sangre insuficiente
+   para completar el algoritmo, etc.~
+@3 Se considera que el hombre entrevistado ha tenido parejas concurrentes si en los 12 meses que
+   precedieron la encuesta ha tenido  asociaciones sexuales con dos o m?s personas las cuales traslaparon.
+   (Se considera que los hombres pol?gamos con relaciones sexuales que traslapan con dos o m?s
+   esposas tienen parejas concurrentes).
+{ES}}
+{{FR}
+@1 Y compris les pr?l?vements de sang s?ch?s, test?s au laboratoire et pour lesquels
+   on dispose d?un r?sultat, qu?il soit positif, n?gatif, ou n?a pas ?t? concluant.~
+@2 Y compris: 1) autres r?sultats de la collecte de sang (tels que des probl?mes techniques sur le terrain),
+   2) sp?cimens perdus, 3) codes barre ne correspondant pas, et 4) autres r?sultats du laboratoire
+   comme du sang non test? pour raisons techniques, insuffisance de sang pour compl?ter l?algorithme, etc.~
+@3 Un enqu?t? est consid?r? comme ayant eu des partenaires concomitantes s?il a eu des rapports sexuels
+   avec deux personnes ou plus au cours de p?riodes qui se chevauchent durant les 12 derniers mois.
+   Les enqu?t?s avec des partenaires concomitants comprennent les hommes polygames qui ont eu des rapports
+   sexuels avec au moins deux de leurs ?pouses au cours de p?riodes qui se chevauchent).
+{FR}}
+endfootnote;

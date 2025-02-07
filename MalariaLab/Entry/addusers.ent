@@ -1,0 +1,17 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=ADDUSERS
+Name=ADDUSERS
+AppType=DataEntry
+OperatorID=No
+CAPI=Yes
+[AppCode]
+File=.\addusers.apc
+[Message]
+File=.\MalariaLab.mgf
+[Help]
+File=.\addusers.qsf
+[Forms]
+File=.\addusers.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\users.dcf,Input,.\addusers.fmf

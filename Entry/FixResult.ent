@@ -1,0 +1,20 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=FixResult
+Name=FixResult
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[AppCode]
+File=.\FixResult.apc
+[Message]
+File=.\FixResult.mgf
+[Help]
+File=.\FixResult.qsf
+[Forms]
+File=.\Cnull.fmf
+File=.\HHForInt.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\Cnull.dcf,Input,.\Cnull.fmf
+Dict-Type=..\Dicts\HHForInt.dcf,External,.\HHForInt.fmf

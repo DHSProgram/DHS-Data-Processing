@@ -1,0 +1,122 @@
+[Dictionary]
+Version=CSPro 4.0
+Label=vfreq
+Name=VFREQ_DICT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=vfreq questionnaire
+Name=VFREQ_QUEST
+
+[IdItems]
+
+[Item]
+Label=Variable name
+Name=VID
+Start=1
+Len=12
+DataType=Alpha
+
+[Record]
+Label=vfreq record
+Name=VFREQ_REC
+RecordTypeValue=''
+RecordLen=8026
+
+[Item]
+Label=Variable label
+Name=VVLABEL
+Start=13
+Len=80
+DataType=Alpha
+
+[Item]
+Label=Variable type
+Name=VTYPE
+Start=93
+Len=1
+
+[ValueSet]
+Label=Variable type
+Name=VTYPE_VS1
+Value=0;Numeric
+Value=1;Alpha
+
+[Item]
+Label=Match flag
+Name=VCHECK
+Start=94
+Len=1
+
+[ValueSet]
+Label=Match flag
+Name=VCHECK_VS1
+Value=0;FULL MATCH
+Value=1;DOES NOT Match
+Value=2;Corresponding variable not found
+Value=3;Empty freqs and no matching variable found in raw data
+Value=4;Additional frequency
+Value=6;Flag set in A-Z variable
+Value=7;Variable not checked
+
+[Item]
+Label=Bad values flag
+Name=VBADVAL
+Start=95
+Len=1
+
+[ValueSet]
+Label=Bad values flag
+Name=VBADVAL_VS1
+Value=0;No flag
+Value=1;Default values found
+Value=2;Out of range values found
+
+[Item]
+Label=Frequency table
+Name=VFREQS
+Start=96
+Len=77
+DataType=Alpha
+Occurrences=103
+
+[Item]
+Label=Value
+Name=VVAL
+Start=96
+Len=8
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Value label
+Name=VLABEL
+Start=104
+Len=50
+ItemType=SubItem
+DataType=Alpha
+
+[Item]
+Label=Frequency
+Name=VFREQ
+Start=154
+Len=8
+ItemType=SubItem
+
+[Item]
+Label=Cumulative frequency
+Name=VCUMF
+Start=162
+Len=8
+ItemType=SubItem
+
+[Item]
+Label=Index of matching category in comparison variable
+Name=VMATCH
+Start=170
+Len=3
+ItemType=SubItem

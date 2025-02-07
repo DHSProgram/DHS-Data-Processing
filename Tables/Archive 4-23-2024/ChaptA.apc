@@ -1,0 +1,2089 @@
+﻿PROC GLOBAL
+{+---------------------------------------------------------------------------+}
+{+                                                                           +}
+{+   Guidelines July 7, 2021          -       Version 1.0.0 of 08/31/2021    +}
+{+                                                                           +}
+{+   APPENDIX A. SURVEY DESIGN                                               +}
+{+                                                                           +}
+{+   A.5    Sample implementation: Women                          (MALARIA)  +}
+{+   A.6    Sample implementation: Men                                       +}
+{+                                                                           +}
+{+   APPENDIX C. DATA QUALITY                                                +}
+{+                                                                           +}
+{+   C.1    Household age distribution                            (MALARIA)  +}
+{+   C.2.1  Age distribution of eligible and interviewed women    (MALARIA)  +}
+{+   C.2.2  Age distribution of eligible and interviewed men                 +}
+{+   C.3    Age displacement at ages 14/15                        (MALARIA)  +}
+{+   C.4    Age displacement at ages 49/50                        (MALARIA)  +}
+{+   C.5    Pregnancy outcomes by years preceding the survey      (MALARIA)  +}
+{+   C.6    Completeness of reporting                             (MALARIA)  +}
+{+   C.W1   Reporting of age at death in days (WORKING TABLE ONLY)           +}
+{+   C.W2   Reporting of age at death in months (WORKING TABLE ONLY)         +}
+{+   C.W3   Cohort comparison of mean number of children ever born and       +}
+{+          children deceased (WORKING TABLE ONLY)                           +}
+{+   C.8    Height and weight data completeness and quality for children     +}
+{+   C.9    Height measurements from random sub-sample of measured children  +}
+{+   C.10   Interference in height and weight measurements of children       +}
+{+   C.11   Interference in height and weight measurements of women and men  +}
+{+   C.12   Heaping in anthropometric measurements for children              +}
+{+          (digit preference)                                               +}
+{+   C.13   Observation of mosquito nets                          (MALARIA)  +}
+{+   C.14   Observation of handwashing facility                              +}
+{+   C.15   School attendance by single year of age                          +}
+{+   C.16   Vaccination cards photographed                                   +}
+{+   C.W4   Checks on gateway questions on women's interviews                +}
+{+          (WORKING TABLE ONLY)                                             +}
+{+                                                                           +}
+{+   Additional MALARIA appendix tables                                      +}
+{+                                                                           +}
+{+   M.8    Number of enumeration areas completed by month and    (MALARIA)  +}
+{+          region                                                           +}
+{+   M.9    Table C.6  Positive rapid diagnostic test (RDT)       (MALARIA)  +}
+{+          results by month and region                                      +}
+{+   M.10   Concordance and discordance between RDT and           (MALARIA)  +}
+{+          microscopy results                                               +}
+{+                                                                           +}
+{+---------------------------------------------------------------------------+}
+
+  numeric i, itot, imax, imin, irate1, irate2;
+  numeric j, jmax, jtot, jtot1, jtot2, jtot3, jtot4, jmin, jratio, k;
+  numeric emsample, hhweight, mhweight, rweight, womelig;
+  numeric iorate, ch, mother, ybmi, xbmi, zw, yy, prevcl;
+  numeric yreg, CMCMax, totden, remdif, deceased;
+  numeric yeareduc, mntheduc, cmceduci, cmceducf, xtemp, cmctemp;
+  numeric dissimidx, chmal, totpop;
+
+  array cmcbirth(100);   { children's CMC of birth from level 2 to level 1 for table C.15 }
+
+  crosstab float(0) txxx unweight runday+runmonth+runyear
+    exclude(specval, rowzero, colzero, totals, percents)
+{+EN}
+    title( "Tables for appendices, Country Survey 2020" );
+{EN+}
+{{ES}
+    title( "Cuadros para apendices, País Encuesta 2020" );
+{ES}}
+{{FR}
+    title( "Tableaux du appendices, Enquête Pays 2020" );
+{FR}}
+
+  crosstab float(1) appa5 hhresul1+hhrate1+wresul1+wrate1+totratew hv025w+hv024w+total
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table A.5 }
+{+EN}
+    title( "Table A.5  Sample implementation: Women"," ",
+           "Percent distribution of households and eligible women age 15-49 by results of the household",
+           "and individual interviews, and household, eligible women and overall women response rates,",
+           "according to residence and province (unweighted), Country Survey 2020" )
+     stub( "Result" );
+{EN+}
+{{ES}
+    title( "Cuadro A.5  Implementación de la muestra: Mujeres"," ",
+           "Distribución porcentual de hogares y de mujeres elegibles ",
+           "por resultado de las entrevistas de hogar e individual;",
+           "y tasas de respuesta de hogares, mujeres elegibles y total,",
+           "según residencia urbana-rural y región (sin ponderar), País Encuesta 2020" )
+     stub( "Resultado" );
+{ES}}
+{{FR}
+    title( "A.5 Résultats de l'enquête : Femme"," ",
+           "Répartition (en %) des ménages et des femmes éligibles",
+           "par résultat de l'enquête ménage et individuelle, taux de réponse",
+           "des ménages, des femmes éligibles et taux de réponse global des femmes, selon la région",
+           "et le milieu de résidence,(non pondéré), Enquête Pays 2020" )
+     stub( "Résultat" );
+{FR}}
+
+  crosstab float(1) appa6 hhresul1+hhrate1+mresul1+mrate1+totratem hv025w+hv024w+total
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table A.6  Sample implementation: Men"," ",
+           "Percent distribution of households and eligible men age 15-54[59] by",
+           "results of the household and individual interviews, and",
+           "household, eligible men and overall men response rates, according",
+           "to urban-rural residence and region (unweighted), Country Survey 2020" )
+     stub( "Result" );
+{EN+}
+{{ES}
+    title( "Cuadro A.6  Implementación de la muestra: Hombres"," ",
+           "Distribución porcentual de hogares y de hombres elegibles ",
+           "por resultado de las entrevistas de hogar e individual;",
+           "y tasas de respuesta de hogares, hombres elegibles y total,",
+           "según residencia urbana-rural y región (sin ponderar), País Encuesta 2020" )
+     stub( "Resultado");
+{ES}}
+{{FR}
+    title( "Tableau A.6  Résultats de l'enquête: Homme"," ",
+           "Répartition (en %) des ménages et des hommes éligibles ",
+           "par résultat de l'enquête ménage et individuelle, taux de réponse des ménages,",
+           "des hommes éligibles et taux de réponse global des hommes, selon la région et le milieu de résidence,",
+           "(non pondéré), Enquête Pays 2020" )
+     stub( "Resultat" );
+{FR}}
+
+  crosstab float(1) appc1 hhage+total isex3*numpct1
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table C.1 }
+{+EN}
+    title( "Table C.1  Household age distribution"," ",
+           "Single-year age distribution of the de facto household population",
+           "by sex (weighted), Country Survey 2020" )
+     stub( "Age" );
+{EN+}
+{{ES}
+    title( "Cuadro C.1  Distribución por edad en los hogares"," ",
+           "Distribución de la población de facto de los hogares por",
+           "edad en años simples, según sexo (ponderada), País Encuesta 2020" )
+     stub( "Edad" );
+{ES}}
+{{FR}
+    title( "Tableau C.1  Répartition par âge de la population des ménages"," ",
+           "Répartition de la population (de fait) des ménages par année d'âge",
+           "selon le sexe (pondéré), Enquête Pays 2020" )
+     stub( "Age" );
+{FR}}
+
+  crosstab float(2) appc1f hhage+total isex3
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Figure C.1  Population pyramid"," ",
+           "Percent distribution of the household population by single-year",
+           "and sex, Country Survey 2020" )
+     stub( "Age" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) appc21 hhage5+age1549+ratios1 houswom+evermwom+intwom+pctwom
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table C.2 }
+{+EN}
+    title( "Table C.2.1  Age distribution of eligible and interviewed women"," ",
+           "De facto household population of women age 10-54, number and percent distribution of",
+           "interviewed women age 15-49, and percentage of eligible women who were interviewed (weighted),",
+           "by 5-year age groups, Country Survey 2020" )
+     stub( "Age group" );
+{EN+}
+{{ES}
+    title( "Cuadro C.2.1  Distribución por edad de las mujeres elegibles y entrevistadas"," ",
+           "Población de facto de mujeres de 10-54 años de edad en los hogares, número de",
+           "mujeres de 15-49 años entrevistadas; y distribución porcentual y porcentaje de mujeres",
+           "elegibles que fueron entrevistadas (ponderado), según grupos quinquenales",
+           "de edad, País Encuesta 2020" )
+     stub( "Grupo de edad" );
+{ES}}
+{{FR}
+    title( "Tableau C.2.1  Répartition par âge des femmes éligibles et interviewées"," ",
+           "Population (de fait) des femmes de 10-54 ans, effectif et répartition (en %) par",
+           "groupe d'âges des femmes interviewées de 15-49 ans et pourcentage des femmes",
+           "éligibles qui ont été interviewées (pondéré), Enquête Pays 2020" )
+     stub( "Groupe d'âges" );
+{FR}}
+
+  { !!! to facilate processing this table, it is recommended to adjust HHAGE5M according }
+  {     to the age groups based on men' seligibility                                     }
+  crosstab float(1) appc22 hhage5m+age1559+ratios2 housmen+evermmen+intmen+pctmen
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table C.2.2  Age distribution of eligible and interviewed men"," ",
+           "De facto household population of men age 10-54[59/64], number and percent distribution", 
+		   "of interviewed men age 15-49[54/59], and percentage of eligible men who were interviewed", 
+		   "(weighted), by 5-year age groups, Country Survey 2020" )
+     stub( "Age group" );
+{EN+}
+{{ES}
+    title( "Cuadro C.2.2  Distribución por edad de los hombres elegibles y entrevistados"," ",
+           "Población de facto de hombres de 10-64 años de edad en los hogares, número de",
+           "hombres de 15-59 años entrevistados; y distribución porcentual y porcentaje de hombres",
+           "elegibles que fueron entrevistados (ponderado), según grupos quinquenales",
+           "de edad, País Encuesta 2020" )
+     stub( "Grupo de edad" );
+{ES}}
+{{FR}
+    title( "Tableau C.2.2  Répartition par âge des hommes éligibles et interviewés"," ",
+           "Population (de fait) des hommes de 10-59[64] ans, effectif et répartition (en %) par",
+           "groupe d'âges des hommes interviewés de 15-49[59] ans et pourcentage d'hommes",
+           "éligibles qui ont été interviewés (pondéré), Enquête Pays 2020" )
+     stub( "Groupe d'âges" );
+{FR}}
+
+  crosstab float(0) appc3 hv024w1+total singage1+age1218+ratio3 isex
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table C.3 }
+{+EN}
+    title( "Table C.3  Age displacement at ages 14/15"," ",
+           "Number of women and men age 12-18 listed in the household schedule by single-year age and", 
+		   "age ratio 15/14, according to region (weighted), Country Survey 2020" )
+     stub( "Region" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(0) appc4 hv024w1+total singage2+age4753+ratio4 isex
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table C.4 }
+{+EN}
+    title( "Table C.4  Age displacement at ages 49/50"," ",
+           "Number of women and men age 47-53 listed in the household schedule by single-year age and", 
+		   "age ratio 50/49, according to region (weighted), Country Survey 2020" )
+     stub( "Region" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) appc5 yrprec1+yrprec2+totall headings*subheads
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table C.5 }
+{+EN}
+    title( "Table C.5  Pregnancy outcomes by years preceding the survey"," ",
+           "Number of pregnancy outcomes, percentage with year and month of birth given or end of", 
+		   "pregnancy given, sex ratio at birth of live births, and ratio by years preceding the survey,", 
+		   "according to living children, dead children, stillbirths, miscarriages/abortions, and total", 
+		   "pregnancy outcomes (weighted), Country Survey 2020" )
+     stub( "Years preceding survey" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(1) appc5w yrprec1+yrprec2+totall isex*livdead
+    exclude(rowzero,colzero,percents,totals,specval);
+
+  crosstab float(2) appc6 missdbc1+missdbc2+missdbw+missdbm+missdiar+missantc+missantw+missantm+missanem+missmal
+                          pctcases
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table C.6 }
+{+EN}
+    title( "Table C.6  Completeness of reporting"," ",
+           "Percentage of observations missing information for selected",
+           "demographic and health questions (weighted), Country Survey 2020" )
+     stub( "Subject" );
+{EN+}
+{{ES}
+    title( "Cuadro C.6  Cobertura de la información"," ",
+           "Porcentaje de observaciones con información faltante para",
+           "preguntas seleccionadas de demografía y salud, País Encuesta 2020" )
+     stub( "Tipo de información" );
+{ES}}
+{{FR}
+    title( "Tableau C.6  Complétude de l'enregistrement"," ",
+           "Pourcentage d'observations manquantes pour certaines questions",
+           "démographiques et de santé (pondéré), Enquête Pays 2020" )
+     stub( "Type d'information" );
+{FR}}
+
+  crosstab float(0) apcw1 agedd+totpct1 period+totalp
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table C.W1  Reporting of age at death in days (WORKING TABLE ONLY)"," ",
+           "Distribution of reported deaths under age 1 month by",
+           "age at death in days and percentage of neonatal deaths",
+           "reported to occur at ages 0-6 days, for 5-year periods",
+           "preceding the survey (weighted), Country Survey 2020" )
+     stub( "Age at death (days)" );
+{EN+}
+{{ES}
+    title( "Cuadro C.W1  Información de la edad al morir en días (TABLA DE TRABAJO)"," ",
+           "Distribución de muertes informadas como de menos de 1 mes de edad,",
+           "por edad al morir en días; y el porcentaje de muertes neonatales",
+           "informadas como ocurridas a los 0-6 días, para nacimientos ",
+           "ocurridos en períodos de 5 años anteriores a la encuesta (ponderado),",
+           "País Encuesta 2020" )
+     stub( "Edad al morir (días)" );
+{ES}}
+{{FR}
+    title( "Tableau C.W1  Enregistrement de l'âge au décès en jours (WORKING TABLE ONLY)"," ",
+           "Répartition des décès survenus, d'après les déclarations,",
+           "à moins de 1 mois selon l'âge au décès en jours",
+           "et pourcentage de décès néonatals survenus, d'aprés les",
+           "déclarations, aux âges de 0-6 jours, par période de 5 ans",
+           "précédant l'enquête (pondéré), Enquête Pays 2020" )
+     stub( "Âge au décès en jours");
+{FR}}
+
+
+  crosstab float(0) apcw2 agedm+totpct2 period+totalp
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table C.W2  Reporting of age at death in months (WORKING TABLE ONLY)"," ",
+           "Distribution of reported deaths under age 2 years by",
+           "age at death in months and percentage of infant deaths",
+           "reported to occur at age under 1 month, for 5-year",
+           "periods preceding the survey (weighted), Country Survey 2020" )
+     stub( "Age at death (months)" );
+{EN+}
+{{ES}
+    title( "Cuadro C.W2  Información sobre de la edad al morir en meses (TABLA DE TRABAJO)"," ",
+           "Distribución de muertes informadas de menos de 2 años de edad",
+           "por edad al morir en meses y el porcentaje de muertes infantiles",
+           "informadas como ocurridas a la edad < 1 mes, para nacimientos",
+           "ocurridos en períodos de 5 años que precedieron la encuesta, País Encuesta 2020" )
+     stub( "Edad al morir (meses)" );
+{ES}}
+{{FR}
+    title( "Tableau C.W2  Enregistrement de l'âge au décès en mois (WORKING TABLE ONLY)"," ",
+           "Répartition des décès survenus, d'après les déclarations, à moins",
+           "de 2 ans, selon l'âge au décès en mois, et pourcentage de décès",
+           "survenus, d'après les déclarations, à moins de 1 mois, par période",
+           "de 5 ans précédant l'enquête (pondéré), Enquête Pays 2020" )
+     stub( "Age au décès en mois" );
+{FR}}
+
+  crosstab float(2) apcw3 v013w meanch1 meantype
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table C.W3  Cohort comparison of mean number of children ever born and children deceased (WORKING TABLE ONLY)"," ",
+           "Comparison of mean number of children ever born and children deceased between current survey and prior survey,", 
+		   "according to age (weighted), Country Survey 2020" )
+     stub( "Age at current survey" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+  crosstab float(1) apcw3w v013w meanch1 meantype
+    exclude(rowzero,colzero,percents,totals,specval)
+
+  crosstab float(1) appc8 chage4+chage3+sex2+mothstat+v102w+v101w+v106wt+measurer+total missdat+outrdat+validat
+    exclude(rowzero,colzero,totals,percents,specval)
+{+EN}
+    title( "Table C.8  Height and weight data completeness and quality for children","",
+           "Among children under age 5 (age 0-59 months) who were eligible for anthropometry,", 
+           "percentage with incomplete or missing data for height, weight, or month or year of birth;",
+           "among children with complete height and age, percentage with implausible data for", 
+           "height-for-age; among children with complete weight and height, percentage with implausible", 
+           "data for weight-for-height; and, among children with complete weight and age, percentage", 
+           "with implausible data for weight-for-age; and among all children under age 5 who were", 
+           "eligible for anthropometry, percentage with valid data for height-for-age, weight-for-height,", 
+           "or weight-for-age, according to background characteristics (unweighted), Country Survey 2020" )     
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+    title( "Table C.8  Height and weight data completeness and quality for children","",
+           "Among children under age 5 (age 0-59 months) who were eligible for anthropometry,", 
+           "percentage with incomplete or missing data for height, weight, or month or year of birth;",
+           "among children with complete height and age, percentage with implausible data for", 
+           "height-for-age; among children with complete weight and height, percentage with implausible", 
+           "data for weight-for-height; and, among children with complete weight and age, percentage", 
+           "with implausible data for weight-for-age; and among all children under age 5 who were", 
+           "eligible for anthropometry, percentage with valid data for height-for-age, weight-for-height,", 
+           "or weight-for-age, according to background characteristics (unweighted), Country Survey 2020" )     
+     stub( "Característica" );
+{ES}}
+{{FR}
+    title( "Table C.8  Height and weight data completeness and quality for children","",
+           "Among children under age 5 (age 0-59 months) who were eligible for anthropometry,", 
+           "percentage with incomplete or missing data for height, weight, or month or year of birth;",
+           "among children with complete height and age, percentage with implausible data for", 
+           "height-for-age; among children with complete weight and height, percentage with implausible", 
+           "data for weight-for-height; and, among children with complete weight and age, percentage", 
+           "with implausible data for weight-for-age; and among all children under age 5 who were", 
+           "eligible for anthropometry, percentage with valid data for height-for-age, weight-for-height,", 
+           "or weight-for-age, according to background characteristics (unweighted), Country Survey 2020" )     
+     stub( "Caractéristique sociodémographique" );
+{FR}}
+
+  crosstab float(1) appc9 v101w+measurer+total colremea
+    exclude(rowzero,colzero,totals,percents,specval)
+{+EN}
+    title( "Table C.9  Height measurements from random subsample of measured children","",
+           "Differences in first height measurement and second height measurement among children under", 
+           "age 5 (0-59 months) randomly selected and remeasured, according to region and measurer (unweighted),",
+           "Country Survey 2020" )     
+     stub( "Region and measurer" );
+{EN+}
+{{ES}
+    title( "Table C.9  Height measurements from random sub-sample of measured children","",
+           "Differences in first height measurement and second height measurement among children under", 
+           "age 5 (0-59 months) randomly selected and remeasured, according to region and measurer (unweighted),",
+           "Country Survey 2020" )     
+     stub( "Region and measurer" );
+{ES}}
+{{FR}
+    title( "Table C.9  Height measurements from random sub-sample of measured children","",
+           "Differences in first height measurement and second height measurement among children under", 
+           "age 5 (0-59 months) randomly selected and remeasured, according to region and measurer (unweighted),",
+           "Country Survey 2020" )     
+     stub( "Region and measurer" );
+{FR}}
+  crosstab float(1) appc9w v101w+measurer+total remmed
+      exclude(rowzero,colzero,totals,percents,specval)
+
+  crosstab float(1) appc10 chage4+chage3+sex2+hv025w+hv024w+measurer+total interfch 
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table C.10  Interference in height and weight measurements of children"," ",
+           "Among children under age 5 measured for height or weight, percentage of children for whom", 
+		   "hairstyle or ornamentation interfered with height measurement and percentage of children who", 
+		   "were not minimally dressed or who wore heavy permanent ornaments during weight measurements,", 
+		   "according to background characteristics (unweighted), Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) appc11 v013w2+hv025w+hv024w+measurer+total isex*(interfer+numwom+numman)
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table C.11  Interference in height and weight measurements of women and men"," ",
+           "Among women age 15-49 and men age 15-[49] measured for height or weight and interviewed,", 
+		   "percentage of women and men for whom hairstyle or ornamentation interfered with height", 
+		   "measurement and percentage of women and men who were not wearing lightweight clothing or", 
+		   "who wore heavy permanent ornaments during weight measurements, according to", 
+		   "background characteristics (unweighted), Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) appc12 prefdig+dissimil prefwgt+prefhght
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table C.12  Heaping in anthropometric measurements for children (digit preference)"," ",
+           "Distribution of weight and height/length measurements by decimal digit recorded", 
+		   "(unweighted), Country Survey 2020" )
+     stub( "Digit" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) appc13 hv025w+hv024w+v190w+total mosqnet
+    exclude(rowzero,colzero,percents,totals,specval)
+	{ MALARIA - table C.7 }
+{+EN}
+    title( "Table C.13  Observation of mosquito nets"," ",
+           "Percentage of all mosquito nets observed by the interviewers,", 
+		   "according to background characteristics (weighted), Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) appc14 hv025w+hv024w+v190w+total hanwash1+hanwash2+tothh1
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table C.14  Observation of handwashing facility"," ",
+           "Percent distribution of handwashing facilities in all households by whether or", 
+		   "not they were observed by the interviewers,",
+		   "according to background characteristics (weighted), Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) appc15 ageeduc educatt+educprim+educsec+educoth+tot0424
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table C.15  School attendance by single year of age"," ",
+           "Percent distribution of the de jure population age 4-24 years by educational level and", 
+		   "grade attended in the current school year (weighted), Country Survey 2020" )
+     stub( "Age in years at beginning of school year" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) appc16 chage8+v102w+v101w+v190w+total vaccseen+vaccphot 
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table C.16  Vaccination cards photographed"," ",
+           "Percentage of children under age 3 reported to have a vaccination card, percentage whose", 
+		   "vaccination card was seen by the interviewer, percentages whose vaccination card was", 
+		   "photographed or was not photographed by reason, and among children with a vaccination", 
+		   "card seen, percentage of cards photographed,", 
+		   "according to background characteristics (weighted) Country Survey 2020" )
+     stub( "Background characteristic" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+  crosstab float(1) apcw4 v101w+total gateway
+    exclude(rowzero,colzero,percents,totals,specval)
+{+EN}
+    title( "Table C.W4  Checks on gateway questions on women's interviews (WORKING TABLE ONLY)"," ",
+           "Percentage of last pregnancies with no antenatal care, percentage of children under age 3", 
+		   "with no vaccinations, percentage of children under age 5 with no diarrhea or no fever/cough", 
+		   "in the last 2 weeks, percentage of women age 15-49 with no pregnancy losses, percentage of", 
+		   "women not using contraception, percentage of women who never had sex, and percentage of", 
+		   "women who never heard of HIV or AIDS,",
+		   "according to regions (weighted), Country Survey 2020" )
+     stub( "Region" );
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+
+
+  { tables appm8, appm9, & appm10 for malaria tables C.8, C.9 & C.10 }
+  crosstab float(0) appm8 v101w+totea+percentg biomnth1+numea
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table C.8  Number of enumeration areas completed by month and region","",
+	       "During the period of fieldwork, number of enumeration areas (EAs) completed by month,", 
+		   "according to region, and percent distribution of EAs completed by month, Country Survey 2020" );
+
+  crosstab float(1) appm9 hv024w+total biomnth2+totpct+numchild
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table C.9  Positive rapid diagnostic test (RDT) results by month and region", "",
+           "Among children age 6-59 month tested for malaria by RDT, percentage who tested positive by month", 
+		   "of fieldwork, according to region, Country Survey 2020" );
+  crosstab float(0) appm9w hv024w+total biomnth2+totpct+numchild
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table C.9  Positive RDT cases by month and region" );
+  crosstab float(0) appm9u hv024w+total biomnth2+totpct+numchild
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table C.9  Positive rapid diagnostic test (RDT) results by month and region (unweighted)" );
+
+  crosstab float(1) appm10 total concor+discor+other+totpct+numchild
+    exclude(rowzero,colzero,percents,totals,specval)
+    title( "Table C.10  Concordance and discordance between RDT and microscopy results", "",
+           "Among children age 6-59 month tested for malaria, percent distribution of results according", 
+		   "to concordance and discordance between RDT and microscopy test results,", 
+		   "Country Survey 2020" );
+  
+  { !!! make sure to properly recode the measurer code in such a way that teams start with 1 }
+  {     -if necessary use the recode statement                                               }
+  {     -In the formula below, first 2 digits for team and codes start with 1000             }
+  {     -Adjust working variable MEASURER if more than 20 teams                              }
+  function GetMeasurer( meascode )	
+    numeric x;
+    x = int(meascode/100)-10+1;
+    GetMeasurer = x;
+  end;	
+
+  { returns the four digit a decimal variable of length 4 }
+  function GetDecimal( value )
+    string strval;
+    strval   = edit( "9999", value);
+    GetDecimal = tonumber( strval[4:1] );
+  end;
+
+  { returns the four digit a decimal variable of length 4 }
+  function novacc( value )
+    numeric xx = 0;
+    if value in 0,notappl then
+      xx = 1;
+    endif;	  
+    novacc = xx;
+  end;
+
+PROC RECODE8_FF
+preproc
+
+  SetLanguage("EN");    // !!!change to language to be used from valuesets in working dicionary
+
+  totalp   = 0;
+  totall   = 0;
+  numpct1  = 1;
+  total    = 0;
+  emsample = 0;         { 0 - all women sample, 1 - ever married sample }
+  prevcl   = 0;
+  tothh1   = 1;
+  tot0424  = 1;
+  totpct   = 0;
+  numchild = 1;
+  totea    = 1;
+  numea    = 1;
+
+  yeareduc = 2020;         { !! year when the country's academic year start based for the survey's year, ask for it to CM }
+  mntheduc = 02;           { !! month when the country's academic year start based for the survey's year.  ask for it to CM }
+  cmceduci = cmcode( mntheduc, yeareduc );
+  seed(101);               { to initiate ramdomization for members age at the beginning of school year }
+
+  unweight = ( sysparm()[1:1] = "U" );   { 0-Weighted, 1-unweighted }
+
+postproc
+
+  { constructs table to determine whether run is weighted/unweighted }
+  txxx(unweight,0) = sysdate( "dd" );      { day   }
+  txxx(unweight,1) = sysdate( "mm" );      { month }
+  txxx(unweight,2) = sysdate( "yyyy" );    { year  }
+
+  { Table A.5 processing }
+  { households }
+  itot = tblrow( appa5, hhrate1 = 2 );
+  imax = tblrow( appa5, hhresul1 );
+  appa5[itot,*] = tblsum(row appa5[0:imax,*]);
+  do i = 0 while i <= imax
+    appa5[i,*] = 100 * appa5[i,*] / appa5[itot,*];
+  enddo;
+  appa5[itot-1,*] = tblsum(row appa5[0:imax,*]);
+  irate1 = tblrow( appa5, hhrate1 );
+  appa5[irate1,*] = 100 * appa5[0,*] /
+                   ( appa5[0,*]+appa5[1,*]+appa5[2,*]+appa5[3,*]+appa5[4,*] );
+  { women }
+  imin = tblrow( appa5, hhrate1 ) + 1;
+  itot = tblrow( appa5, wrate1 = 2 );
+  imax = tblrow( appa5, wresul1 );
+  appa5[itot,*] = tblsum(row appa5[imin:imax,*]);
+  do i = imin while i <= imax
+    appa5[i,*] = 100 * appa5[i,*] / appa5[itot,*];
+  enddo;
+  appa5[itot-1,*] = tblsum(row appa5[imin:imax,*]);
+  irate2 = tblrow( appa5, wrate1 );
+  appa5[irate2,*] = 100 * appa5[imin,*] / appa5[itot-1,*];
+  iorate = tblrow( appa5 );
+  appa5[iorate,*] = appa5[irate1,*] * appa5[irate2,*] / 100;
+
+  { Table A.6 processing }
+  { households }
+  itot = tblrow( appa6, hhrate1 = 2 );
+  imax = tblrow( appa6, hhresul1 );
+  appa6[itot,*] = tblsum(row appa6[0:imax,*]);
+  do i = 0 while i <= imax
+    appa6[i,*] = 100 * appa6[i,*] / appa6[itot,*];
+  enddo;
+  appa6[itot-1,*] = tblsum(row appa6[0:imax,*]);
+  irate1 = tblrow( appa6, hhrate1 );
+  appa6[irate1,*] = 100 * appa6[0,*] /
+                 ( appa6[0,*]+appa6[1,*]+appa6[2,*]+appa6[3,*]+appa6[4,*] );
+  { men }
+  imin = tblrow( appa6, hhrate1 ) + 1;
+  itot = tblrow( appa6, mrate1 = 2 );
+  imax = tblrow( appa6, mresul1 );
+  appa6[itot,*] = tblsum(row appa6[imin:imax,*]);
+  do i = imin while i <= imax
+    appa6[i,*] = 100 * appa6[i,*] / appa6[itot,*];
+  enddo;
+  appa6[itot-1,*] = tblsum(row appa6[imin:imax,*]);
+  irate2 = tblrow( appa6, mrate1 );
+  appa6[irate2,*] = 100 * appa6[imin,*] / appa6[itot-1,*];
+  iorate = tblrow( appa6 );
+  appa6[iorate,*] = appa6[irate1,*] * appa6[irate2,*] / 100;
+
+  { Table C.1 processing }
+  itot = tblrow( appc1 );
+  imax = itot - 1;  
+  do i = 0 while i <= imax
+    appc1(i,1) = 100 * appc1(i,0) / appc1(itot,0);
+    appc1(i,3) = 100 * appc1(i,2) / appc1(itot,2);
+  enddo;
+  appc1[itot,1] = tblsum( row appc1[0:imax,1] );
+  appc1[itot,3] = tblsum( row appc1[0:imax,3] );
+
+  { Table C.1f processing, based on appc1 }
+  itot = tblrow( appc1 );
+  totpop = appc1(itot,0) + appc1(itot,2);  
+  do i = 0 while i <= imax
+    appc1f(i,0) = 100 * appc1(i,0) / totpop * (-1);   // (-1) to properly establish the pyramid
+    appc1f(i,1) = 100 * appc1(i,2) / totpop;
+  enddo;
+
+//!!!! check position of ratios for next 2 tables
+
+  { Table C.2.1 processing }
+  itot = tblrow( appc21, age1549 );
+  imax = itot - 1;
+  do i = 0 while i <= imax
+    appc21(i,3) = 100 * appc21(i,2) / appc21(itot,2);
+    appc21(i,4) = 100 * appc21(i,2) / appc21(i,emsample);
+  enddo;
+  appc21[itot,3] = tblsum( row appc21[0:imax,3] );
+  appc21(itot,4) = 100 * appc21(itot,2) / appc21(itot,emsample);
+  { calculate ratios }
+  appc21(itot+1,4) = 100 * appc21(0,0) / appc21(1,0);           // ratio 10-14 to 15-19
+  appc21(itot+2,4) = 100 * appc21(itot-1,0) / appc21(itot-2,0); // ratio 50-54 to 45-49
+  { assign NA to appropriate cells }
+  do j = 2 while j <= 4
+    appc21(0,j)    = NACells;  // age 10-14
+    appc21(imax,j) = NACells;  // age 50-54
+    if j < 4 then 
+      appc21(itot+1,j) = NACells;  // ratio 10-14 to 15-19 
+      appc21(itot+2,j) = NACells;  // ratio 50-54 to 45-49 
+    endif;    
+  enddo;
+
+  { Table C.2.2 processing }
+  itot = tblrow( appc22, age1559 );
+  imax = itot-1;
+  do i = 0 while i <= imax
+    appc22(i,3) = 100 * appc22(i,2) / appc22(itot,2);
+    appc22(i,4) = 100 * appc22(i,2) / appc22(i,emsample);
+  enddo;
+  appc22[itot,3] = tblsum( row appc22[0:imax,3] );
+  appc22(itot,4) = 100 * appc22(itot,2) / appc22(itot,emsample);
+  { calculate ratios }
+  appc22(itot+1,4) = 100 * appc22(0,0) / appc22(1,0);           // ratio 10-14 to 15-19
+  appc22(itot+2,4) = 100 * appc22(itot-1,0) / appc22(itot-2,0); // ratio 50-54 [55-59/60-64] to 45-49 [50-54/55-59]
+  { assign NA to appropriate cells }
+  do j = 2 while j <= 4
+    appc22(0,j)    = NACells;
+    appc22(imax,j) = NACells;
+    if j < 4 then 
+      appc22(itot+1,j) = NACells;  // ratio 10-14 to 15-19 
+      appc22(itot+2,j) = NACells;  // ratio 50-54 to 45-49 
+    endif;    
+  enddo;
+
+  { Table C.3 processing }
+  { calculate ratios }
+  jtot   = tblcol( appc3 );
+  jratio = tblcol( appc3, singage1 = 15 );
+  appc3[*,jtot,*] = 100 * appc3[*,jratio,*] / appc3[*,jratio-1,*];
+
+  { Table C.4 processing }
+  { calculate ratios }
+  jtot   = tblcol( appc4 );
+  jratio = tblcol( appc4, singage2 = 50 );
+  appc4[*,jtot,*] = 100 * appc4[*,jratio,*] / appc4[*,jratio-1,*];
+
+  { Table C.5 processing }
+  jtot = tblcol( appc5, headings = 1 subheads = 5 );
+  appc5[*, jtot]  = tblsum( column appc5[*, 0:jtot-1] ); { Total = Live + Dead + stillbirths + miscarriages/abortions }
+  { % complete dates } 
+  jmin = jtot + 1;
+  jtot = tblcol( appc5, headings = 2 subheads = 5 );
+  appc5[*, jtot]    = tblsum( column appc5[*, jmin:jtot-1] );
+  k = 0;
+  do j = jmin while j <= jtot
+    appc5[*, j]    = 100 * appc5[*,j] / appc5[*,k];
+    k = k + 1;
+  enddo;	
+  { sex ratios }
+  appc5w[*, 2]   = appc5w[*, 0] + appc5w[*, 1];        { Total = Live + Dead }
+  appc5w[*, 5]   = appc5w[*, 3] + appc5w[*, 4];
+  jmin = tblcol( appc5, headings = 3 subheads = 1 );
+  jtot = tblcol( appc5w, isex = 1 livdead );
+  do j = 0 while j <= jtot 
+    if j = 2 then jmin = jmin + 2 endif;        // because no ratio for stillbriths/miscarriages, but ratio for total
+    appc5[*, jmin+j]  = 100 * appc5w[*,j+3] / appc5w[*,j];
+  enddo;	
+  { calendar ratios }  
+  jmin = tblcol( appc5, headings = 4 subheads = 1 );
+  jtot = tblcol( appc5 );
+  imax = tblrow(appc5, yrprec1);  
+  do i = 1 while i <= imax-1  
+    k = 0;  
+    do j = jmin while j <= jtot
+      appc5(i, j) = 200 * appc5(i,k) / (appc5(i-1,k) + appc5(i+1,k));
+	  k = k + 1;
+    enddo;	  
+  enddo;
+  appc5[imax,*] = default;                             { year 10 removed }
+  { assign NA to relevant cells }
+  appc5[0,jmin:jtot] = NACells;
+  itot = tblrow(appc5);  
+  appc5[imax+1:itot,jmin:jtot] = NACells;
+
+  { Table C.6 processing }
+  { children date of birth last 15 years }
+  imin = 0;
+  itot = tblrow( appc6, missdbc1 );
+  do i = imin while i <= itot
+    appc6(i,0) = 100 * appc6(i,0) / appc6(imin,1);
+    if i > imin then
+      appc6(i,1) = default;
+    endif;	  
+  enddo;	
+  { children date of birth last 5 years }
+  imin = itot + 1;
+  itot = tblrow( appc6, missdbc2 );
+  do i = imin while i <= itot
+    appc6(i,0) = 100 * appc6(i,0) / appc6(imin,1);
+    if i > imin then
+      appc6(i,1) = default;
+    endif;	  
+  enddo;	
+  { women date of birth }
+  imin = itot + 1;
+  itot = tblrow( appc6, missdbw );
+  do i = imin while i <= itot
+    appc6(i,0) = 100 * appc6(i,0) / appc6(imin,1);
+    if i > imin then
+      appc6(i,1) = default;
+    endif;	  
+  enddo;	
+  { men date of birth }
+  imin = itot + 1;
+  itot = tblrow( appc6, missdbm );
+  do i = imin while i <= itot
+    appc6(i,0) = 100 * appc6(i,0) / appc6(imin,1);
+    if i > imin then
+      appc6(i,1) = default;
+    endif;	  
+  enddo;	
+  { diarrhea last 2 weeks }
+  imin = itot + 1;
+  itot = tblrow( appc6, missdiar );
+  do i = imin while i <= itot
+    appc6(i,0) = 100 * appc6(i,0) / appc6(imin,1);
+  enddo;	
+  { anthropometry for children }
+  imin = itot + 1;
+  itot = tblrow( appc6, missantc );
+  do i = imin while i <= itot
+    appc6(i,0) = 100 * appc6(i,0) / appc6(imin,1);
+    if i > imin then
+      appc6(i,1) = default;
+    endif;	  
+  enddo;	
+  { anthropometry for women }
+  imin = itot + 1;
+  itot = tblrow( appc6, missantw );
+  do i = imin while i <= itot
+    appc6(i,0) = 100 * appc6(i,0) / appc6(imin,1);
+    if i > imin then
+      appc6(i,1) = default;
+    endif;	  
+  enddo;	
+  { anthropometry for men }
+  imin = itot + 1;
+  itot = tblrow( appc6, missantm );
+  do i = imin while i <= itot
+    appc6(i,0) = 100 * appc6(i,0) / appc6(imin,1);
+    if i > imin then
+      appc6(i,1) = default;
+    endif;	  
+  enddo;	
+  { anemia }
+  imin = itot + 1;
+  itot = tblrow( appc6, missanem );
+  do i = imin while i <= itot
+    appc6(i,0) = 100 * appc6(i,0) / appc6(i,1);
+  enddo;	
+  { malaria }
+  imin = itot + 1;
+  itot = tblrow( appc6 );
+  do i = imin while i <= itot
+    appc6(i,0) = 100 * appc6(i,0) / appc6(i,1);
+  enddo;	
+
+  { Table C.W1 processing }
+  itot = tblrow( apcw1 );
+  imax = itot - 1;
+  apcw1[imax,*] = tblsum( row apcw1[0:30,*] );            { total 0-30 }
+  apcw1[itot,*] = tblsum( row apcw1[0:6, *] );            { early neonatal }
+  apcw1[itot,*] = 100 * apcw1[itot,*] / apcw1[imax,*];    { % early neonatal }
+
+  { Table C.W2 processing }
+  itot = tblrow( apcw2 );
+  imax = itot - 1;
+  apcw2[imax,*] = tblsum( row apcw2[0:11,*] );         { died 0-11 months }
+  apcw2[itot,*] = 100 * apcw2[0,*] / apcw2[imax,*];    { % neonatal }
+
+  { Table C.W3 processing }
+  apcw3 = apcw3 / apcw3w;         
+
+  { Table C.8 processing }
+  jtot = tblcol( appc8, missdat  );                        { missing data panel }
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+     appc8[*,j] = 100 * appc8[*,j] / appc8[*,jtot];
+  enddo;
+  jtot = tblcol( appc8, outrdat = 2 );                     { height for age }
+  appc8[*,jtot-1] = 100 * appc8[*,jtot-1] / appc8[*,jtot];
+  jtot = tblcol( appc8, outrdat = 4 );                     { weight for height }
+  appc8[*,jtot-1] = 100 * appc8[*,jtot-1] / appc8[*,jtot];
+  jtot = tblcol( appc8, outrdat = 6 );                     { weight for age }
+  appc8[*,jtot-1] = 100 * appc8[*,jtot-1] / appc8[*,jtot];
+  jmin = jtot+1;
+  jtot = tblcol( appc8, validat  );                        { valid data panel }
+  jmax = jtot - 1;
+  do j = jmin while j <= jmax
+     appc8[*,j] = 100 * appc8[*,j] / appc8[*,jtot];
+  enddo;
+
+  { Table C.9 processing }
+  jtot = tblcol( appc9 );                        
+  jmax = jtot - 1;
+  do j = 1 while j <= jmax
+     appc9[*,j] = 100 * appc9[*,j] / appc9[*,jtot];
+  enddo;
+  appc9[*,0] = tblmed( column appc9w[*,0:90] intervals(highest default) );   // treat as continuous rounded data
+  appc9[*,0] = appc9[*,0] - 0.5;   // treat as continuous rounded data (-0.5 is because it is rounded data, not completed data)
+  appc9[*,0] = appc9[*,0] / 10;    // convert to cm
+  do i = 0 while i <= tblrow( appc9 )
+    if appc9(i,0) = default then
+      appc9(i,0) = 0
+    endif;
+    if appc9(i,2) < 10 then
+      appc9(i,0) = asterisk;
+      appc9(i,1) = asterisk;
+    endif;
+  enddo;
+
+  { Table C.10 processing }
+  jtot = tblcol( appc10 );                        
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+     appc10[*,j] = 100 * appc10[*,j] / appc10[*,jtot];
+  enddo;
+
+  { Table C.11 processing }
+  jtot1 = tblcol( appc11, isex = 1 numwom );                        
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+    appc11[*,j] = 100 * appc11[*,j] / appc11[*,jtot1];
+  enddo;
+  jtot2 = tblcol( appc11 );                        
+  jmax  = jtot2 - 2;
+  do j = jtot1+2 while j <= jmax
+    appc11[*,j] = 100 * appc11[*,j] / appc11[*,jtot2];
+  enddo;
+
+  { Table C.12 processing }
+  itot = tblrow( appc12 );
+  imax = itot - 1;
+  do j = 1 while j <= 3 by 2 
+    do i = 0 while i <= imax 
+      appc12(i,j) = 100 * appc12(i,j-1) / appc12(imax,j-1);
+    enddo;
+  enddo;	
+  { calculate dissimilarity index }
+  do j = 1 while j <= 3 by 2 
+    dissimidx = 0;
+    do i = 0 while i <= imax - 1 
+      dissimidx = dissimidx + abs(10 - appc12(i,j));
+    enddo;
+    appc12(itot,j)   = 0.5 * dissimidx;
+   	appc12(itot,j-1) = NACells;
+  enddo;	
+
+  { Table C.13 processing }
+  jtot = tblcol( appc13 );                        
+  jmax = jtot - 1;
+  do j = 0 while j <= jmax
+     appc13[*,j] = 100 * appc13[*,j] / appc13[*,jtot];
+  enddo;
+
+  { Table C.14 processing }
+  jtot = tblcol( appc14 );                        
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+     appc14[*,j] = 100 * appc14[*,j] / appc14[*,jtot];
+  enddo;
+  appc14[*,jmax+1] = tblsum( column appc14[*,0:jmax] );
+
+  { Table C.15 processing }
+  jtot = tblcol( appc15 );                        
+  jmax = jtot - 2;
+  do j = 0 while j <= jmax
+     appc15[*,j] = 100 * appc15[*,j] / appc15[*,jtot];
+  enddo;
+  appc15[*,jmax+1] = tblsum( column appc15[*,0:jmax] );
+
+  { Table C.16 processing }
+  jtot1 = tblcol( appc16, vaccseen );                        
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+     appc16[*,j] = 100 * appc16[*,j] / appc16[*,jtot1];
+  enddo;
+  jtot2 = tblcol( appc16 );                        
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+     appc16[*,j] = 100 * appc16[*,j] / appc16[*,jtot2];
+  enddo;
+
+  { Table C.W4 processing }
+  jtot1 = tblcol( apcw4, gateway = 2 );          // no antenatal care                      
+  jmax  = jtot1 - 1;
+  do j = 0 while j <= jmax
+     apcw4[*,j] = 100 * apcw4[*,j] / apcw4[*,jtot1];
+  enddo;
+  jtot2 = tblcol( apcw4, gateway = 4 );          // no vaccinations                        
+  jmax  = jtot2 - 1;
+  do j = jtot1+1 while j <= jmax
+     apcw4[*,j] = 100 * apcw4[*,j] / apcw4[*,jtot2];
+  enddo;
+  jtot3 = tblcol( apcw4, gateway = 7 );          // no diarrhea/no fever
+  jmax  = jtot3 - 1;
+  do j = jtot2+1 while j <= jmax
+     apcw4[*,j] = 100 * apcw4[*,j] / apcw4[*,jtot3];
+  enddo;
+  jtot4 = tblcol( apcw4 );                       // all women
+  jmax  = jtot4 - 1;
+  do j = jtot3+1 while j <= jmax
+     apcw4[*,j] = 100 * apcw4[*,j] / apcw4[*,jtot4];
+  enddo;
+
+  { Table M.8 processing }
+  { Tabulates data for last cluster }
+  v101w    = yreg;
+  biomnth1 = (CMCmax - 1) % 12 + 1;
+  xtab( appm8 );
+  itot     = tblrow( appm8 );
+  jtot     = tblcol( appm8 );
+  totden   = appm8(itot,jtot);
+  appm8[itot,*] = appm8[itot,*] * 100 / totden;
+
+  { Table M.9 processing }
+  jmax  = tblcol( appm9, totpct );
+  appm9[*,0:jmax] = appm9w[*,0:jmax] / appm9[*,0:jmax] * 100;
+  { check number of unweighted cases }
+  CellUnw( "appm9", appm9, appm9u );
+
+  { Table M.10 processing }
+  jtot  = tblcol( appm10 );
+  jmax  = jtot - 2;
+  do j = 0 while j <= jmax
+     appm10[*,j] = 100 * appm10[*,j] / appm10[*,jtot];
+  enddo;
+  appm10[*,jmax+1] = tblsum( column appm10[*,0:jmax] );
+
+PROC HOUSEHOLD
+preproc
+
+  { initialize array with children's CMC of birth }
+  do i = 1 while i <= 100
+    cmcbirth(i) = 0;
+  enddo;
+
+  hv024w   = HV024;
+  hv024w1  = HV024;
+  hv025w   = HV025;
+  hv025w1  = HV025;
+  v190w    = HV270;
+
+{ --------------------------------------------------------------------------- }
+{ Table A.5 }
+  
+  hhrate1  = notappl;
+  wresul1  = notappl;
+  wrate1   = notappl;
+  totratew = notappl;
+  recode HV015 -> hhresul1;
+          1:2  -> HV015;
+           3   -> 6;
+           4   -> 3;
+           5   -> 4;
+           6   -> 7;
+           7   -> 8;
+           8   -> 5;
+               -> 9;
+  endrecode;
+  xtab( appa5 );
+
+  if unweight then
+    hhweight = 1;
+  else
+    hhweight = HV005 / 1000000;
+  endif;
+  
+  { missing information variables for table c.6 }
+  missdbc1 = notappl;
+  missdbc2 = notappl;
+  missdbw  = notappl;
+  missdbm  = notappl;
+  missdiar = notappl;
+  missantc = notappl;
+  missantw = notappl;
+  missantm = notappl;
+  missanem = notappl;
+  missmal  = notappl;
+  
+  mresul1  = notappl;
+  mrate1   = notappl;
+  if HV027 = 1 then                        { household selected for male survey }
+    { table A.6 }
+    xtab( appa6 );
+
+    if unweight then
+      mhweight = 1;
+    else
+      mhweight = HV028 / 1000000;
+    endif;
+    if HV011 > 0 then                      { at least one eligible men }
+      for i in RECH1_EDT do
+        if HV118 = 1 then               { man is eligible }
+          MCASEID = concat( HHID, edit( "ZZ9", HVIDX ) );
+          if loadcase( MRECODE8, MCASEID ) then
+            hhresul1 = notappl;
+            mresul1  = MV015;
+            xtab( appa6 );
+
+            { Table C.2.2 }
+            housmen = notappl;
+            if MV015 = 1 then                { result complete }
+              hhage   = HV105(MV003);
+              age1559 = 1;
+              intmen  = 1;
+              hhage5m = int( hhage/5 ) - 2;
+              xtab( appc22, mhweight );
+
+              { individual/male weight for next two tables }
+              if unweight then
+                rweight = 1;
+              else
+                rweight = MV005 / 1000000;
+              endif;
+
+              { Table C.6 }
+			  { missing date of birth for men }
+			  missdbm  = 1;               
+              pctcases = 2;
+              xtab( appc6, rweight );
+              pctcases = 1;
+              if MV014 in 3,5  then       // month missing, year reported       { if ever married }
+                xtab( appc6, rweight )
+              endif;
+              if MV014 in 2,6,7,8  then   // year missing { if ever married }
+                missdbm = 2;
+                xtab( appc6, rweight )
+              endif;
+			  missdbm = notappl;
+
+            endif;             { end result complete }
+          endif;             { end load case }
+        endif;             { end man is eligible }
+      enddo;              { end for }
+    endif;             { end at least one men eligible }
+  endif;             { end household selected }
+  hhresul1 = notappl;
+
+{ --------------------------------------------------------------------------- }
+{ Table M.8 }
+
+  if HV001 <> prevcl then  { when cluster changes tabulate information about previous cluster }
+    if prevcl then
+      v101w = yreg;
+      { converting CMCmax to month }
+      biomnth1 = (CMCmax - 1) % 12 + 1;
+      xtab( appm8 );
+    endif;
+    { store variables needed for the cluster }
+    prevcl = HV001;
+    CMCmax   = 0;
+    yreg     = HV024;
+  endif;
+  { determine the last CMC when biomarker data was collected in cluster }
+  if HV807C > CMCmax then
+    CMCmax = HV807C;
+  endif;
+
+  if HV015 <> 1 then skip case; endif;
+
+postproc
+
+  v101w = HV024;        
+  v102w = HV025;        
+
+{ --------------------------------------------------------------------------- }
+{ Table C.1, C.2.1, C.2.2  }
+
+  for i in RECH1_EDT  do
+    if HV103 = 1 then                    { de-facto population }
+
+      { Table C.1 }
+      hhage = HV105;
+      if hhage in 98,missing then
+        hhage = 99
+      elseif hhage > 80 then
+        hhage = 80
+      endif;
+      isex3 = HV104;
+      if !HV104 in 1,2 then isex3 = notappl endif;	  
+      xtab( appc1, hhweight );
+
+      { Table C.2.1 }
+	  evermwom = notappl;
+      intwom   = notappl;
+      if hhage in 10:54 & HV104 = 2 then
+        age1549 = ( hhage in 15:49 );
+        hhage5 = int( hhage/5 ) - 2;
+        houswom = 1;
+        xtab( appc21, hhweight );
+        houswom = notappl;
+        { For ever married samples, change this to correct selection }
+        if HV020 & HV116 in 1,2 then
+          evermwom = 1;
+          xtab( appc21, hhweight );
+        endif
+      endif;
+
+      { Table C.2.2 }
+	  evermmen = notappl;
+      intmen   = notappl;
+      if HV027 = 1 & hhage in 10:64 & HV104 = 1 then   { !! Check CS age ranges for men !! }
+        age1559 = ( hhage in 15:59 );
+        hhage5m = int( hhage/5 ) - 2;
+        housmen = 1;
+        xtab( appc22, mhweight );
+        housmen = notappl;
+        { For ever married samples, change this to correct selection }
+        if HV020 & HV116(i) in 1,2 then
+          evermmen = 1;
+          xtab( appc22, mhweight );
+        endif
+      endif;
+    endif;                                  { de-facto population }
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table C.3 }
+
+  age1218 = 1;
+  for i in RECH1_EDT  do
+    if HV105 in 12:18 then
+	  singage1 = HV105;
+	  isex = 1;
+	  if HV104 = 1 then
+	    isex = 2
+      endif;		
+      xtab( appc3, hhweight );
+    endif;
+  enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ Table C.4 }
+
+  age4753 = 1;
+  for i in RECH1_EDT  do
+    if HV105 in 47:53 then
+	  singage2 = HV105;
+	  isex = 1;
+	  if HV104 = 1 then
+	    isex = 2
+      endif;		
+      xtab( appc4, hhweight );
+    endif;
+  enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ Table C.6 missing height/weight/anemia for children }
+
+  { missing information variables for table c.6 }
+  missdbc1 = notappl;
+  missdbc2 = notappl;
+  missdbw  = notappl;
+  missdbm  = notappl;
+  missdiar = notappl;
+  missantc = notappl;
+  missantw = notappl;
+  missantm = notappl;
+  missanem = notappl;
+  missmal  = notappl;
+
+  for i in RECH6_EDT do
+    ch = HC0;
+    agesingl = HV008 - HC32;
+    if HV103(ch) = 1 then                   { de-facto children }
+      missantc = 1;                              // height 
+      pctcases = 2;
+      xtab( appc6, hhweight );
+      pctcases = 1;
+      if HC3 in 9990:9998,missing,notappl then
+        xtab( appc6, hhweight )
+      endif;
+      if HC2 in 9990:9998,missing,notappl then
+        missantc = 2;                            // weight }
+        xtab( appc6, hhweight )
+      endif;
+      if HC2 in 9990:9998,missing,notappl |     // height or weight 
+         HC3 in 9990:9998,missing,notappl then
+        missantc = 3;                                       
+        xtab( appc6, hhweight )
+      endif;
+      missantc = notappl;                      
+
+      { anemia for children 6-59 months }
+      if HV042 = 1 & agesingl > 5 then
+        missanem = 1;                            // anemia for children }
+        pctcases = 2;
+        xtab( appc6, hhweight );
+        pctcases = 1;
+        if HC55 <> 0 | HC57 = missing then
+          xtab( appc6, hhweight )
+        endif
+      endif;
+	  missanem = notappl;
+
+      { malaria for children 6-59 months }
+      if HV042 = 1 & agesingl > 5 then
+        missmal  = 1;                            // anemia for children }
+        pctcases = 2;
+        xtab( appc6, hhweight );
+        pctcases = 1;
+		{ finds child in malaria record }
+		chmal = 0;
+		do j = 1 while j <= soccurs(RECHMH) & !chmal
+		  if HC0 = HMHIDX(j) then
+		    chmal = j;
+			break;
+		  endif;	
+		enddo;  
+        if chmal & (HML34(chmal) in "99990":"99998","?" | HML35(chmal) in 3:6,missing) then
+          xtab( appc6, hhweight )
+        endif
+      endif;
+	  missmal = notappl;
+ 
+    endif;                                  { end de-facto children }
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table C.6 missing height/weight/anemia for women }
+
+  for i in RECH5_EDT do
+    if HV103(HA0) = 1 then                  { de-facto women }
+      if HV105(HA0) in 15:49 then              { women 15-49 }
+        missantw = 1;                            // height }
+        pctcases = 2;
+        xtab( appc6, hhweight );
+        pctcases = 1;
+        if HA3 in 9990:9998,missing,notappl then
+          xtab( appc6, hhweight )
+        endif;
+        if HA2 in 9990:9998,missing,notappl then
+          missantw  = 2;                          // weight }
+          xtab( appc6, hhweight )
+        endif;
+        if HA2 in 9990:9998,missing,notappl |    // height or weight  
+		   HA3 in 9990:9998,missing,notappl then
+          missantw = 3;
+          xtab( appc6, hhweight )
+        endif;
+      endif;
+	  missantw = notappl;
+	  
+	  { anemia for women }
+      if HV042 = 1 then
+        missanem = 2;                         
+        pctcases = 2;
+        xtab( appc6, hhweight );
+        if HA55 <> 0 | HA57 = missing then
+          pctcases = 1;
+          xtab( appc6, hhweight )
+        endif
+      endif;
+	  missanem = notappl;
+	  
+    endif;                                  { end de-facto women }
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table C.6 missing height/weight/anemia for men }
+
+  for i in RECHMA_EDT do
+    if HV103(HB0) = 1 then                  { de-facto men }
+      if HV105(HB0) in 15:49 then              { men 15-49 }
+        missantm = 1;                            // height 
+        pctcases = 2;
+        xtab( appc6, hhweight );
+        pctcases = 1;
+        if HB3 in 9990:9998,missing,notappl then
+          xtab( appc6, hhweight )
+        endif;
+        if HB2 in 9990:9998,missing,notappl then
+          missantm = 2;                          // weight
+          xtab( appc6, hhweight )
+        endif;
+        if HB2 in 9990:9998,missing,notappl | HB3 in 9990:9998,missing,notappl then
+          missantm = 3;                          // height or weight
+          xtab( appc6, hhweight )
+        endif;
+      endif;
+	  missantm = notappl; 
+	  
+      { anemia for men }
+      if HV042 = 1 then
+        missanem = 3;
+        pctcases = 2;
+        xtab( appc6, hhweight );
+        pctcases = 1;
+        if HB55 <> 0 | HB57 = missing then
+          xtab( appc6, hhweight )
+        endif
+      endif;
+	  missanem = notappl;
+	  
+    endif;                                  { end de-facto men }
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ tables C.8, C.9, C10 }
+
+  for i in RECH6_EDT do
+    if HV103(HC0) = 1 then      { de-facto children }
+	  measurer = GetMeasurer(HC21);
+      agesingl = HC1;
+      recode agesingl -> chage4;
+              0:5     -> 0;
+              6:11    -> 1;
+             12:23    -> 2;
+             24:35    -> 3;
+             36:47    -> 4;
+                      -> 5;
+      endrecode;
+      recode agesingl -> chage3;
+              0:23    -> 1;
+             24:59    -> 2;
+                      -> default;
+      endrecode;
+      sex2     = HC27;
+      mothstat = notappl;
+      v106wt   = notappl;
+      mother   = HV112(HC0);
+      if HC60 in 1:HV009 then
+        mothstat = 1;                          { child's mother interviewed }
+        v106wt   = HC61;                       { mother's education }
+        if HC61 in 8,missing then v106wt = 9 endif;
+      else                                     { mother was not interviewed }
+        recode  mother -> mothstat;
+                  0    -> 3;                 { mother not in household }
+         missing,98,97 -> 9;                 { missing }
+                       -> 2;                 { mother lives in household }
+        endrecode;
+        if mother in 1:HV009 then                 { mother lives in household }
+          v106wt = HV106(mother);              { mother's education from HH }
+          if HV106(mother) in 8,missing then v106wt = 9 endif;
+        endif;
+      endif;
+
+      { table C.8 }
+
+      { height or weight not taken }
+      missdat  = notappl;
+      outrdat  = notappl;
+      validat  = notappl;
+      { height }
+      if special(HC3) | HC3 >= 9990 then
+        missdat = 1;
+        xtab( appc8 );
+      endif;
+      { weight }
+      if special(HC2) | HC2 >= 9990 then
+        missdat = 2;
+        xtab( appc8 );
+      endif;
+      { completeness of birth date }
+      if !HC33 in 0,1 then                      
+        missdat = 3;
+        xtab( appc8 );
+      endif;
+      { all children under 5 }
+      missdat = 4;
+      xtab( appc8 );
+      missdat  = notappl;
+      { flagged height for age }
+      if HC70 >= 9990 then
+        outrdat = 1;
+        xtab( appc8 );
+      endif;
+      { valid birth date and height }
+      if HC33 in 0,1 & HC3 in 0:5000 then
+        outrdat = 2;
+        xtab( appc8 );
+      endif;
+      { flagged weight for height }
+      if HC72 >= 9990 then
+        outrdat = 3;
+        xtab( appc8 );
+      endif;
+      { children with valid weight and height }
+      if HC2 in 0:5000 & HC3 in 0:5000 then
+        outrdat = 4;
+        xtab( appc8 );
+      endif;
+      { flagged weight for age }
+      if HC71 >= 9990 then
+        outrdat = 5;
+        xtab( appc8 );
+      endif;
+      { valid birth date and weight }
+      if HC33 in 0,1 & HC2 in 0:5000 then
+        outrdat = 6;
+        xtab( appc8 );
+      endif;
+      outrdat  = notappl;
+      { valid height for age }
+      if !special(HC70) & HC70 < 9990 then
+        validat = 1;
+        xtab( appc8 );
+      endif;
+      { valid weight for height }
+      if !special(HC72) & HC72 < 9990 then
+        validat = 2;
+        xtab( appc8 );
+      endif;
+      { valid weight for age }
+      if !special(HC71) & HC71 < 9990 then
+        validat = 3;
+        xtab( appc8 );
+      endif;
+      { all children under 5 }
+      validat = 4;
+      xtab( appc8 );      
+      validat  = notappl;
+      
+      { table C.9 }
+      
+      if HC3A in 0:2000 & HC3B in 0:2000 & HC35 in 1,3 then
+        remdif = abs(HC3A - HC3B);
+        colremea = 3;                      // total children sucessfully remeasured
+        xtab( appc9 );
+        if remdif > 10 then                // > 1 cm difference
+          colremea = 2;
+          xtab( appc9 );
+        endif;  
+        { median }
+        remmed = remdif;
+        if remmed > 90 then remmed = 90 endif;
+        xtab( appc9w );
+      endif;
+      
+      { table C.10 }
+      
+	  interfch = 3;
+      xtab( appc10 );
+      if HC24 = 1 then     // measurement interfered by braid or ornament
+        interfch = 1;
+        xtab( appc10 );
+      endif;		
+      if HC22 = 0 then     // child was not minimally dressed
+        interfch = 2;
+        xtab( appc10 );
+      endif;		
+      
+    endif;
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ tables C.11 women }
+
+  isex = 1;
+  numman   = notappl;
+  interfer = notappl;
+  for i in RECH5_EDT do
+    if HV103(HA0) = 1 & HA1 in 15:49 & HA65 = 1 then    { de-facto women 15-49 with a complete individual interview }
+	  measurer = GetMeasurer(HA21);
+      recode HA1  -> v013w2;	  
+            15:19 -> 1;
+            20:29 -> 2;
+            30:39 -> 3;
+            40:49 -> 4;
+			      -> default;
+      endrecode;
+      numwom = 1;	  
+      xtab( appc11 );
+      numwom = notappl;	  
+      if HA24 = 1 then     // measurement interfered by braid or ornament
+        interfer = 1;
+        xtab( appc11 );
+      endif;		
+      if HA22 = 0 then     // woman was not minimally dressed
+        interfer = 2;
+        xtab( appc11 );
+      endif;		
+    endif;
+  enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ tables C.11 men }
+
+  isex = 2;
+  numwom   = notappl;
+  interfer = notappl;
+  for i in RECHMA_EDT do
+    if HV103(HB0) = 1 & HB1 in 15:49 & HB65 = 1 then    { de-facto men 15-49 with a complete individual interview  }
+	  measurer = GetMeasurer(HB21);
+      recode HB1  -> v013w2;	  
+            15:19 -> 1;
+            20:29 -> 2;
+            30:39 -> 3;
+            40:49 -> 4;
+			      -> default;
+      endrecode;
+      numman = 1;	  
+      xtab( appc11 );
+      numman = notappl;	  
+      if HB24 = 1 then     // measurement interfered by braid or ornament
+        interfer = 1;
+        xtab( appc11 );
+      endif;		
+      if HB22 = 0 then     // man was not minimally dressed
+        interfer = 2;
+        xtab( appc11 );
+      endif;		
+    endif;
+  enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ tables C.12 }
+
+  for i in RECH6_EDT do
+    prefhght = notappl;
+    { children with valid weight }
+    if HC2 in 0:5000 then
+      prefwgt = 1;
+	  prefdig = GetDecimal(HC2);
+      xtab( appc12 );
+    endif;
+    { valid birth date and height }
+    prefwgt = notappl;
+    if HC3 in 0:5000 then
+      prefhght = 1;
+	  prefdig = GetDecimal(HC3);
+      xtab( appc12 );
+    endif;
+  enddo;	  
+
+{ --------------------------------------------------------------------------- }
+{ tables C.13 }
+
+  for i in RECHML_EDT do 	
+    mosqnet = 2;
+    xtab( appc13,  hhweight );
+    if HML3 = 1 then    // mosquito net observed by interviewer
+      mosqnet = 1;
+      xtab( appc13, hhweight );
+    endif;
+  enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ tables C.14 }
+
+  hanwash1 = notappl;
+  hanwash2 = notappl;
+  if HV230A in 1,2 then
+    hanwash1 = HV230A
+  elseif HV230A in 3:5 then	
+    hanwash2 = HV230A - 2;
+  endif;
+  xtab( appc14, hhweight );
+
+{ --------------------------------------------------------------------------- }
+{ tables C.15 }
+
+  { adjust the the country's CMC school year when the survey goes across two school calendar years }
+  cmceducf = cmceduci;
+  if HV008 >= cmceduci+12 then cmceducf = cmceduci + 12 endif;
+  for i in RECH1_EDT do 	
+    educatt  = notappl;
+	educprim = notappl;
+	educsec  = notappl;
+	educoth  = notappl;
+    { calculate age at the beginning of country's school year }
+    if cmcbirth(i) <> 0 then
+      ageeduc = int( (cmceducf-cmcbirth(i)) / 12 );
+    else
+      { impute an age at the beginnig of the school year when CMC of birth unknown }
+      xtemp    = HV008 - HV105*12;
+      cmctemp  = random( xtemp-11, xtemp );
+      ageeduc  = int( (cmceducf-cmctemp) / 12 );
+    endif;
+	if HV102 = 1 & HV105 in 4:24 then  // de-jure 0-24 population 
+	  if !HV121 in 1,2 then                        // currently not attending/attended school
+	    educatt = 1;
+      elseif HV122 = 0 then 		               // preschool
+	    educatt = 2;
+      elseif HV122 in 8,missing | HV123 = 0 then   // DK level, 0 is not valid for current school year attending 	
+	    educoth = 2;
+      elseif HV122 = 1 then 		               // primary
+	    educprim = HV123;
+		if HV123 > 6 then educprim = 6 endif;
+      elseif HV122 = 2 then 		               // secondary
+	    educsec = HV123;
+		if HV123 > 6 then educsec = 6 endif;
+      elseif HV122 = 3 then 		               // higher
+	    educoth = 1;
+      endif;		
+      xtab( appc15, hhweight );
+    endif;
+  enddo;	
+  
+{ --------------------------------------------------------------------------- }
+{ Table M.9 }
+
+  if HV042 = 1 then       { household selected for malaria/(hemoglobin) }
+    biomnth2 = HV807M;
+    for i in RECH6_EDT do
+      if HV103(HC0) = 1 & HC1 in 6:59 then
+		{ finds child in malaria record }
+		chmal = 0;
+		do j = 1 while j <= soccurs(RECHMH) & !chmal
+		  if HC0 = HMHIDX(j) then
+		    chmal = j;
+			break;
+		  endif;	
+		enddo;  
+        { rapid test (RDT) for malaria }
+        if chmal & HML35(chmal) in 0,1 then
+          xtab( appm9, hhweight );
+          xtab( appm9u );
+          if HML35(chmal) = 1 then
+            xtab( appm9w, hhweight );
+          endif;
+        endif;
+      endif;                 { end de-facto children 6-59 }
+    enddo;
+  endif;
+  
+{ --------------------------------------------------------------------------- }
+{ Table M.10 }
+
+  if HV042 = 1 then       { household selected for malaria/(hemoglobin) }
+    biomnth2 = HV807M;
+    for i in RECH6_EDT do
+      if HV103(HC0) = 1 & HC1 in 6:59 then
+		{ finds child in malaria record }
+		chmal = 0;
+		do j = 1 while j <= soccurs(RECHMH) & !chmal
+		  if HC0 = HMHIDX(j) then
+		    chmal = j;
+			break;
+		  endif;	
+		enddo;  
+		concor = notappl;
+		discor = notappl;
+		other  = notappl;
+        { rapid test (RDT) for malaria }
+        if chmal & HML35(chmal) in 0,1 & HML32(chmal) in 0:7 then
+		  if HML35(chmal) = HML32(chmal) then              // concordant and both 0,1
+		    recode HML35(chmal) :: HML32(chmal) -> concor;
+                      1         ::    1         -> 1; 			
+                      0         ::    0         -> 2; 			
+                                ::              -> default;
+            endrecode;
+		  elseif HML32(chmal) in 0,1 then               // discordant, but both 0,1
+		    recode HML35(chmal) :: HML32(chmal) -> discor;
+                      1         ::    0         -> 1; 			
+                      0         ::    1         -> 2; 			
+                                ::              -> default;
+            endrecode;
+          else
+            other = 1;
+          endif;			
+          xtab( appm10, hhweight );
+        endif;
+      endif;                 { end de-facto children 6-59 }
+    enddo;
+  endif;
+
+PROC WOMAN
+preproc
+
+{ --------------------------------------------------------------------------- }
+{ Table A.5 continuation }
+
+  wresul1  = V015;
+  xtab( appa5 );
+
+  if V015 <> 1 then skip case; endif;
+
+postproc
+
+  { general variables }
+  v101w = V101;
+  v102w = V102;
+  v013w = V013;
+  v106w = V106;
+  if V106 in 8,missing then v106w = 9 endif;
+  v190w  = V190;
+
+  if unweight then
+    rweight = 1;
+  else
+    rweight = V005 / 1000000;
+  endif;
+
+  { store children's CMC of birth to be used in level 1 for table C.15 }
+  for i in REC21_EDT do
+    if B16 in 1:HV009 then
+      cmcbirth(B16) = B3
+    endif
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Table C.2.1 continuation }
+
+  age1549 = 1;
+  houswom = notappl;
+  intwom  = 1;
+  hhage   = HV105(V003);
+  hhage5  = int( hhage/5 ) - 2;
+  xtab( appc21, hhweight );
+
+{ --------------------------------------------------------------------------- }
+{ Tables C.5 }
+
+  for i in REC22_EDT do
+
+    yy = int(P19/12);       
+    recode yy -> yrprec1;
+         0:10 -> yy;         { year 10 included to calculate ratio for year 9 }
+              -> notappl;
+    endrecode;
+    recode yy -> yrprec2;
+         0:4  -> 1;
+         5:9  -> 2;
+        10:14 -> 3;
+        15:19 -> 4;
+              -> 5;
+    endrecode;
+	livdead   = notappl;
+    headings  = 1;
+    if P32 = 1 & P5 = 1 then      // living children
+      subheads = 1;
+	  livdead  = 1;
+    elseif P32 = 1 & P5 = 0 then  // dead children
+      subheads = 2;
+	  livdead  = 2;
+    elseif P32 = 2 then           // stillbirths
+      subheads = 3
+    elseif P32 in 3,4 then        // miscarriages, abortions
+      subheads = 4
+    endif;
+    xtab( appc5, rweight );
+    headings  = 2;
+    if P10 in 0,1 then
+      xtab( appc5, rweight );
+    endif;
+	if livdead in 1,2 then       // sex ratio is only for live births
+	  recode P4 -> isex;
+	          2 -> 1;
+			    -> 2;
+      endrecode;
+      xtab( appc5w, rweight );
+    endif;	  
+  enddo;	
+
+{ --------------------------------------------------------------------------- }
+{ Table C.6 }
+
+  { missing information variables for table c.6 }
+  missdbc1 = notappl;
+  missdbc2 = notappl;
+  missdbw  = notappl;
+  missdbm  = notappl;
+  missdiar = notappl;
+  missantc = notappl;
+  missantw = notappl;
+  missantm = notappl;
+  missanem = notappl;
+  missmal  = notappl;
+
+  { missing date of birth for women }
+  missdbw  = 1;               
+  pctcases = 2;
+  xtab( appc6, rweight );
+  pctcases = 1;
+  if V014 in 3,5  then       // month missing, year reported       { if ever married }
+    xtab( appc6, rweight )
+  endif;
+  if V014 in 2,6,7,8  then   // year missing { if ever married }
+    missdbw = 2;
+    xtab( appc6, rweight )
+  endif;
+  missdbw = notappl;
+  
+  { missing date of birth for children }
+  for i in REC22_EDT do
+    { outcomes in last 15 years }
+    if P32 in 1,2 & P19 < 180 then                  
+      missdbc1 = 1;                              // day only 
+      pctcases = 2;
+      xtab( appc6, rweight );
+      pctcases = 1;
+      if P10 in 1 then
+         xtab( appc6, rweight );
+      endif;
+      if P10 in 3:6 then
+        missdbc1 = 2;                           // missing month, year reported
+        xtab( appc6, rweight );
+      endif;
+      if P10 in 2,6:9 then
+        missdbc1 = 3;                           // missing month, year reported
+        xtab( appc6, rweight )
+      endif;
+    endif;                                    { end outcomes last 15 years }
+    missdbc1 = notappl;
+
+    { outcomes in last 5 years }
+    if p32 in 1,2 & P19 < 60 then 
+      missdbc2 = 1;                              // day only 
+      pctcases = 2;
+      xtab( appc6, rweight );
+      pctcases = 1;
+      if P10 in 1 then
+         xtab( appc6, rweight );
+      endif;
+      if P10 in 3:6 then
+        missdbc2 = 2;                           // missing month, year reported
+        xtab( appc6, rweight );
+      endif;
+      if P10 in 2,6:9 then
+        missdbc2 = 3;                           // missing month, year reported
+        xtab( appc6, rweight )
+      endif;
+    endif;                                    { end outcomes last 5 years }
+    missdbc2 = notappl;
+	
+  enddo;
+
+  { Table C.6 missing diarrhea }
+  for i in REC4A_EDT do
+    if B5(HIDXA) = 1 then
+      missdiar = 1;                              // diarrhea in last 2 weeks 
+      pctcases = 2;
+      xtab( appc6, rweight );
+      pctcases = 1;
+      if H11 in 8,missing then
+        xtab( appc6, rweight );
+      endif;
+    endif;
+  enddo;
+  missdiar = notappl;
+
+{ --------------------------------------------------------------------------- }
+{ Tables C.W1, C.W2 }
+
+  for i in REC21_EDT do
+    period = int( B19 / 60 );
+    if period <= 3 then                           { born in period 0-19 years }
+      if int( B6/100 ) = 1 then                   { age at death in days }
+        agedd = B6 % 100;
+        if agedd = missing | agedd > 95 then
+          agedd = 32
+        elseif agedd > 30 then
+          agedd = 31
+        endif;
+        xtab( apcw1, rweight );
+        if agedd = 31 then agedm = 1 else agedm = 0 endif;
+        xtab( apcw2, rweight );
+      elseif int( B6/100 ) = 2 then               { age at death in months }
+        agedm = B6 % 100;
+        if agedm = missing | agedm > 95 then
+          agedm = 25
+        elseif agedm > 23 then
+          agedm = 24
+        endif;
+        xtab( apcw2, rweight );
+      elseif int( B6/100 ) = 3 & B6 % 100 = 1 then   { died at 1 year }
+        agedm = 26;
+        xtab( apcw2, rweight );
+      endif;
+    endif;                                  { end born in period 0-19 years }
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ Tables C.W3 }
+
+  meanch1  = 1;
+  meantype = 1;
+  xtab( apcw3, V201*rweight );
+  xtab( apcw3w, rweight );
+  meantype = 2;
+  deceased = V206 + V207;
+  xtab( apcw3, deceased*rweight );
+  xtab( apcw3w, rweight );
+  
+{ --------------------------------------------------------------------------- }
+{ Tables C.16 }
+
+  for i in REC43_EDT do
+    recode B19(HIDX) -> chage8;
+              0:11   -> 0;
+             12:23   -> 1;
+             24:35   -> 2;
+                     -> default;
+    endrecode;					  
+    vaccphot = notappl;
+	vaccseen = 6;                    // all children
+    xtab( appc16, rweight );
+	if H1 in 1:2 | H1A in 3:4 then   // have a vaccination card 
+      vaccseen = 1;               
+      xtab( appc16, rweight );
+    endif;
+	if H1 = 1 then                   // vaccination card seen
+      vaccseen = 2;               
+      xtab( appc16, rweight );
+    endif;
+	recode H26 -> vaccseen;    
+	        1  ->  3;           // photograph taken
+	        2  ->  4;           // not photographed, permission not received
+	        6  ->  5;           // not photographed, other reason
+               ->  notappl;
+    endrecode;			   
+    xtab( appc16, rweight );
+	vaccseen = notappl;
+	if H1 = 1 then                   // vaccination card seen
+	  vaccphot = 2;
+      xtab( appc16, rweight );
+      if H26 = 1 then 	             // photograph taken 
+        vaccphot = 1;
+        xtab( appc16, rweight );
+      endif;	
+    endif;	  
+  enddo;
+  
+{ --------------------------------------------------------------------------- }
+{ Tables C.W4 }
+
+  { antenatal care }
+  for i in REC41_EDT do
+    if M80 in 1,3 then       // most recent live birth and stillbirth
+      gateway = 2;
+      xtab( apcw4, rweight );
+	  if M2N = 1 then                     // no antenal care
+        gateway = 1;
+        xtab( apcw4, rweight );
+      endif;
+    endif;
+  enddo;	
+  
+  { routine vaccination }
+  for i in REC43_EDT do
+    gateway = 4;                          // number of children under 3
+    xtab( apcw4, rweight );
+	{ following variables listed in the order of the core questionnaire }
+    if novacc(H2)  & novacc(H50) & novacc(H0)  & novacc(H4)  & novacc(H6)  & novacc(H8)  & novacc(H60) &
+       novacc(H3)  & novacc(H5)  & novacc(H7)  & novacc(H67) & novacc(H54) & novacc(H55) & novacc(H56) &
+       novacc(H57) & novacc(H58) & novacc(H59) & novacc(H9)  & novacc(H9A) & novacc(H33) then 
+      gateway = 3;
+      xtab( apcw4, rweight );
+    endif;
+  enddo;	
+  
+  { fever/diarrhea }
+  for i in REC4A_EDT do
+    gateway = 7;
+    xtab( apcw4, rweight );
+    if H12Y = 1 then                        // no diarrhea 
+      gateway = 5;
+      xtab( apcw4, rweight );
+    endif;
+    if H32Y = 1 then                        // no fever
+      gateway = 6;
+      xtab( apcw4, rweight );
+    endif;
+  enddo;	
+  
+  { for all women }
+  gateway = 12;
+  xtab( apcw4, rweight );
+  if !count( REC22 where P32 in 2:4 ) then  // no pregnancy losses
+    gateway = 8;
+    xtab( apcw4, rweight );
+  endif;	
+  if V312 = 0 then                          // not using contraception
+    gateway = 9;
+    xtab( apcw4, rweight );
+  endif;	
+  if V525 = 0 then                          // never had sex
+    gateway = 10;
+    xtab( apcw4, rweight );
+  endif;	
+  if V751 = 0 then                          // never heard of AIDS 
+    gateway = 11;
+    xtab( apcw4, rweight );
+  endif;	
+	

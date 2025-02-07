@@ -1,0 +1,35 @@
+[Dictionary]
+Version=CSPro 2.5
+Label=temp
+Name=TEMP_DICT
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=temp questionnaire
+Name=TEMP_QUEST
+
+[IdItems]
+
+[Item]
+Label=temp identification
+Name=TEMP_ID
+Start=1
+Len=5
+DataType=Alpha
+
+[Record]
+Label=temp record
+Name=TEMP_REC
+RecordTypeValue=''
+RecordLen=10
+
+[Item]
+Label=Lab id
+Name=TLABID
+Start=6
+Len=5
+ZeroFill=Yes

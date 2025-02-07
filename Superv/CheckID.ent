@@ -1,0 +1,33 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=CheckID
+Name=CheckID
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+[External Dictionaries]
+File=..\Dicts\CONTSUP.dcf
+File=..\Dicts\ccHH80.dcf
+File=..\Dicts\ccIN80.dcf
+File=..\Dicts\SampSel.dcf
+File=..\Dicts\Transmit.dcf
+File=..\Dicts\Remeasure.dcf
+[AppCode]
+File=.\CheckID.apc
+Include=..\Library\DPCollect.apc
+Include=..\Library\HTMLFunctions.apc
+[Message]
+File=.\CheckID.mgf
+[Help]
+File=.\CheckID.qsf
+[Forms]
+File=..\Entry\Cnull.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\Cnull.dcf,Input,..\Entry\Cnull.fmf
+Dict-Type=..\Dicts\CONTSUP.dcf,External
+Dict-Type=..\Dicts\ccHH80.dcf,External
+Dict-Type=..\Dicts\ccIN80.dcf,External
+Dict-Type=..\Dicts\SampSel.dcf,External
+Dict-Type=..\Dicts\Transmit.dcf,External
+Dict-Type=..\Dicts\Remeasure.dcf,External

@@ -1,0 +1,25 @@
+﻿[CSPro Application]
+Version=CSPro 7.7
+Label=Central Menu
+Name=CentralMenu
+AppType=DataEntry
+ShowEndCaseDialog=No
+CAPI=Yes
+[External Dictionaries]
+File=..\Dicts\Clusters.dcf
+File=..\Dicts\Interv.dcf
+File=..\Dicts\Control.dcf
+[AppCode]
+File=.\CentralMenu.apc
+Include=..\Library\HTMLFunctions.apc
+[Message]
+File=.\CentralMenu.mgf
+[Help]
+File=.\CentralMenu.qsf
+[Forms]
+File=..\Entry\Menu.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Menu.dcf,Input,..\Entry\Menu.fmf
+Dict-Type=..\Dicts\Clusters.dcf,External
+Dict-Type=..\Dicts\Interv.dcf,External
+Dict-Type=..\Dicts\Control.dcf,External

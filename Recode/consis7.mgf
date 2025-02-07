@@ -1,0 +1,722 @@
+0050 HV020=%01d HV102=%01d
+0051 HV020=%01d HV103=%01d
+
+0100 V005=%08d V015=%01d
+0101 V006=%02d V007=%02d V008=%04d
+0102 V015=%01d V009=%02d V010=%02d V011=%04d V012=%02d V013d=%01d V014=%01d
+0103 V009=%02d V010=%02d V011=%04d
+0104 V008=%04d V011=%04d V012=%02d
+0105 V012=%02d V013=%01d
+0106 V016=%02d V006=%02d V007=%02d
+0107 V008=%04d V017=%04d
+0108 V015=%01d V018=%02d V019=%02d V019A=%01d
+0109 V015=%01d V008=%04d V017=%02d V018=%02d V019=%02d
+0110 V008=%04d V017=%02d V018=%02d V019=%02d
+0111 V015=%01d V024=%02d V025=%01d V026=%01d V101=%02d V102=%01d V134=%01d
+0112 V018=%02d V019=%02d V019A=%01d
+0113 V034=%02d V003=%02d HV009=%02d
+0114 V034=%02d HV104=%1d HV105=%02d
+
+1101 V012=%02d V104=%02d
+1102 V104=%02d V105=%02d
+1103 V106=%01d V107=%02d
+1104 V012=%02d V133=%02d
+1105 HV009=%02d:V136=%02d HV014=%02d:V137=%02d HV010=%02d:V138=%02d  HV101(%02d)=%02d:V150=%02d HV219=%01d:V151=%01d HV220=%02d:V152=%02d HV270=%01d:V190=%01d HV271=%08d:V191=%08d HML12(%02d)=%01d:ML101=%01d
+1106 V015=%01d V136=%02d V137=%02d V138=%02d
+1107 V136=%02d V137=%02d V138=%02d
+1108 V138=%02d V136=%02d
+1109 V113=%02d V114=%02d V142=%01d
+1110 V148=%01d HV110=%01d
+1111 V150=%02d HV101=%02d
+1112 V151=%01d HV104=%01d
+1113 V152=%02d HV105=%02d
+1114 V020=%01d AWFACTT=%05d AWFACTU=%05d AWFACTR=%05d AWFACTE=%05d AWFACTW=%05d
+1115 V149=%01d V106=%01d
+1116 V113=%02d:HV201=%02d  V115=%03d:HV204=%03d  V116=%02d:HV205=%02d  V119=%01d:HV206=%01d  V120=%01d:HV207=%01d  V121=%01d:HV208=%01d
+1117 V122=%02d:HV209=%02d  V123=%01d:HV210=%02d  V124=%01d:HV211=%01d  V125=%01d:HV212=%01d  V127=%02d:HV213=%02d  V128=%02d:HV214=%02d
+1118 V129=%02d:HV215=%02d  V153=%01d:HV221=%01d  V160=%01d:HV225=%01d  V161=%02d:HV226=%02d  V166=%03d:HV234=%03d
+1119 V135=%01d HV102=%01d
+1120 V155=%01d V106=%01d
+1121 V156=%01d V106=%01d
+1122 V106=%01d V157=%01d V156=%01d
+1123 HV102(V003)=%01d V113=%02d V115=%03d V116=%02d V119=%01d V120=%01d V121=%01d V122=%01d V123=%01d V124=%01d V125=%01d
+1124 HV102(V003)=%01d V127=%02d V128=%02d V129=%02d V139=%03d V140=%01d V141=%01d V153=%01d V160=%01d V161=%02d V166=%03d
+1125 V167=%02d V168=%01d
+
+2101 Child=%02d BIDX=%02d
+2102 Child=%02d BORD=%02d
+2103 Child=%02d B3=%04d Child=%02d B3=%04d
+2104 Child=%02d B0=%01d B3=%04d Child=%02d B0=%01d B3=%04d
+2105 Child=%02d B0=%01d B3=%04d
+2106 Child=%02d B1=%02d B2=%02d B3=%04d
+2107 Child=%02d B5=%01d B6=%03d B7=%03d B13=%01d
+2108 Child=%02d B5=%01d B8=%02d B9=%01d
+2109 Child=%02d B5=%01d V008=%04d B3=%02d B8=%02d
+2110 Child=%02d B5=%01d B7=%03d V008=%04d B3=%04d
+2111 Child=%02d B3=%04d B12=%03d Child=%02d B3=%04d
+2112 Child=%02d B3=%04d B12=%03d
+2113 Child=%02d B3=%04d B11=%03d Child=%02d B3=%04d
+2114 Child=%02d B3=%04d B11=%03d
+2115 Child=%02d B6=%03d B7=%03d B13=%02d
+2116 Child=%02d B3=%04d Child=%02d B3=%02d
+2117 Child=%02d B5=%01d B6=%03d B7=%03d B13=%01d
+2118 Child=%02d B5=%01d B8=%02d B9=%01d
+2119 Child=%02d B3=%04d V011=%04d minam=%03d
+2120 Child=%02d B3=%04d V008=%04d
+2121 Child=%02d B3=%04d V008=%04d V018=%02d Row(%02d)=%1s
+2122 Child=%02d B3=%04d V008=%04d V018=%02d x=%02d
+2124 Child=%02d B16=%02d
+2125 Child=%02d B16=%02d HV112=%02d V003=%02d
+2126 Child=%02d B16=%02d HV104=%01d B4=%01d
+2127 Child=%02d B16=%02d HV105=%01d B8=%01d
+2128 Child=%02d B16=%02d HV102=%01d B9=%01d
+2129 Mother has child %02d listed in household, but not in birth history
+
+2201 REC21=%02d V201=%02d
+2202 V202=%02d Count=%02d
+2203 V203=%02d Count=%02d
+2204 V204=%02d Count=%02d
+2205 V205=%02d Count=%02d
+2206 V206=%02d Count=%02d
+2207 V207=%02d Count=%02d
+2208 V208=%02d Count=%02d
+2209 V209=%02d Count=%02d
+2210 V210=%02d Count=%02d
+2211 V211=%04d V201=%02d B3=%04d
+2212 V212=%02d V201=%02d B3=%04d V011=%04d
+2214 V214=%02d V008=%04d B3=%04d
+2215 V215=%03d V201=%02d
+2216 V216=%01d V215=%03d
+2217 V215=%03d V226=%03d V227=%01d B3=%04d V008=%04d
+2218 V218=%02d Count=%02d
+2219 V219=%02d V218=%02d V213=%01d
+2220 V220=%01d V219=%02d
+2221 V221=%03d V224=%02d B3=%04d V509=%04d
+2222 V222=%03d V224=%02d B3=%04d V008=%04d
+2223 V223=%01d V225=%01d V213=%01d
+2224 REC22=%02d V224=%02d
+2225 V228=%01d
+2226 V228=%01d V229=%02d V230=%02d V231=%04d V232=%01d
+2227 V228=%01d V017=%04d V231=%04d V233=%02d V234=%02d
+2228 V229=%02d V230=%04d V231=%04d Check=%04d V232=%01d Check=%01d Termination in row %02d
+2229 V235=%02d Count=%02d
+2230 V215=%03d V226=%03d Check=%03d V227=%01d
+2231 V238=%1d Count=%1d
+2232 V239=%01d V240=%02d V241=%04d V229=%02d V230=%04d V231=%04d
+2233 V239=%01d V240=%02d V241=%04d V229=%02d V230=%04d V231=%04d
+2234 V239=%01d V240=%02d V241=%04d V229=%02d V230=%04d
+2235 V239=%01d V240=%02d V241=%04d V242=%04d V243=%01d
+2236 V240=%02d V241=%04d V242=%04d Check=%04d V243=%01d Check=%01d
+
+3101 V301=%01d Check=%01d
+3102 V302=%01d Check=%01d
+3104 Method=%02d V304=%01d V305=%01d
+3105 Method=%02d V304A=%01d
+3106 Method=%02d V305=%01d V307=%01d
+
+3200 V312=%02d V307=%01d
+3201 V310=%02d V302=%01d V201=%02d
+3202 V311=%01d V310=%02d
+3203 V312=%02d V213=%01d V302=%01d
+3204 V312=%02d V305=%01d
+3205 V313=%01d V312=%02d
+3207 V312=%02d V305(6)=%01d V305(7)=%01d
+3208 V312=%02d V315=%02d V316=%02d V317=%04d V318=%01d V319=%01d V320=%01d V321=%01d V322=%01d
+3209 V312=%02d V317=%04d V008=%04d
+3210 V317=%04d V316=%02d V315=%02d
+3211 V319=%01d V317=%04d V008=%04d
+3212 V320=%01d V317=%04d V011=%04d
+3213 V321=%01d V317=%04d V509=%04d
+3214 V322=%01d V317=%04d Count=%01d
+3215 V312=%02d V323=%02d
+3216 V312=%02d V319=%01d V320=%01d V321=%01d V322=%01d
+3217 V312=%02d V326=%02d V327=%01d V3A07=%02d
+3218 V312=%02d V317=%04d V008=%04d B3=%04d
+3219 V312=%02d V337=%03d
+3220 V312=%02d V337=%03d V008-V317=%04d V019=%02d
+3221 length of vcalmeth = %02d for calendar %03s used
+3222 V312=%02d V337=%02d Check=%02d V018=%02d
+3223 V337=%03d V019=%02d
+3224 V312=%02d Cal1[Intv]="%s"
+3225 V312=%02d V323A=%02d
+3226 V312=%02d V325A=%02d
+
+3236 V359=%02d Check=%02d V360=%02d Check=%02d
+3237 V361=%01d V312=%02d OBI Use=%01d V302=%01d V302A = %01d
+3238 V361=%01d V362=%01d
+3239 V312=%02d V362=%01d V363=%02d
+3240 V364=%01d V312=%02d V362=%01d
+3241 V208=%01d V238=%01d V367=%01d M10(1)=%01d
+3243 V602=%1d V362=%1d V363=%2d V376=%2d V376A=%1d
+3246 V362=%01d V376=%02d
+3248 V313=%01d V326=%02d V327=%02d V379=%02d x379=%02d V380=%02d x380=%02d
+3249 V312=%02d V372=%01d
+3250 V312=%02d V372A=%01d
+
+3255 V375A=%02d V312=%02d V213=%01d V605=%01d
+3256 V376A=%01d V376=%02d
+3257 V395=%01d V394=%01d
+3261 V3A01=%01d V312=%02d
+3262 V3A02=%01d V312=%02d V316=%04d
+3263 V3A03=%01d V3A02=%01d
+3264 V3A04=%01d V3A03=%01d V3A02=%01d
+3265 V3A05=%01d V312=%02d V316=%04d
+3266 V3A06=%01d V3A05=%01d V312=%02d
+3267 V3A08Z=%01d V3A08A-X:Counts of Yes=%1d Missing=%1d NA=%1d
+3268 V3A08A=%01d V605=%01d V312=%02d V213=%01d
+3269 V3A00Y=%01d V3A00Z=%01d V3A00A-X:Counts of Yes=%1d Missing=%1d NA=%1d
+3270 V312=%02d V3A09A=%01d
+3271 V312=%02d V372A=%01d
+
+4101 Entry=%01d V008=%04d B3=%04d
+4102 Entry=%01d MIDX=%01d
+4103 Entry=%01d REC21=%02d
+4104 Entry=%01d V008=%04d B3=%04d
+4105 Entry=%01d M4=%02d B5=%01d
+4106 Entry=%01d M4=%02d M5=%02d Check=%02d M27=%01d B3=%04d B7=%03d V008=%04d
+4107 Entry=%01d M6=%02d M7=%02d Check M7=%02d M28=%01d
+4108 Entry=%01d M8=%02d M9=%02d Check=%02d M29=%01d V213=%01d V008=%04d B3=%04d
+4109 Entry=%01d B0=%01d Twin(%01d) coded differently for M1-M50
+4110 Entry=%01d M4=%02d M5=%02d M27=%01d V008=%04d B3=%04d
+4111 Entry=%01d M4=%02d Next birth=%01d
+4112 Entry=%01d M6=%02d M7=%02d M28=%01d Interval=%02d
+4113 Entry=%01d M6=%02d M7=%02d M28=%01d V215=%03d V226=%03d V227=%01d Interval=%02d
+4114 Entry=%01d M8=%02d M9=%02d M29=%01d Interval=%02d 
+4115 Entry=%01d M8=%02d M9=%02d Duration=%02d M29=%01d V527=%03d V529=%03d V530=%01d Interval=%02d
+4116 Entry=%01d M2N=%01d M2A-M:Counts of Yes=%1d Missing=%1d NA=%1d
+4117 Entry=%01d M3N=%01d M3A-M:Counts of Yes=%1d Missing=%1d NA=%1d
+4118 Entry=%01d M10=%01d M11=%03d
+4119 Entry=%01d M13=%02d M14=%02d M2N=%01d
+4120 Entry=%01d M15=%02d M17=%01d
+4121 Entry=%01d M19=%04d M19A=%01d
+4122 Entry=%01d M57A=%02d M2N=%01d
+4123 Entry=%01d M4=%02d M5=%02d M27=%01d B7=%03d
+4124 Entry=%01d M4=%02d M34=%03d
+4125 Entry=%01d M4=%02d M35=%02d M36=%02d
+4128 Entry=%01d B9=%1d B5=%1d M38=%01d M39=%02d
+4136 Entry=%01d M42A=%01d M42B=%01d M42C=%01d M42D=%01d M42E=%01d M43=%02d M2N=%01d
+4137 Entry=%01d M44=%02d M43=%01d
+4138 Entry=%01d M46=%03d M45=%01d
+4139 Entry=%01d M49Z=%01d M49A-G,X:Counts of Yes=%1d Missing=%1d NA=%1d
+4140 Entry=%01d M55Z=%01d M55A-N,X:Counts of Yes=%1d Missing=%1d NA=%1d
+
+4142 Entry=%01d M57X=%03d count of notappl=%01d count of answers=%01d
+4143 Entry=%01d M60=%03d M45=%01d
+4144 Entry=%01d M15=%02d M61=%01d
+4145 Entry=%01d M15=%02d M62=%01d
+4146 Entry=%01d M62=%02d M63=%03d
+4147 Entry=%01d M70=%02d M71=%03d
+4148 Entry=%01d M70=%02d M72=%03d
+4149 Entry=%01d M70=%02d M73=%03d
+
+4160 Entry=%01d V468=%01d M1=%01d M1A=%01d M1B=%02d M1C=%04d M1D=%02d M1E=%04d M2N=%01d M13=%02d M14=%02d
+4161 Entry=%01d V468=%01d M42A=%01d M42B=%01d M42C=%01d M42D=%01d M42E=%01d M43=%01d M44=%01d M45=%01d M46=%03d M47=%01d M48=%01d
+4162 Entry=%01d V468=%01d M49X=%01d M54=%01d M55X=%01d M57X=%01d M60=%01d M70=%01d M71=%03d M72=%02d M73=%02d
+
+4201 V401=%01d V417=%01d M15(1)=%2d
+4203 V404=%01d count(REC41) with M4(i)=95 is %d
+4204 V405=%01d M6=%02d
+4205 V406=%01d M8=%02d
+
+4207 V415=%01d V417=%01d B5(1)=%01d
+4208 V416=%01d Count H13 = 1 or 2 is :%01d
+4209 V417=%01d Count=%01d
+4210 V418=%01d Count=%01d
+4211 V419=%01d Count=%01d
+4212 V419=%01d V420=%02d V421=%02d
+4213 V437=%04d V438=%04d
+4214 V447=%1d V437=%04d V438=%04d
+4215 V447=%1d V437=%04d V438=%04d
+4216 V404=%01d V407=%02d V408=%02d
+4218 V426=%02d M4(1)=%02d
+4219 V452A=%1d V452B=%1d V452C=%1d V453=%1d V454=%1d V455=%1d V456=%1d V457=%1d V458=%1d V042=%1d
+4220 V419=%1d %V437=%04d V438=%04d
+4221 V447=%1d
+4222 Index to RECH5=%1d V447=%1d
+4223 V447A=%02d HA1(%1d)=%02d
+4224 V452A=%1d V452C=%1d V455=%1d V042=%1d
+4225 V452A=%1d V452B=%02d HV009=%02d V003=%02d HV116=%1d
+4226 V452C=%1d V453=%03d V454=%1d V455=%1d V456=%3d V457=%1d
+4227 V453=%03d V455=%1d V456=%03d V457=%1d
+4228 V454=%1d V213=%1d
+4229 V453=%03d V454=%1d V456=%03d <> adjanem=%03d V457=%1d <> anemlev=%1d altitude=%05d
+4230 x=%01d V409....V414E = %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d
+4231 x=%01d V414F...V414U = %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d %01d
+4232 V473A=%02d HA61(%1d)=%02d
+4233 V473B=%02d HA63(%1d)=%02d
+
+4259 V459=%1d V460=%1d HV227=%1d HV228=%1d
+4263 V463Z=%01d V463A-G:Counts of Yes=%1d Missing=%1d NA=%1d
+4264 V464=%02d V463A=%1d
+4265 V465=%02d Children < 5 living with respondent = %1d
+4266 V466=%01d Living children with Resp.= %1d
+4267 x=%1d V471A...G=%1d %1d %1d %1d %1d %1d %1d
+4268 x=%1d V472A...U=%1d %1d %1d %1d %1d %1d %1d %1d %1d %1d %1d %1d %1d %1d %1d %1d %1d %1d %1d %1d %1d
+4269 V474Z=%01d V474A-J,X:Counts of Yes=%01d Missing=%01d NA=%01d
+4270 V474=%01d V475=%01d
+4271 V474=%01d V476=%01d
+4272 V477=%02d V478=%02d
+4273 V477=%02d V478=%02d V479=%02d
+4274 V479=%02d V480=%01d
+4275 V481A...X count of NA=%02d
+4276 V482A=%01d
+4277 V482B=%01d V482C=%01d
+
+4300 Entry=%01d HIDX=%01d IDX95=%01d
+4301 Child=%02d V008=%04d B3=%04d B5=%01d
+4302 Entry=%01d HIDX=%01d
+4303 Entry=%01d REC21=%02d
+4304 Entry=%01d V008=%04d B19=%04d B5=%01d
+4305 Entry=%01d H1=%01d H1A=%01d H2=%01d H3=%01d H4=%01d H5=%01d H6=%01d H7=%01d H8=%01d H9=%01d H0=%01d H33=%01d H40=%01d
+4306 Entry=%01d H%01d=%01d:(%02d/%02d/%02d)
+4307 Entry=%01d H%01d=%01d:(%02d/%02d/%04d)[%04d] MIN=%02d/%02d/%04d[%04d] Birth=%02d/%04d
+4308 Entry=%01d H1=%01d H10=%01d
+4309 Entry=%01d H11=%01d H12Y=%01d H13=%01d H14=%01d H15-H15H=%1d%1d%1d%1d%1d%1d%1d%1d%1d H20=%01d H21A=%01d H21=%01d H38=%01d H39=%01d
+4312 Entry=%01d B5=%01d H11=%01d H22=%01d H31=%01d
+4313 Entry=%01d H11=%01d H12Y=%01d H13=%01d H14=%01d H15-H15H=%1d%1d%1d%1d%1d%1d%1d%1d%1d%1d%1d%1d%1d%1d H20=%01d H21=%01d
+4317 Entry=%01d H12Y=%01d H12A-X:Counts of Yes=%1d Missing=%1d NA=%1d
+4318 Entry=%01d H31=%01d H31B=%01d
+4320 Entry=%01d H32Y=%01d H32A-X:Counts of Yes=%1d Missing=%1d NA=%1d
+4321 Entry=%01d H21A=%01d H13=%1d H14=%1d H15-H15H,H20:Counts of Yes=%1d Missing=%1d NA=%1d
+4323 Entry=%01d H31=%01d H32Y=%01d
+4324 Entry=%01d H31B= %01d H22 =%01d H37Y/ML13Y=%01d
+4325 Entry=%01d H35=%1d H36A=%1d H36B=%1d H36C=%1d H36D=%1d H36E=%1d H36F=%1d
+4326 Entry=%01d H37Y=%01d H37Z=%01d H37A-X:Counts of Yes=%1d Missing=%1d NA=%1d
+4327 Entry=%01d H35=%01d H36A=%01d H36B=%01d H36C=%01d H36D=%01d H36E=%01d H36F=%01d
+4328 Entry=%01d H33=%01d H41A=%01d
+4331 Entry=%01d answers=%01d H44A=%01d
+4332 Entry=%01d answers=%01d H44B=%01d
+4333 Entry=%01d H15E=%01d H45=%02d
+4334 Entry=%01d H11=%01d H44C=%02d
+4335 Entry=%01d answers=%01d H46A=%01d
+4336 Entry=%01d answers=%01d H46B=%01d
+
+4390 Vaccination flag =%01d
+4391 BCG........%02d/%02d/%04d
+4392 Polio......%02d/%02d/%04d..%02d/%02d/%04d..%02d/%02d/%04d..%02d/%02d/%04d
+4393 DPT........%02d/%02d/%04d..%02d/%02d/%04d..%02d/%02d/%04d
+4394 Measles....%02d/%02d/%04d
+4395 Vitamin A1.%02d/%02d/%04d
+4396 Vitamin A2.%02d/%02d/%04d
+
+4400 Entry=%01d HWIDX=%01d IDX96=%01d
+4401 Child=%02d V008=%04d B3=%04d B5=%01d
+4402 Entry=%01d HWIDX=%01d
+4403 Entry=%01d REC21=%02d
+4404 Entry=%01d HW1=%02d HV008=%04d B19=%04d B5=%01d B9=%01d
+4405 Entry=%01d HW2=%03d HW3=%04d B10=%01d HW4=%04d HW5=%04d HW6=%05d HW7=%04d HW8=%04d HW9=%05d HW10=%04d HW11=%04d HW12=%05d HW70=%05d HW71=%05d HW72=%05d HW73=%05d
+4406 Entry=%01d HW2=%03d HW3=%04d HW13=%01d
+4407 Entry=%01d B5=%01d HW1=%02d HW2=%03d HW3=%04d HW13=%01d HW15=%01d HW16=%02d HW17-HW19=%2d/%2d/%4d
+4409 Entry=%01d HW1=%02d HW15=%01d
+4412 Entry=%01d Index to RECH6=%1d HW13=%1d
+4413 Entry=%01d HW1=%02d HC1(%1d)=%02d
+4414 Entry=%01d HW1=%02d V008-B3=%02d B5=%01d B9=%01d HV008=%04d V008=%04d
+4415 Entry=%01d HW52=%01d HW55=%01d
+4416 Entry=%01d HW53=%03d HW55=%01d
+4417 Entry=%01d HW55=%01d HW56=%03d
+4418 Entry=%01d HW51=%02d HW52=%01d HW53=%03d HW55=%01d HW56=%04d HW57=%01d HW58=%01d
+
+5100 V501=%01d V020=%01d
+5101 V501=%01d V502=%01d
+5102 V501=%01d V502=%01d V503=%01d V507=%02d V508=%02d V509=%04d V510=%01d V511=%02d V512=%02d V513=%01d
+5103 V502=%01d V504=%01d V505=%02d
+5104 V505=%02d V506=%02d
+5105 V507=%02d V508=%02d V509=%04d
+5106 V509=%04d V008=%04d V011=%04d Minam=%03d
+5107 V509=%04d V511=%02d V011=%04d
+5108 V509=%04d V512=%02d V008=%04d
+5109 V512=%02d V513=%01d
+5116 V525=%02d V201=%02d V501=%01d
+5117 V525=%02d V527=%03d V528=%02d V529=%03d V530=%01d V531=%02d V532=%01d
+5118 V525=%02d V212=%02d V012=%02d V531=%02d V532=%01d
+
+5120 V527=%03d V528=%02d
+5121 V501=%01d HV115(%02d)=%01d
+5122 V502=%01d HV116(%02d)=%01d
+5123 V527=%03d V528=%02d V529=%03d Check=%03d V530=%01d
+5124 V525=%02d V531=%02d Check=%02d V532=%01d
+5125 V535=%1d V502=%1d
+5126 V536=%1d Check=%1d V525=%02d V527=%03d V406=%1d
+5127 V537=%02d Check=%1d V536=%1d V529=%03d M9(1)=%02d
+5128 V501=%01d V538=%01d
+5129 V501=%01d V538=%01d V539=%01d
+5130 V501=%01d V538=%01d V539=%01d V540=%01d
+5131 V525=%01d V013=%01d V541=%01d
+
+6101 V602=%1d V312=%02d
+6104 V602=%01d V603=%03d
+6105 V603=%03d V604=%01d
+6106 V605=%01d V602=%01d V604=%01d
+6109 V613=%02d V614=%01d
+6110 V616=%03d V602=%01d
+6113 V621=%01d V502=%01d V312=%02d
+6114 V623=%01d Check=%01d V624=%01d Check=%01d
+6115 V625=%01d Check=%01d V626=%01d Check=%01d
+6117 V627=%02d V628=%02d V629=%02d V613=%02d
+6120 V631=%01d V605=%01d V312=%02d V213=%01d
+6121 V632=%01d V501=%01d V312=%02d
+6122 V634=%01d V501=%01d V312=%02d
+
+7101 V730=%02d V502=%01d
+7102 V730=%02d V034=%02d HV105=%02d
+7103 V701=%01d V704=%03d V715=%02d V729=%01d V501=%01d
+7104 V701=%01d V702=%02d
+7105 %s=%03d %s=%02d
+7106 V716=%03d V717=%02d V731=%01d
+7107 V731=%01d V714=%01d
+7108 V719=%01d V721=%01d V731=%01d
+7109 V731=%01d V732=%01d
+7110 V739=%01d V741=%01d
+7111 V716=%03d V717=%02d V740=%01d
+7115 V746=%01d V741=%01d
+7116 V746=%01d V743F=%01d
+7117 V502=%01d V743A=%01d V743B=%01d V743C=%01d V743D=%01d V743E=%01d V743F=%01d
+
+7502 V761=%01d V525=%02d V527=%03d
+7503 V750=%01d Check=%01d V751=%01d V785=%01d
+7507 V756=%01d V751=%01d
+7509 V766B=%02d V761=%01d V761B=%01d V761C=%01d
+7510 V766B=%02d V767A=%02d V767B=%02d V767C=%02d
+7512 V767A=%02d V768A=%03d V767B=%02d V768B=%3d V767C=%02d V768C=%03d
+7513 V762AZ=%01d V762AA-AX:Counts of Yes=%1d Missing=%1d NA=%1d
+7514 V762BZ=%01d V762BA-BX:Counts of Yes=%1d Missing=%1d NA=%1d
+7515 V763A=%01d V763B=%01d V763C=%01d V763D=%01d V763E=%01d V763F=%01d V763G=%01d V525=%02d
+7516 V762AZ=%01d V769=%01d
+7517 V762BZ=%01d V769A=%01d
+7518 V763A=%01d V763B=%01d V763C=%01d V763D=%01d V763E=%01d V763F=%01d V763G=%01d V77%1d=%01d
+7519 V770=%01d V770A=%01d
+7520 Entry=%01d V770X=%03d count of notappl=%01d count of answers=%01d
+7524 V775=%01d V751=%01d
+7526 V777=%01d V778=%01d V779=%01d V780=%01d V781=%01d V751=%01d
+7527 V751=%01d V781=%01d V783=%01d
+7530 V761=%01d V761B=%01d V761C=%01d V766A=%02d V767A=%01d V767B=%01d V767C=%01d V768A=%03d V768B=%03d V768C=%03d
+7531 V783=%01d V784A=%01d
+7532 Entry=%01d V784X=%03d count of notappl=%01d count of answers=%01d
+
+8101 V027=%01d V028=%03d V029=%02d V804=%01d V805=%03d V806=%02d
+8102 V801=%04d V802=%04d V803=%02d x=%04d V804=%01d
+
+8210 V525=%02d V013=%01d V820=%02d
+8220 V820=%01d V830=%02d
+8221 V830=%02d V831=%01d
+8230 V821A=%01d V821B=%01d V821C=%01d V832B=%03d V832C=%03d V833A=%01d V833B=%01d V833C=%01d V834A=%02d V834B=%02d V834C=%02d V835A=%01d V835B=%01d V835C=%01d
+8231 V761=%01d V835A=%01d
+8232 V832B=%03d V835B=%01d
+8233 V832C=%03d V835C=%01d
+8240 V761=%01d V833A=%01d
+8241 V761B=%01d V833B=%01d
+8242 V761C=%01d V833C=%01d
+8245 V767A=%01d V013=%01d V834A=%01d
+8246 V767B=%01d V013=%01d V834B=%01d
+8247 V767C=%01d V013=%01d V834C=%01d
+8248 V767A=%01d V013=%01d V834A=%01d V821A=%01d
+8249 V767B=%01d V013=%01d V834B=%01d V821B=%01d
+8250 V767C=%01d V013=%01d V834C=%01d V821C=%01d
+8251 V751=%01d V837=%01d
+8252 M2N(1)=%01d V838A=%01d
+8253 V838A=%01d V838B=%01d V838C=%01d V840=%01d V841=%01d V842=%01d V843=%01d
+8254 V751=%01d V840=%01d V841=%01d
+8255 V751=%01d V825=%01d V828=%01d V842=%01d V844=%01d
+8256 V201=%02d V238=%01d births24 = %01d M2N(1)=%01d V838A=%01d
+8257 V502=%01d V850A=%01d V850B=%01d
+8258 V781=%01d V826=%01d
+
+8301 Entry=%02d MMIDX=%02d
+8302 Entry=%02d MM5=%01d MM3=%02d MMC5=%02d
+8303 Entry=%02d MM9=%01d MM1=%01d MM2=%01d MM7=%02d MMC5=%02d
+8304 Entry=%02d MM9=%01d MM10=%01d
+8305 Entry=%02d MM9=%01d MM12=%01d
+8306 Entry=%02d MM14=%01d MM1=%01d MM2=%01d MM7=%02d MMC5=%02d
+
+8401 MMC1=%02d Soccurs=%02d
+8402 MMC2=%02d Range=%02d-%02d MMC1=%02d
+8403 MMC3=%02d HV009=%02d
+8404 MMC3=%02d HV117=%01d
+8405 Entry=%02d MMC4=%02d HV009=%02d
+8406 Entry=%02d MMC4=%02d HV117=%01d
+8407 MMC5=%02d
+
+9000 Cal(%01d)[%02d]="%s"
+
+9101 Cal(1)[%02d]="%s"
+9102 Cal(1)[%02d]="%s" CMC=%0d B3(%01d)=%04d
+9103 Cal(1)[%02d:%01d]="%s"
+9104 Cal(1)[%02d:%01d]="%s" 
+9105 Births in calendar (inc. twins)=%01d Check=%01d
+9106 Cal(1)[%02d]="%s" V312=%02d
+
+9201 Cal(2)[%02d]="%s"
+9202 Cal(1)[%02d:2]="%s" Cal(2)[%02d]="%s"
+9203 Cal(1)[%02d:2]="%s" Cal(2)[%02d]="%s"
+
+9301 Cal(3)[%02d]="%s"
+9302 Cal(3)[%02d]="%s" V501=%01d V503=%01d V509=%04d
+9303 Cal(3)[%02d:%02d]="%s" V501=%01d V503=%01d V509=%04d
+
+9401 Cal(4)[%02d]="%s"
+9402 Cal(4)[%02d:2]="%s"
+
+9501 Cal(5)[%02d]="%s"
+9502 Cal(1)[%02d:2]="%s" Cal(5)[%02d]="%s"
+9503 Cal(1)[%02d:2]="%s" Cal(5)[%02d]="%s"
+
+9600 Child=%02d IDX92=%02d BIDX=%02d
+
+9650 Entry=%01d MIDX=%01d IDX94=%01d
+
+9702 Entry=%01d IDXML=%01d
+9703 Entry=%01d sOccurs(REC21)=%02d
+9704 Entry=%01d V008=%04d B19=%04d
+9709 Entry=%01d B0=%01d Entry=%01d
+9720 Entry=%01d ML1=%02d ML2=%01d
+9721 Entry=%01d H22=%01d H31=%01d ML11=%02d
+9722 Entry=%01d ML13Y=%01d ML13Z=%01d V3A00A-X:Counts of Yes=%1d Missing=%1d NA=%1d
+9723 Entry=%01d answers=%02d ML15C=%01d ML16C=%01d ML17C=%01d ML18C=%01d ML20C=%01d ML21C=%01d ML22C=%01d ML23C=%01d ML24C=%01d
+9724 Entry=%01d ML13A=%01d ML15A=%01d ML15B=%01d
+9725 Entry=%01d ML13B=%01d ML16A=%01d ML16B=%01d
+9726 Entry=%01d ML13C=%01d ML17A=%01d ML17B=%01d
+9727 Entry=%01d ML13D=%01d ML18A=%01d ML18B=%01d
+9728 Entry=%01d ML13E=%01d ML20A=%01d ML20B=%01d
+9729 Entry=%01d ML13F=%01d ML21A=%01d ML21B=%01d
+9731 Entry=%01d ML13H=%01d ML23A=%01d ML23B=%01d
+
+{* Household *}
+
+10000 HV000=%3s V000=%3s HV001=%08d V001=%08d HV002=%04d V002=%04d HV024=%02d V024=%02d HV025=%01d V025=%01d
+10001 HV026=%01d V026=%01d HV040=%04d V040=%04d HV042=%01d V042=%01d
+10002 HV004=%04d V004=%04d HV020=%01d V020=%01d HV021=%04d V021=%04d HV022=%04d V022=%04d HV023=%02d V023=%02d
+10003 HV008=%04d V008=%04d
+10004 V003=%02d HV009=%02d HV117(%02d)=%01d
+10005 HV019=%02d V029=%02d HV030=%02d V030=%02d HV031=%02d V031=%02d HV032=%02d V032=%02d
+10006 Line number of respondent %02d also used in individual questionnaire %02d
+10007 Child %02d: Line number of child (B16=%02d) also used in individual questionnaire %02d
+10008 OUT DHS 6 HV043=%01d V043=%01d
+10009 HV044=%01d V044=%01d
+
+{* Number of HH members *}
+10100 HV006=%02d HV007=%02d HV008=%04d
+10101 HV009=%02d HV010=%02d HV011=%02d HV014=%02d
+10102 HV009=%02d HV012=%02d HV013=%02d
+10103 HV01%01d=%02d HV010=%02d HV011=%02d
+{* Sample weight *}
+10104 HV005=%08d HV015=%01d
+
+10105 HV027=%01d HV028=%08d HV015=%01d
+10106 HV009=%02d Count=%02d
+10107 HV010=%02d Count=%02d
+10108 HV011=%02d Count=%02d
+10109 HV012=%02d Count=%02d
+10110 HV013=%02d Count=%02d
+10111 HV014=%02d Count=%02d
+10112 HV035=%02d Count=%02d
+10113 HV041=%02d Count=%02d
+
+{* HH schedule variables *}
+11000 Entry=%02d HVIDX=%02d
+11001 Entry=%01d HVIDX=%02d IDXH4=%02d
+
+11003 Entry=%02d HV102=%01d HV103=%01d
+11004 Entry=%02d HV101=%02d HV104=%01d
+11005 Entry=%02d HV106=%01d HV107=%02d preschool = %01d
+11006 Entry=%02d HV109=%01d HV106=%01d
+11007 Entry=%02d HV106=%01d HV105=%02d
+11008 Entry=%02d HV105=%02d HV106=%01d HV110=%01d
+11009 Entry=%02d HV105=%02d HV111=%01d HV112=%02d HV113=%01d HV114=%02d
+11010 Entry=%02d HV111=%01d HV112=%02d HV113=%01d HV114=%02d
+11011 Entry=%02d HV11%01d=%02d HV104(%6s)=%01d
+11012 Entry=%02d HV115=%01d HV116=%01d
+11013 Entry=%01d HV117=%01d HV103=%01d HV104=%01d HV105=%02d HV116=%01d HV020=%01d
+11014 Entry=%01d HV118=%01d HV10%1d=%01d HV104=%01d HV105=%02d HV116=%01d HV020=%01d
+11015 Entry=%01d HV120=%01d HV103=%01d HV105=%02d
+11016 Entry=%02d HV105=%02d HV106=%01d HV110=%01d
+
+11020 Entry=%01d HV121=%01d HV106=%01d preschool=%d HV107=%01d
+11021 Entry=%01d HV122=%01d HV121=%01d preschool=%d
+11022 Entry=%01d HV122=%01d HV123=%01d
+11023 Entry=%01d HV125=%01d HV106=%01d
+11024 Entry=%01d HV126=%01d HV125=%01d
+11025 Entry=%01d HV126=%01d HV127=%01d
+11026 Entry=%01d HV105=%01d HV106=%02d HV129=%01d Check=%01d HV121=%01d HV124=%01d HV125=%01d HV128=%01d
+11027 Occurrences(RECH1)=%02d Occurrences(RECH4)=%02d
+11028 Entry=%02d HV112=%02d HV114=%02d HV009=%02d
+11029 OUT DHS6 HV033=%08d
+11030 HV042=%01d HV040=%04d
+11031 Entry=%02d HV118=%02d HV027=%01d mHV020=%02d
+
+11035 OUT DHS6 Entry=%02d HV130=%02d HV105=%01d
+11037 OUT DHS6 Entry=%02d HV131=%01d HV105=%01d
+11038 OUT DHS6 Entry=%02d HV131=%01d HV112=%02d
+11040 OUT DHS6 Entry=%02d HV132=%01d HV105=%01d
+11041 OUT DHS6 Entry=%02d HV132=%01d HV114=%02d
+11043 OUT DHS6 Entry=%02d HV133=%01d HV111=%02d HV131=%01d HV113=%02d HV132=%01d
+11044 OUT DHS6 Entry=%02d HV134=%01d HV111=%01d HV113=%01d
+11046 OUT DHS6 Entry=%02d HV135=%01d HV105=%02d
+11047 OUT DHS6 Entry=%02d HV136=%01d HV105=%02d
+11049 OUT DHS6 Entry=%02d HV137=%01d HV105=%02d
+11050 OUT DHS6 Entry=%02d HV138=%01d HV105=%02d
+11051 OUT DHS6 Entry=%02d HV139=%01d HV105=%02d
+11053 Entry=%02d HV140=%01d HV105=%02d
+
+12000 Special value for variable(s) in %s
+
+12001 HV202=%02d HV201=%02d
+12002 HV201=%02d HV202=%02d HV235=%01d
+12003 HV201=%02d HV204=%01d
+12004 HV204=%02d HV235=%01d
+
+12006 HV204=%02d HV236=%01d
+
+12008 HV205=%02d HV225=%01d
+12009 HV205=%02d HV225=%01d HV238=%01d
+12010 HV226=%01d HV239=%01d
+12011 HV239=%01d HV240=%01d
+12012 HV226=%01d HV241=%01d
+12013 HV241=%01d HV242=%01d
+12014 HV244=%01d HV245=%01d
+12015 HV246=%01d HV246A=%02d HV246 B=%02d C=%02d D=%02d E=%02d F=%02d G=%02d H=%02d I=%02d J=%02d K=%02d
+
+12017 HML1A=%02d Occurrences of RECHML=%02d
+
+12023 HV218=%02d
+12024 HV218=%02d HV219=%01d HV220=%02d HV104(head)=%01d HV105(head)=%02d
+12025 HV217=%01d Check=%01d
+12026 HV228=%01d Children < 5=%01d
+12027 HV228=%01d HV227=%01d
+
+12101 Entry=%01d Special value for variable(s) in %s
+
+{ Hemoglobin testing }
+{ Women }
+15200 Entry=%02d HA0=%02d HV009=%02d
+15201 Entry=%02d HA2=%04d HA3=%04d
+15202 Entry=%02d HA13=%1d HA2=%04d HA3=%04d
+15203 Entry=%02d HA0=%02d HV105(%02d)=%02d
+15204 Entry=%02d HA1=%02d HV105(%02d)=%02d
+15207 Entry=%02d HA1=%02d HV008=%04d HA32=%04d age=%02d
+
+15223 Entry=%02d HA50=%1d HA51=%1d HA52=%1d HA53=%1d HA54=%1d HA55=%1d HA56=%1d HA57=%1d HA58=%1d HV042=%1d
+15224 Entry=%02d HA50=%1d HA52=%1d HA55=%1d HV042=%1d
+15225 Entry=%02d HA50=%1d HA51=%02d
+15226 Entry=%02d HA52=%1d HA53=%03d HA54=%1d HA55=%1d HA56=%3d HA57=%1d
+15227 Entry=%02d {HA53=%03d} HA55=%1d HA56=%03d HA57=%1d HV040=%04d
+15228 Entry=%02d HA53=%03d HA55=%1d
+15229 Entry=%02d HA53=%03d HA54=%1d HA56=%03d HA57=%1d altitude=%05d
+15230 Entry=%02d HA51=%02d HV009=%02d
+15231 Entry=%02d HA51=%02d HA0=%02d
+15232 Entry=%02d HA50=%1d HA52=%1d HA53=%03d HA54=%1d HA55=%1d HA56=%3d HA57=%1d
+15233 Entry=%02d HA52=%02d HA55=%02d
+
+15241 HA61=%01d HA62=%05s
+15242 HA61=%01d HA63=%01d
+15243 HA61=%01d HA62=%5s HA63=%01d HA65=%01d HV103=%1d HA69=%08d
+
+{ Children }
+16200 Entry=%02d HC0=%02d HV009=%02d
+16201 Entry=%02d HC2=%04d HC3=%04d HC15=%1d
+16202 Entry=%02d HC13=%1d HC2=%04d HC3=%04d
+16203 Entry=%02d HC0=%02d HV105(%02d)=%02d
+16204 Entry=%02d HC1=%02d HV105(%02d)=%02d
+16205 Entry=%02d HC2=%03d HC3=%04d HC33=%01d HC4=%04d HC5=%04d HC6=%05d HC7=%04d HC8=%04d HC9=%05d HC10=%04d HC11=%04d HC12=%05d
+16206 Entry=%01d HC1=%02d HC15=%01d
+16207 Entry=%01d HC1=%02d HV008A=%04d HC32A=%04d age=%02d
+
+16224 Entry=%02d HC51=%02d HC52=%1d HC55=%1d HV042=%1d
+16225 Entry=%02d HC51=%02d HV009=%02d
+16226 Entry=%02d HC52=%01d HC53=%03d HC55=%1d HC56=%3d HC57=%1d
+16227 Entry=%02d HC53=%03d HC55=%1d HC56=%03d HC57=%1d HV040=%04d
+16229 Entry=%02d HC53=%03d HC56=%03d <> adjanem=%3.1f HC57=%1d <> anemlev=%d altitude=%05d 
+16230 Entry=%02d HC3=%01d HC15=%01d
+16231 Entry=%02d HC51=%02d HC0=%02d
+16232 Entry=%02d HC1=%02d HC51=%02d
+
+{ Men }
+17200 Entry=%02d HB0=%02d HV009=%02d
+17201 Entry=%02d HB2=%04d HB3=%04d
+17202 Entry=%02d HB13=%01d HB2=%04d HB3=%04d
+17203 Entry=%02d HB0=%02d HV105(%02d)=%02d
+17204 Entry=%02d HB1=%02d HV105(%02d)=%02d
+17207 Entry=%02d HB1=%02d HV008=%04d HB32=%04d age=%02d
+
+17223 Entry=%02d HB50=%01d HB51=%01d HB52=%01d HB53=%01d HB55=%01d HB56=%01d HB57=%01d HB58=%01d HV042=%01d
+17224 Entry=%02d HB50=%01d HB52=%01d HB55=%01d HV042=%01d
+17225 Entry=%02d HB50=%01d HB51=%02d
+17226 Entry=%02d HB52=%01d HB53=%03d HB55=%01d HB56=%03d HB57=%01d
+17227 Entry=%02d HB53=%03d HB55=%01d HB56=%03d HB57=%01d HV040=%04d
+17229 Entry=%02d HB53=%03d HB56=%03d HB57=%01d altitude=%05d
+17230 Entry=%02d HB51=%02d HV009=%02d
+17231 Entry=%02d HB51=%02d HB0=%02d
+17232 Entry=%02d HB50=%01d HB52=%01d HB53=%03d HB55=%01d HB56=%03d HB57=%01d
+
+17401 HB61=%01d HB62=%05s
+17402 HB61=%01d HB63=%01d
+17403 HB61=%01d HB62=%5s HB63=%01d HB65=%01d HV103=%1d HB69=%08d
+
+{ Malaria }
+18101 HMLIDX=%02d Occurrences of RECH1=%02d
+18102 HML6=%01d HML9=%01d
+18103 HML7=%01d HML5=%01d
+18104 HML7=%01d HML8=%01d
+18105 HML7=%01d HML9=%02d
+18106 HML7=%01d HML5=%01d
+18107 HML11=%01d HV009=%02d
+18108 HML21=%01d HMLA=%02d HMLB=%02d HMLC=%02d HMLD=%02d HMLE=%02d
+18109 HMLA=%02d HMLB=%02d HMLC=%02d HMLD=%02d HMLE=%02d HV009=%02d
+
+18201 HMHIDX=%02d Occurrences of RECH1=%02d
+18202 HML13=%02d HML14=%02d HML15=%02d Occurrences of RECHML=%02d
+18203 HML12=%01d number treated=%02d
+18204 HML16=%02d HV105(HMHIDX)=%02d
+18205 HML12=%01d HML19=%01d
+
+18501 OUT DHS6 HSKIDX=%02d Occurrences of RECH1=%02d
+18502 OUT DHS6 HS108=%01d HS109=%01d
+18503 OUT DHS6 HS110=%01d HS111=%01d
+
+18601 OUT DHS6 HDPIDX=%02d Occurrences of RECHDP=%02d
+18602 OUT DHS6 HD111=%01d HD112=%01d
+18603 OUT DHS6 HD113=%01d HD114=%01d
+
+18701 OUT DHS6 HDPIDX=%02d Occurrences of RECHDP=%02d
+
+{* Statistics *}
+20002 %05d cases where V113  = V114,  but V142  <> 1
+20003 %05d cases where V801 < 0
+20004 %05d cases where V801 > 180
+20005 %05d cases where HW1 < 24 and HW15=2, or HW1 >= 24 and HW15=1
+20006 %05d cases where HC1 < 24 and HC15=2, or HC1 >= 24 and HC15=1
+20007 %05d cases where V215 exceeds interval since last birth and case is not flagged
+20008 %05d cases with birth or termination in the month of interview
+
+20010 %05d cases where date of vaccination < 7 days after previous vaccination
+20011 %05d cases where age at death was reported as one year
+20012 %05d cases where there are no de jure adult household members
+
+20014 %05d cases where Respondent reported never having sex, but has been married
+20015 %05d cases where Age of woman in Height/Weight section different from age in HH listing
+20016 %05d cases where Age of child in Height/Weight section different from age in HH listing
+20017 %05d cases where Age of men in Height/Weight section different from age in HH listing
+
+20020 %05d cases where the domain is national
+
+{* Household statistics *}
+
+20054 %05d cases where the ultimate area unit is not the cluster
+20055 %05d cases where the sampling unit is not the cluster
+20056 %05d cases where the sample stratum is equation of the cluster
+20057 %05d cases where the sample domain is national
+20058 %05d cases where the male survey is selected
+20059 %05d cases where the husband survey is selected
+20060 %05d households where the first member is not the head of household
+
+20070 %05d cases where the AIDS module is selected
+20071 %05d women where the education in the Height/Weight/Hemoglobin section is different from the household
+20072 %05d women where the number of years of education in the Height/Weight/Hemoglobin section is different from the household
+20075 %05d men where the education in the Height/Weight/Hemoglobin section is different from the household
+20076 %05d men where the number of years of education in the Height/Weight/Hemoglobin section is different from the household
+
+20090 Yes/No variable(s) not set properly: %02d
+
+20095 Number of households............:%06d
+20096 Number of women.................:%06d
+20097 Number of complete households...:%06d
+20098 Number of complete women........:%06d

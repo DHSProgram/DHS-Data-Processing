@@ -1,0 +1,377 @@
+{
+decimals period/comma;              { decimal separator, default is period }
+thousands comma/period/none/blank;  { thousands separator, default is comma }
+style dhs1/dhs2;                    { type of output table format,  dhs1 - new, dhs2 - old. default is new }
+}
+
+appa5 rows hhrate1 = 2 nodec
+           wrate1  = 2 nodec;
+appa5 footnote
+{+EN}
+@1 Using the number of households falling into specific response categories, the household response rate (HRR) is calculated as:~
+~
+100 * C~
+_______________________________~
+C + HP + P + R + DNF~
+~
+@2 The eligible women response rate (EWRR) is equivalent to the percentage of interviews completed (EWC)~
+@3 The overall women response rate (OWRR) is calculated as:~
+OWRR = HRR * EWRR/100
+{EN+}
+{{ES}
+@1 Usando el nï¿½mero de hogares clasificados en categorï¿½as especï¿½ficas de respuesta, la tasa de respuesta de hogares (TRH) es calculada como:~
+~
+100 * C~
+______________________________~
+C + HP + A + R + VNE~
+~
+@2 La tasa de respuesta de mujeres elegibles (TRME) es equivalente al porcentaje de entrevistas completas (MEC).~
+@3 La tasa de respuesta total para mujeres (TRTM) es calculada como:~
+~
+TRTM = TRH * TRME/100
+{ES}}
+{{FR}
+@1 En utilisant les diffï¿½rents codes rï¿½sultats utilisï¿½s pour classer les mï¿½nages selon les catï¿½gories de rï¿½ponse,
+ le taux de rï¿½ponse pour lï¿½Enquï¿½te Mï¿½nage (TRM) est calculï¿½ comme suit :~
+~
+100 * R~
+_______________________________~
+R + MP + D + R + LNT~
+~
+@2 Le taux de rï¿½ponse des femmes ï¿½ligibles (TRFE) est ï¿½quivalent au pourcentage dï¿½interviews complï¿½tï¿½es (FER).~
+@3 Le taux de rï¿½ponse global des femmes est calculï¿½ comme suit (TRGF):~
+~
+TRGF = TRM * TRFE/100
+{FR}}
+endfootnote;
+
+appa6 rows hhrate1 = 2 nodec
+           mrate1  = 2 nodec;
+appa6 footnote
+{+EN}
+@1 Using the number of households falling into specific response categories, the household response rate (HRR) is calculated as:~
+~
+100 * C~
+_______________________________~
+C + HP + P + R + DNF~
+~
+@2 The eligible men response rate (EMRR) is equivalent to the percentage of interviews completed (EMC)~
+@3 The overall men response rate (OMRR) is calculated as:~
+OMRR = HRR * EMRR/100
+{EN+}
+{{ES}
+@1 Usando el nï¿½mero de hogares clasificados en categorï¿½as especï¿½ficas de respuesta, la tasa de respuesta de hogar (TRH) es calculada como:~
+~
+100 * C~
+_______________________________~
+C + HP + A + R + VNE~
+@2 La tasa de respuesta de hombres elegibles (TRHE) es equivalente al porcentaje de entrevistas completas (HEC).~
+@3 La tasa de respuesta total para hombres (TRTH) es calculada como:~
+TRTH = TRH * TRHE/100
+{ES}}
+{{FR}
+@1 En utilisant les diffï¿½rents codes rï¿½sultats utilisï¿½s pour classer les mï¿½nages selon les catï¿½gories de rï¿½ponse,
+   le taux de rï¿½ponse pour lï¿½Enquï¿½te Mï¿½nage (TRM) est calculï¿½ comme suit :~
+~
+100 * R~
+_______________________________~
+C + HP + P + R + LNT~
+~
+@2 Le taux de rï¿½ponse des hommes ï¿½ligibles (TRHE) est ï¿½quivalent au pourcentage dï¿½interviews complï¿½tï¿½es(HER).~
+@3 Le taux de rï¿½ponse global des hommes est calculï¿½ comme suit (TRGH) :~
+~
+TRGH = TRM * TRHE/100
+{FR}}
+endfootnote;
+
+appc1 columns isex3 = 1 numpct1 = 1 nodec
+              isex3 = 2 numpct1 = 1 nodec;
+appc1 footnote
+{+EN}
+Note: The de facto population includes all residents and nonresidents who stayed in
+       the household the night before the interview.
+{EN+}
+{{ES}
+Nota: La poblaciï¿½n de facto incluye todos los residentes y no residentes que permanecieron
+      en el hogar la noche anterior a la entrevista.
+{ES}}
+{{FR}
+Note : La population de fait comprend tous les rï¿½sidents et les non rï¿½sidents qui ont dormi
+      dans le mï¿½nage la nuit ayant prï¿½cï¿½dï¿½ lï¿½interview.
+{FR}}
+endfootnote;
+
+appc1f columns isex3 = 1 negative;
+appc1f footnote
+{+EN}
+Notes for Pubs: Male figures must all be negative to be shown on the left side of the axis 
+                in the figure; this is the only figure where male data are presented first~
+Notes for SM: Male figures must all be negative to be shown on the left side of the axis in the figure
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+
+appc21 columns houswom  = 1 nodec
+               evermwom = 1 nodec
+               intwom   = 1 nodec;
+appc21 footnote
+{+EN}
+Note:  The de facto population includes all residents and nonresidents who stayed in the
+       household the night before the interview.  Weights for both household population
+       of women and interviewed women are household weights.  Age is based on the
+       Household Questionnaire.
+{EN+}
+{{ES}
+Nota:  La poblaciï¿½n de facto incluye todas las residentes y no residentes que permanecieron
+       en el hogar la noche anterior a la entrevista.  Los factores de ponderaciï¿½n tanto
+       para la poblaciï¿½n femenina de los hogares como para las mujeres entrevistadas son
+       ponderaciones de hogar. La edad estï¿½ basada en el Cuestionario de Hogar.
+{ES}}
+{{FR}
+Note :  La population de fait comprend tous les rï¿½sidents et les non-rï¿½sidents qui ont
+       dormi dans le mï¿½nage la nuit ayant prï¿½cï¿½dï¿½ lï¿½enquï¿½te. Les pondï¿½rations utilisï¿½es
+       sont celles de lï¿½enquï¿½te mï¿½nage. Lï¿½ï¿½ge est basï¿½ sur le Tableau de Mï¿½nage.
+{FR}}
+endfootnote;
+
+appc22 columns housmen  = 1 nodec
+               evermmen = 1 nodec
+               intmen   = 1 nodec;
+appc22 footnote
+{+EN}
+Note:  The de facto population includes all residents and nonresidents who stayed in the
+       household the night before the interview.  Weights for both household population
+       of men and interviewed men are household weights. Age is based on the
+       household questionnaire.~
+na = Not applicable
+{EN+}
+{{ES}
+Nota:  La poblaciï¿½n de facto incluye todos los residentes y no residentes que permanecieron
+       en el hogar la noche anterior a la entrevista.  Los factores de ponderaciï¿½n tanto
+       para la poblaciï¿½n masculina de los hogares como para los hombres entrevistados son
+       ponderaciones de hogar. La edad estï¿½ basada en el Cuestionario de Hogar.~
+na = No aplicable
+{ES}}
+{{FR}
+Note :  La population de fait comprend tous les rï¿½sidents et les non-rï¿½sidents qui ont
+       dormi dans le mï¿½nage la nuit ayant prï¿½cï¿½dï¿½ lï¿½enquï¿½te. Les pondï¿½rations utilisï¿½es
+       sont celles de lï¿½enquï¿½te mï¿½nage. Lï¿½ï¿½ge est basï¿½ sur le Tableau de Mï¿½nage.~
+na = Non applicable
+{FR}}
+endfootnote;
+
+appc3 columns ratio3 = 1 1;
+
+appc4 columns ratio4 = 1 1;
+
+appc5 columns headings = 1 subheads = 1 nodec
+              headings = 1 subheads = 2 nodec
+              headings = 1 subheads = 3 nodec
+              headings = 1 subheads = 4 nodec
+              headings = 1 subheads = 5 nodec;
+appc5 footnote
+{+EN}
+na = Not applicable~
+@1 (B{\sub m}/B{\sub f})x100, where B{\sub m} and B{\sub f} are the numbers of male and female births, respectively~
+@2 [2P{\sub x}/(P{\sub x-1}+P{\sub x+1})]x100, where P{\sub x} is the number of pregnancy outcomes in year x preceding the survey
+{EN+}
+{{ES}
+na = No aplicable~
+@1 (Nh/Nm)x100, donde Nh y Nm son el nï¿½mero de nacimientos masculinos y femeninos, respectivamente~
+@2 [2Px/(Px-1+Px+1)]x100, where Px is the number of pregnancy outcomes in year x preceding the survey
+{ES}}
+{{FR}
+na = Non applicable~
+@1 (Nm/Nf)x100, oï¿½ Mm est le nombre de naissances masculines et Mf le nombre de naissances fï¿½minines~
+@2 [2Px/(Px-1+Px+1)]x100, where Px is the number of pregnancy outcomes in year x preceding the survey
+{FR}}
+endfootnote;
+
+{appc5w  noprint;}
+
+appc6 columns pctcases = 2 nodec;
+
+apcw1 rows totpct1 = 2 1;
+apcw1 footnote
+{+EN}
+@1 =6 days / =30 days
+{EN+}
+{{ES}
+@1 =6 dï¿½as / =30 dï¿½as
+{ES}}
+{{FR}
+@1 =6 jours / =30 jours
+{FR}}
+endfootnote;
+
+apcw2 rows totpct2 = 2 1;
+apcw2 footnote
+{+EN}
+@a Includes deaths under one month reported in days~
+@1 Under one month / under one year
+{EN+}
+{{ES}
+@a Incluye muertes durante el primer mes reportadas en dï¿½as~
+@1 Menores de un mes / menores de un aï¿½o
+{ES}}
+{{FR}
+@a Y compris les dï¿½cï¿½s survenus ï¿½ mois dï¿½un mois, dï¿½clarï¿½s en jours~
+@1 Moins dï¿½un mois / moins dï¿½un an
+{FR}}
+endfootnote;
+
+appc8 columns missdat = 4 nodec
+              outrdat = 2 nodec
+              outrdat = 4 nodec
+              outrdat = 6 nodec
+              validat = 4 nodec;
+appc8 footnote
+{+EN}
+@1 Child's height in centimeters is missing, child was not present, child refused, and “other” result codes~
+@2 Child's weight in kilograms is missing, child was not present, child refused, and “other” result codes~
+@3 Incomplete date of birth; a complete date of birth is month/day/year or month/year.~
+@4 Implausible cases for height-for-age are defined as more than 6 standard deviations (SD) above or below 
+   the standard population median (Z-scores) based on the WHO Child Growth Standards among children with 
+   complete height and month/year of birth data.~
+@5 Complete age is calculated from month and year of birth.~
+@6 Implausible cases for weight-for-height are defined as more than 5 SD above or below the standard 
+   population median (Z-scores) based on the WHO Child Growth Standards among children with complete 
+   weight and height data.~
+@7 Implausible cases for weight-for-age are defined as more than 5 SD above or 6 SD below 
+   the standard population median (Z-scores) based on the WHO Child Growth Standards among children 
+   with complete weight and month/year of birth data.~
+@8 No missing data, incomplete data, or implausible data~
+@9 Includes children whose mothers are deceased
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+@1 La taille de lï¿½enfant en centimï¿½tres est manquante, lï¿½enfant nï¿½ï¿½tait pas prï¿½sent, lï¿½enfant a refusï¿½ et code rï¿½sultat ï¿½autreï¿½~
+@2 Le poids de lï¿½enfant en kilogrammes est manquant, lï¿½enfant nï¿½ï¿½tait pas prï¿½sent, lï¿½enfant a refusï¿½ et code rï¿½sultat ï¿½autreï¿½~								
+@3 Date de naissance incomplï¿½te; une date de naissance complï¿½te comprend le jour/mois/annï¿½e ou le mois/annï¿½e.~		
+@4 Implausible cases for height-for-age are defined as more than 6 standard deviations (SD) above or below 
+   the standard population median (Z-scores) based on the WHO Child Growth Standards among children with 
+   complete height and month/year of birth data.~
+@5 Complete age is calculated from month and year of birth.~
+@6 Implausible cases for weight-for-height are defined as more than 5 SD above or below the standard 
+   population median (Z-scores) based on the WHO Child Growth Standards among children with complete 
+   weight and height data.~
+@7 Implausible cases for weight-for-age are defined as more than 5 SD above or 6 SD below 
+   the standard population median (Z-scores) based on the WHO Child Growth Standards among children 
+   with complete weight and month/year of birth data.~
+@8 Pas de donnï¿½es manquantes, incomplï¿½tes ou hors limite~
+@9 Y compris les enfants dont la mï¿½re est dï¿½cï¿½dï¿½e.
+{FR}}
+endfootnote;
+
+appc9 columns colremea = 3 nodec
+              colremea = 1 3;
+appc9 footnote
+{+EN}
+Note: An asterisk indicates that a figure is based on fewer than 10 children, which is the minimum number 
+      of children needed to calculate the technical error of measurement.~
+@1 Median absolute difference between measurers' first and second height measurement in centmeters.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+Note: An asterisk indicates that a figure is based on fewer than 10 children, which is the minimum number 
+      of children needed to calculate the technical error of measurement.~
+@1 Median absolute difference between measurers' first and second height measurement in centmeters.
+{FR}}
+endfootnote;
+appc9w noprint;
+
+appc10 columns interfch = 3 nodec;
+
+appc11 columns isex = 1 numwom = 1 nodec
+               isex = 2 numman = 1 nodec;
+
+appc12 columns prefwgt  = 1 nodec
+               prefhght = 1 nodec;
+appc12 footnote
+{+EN}
+Note: The table includes all children with weight and height/length measurements, regardless of the 
+      completeness of date of birth information and cases with implausible data. Both weight and
+	  length/height measurements are recorded with one decimal digit.~
+na = Not applicable~
+@1 The index of dissimilarity is a measure of digit preference, which is calculated as one-half 
+   of the sum of absolute differences between the observed and expected percentage. It can be 
+   interpreted as the percent of values that would need to be redistributed in order to achieve 
+   a uniform distribution.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+appc13 columns mosqnet = 2 nodec;
+
+appc14 columns tothh1  = 1 nodec;
+
+appc15 columns tot0424 = 1 nodec;
+appc15 footnote
+{+EN}
+Note: Age at the beginning of the school year is calculated from dates of birth of household 
+      members or by rejuvenating household members based on the date of the survey, the date
+      after start of the school year, and completed age at the time of survey. Levels and 
+      grades refer to the current school year, or the most recent school year if data collection 
+      was completed between school years.~
+@a Those age 25 at the time of interview who were age 24 at the beginning of school year are 
+   excluded from the table since current attendance was only collected for those age 4-24 
+   years at the time of interview
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+appc16 columns vaccseen = 6 nodec
+               vaccphot = 2 nodec;
+appc16 footnote
+{+EN}
+Note: Vaccination cards include cards, booklets, or other home-based records.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+apcw4 columns gateway = 2  nodec
+              gateway = 4  nodec
+              gateway = 7  nodec
+              gateway = 12 nodec;
+
+appm8 rows percentg = 0 1;
+appm8 footnote
+{+EN}
+Note: EAs are classified by month according to the date by which the last Biomarker 
+      Questionnaire in the EA was completed.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;
+
+appm9 columns numchild = 1 nodec;
+appm9w noprint;
+
+appm10 columns numchild = 1 nodec;
+appm10 footnote
+{+EN}
+@1 Includes children for whom microscopy results could not be determined because 
+   of slide loss, slide breakage, or smear quality.
+{EN+}
+{{ES}
+{ES}}
+{{FR}
+{FR}}
+endfootnote;

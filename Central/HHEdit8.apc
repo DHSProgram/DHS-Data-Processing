@@ -1,0 +1,834 @@
+﻿PROC GLOBAL
+{ DHS-V secondary editing application  Version 1.0.0 of 09/22/08 }
+
+{+MEN}
+  { To store couples information to compare at postproc level 1            }
+  { Columns are: 1-Resp. line  2-Resp. marital status  3-husband/wife line }
+  array womhusb(20,3);
+  array manwife(20,3);
+{MEN+}
+
+  { Arrays to check barcodes for HIV and Malaria }
+  array transHIV(200);                   { array to know barcodes in the transmittal that are not in questionnaires for HIV }
+  array transMAL(200);                   { array to know barcodes in the transmittal that are not in questionnaires for MALARIA }
+
+  string transname;                      { transmittal sheet file names }
+  array string barcodeHIV(200);        { stores barcodes for HIV }
+  array string barcodeMAL(200);        { stores barcodes for MALARIA or other biomarker }
+
+ { --- working variables ------------------------------------------------------------------------ }
+
+  numeric b, e, i, j, k, m, mRow, n, t, v, x, y;
+  numeric xho, xhc, xhi; { # HHs, # HHs completed, # HHs incomplete }
+  numeric ldt, udt, cmcTerm, tryMatch;
+  numeric xrelat, xsex, xlives, xslept, xage, xmother, xfather, xelig, xeligc, xeligm, xusing;
+  numeric run1, doimp, dprev, ver100, ignoreY, healthy, emsample;
+  numeric yage, hwage, err, rok, fline_valid, mLine_valid, hwlcmc, hwucmc, ceb;
+  numeric goodLink, found, xdeath, discont, condom;
+  numeric swrt, anew, aold, iold, aoldest, ETsuppress;
+  numeric prevCL, firstcase; { previous cluster # }
+  numeric temp, di, minai, maxai, minaim, maxaim, head, valf, valm, rc, rp, ipos;
+  numeric maxelig, maxevent, maxmemb, LastSrc, MinAsx;
+  numeric tbcodesHIV, tbcodesMal;
+
+PROC ccHH80_FF
+preproc
+  { get language from calling menu }
+  SetLanguage( GetLanguage() );
+
+  { set application parameters }
+  minai    = 15;        { !!! Minimum age at interview - women         }
+  maxai    = 49;        { !!! Maximum age at interview - women         }
+  {+MEN}
+  minaim   = 15;        { !!! Minimum age at interview - men           }
+  maxaim   = 59;        { !!! Maximum age at interview - men           }
+  {MEN+}
+  maxelig  = 20;        { !!! Maximum number of eligible men or women  }
+
+  prevCL   = notappl;           { previous cluster number }
+  dprev    = 1;         // !!! 1-review by DP specialist
+  doimp    = 0;         // !!! 1-when running imputation
+
+  firstcase = 1;
+
+{ --------------------------------------------------------------------------- }
+postproc 	{ of PROC CORE8_FF }
+
+  { check that barcodes in transmittal sheet for the cluster were matched/found in the QREs }
+  do i = 1 while i <= tbcodesHIV
+    if !transHIV(i) then
+      errmsg( 0172, TCLUSTER, barcodeHIV(i), tr("HIV") );
+    endif;
+  enddo;
+  do i = 1 while i <= tbcodesMAL
+    if !transMAL(i) then
+      errmsg( 0172, TCLUSTER, barcodeMAL(i), tr("Malaria") );
+    endif;
+  enddo;
+
+
+{ --------------------------------------------------------------------------- }
+PROC HOUSEHOLD
+preproc
+
+  di = cmcode( AHINTM, AHINTY );
+
+  if YCLUSTER <> AHCLUST then 
+    YCLUSTER = AHCLUST; 
+    clear(CLUSTERS); 
+    if loadcase(CLUSTERS, YCLUSTER) then 
+      if YREGION <> AHREGION then  
+        errmsg( 0015, AHREGION,AHREGION,YREGION,YREGIONN ) 
+      endif; 
+      if YURBRUR <> AHTYPE then  
+        errmsg( 0017, AHTYPE,AHTYPE,YURBRUR,GetLabel(AHTYPE,YURBRUR) ); 
+      endif; 
+    else 
+      errmsg( 0019, YCLUSTER); 
+      YCLUSTER = notappl; 
+    endif; 
+  endif; 
+
+  { !!! HIV and Malaria }
+  if firstcase then
+    { initialize array to check barcodes between transmittal sheet and questionnaires }
+    do i = 1 while i <= 200
+      transHIV(i) = 0;
+      transMAL(i) = 0;
+    enddo;
+    { !!! HIV }
+    { load transmittal sheets to make sure that all barcodes for HIV in questionnaires are defined in transmittal sheets and vice versa }
+    TCLUSTER = AHCLUST;
+    tbcodesHIV = 0;
+    if !loadcase( TRANSMIT, TCLUSTER )  then
+      errmsg( 0170, tr("HIV"), TCLUSTER );
+      clear( TRANSMIT );
+    else
+      tbcodesHIV = TBCODES;
+    endif;
+    do i = 1 while i <= tbcodeshiv
+      barcodeHIV(i) = TBARCODE(i);
+    enddo;
+
+    { !!!! if malaria or other biomarker transmittal sheet, remove this comment
+    { upload transmittal sheet for malaria in case the biomarker was collected }
+    transname = filename( TRANSMIT );
+    do i = length( strip(transname) ) while transname[i:1] <> "." by (-1) enddo;
+    ipos = i-5;
+    transname[ipos:1] = "M";
+    setfile( TRANSMIT, strip(transname) );
+    TCLUSTER = AHCLUST;
+    tbcodesMAL = 0;
+    if !loadcase( TRANSMIT, TCLUSTER ) then
+      errmsg( 0170, tr("Malaria"), TCLUSTER );
+      clear( TRANSMIT );
+    else
+      tbcodesMAL = TBCODES;
+    endif;
+    do i = 1 while i <= tbcodesmal
+      barcodeMAL(i) = TBARCODE(i);
+    enddo;
+    **** end comment for malaria or other biomarker transmittal sheet exist }
+    firstcase = 0;
+  endif;
+  { !!! HIV and Malaria }
+
+  {+MEN}
+  { Initialize the working woman and men's line number to be used to check  }
+  { the marital status of couples at the end of the questionnaire           }
+  do i = 1 while i <= maxelig
+    do j = 1 while j <= 3
+      womhusb(i,j) = 0;
+      manwife(i,j) = 0;
+    enddo;
+  enddo;
+  {MEN+}
+
+  { *** enable at imputation time
+  { Check totals from previous cluster -- when running with multiple clusters }
+  if CSAMPLE <> AHCLUST & CSAMPLE <> 0 then
+    open( CONTROL );
+    if loadcase( CONTROL, CSAMPLE ) then
+      if  xho = chtotal
+        & xhc = chcomp
+        & xhi = chincomp
+        & xww = cwtotal
+        & xwc = cwcomp
+        & xwi = cwincomp
+{+MEN}
+        & xmm = cmtotal
+        & xmc = cmcomp
+        & xmi = cmincomp
+{MEN+}
+      then
+        do x = 1 while x <= 3 & CEDIT(x)
+          { find the first empty entry in CEDIT }
+        enddo;
+        CEDIT(x) = SYSDATE();
+        if !writecase( CONTROL, CSAMPLE ) then
+          errmsg( 0007, CSAMPLE )
+        endif
+      else
+        errmsg( 0008, CSAMPLE,
+                xho,    xhc,   xhi,     xww,    xwc,   xwi,     xmm,    xmc,   xmi,
+                chtotal,chcomp,chincomp,cwtotal,cwcomp,cwincomp,cmtotal,cmcomp,cmincomp )
+      endif
+    endif;
+    close( CONTROL );
+  endif;
+
+  { Check this cluster is ready for checking }
+  if AHCLUST <> CSAMPLE then
+    CSAMPLE = AHCLUST;
+    open( CONTROL );
+    if loadcase( CONTROL, CSAMPLE ) then
+      if !CVERIF then
+        errmsg( 0006, CSAMPLE );
+        stop
+      { !!! HIV }
+      elseif !CHIVDATE then
+        errmsg( 0171, AHCLUST );
+        stop
+      { !!! HIV }
+      else
+        run1 = (CEDIT(1) = 0);
+        xho = 0;              { Counts of questionnaires }
+        xhc = 0;
+        xhi = 0;
+        xww = 0;
+        xwc = 0;
+        xwi = 0;
+      {+MEN}
+        xmm = 0;
+        xmc = 0;
+        xmi = 0;
+      {MEN+}
+      endif;
+    else
+      errmsg( 0005, CSAMPLE );
+      stop
+    endif;
+    close( CONTROL );
+  endif;
+
+  { it is important to load weights in the preproc because they are needed by individual questionnaires }
+  if doimp then
+  { !!!! uncomment at imputation time }
+    AHINTC = cmcode( AHINTM, AHINTY );
+    AHINTCD = CDCode( AHINTY, AHINTM, AHINTD );
+    { Following code to add weights to the data set }
+    if AHCLUST <> prevCL then
+      loadcase( WEIGHTS, AHCLUST ); { !!! adjust this file as necessary }
+    endif;
+    if AHRESULT = 1 then
+      AHWEIGHT = HHWEIGHT;         { !!! Household weight (total) in weights dictionary }
+      if AHELIGM = 1 then
+        AMWEIGHT = HHMWEIGHT;      { !!! Household weight for men in weights dictionary }
+      else
+        AMWEIGHT = 0;
+      endif;
+    else
+      AHWEIGHT = 0;
+      AMWEIGHT = 0;
+    endif;
+    prevCL = AHCLUST;   { update here }
+  endif;
+  *** }
+
+  { Set run1 on if doing DP review, but not yet ready for imputation }
+  if dprev & !doimp then
+    run1 = 1;
+  endif;
+
+  xho   = xho + 1;
+  if AHRESULT = 1 then
+    xhc = xhc + 1
+  else
+    xhi = xhi + 1
+  endif;
+
+  { Verify that interviewer is registered in fieldworker questionnaire }
+  if !loadcase( FIELDWKQ, AHINTNUM ) then
+    errmsg( 0025, tr("Interviewer"), AHINTNUM );
+  endif;
+  { Verify that supervisor is registered in fieldworker questionnaire }
+  if !loadcase( FIELDWKQ, AHSUPERV ) then
+    errmsg( 0025, tr("Supervisor"), AHSUPERV );
+  endif;
+
+postproc
+  { ***** enable these instructions at imputation time when joining HHEdit and INEdit 
+  {+MEN}
+  { check what woman declared about her husband }
+  do i = 1 while i <= maxelig & womhusb(i,1) <> 0
+    if womhusb(i,3) then
+      found = 0;
+      goodlink = 0;
+      do j = 1 while j <= maxelig & manwife(j,1) <> 0
+        if womhusb(i,3) = manwife(j,1) then
+          found = j;
+          if womhusb(i,1) = manwife(j,3) then
+            goodlink = j;
+            if !manwife(j,2) in 1,2 then
+              errmsg( 99990, womhusb(i,1), womhusb(i,3), manwife(j,2) )
+            endif;
+          endif;
+        endif;
+      enddo;
+      if found & !goodlink then
+        errmsg( 99995, womhusb(i,1), womhusb(i,3), manwife(found,3) )
+      endif;
+    endif;
+  enddo;
+
+  { check what man declared about his wife }
+  do i = 1 while i <= maxelig & manwife(i,1) <> 0
+    if manwife(i,3) then
+      do j = 1 while j <= maxelig & womhusb(j,1) <> 0
+        if manwife(i,3) = womhusb(j,1) then
+          if !womhusb(j,2) in 1,2 then
+            errmsg( 99990, manwife(i,1), manwife(i,3), womhusb(j,2) )
+          endif;
+          if manwife(i,1) <> womhusb(j,3) then
+            errmsg( 99995, manwife(i,1), manwife(i,3), womhusb(j,3) )
+          endif;
+          break;
+        endif;
+      enddo
+    endif;
+  enddo;
+
+  { Check for two men reporting the same wife }
+  do i = 2 while i <= maxelig & manwife(i,1) <> 0
+    if manwife(i,3) <> 0 then
+      do j = 1 while j < i
+        if manwife(i,3) = manwife(j,3) then
+          errmsg( 99997, manwife(j,1), manwife(i,1), manwife(j,3) );
+        endif;
+      enddo;
+    endif;
+  enddo;
+  {MEN+}
+  **** end of instructions for imputation }
+
+{ --------------------------------------------------------------------------- }
+PROC AHSEC01_EDT
+
+  { Only one head allowed }
+  temp = count( $ where AH03 = 1 );
+  if temp <> 1 then
+    errmsg( 0029, temp )
+  endif;
+
+  { Only one spouse, parent, parent-in-law allowed }
+  if count( $ where AH03 = 2 {{POLYG} & AH04 = 1 {POLYG}} ) >= 2  { !!! uncomment if polygyny in country }
+   | count( $ where AH03 = 6 & AH04 = 1 ) >= 2
+   | count( $ where AH03 = 6 & AH04 = 2 ) >= 2
+   | count( $ where AH03 = 7 & AH04 = 1 ) >= 2
+   | count( $ where AH03 = 7 & AH04 = 2 ) >= 2 then
+      if run1 & !dprev then errmsg( 0030 ) endif;
+  endif;
+
+  for i in $ do
+
+    xrelat  = AH03;
+    xsex    = AH04;
+    xlives  = AH05;
+    xslept  = AH06;
+    xage    = AH07;
+    xmother = AH13;
+    xfather = AH15;
+    xelig   = AH09;
+    xeligc  = AH11;
+    {+MEN}
+    xeligm  = AH10;
+    {MEN+}
+
+    { All members must be either usual resident or }
+    { have slept previous night in household       }
+    if xlives <> 1 & xslept <> 1 then
+      errmsg( 0050, i, xlives, xslept );
+    endif;
+
+    { level/year school completed vs current school year }
+    { duplicate when level/year school previous vs current school year asked !!}
+    if !special(AH17A) & !special(AH19A) &
+       ( AH17A > AH19A | ( AH17A = AH19A & valid(AH17B) & AH17B > AH19B ) ) then
+      errmsg( 0160, i, "AH17", AH17A, AH17B, "AH19", AH19A, AH19B );
+    endif;
+
+    { Invalid father's line number }
+    if xfather <> missing & ( xfather > AHMEMBER | xfather = i ) then
+      errmsg( 0120, i, xfather, tr("father") );
+    endif;
+    { Invalid mother's line number }
+    if xmother <> missing & ( xmother > AHMEMBER | xmother = i ) then
+      errmsg( 0120, i, xmother, tr("mother") );
+    endif;
+
+    { Check eligibility }
+    { Eligible woman }
+    if xsex = 2 & xage in minai:maxai then
+      if xelig <> i then
+        errmsg( 0150, i, xsex, xage, "AH09", xelig );
+      endif
+    else
+      if xelig <> 0 then
+        errmsg( 0150, i, xsex, xage, "AH09", xelig );
+      endif
+    endif;
+    {+MEN}
+    { Eligible man }
+    if xsex = 1 & xage in minaim:maxaim & AHELIGM = 1 then
+      if xeligm <> i then
+        errmsg( 0150, i, xsex, xage, "AH10", xeligm );
+      endif
+    else
+      if xeligm <> 0 then
+        errmsg( 0150, i, xsex, xage, "AH10", xeligm );
+      endif
+    endif;
+    {MEN+}
+    { Eligible child }
+    if xage in 0:5 then
+      if xeligc <> i then
+        errmsg( 0150, i, xsex, xage, "AH11", xeligc );
+      endif
+    else
+      if xeligc <> 0 then
+        errmsg( 0150, i, xsex, xage, "AH11", xeligc );
+      endif
+    endif;
+
+{ --------------------------------------------------------------------------- }
+
+    { Check relationships }
+    { ------------------- }
+
+    { Check age of head of household or spouse is at least 12 }
+    if xrelat in 1,2 & xage in 0:11 then
+      if run1 then errmsg( 0071, i, xage, 12 ) endif;
+    endif;
+
+    { Check age of household head, 12 years younger than parents }
+    if xrelat in 6,7 & xage <> missing then
+      do j = 1 while j <= AHMEMBER
+        if AH03(j) = 1 then
+          yage = AH07(j);
+          if yage in 0:97 & yage+15 > xage then
+            if run1 then errmsg( 0072, j, yage, i, xage ) endif;
+          endif;
+          break;
+        endif;
+      enddo;
+    endif;
+
+    { Check age of spouse, 12 years younger than parents }
+    if xrelat in 6,7 & xage <> missing then
+      do j = 1 while j <= AHMEMBER
+        if AH03(j) = 2 then
+          yage = AH07(j);
+          if yage in 0:97 & yage+15 > xage then
+            if run1 then errmsg( 0073, j, yage, i, xage ) endif;
+          endif;
+          break;
+        endif;
+      enddo;
+    endif;
+
+    { Check spouse is opposite sex from Head of Household }
+    if xrelat = 2 then
+      do j = 1 while j <= AHMEMBER
+        if AH03(j) = 1 then
+          if AH04(j) = xsex then
+            errmsg( 0060, i, xsex, i, AH04(j), j );
+          endif;
+          break;
+        endif;
+      enddo;
+    endif;
+
+    { Check age of s/d-in-law, 15 years or higher }
+    if xrelat = 4 & xage <> missing & xage < 15 then
+      if run1 then errmsg( 0075, i, xage ) endif;
+    endif;
+
+    { s/d-in-law and head and valid marital status }
+    if xrelat = 4 & !AH08(i) in 1:4 then
+      if run1 then errmsg( 0076, i, AH08(i) ) endif;
+    endif;
+
+    { Find head of household }
+    do head = 1 while head <= noccurs($) & AH03(head) <> 1 enddo;
+    if head > noccurs($) then
+      head = default;
+    endif;
+    { if member is son or daughter of head, check head's line given as parent }
+    if xrelat = 3 & xage in 0:17 & head <> default then
+      if     AH04(head) = 1 & xfather <> head then
+        errmsg( 0061, i, xrelat, head, tr("father"), "AH15", xfather )
+      elseif AH04(head) = 2 & xmother <> head then
+        errmsg( 0061, i, xrelat, head, tr("mother"), "AH13", xmother )
+      endif;
+    endif;
+
+{ --------------------------------------------------------------------------- }
+
+    { Check mother's line }
+    { ------------------- }
+    mline_valid = 0;               { mother alive and valid relationship }
+    if xmother in 1:AHMEMBER then
+      { Mother female and at least 12 years older }
+      if AH04(xmother) <> 2 then
+        errmsg( 0121, i, tr("mother"), xmother )
+      elseif AH07(xmother) < xage+12 then
+        if run1 then errmsg( 0124, i, tr("mother"), xmother, AH07(xmother) ) endif;
+      else
+        { consistency between child's mother relationship to head AH03(xmother) }
+        { and child relationship to head (xrelat)                               }
+        if !valrelat( AH03(xmother), xrelat ) then   { Relationship not OK }
+          errmsg( 0122, i, xrelat, tr("mother"), xmother, AH03(xmother) )
+        else
+          mline_valid = 1;
+        endif
+      endif;
+    endif;
+
+    { Son-Daughter/Head/Spouse/grandchild but no valid mother's line }
+    if xmother <> notappl & mline_valid = 0 & xrelat in 1:3,5 then
+      { father relationship to child }
+      valf = 1;                                               { for relationship other than son/son-in-law }
+      if xfather in 1:AHMEMBER & AH03(xfather) in 3,4 then valf = AH03(xfather) endif; { son or son-in-law }
+      rc = xrelat;
+      do j = 1 while j <= AHMEMBER
+        rp = AH03(j);
+        recode rc :: rp  :: valf -> rok; { CHILD        - MOTHER       - FATHER        }
+                1 :: 6   ::      -> 1;   { Head         - Parent                       }
+                2 :: 7   ::      -> 1;   { Spouse       - Parent-in-law                }
+                3 :: 1,2 ::      -> 1;   { Son/Daughter - Head/Spouse                  }
+                5 :: 3,4 ::   1  -> 1;   { Grandchild   - Daughter(-in-law)            }
+                5 ::  3  ::   4  -> 1;   { Grandchild   - Daughter     - son-in-law    }
+                5 ::  4  ::   3  -> 1;   { Grandchild   - In-Law       - son           }
+                  ::     ::      -> 0;
+        endrecode;
+        if AH04(j) = 2 & rok then   { Found father }
+          if xmother <> j then      { but father not same as father's line }
+            errmsg( 0123, i, tr("mother"), "AH13", xmother, j )
+          endif;
+          break;
+        endif;
+      enddo;
+    endif;
+
+{ --------------------------------------------------------------------------- }
+
+    { Check father's line }
+    { ------------------- }
+    fline_valid = 0;               { father alive and valid relationship }
+    if xfather in 1:AHMEMBER then
+      { Father male and at least 15 years older }
+      if AH04(xfather) <> 1 then
+        errmsg( 0121, i, tr("father"), xfather )
+      elseif AH07(xfather) < xage+15 then
+        if run1 then errmsg( 0124, i, tr("father"), xfather, AH07(xfather) ) endif;
+      else
+        { consistency between child's father relationship to head AH03(xfather) }
+        { and child relationship to head (xrelat)                               }
+        if !valrelat( AH03(xfather), xrelat ) then   { Relationship not OK }
+          errmsg( 0122, i, xrelat, tr("father"), xfather, AH03(xfather) )
+        else
+          fline_valid = 1;
+        endif
+      endif;
+    endif;
+
+    { Son/Daughter/Head/Spouse but father's line not father }
+    if xfather <> notappl & fline_valid = 0 & xrelat in 1:3,5 then
+      { mother relationship to child }
+      valm = 1;                                               { for relationship other than son/son-in-law }
+      if xmother in 1:AHMEMBER & AH03(xmother) in 3,4 then valm = AH03(xmother) endif; { son or son-in-law }
+      rc = xrelat;
+      do j = 1 while j <= AHMEMBER
+        rp = AH03(j);
+        recode rc :: rp  :: valm -> rok; { CHILD        - FATHER       - MOTHER        }
+                1 :: 6   ::      -> 1;   { Head         - Parent                       }
+                2 :: 7   ::      -> 1;   { Spouse       - Parent-in-law                }
+                3 :: 1,2 ::      -> 1;   { Son/Daughter - Head/Spouse                  }
+                5 :: 3,4 ::   1  -> 1;   { Grandchild   - Son(-in-law)                 }
+                5 ::  3  ::   4  -> 1;   { Grandchild   - Son          - daughter-in-law }
+                5 ::  4  ::   3  -> 1;   { Grandchild   - In-Law       - daughter      }
+                  ::     ::      -> 0;
+        endrecode;
+        if AH04(j) = 1 & rok then   { Found mother }
+          if xfather <> j then      { but mother not same as mother's line }
+            errmsg( 0123, i, tr("father"), "AH15", xfather, j )
+          endif;
+          break;
+        endif;
+      enddo;
+    endif;
+
+  enddo;
+
+{ -------------------------------------------------------------------------- }
+{ number of eligible women and men with cover page }
+PROC AHSEC02_EDT
+  x = count( AHSEC01_EDT where AH04 = 2 & AH07 in minai:maxai {& AH08 = ever married });   {!!!}
+  if x <> AHWOMEN then
+    errmsg( 0151, tr("women"), AHWOMEN, x )
+  endif;
+  {+MEN}
+  x = count(AHSEC01_EDT where AH04 = 1 & AHELIGM = 1 & AH07 in minaim:maxaim );            {!!!}
+  if x <> AHMEN then
+    errmsg( 0151, tr("men"), AHMEN, x )
+  endif;
+  {MEN+}
+
+  { consistency on electricity }
+  if AH132A <> 1 & AH117 = 1 then
+    errmsg( 0165, AH132A, tr("cooking"), "AH117", AH117 )
+  endif;
+  if AH132A <> 1 & AH125 = 1 then
+    errmsg( 0165, AH132A, tr("heating"), "AH125", AH125 )
+  endif;
+  if AH132A <> 1 & AH126 = 1 then
+    errmsg( 0165, AH132A, tr("lighting"), "AH126", AH126 )
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ biomarker questionnaire }
+PROC ABSECOVER_EDT
+  if doimp then
+    ABINTC  = cmcode( ABINTM, ABINTY );
+    ABINTCD = CDCode( ABINTY, ABINTM, ABINTD );
+  endif;
+
+{ --------------------------------------------------------------------------- }
+{ biomarkers for children }
+PROC ABSEC01_EDT
+
+  for i in $ do
+    if validyr(AB103Y) then
+      hwlcmc = setlb( AB103M, AB103Y, 0 );
+      hwucmc = setub( AB103M, AB103Y, 9999 );
+    else
+      hwlcmc = di-71;
+      hwucmc = di;
+    endif;
+    hwage = di - hwlcmc;
+
+    if !AB106 in 99.90:99.98,missing then
+      if CheckWeight( AH04(AB102), hwage, AB106 ) & run1 then
+        errmsg( 0440, tr("Child"), i, AB102, "AB106", AB106, hwage, AH04(AB102) )
+      endif;
+      { !!! If using SECA 874 scale check if 2nd decimal is in 0,5 }
+      { !!! If using SECA 878 scale check if 2nd decimal is equal to 0}
+      { !!! If using UNICEF scale, there should be no 2nd decimal at all and the weight field should have only one decimal – but also check if 2nd decimal is 0 }
+      if !GetDecimal( AB106, 2 ) in 0,5 then
+        errmsg( 441, i, AB102, AB106 );
+      endif;
+    endif;
+
+    if !AB108 in 999.0:999.8,missing then
+      if CheckHeight( AH04(AB102), hwage, AB108 ) & run1 then
+        errmsg( 0450, tr("Child"), i, AB102, "AB108", AB108, hwage, AH04(AB102) )
+      endif
+    endif;
+
+    { Measured lying up to 23 months, standing from 24 months }
+    if (di - hwlcmc) < 24 & AB110 = 2 |
+       (di - hwucmc) > 23 & AB110 = 1 then
+      if !ver100 then errmsg( 0460, i, AB102, AB110, di-hwlcmc ) endif;
+    endif;
+
+    { check implausible hemoglobin levels }
+    if AB123 in 0.0:1.99,25.6:98.0 then
+      errmsg( 0473, tr("Child"), i, AB102, AB123 );
+    endif;
+    { Verify that biomarker is registered in fieldworker questionnaire }
+    if !loadcase( FIELDWKQ, AB115  ) then
+      errmsg( 0026, AB115, tr("anthropometry"), tr("measurer"), tr("Child"), i );
+    endif;
+    if !loadcase( FIELDWKQ, AB116 ) then
+      errmsg( 0026, AB116, tr("anthropometry"), tr("assistant"), tr("Child"), i );
+    endif;
+    if !loadcase( FIELDWKQ, AB121  ) then
+      errmsg( 0026, AB121, tr("hemoglobin"), tr("measurer"), tr("Child"), i );
+    endif;
+
+  enddo;
+  { !!!! if malaria or other biomarker collected for children, remove this comment 
+  { check if barcodes recorded in children's record are in the transmittal sheet }
+  for i in record ABSEC01 do
+    if !AHBARMAL in "?","99990":"99998" & length( strip(AHBARMAL) ) then
+      do j = 1 while j <= tbcodesMAL
+        if AHBARMAL = barcodeMAL(j) then
+          { check for duplicates }
+          if transMAL(j) then
+            errmsg( 0173, AHCLUST, AHNUMBER, barcodeMAL(k), tr("Child"), tr("Malaria"), i );
+          { otherwise mark the barcode as found with the household number }
+          else
+            transMAL(j) = AHNUMBER
+          endif;
+          break;
+        endif;
+      enddo;
+      if j > tbcodesMAL then
+        { barcode in questionnaire wasn't found in transmittal sheet }
+        errmsg( 0174, AHCLUST, AHNUMBER, AHBARMAL, tr("Child"), tr("Malaria"), i );
+      endif;
+    endif;
+  enddo;
+  **** end comment for malaria for children }
+
+{ --------------------------------------------------------------------------- }
+{ hgt/wgt for women }
+PROC ABSEC02_EDT
+
+  for i in $ do
+    hwage = AH07(AB202);
+
+    { weight for women }
+    if run1 & !AB205 in 20.0:150.0,999.94:999.96,missing then
+      errmsg( 0440, tr("woman"), i, AB202, "AB205", AB205, hwage, 2 )
+    endif;
+
+    { height for women }
+    if run1 & !AB207 in 100.0:200.0,999.4:999.6,missing then
+      errmsg( 0450, tr("woman"), i, AB202, "AB207", AB207, hwage, 2 )
+    endif;
+
+    { check implausible hemoglobin levels }
+    if AB225 in 0.0:1.99,25.6:98.0 then
+      errmsg( 0473, tr("woman"), i, AB202, AB225 );
+    endif;
+
+    { Verify that biomarker is registered in fieldworker questionnaire }
+    if AB211 <> notappl & !loadcase( FIELDWKQ, AB211 ) then
+      errmsg( 0026, AB211, tr("anthropometry"), tr("measurer"), tr("woman"), i );
+    endif;
+    if AB212 <> notappl & !loadcase( FIELDWKQ, AB212 ) then
+      errmsg( 0026, AB212, tr("anthropometry"), tr("assistant"), tr("woman"), i );
+    endif;
+    if AB214B <> notappl & !loadcase( FIELDWKQ, AB214B ) then
+      errmsg( 0026, AB214B, tr("blood pressure"), tr("measurer"), tr("woman"), i );
+    endif;
+    if AB215D <> notappl & !loadcase( FIELDWKQ, AB215D ) then
+      errmsg( 0026, AB215D, tr("blood pressure"), tr("measurer"), tr("woman"), i );
+    endif;
+    if AB217B <> notappl & !loadcase( FIELDWKQ, AB217B ) then
+      errmsg( 0026, AB217B, tr("hemoglobin"), tr("measurer"), tr("woman"), i );
+    endif;
+    if AB218D <> notappl & !loadcase( FIELDWKQ, AB218D ) then
+      errmsg( 0026, AB218D, tr("hemoglobin"), tr("measurer"), tr("woman"), i );
+    endif;
+    if AB220B <> notappl & !loadcase( FIELDWKQ, AB220B ) then
+      errmsg( 0026, AB220B, tr("other test"), tr("measurer"), tr("woman"), i );
+    endif;
+    if AB221D <> notappl & !loadcase( FIELDWKQ, AB221D ) then
+      errmsg( 0026, AB221D, tr("other test"), tr("measurer"), tr("woman"), i );
+    endif;
+    if AB215 <> notappl & !loadcase( FIELDWKQ, AB215 ) then
+      errmsg( 0026, AB215, tr("blood pressure"), tr("measurer"), tr("woman"), i );
+    endif;
+    if AB218 <> notappl & !loadcase( FIELDWKQ, AB218 ) then
+      errmsg( 0026, AB218, tr("hemoglobin"), tr("measurer"), tr("woman"), i );
+    endif;
+    if AB221 <> notappl & !loadcase( FIELDWKQ, AB221 ) then
+      errmsg( 0026, AB221, tr("other test"), tr("measurer"), tr("woman"), i );
+    endif;
+
+    { !!! HIV - other test }
+    { check for duplicate barcodes among HH questionnaires within a cluster }
+    if length( strip(ABWDBS) ) & !ABWDBS in "99992":"99996", "?" then
+      do k = 1 while k <= tbcodesHIV
+        if ABWDBS = barcodeHIV(k) then
+          if transHIV(k) then
+            errmsg( 0173, AHCLUST, AHNUMBER, barcodeHIV(k), tr("woman"), tr("HIV"), i );
+          endif;
+          transHIV(k) = transHIV(k) + 1;
+          break;
+        endif;
+      enddo;
+      if k > tbcodesHIV then
+        errmsg( 0174, AHCLUST, AHNUMBER, ABWDBS, tr("woman"), tr("HIV"), i );
+      endif;
+    endif;
+    { !!! HIV }
+  enddo;
+
+{ --------------------------------------------------------------------------- }
+{ hgt/wgt for men }
+PROC ABSEC03_EDT
+
+  for i in $ do
+    hwage = AH07(AB302);
+
+    { weight for men }
+    if run1 & !AB305 in 20.0:150.0,999.94:999.96,missing then
+      errmsg( 0440, tr("man"), i, AB302, "AB305", AB305, hwage, 1 )
+    endif;
+
+    { height for men }
+    if run1 & !AB307 in 100.0:200.0,999.4:999.6,missing then
+      errmsg( 0450, tr("man"), i, AB302, "AB307", AB307, hwage, 1 )
+    endif;
+
+    { check implausible hemoglobin levels }
+    if AB325 in 0.0:1.99,25.6:98.0 then
+      errmsg( 0473, tr("man"), i, AB302, AB325 );
+    endif;
+
+    { Verify that biomarker is registered in fieldworker questionnaire }
+    if AB311 <> notappl & !loadcase( FIELDWKQ, AB311 ) then
+      errmsg( 0026, AB311, tr("anthropometry"), tr("measurer"), tr("man"), i );
+    endif;
+    if AB312 <> notappl & !loadcase( FIELDWKQ, AB312 ) then
+      errmsg( 0026, AB312, tr("anthropometry"), tr("assistant"), tr("man"), i );
+    endif;
+    if AB314B <> notappl & !loadcase( FIELDWKQ, AB314B ) then
+      errmsg( 0026, AB314B, tr("blood pressure"), tr("measurer"), tr("man"), i );
+    endif;
+    if AB315D <> notappl & !loadcase( FIELDWKQ, AB315D ) then
+      errmsg( 0026, AB315D, tr("blood pressure"), tr("measurer"), tr("man"), i );
+    endif;
+    if AB317B <> notappl & !loadcase( FIELDWKQ, AB317B ) then
+      errmsg( 0026, AB317B, tr("hemoglobin"), tr("measurer"), tr("man"), i );
+    endif;
+    if AB318D <> notappl & !loadcase( FIELDWKQ, AB318D ) then
+      errmsg( 0026, AB318D, tr("hemoglobin"), tr("measurer"), tr("man"), i );
+    endif;
+    if AB320B <> notappl & !loadcase( FIELDWKQ, AB320B ) then
+      errmsg( 0026, AB320B, tr("other test"), tr("measurer"), tr("man"), i );
+    endif;
+    if AB321D <> notappl & !loadcase( FIELDWKQ, AB321D ) then
+      errmsg( 0026, AB321D, tr("other test"), tr("measurer"), tr("man"), i );
+    endif;
+    if AB315 <> notappl & !loadcase( FIELDWKQ, AB315 ) then
+      errmsg( 0026, AB315, tr("blood pressure"), tr("measurer"), tr("man"), i );
+    endif;
+    if AB318 <> notappl & !loadcase( FIELDWKQ, AB318 ) then
+      errmsg( 0026, AB318, tr("hemoglobin"), tr("measurer"), tr("man"), i );
+    endif;
+    if AB321 <> notappl & !loadcase( FIELDWKQ, AB321 ) then
+      errmsg( 0026, AB321, tr("other test"), tr("measurer"), tr("man"), i );
+    endif;
+
+    { !!! HIV - other test }
+    if length( strip(ABMDBS) ) & !ABMDBS in "99992":"99996","?" then
+      do k = 1 while k <= tbcodesHIV
+        if ABMDBS = barcodeHIV(k) then
+          if transHIV(k) then
+            errmsg( 0173, AHCLUST, AHNUMBER, barcodeHIV(k), tr("man"), tr("HIV"), i );
+          endif;
+          transHIV(k) = transHIV(k) + 1;
+          break;
+        endif;
+      enddo;
+      if k > tbcodesHIV then
+        errmsg( 0174, AHCLUST, AHNUMBER, ABMDBS, tr("man"), tr("HIV"), i );
+      endif;
+    endif;
+    { !!! HIV }
+  enddo;
+

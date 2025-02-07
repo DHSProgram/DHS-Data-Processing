@@ -1,0 +1,79 @@
+﻿[FormFile]
+Version=CSPro 7.7
+Name=SDGDEFINED_FF
+Label=ReformatSDG
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+FieldEntryFont=0018 0000 0000 0000 0600 0000 0000 0000 0000 0000 0000 0000 0000 Courier New
+Type=OperatorControlled
+  
+[Dictionaries]
+File=.\SDGDefined.dcf
+  
+[Form]
+Name=FORM000
+Label=(Id Items)
+Level=1
+Size=300,300
+  
+Item=SDGCODE
+  
+[EndForm]
+  
+[Form]
+Name=FORM001
+Label=SDG Variables
+Level=1
+Size=300,300
+  
+Item=SDGNUM
+Item=SDGLABEL
+Item=DHSTAB
+  
+[EndForm]
+  
+[Level]
+Name=SDGRECORD
+Label=Level unique
+  
+[Group]
+Required=Yes
+Name=IDS0_EDT
+Label=(Id Items)
+Form=1
+Max=1
+  
+[Field]
+Name=SDGCODE
+Item=SDGCODE,SDGDEFINED
+Form=1
+  
+[EndGroup]
+  
+[Group]
+Required=Yes
+Name=SDGLINE_EDT
+Label=SDG Variables
+Form=2
+Type=Record
+TypeName=SDGLINE
+Max=1
+  
+[Field]
+Name=SDGNUM
+Item=SDGNUM,SDGDEFINED
+Form=2
+  
+  
+[Field]
+Name=SDGLABEL
+Item=SDGLABEL,SDGDEFINED
+Form=2
+  
+  
+[Field]
+Name=DHSTAB
+Item=DHSTAB,SDGDEFINED
+Form=2
+  
+[EndGroup]
+  

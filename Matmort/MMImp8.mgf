@@ -1,0 +1,29 @@
+1 Information missing {**}
+2 Sibling out of order: %d {**}
+3 Sibling probably out of order: line=%d previous=%d
+4 Problems: cmc(%d)=%4d-%4d cmc(%d)=%4d-%4d
+5 Problems: cmc(%d)=%4d-%4d cmc(%d)=%4d-%4d
+6 respno=%d k=%d l=%d {**}
+7 Age at death %d: cmcbth=%4d yod=%2d yrd=%2d agd=%2d cmc=%4d-%4d doic=%4d
+8 Age at death %d: cmcbth=%4d yod=%2d yrd=%2d agd=%2d cmc=%4d-%4d doic=%4d
+9 Value outside bounds for entry %d: cmc=%4d range=%4d-%4d
+10 Entry=%2d cmc=%4d (%4d) %4d {**}
+11 flag %d
+12 bint=%d, cmcd(%d)=%d, cmcd(%d)=%d
+13 i=%2d, CMC Birth(%d)=%d
+14 CMC Death(%d)=%d, cmcdl=%d, cmcdu=%d
+15 ord(%d)=%d
+16 i=%d, j=%d
+17 i=%2d j=%2d
+18 cmcu(%2d)=%4d, cmcl(%2d)=%4d, yi=%2d, intc=%4d
+22 cmcu(%2d)=%4d, cmcl(%2d)=%4d, yearsd=%2d, intc=%4d, yint=%2d
+23 cmcu(%2d)=%4d, cmcl(%2d)=%4d, aged=%2d, intc=%4d, yint=%2d
+24 cmc(%2d)=%4d-%4d, evmar=%2d, nbp=%2d, xpreg=%1d
+25 cmcu(%2d)=%4d, cmcl(%2d)=%4d, survstat=%1d
+26 i=%2d, l=%2d, aged=%2d, yearsd=%2d, yeardt=%2d, nbp=%2d, nmax=%2d, yint=%2d
+27 i=%2d, l=%2d, nmax=%2d, sage=%2d
+30 i=%2d A907=%2d A907C=%4d int=%4d
+31 i=%2d A908=%2d A908C=%4d
+32 i=%2d A909=%2d A908C=%4d int=%4d
+33 i=%2d A910=%2d A907C=%4d A908C=%4d
+

@@ -1,0 +1,12 @@
+﻿language = EN
+001 ERROR: %d Android Device(s) detected, please make sure one and only one device is connected
+002 ERROR: required file %s not present in installation folder, please check
+003 Problem with installing application %s, please check
+004 Project folder %s not found, please check
+005 System installed
+language = FR
+001 ERREUR : %d appareils Android détectés, veuillez vous assurer qu'un et un seul appareil est connecté
+002 ERREUR : le fichier requis %s n'est pas présent dans le directoire d'installation, veuillez vérifier
+003 Problème d'installation de l'application %s, veuillez vérifier
+004 Directoire de projet %s introuvable, veuillez vérifier
+005 Système installé avec succés

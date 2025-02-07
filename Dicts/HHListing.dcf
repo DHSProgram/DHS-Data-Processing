@@ -1,0 +1,288 @@
+﻿[Dictionary]
+Version=CSPro 7.5
+Label=Dictionary to list households in a cluster|Diccionario para listar hogares en el segmento
+Name=HHLISTING
+RecordTypeStart=9
+RecordTypeLen=1
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+SecurityOptions=E632B6415E06405DA5E8168884BB390B5A419E18C6882185B5FAFE57BEA8A918
+
+[Languages]
+EN=English
+ES=Español
+FR=French
+
+[Level]
+Label=Household listing|Listado de hogares
+Name=HHLISTING_QUEST
+
+[IdItems]
+
+[Item]
+Label=Cluster number|Numero de segmento
+Name=LCLUSTER
+Start=1
+Len=4
+ZeroFill=Yes
+
+[Item]
+Label=Interviewer code|Codigo de entrevistador(a)
+Name=LINTNUM
+Start=5
+Len=4
+ZeroFill=Yes
+
+[Record]
+Label=General information record|Registro de informacion general
+Name=RECORD1
+RecordTypeValue='1'
+RecordLen=161
+
+[Item]
+Label=Auxiliary to display options|Auxiliar para desplegar las opciones|Auxiliar pour afficher les options
+Name=LAUXILIAR
+Start=10
+Len=1
+
+[ValueSet]
+Label=Auxiliary to display options|Auxiliar para desplegar las opciones|Auxiliar pour afficher les options
+Name=LAUXILIAR_VS1
+Value=1;Add a structure or a household|Agregar estructura al hogar|Ajouter une structure ou un ménage
+Value=2;Insert/delete structures or households|Insertar/borrar structuras u hogares|Insérer/supprimer des structures ou des ménages
+Value=9;Exit (cancel)|Salir (cancelar)|Sortir (annuler)
+
+[Item]
+Label=Region|Region
+Name=LREGION
+Start=11
+Len=25
+DataType=Alpha
+
+[Item]
+Label=State|Departamento
+Name=LSTATE
+Start=36
+Len=25
+DataType=Alpha
+
+[Item]
+Label=District|Distrito
+Name=LDISTRICT
+Start=61
+Len=25
+DataType=Alpha
+
+[Item]
+Label=Municipality/City|Municipio
+Name=LCITY
+Start=86
+Len=25
+DataType=Alpha
+
+[Item]
+Label=Enumeration area|Area de enumeracion
+Name=LENUMER
+Start=111
+Len=25
+DataType=Alpha
+
+[Item]
+Label=Selected segment numbers|Numero de segmentos usados
+Name=LSEGNUM
+Start=136
+Len=2
+
+[ValueSet]
+Label=Selected segment numbersNumero de segmentos usados
+Name=LSEGNUM_VS1
+Value=0;No segmentation used|No se ha usado segmentacion
+Value=1:50
+
+[Item]
+Label=Households in cluster or in selected segment|Hogares en el conglomerado o en el segmento seleccionado
+Name=LSEGHH
+Start=138
+Len=4
+
+[Item]
+Label=Total households in the cluster based on segmentation|Total de hogares basados en la segmentacion
+Name=LTOTHH
+Start=142
+Len=4
+
+[Item]
+Label=Date when cluster listing took place|Fecha cuando se hizo el listado de hogares
+Name=LDATE
+Start=146
+Len=8
+
+[Item]
+Label=Date when listing for cluster was closed|Fecha cuando se finalizo el listado en el segmento
+Name=LDATEFIN
+Start=154
+Len=8
+
+[Record]
+Label=Household listing record|Registro de hogares listados
+Name=RECORD2
+RecordTypeValue='2'
+Required=No
+MaxRecords=300
+RecordLen=162
+
+[Item]
+Label=Introduction|Introduccion|Introduction
+Name=LINTRO
+Start=10
+Len=1
+DataType=Alpha
+
+[ValueSet]
+Label=Introduction|Introduccion|Introduction
+Name=LINTRO_VS1
+Value=1;Add new structure|Agregar un nueva estructura|Ajouter une nouvelle structure
+Value=2;Add a household to previous structure|Agregar un hogar a la estructura anterior|Ajouter un ménage à une structure précédante
+Value=3;Delete current entry|Borrar la linea actual|Supprimer l'entrée courante
+Value=4;Insert a structure|Insertar una estructura|Insérer une structure
+Value=5;Insert a household to previous structure|Insertar un hogar a la estructura anterior|Insérer un ménage à une structure précédante
+Value=8;No more changes/temporary stop HH listing|No mas cambios/terminar temporalment listado|Pas plus de changements/Arrêter temporairement de lister des ménages
+Value=9;Finalize listing for cluster|Finalizar listado de hogares en el segmento|Fermer la grappe
+
+[Item]
+Label=Is this a true household|Es un hogar verdadero
+Name=LTRUEHH
+Start=11
+Len=1
+
+[ValueSet]
+Label=Is this a true household|Es un hogar verdadero
+Name=LTRUEHH_VS1
+Value=1;Household|Hogar
+Value=2;Other|Otro
+
+[Item]
+Label=Sequential household number|Numero de hogar secuencial
+Name=LNUMBER
+Start=12
+Len=5
+
+[Item]
+Label=Structure number|Numero de estructura
+Name=LSTRUCT
+Start=17
+Len=3
+
+[Item]
+Label=Household within structure|Hogar dentro la estructura
+Name=LHOUSEH
+Start=20
+Len=3
+
+[Item]
+Label=Name of household head|Nombre del jefe del hogar
+Name=LNAME
+Start=23
+Len=30
+DataType=Alpha
+
+[Item]
+Label=Household address|Direccion del hogar
+Name=LADDRESS
+Start=53
+Len=40
+DataType=Alpha
+
+[Item]
+Label=Observations/Occupancy status|Observaciones/estado de ocupacion
+Name=LNOTES
+Start=93
+Len=40
+DataType=Alpha
+
+[Item]
+Label=More households|Mas hogares
+Name=LMORE
+Start=133
+Len=1
+
+[ValueSet]
+Label=More households|Mas hogares
+Name=LMORE_VS1
+Value=1;Yes|Si
+Value=2;No|No
+
+[Item]
+Label=Household selected for the final sample|Hogar seleccionado para muestra final
+Name=LSELECT
+Start=134
+Len=1
+
+[ValueSet]
+Label=Household selected for the final sample|Hogar seleccionado para muestra final
+Name=LSELECT_VS1
+Value=0;No|No
+Value=1;Yes|Si
+
+[Item]
+Label=Introduction to capture GPS coordinates|Introduccion a captura de coordenadas|Introduction pour GPS coordinateurs
+Name=LINTGPS
+Start=135
+Len=1
+
+[ValueSet]
+Label=Introduction to capture GPS coordinates|Introduccion a captura de coordenadas|Introduction pour GPS coordinateurs
+Name=LINTGPS_VS1
+Value=1;Copy coordinates from previous HH|Copiar coordenadas de hogar anterior|Copier les coordonnes du menage precedent
+Value=2;Take coordinates for the HH now|Tomar coordenadas para el hogar ahora|Prendre les coordonnes maintant
+Value=3;Do not take the HH coordinates now|No tomar coordenadas ahora|Ne pas prendre les coordonnes maintant
+Value=9;Replace existing HH coordinates|Reemplazar coordenadas existentes|Reprendre les  coordonnes pour le menage
+
+[Item]
+Label=Latitude in degrees|Latitude en grados
+Name=LLATITUDE
+Start=136
+Len=10
+Decimal=6
+DecimalChar=Yes
+
+[Item]
+Label=Pole north-south for latitude|Latitude norte-sur
+Name=LLATPOLE
+Start=146
+Len=1
+DataType=Alpha
+
+[ValueSet]
+Label=Pole north-south for latitude|Latitude norte-sur
+Name=LLATPOLE_VS1
+Value='N';North|Norte
+Value='S';South|Sur
+
+[Item]
+Label=Longitude in degrees|Longitude en grados
+Name=LLONGITUDE
+Start=147
+Len=10
+Decimal=6
+DecimalChar=Yes
+
+[Item]
+Label=East-west longitude|Longitude este-oeste
+Name=LLNGPOLE
+Start=157
+Len=1
+DataType=Alpha
+
+[ValueSet]
+Label=East-west longitude|Longitude este-oeste
+Name=LLNGPOLE_VS1
+Value='E';East|Este
+Value='W';West|Oeste
+
+[Item]
+Label=Altitude in meters|Altitude en metros
+Name=LALTITUDE
+Start=158
+Len=5

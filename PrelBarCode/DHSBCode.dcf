@@ -1,0 +1,46 @@
+[Dictionary]
+Version=CSPro 2.6
+Label=Bar codes coming from DHS questionnaire
+Name=DHSBCODE
+RecordTypeStart=0
+RecordTypeLen=0
+Positions=Relative
+ZeroFill=No
+DecimalChar=Yes
+
+[Level]
+Label=Bar codes questionnaire
+Name=DHSBCODE_QUEST
+
+[IdItems]
+
+[Item]
+Label=Barcode
+Name=DBARCODE
+Start=1
+Len=5
+DataType=Alpha
+
+[Record]
+Label=DHS Bar code record
+Name=DHSBCODE_REC
+RecordTypeValue=''
+RecordLen=15
+
+[Item]
+Label=Cluster number
+Name=DCLUSTER
+Start=6
+Len=4
+
+[Item]
+Label=Household number
+Name=DHHNUMB
+Start=10
+Len=4
+
+[Item]
+Label=Individual household line number
+Name=DLINE
+Start=14
+Len=2

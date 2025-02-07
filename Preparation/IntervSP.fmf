@@ -1,0 +1,108 @@
+[FormFile]
+Version=CSPro 4.1
+Name=INTERV_FF
+Label=Interv
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+FieldEntryFont=0018 0000 0000 0000 0600 0000 0000 0000 0000 0000 0000 0000 0000 Courier New
+Type=SystemControlled
+  
+[Dictionaries]
+File=2/2/2009 6:43:42 PM,..\Dicts\Interv.dcf
+  
+[Form]
+Name=FORM001
+Label=Interviewer record
+Level=1
+Size=996,385
+  
+Item=INAME
+Item=ITEAM
+Item=IROLE
+Item=ISEX
+Item=ICODE
+  
+Box=94,101,971,360,Thick
+Box=94,15,970,88,Thin
+  
+[Text]
+Name=TEXT1
+Position=179,36,891,68
+Text=Encuesta de Demografia y Salud - Personal de Campo
+Form=1
+Font=-027 0000 0000 0000 0700 0000 0000 0000 0000 0003 0002 0001 0034 Arial
+ 
+[EndForm]
+  
+[Level]
+Name=INTERV_LEVEL
+Label=Interviewer level
+  
+[Group]
+Required=Yes
+Name=INTERV_REC_FORM
+Label=Interviewer record
+Form=1
+LogicControl=No
+Max=1
+  
+[Field]
+Name=ICODE
+Position=531,123,574,143
+Item=ICODE,INTERV
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=290,126,530,142
+Text=Codigo de Supervisora/Entrevistadora
+ 
+  
+[Field]
+Name=INAME
+Position=418,185,839,205
+Item=INAME,INTERV
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=170,188,415,204
+Text=Nombre de Supervisora/Entrevistadora
+ 
+  
+[Field]
+Name=ITEAM
+Position=810,225,839,245
+Item=ITEAM,INTERV
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=170,222,514,238
+Text=Equipo a que Pertenece la Supervisora/Entrevistadora
+ 
+  
+[Field]
+Name=IROLE
+Position=824,255,839,275
+Item=IROLE,INTERV
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=170,258,494,274
+Text=Role de la Supervisora/Entrevistadora en el Equipo
+ 
+  
+[Field]
+Name=ISEX
+Position=824,287,839,307
+Item=ISEX,INTERV
+UpperCase=Yes
+Form=1
+  
+[Text]
+Position=170,289,414,305
+Text=Sexo de la Supervisora/Entrevistadora
+ 
+[EndGroup]
+  

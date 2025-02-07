@@ -1,0 +1,44 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.4
+
+[LANGUAGES]
+EN=English
+ES=Español
+
+[QUESTION]
+Field=CONTSUP.SCHANGE
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\b\fs20 Three operations can be performed:  1-Change the households selected for the cluster. 2-Remove a household from the control file. 3-View the households sent by interviewers.  Select an option.   \cf2 To remove or delete a household advance until the desired household is found and enter  000.  The household will be removed from the control file
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;\red255\green0\blue0;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\b\fs20 Hay tres opciones que se pueden realizar: 1-Cambiar el numero de hogares seleccionados en el conglomerado. 2-Eliminar un hogar del archivo de control. 3-Revisar los hogares enviados por las entrevistadoras.  Seleccione una opcion.  \cf2 Para borrar un hogar avance hasta encontrar el hogar deseado e ingrese 000.  El hogar desaparecera del archivo de control
+ES=\par \cf1
+ES=\par }
+
+[QUESTION]
+Field=CONTSUP.SHTOTAL
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\b\fs20 The number of households selected for cluster %SSAMPLE% was assigned based on the sample design. However with this option you can change it, enter the modified value
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\b\fs20 El n\'famero de hogares a ser recolectado en el conglomerado %SSAMPLE% se asigno con base en el dise\'f1o de la muestra.  Sin embargo, usted puede modificarlo con esta opcion.  Entre el nuevo numero de hogares
+ES=\par
+ES=\par }
+
+[QUESTION]
+Field=CONTSUP.SNUMBER
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs24 When you enter 000 the household will be eliminated from the control file.  When the interviewer sends back the data, the control file will be updated correctly.
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue0;\red0\green0\blue255;}
+ES=\viewkind4\uc1\pard\cf1\lang1033\fs24 Al ingresar 000 la vivienda se eliminara del archivo de control.  Cuando vuelva a recibir los hogares de la entrevistadora el archivo se actualizara correctamente
+ES=\par \cf2\b\fs20
+ES=\par }
+
