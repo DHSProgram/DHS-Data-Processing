@@ -1,0 +1,29 @@
+﻿[CSPro Application]
+Version=CSPro 7.5
+Label=LSTQUEST
+Name=LSTQUEST
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+CAPIFont1=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont2=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont1Color=0
+CAPIFont2Color=16711680
+[External Dictionaries]
+File=..\Dicts\KEHH80.dcf
+File=..\Dicts\KEIN80.dcf
+[AppCode]
+File=.\lstquest.apc
+Include=..\Library\DPCollect.apc
+Include=..\Library\HTMLFunctions.apc
+[Message]
+File=.\lstquest.mgf
+[Help]
+File=.\lstquest.qsf
+[Forms]
+File=.\Cnull.fmf
+[Dictionary Types]
+Dict-Type=..\dicts\Cnull.dcf,Input,.\Cnull.fmf
+Dict-Type=..\Dicts\KEHH80.dcf,External
+Dict-Type=..\Dicts\KEIN80.dcf,External

@@ -1,0 +1,60 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.5
+
+[LANGUAGES]
+EN=English
+
+[QUESTION]
+Field=QUIZ_DICT.QZRESP
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\fs24 %questiontext%\par
+EN=\par
+EN=\cf2 SELECT THE CORRECT RESPONSE. \par
+EN=YOU MUST SELECT ONE RESPONSE ONLY\par
+EN=}
+
+[QUESTION]
+Field=QUIZ_DICT.QZRESPM
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\fs24\par
+EN=%questiontext%\par
+EN=\par
+EN=\cf2 SELECT THE CORRECT RESPONSES. \par
+EN=YOU MAY SELECT ONE OR MORE RESPONSES. \par
+EN=\cf1\par
+EN=}
+
+[QUESTION]
+Field=QUIZ_DICT.QZSTART
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\b\fs24 TEST INSTRUCTIONS\par
+EN=\cf2\b0\par
+EN=There are 20 questions. The test will last for 45 minutes. \par
+EN=Each question has a multiple choice answer. Read the question carefully to determine whether a single or multiple response is allowed. \par
+EN=\par
+EN=Note that when you finish a message will ask if you wish to finalize or review the question. When you finalize you will not be able to make any further changes to your answers.\par
+EN=\par
+EN=Use the > arrow to move forward and begin the test. \cf1\par
+EN=\cf2\par
+EN=}
+
+[QUESTION]
+Field=QUIZ_DICT.QZTEXT
+Occurrences=1:50
+EN={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue0;\red0\green0\blue255;}
+EN={\*\generator Riched20 10.0.19041}\viewkind4\uc1
+EN=\pard\cf1\fs24 %questiontext%\par
+EN=\par
+EN=\cf2 WRITE YOUR ANSWER IN THE SPACE SHOWN.  \par
+EN=\cf1\par
+EN=}
+

@@ -3730,14 +3730,14 @@ Len=5
 DataType=Numeric
 
 [Item]
-Label=Height/Age standard deviation (new WHO) (women age 15-19)
+Label=Height/Age standard deviation (women age 15-19)
 Name=HA70
 Start=127
 Len=4
 DataType=Numeric
 
 [ValueSet]
-Label=Height/Age standard deviation (new WHO) (women age 15-19)
+Label=Height/Age standard deviation (women age 15-19)
 Name=HA70_VS1
 Value=-600:600
 Value=9996;Height out of plausible limits
@@ -3747,14 +3747,14 @@ Value=9999;Missing
 Name=MISSING,Special
 
 [Item]
-Label=BMI/Age standard deviation (new WHO) (women age 15-19)
+Label=BMI/Age standard deviation (women age 15-19)
 Name=HA73
 Start=131
 Len=4
 DataType=Numeric
 
 [ValueSet]
-Label=BMI/Age standard deviation (new WHO) (women age 15-19)
+Label=BMI/Age standard deviation (women age 15-19)
 Name=HA73_VS1
 Value=-600:500
 Value=9996;Height out of plausible limits
@@ -5107,14 +5107,14 @@ Len=5
 DataType=Numeric
 
 [Item]
-Label=Height/Age standard deviation (new WHO) (men age 15-19)
+Label=Height/Age standard deviation (men age 15-19)
 Name=HB70
 Start=124
 Len=4
 DataType=Numeric
 
 [ValueSet]
-Label=Height/Age standard deviation (new WHO) (men age 15-19)
+Label=Height/Age standard deviation (men age 15-19)
 Name=HB70_VS1
 Value=-600:600
 Value=9996;Height out of plausible limits
@@ -5124,14 +5124,14 @@ Value=9999;Missing
 Name=MISSING,Special
 
 [Item]
-Label=BMI/Age standard deviation (new WHO) (men age 15-19)
+Label=BMI/Age standard deviation (men age 15-19)
 Name=HB73
 Start=128
 Len=4
 DataType=Numeric
 
 [ValueSet]
-Label=BMI/Age standard deviation (new WHO) (men age 15-19)
+Label=BMI/Age standard deviation (men age 15-19)
 Name=HB73_VS1
 Value=-600:500
 Value=9996;Height out of plausible limits
@@ -24784,14 +24784,14 @@ Value=9999;Missing
 Name=MISSING,Special
 
 [Item]
-Label=Height/Age standard deviation (new WHO) (women age 15-19)
+Label=Height/Age standard deviation (women age 15-19)
 Name=V446A
 Start=58
 Len=4
 DataType=Numeric
 
 [ValueSet]
-Label=Height/Age standard deviation (new WHO) (women age 15-19)
+Label=Height/Age standard deviation (women age 15-19)
 Name=V446A_VS1
 Value=-600:600
 Value=9996;Height out of plausible limits
@@ -24801,14 +24801,14 @@ Value=9999;Missing
 Name=MISSING,Special
 
 [Item]
-Label=BMI/Age standard deviation (new WHO) (women age 15-19)
+Label=BMI/Age standard deviation (women age 15-19)
 Name=V446D
 Start=62
 Len=4
 DataType=Numeric
 
 [ValueSet]
-Label=BMI/Age standard deviation (new WHO) (women age 15-19)
+Label=BMI/Age standard deviation (women age 15-19)
 Name=V446D_VS1
 Value=-600:500
 Value=9996;Height out of plausible limits
@@ -26598,6 +26598,7 @@ DataType=Numeric
 [ValueSet]
 Label=Number of alcoholic drinks per day
 Name=V485B_VS1
+Value=0;Less than one standard drink
 Value=1:39
 Value=40;40+
 Value=99;Missing
@@ -36946,7 +36947,7 @@ Value=1;Yes
 Value=8;Don't know
 
 [Record]
-Label=Mental health module module
+Label=Mental health module
 Name=RECMTH
 RecordTypeValue='WMT'
 Required=No
@@ -37525,7 +37526,7 @@ Len=2
 DataType=Numeric
 
 [Record]
-Label=Fistula module module
+Label=Fistula module
 Name=RECFIS
 RecordTypeValue='WFI'
 Required=No

@@ -3106,6 +3106,7 @@ DataType=Numeric
 [ValueSet]
 Label=Number of alcoholic drinks per day
 Name=MV485B_VS1
+Value=0;Less than one standard drink
 Value=1:39
 Value=40;40+
 Value=99;Missing

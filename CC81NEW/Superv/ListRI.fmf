@@ -1,0 +1,33 @@
+﻿[FormFile]
+Version=CSPro 7.5
+Name=HHFORINT_FF
+Label=LISTRI
+DefaultTextFont=-013 0000 0000 0000 0700 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+FieldEntryFont=0018 0000 0000 0000 0600 0000 0000 0000 0000 0000 0000 0000 0000 Courier New
+Type=OperatorControlled
+  
+[Dictionaries]
+File=..\Dicts\HHForInt.dcf
+  
+[Form]
+Name=FORM000
+Label=Assign households to interviewers questionnaire
+Level=1
+Size=0,0
+  
+  
+[EndForm]
+  
+[Level]
+Name=HHFORINT_QUES
+Label=Assign households to interviewers questionnaire
+  
+[Group]
+Required=Yes
+Name=HHFORINT_QUES_FORM
+Label=Assign households to interviewers questionnaire
+Form=1
+LogicControl=No
+Max=1
+[EndGroup]
+  

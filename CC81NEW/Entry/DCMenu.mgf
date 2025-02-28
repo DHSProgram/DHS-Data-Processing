@@ -1,0 +1,212 @@
+﻿{ common strings used by the application }
+  ES ( "Sending data to supervisor</caption>" ) Enviando datos a supervisor
+  ES ( "Transferring HH listing Data to supervisor" ) Enviando datos de listado de hogar a supervisor
+  ES ( "Sharing HH Data with other interviewers" ) Compartiendo datos de hogar con otras entrevistadoras
+  ES ( "Sending data to Biomarker specialist" ) Enviando datos a especialista en Biomarcadores
+  ES ( "Household initially assigned to you or is a new one" ) El hogar fue asignado a usted o es nuevo
+  ES ( "Assigned to me" ) Si, me lo asignaron
+  ES ( "Assigned to someone else" ) No, fue asignado a alguien mas
+  ES ( "A new household not in original sample" ) Hogar nuevo no definido en muestra inicial
+  ES ( "Cancel" ) Cancelar 
+  ES ( "Select the household that the new one belongs to and press continue. Otherwise press cancel to return to main menu" ) Seleccione el hogar al cual pertenece el nuevo hogar y presione continuar.  De lo contrario presione cancelar para regresar al menu principal 
+  ES ( "Continue" ) Continuar
+  ES ( "Select a household from the list displayed" ) Seleccione un hogar de la lista desplegada 
+  ES ( "Select an individual from the list displayed" ) Seleccione un individual de la lista desplegada 
+  ES ( "NEW HOUSEHOLD" ) HOGAR NUEVO
+  ES ( "There is another session running or the computer crashed while running" ) Hay otra sesion corriendo o el computador fallo mientras corria
+  ES ( "Reset" ) Reiniciar
+  ES ( "Yes" ) Si
+  ES ( "No" ) No
+  ES ( "Individual: Cluster" ) Individuales: Conglomerado
+  ES ( "Interviewer" ) Entrevistadora
+  ES ( "Start a new individual" ) Iniciar recoleccion de individual
+  ES ( "Revisit incomplete/partial individual" ) Revisitar individual incompleta/parcial
+  ES ( "Modify complete individual interview" ) Modificar individual elegible finalizada
+  ES ( "Return to main menu" ) Regresar al menu principal
+  
+  FR ( "There is another session running or the computer crashed while running" ) Il y a une autre session en cours ou bien que l'ordinateur s'est plantÃ© en cours d'exÃ©cution
+  FR ( "Reset" ) Re-initialiser
+  FR ( "Yes" ) Oui
+  FR ( "No" ) Non
+  FR ("Select Language") Choisir la langue 
+
+Language=EN
+001 Cluster=%4d, not defined in sample file
+002 Interviewer %04d not declared in interviewer's file
+003 Interviewer %04d not authorized to work in cluster %d
+004 Must select your corresponding interviewer code
+005 A household must be selected
+006 Error while open file (%s)
+007 Sample file %s not present on system, please check
+008 Directory "%s" not present, the system will abort
+009 This option for household %d is not valid as the case was already partially collected (%d) or visited with a result code (%d)
+010 A Household can only be revisited when the result of a previous visit was incomplete (%d) or partial (%d)
+011 Only household interviews with complete result can be modified (%d)
+012 Anthropometry only valid for complete households (result=%d)
+014 The system needs to change the Windows Bluetooth name to match your interviewer/supervisor code.\n Windows will ask for permission to change the name.\n Please click "Yes" at the prompt to enable the change to be made. 
+015 Make sure that the supervisor flash memory is in your computer.  Once in it click OK
+016 Data for cluster %04d were copied.  Click OK & return flash memory to supervisor
+020 There are no eligible individuals (women/men) in the household or no individual was selected
+025 An individual can only be revisited when the result of a previous visit was incomplete or partial (%s)
+026 Only individual interviews with complete result can be modified (%s)
+030 There are no NOTES available to display
+035 Error setting-up file %s
+045 A new household with number %04d was created and belongs to interviewer %04d
+050 Mismatch between current cluster number on interviewer menu (%s) and supervisor menu (%s). Please check, make sure both menus are set to the correct cluster number and begin the transfer again. 
+054 Must select your team's supervisor code
+061 The supervisor flash memory isn't in your computer.  Insert it and repeat this option
+070 Make sure that your flash memory is in the computer to properly BACKUP the data to directory %s
+071 The flash memory isn't in the computer or directory %s doesn't exist.  BACKUP to flash memory may not be possible
+072 Completed data backup in DATA directory to %s directory
+080 Menu for individual interviews only accessible for complete household interviews (result=%d)
+081 Data collected by supervisors should be transferred in the supervisor menu
+082 Household listing for sampling selection not necessary to be transferred as it is already in the supervisor's machine
+090 Upgrade %s installed.
+091 The menu will shut down to implement upgrades. Please restart after shutdown. 
+092 WARNING: upgrade %s found but not installed correctly, please check
+095 Household assignment file (%s) for cluster %d is not present on device. You must receive it from your supervisor before proceeding
+096 There are no households available for this operation or a household was not selected
+097 WARNING: household %03d was assigned to you, but an interview for this household was already collected by interviewer %04d and shared with you.The assignment of this household to you will be removed. Please check with your supervisor.
+098 Result for household %2d in assignment file is %1d but no record for this household found on device, assignment result code will be reset to %s. This is probably a result of the record being deleted.
+099 Household %2d found on device was assigned to a different interviewer or no interviewer (code %2d), please check
+100 Household file, in household %s the first record isn't valid '%s' in line %d
+101 Household file, household %d duplicated in line %d
+103 Biomarker technicians cannot conduct individual interviews
+105 The previous problems must be fixed to execute the task required
+
+Language=ES
+001 Conglomerado=%02d, no esta definido en el archivo de la muestra
+002 Entrevistadora %02d no esta incluida en el archivo de entrevistadoras
+003 Entrevistadora %02d no esta autorizada para trabajar en Conglomerado %d
+004 Usted debe seleccionar su correspondiente codigo de entrevistadora
+005 Se debe seleccionar una vivienda/hogar
+006 Error al tratar de abrir el archivo (%s)
+008 El directorio "%s" no existe, el sistema abortara
+009 Esta opcion no es valida para el hogar %d por que este ya fue parcialmente recolectado (%d) o visitado con codigo de resultado (%d)
+010 Un hogar solo se puede revisitar cuando el resultado de la visita anterior fue incompleta (%d) o fue recolectado parcialmente (%d)
+011 Solo se pueden modificar hogares con entrevistas completas (%d)
+012 Peso y talla son validos unicamente para hogares con entrevistas completas (resultado=%d)
+015 Asegurese que la memoria flash de la SUPERVISORA esta en su computador.  Una vez en el computador click en el boton OK
+016 Los datos del conglomerado %04d se han copiado.  Haga click en OK y regrese la memoria flash a la supervisora
+020 No hay individuos (mujeres/hombres) elegibles en este hogar o no se selecciono ninguno
+025 Una mujer solo se puede revisitar cuando el resultado de la visita anterior fue incompleta o fue recolectada parcialmente (%s)
+026 Solo se pueden modificar mujeres con entrevistas completas (%s)
+030 No hay NOTAS disponibles para reportar
+035 Error de acceso a archivo %s
+045 Se genero un nuevo hogar con numero %04d y se assigno a la entreviostadora %04d
+054 Usted debe seleccionar el codigo de la supervisora a la cual ha sido asignada
+061 La memoria flash de la SUPERVISORA no esta en su computador.  Insertela y vuelva a repetir esta opcion
+070 Asegurese que la memoria flash se encuentra en el computador para hacer un BACKUP de los datos al directorio %s
+071 La memoria flash no se encuentra en el computador o el directorio %s no existe.  No se hara backup de los datos a la memoria flash
+072 Finalizo copia de resplado de carpeta DATA a carpeta %s"
+080 El menu para mujeres elegibles solo se puede accesar para hogares con entrevistas completas (resultado=%d)
+081 Entrevistas hechas por el supervisor transferidas al directorio correcto
+082 Listado de hogares para seleccion de la muestra no se necesita tranferir por cuanto ya exisite en la maquina del supervisor
+090 El sistema se cancelara para que al reiniciar tengan efecto las actualizaciones
+095 Archivo (%s) con hogares asignados para conglomerado %d no existe (esta malo).  Obtengalo de la supervisora antes de continuar
+096 No hay hogares disponibles para esta operacion o no se selecciono ningun hogar
+098 Le résultat pour le ménage %2d dans le fichier d'affectation est %1d mais aucun enregistrement pour ce ménage n'a été trouvé sur l'appareil, le code de résultat sera réinitialisé à %s. C'est probablement le résultat de l'enlèvement du ménage 
+100 Archivo hogares, en el hogar %s el primer registro es invalido '%s' en la linea %d
+101 Archivo hogares, hogar %d duplicado en la linea %d
+105 Los problemas anteriores se deben solucionar para realizar la tarea solicitada
+
+{ common strings used by the application }
+
+  FR      ( "Individual interview is from" ) L'individuel est un membre de
+  FR      ( "Household interviewed by you" ) Un ménage fait par vous
+  FR      ( "Household interviewed by someone else (shared)" ) Un ménage fait par quelq'un autre (partagé)
+
+  FR ( "Sending data to supervisor</caption>" ) Envoi de données au superviseur</caption>
+  FR ( "Transferring HH listing Data to supervisor" ) Transfert des données du listing des ménages au superviseur
+  FR ( "Sharing HH Data with other interviewers" ) Partage des données HH avec d'autres enquêteurs
+  FR ( "Sending data to Biomarker specialist" ) Envoi de données au spécialiste des biomarqueurs
+  FR ( "Household initially assigned to you or is a new one" ) Ménage qui vous a été affecté initialement ou est nouveau ménage
+  FR ( "Assigned to me" ) Affecté à moi
+  FR ( "Assigned to someone else" ) Affecté à quelqu'un d'autre
+  FR ( "A new household not in original sample" ) Nouveau ménage non défini dans l'échantillon initial
+  FR ( "Cancel" ) Annuler 
+  FR ( "Select the household that the new one belongs to and press continue. Otherwise press cancel to return to main menu" ) Sélectionnez le ménage auquel appartient le nouveau et appuyez sur Continuer. Sinon, appuyez sur Annuler pour revenir au menu principal
+  FR ( "Continue" ) Continuer
+  FR ( "NEW HOUSEHOLD" ) NOUVEAU MÉNAGE
+  FR ( "There is another session running or the computer crashed while running" ) Une autre session est en cours d'exécution ou l'ordinateur est tombé en panne lors de l'exécution
+  FR ( "Reset" ) Réinitialiser
+  FR ( "Yes" ) Oui
+  FR ( "No" ) Non
+  FR ( "Individual: Cluster" ) Individuel: Grappe
+  FR ( "Interviewer" ) Enquêteur
+  FR ( "Start a new individual" ) Commencer un nouveau questionnaire individuel
+  FR ( "Revisit incomplete/partial individual" ) Revisiter interview individuelle incomplète/partielle
+  FR ( "Modify complete individual interview" ) Modifier interview individuelle complète
+  FR ( "Return to main menu" ) Revenir au menu principal
+Language=FR
+001 Grappe =%02d non définie dans le fichier échantillon
+002 L'enquêteur (trice) %02d non délaré(e) dans le fichier des enquêteurs
+003 L'enquêteur (trice) %02d non  autorisé(e) à travailler dans la grappe %d
+004 Vous devrez sélectionner votre code enquêteur (trice) correspondant
+005 Un ménage doit être sélectionné
+006 Erreur en ouvrant le fichier (%s)
+008 Répertoire %s absent, le système va s'arrêter
+009 Cette option pour le ménage %d n'est pas valide, puisque ce ménage était déjà partiellement rempli (%d) ou visité avec le code résultat (%d)
+010 Un ménage ne peut être visité que, lorsque le résultat de la visite précédente était incomplet (%d) ou partiel (%d)
+011 Seuls les ménages enquêtés avec résultat complet, peuvent être modifiés (%d)
+012 L'anthropométrie valable seulement  pour les ménages remplis (result=%d)
+014 AVERTISSEMENT: le nom du périphérique Bluetooth (%s) ne correspond pas au code de l'agent. Utilisez les paramètres Android pour changer le nom du périphérique Bluetooth en <<%s>> 
+015 Assurez vous que la carte SD du superviseur est dans votre tablette. Une fois dedans cliquez sur OK
+016 Données pour la grappe %04d étaient copiées. Cliquez sur OK pour retourner la carte SD au superviseur
+020 Il n'y a pas des femmes/hommes éligibles dans le ménage ou aucun individu n'a été sélectionné
+025 Un individu ne peut seulement être revisité quand le résultat de la visite précédante était incomplet ou partiel (%s)
+026 Seuls les individus enquêtés avec  résultat complet, peuvent être modifiés (%s)
+054 Vous devrez sélectionner le code du superviseur de l'équipe
+045 Un nouveau ménage avec le code %04d a été créé et a été affecté à l'enquêteur %04d
+061 La carte SD du superviseur n'est pas dans votre tablette.  Insérez-la et répétez cette option
+070 Assurez vous que votre carte SD est dans la tablette pour faire proprement la sauvegarde des données dans le repertoire DATA de BACKUP %s
+071 La carte SD n'est pas dans la tablette ou le repertoire %s n'existe pas. Sauvegarder dans la carte SD peut ne pas être possible
+072 Sauvegarde des données du dossier DATA vers le dossier %s
+080 Le Menu pour l'interview individuelle n'est accessible que pour les ménages dont l'interview a été complété (result=%d)
+081 Les interviews faites par le superviseur sont transférées dans le répertoire approprié dans la tablette
+082 Household listing for sampling selection not necessary to be transferred as it is already in the supervisor's machine
+090 Mis à jour %s installé. Le système va être fermé pour tenir compte des mises à jour après la ré-saisie
+092 ATTENTION: mis à jour %s trouvé mais pas installé correctement, verifiez SVP
+095 Le fichier d'affectation (%s) pour la grappe %d n'existe pas sur votre tablette. Veuillez l'obtenir avec le superviseur avant de continuer
+096 Pas de ménages disponibles pour cette opération ou aucun ménage n'a été sélectionné
+100 Fichier ménage, dans le ménage %s le premier enregistrement n'est pas valide '%s' pour l'enquêteur %s, à la ligne %d
+101 Fichier ménage, ménage %d dupliqué pour l'enquêteur %d, ligne %s
+102 Fichier ménage, pour le ménage %d l'enregistrement pour la page de couverture %s trouvé plus d'une fois pour l'enquêteur %s, à la ligne %d
+103 Fichier individuel, dans le ménage %s individu %s le premier enregistrement n'est pas valide '%s' à la ligne %d
+104 Fiche individuelle, dans le ménage %d individu %d dupliqué à la ligne %d
+105 Fichier individuel, il y a des entretiens en double pour le ménage %s individu %s de l'enquêteur=%d et de l'enquêteur=%d
+
+Language=ES
+001 Conglomerado=%02d, no esta definido en el archivo de la muestra
+002 Entrevistadora %02d no esta incluida en el archivo de entrevistadoras
+003 Entrevistadora %02d no esta autorizada para trabajar en Conglomerado %d
+004 Usted debe seleccionar su correspondiente codigo de entrevistadora
+005 Se debe seleccionar una vivienda/hogar
+006 Error al tratar de abrir el archivo (%s)
+008 El directorio "%s" no existe, el sistema abortara
+009 Esta opcion no es valida para el hogar %d por que este ya fue parcialmente recolectado (%d) o visitado con codigo de resultado (%d)
+010 Un hogar solo se puede revisitar cuando el resultado de la visita anterior fue incompleta (%d) o fue recolectado parcialmente (%d)
+011 Solo se pueden modificar hogares con entrevistas completas (%d)
+012 Peso y talla son validos unicamente para hogares con entrevistas completas (resultado=%d)
+015 Asegurese que la memoria flash de la SUPERVISORA esta en su computador.  Una vez en el computador click en el boton OK
+016 Los datos del conglomerado %04d se han copiado.  Haga click en OK y regrese la memoria flash a la supervisora
+020 No hay individuos (mujeres/hombres) elegibles en este hogar o no se selecciono ninguno
+025 Una mujer solo se puede revisitar cuando el resultado de la visita anterior fue incompleta o fue recolectada parcialmente (%s)
+026 Solo se pueden modificar mujeres con entrevistas completas (%s)
+030 No hay NOTAS disponibles para reportar
+035 Error de acceso a archivo %s
+045 Se genero un nuevo hogar con numero %04d y se assigno a la entreviostadora %04d
+054 Usted debe seleccionar el codigo de la supervisora a la cual ha sido asignada
+061 La memoria flash de la SUPERVISORA no esta en su computador.  Insertela y vuelva a repetir esta opcion
+070 Asegurese que la memoria flash se encuentra en el computador para hacer un BACKUP de los datos al directorio %s
+071 La memoria flash no se encuentra en el computador o el directorio %s no existe.  No se hara backup de los datos a la memoria flash
+072 Finalizo copia de resplado de carpeta DATA a carpeta %s"
+080 El menu para mujeres elegibles solo se puede accesar para hogares con entrevistas completas (resultado=%d)
+081 Entrevistas hechas por el supervisor transferidas al directorio correcto
+082 Listado de hogares para seleccion de la muestra no se necesita tranferir por cuanto ya exisite en la maquina del supervisor
+090 El sistema se cancelara para que al reiniciar tengan efecto las actualizaciones
+095 Archivo (%s) con hogares asignados para conglomerado %d no existe (esta malo).  Obtengalo de la supervisora antes de continuar
+096 No hay hogares disponibles para esta operacion o no se selecciono ningun hogar
+100 Archivo hogares, en el hogar %s el primer registro es invalido '%s' en la linea %d
+101 Archivo hogares, hogar %d duplicado en la linea %d
+105 Los problemas anteriores se deben solucionar para realizar la tarea solicitada

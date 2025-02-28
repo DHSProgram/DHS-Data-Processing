@@ -1,0 +1,313 @@
+  string strval;
+ 
+  numeric xmodify;
+
+  FILE PartialFile;
+  { function to partially save data on demand }
+  function SaveData()
+    if !xmodify then
+      savepartial();
+    endif;
+  end;
+
+  { Check relationship of child's mother/father to the household head  }
+  { with the child relationship to the head                            }
+  function valrelat( parent, child )
+    numeric isOK;
+    recode parent :: child -> isOK;  { MOTHER/FATHER         - CHILD              }
+            1,2  ::   3   -> 1;     { Head/Spouse           - Son/Daughter       }
+              2  ::  10   -> 1;     { Spouse                - Stepchild          }
+            3,4  ::   5   -> 1;     { Son/Daughter (in-law) - Grandchild         }
+              5  ::   9   -> 1;     { Grandchild            - Other Relative     }
+              6  ::   1   -> 1;     { Parent                - Head               }
+              7  ::   2   -> 1;     { Parent-in-law         - Spouse             }
+            6,7  ::   8   -> 1;     { Parent/Parent-in-Law  - Brother/Sister     }
+              7  ::   9   -> 1;     { Parent-in-law         - Other Relative     }
+              8  ::   9   -> 1;     { Brother/Sister        - Other Relative :: Niece/nephew-blood }
+              9  ::   8   -> 1;     { other relative :stepmother/father -  brother/sister}
+           {  ?  ::  11   -> 1; }   { Niece/Nephew          - Other relative     }
+           {  ?  ::  13   -> 1; }   { Niece/Nephew-marriage - Not related        }
+              9  ::   9   -> 1;     { Other Relative        - Other Relative     }
+          10,11  ::  11   -> 1;     { Adopted/Not Related   - Not Related        }
+      missing,98 ::98,missing -> 1; { Unknown               - Unknown            }
+  {{POLYG}       ::  11   -> 1;     { Co-wife               - Not related        } {POLYG}}
+                 ::       -> 0;     { All others are incorrect                     }
+    endrecode;
+    valrelat = isOK;
+  end;
+
+  { valid value in a two digits variable }
+  function valid( xvar );
+    valid = ( !special(xvar) & xvar <= 96 )
+  end;
+
+  { valid value in a four digits digits year }
+  function validyr( xvar );
+    validyr = ( !special(xvar) & xvar <= 9996 )
+  end;
+
+  { convert notappl to zero }
+  function NAtoZero( xvar );
+    if xvar = notappl then
+      xvar = 0
+    endif;
+    NAtoZero = xvar;
+  end;
+
+  { check if two values are equal }
+  function noteq( xvar, dvar );
+    noteq = ( xvar <> NAtoZero(dvar) );
+  end;
+
+  { check if one value is less than another }
+  function lessthan( xvar, dvar );
+    lessthan = ( xvar < NAtoZero(dvar) );
+  end;
+
+  { convert notappl to zero }
+  function NSmoke( xvar );
+    if xvar in 888,missing,notappl then
+      xvar = 0
+    endif;
+    NSmoke = xvar;
+  end;
+
+  { Function to check if a date is after the date of interview }
+  function afterint( vcheckm, vchecky, IntM, IntY );
+    numeric z = 0;
+    if validyr(vchecky) & vchecky > IntY |
+       vchecky = IntY & valid(vcheckm) & vcheckm > IntM then
+      z = 1
+    endif;
+    afterint = z;
+  end;
+
+  function maxgrade( xlevel )
+    numeric z;
+    recode xlevel -> z;
+             0   -> 3; { !!! Preschool maximum }
+             1   -> 8; { primary }
+             2   -> 6; { secondary/ 'a' level }
+             3   -> 3; { college (middle level }
+             4   -> 12; { university }
+             5   -> 3; { vocational }
+             6   -> 8; { informal }
+    endrecode;
+    maxgrade = z;
+  end;
+
+  { check that number of years of school according to level is correct }
+  function LevelYears( xlevel, xyears )
+    { Verify the maximum grade for the level }
+    numeric isOK = 1, z;
+    z = maxgrade( xlevel );
+    if valid(xyears) & xyears > z then
+      isOK = 0;
+    endif;
+    LevelYears = isOK;
+  end;
+
+  { returns the first or second digit (decpos) of a decimal variable }
+  function GetDecimal( value, decpos )
+    numeric wholeval, intval, decval;
+    intval   = int( value + 0.00001 ) * 100;   //to properly round the decimal part
+    wholeval = int( value * 100 + 0.00001 );
+    decval   = wholeval - intval;
+    strval   = edit( "99", decval );
+    GetDecimal = tonumber( strval[decpos:1] );
+  end;
+
+  { Function to check all possible combinations of day, month for full dates }
+  { also checks that first date (x) is less or equal than second date (upto) }
+  function DateOK( xday, xmonth, xyear, uptoday, uptomonth, uptoyear )
+    numeric z, leapyear;
+    recode          xmonth            ::        xday        -> z;       { !!! }
+     1,3,5,7,8,10,12,97,98,missing :: 1:31,97,98,missing -> 1;
+     4,6,9,11                      :: 1:30,97,98,missing -> 1;
+     2                             :: 1:28,97,98,missing -> 1;
+                                   ::                    -> 0;
+    endrecode;
+    leapyear = (xyear % 4 = 0);
+    if z = 0 & leapyear & xday = 29 then z = 1 endif;
+    if validyr(xyear) & xyear > uptoyear then
+      z = 0
+    elseif xyear = uptoyear & xmonth <= 12 & xmonth > uptomonth then
+      z = 0
+    elseif xyear = uptoyear & xmonth = uptomonth & xday <= 31 & xday > uptoday then
+      z = 0
+    endif;
+    DateOK = Z;
+  end;
+
+  { function to convert "other methods" to search in calendar }
+  function MethInStr( zmeth, zoth );
+    numeric z;
+    z = zmeth;
+    if zmeth = 95 then
+      z = zoth;                { other modern method position in string of methods in calendar }
+    elseif zmeth = 96 then
+      z = zoth + 1;            { other traditional method position in string of methods in calendar }
+    endif;
+    MethInStr = z;
+  end;
+
+  { calculates the number of days since January 1, 1900 up to the date given in the parameters }
+  { the function assumes that the day (zday) within month (zmonth) is consistent               }
+  function CDCode( zyear, zmonth, zday )
+    numeric z, zz, zdays1 = 0, zdays2 =0, leapday, totdays = 99999;
+    if !zyear in 1900:2170 | !zmonth in 1:12 | !zday in 1:31 then
+      errmsg( "Invalid date to calculate CDC Year=%04d, Month=%02d, day=%02d", zyear, zmonth, zday );
+    else
+      { number of days between 1900 and zyear }
+      do z = 1900 while z < zyear
+        zdays1 = zdays1 + 365 + (z % 4 = 0);
+      enddo;
+      { number of days up to the month in year zyear }
+      leapday = (zyear % 4 = 0);
+      do z = 1 while z < zmonth
+        recode z          -> zz;
+          1,3,5,7,8,10 -> 31;
+                     2 -> 28+leapday;
+              4,6,9,11 -> 30;
+        endrecode;
+        zdays2 = zdays2 + zz;
+      enddo;
+      { total days }
+      totdays = zdays1 + zdays2 + zday;
+    endif;
+    CDCode = totdays;
+  end
+
+  { randomly impute a day between 1 and the maximum number of days in a month }
+  function ImputeDay( yint, mint, dint, zyear, zmonth )
+    numeric zz, leapday;
+    { number of days up to the month in year zyear }
+    leapday = (zyear % 4 = 0);
+    recode zmonth     -> zz;
+      1,3,5,7,8,10,12 -> 31;
+                    2 -> 28+leapday;
+             4,6,9,11 -> 30;
+    endrecode;
+    if yint = zyear & mint = zmonth then
+      zz = dint
+    endif;
+    ImputeDay = random( 1, zz );
+  end
+
+  { checks age and day of birth. check necessary for births in the month of interview and if day, month and year are present }
+  function age_day_check( xday, xmonth, xyear, uptoday, uptomonth, uptoyear, agetofit )
+    { returns:
+      0 if age consistent,
+      1 if inconsistent, and
+     -1 if can't check age }
+    { only need to do the check if:
+      1. day is valid
+      2. month of birth and month of interview are the same
+      3. years are given and valid - otherwise can't check age }
+    if valid( xday ) & valid( uptoday ) &
+       valid( xmonth ) & xmonth = uptomonth &
+       validyr( xyear ) & validyr( uptoyear ) & valid( agetofit ) then
+      age_day_check = ( ( (uptoyear - xyear) - (xday > uptoday) ) <> agetofit );
+    else
+      age_day_check = (-1);
+    endif;
+  end;
+
+  { reads the CSPro STS file to find out if a household or individual has been partially saved }
+  function partialcs( ztype, ncluster, nnumber, nline, string FileToCheck )
+    set trace(on);
+    string f2check = FileToCheck + ".sts";
+    numeric FoundPart = 0, zlen;
+    string  PartialRecord, findadd, findmod;
+    if FileExist(FileToCheck + ".sts") then
+      setfile( PartialFile, FileToCheck + ".sts",update );
+    else
+      setfile( PartialFile, FileToCheck + ".sts",create );
+    endif;
+    if ztype = 1 then
+      findadd  = "Pos=ADD." + edit("9999", ncluster) + edit("9999",nnumber);
+      findmod  = "Pos=MOD." + edit("9999", ncluster) + edit("9999",nnumber);
+    else
+      findadd  = "Pos=ADD." + edit("9999", ncluster) + edit("9999",nnumber) + edit("99",nline);
+      findmod  = "Pos=MOD." + edit("9999", ncluster) + edit("9999",nnumber) + edit("99",nline);
+    endif;
+    zlen = length(findadd);
+    while !FoundPart do
+      if !FileRead( PartialFile, PartialRecord ) then
+        FoundPart = 3
+      elseif pos( strip(findadd), PartialRecord[1:zlen] ) then
+        FoundPart = 1
+      elseif pos( strip(findmod), PartialRecord[1:zlen] ) then
+        FoundPart = 2
+      endif;
+    enddo;
+    trace("hh=%d, findadd=%s, findmod=%s, foundpart=%d", nnumber, findadd, findmod, foundpart);
+    close( PartialFile );
+    if FoundPart in 1,2 then
+      partialcs = FoundPart;
+    else
+      partialcs = 0;
+    endif;
+  end;
+  
+  { Revised function to adjust dates based on age }
+  function ndjlba( lowera, uppera, lowerb, upperb, agetofit )
+    numeric z;
+    { calculate new possible lower bound for a = lower bound of b - age - 12 months }
+    z = lowerb - 12 * (agetofit + 1);
+    { if new lower bound > upper bound then we have an inconsistency }
+    if z > uppera then
+      z = -1
+    else
+      { if new lower bound is less than upper bound, change new lower bound to be
+        lower bound of b - age - 11 months }
+      if z < uppera then
+        z = z + 1
+      endif;
+      { if new lower bound is less than old lower bound for a, leave with old value }
+      if lowera > z then
+        z = lowera
+      endif
+    endif;
+    { return value of lower bound of a }
+    ndjlba = z;
+  end;
+
+  function mkedvalset (string wvarstring, xyears, dkallowed, zeroallowed);
+    numeric z;
+    // creates dynamic value set for education variables
+    // wvarstring: string name for variable to be assigned valueset
+    // xyears : max years allowed
+    // dkallowed: whether dk allowed, 0=none, 1 = DK/8 2= DK/98
+    // zeroallowed: whether zero years allowed
+    valueset edyears;
+    do z = 0 until z > xyears
+      if z > 0 then
+        edyears.add(maketext("Grade/Year %d", z),z);
+      elseif zeroallowed then
+        edyears.add(maketext("Less than one year completed", z),z);
+      endif;
+    enddo;
+    if dkallowed = 1 then
+      edyears.add("Don't know", 8);
+    elseif dkallowed = 2 then
+      edyears.add("Don't know", 98);
+    endif;
+    setvalueset(@wvarstring, edyears);
+  end;
+  function mkchvalueset (string wvarstring, xnum, string xtitle)
+    numeric z;
+    valueset chdesired;
+    do z = 0 until z > xnum
+      if z > 0 then
+        chdesired.add(maketext("%d %s", z, xtitle),z);
+      else
+        chdesired.add(maketext("None", z),z);
+      endif;
+    enddo;
+    chdesired.add("Other", 96);
+    setvalueset(@wvarstring, chdesired);
+  end;
+  function showcard ();
+    view(PathName(Application) + "showcard.pdf")
+  end;

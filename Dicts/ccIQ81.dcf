@@ -18928,6 +18928,7 @@ DataType=Numeric
 [ValueSet]
 Label=Number of alcoholic drinks per day|Nombre de verres alcoolisés par jour
 Name=A1112_VS1
+Value=0;Less than one standard drink
 Value=1:39
 Value=40;40+|40+
 
@@ -25579,6 +25580,7 @@ DataType=Numeric
 [ValueSet]
 Label=Number of alcoholic drinks per day|Nombre de verres alcoolisés par jour
 Name=AM816_VS1
+Value=0;Less than one standard drink
 Value=1:39
 Value=40;40+|40+
 

@@ -1,0 +1,113 @@
+
+  FILE HTMLFile;                       { name of HTML file, normally the application that uses it with extension HTML }
+  
+  array string CellValues(50);           { used to store the values of a full row in a report }
+  array CellAlign(50);                  { specifies if the cell is left aligned. 0-Center aligned, other correspond to the column that is left aligned }
+  string HTMLname, zstring1, zstring2;    { working variables associated to HTML construction }
+
+  { initialize array that stores the type of alignment for each cell }
+  function HTML_InitAlign()
+    numeric z;
+    do z = 1 while z <= 50
+      CellAlign(z) = 0;
+    enddo;
+  end;
+
+  { function to write the the header of an HTML file }
+  function HTML_Header( array align(), string caption )
+    numeric z;
+    string ztemp;
+    open( HTMLFile, create );
+    FileWrite( HTMLFile, "<!DOCTYPE html>" );
+    FileWrite( HTMLFile, "<html>" );
+    FileWrite( HTMLFile, "  <head>" );
+    FileWrite( HTMLFile, '    <meta charset="utf-8">' );
+    FileWrite( HTMLFile, "    <title> DHS Report </title>" );
+    if getos() = 20 then
+      FileWrite( HTMLFile, '    <link href="/storage/emulated/0/csentry/KE81/Superv/TablesStyle.css" rel="stylesheet" type="text/css">' );
+    else
+      FileWrite( HTMLFile, '    <link href="./TablesStyle.css" rel="stylesheet" type="text/css">' );
+    endif;
+    FileWrite( HTMLFile, "    <style>" );
+    do z = 1 while align(z)
+      ztemp = MakeText( "      td:nth-child(%d) { text-align: left; }", align(z) );
+      FileWrite( HTMLFile, ztemp );
+    enddo;
+    FileWrite( HTMLFile, "    </style>" );
+    FileWrite( HTMLFile, "  </head>" );
+    FileWrite( HTMLFile, "  <body>" );
+    FileWrite( HTMLFile, "     <h2>" + caption + "</h2>" );
+    close( HTMLFile );
+  end;
+
+  { function to write the the header of an HTML table }
+  function HTML_BeginTable( array string cells(), string caption, ncells )
+    numeric z;
+    open( HTMLFile, append );
+    FileWrite( HTMLFile, "    <table>" );
+    FileWrite( HTMLFile, '      <caption style="font-weight:bold">' + caption + '</caption>' );
+    FileWrite( HTMLFile, "      <thead>" );
+    FileWrite( HTMLFile, "        <tr>" );
+    do z = 1 while z <= ncells
+	  if cells(z) = "BLANK" then cells(z) = "&nbsp" endif;
+      FileWrite( HTMLFile, '         <th scope="col">' + cells(z) + '</th>' );
+	enddo;
+    FileWrite( HTMLFile, "        </tr>" );
+    FileWrite( HTMLFile, "      </thead>" );
+    FileWrite( HTMLFile, "      <tbody>" );
+    close( HTMLFile );
+  end;
+
+  { function to write one row of data in the HTML table }
+  function HTML_OneRow( array string cells(), ncells )
+    numeric z;
+    open( HTMLFile, append );
+    FileWrite( HTMLFile, "        <tr>" );
+    do z = 1 while z <= ncells
+	  if cells(z) = "BLANK" then cells(z) = "&nbsp" endif;
+      FileWrite( HTMLFile, "          <td>" + cells(z) + "</td>" );
+	enddo;
+    FileWrite( HTMLFile, "        </tr>" );
+    close( HTMLFile );
+  end;
+
+  { function to write one row in a table for a row that behaves as a subtitle }
+  function HTML_Subtitle( string caption, ncells )
+    open( HTMLFile, append );
+	string tmpstring;
+    FileWrite( HTMLFile, "        <tr>" );
+	tmpstring = MakeText( '          <td colspan="%d" style="text-align:left; font-weight:bold">' + caption + '</td>', ncells );
+    FileWrite( HTMLFile, tmpstring );
+    FileWrite( HTMLFile, "        </tr>" );
+    close( HTMLFile );
+  end;
+
+  { function to close the HTML table definition }
+  function HTML_EndTable()
+    open( HTMLFile, append );
+    FileWrite( HTMLFile, "      </tbody>" );
+    FileWrite( HTMLFile, "    </table>" );
+    close( HTMLFile );
+  end;
+
+  { function to include a regular paragraph }
+  function HTML_Paragraph( string caption )
+    open( HTMLFile, append );
+    FileWrite( HTMLFile, "    <p>" + caption +  "</p>" );
+    close( HTMLFile );
+  end;
+
+  { function to include a strong (bold) paragraph }
+  function HTML_ParagraphS( string caption )
+    open( HTMLFile, append );
+    FileWrite( HTMLFile, '    <strong style="color:Red;">' + caption +  "</strong>" );
+    close( HTMLFile );
+  end;
+
+  { function to close HTML }
+  function HTML_End()
+    open( HTMLFile, append );
+    FileWrite( HTMLFile, "  </body>" );
+    FileWrite( HTMLFile, "</html>" );
+    close( HTMLFile );
+  end;

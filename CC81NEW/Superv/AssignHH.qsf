@@ -1,0 +1,99 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 7.5
+
+[LANGUAGES]
+EN=English
+FR=French
+
+[QUESTION]
+Field=SAMPSEL.XADDRESS
+Occurrences=1:60
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Enter the household address for HH number %XNUMBER%
+EN=\par }
+FR={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red255\green0\blue0;}
+FR={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+FR=\pard\cf1\fs20 Entrez l'adresse m\'e9nage pour le m\'e9nage num\'e9ro  %XNUMBER%\par
+FR=
+FR=\pard\lang1036\par
+FR=}
+
+[QUESTION]
+Field=SAMPSEL.XCHANGE
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Select an option for cluster %XCLUSTER% that has %XTOTAL% households
+EN=\par }
+FR={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red255\green0\blue0;}
+FR={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+FR=\pard\cf1\fs20 Selectionnez une option pour la grappe %XCLUSTER% qui a %XTOTAL% m\'e9nages\par
+FR=
+FR=\pard\par
+FR=}
+
+[QUESTION]
+Field=SAMPSEL.XINTCODE
+Occurrences=1:60
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Select the interviewer to be assigned to collect the household %XNUMBER% whose head is: %TEXTSTR%
+EN=\par \fs24
+EN=\par }
+FR={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red255\green0\blue0;}
+FR={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+FR=\pard\cf1\fs20 S\'e9lectionnez l'enqu\'eateur \'e0 qui sera assign\'e9 la collecte du m\'e9nage  %XNUMBER% dont le chef est : %TEXTSTR%\par
+FR=
+FR=\pard\par
+FR=}
+
+[QUESTION]
+Field=SAMPSEL.XMALE
+Occurrences=1:60
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Do you want to change the men's survey selection criteria for the household %XNUMBER% whose head is: %TEXTSTR%
+EN=\par \fs24
+EN=\par }
+FR={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red255\green0\blue0;}
+FR={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+FR=\pard\cf1\fs20 Voulez-vous changer le crit\'e8re de s\'e9lection d'enqu\'eate homme pour le m\'e9nage  %XNUMBER% dont le chef est : %TEXTSTR%\par
+FR=}
+
+[QUESTION]
+Field=SAMPSEL.XNAME
+Occurrences=1:60
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Enter the household head name for HH number %XNUMBER%
+EN=\par }
+FR={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red255\green0\blue0;}
+FR={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+FR=\pard\cf1\fs20 Entrez le nom du chef de m\'e9nage pour le m\'e9nage num\'e9ro  %XNUMBER%\par
+FR=}
+
+[QUESTION]
+Field=SAMPSEL.XNUMBER
+Occurrences=1:60
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Enter the household number for the new household
+EN=\par }
+FR={\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+FR={\colortbl ;\red255\green0\blue0;}
+FR={\*\generator Riched20 10.0.18362}\viewkind4\uc1
+FR=\pard\cf1\fs20\lang1036 Entrez le num\'e9ro pour le nouveau m\'e9nage\lang1033\par
+FR=}
+
+[QUESTION]
+Field=SAMPSEL.XTOTAL
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue0;\red0\green0\blue0;}
+EN=\viewkind4\uc1\pard\cf1\lang1033\fs20 Enter the number of households in the cluster\cf2
+EN=\par }
+

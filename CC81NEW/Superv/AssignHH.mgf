@@ -1,0 +1,30 @@
+﻿{ common strings used by the application }
+  FR ( "No." ) No.
+  FR ( "Name" ) Nom
+  FR ( "Structure" ) Structure
+  FR ( "Male" ) Homme
+  FR ( "Int" ) Enq
+  FR ( "Not to be assigned yet" ) Pas encore à affecter
+  FR ( "Advance to end" ) Aller à la fin
+  FR ( "and lives at address" ) et habite à l'adresse
+  
+language = EN
+005 This option is not permitted
+010 Only households not previously selected for men can be changed
+015 Household number already exists for cluster, select option again
+020 A male interviewer is assigned to a household not selected for male interview
+025 Interviewer %04d was originally assigned this household, you have now changed the assignment to interviewer %04d. \nPlease be careful when re-assigning households, since if the original interviewer began an interview in this household this may create duplicated cases.\nPlease confirm you wish to re-assign this household
+
+language = ES
+005 Esta opcion no esta permitida
+010 Solo se pueden cambiar hogares no seleccionados para hombres
+015 Este numero de hogar ya existe para segmento, seleccione de nuevo la opcion
+020 Entrevistador masculino se asigno a un hogar no seleccionado para encuesta de hombres
+025 Entrevistador(a) %d se asigno inicialmente a este hogar y ahora se cambio por entrevistador(a) %d
+
+language = FR
+005 Cette option n'est pas permise
+010 Seuls les ménages non précédemment sélectionnés pour enquête homme peuvent être modifiés
+015 Numéro de ménage existe déjà pour la grappe, selectionnez de nouveau option
+020 Un ménage non sélectionné pour enquête homme est affecté à un enquêteur
+025 Le ménage était au préalable affecté à l'enquêteur %d, maintenant l'affectation a changé et il est affecté à %d

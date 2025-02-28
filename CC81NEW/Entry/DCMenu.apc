@@ -1,0 +1,1998 @@
+﻿PROC GLOBAL
+
+  FILE   piffile;                       { data entry PFF file for the application }
+  FILE   justone;                       { file handler to make sure that there are no concurrent sessions }
+  FILE   TrackUpg;                      { file handler to track upgrades coming from CSWeb server }
+  numeric debug = 0;
+  string  TheCommand, newupgrades;
+  string  CSPro;                         { CSPro executables directory }
+  string  AppName;                       { application name }
+  string  opid;                          { operator ID }
+  string  wrkprj, wrkpii, data, superv, xdir, pictures;      { directories }
+  string  backup;                        { SD card for backup }
+  string  temp;                        { directory where data collected by supervisor (acting as interviewer) is transferred to his/her machine }
+  string  btsup, btwork, btsamp;           { directories used by the client/server applications to send/receive data via bluetooth }
+  string  fpath, fname, work, dicts, entry, utility, wrkref, upgrades, SampData, SampApps, images, receive, pilotdata, audiodata, quizdata;
+  string  chkfile;
+  string  heading;
+  string  xparaux;
+  string  xparamet;                        { parameter to be passed to the data collection applications }
+  string ccode;                            { country code for dictionaries }
+  string pcode;                            { phase code for dictionaries }
+  string btserver = "";
+
+  alpha(4)   xintnum;                      { Interviewer }
+  alpha(4)   xsuperv;                      { Supervisor }
+  alpha(8)   xfilenum;                     { Number corresponding to data file names }
+  alpha(4)   xcluster;                     { Cluster number }
+  alpha(2)   xteam ;                     { team number }
+  string     xcase;                        { Case: Cluster number, household number, line woman/man number }
+  string     upgrname;                     { names for the upgrades coming from supervisor machine }
+  string     IntName, SupName;              { interviewer and supervisor names }
+  string     xlang;                        { to check if there is another session running }
+  string versiontxt ; // text showing version information at top of menu
+  string sysver;                           // number of last upgrade
+  string clustfname;                      { keeps clusters filename after dictionary closed }
+
+  numeric i, x, ifok, action, option, partial, IntCode, IntSex, IntRole, setalready;
+  numeric j, k, xlen, totintvw, steam, n, SameSession, HHprevious;
+  numeric PrevUpgrade = 0, NewUpgrade = 0;
+  numeric isAndroid ;                        // !! boolean to store OS
+  numeric useCSBT = 1;                          // !! flag to select use of CSPro built-in bluetooth 
+  list string listupgrades;
+  list string dirstocheck;  
+
+  array interview(20);                     { to store interviewers assigned to a supervisor }
+  array interrole(20);                     { role of interviewers assigned to a supervisor }
+  array string intername(20);              { interviewer's name assigned to supervisor }
+  valueset fieldworkers;
+  
+  array intvwcode(400);                    { to store interviewers - code }
+  array intvwrole(400);                    {                       - role }
+  array intvwteam(400);                    {                       - team }
+  array intvwsex(400);                     {                       - sex  }
+  array string intvwname(400);              {                       - name }
+
+  array string caselist ( 100, 6 );
+
+  { setup basic user bar }
+  function userbase();
+    userbar( clear );
+    userbar( add button, "<",    do("PreviousField") );
+    userbar( add button, ">",    do("NextField") );
+    userbar( add button, ">>|",  do("AdvanceToEnd") );
+    userbar( add button, "Lang", do("ChangeLanguage") );
+    userbar( add button, "Ver",  Getversion() );
+  end;
+
+  { set value sets based on language }
+  function OnChangeLanguage()
+    setvaluesets( "_" + getlanguage() );
+    savesetting("Language", getlanguage());
+  end;
+
+  { launches CSEntry stopping DCMenu }
+  function runpffS();
+    ExecPff( AppName + ".pff", maximized, stop );
+  end;
+
+  { launches CSEntry with DCMenu waiting in the background }
+  function runpffW();
+    ExecPff( AppName + ".pff", maximized, wait );
+  end;
+
+  { function used to launch CSIndex }
+  function RunIndex();
+    { Using single quotes instead of double quotes as double quotes are needed in the string generated }
+    TheCommand = '"' + cspro + '\CSIndex.exe" ' + entry + "\" + AppName + '.pff';
+    ExecSystem( TheCommand, maximized, wait );
+  end;
+
+
+  { check if a file exist and deletes it }
+  function fdel( string thisfile )
+    if FileExist( thisfile ) then
+      FileDelete( thisfile )
+    endif;
+  end;
+
+  { check and create folder if it doesn't exist }
+  function ChkDir( string thisfile )
+    if !DirExist( thisfile ) then
+      DirCreate(thisfile);
+    endif;
+  end;
+
+  { since all applications are of data entry type the first lines are the same for all of them }
+  function InitPFF()
+    setfile( piffile, entry + "\" + AppName + ".pff", create );
+    FileWrite( piffile, "[Run Information]" );
+    FileWrite( piffile, "Version=CSPro 7.2" );
+    FileWrite( piffile, "AppType=Entry" );
+    FileWrite( piffile, "[DataEntryInit]" );
+    FileWrite( piffile, "OperatorID=" + xintnum );
+  end;
+
+  { prepares PIF file for households or individual data collection }
+  function genpff( addmode, questype, savpart, revisit, change, hghtwght )
+    InitPff();
+
+    if addmode then
+      FileWrite( piffile, "StartMode=ADD;" + xcase );
+      FileWrite( piffile, "Lock=Add" );
+    else
+      FileWrite( piffile, "Lock=Add" );
+      if savpart = 1 then
+        FileWrite( piffile, "StartMode=ADD;" + xcase );
+      else
+        FileWrite( piffile, "StartMode=MODIFY;" + xcase );
+      endif;
+    endif;
+    FileWrite( piffile, "ShowInApplicationListing=Never" );
+    FileWrite( piffile, "Fullscreen=YES" );
+//    FileWrite( piffile, "AutoAdd=No" );       
+    FileWrite( piffile, "NoFileOpen=NO" );
+    FileWrite( piffile, "Interactive=OFF" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+    if questype = 1 then
+      FileWrite( piffile, "InputData=" + data + "\H" + xfilenum + ".DAT" );
+      FileWrite( piffile, "Paradata="  + data + "\H" + xfilenum + ".cslog" );
+      FileWrite( piffile, "Listing="   + data + "\H" + xfilenum + ".lst" );
+    else
+      FileWrite( piffile, "InputData=" + data + "\I" + xfilenum + ".DAT" );
+      FileWrite( piffile, "Paradata="  + data + "\I" + xfilenum + ".cslog" );
+      FileWrite( piffile, "Listing="   + data + "\I" + xfilenum + ".lst" );
+    endif;
+
+    FileWrite( piffile, "[ExternalFiles]" );
+    if questype = 1 then
+      FileWrite( piffile, ccode + "IN" + pcode + "="   + data   + "\I" + xfilenum + ".DAT" );
+      FileWrite( piffile, "HHFORINT=" + work   + "\S" + xcluster + ".DAT" );
+      FileWrite( piffile, "INTERV=" + wrkref + "\Interv.dat" );
+    elseif questype = 2 then
+      FileWrite( piffile, "cc" + "HH" + pcode + "="   + work   + "\ALLHH.DAT" );
+    endif;
+    FileWrite( piffile, "CLUSTERS=" + wrkref   + "\CLUSTERS.DAT" );
+    FileWrite( piffile, "OTHERS="   + data     + "\O" + xfilenum + ".DAT" );
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    { customize parameters for different types of data entry modes }
+    xparamet[10:1] = edit( "9", revisit );   { if this is a revisit }
+    xparamet[11:1] = edit( "9", change );    { to run modify mode }
+    xparamet[12:1] = edit( "9", savpart );   { case saved partially }
+    xparamet[13:1] = edit( "9", hghtwght );  { to enter height and weight }
+    FileWrite( piffile, "Parameter=" + xparamet + xcluster + xteam );
+    FileWrite( piffile, "Pictures=" + pictures); // for use with camera app !!!
+    FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+    close( piffile );
+  end;
+
+  { check a version available for the next bac-up.  It is a Round-robin system made of up to 10 versions  }
+  function backupn()
+    do n = 0 while n <= 9 & FileExist( backup + "\C" + xcluster + "_" + edit("9",n) + ".zip" )
+    enddo;
+    { open space for next back-up }
+    x = n + 1;
+    if n = 9 then x = 0 endif;
+    fname = backup + "\C" + xcluster + "_" + edit("9",x) + ".zip";
+    if FileExist(fname) then
+      FileDelete( fname );
+    endif;
+    backupn = n;
+  end;
+
+  { finds the drive letter where the flash memory is located }
+  function searchdrive()
+    numeric found = 0;
+    do i = 1 while i <= 5 & !found
+      backup = "DEFGH"[i:1] + ":\DATA";
+      if DirExist( backup ) then
+        found = 1;
+      endif;
+    enddo;
+    searchdrive = found;
+  end;
+
+  { makes a backup as soon after leaving the data collection application }
+  { copies households, individual and others }
+  function backupf()
+    set trace(on);
+    numeric nextbkp;
+    { eliminates files not required }
+    FileDelete( data + "\?" + xfilenum + ".dat.lst" );
+    FileDelete( data + "\?" + xfilenum + ".dat.log" );
+    {ANDROID}
+    if !isAndroid then
+      if !searchdrive() | !DirExist( backup ) then
+        // errmsg( 070, backup );
+        searchdrive();
+      endif;
+    endif;
+    if DirExist( backup ) then
+        { handle round robin back-up number }
+        nextbkp = backupn();
+      if isAndroid then
+          compress(backup  + "\C" + xcluster + "_" + edit("9",nextbkp) + ".zip", data +  "\*" + xfilenum + ".DAT");
+      else
+          TheCommand = Utility + "\UpgradePc\7za.exe a -w" + work + " -i!" + data +  "\*" + xfilenum + ".dat -pDHS" + xintnum  + " " +
+          backup  + "\C" + xcluster + "_" + edit("9",nextbkp) + ".zip";
+          ExecSystem( TheCommand, maximized, wait );
+      endif;
+      // errmsg( 072, backup );
+    else
+      errmsg( 071, backup );
+    endif;
+  end;
+  { this function will be used when the supervisor collects data to move }
+  { it from data directory to receive directory in the same machine      }
+  function transuper()
+        FileDelete( data + "\?" + xfilenum + ".dat.csidx" ); 
+        FileDelete( data + "\?" + xfilenum + ".dat.lst" );
+        FileDelete( data + "\?" + xfilenum + ".dat.log" ); 
+        FileCopy( data + "\?" + xfilenum + "*.*",     receive );
+  end;
+
+
+  { function used to run and execute the data entry applications }
+  function csrun( addmode, questype, savpart, revisit, change, hghtwght )
+  {
+    Parameters - addmode,  the start mode of a data entry program
+                 questype, 1-Household, 2-Individual (women/men)
+                 savpart,  if the case was partially saved (1-partial add, 2-partial modify)
+                 revisit,  if it is a revisit to an incomplete interview (result code <> 1)
+                 change,   advance to the first field after the control of visits
+                 hghtwght, instructs to advance to height/weight section for the household
+  }
+    genpff( addmode, questype, savpart, revisit, change, hghtwght );
+    SaveSetting( "DCSession", "2" );
+    close( HHFORINT );
+    runpffS();
+  end;
+
+  { change file setting for household assignment for a cluster }
+  function SetEligFile(newfile)
+    x = 1;
+    { file name for households assigned to interviewers is only known after the cluster is entered. It is set here }
+    fname = work + "\eligibles.dat";
+    if !FileExist( fname ) then
+      errmsg( 035, fname );
+      x = 0;
+    else
+      if newfile & !setfile( ELIGINDV, fname, create ) | 
+        !newfile & !setfile( ELIGINDV, fname, update ) then
+        errmsg( 035, fname );
+        x = 0;
+      endif;
+    endif;
+    SetEligFile = x;
+  end;
+  
+  { runs wrkelig logic  }
+  function WrkElig( xtype, xhhnum, xintsex )
+    SetEligFile(1);
+    { type   1-households, 2-individual, 3: households not including shared }
+    alpha(10)  key_HH;                     { !! adjust to the length of the key cluster+hh+line }
+    string     fnameHH, fnameIN;              { to extract file name from household and individual dictionaries }
+    
+    fnameHH = work + "\ALLHH.DAT";
+    fnameIN = data + "\I" + xfilenum + ".DAT";
+
+    // check if hh file and individual file exists and create empty file if necessary to avoid error message
+    if FileExist(fnameHH) then
+      setfile(ccHH80, fnameHH, update);
+    else
+      setfile(ccHH80, fnameHH, create);
+    endif;
+    if xtype = 2 then
+      if FileExist(fnameIN) then
+        setfile(ccIN80, fnameIN, update);
+      else
+        setfile(ccIN80, fnameIN, create);
+      endif;
+    endif;
+    while loadcase( ccHH80 ) do
+      { households requested }
+      if xtype in 1,3 then
+        key_HH = edit("9999",AHCLUST) + edit("9999",AHNUMBER) + "  ";
+        if loadcase( ELIGINDV, key_HH) then
+          delcase( ELIGINDV );
+        endif;
+        ZCLUSTER = AHCLUST;
+        ZNUMBER  = AHNUMBER;
+        ZLINE    = notappl;
+        ZNAME    = " ";
+        ZQTYPEA  = " ";
+        ZRESULT  = NaToZero(AHRESULT);
+        ZOWNER   = AHINTNUM;
+        ZMALE    = AHELIGM;
+        if soccurs( ccHH80.AHSEC01X ) then
+          ZNAME = strip(AHFIRSTN(1)) + " " + strip(AHLASTN(1));
+        endif;
+        ZADDRESS = AHADDRESS;
+        if length( strip(ZNAME) ) = 0 then ZNAME = ZADDRESS endif;
+        if AHRESULT <> 1 then
+          // ZSTATUS  = tr("Incomplete") + maketext(" (%1d)", AHRESULT);
+          ZSTATUS  = getlabel(AHRESULT, AHRESULT);
+          ZSTATUSC = 2;
+        elseif partialcs( 1, AHCLUST, AHNUMBER, 0, fnameHH  ) then
+          ZSTATUS  = tr("Partial");
+          ZSTATUSC = 3;
+        else
+          ZSTATUS  = tr("Complete");
+          ZSTATUSC = 1;
+        endif;
+        ZQUEST  = 1;
+        writecase( ELIGINDV );
+              
+      { individuals requested }
+      elseif xhhnum = AHNUMBER then
+        ZADDRESS = AHADDRESS;
+        if !length(strip(AHADDRESS)) & soccurs( ccHH80.AHSEC01X ) then
+          ZADDRESS = strip(AHFIRSTN(1)) + " " + strip(AHLASTN(1));
+        endif;
+        for i in record AHSEC01 do
+        { eligible individuals according to interviewer's sex.  3 is used by supervisor menu as they can see both individuals }
+         if AH09 & xintsex = 2 | AH10 & xintsex = 1 | ( AH09 | AH10 ) & xintsex = 3 then
+          // if AH09 | AH10 then    
+            if AH09 then
+              key_HH = edit("9999",AHCLUST) + edit("9999",AHNUMBER) + edit("99",AH09);
+            else
+              key_HH = edit("9999",AHCLUST) + edit("9999",AHNUMBER) + edit("99",AH10);
+            endif;
+            if loadcase( ELIGINDV, key_HH ) then
+              delcase( ELIGINDV );
+            endif;
+            ZCLUSTER = AHCLUST;
+            ZNUMBER  = AHNUMBER;
+            if AH09 then
+              ZLINE  = AH09;
+              ZQTYPEA  = tr("Female");
+            else
+              ZLINE  = AH10;
+              ZQTYPEA  = tr("Male");
+            endif;
+            ZNAME    = AH02;
+            ZQUEST   = 2;
+            ZOWNER   = AHINTNUM;
+            ZSTATUS  = tr("Not Visited");
+            ZSTATUSC = 0;
+            if loadcase( ccIN80, key_HH) then
+              ZOWNER   = AINTNUM;
+              ZRESULT  = NaToZero( ARESULT );
+              if ARESULT <> 1 then
+                ZSTATUS  = getlabel(ARESULT, ARESULT);
+                ZSTATUSC = 2;
+              elseif partialcs( 2, ACLUSTER, ANUMBER, ALINE, fnameIN  ) then
+                ZSTATUS  = tr("Partial");
+                ZSTATUSC = 3;
+              else
+                ZSTATUS  = tr("Complete");
+                ZSTATUSC = 1;
+              endif;
+              ZOWNER  = AINTNUM;
+            endif;
+            writecase( ELIGINDV );
+          endif;
+        enddo;
+        break;
+      endif;
+    enddo;
+    close( ccHH80 );
+    close( ccIN80 );
+    // check HHFORINT / Sxxxx file in case there are households assigned but not begun yet
+    // also check consistency of assignments versus actual data on interviewer device
+    // hh assigned to another but found on device 
+    // 
+    if xtype = 3 then
+      forcase HHFORINT do 
+        ZCLUSTER = WCLUSTER;
+        ZNUMBER  = VNUMBER;
+        if VINTCODE = IntCode then // assigned to current interviewer
+          ZLINE    = notappl;
+          if !loadcase(ELIGINDV, ZCLUSTER, ZNUMBER, ZLINE) then // household assigned but not yet begun
+            ZLINE    = notappl;
+            ZQTYPEA  = " ";
+            ZRESULT  = 0;
+            ZOWNER   = IntCode;
+            ZNAME    =  VNAME;
+            ZADDRESS = VADDRESS;
+            ZMALE    = VMALE;
+            ZSTATUS  = tr("Not Visited");
+            writecase(ELIGINDV);
+            if VRESULT <> 0 then // if assignment file status different display warning message and reset the result code in HHFORINT
+              errmsg(98, VNUMBER, VRESULT, tr("Not Visited"));
+              VRESULT = ZRESULT;
+              writecase(HHFORINT);
+            endif;
+          else // hh data already on device
+            if ZOWNER <> IntCode then // hh data found in shared .\work files, display message and reset assignment to other interviewer
+              errmsg(97, ZNUMBER, ZOWNER);
+              VINTCODE = ZOWNER;
+              writecase(HHFORINT);
+            endif; // if found hh data belongs to current interviewer no need to do anything
+          endif;
+        else                         // household assigned to another interviewer but hh data on device and created by current interviewer
+          if loadcase(ELIGINDV, ZCLUSTER, ZNUMBER, ZLINE) & ZOWNER = IntCode then 
+            if VINTCODE then // display warning message if assigned to another interviewer
+              errmsg(99,VNUMBER, VINTCODE);
+            endif;
+            VINTCODE = ZOWNER;
+            writecase(HHFORINT);
+          endif;
+        endif;
+      enddo;
+    endif;
+    close( ELIGINDV );
+  end;
+
+  function fill_caselist (seltype);
+    numeric ctr = 0;
+    caselist.clear();
+    // reads cases from ELIGINDV into a list based on selection criteria
+    // list is used to display hh/individual cases for selection
+    // seltype: 0:all hhs assigned to interviewer
+    //          1:only completed hhs assigned to interviewer
+   //           2:completed hhs assigned to other interviewers
+   //           3:all cases - used for selection of individuals
+    SetEligFile(0);
+    forcase ELIGINDV do
+      // do selection first skip if case doesn't meet criteria
+      if ( seltype = 0 & ZOWNER = IntCode ) |                      // hh for interviewer
+      ( seltype = 1 & ZRESULT = 1 & ZOWNER = IntCode { & ZSTATUSC = 1 }) |           // completed hhs of interviewer, no partials
+      ( seltype = 4 & ZRESULT = 1 & ZOWNER = IntCode               ) |           // completed hhs of interviewer, include partials for biomarkers
+      ( seltype = 2 & ZRESULT = 1 & ZOWNER <> IntCode & ZSTATUSC = 1 )|          //  completed hh's of other interviewers
+        seltype  = 3                                              //  all cases 
+      then 
+        inc(ctr);
+        // next, populate the array
+        if seltype in 0:2,4:5 then                             // hh's
+          caselist(ctr,1) = maketext("%04d", ZNUMBER );
+          caselist(ctr,2) = ZNAME;
+          caselist(ctr,3) = maketext("%04d", ZOWNER );
+          caselist(ctr,4) = ZSTATUS;
+          caselist(ctr,5) = "YN"[ZMALE:1];
+        else                                               // individuals
+          caselist(ctr,1) = maketext("%04d", ZNUMBER );
+          caselist(ctr,2) = maketext("%02d", ZLINE );
+          caselist(ctr,3) = ZNAME;
+          caselist(ctr,4) = maketext("%04d", ZOWNER );
+          caselist(ctr,5) = ZQTYPEA;
+          caselist(ctr,6) = ZSTATUS;
+        endif;
+      endif;
+    enddo;
+    close(ELIGINDV);
+  end;
+
+    { generates the PIF file for the application used to display }
+    { fix the result of the households assigned to interviewers  }
+    function FixResult()
+      InitPff();
+      FileWrite( piffile, "StartMode=ADD" );
+      FileWrite( piffile, "ShowInApplicationListing=Never" );
+      FileWrite( piffile, "Lock=Modify, Verify" );
+      FileWrite( piffile, "Fullscreen=Yes" );
+      FileWrite( piffile, "NoFileOpen=Yes" );
+
+      { Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[Files]" );
+      FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+      FileWrite( piffile, "Listing="     + entry + "\" + AppName + ".lst" );
+
+      { External Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[ExternalFiles]" );
+      FileWrite( piffile, "HHFORINT=" + work + "\S" + edit("9999",WCLUSTER) + ".DAT" );
+
+      { Parameters section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[Parameters]" );
+      FileWrite( piffile, "Language=" + GetLanguage() );
+      { parameters are household number, whether household or individual questionnaire and interviewer sex }
+      FileWrite( piffile, "Parameter=" + edit("9999",IntCode) + edit("9999",VNUMBER) );
+      FileWrite( piffile, "ViewListing=Never" );     { Do not show .lst -- will be shown manually }
+      FileWrite( piffile, "ViewResults=No" );        { Do not show .wrt -- will be shown manually }
+      FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+      close( piffile );
+    end;
+
+    { generates a list of eligible individuals for individual questionnaire and eligible  }
+    { individuals for height and weight                                                   }
+    function ListElig()
+      InitPff();
+      FileWrite( piffile, "StartMode=ADD" );
+      FileWrite( piffile, "ShowInApplicationListing=Never" );
+      FileWrite( piffile, "Fullscreen=Yes" );
+      FileWrite( piffile, "NoFileOpen=Yes" );
+
+      { Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[Files]" );
+      FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+      FileWrite( piffile, "Listing="     + entry + "\" + AppName + ".lst" );
+      FileWrite( piffile, "WriteData=.\" + AppName + ".wrt" );
+
+      { External Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[ExternalFiles]" );
+      FileWrite( piffile, ccode + "HH" + pcode + "=" + data + "\H" + xfilenum + ".DAT" );
+      FileWrite( piffile, ccode + "IN" + pcode + "=" + data + "\I" + xfilenum + ".DAT" );
+      FileWrite( piffile, "CLUSTERS=" + wrkref   + "\CLUSTERS.DAT" );
+
+      FileWrite( piffile, "[Parameters]" );
+      { parameters are: cluster and household number (may include others for sub-samples) }
+      FileWrite( piffile, "Language=" + GetLanguage() );
+      FileWrite( piffile, "Parameter=" + xcase );
+      FileWrite( piffile, "ViewListing=Never" );
+      FileWrite( piffile, "ViewResults=No" );
+      FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+      close( piffile );
+    end;
+
+    { generates a list of all questionnaires collected by an interviewer }
+    function LstQuest()
+      InitPff();
+      FileWrite( piffile, "StartMode=ADD" );
+      FileWrite( piffile, "ShowInApplicationListing=Never" );
+      FileWrite( piffile, "Fullscreen=Yes" );
+      FileWrite( piffile, "NoFileOpen=Yes" );
+
+      { Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[Files]" );
+      FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+      FileWrite( piffile, "Listing="     + entry + "\" + AppName + ".lst" );
+      FileWrite( piffile, "WriteData=.\" + AppName + ".wrt" );
+
+      { External Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[ExternalFiles]" );
+      FileWrite( piffile, "cc" + "HH" + pcode + "=" + data + "\H" + xfilenum + ".DAT" );
+      FileWrite( piffile, ccode + "IN" + pcode + "=" + data + "\I" + xfilenum + ".DAT" );
+
+      FileWrite( piffile, "[Parameters]" );
+      FileWrite( piffile, "Language=" + GetLanguage() );
+      FileWrite( piffile, "Parameter=" + xcluster );
+      FileWrite( piffile, "Interviewer=" + xintnum );
+      FileWrite( piffile, "ViewListing=Never" );
+      FileWrite( piffile, "ViewResults=No" );
+      FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+      close( piffile );
+    end;
+
+    { generates a list of nottes taken by interviewer in cluster }
+    function ListNotes()
+      InitPff();
+      FileWrite( piffile, "StartMode=ADD" );
+      FileWrite( piffile, "ShowInApplicationListing=Never" );
+      FileWrite( piffile, "Fullscreen=Yes" );
+      FileWrite( piffile, "NoFileOpen=Yes" );
+
+      { Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[Files]" );
+      FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+
+      { External Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[UserFiles]" );
+      FileWrite( piffile, "FILENOTE=" + work + "\ALLNOTES.DAT" );
+
+      FileWrite( piffile, "[Parameters]" );
+      { parameters are: cluster and household number (may include others for sub-samples) }
+      FileWrite( piffile, "Language=" + GetLanguage() );
+      FileWrite( piffile, "Parameter=" + xcluster + "0" );
+      FileWrite( piffile, "ViewListing=Never" );
+      FileWrite( piffile, "ViewResults=No" );
+      FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+      close( piffile );
+    end;
+
+    { function to generate the source and destination of files to transfer }
+    function GenFileXML( string sourcedir, alpha(1) prefix, string suffix, string destdir )
+      fname = sourcedir + "\" + prefix + xfilenum + suffix;
+      FileWrite( piffile, '<file source="' + fname + '" destdir="' + destdir + '" />' );        { actual file name }
+    end;
+    { transfer data from interviewer to supervisor using bluetooth }
+    function transfer()
+      if isAndroid | useCSBT then
+        { delete files not required }
+        FileDelete( data + "\?" + xfilenum + ".dat.csidx" ); 
+        FileDelete( data + "\?" + xfilenum + ".dat.lst" );
+        FileDelete( data + "\?" + xfilenum + ".dat.log" ); 
+        SyncServer( Bluetooth );
+      else
+        fpath = utility + "\btclientPC";
+        setfile( piffile, fpath + "\transfer.xml", create );
+        { XML construction for transferring data }
+        FileWrite( piffile, '<?xml version="1.0" encoding="utf-8" ?>' );
+        FileWrite( piffile, "<transfer>" );
+        FileWrite( piffile, "<caption>" + IntName + " " + tr("Sending data to supervisor") + "</caption>" );
+        { restrict the client machine to the supervisor machine (WSUPER) }
+        FileWrite( piffile, '<to name="' + SupName + '" id="' + edit("9999",WSUPER) + '" />' );
+        { encryption key, auto send parameter and timeout in seconds after which polling for devices is terminated }
+        FileWrite( piffile, "<key>1111111111111111</key>" );
+        FileWrite( piffile, "<autosend>true</autosend>" );
+        FileWrite( piffile, "<timeout>120</timeout>" );
+        GenFileXML( data, "H", ".dat",       btsup );    { households data file }
+        GenFileXML( data, "H", ".dat.sts",   btsup );    { households partial save file }
+        GenFileXML( data, "H", ".dat.csnot", btsup );    { households notes file }
+        GenFileXML( data, "I", ".dat",       btsup );    { individual data file }
+        GenFileXML( data, "I", ".dat.sts",   btsup );    { individual partial save file }
+        GenFileXML( data, "I", ".dat.csnot", btsup );    { individual notes file }
+        GenFileXML( data, "O", ".dat",       btsup );    { others file }
+        { close XML definition }
+        FileWrite( piffile, "</transfer>" );
+        close( piffile );
+        TheCommand = fpath + "\btclientPC.exe ";
+        ExecSystem( TheCommand, normal, wait );
+      endif;
+    end;
+
+    { share household data with another interviewer in the same team using bluetooth }
+    function sendhhdat()
+      if isAndroid | useCSBT then
+        x = showarray( "Select whom you want to share HH data with", TeamShare, title("Codes", "Interviewer Names") );  
+        btserver = TeamShare(x,1);
+        if SyncConnect( Bluetooth, btserver) then
+          fname = data + "\H" + xfilenum + ".DAT";
+          SyncFile( PUT, fname, btwork );
+          SyncDisconnect();
+        endif;
+      else
+        fpath = utility + "\btclientPC";
+        setfile( piffile, fpath + "\transfer.xml", create );
+        { XML construction for transferring data }
+        FileWrite( piffile, '<?xml version="1.0" encoding="utf-8" ?>' );
+        FileWrite( piffile, "<transfer>" );
+        FileWrite( piffile, "<caption>" + IntName + " " + tr("Sharing HH Data with other interviewers") + "</caption>" );
+        { restrict sharing the household data to interviewers in the same team }
+        { including the supervisor but excluding him/herself                   }
+        do i = 1 while interview(i)
+          if IntCode <> interview(i) then
+            FileWrite( piffile, '<to name="' + intername(i) + '" id="' + edit("9999",interview(i)) + '" />' );
+          endif;
+        enddo;
+        { encryption key, auto send parameter and timeout in seconds after which polling for devices is terminated }
+        FileWrite( piffile, "<key>1111111111111111</key>" );
+        FileWrite( piffile, "<autosend>true</autosend>" );
+        FileWrite( piffile, "<timeout>120</timeout>" );
+        GenFileXML( data, "H", ".dat",     btwork );      { households data file }
+        GenFileXML( data, "H", ".dat.sts", btwork );      { households partial save file }
+        FileWrite( piffile, "</transfer>" );
+        close( piffile );
+        TheCommand = fpath + "\btclientPC.exe ";
+        ExecSystem( TheCommand, normal, wait );
+      endif;
+    end;
+
+    { make interviewer machine available as server to receive household data from other interviewers }
+    function receivehh()
+      if isAndroid | useCSBT then
+        SyncServer( Bluetooth );
+      else
+        fpath = utility + "\btserverPC";
+        TheCommand = fpath + "\btserverPC.exe " + '"id=' + edit("9999",IntCode) + '" "name=' + IntName + '" "rootdir=' + wrkprj + '" "encrkey=1111111111111111"';
+        ExecSystem( TheCommand, normal, wait );
+      endif;
+    end;
+    function string getupgradepath (string str_input, string str_match);
+      errmsg("str_input=%s",str_input);
+      errmsg("str_match=%s",str_match);
+      numeric wbegin   = pos(str_match, str_input);
+      numeric lenmatch = length(str_match);
+      numeric leninput = length(str_input);
+      numeric aftermatch = wbegin+lenmatch;
+      if wbegin then
+        getupgradepath = str_input[aftermatch:leninput-aftermatch+1];
+      else
+        getupgradepath = "";
+      endif;
+    end;
+    { applying updates coming from IFSS into supervisor's machine in directory upgrades }
+
+     
+    function CopyList (string source_dir, string file_filter, string target_dir);
+      numeric ctr;
+      listupgrades.clear();
+      DirList( listupgrades, source_dir, file_filter);
+      do ctr = 1 while ctr <= ListUpgrades.length()
+        FileCopy( ListUpgrades(ctr), target_dir );      
+      enddo;        
+    end;
+    function FileChanged (string filetocheck);
+      // uses md5 checksum to determine if a file has changed
+      // return values: 0: not changed 1: changed 2: new file
+      // requires MD5 file to have been opened prior to calling the function
+      numeric found = 0;
+      numeric md5res = 0;
+      string file_path = strip(filetocheck);
+      string MD5_Value = diagnostics("md5",file_path); // generate md5 hash for the file
+
+      FILE_NAME = path.GetFileName(file_path); // get file name for lookup
+      found = loadcase(MD5,FILE_NAME);        // look up file in md5 database
+      if !FileExist(filetocheck) then // if file does not exist treat as though not changed
+        md5res = 0;   
+      elseif !found then  // new file
+        md5res = 2;
+      elseif MD5CODE <> MD5_Value then  // existing file but changed
+        md5res = 1;
+      else                             // existing file, not changed
+        md5res = 0;
+      endif;
+      if md5res then // if changed/new we update the MD5 database
+        MD5CODE= MD5_Value ;
+        writecase(MD5);
+      endif;
+      FileChanged = md5res;
+    end;
+    function string extract_UpgrNum (string str_path)
+      string str_fname = path.GetFileName(str_path);
+      numeric w_start, w_len;
+      // get upgrade number from the file name
+      // note this assumes the file name minus extension ends in n digits and there are no other numbers in the name
+      // 123456789
+      // upgdhs1.zip
+      w_start = length(upgrname) + 1;
+      w_len   = pos(".zip", str_fname) - w_start;
+      extract_UpgrNum = str_fname[w_start:w_len];
+    end;
+    { applying updates coming from supervisor's machine in directory upgrades }
+    {ANDROID - new function for checking and unzipping upgrades}
+    function ApplyUpgr()
+      numeric cur_version = tonumber(sysver);
+      numeric new_version;
+      string fmask = upgrname + "*.zip";
+      if isAndroid  then
+        // use line below with standard upgrade zip structure !!!
+        // fpath = PathName(CSEntry)
+        fpath = PathName(CSEntry) + "cc81";
+      else
+        fpath = wrkprj;
+      endif;
+      // do dir list
+      ListUpgrades.clear();
+      DirList( ListUpgrades, upgrades, fmask);
+      ListUpgrades.sort();
+      // loop through files checking if they are new/changed
+      if length(ListUpgrades) > 0 then
+        do i = 1 while i <= length(ListUpgrades)  
+          fname = ListUpgrades(i);
+          new_version = tonumber(extract_UpgrNum(fname));
+          if  new_version > cur_version then
+            ifok = decompress(fname, fpath); 
+            if ifok then
+              errmsg( 090, path.GetFileName(fname));
+              cur_version = new_version;
+            else
+              errmsg( 092, path.GetFileName(fname));
+              FileDelete(fname); // !!! delete the file that can't be extracted in case we need to download another copy
+            endif;
+          endif;
+        enddo;
+      endif;
+      if cur_version > tonumber(sysver) then
+        sysver = edit("999", cur_version);
+        SaveSetting( "Version", sysver );
+        errmsg(91);
+        stop(-1);
+      endif;
+    end;
+    
+    { change the file setting for the household assignment for a cluster }
+    function SetAssignFile()
+      x = 1;
+      { file name for households assigned to interviewers is only known after the cluster is entered.  It is set here }
+      fname = work + "\S" + edit("9999",WCLUSTER) + ".DAT";
+      if !FileExist( fname ) then
+        errmsg( 095, fname, WCLUSTER );
+        x = 0;
+      else
+        if !setfile( HHFORINT, fname ) then
+          errmsg( 095, fname, WCLUSTER );
+          x = 0;
+        endif;
+      endif;
+      SetAssignFile = x;
+    end;
+    { receiving household assignment from supervisor }
+    function rcvhhassign()
+      close( HHFORINT );
+      if isAndroid | useCSBT then
+        btserver = edit("9999", WSUPER);
+        if SyncConnect( Bluetooth, btserver ) then
+          // get the assignment file
+          fname = work + "\S" + xcluster + ".dat";
+          FileDelete( fname );
+          SyncFile( GET, fname, work );
+          // now get any new upgrades 
+          fname = upgrades + "/" + upgrname + "*.zip";
+          SyncFile( GET, fname, upgrades );
+          SyncDisconnect();
+          ApplyUpgr();
+        endif;        
+      else
+        fpath = utility + "\btserverPC";
+        TheCommand = fpath + "\btserverPC.exe " + '"id=' + edit("9999",IntCode) + '" "name=' + IntName + '" "rootdir=' + wrkprj + '" "encrkey=1111111111111111"';
+        ExecSystem( TheCommand, normal, wait );
+      endif;
+      SetAssignFile();
+    end;
+
+    function receiveupgr()
+      if isAndroid | useCSBT then
+        btserver = edit("9999", WSUPER);
+        if SyncConnect( Bluetooth, btserver ) then
+          fname = upgrades + "/" + upgrname + "*.zip";
+          SyncFile( GET, fname, upgrades );
+          SyncDisconnect();
+        endif;        
+      else
+        // create file with list of existing upgrades to supervisor !!
+        fname = ".\TrackUpg.txt";
+        TrackUpg.Open(fname, create);
+        ListUpgrades.clear();
+        DirList( ListUpgrades, upgrades, upgrname + "*.zip");
+        do numeric ctr = 1 until ctr > length(ListUpgrades)
+          FileWrite(TrackUpg, ListUpgrades(ctr));
+        enddo;
+        TrackUpg.Close();
+        // send trackupgr file to supervisor device
+        fpath = utility + "\btclientPC";
+        setfile( piffile, fpath + "\transfer.xml", create );
+        { XML construction for transferring data }
+        FileWrite( piffile, '<?xml version="1.0" encoding="utf-8" ?>' );
+        FileWrite( piffile, "<transfer>" );
+        FileWrite( piffile, "<caption>" + IntName + " " + tr("Sending data to supervisor") + "</caption>" );
+        { restrict the client machine to the supervisor machine (WSUPER) }
+        FileWrite( piffile, '<to name="' + SupName + '" id="' + edit("9999",WSUPER) + '" />' );
+        { encryption key, auto send parameter and timeout in seconds after which polling for devices is terminated }
+        FileWrite( piffile, "<key>1111111111111111</key>" );
+        FileWrite( piffile, "<autosend>true</autosend>" );
+        FileWrite( piffile, "<timeout>120</timeout>" );
+        FileWrite( piffile, '<file source="' + fname + '" destdir="' + btwork + '" />' );        { actual file name }
+        { close XML definition }
+        FileWrite( piffile, "</transfer>" );
+        close( piffile );
+        TheCommand = fpath + "\btclientPC.exe ";
+        ExecSystem( TheCommand, normal, wait );
+        fpath = utility + "\btserverPC";
+        TheCommand = fpath + "\btserverPC.exe " + '"id=' + edit("9999",IntCode) + '" "name=' + IntName + '" "rootdir=' + wrkprj + '" "encrkey=1111111111111111"';
+        ExecSystem( TheCommand, normal, wait );
+      endif;
+      ApplyUpgr();
+    end;
+
+    { gets one household from file provided by supervisor with households assigned to interviewers }
+    function getonehh( task )
+      trace("fname=%s", FileName(ELIGINDV));
+      numeric cancelled, y = 1, newHH;
+      fname = work + "\S" + xcluster + ".DAT";
+      if !FileExist( fname ) then
+        errmsg( 095, fname, WCLUSTER );
+        ifok = 0;
+      else
+        if task = 4 then  { eligible individuals }
+          { find if household assigned or not to interviewer by supervisor }
+          x = accept( tr("Individual interview is from"),
+                      tr("Household interviewed by you"),
+                      tr("Household interviewed by someone else (shared)"),
+                      tr("Cancel") );
+        else                    { other options use households assigned to interviewer }
+          x = 1;
+        endif;
+        cancelled = ( task = 1 & x in 0,4 | task = 4 & x in 0,3 );
+        ifok = 0;
+        if task in 1,2 then // hh int, list eligibles (all assigned hhs)
+          fill_caselist(0);
+          heading = tr("Select Household");
+        elseif task = 3 then // biomarkers - only hhs with result = 1
+          fill_caselist(4);
+          heading = tr("Select Household for Biomarkers Entry");
+        elseif task = 4 then // individuals ( only hhs with result = 1 )
+          heading = tr("Select Household for individual interview");
+          if x = 1  then // not shared
+          fill_caselist(1);
+          else // shared
+          fill_caselist(2);
+          endif;
+        elseif task = 5 then    { New household not in original sample, ie split household }
+          SetAssignFile();
+          // can only split from a household assigned to you !!!
+          ifok = selcase( tr("Select the household that is to be split and press continue. Otherwise press cancel to return to main menu"), HHFORINT, "", 4) 
+            include( VNAME, VADDRESS, VRESULT )
+            where VINTCODE = WINTNUM;
+          if ifok then
+            { Generate a new household number based on the interviewer's code, and ensure it does not clash with another }
+            newHH = 1000 + VNUMBER;     { !!! make sure to generate a HH number that doesn't exist in the sample }
+            do i = 2 while find( HHFORINT, =, edit("9999",newHH) )
+              if newHH < 10000 then
+                newHH = i * 1000 + VNUMBER;
+              else
+                newHH = 9000 + i;
+              endif;
+            enddo;
+            VNAME   = maketext("SPLIT FROM (%s-%s)", VNAME, VADDRESS);
+            VNUMBER = newHH;
+            VRESULT = 0;
+            VINTCODE = WINTNUM;
+            writecase( HHFORINT );
+            errmsg( 045, VNUMBER, VINTCODE );
+          endif;
+        endif;
+        if task <> 5 then
+          ifok = showarray(heading, caselist, title ( tr("HH"), tr("Name"), tr("Int."), tr("Status") , tr("Male/LS"))  );
+          if y = 1 & !cancelled & !ifok then
+            errmsg( 096 );
+          else
+            SetEligFile(0);
+            ZNUMBER = tonumber( caselist(ifok,1) );
+            ZLINE = notappl;
+            x = loadcase(ELIGINDV, WCLUSTER, ZNUMBER, ZLINE );
+            close(ELIGINDV);
+          endif;
+        endif;
+      endif;
+      getonehh = ifok;
+      close(ELIGINDV);
+    end;
+
+    ///Executes Data Repair utility
+    ///Parameters:
+    ///string drXml - path to the input XML file
+    ///string drLanguage - UI language. Values can be "English", "French", "Russian", "Spanish"
+    function RunDataRepair(string drXml, string drLanguage)
+      set trace(on);
+      if isAndroid then
+        SystemApp dataRepairApp;
+        dataRepairApp.Clear();
+        dataRepairApp.SetArgument("xmlfile", drXml);
+        dataRepairApp.setArgument("language", drLanguage);
+        x = dataRepairApp.exec("com.dec.datarepair");
+        if debug then
+          trace( maketext("result =%d, drxml=%s drLanguage=%s",x,drxml,drLanguage) );
+        endif;
+      else
+        fpath = utility + "\DataRepPc";
+        TheCommand = fpath + "\DataRepairPc.exe Android.xml";
+        ExecSystem( TheCommand, normal, wait );
+      endif;
+    end;
+
+    { concatenates the interviewer's household data with data from other interviewers }
+    function concathh()
+      { concatenate households from all interviewers sharing data but first delete files }
+      // set interviewer hh file name
+      string int_hh    = data + "\H" + xfilenum + ".DAT";
+      string shared_hh = work + "\H" + xcluster + "????.DAT";
+      fdel( work + "\ALLHH.DAT" );
+      fdel( work + "\ALLHH.DAT.csidx" );
+      fdel( work + "\ALLHH.DAT.sts" );
+      { the HH interviewer file has to be removed as it may exist empty }
+      if FileEmpty(int_hh) then
+        FileDelete(int_hh);
+      endif;
+      { concatenate HH data files }
+      { ANDROID need to check if all files for the fileconcat are present to avoid error messages }
+
+      if FileExist(int_hh ) then
+        FileConcat( ccHH80, work + "\ALLHH.DAT",                         { resulting file }
+                    int_hh,             { file from interviewer }
+                    shared_hh);       { files from other interviewers }
+        { concatenate partials for all households from all interviewers }
+        if FileExist ( int_hh + ".sts" ) & !FileEmpty ( int_hh + ".sts" ) then
+          FileConcat( work + "\ALLHH.DAT.sts",                     { result file }
+                      data + "\H" + xfilenum + ".DAT.sts",         { file from interviewer }
+                      work + "\H" + xcluster + "????.DAT.sts" );   { files from other interviewers }
+        else
+          FileConcat( work + "\ALLHH.DAT.sts",                     { result file }
+                      work + "\H" + xcluster + "????.DAT.sts" );   { files from other interviewers }
+        endif;
+      elseif FileExist(shared_hh) then
+        FileConcat( ccHH80, work + "\ALLHH.DAT",                         { resulting file }
+                    shared_hh);       { files from other interviewers }
+        { concatenate partials for all households from all interviewers }
+        FileConcat( work + "\ALLHH.DAT.sts",                     { result file }
+                    work + "\H" + xcluster + "????.DAT.sts" );   { files from other interviewers }
+      endif;
+    end;
+
+    { concatenates the interviewer's household and individual notes taken in the cluster }
+    function ConcatNotes()
+      numeric fh, fi, fres;
+      { concatenate households from all interviewers sharing data but first delete files }
+      fdel( work + "\ALLNOTES.DAT" );
+      { concatenate HH data files }
+      fh = FileExist(data + "\H" + xfilenum + ".DAT.CSNOT" );      { notes for HH interviews }
+      fi = FileExist(data + "\I" + xfilenum + ".DAT.CSNOT" );      { notes for individual interviews }
+          recode fh :: fi -> fres;
+              0 ::  0 -> 0;       
+              1 ::  1 -> 1;
+              1 ::    -> 2;
+                ::    -> 3;
+      endrecode;
+          if fres = 0 then
+            errmsg( 030 )
+      elseif fres = 1 then    { notes in individual interviews }
+        FileConcat( work + "\ALLNOTES.DAT",                      { resulting file }
+                  data + "\H" + xfilenum + ".DAT.CSNOT",         { notes in household interviews }
+                  data + "\I" + xfilenum + ".DAT.CSNOT" );       { notes in individual interviews }
+      elseif fres = 2 then
+        FileConcat( work + "\ALLNOTES.DAT",                      { resulting file }
+                  data + "\H" + xfilenum + ".DAT.CSNOT" );       { notes in household interviews }
+      elseif fres = 3 then
+        FileConcat( work + "\ALLNOTES.DAT",                      { resulting file }
+                  data + "\I" + xfilenum + ".DAT.CSNOT" );       { notes in household interviews }
+      endif;      
+    end;
+
+    { use system default application to display HTML files }
+    function HTML_Display( string thisfile )
+     view( thisfile + ".html" );
+    end;
+
+
+
+    { generates the PIF file for the application used to display }
+    { individuals available to be interviewed in a household     }
+    function MapHHpff( type )
+      { type   1-households, 2-individual }
+      InitPff();
+
+      FileWrite( piffile, "StartMode=ADD" );
+      FileWrite( piffile, "ShowInApplicationListing=Never" );
+      FileWrite( piffile, "Fullscreen=Yes" );
+      FileWrite( piffile, "NoFileOpen=Yes" );
+
+      { Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[Files]" );
+      FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+      FileWrite( piffile, "Listing="     + entry + "\" + AppName + ".lst" );
+
+      { External Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[ExternalFiles]" );
+      FileWrite( piffile, "cc" + "HH" + pcode + "=" + work + "\ALLHH.DAT" );
+      FileWrite( piffile, ccode + "IN" + pcode + "=" + data + "\I" + xfilenum + ".DAT" );
+
+      { Parameters section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[Parameters]" );
+      FileWrite( piffile, "Language=" + GetLanguage() );
+      { parameters passed are: household number, household or individual questionnaire and interviewer sex }
+      FileWrite( piffile, "Parameter=" + edit("9999",WNUMBER) + edit("9",type) + edit("9",IntSex) );
+      FileWrite( piffile, "ViewListing=Never" );
+      FileWrite( piffile, "ViewResults=No" );
+      FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+      close( piffile );
+    end;
+
+    function maphh();
+      concathh();
+      AppName = "mapHH";
+      mapHHpff( 1 );
+      SaveSetting( "DCSession", "1" );
+      SaveSetting( "HHNumber", edit("9999",WNUMBER) );
+      runpffS();
+    end;
+
+  { calls repair program to modify: cluster, hh number, line number or delete cases }
+  function FixIds()
+    InitPff();
+    FileWrite( piffile, "StartMode=ADD" );
+    FileWrite( piffile, "Fullscreen=Yes" );
+    FileWrite( piffile, "ShowInApplicationListing=Never" );
+    FileWrite( piffile, "NoFileOpen=Yes" );
+
+    { Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + superv + "\" + AppName + ".ent" );
+    FileWrite( piffile,  "InputData=" + wrkref + "\snull.dat");    
+
+    { External Files section }
+    FileWrite( piffile, " " );
+    FileWrite( piffile, "[ExternalFiles]" );  
+
+    FileWrite( piffile, "[Parameters]" );
+    { parameters are: cluster and household number (may include others for sub-samples) }
+     
+    FileWrite( piffile, "Parameter=" + xcluster + xintnum + strip( getlanguage() ) );
+    FileWrite( piffile, "ViewListing=Never" );
+    FileWrite( piffile, "ViewResults=No" );
+    close( piffile );
+  end;
+  function QuizApp (addmode, savpart, change, tnum = 1);
+      InitPff();
+      if addmode then
+        FileWrite( piffile, "StartMode=ADD;" + edit("999", tnum), xintnum);
+        FileWrite( piffile, "Lock=Add" );
+      else
+        FileWrite( piffile, "Lock=Add" );
+        if savpart = 1 then
+          FileWrite( piffile, "StartMode=ADD;" + edit("999", tnum) + xintnum);
+        else
+          FileWrite( piffile, "StartMode=MODIFY;" +  edit("999", tnum) + xintnum);
+        endif;
+      endif;
+      FileWrite( piffile, "ShowInApplicationListing=Never" );
+      { Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[Files]" );
+      FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+      FileWrite( piffile, "InputData=" + data + "\Q" + xintnum + ".DAT" );
+      FileWrite( piffile, "Listing="     + entry + "\" + AppName + ".lst" );
+
+      { External Files section }
+      FileWrite( piffile, " " );
+      FileWrite( piffile, "[ExternalFiles]" );
+      FileWrite( piffile, "QUIZDATA_DICT=" + ".\cnull.dat");
+
+      FileWrite( piffile, "[Parameters]" );
+      FileWrite( piffile, "Language=" + GetLanguage() );
+      FileWrite( piffile, "Parameter=" + xintnum );
+      FileWrite( piffile, "ViewListing=Never" );
+      FileWrite( piffile, "ViewResults=No" );
+      FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+      FileWrite( piffile, "Parameter=" + xintnum );
+      FileWrite( piffile, "QuizFolder=", wrkref);
+      close( piffile );
+    end;
+    { receiving updated quiz data from supervisor }
+    function receivequiz()
+      string fmask;
+      // copy files from supervisor machine
+      // since using pull command will only copy those changed
+      if isAndroid | useCSBT then
+        btserver = edit("9999", WSUPER);
+      endif;
+      if SyncConnect( Bluetooth, btserver ) then
+        fmask = quizdata + "\QZD*.dat";
+        SyncFile( GET, fmask, wrkref );
+        SyncDisconnect();
+      endif;
+    end;
+
+  {*****************************************************************}
+  {********** functions to handle fieldworker qre in CAPI **********}
+  {*****************************************************************}
+
+  { reads the CSPro sts file to find out if a household or individual has been partially saved }
+  function partialFW( nintnum, string FileToCheck )
+    numeric FoundPart = 0, zlen;
+    string  PartialRecord, findadd, findmod;
+    setfile( PartialFile, FileToCheck + ".sts" );
+    findadd  = "Pos=ADD." + edit("9999", nintnum);
+    findmod  = "Pos=MOD." + edit("9999", nintnum);
+    zlen = length(findadd);
+    while !FoundPart do
+      if !FileRead( PartialFile, PartialRecord ) then
+        FoundPart = 3
+      elseif pos( strip(findadd), PartialRecord[1:zlen] ) then
+        FoundPart = 1
+      elseif pos( strip(findmod), PartialRecord[1:zlen] ) then
+        FoundPart = 2
+      endif;
+    enddo;
+    close( PartialFile );
+    if FoundPart in 1,2 then
+      partialFW = FoundPart;
+    else
+      partialFW = 0;
+    endif;
+  end;
+
+  function FieldWkQuest( addmode, savpart, change)
+    InitPff();
+    string fwparms;
+
+    if addmode then
+      FileWrite( piffile, "StartMode=ADD;" + xintnum );
+      FileWrite( piffile, "Lock=Add" );
+    else
+      FileWrite( piffile, "Lock=Add" );
+      if savpart = 1 then
+        FileWrite( piffile, "StartMode=ADD;" + xintnum );
+      else
+        FileWrite( piffile, "StartMode=MODIFY;" + xintnum );
+      endif;
+    endif;
+    FileWrite( piffile, "ShowInApplicationListing=Never" );
+    FileWrite( piffile, "Fullscreen=YES" );
+    FileWrite( piffile, "NoFileOpen=NO" );
+    FileWrite( piffile, "Interactive=OFF" );
+
+    FileWrite( piffile, "[Files]" );
+    FileWrite( piffile, "Application=" + entry + "\" + AppName + ".ent" );
+    FileWrite( piffile, "InputData=" + data + "\F" + xintnum + ".DAT" );
+    FileWrite( piffile, "Listing="   + data + "\F" + xintnum + ".lst" );
+
+    FileWrite( piffile, "[ExternalFiles]" );
+    FileWrite( piffile, "OTHERS="   + data     + "\FO" + xintnum + ".DAT" );
+    FileWrite( piffile, "INTERV="   + wrkref     + "\Interv.dat");
+
+    FileWrite( piffile, "[Parameters]" );
+    FileWrite( piffile, "Language=" + GetLanguage() );
+    { customize parameters for different types of data entry modes }
+    fwparms[1:1] = edit( "9", change );    { to run modify mode }
+    fwparms[2:1] = edit( "9", savpart );   { case saved partially }
+    fwparms[3:4] = xintnum;   { interviewer code  }
+    FileWrite( piffile, "Parameter=" + fwparms );
+    FileWrite( piffile, "OnExit=.\DCMenu.pff" );
+    close( piffile );
+  end;
+
+  function restore ();
+    // !!! restore the interviewer tablet data from supervisor
+    // !!! used only to put data on a replacement tablet 
+    if isAndroid | useCSBT then
+      btserver = edit("9999", WSUPER);
+    endif;
+    if SyncConnect( Bluetooth, btserver ) then
+      // get the assignment file
+      fname = work + "\S" + xcluster + ".dat";
+      FileDelete( fname );
+      SyncFile( GET, fname, work );
+      // get the data files for that interviewer
+      fname = receive + "\?" + xcluster + xintnum + ".DAT"; // data files
+      SyncFile( GET, fname, data );
+      fname = receive + "\?" + xcluster + xintnum + ".DAT.sts"; // sts
+      SyncFile( GET, fname, data );
+      fname = receive + "\?" + xcluster + xintnum + ".cslog";// paradata
+      SyncFile( GET, fname, data );
+      errmsg("Files restored for interviewer %s ", xintnum);
+      // now get any new upgrades 
+      fname = upgrades + "/" + upgrname + "*.zip";
+      SyncFile( GET, fname, upgrades );
+      SyncDisconnect();
+      ApplyUpgr();
+      // remove any index files
+      CleanIndex(data);
+      CleanIndex(work);
+    endif;        
+  end;
+  function CleanFiles (string tid);
+    FileDelete(receive + "\" + "?" + tid + "*.*");
+    FileDelete(data + "\" + "?" + tid + "*.*");
+    FileDelete(temp + "\" + "?" + tid + "*.*");
+    FileDelete(work + "\" + "?" + tid + "*.*");
+    FileDelete(pictures + "\" + "?" + tid + "*.*");
+  end;
+  function remblanks (string infilename, ftype);
+    // remove blank lines from a data file
+    FILE inTxt;
+    FILE outTxt;
+    string fline;
+    numeric recordpos;
+    numeric lncount = 0;
+    if ftype = 1 then
+      recordpos = 9
+    else
+      recordpos = 11; 
+    endif;
+    setfile(inTxt, infilename, update);
+    setfile(outTxt, infilename + ".txt", create);
+    while FileRead(inTxt, fline) do 
+      inc(lncount);
+      trace("line=%d", lncount);
+      trace("[%s]", fline);
+      if length(strip( fline[1:3] )) & length(strip( fline[recordpos:3] ))  then
+        FileWrite(outTxt, fline);
+      endif;
+    enddo;
+    close(inTxt);
+    close(outTxt);
+    FileCopy(outTxt, inTxt);
+    FileDelete(outTxt);
+  end;
+  function CheckProcess (string process);
+     list string fileinput;
+     fname = concat(PathName(Application), "process.txt");
+     TheCommand = MakeText('cmd /c tasklist /FI "IMAGENAME eq %s" /FO CSV > %s', process, fname);
+     ExecSystem( TheCommand, minimized, wait, nofocus );
+     justone.open(fname, create);
+     justone.read(fileinput);
+     CheckProcess = fileinput.length() - 1;
+     justone.close();
+     FileDelete(fname);
+  end;
+PROC FL_MENU
+  
+PreProc
+    if debug then
+      // errmsg(  "WARNING: DEBUG MODE ENABLED!" );
+      trace(on, ".\debug.app", clear);
+  //  trace(on);
+      set trace;
+    endif;
+    isAndroid = (getos() = 20);                  { boolean for type of OS !! }
+    CSPro  = PathName( CSPro );
+    wrkprj = "..";                               { work project in tablet/laptop }
+ // wrkpii = wrkprj + "\PII";                         { subdirecory to store data with PII }
+    wrkpii = wrkprj + "\PII";                         {!!! pretest field practice!!!}
+    { Operator ID }
+    opid = "Anyone";                               { this could be an ID set on each machine }
+
+    ccode = "cc"; { country code !! }
+    pcode = "80"; { phase code !! }
+
+    // check menu not already running
+    if !isAndroid then
+      if CheckProcess("CSEntry.exe") > 1 then
+        errmsg("The CAPI menu or interview program is already running on your tablet. Check for the JFHPS icon on the task bar at the bottom of the screen and click on it");
+        stop(-1);
+      endif;
+    endif;
+
+    { set font for value sets }
+    setfont( All, "Arial", 18, bold );
+
+    { set up minimal user bar }
+    userbase();
+    userbar( show );
+    { set the language at the start of the program, defaulting to English }
+    setlanguage(loadsetting("Language", "EN"));
+    setvaluesets( "_" + getlanguage() );
+    SameSession = tonumber(loadsetting("DCSession"));
+    sysver      = loadsetting("Version", "0");
+
+    
+    { set main directories }
+    entry    = wrkprj + "\Entry";     { data entry programs }
+    dicts    = wrkprj + "\Dicts";     { dictionaries }
+    utility  = wrkprj + "\Utility";   { all utilities used by the system }
+    upgrades = wrkprj + "\Upgrades";  { upgrades sent by supervisors are stored here }
+    wrkref   = wrkpii + "\Ref";       { reference directory for clusters, sample and teams files  }
+    data     = wrkpii + "\Data" ;     { where data is stored }
+    images   = wrkprj + "\Images";     { images  }
+    temp     = wrkpii + "\Temp" ;     { used for several purposes but specially to store temporary data }
+    work     = wrkpii + "\Work" ;     { working area to store concatenated households }
+    receive  = wrkpii + "\Receive" ;     {receive folder on supervisor - just used to copy files }
+    superv   = wrkprj + "\Superv";     { supervisor programs }
+    pictures = wrkpii + "\Pictures";  { working area to store pictures taken by applications }
+    quizdata = wrkprj + "\Quiz" ;     { data for quiz}
+    { set directories to transfer data using bluetooth }
+    btwork   = "\Pii\Work\";          { last portion of directory where HH data will be transferred to other interviewers when sharing households }
+    btsup    = "\Pii\Temp\";          { last portion of directory where all files will be transferred to supervisors }
+    btsamp   = "\Pii\SampData\";      { last portion of directory where HH listing for sampling selection will be stored in supervisor machines }
+
+    ChkDir( temp );    
+    { check presence of mandatory directories }
+    ChkDir( entry );
+    ChkDir( work );    
+    ChkDir( upgrades ); 
+    ChkDir( wrkref );  
+    ChkDir( data );  
+    ChkDir( images );  
+    ChkDir( pictures );
+    // remove any unneeded pffs 
+    // FileDelete(PathName(Application) + "*.pff");
+    
+    { set up backup folder }
+    if isAndroid  then
+      backup = wrkpii + "/CSPRO_BACKUP"; { !! }
+    else
+      backup = "E:\DATA";                              { drive and directory to backup data }
+    endif;
+    chkdir(backup);
+
+    { file names for upgrades }
+    upgrname = "upgdhs";              { upgrade namess coming from supervisor machine }
+    
+    { check for upgrades and apply !!! }
+    ApplyUpgr();
+
+
+    { initialize array of interviewers }
+    do i = 1 while i <= 20
+      interview(i) = 0;
+      intername(i) = "";
+    enddo;
+
+  
+  { folder list for checking duplicates }
+  dirstocheck = data, work;
+  
+  { load cluster file name }
+  clustfname = FileName(CLUSTERS);
+
+  { clean index files in case indexes were out of date/corrupted !!! }
+  { just do it once when menu started }
+  if SameSession = 1 then
+    { clean any files from old phases !!! }
+    { do this with care !!! }
+    CleanFiles("8");
+    CleanFiles("9");
+  endif;
+
+PostProc
+    {PostProc of level 0 }
+    stop(1);
+
+  
+PROC MENU_LEVEL
+  
+PreProc
+  //  set attributes( MENU_DICT ) assisted on;
+  //  set attributes( MENU_DICT ) assisted off ( variable(title) );
+
+    open( INTERV );
+    do j = 1 while loadcase( INTERV )    { load list of interviewers into memory }
+      intvwcode(j) = ICODE;
+      intvwname(j) = INAME;
+      intvwteam(j) = ITEAM;
+      intvwsex (j) = ISEX;
+      intvwrole(j) = IROLE;
+    enddo;
+    totintvw = j-1;
+    close( INTERV );
+    if SameSession then
+      advance to WFINAL
+    endif;
+
+  
+PROC WSUPER
+  
+onfocus
+    fieldworkers.clear();
+    do j = 1 while j <= totintvw
+      if intvwrole(j) = 2 then            { supervisor }
+        fieldworkers.add( intvwname(j), intvwcode(j) );
+      endif;
+    enddo;
+    SetValueSet( $, fieldworkers );
+    
+    $ = tonumber( loadsetting("Supervisor") );
+    
+  
+postproc
+    SaveSetting( "Supervisor", edit("9999",$) );
+    do j = 1 while j <= totintvw & intvwcode(j) <> $ enddo;
+    if j <= totintvw then
+      steam = intvwteam(j);
+    endif;
+
+    { get an array of interviewers that belong to the same team }
+    j = 0;
+    do i = 1 while i <= totintvw
+      if intvwteam(i) = steam then
+        j = j + 1;
+        interview(j) = intvwcode(i);
+        interrole(j) = intvwrole(i);
+        intername(j) = intvwname(i);
+        if intvwrole(i) = 2 then
+          SupName = intvwname(i);     { get supervisor's name }
+        endif;
+      endif;
+    enddo;
+
+  
+PROC WINTNUM
+  
+onfocus
+    fieldworkers.clear();
+    do j = 1 while j <= totintvw
+      if intvwrole(j) in 1:3 & intvwteam(j) = steam then // include biomarker technicians since they will do hh interviews !!!
+        fieldworkers.add( intvwname(j), intvwcode(j) );
+      endif;
+    enddo;
+    SetValueSet( $, fieldworkers );
+    
+    $ = tonumber( loadsetting("Interviewer") );
+
+  
+postproc
+    SaveSetting( "Interviewer", edit("9999",$) );
+    do j = 1 while j <= totintvw & intvwcode(j) <> $ enddo;
+    if j > totintvw then
+      reenter
+    else
+      IntCode = intvwcode(j);
+      IntName = intvwname(j);
+      IntSex  = intvwsex(j);
+      IntRole = intvwrole(j);
+    endif;
+    j = 0;
+    do i = 1 while i <= totintvw
+      if intvwteam(i) = steam  & intvwcode(i) <> $ then
+        j = j + 1;
+            TeamShare(j,1) = edit("9999",intvwcode(i));
+            TeamShare(j,2) = intvwname(i);
+          endif;
+    enddo;        
+
+    // check bluetooth id is set to the interviewer code
+    // Note we are using the interviewer CODE for the bluetooth id
+    if ( isAndroid | useCSBT ) & getbluetoothname() <> edit("9999",IntCode ) then
+      if isAndroid then
+        setbluetoothname(edit("9999", IntCode));
+      else
+        // in Windows need to restart app in admin mode
+        // to do this we call batch file which in turn calls shortcut file with admin privileges to run dcmenu
+        if SameSession = 9 then   // if returning into menu with admin privileges set bt name
+          setbluetoothname(edit("9999", IntCode));
+          SaveSetting( "DCSession", "1" );
+          AppName = ".\DCMenu"; // then quit menu and restart with normal user level for security reasons
+          runpffS();
+        else
+          SaveSetting( "DCSession", "9" );                    // save session flag for restart
+          errmsg(014);
+          TheCommand = MakeText('cmd /c start %s\dcmenu.lnk', PathName(Application));
+          ExecSystem( TheCommand, minimized, wait );          
+          stop(1);
+        endif;
+      endif;
+    endif;
+
+  
+PROC WCLUSTER
+  
+preproc
+    if special(visualvalue(WCLUSTER)) then 
+      $ = tonumber( loadsetting("Cluster") );
+      noinput;
+    endif; 
+    
+  
+postproc
+  // check cluster number is correct
+  if FileExist( clustfname ) then
+    setFile(ClUSTERS, clustfname, update);
+    if !loadcase( CLUSTERS, WCLUSTER ) then
+      errmsg( 001, WCLUSTER );
+      reenter;
+    endif;
+    close(CLUSTERS);
+    SaveSetting( "Cluster", edit("9999",$) );
+  else
+    errmsg( 007 );
+    stop(-1);
+  endif;
+    
+  {  errmsg( "Province=%s, Region=%s, District=%s, Commune=%s, ZD=%s", strip(YPROVINN), strip(YREGIONN), strip(YDISTRICTN), strip(YCOMUNEN), strip(YENUMERN) );}
+    WURBRUR    = GetValueLabel( YURBRUR );
+    WREGIONN   = YREGIONN;
+    WSTATEN    = YSTATEN;
+    WDISTRICTN = YDISTRICTN;
+    WCITYN     = YCITYN;
+    setalready = 0;
+    xcluster = edit( "9999", $ );                              { cluster number }
+    xintnum  = edit( "9999", WINTNUM );                        { Interviewer }
+    xsuperv  = edit( "9999", WSUPER );                         { Supervisor }
+    xteam    = edit( "99", steam  );                         { team }
+    xparaux  = xintnum + xsuperv + "0" + "0000";
+    xparamet = xparaux;
+    { xparamet postions as received by the data collection applications }
+    {  1:4   - interviewer number               }
+    {  5:4   - supervisor number                }
+    {  9:1   - central office and supervisors   }
+    { 10:1   - revisit                          }
+    { 11:1   - modify completed                 }
+    { 12:1   - if case has been saved partially }
+    { 13:1   - enter biomarker questionnaire    }
+    { 14:4   - household number                 }
+    { 18:2   - woman's line number              }
+    xfilenum = xcluster + xintnum;       { Number corresponding to data file names }
+  
+PROC WFINAL
+  
+onfocus
+    WNUMBER  = notappl;
+    WADDRESS = " ";
+    WCORRECT = notappl;
+    if SameSession = 2 then // re-entering after a data entry session so do the backup here !!
+      backupf();
+      if IntCode = WSUPER then       { transfer within supervisor machine }
+        transuper();
+      endif;
+    endif;
+    $ = " ";
+    noinput;
+
+
+  
+postproc
+    if loadsetting("DCSession") = "4" then
+      skip to WINDIV
+    endif;
+    versiontxt = maketext(" Ver:%s ", sysver); 
+    heading = "Cluster " + xcluster + " " + intname + "("+ edit("9999", WINTNUM) + ")" + " ["+ getbluetoothname() + "] " " Sup " + edit("9999", WSUPER) + versiontxt;
+    if debug then
+      heading = heading + " debug mode enabled !!"
+    endif;
+    if getlanguage() = "EN" then
+      action = accept( heading,
+                 { 1}  "1 Household Interview",
+                 { 2}  "2 List eligible individuals/biomarkers",
+                 { 3}  "3 Enter biomarker data",
+                 { 4}  "4 Individual Interview",
+                 { 5}  "--------------------------------------",
+                 { 6}  "5 List questionnaires in cluster",
+                 { 7}  "6 List cluster notes",
+                 { 8}  "7 Data exchange/other utilities",
+                 // { 9}  "8 Change language",
+                 { 9}  "--------------------------------------",
+                 {10}  "--------------------------------------",
+                 {11}  "C Change cluster number",
+                 {12}  "E Exit system (Esc)") ;
+    elseif getlanguage() = "FR" then
+        action = accept( heading,
+                 { 1}  "1 Menu des questionnaires Ménages",
+                 { 2}  "2 Afficher les individus/biomarqueurs éligibles",
+                 { 3}  "3 Entrer les données des biomarqueurs",
+                 { 4}  "4 Menu des individus éligibles",
+                 { 5}  "--------------------------------------",
+                 { 6}  "5 Afficher la liste des questionnaires de la grappe",
+                 { 7}  "6 Afficher les notes sur la grappe",
+                 { 8}  "[[ 7 Transfert de données/autres utilitaires ]]",
+                 { 9}  "8 Changer la langue",
+                 {10}  "9 Menu Quiz  ",
+                 {11}  "C Changer de numéro de grappe",
+                 {12}  "E Quitter le système (Esc)");
+    endif;
+    { instructions to complete executions of menu options }
+    if !action | action = 12 then
+      SaveSetting( "DCSession", "1" );
+      stop(1)
+    endif;
+    { change cluster number }
+    if action = 11 then
+      reenter WCLUSTER
+
+    { all options to deal with households manipulation and where women may be found }
+    elseif action in 1:4 then
+      if action = 4 & IntRole = 3 then //!!! prevent biomarker technicians from doing individual interviews
+        errmsg(103);
+        reenter;
+      else
+        if !setalready & !SetAssignFile() then
+          reenter;
+        else
+          setalready = 1;
+        endif;
+        { get a household }
+        concathh();
+        if action = 4 then
+          if FindDups( dirstocheck , xcluster, 1) then
+            errmsg("Duplicate household cases detected in data. The system will attempt to continue but you may find that not all households are available. You should remove the duplicate cases as soon as possible");
+          endif;
+          WrkElig( 1, WNUMBER, IntSex ); 
+        else
+            WrkElig( 3, WNUMBER, IntSex ); 
+        endif;
+        if getonehh( action ) then
+          advance to WCORRECT;
+        endif;
+      endif;
+
+    { line separator is treated as a dummy option }
+    elseif action = 5 then
+
+    { lists interviewer's notes in cluster }
+    elseif action = 7 then
+      ConcatNotes();
+      AppName = "LISTNOTES";
+      ListNotes();
+      runpffS();
+
+    { lists questionnaires collected by interviewer }
+    elseif action = 6 then
+      AppName = "LSTQUEST";
+      lstquest();
+      runpffS();
+
+    { menu to transfer/share and fix data and to obtain updates }
+    elseif action = 8 then
+      if getlanguage() = "EN" then
+        heading = "Transfer and utilities: Cluster " + xcluster + " Interviewer " + edit("9999", WINTNUM);
+        option  = accept( heading,
+                  {  1} "1 Receive HH assignment from supervisor",
+                  {  2} "2 Transfer cluster data to supervisor",
+                  {  3} "3 Share HH data with other interviewers",
+                  {  4} "4 Receive HH data from other interviewer",
+                  {  5} "5 Receive system updates from supervisor",
+                  {  6} "6 Modify IDs/delete individuals",
+                  {  7} "7 Fix interviewer code/result in a household",
+                  {  8} "8 Get restore data from supervisor tablet",
+                  {  9} "9 Split a household",
+                  { 10} "C Clear shared households data",
+                  { 11} "R Reset Index Files",
+                  { 11} "F Clean data file",
+                  { 12} "X Return to main menu" );
+      else
+        heading = "Transfer and utilities: Cluster " + xcluster + " Interviewer " + edit("9999", WINTNUM);
+        option  = accept( heading,
+                  {  0} "1 Recevoir du contrôleur (leuse) l'affectation des ménages",
+                  {  2} "2 Transférer les données de grappe au contrôleur (leuse)",
+                  {  3} "3 Partager les données de ménage avec d'autres enquêteurs",
+                  {  4} "4 Recevoir les données de ménage des autres enquêteurs",
+                  {  5} "5 Recevoir du contrôleur (leuse) les mises à jour du système",
+                  {  6} "6 Modifier les IDs/Supprimer des questionnaires",
+                  {  7} "7 Corriger code enquêteur/Résultat dans un ménage",
+                  {  8} "8 Get restore data from supervisor tablet",
+                  {  9} "9 Split a household",
+                  { 10} "C Clear shared households data",
+                  { 11} "R Reset Index Files",
+                  { 12} "X Retourner au menu principal" );
+      endif;
+
+      { tranfer data to supervisor }
+      if option = 2 then
+        if IntCode = WSUPER then       { transfer within supervisor machine }
+          transuper();
+          errmsg( 0081 );
+        else                           { transfer from other interviewers }
+          transfer();
+        endif;
+
+      { transfer household data to another interviewer }
+      elseif option = 3 then
+        sendhhdat();
+
+      { receive household data from another interviewer }
+      elseif option = 4 then
+        receivehh();
+
+      { fix identifiers (cluster, household, interviewers) or delete women  }
+      elseif option = 6 then
+          RunDataRepair( "csentry:cc81/Entry/" + "Android.xml", "English" )
+
+      { get and apply system updates from supervisor }
+      elseif option = 5 then
+        receiveupgr()
+      { get household assignment for cluster form supervisor }
+      elseif option = 1 then
+        rcvhhassign();
+
+      { fix the result of a household assigned to interviewer }
+      elseif option = 7 then
+        if setalready | SetAssignFile() then
+          AppName = "FIxResult";
+          if selcase( HHFORINT, "") include( VNUMBER, VNAME, VINTCODE, VRESULT )  where VINTCODE <> notappl then
+            FIxResult();
+            close( HHFORINT );
+            SaveSetting( "DCSession", "1" );
+            runpffS();
+          endif;
+        endif;
+      elseif option = 8 then
+        restore();
+      elseif option = 9 then
+        getonehh(5);
+      elseif option = 10 then 
+    // clear shared data from work folder
+    // used to fix issues with duplicated cases
+        x = errmsg("Are you sure you wish to remove shared household data from the interviewer tablet ?\n To access individual interviews from already shared households you will need to receive shared data again ") select ("No", continue, "Yes, remove", continue);
+        if x = 2 then
+          FileDelete(work + "\H" + xcluster + "????.DAT");
+          FileDelete(work + "\H" + xcluster + "????.DAT.sts");
+          FileDelete(work + "\H" + xcluster + "????.DAT.csidx");
+          errmsg("Shared data removed");
+        endif;
+      elseif option = 11 then 
+    // clear indexes and allhh* files 
+        fname = data + "\H" + xfilenum + ".DAT";
+        if !FileEXist(fname) | FileEmpty(fname) then
+          errmsg("File for interviewer %04d not present on tablet", intcode);
+        else
+          x = errmsg("PLease confirm you wish to clean interviewer files for interviewer %04d", intcode) 
+          select ("Yes, clean", continue, "No, do not clean", continue);
+          if x = 1 then
+            fixdata(fname, 1);
+            errmsg("Files for interviewer %04d cleaned", intcode);
+          endif;
+        endif;
+        FileDelete(work + "\ALLHH.*");
+        FileDelete(work + "\ALLHH.*.*");
+        CleanIndex(work);
+        CleanIndex(data);
+      elseif option = 12 then 
+    // clean data file by removing corrupted lines with blanks in id and record fields
+        fname = data + "\H" + xfilenum + ".DAT";
+        errmsg("fname=%s", fname);
+        if !FileEXist(fname) | FileEmpty(fname) then
+          errmsg("File %s not present on tablet", fname);
+        else
+          x = errmsg("PLease confirm you wish to clean files") 
+          select ("Yes, clean", continue, "No, do not clean", continue);
+          if x = 1 then
+            backupf(); // back up file before removing blanks
+            remblanks(fname, 1);
+            errmsg("Files for interviewer %04d cleaned", intcode);
+          endif;
+        endif;
+      endif;
+    // elseif action = 9 then // change language
+    //     x =  accept(tr("Select Language"), 
+    //            "English",
+    //            "Français");
+    //     recode x -> x;
+    //            1 -> setlanguage("EN");
+    //            2 -> setlanguage("FR");
+    //     endrecode;
+    //     savesetting("Language", getlanguage());
+    //     reenter;
+    elseif action = 9 then // fieldworker interview
+      // fname = data + "\F" + xintnum + ".DAT" ;
+      // partial  = FileExist(fname) & !FileEmpty(fname);
+      // AppName = "FIELDWKQUEST";
+      // if partial then
+      //   FieldWkQuest(0,0,1)
+      // else
+      //   FieldWkQuest(1,0,0)
+      // endif;
+      // SaveSetting( "DCSession", "2" );
+      // runpffS();
+      reenter;
+    elseif action = 10 then // quiz menu
+    //   if getlanguage() = "EN" then
+    //     heading = "Test Menu";
+    //     option  = accept( heading,
+    //               {  1} "1 Take/Review a Test",
+    //               // {  2} "2 Receive updated quiz from supervisor",
+    //               {  4} "X Return to main menu" );
+    //   else
+    //     heading = "Menu Quiz";
+    //     option  = accept( heading,
+    //               {  1} "1 Faire un quiz",
+    //               // {  2} "2 Recevoir du contrôleur (leuse) les donnnées du quiz",
+    //               {  4} "X Retourner au menu principal" );
+    //   endif;
+    //   if option = 1 then
+    //     fname = data + "\Q" + xintnum + ".DAT" ;
+    //     partial  = FileExist(fname) & !FileEmpty(fname);
+    //     AppName = "QuizApp";
+    //     if partial then
+    //       QuizApp(0,0,1)
+    //     else
+    //       QuizApp(1,0,0)
+    //     endif;
+    //     SaveSetting( "DCSession", "1" );
+    //     runpffS();
+    //   endif;
+    endif;
+
+    reenter;
+
+  
+PROC WNUMBER
+  
+preproc
+    $ = ZNUMBER;
+
+  
+PROC WADDRESS
+  
+preproc
+    if length( strip(ZNAME) ) & length( strip(ZADDRESS) ) then
+      $ = strip(ZNAME) + " - " + strip(ZADDRESS);
+    elseif length( strip(ZNAME) ) then
+      $ = ZNAME;
+    else
+      $ = ZADDRESS;
+    endif;
+
+  
+PROC WCORRECT
+  
+preproc
+    $ = 1;
+    noinput;
+
+  
+postproc
+    if $ <> 1 then
+      reenter WFINAL;
+    endif;
+    xparamet = xparaux  + edit("9999",ZNUMBER);
+    xcase    = xcluster + edit("9999",ZNUMBER);
+    { start data collection for a household }
+    if action = 1 then
+      partial  = partialcs( 1, WCLUSTER, WNUMBER, 0, data + "\H" + xfilenum + ".DAT" );
+      AppName = "COLLECTHH";
+      box partial : ZRESULT => x   ;
+                0 : 0       => csrun( 1, 1, 0, 0, 0, 0 );{ NEW HH: add, hh, !partial, !revisit, !change, !heigth/weight }
+             >= 1 : 0,2-9   => csrun( 0, 1, 1, 1, 0, 0 ); { PARTIAL SAVE, incomplete : modify, hh, partial, revisit, !change, !heigth/weight }
+             >= 1 : 1       => csrun( 0, 1, partial, 1, 0, 0 ); { PARTIAL, result=1: modify, hh, partial, revisit, !change, !height/weight }
+                0 : 1       => csrun( 0, 1, 0, 0, 1, 0 ); { MODIFY COMPLETE : modify, hh, !partial, !revisit, change, !heigth/weight }
+                0 : 2-9     => csrun( 0, 1, 1, 1, 0, 0 ); { PARTIAL SAVE, incomplete : modify, hh, partial, revisit, !change, !heigth/weight }
+                  :         => 9; 
+      endbox; 
+      if x = 9 then
+        errmsg("Partial=%d, Zresult=%d,use option 7 Data Exchange-> 7 Fix result in a household to resolve problem",partial,zresult);
+      endif;
+    elseif action = 2 then
+      AppName = "LISTELIG";
+      ListElig();
+      runpffS();
+    elseif action = 3 then  { enter height and weight }
+      if ZRESULT <> 1 then
+        errmsg( 012, ZRESULT );
+        reenter WFINAL;
+      endif;
+      { add, hh, !partial, !revisit, !change, height/weight }
+      AppName = "COLLECTHH";
+      csrun( 1, 1, 0, 0, 0, 1 );
+    { household where eligible individuals will be selected }
+    elseif action = 4 then
+      if ZOWNER = IntCode & ZRESULT <> 1 then
+        errmsg( 080, ZRESULT );
+        reenter WFINAL;
+      endif;
+      advance to WFINAL2;
+    endif;
+    reenter WFINAL;
+
+  
+PROC WFINAL2
+  
+preproc
+    WINDIV    = notappl;
+    WCORRECT2 = notappl;
+    WNAME     = "";
+    if FindDups( dirstocheck, xcluster, 1  ) then
+      errmsg("Duplicate household cases detected in data. The system will attempt to continue but you may find that not all households are available. You should remove the duplicate cases as soon as possible");
+    endif;
+    concathh();
+    WrkElig( 2, WNUMBER, IntSex );           { generates file with HH from all interviewers and others }
+    noinput;
+
+  
+PROC WINDIV
+  
+preproc
+    SetEligFile(0);
+    fill_caselist(3);
+    SaveSetting( "DCSession", "1" );
+    // if selcase( ELIGINDV, "", 4) include( ZOWNER, ZNUMBER, ZLINE, ZNAME, ZQTYPEA, ZSTATUS )
+    //             where ZQUEST = 2 & ZNUMBER = WNUMBER then
+      ifok = showarray(tr( "Select Individual for interview" ), caselist, 
+      title ( tr("HH"), tr("Line"),tr("Name"), tr("Interviewer"),tr("Ques."), tr("Status") )  );
+      if ifok then
+       SetEligFile(0);
+       ZNUMBER = tonumber( caselist(ifok,1) );
+       ZLINE   = tonumber( caselist(ifok,2) );
+       x = loadcase(ELIGINDV, WCLUSTER, ZNUMBER, ZLINE );
+       $ = ZLINE;
+       close(ELIGINDV);
+    else
+      errmsg( 020 );
+      reenter WFINAL
+    endif;
+    WNAME = ZNAME;
+
+  
+PROC WCORRECT2
+  
+preproc
+    $ = 1;
+    noinput;
+
+  
+postproc
+    if $ <> 1 then
+      reenter WFINAL;
+    endif;
+    xparamet = xparaux  + edit("9999",ZNUMBER) + edit("99",WINDIV);
+    xcase    = xcluster + edit("9999",ZNUMBER) + edit("99",WINDIV);
+    AppName = "CollectIN";
+    SaveSetting( "DCSession", "2" );
+
+    partial = partialcs( 2, WCLUSTER, WNUMBER, WINDIV, strip(data)+"\I"+strip(xfilenum)+".dat" );
+    box partial : ZSTATUSC=> x   ;
+              0 : 0       => csrun( 1, 2, 0, 0, 0, 0 ); { NEW : add, wm, !partial, !revisit, !change, !heigth/weight }
+              0 : 2       => csrun( 0, 2, 1, 1, 0, 0 ); { modify, individual, !partial, revisit, !change, !height/weight }
+           >= 1 : 2       => csrun( 0, 2, 1, 1, 0, 0 ); { PARTIAL : modify, wm, !partial, revisit, !change, !heigth/weight }
+                : 1       => csrun( 0, 2, 0, 0, 1, 0 ); { MODIFY CMPLETE : modify, wm, !partial, !revisit, change, !heigth/weight }
+                : 3       => csrun( 0, 2, partial, 1, 0, 0 ); { modify, individual, partial, revisit, !change, !height/weight }
+              1 : 0       => csrun( 1, 2, 0, 0, 0, 0 ); { modify, individual, partial, revisit, !change, !height/weight }
+                :         => 9;
+    endbox; 
+    if x = 9 then
+      errmsg("Partial=%d, result=%d,use option 7 Data Exchange-> 7 Fix result in a household to resolve problem",partial,ZSTATUSC);
+    endif;

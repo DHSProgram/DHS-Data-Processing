@@ -1,0 +1,126 @@
+﻿[CAPI QUESTIONS]
+Version=CSPro 6.3
+
+[LANGUAGES]
+EN=English
+FR=Français
+FU=Fufulde
+PI=Pidgin
+
+[QUESTION]
+Field=MENU_DICT.WCLUSTER
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 Enter the cluster number on which you wish to work
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 Ingrese el numero del segmento en el cual va a trabajar
+ES=\par
+ES=\par }
+
+[QUESTION]
+Field=MENU_DICT.WCORRECT
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 Is this household "%WADDRESS%" the correct household?\f1\fs24
+EN=\par \f0\fs22 If no or not sure, select option 2 and return to the mainmenu
+EN=\par }
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 Es el hogar que se encuentra localizado en la direccion "%WADDRESS%" el correcto?\f1\fs24
+ES=\par \f0\fs22 Si no o no esta segura, seleccione la opcion 2 y regresara al menu principal
+ES=\par
+ES=\par }
+
+[QUESTION]
+Field=MENU_DICT.WCORRECT2
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 Is "%WNAME%" the correct person?
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 "%WNAME%" es la persona correcta?
+ES=\par
+ES=\par }
+
+[QUESTION]
+Field=MENU_DICT.WFINAL
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red255\green0\blue255;}
+EN={\*\generator Msftedit 5.41.21.2510;}\vieCMINd4\uc1\pard\qc\cf1\lang1033\f0\fs22 MENU FOR INTERVIEWER %WINTNUM%-%IntName%\par
+EN=Cluster: %WCLUSTER%, Supervisor %WSUPER%-%SupName%\par
+EN=\cf2 Press Any key and Select an option from the list to be displayed\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;\red255\green0\blue255;}
+ES={\*\generator Msftedit 5.41.21.2510;}\vieCMINd4\uc1\pard\qc\cf1\lang1033\f0\fs22 MENU PARA LA ENTREVISTADORA %WINTNUM%-%IntName%\par
+ES=Segmento: %WCLUSTER%, Supervisora: %WSUPER%-%SupName%\par
+ES=\cf2 Presione cualquier tecla y luego una opcion del menu que se desplegara\par
+ES=\pard\cf1\par
+ES=}
+
+[QUESTION]
+Field=MENU_DICT.WFINAL2
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red255\green0\blue0;}
+EN=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 INDIVIDUAL MENU
+EN=\par Select an option from the menu for eligible women and men \cf2 (press any key to display the menu)
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;\red255\green0\blue0;}
+ES=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 MENU INDIVIDUAL
+ES=\par Seleccione una opcion del menu para mujeres y hombres elegibles \cf2 (presione una tecla para desplegar el menu)
+ES=\par \cf1
+ES=\par }
+
+[QUESTION]
+Field=MENU_DICT.WINTNUM
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 Select your name from the list displayed in the window.
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;}
+ES=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 Seleccione su nombre de la lista desplegada en la pantalla.
+ES=\par
+ES=\par }
+
+[QUESTION]
+Field=MENU_DICT.WINTRO
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+EN={\colortbl ;\red255\green0\blue255;\red0\green0\blue255;\red0\green0\blue0;}
+EN={\*\generator Msftedit 5.41.21.2510;}\vieCMINd4\uc1\pard\qc\cf1\lang1033\f0\fs24 Welcome to the\par
+EN=\cf2 Demographic & Health Survey\par
+EN=\cf1 Interviewer's Menu\cf3\par
+EN=\fs16 Press any key to continue\f1\par
+EN=}
+ES={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fcharset0 Arial;}}
+ES={\colortbl ;\red255\green0\blue255;\red0\green0\blue255;\red0\green0\blue0;}
+ES={\*\generator Msftedit 5.41.21.2510;}\vieCMINd4\uc1\pard\qc\cf1\lang1033\f0\fs24 Bienvenido a la\par
+ES=\cf2 Encuesta de Demografia y Salud\par
+ES=\cf1 Menu para Entrevistadoras\cf3\par
+ES=\fs16 Presione una tecla para continuar\f1\par
+ES=\pard\cf1\f0\fs24\par
+ES=}
+
+[QUESTION]
+Field=MENU_DICT.WPREF
+EN={\rtf1\ansi\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;}
+EN=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 Select the prefecture in which you are working
+EN=\par }
+
+[QUESTION]
+Field=MENU_DICT.WSUPER
+EN={\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+EN={\colortbl ;\red0\green0\blue255;\red255\green0\blue255;}
+EN=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 Select the name of the supervisor you are assigned to.\cf2\fs28
+EN=\par }
+ES={\rtf1\ansi\deff0{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}}
+ES={\colortbl ;\red0\green0\blue255;\red255\green0\blue255;}
+ES=\vieCMINd4\uc1\pard\cf1\lang1033\f0\fs22 Seleccione el nombre del supervisor al cual ha sido assignada.\cf2\fs28
+ES=\par \fs24
+ES=\par }
+

@@ -1,0 +1,226 @@
+﻿  FILE      filedups;                      { to read result of duplicates for households, individuals and biomarkers }
+  
+  array string TeamShare(20,3);            { use to select team members to transfer data }
+  
+  { initialize the array with application names for 1-Entry and 2-Superv carpets }
+  array string applications(25,2) = 
+    "ChkHHDup",  "1",
+    "CollectHH", "1",
+    "CollectIN", "1",
+    "DCMenu",    "1",
+    "FixResult", "1",
+    "ListElig",  "1",
+    "ListNotes", "1",
+    "LstQuest",  "1",
+    "maphh",     "1",
+    "Pilot1",    "1",
+    "WrkElig",   "1",
+    "SupMenu",   "2", 
+    "AssignHH",  "2", 
+    "Tentry",    "2", 
+    "Sentry",    "2",
+    "SelectHH",  "2", 
+    "ChkINDup",  "2", 
+    "CheckID",   "2"
+    "",   " "
+    "",   " "
+    "",   " "
+    "",   " "
+    "",   " "
+    "",   " "
+    "",   " "
+    ; 
+
+  function viewtext (string tfname);
+    FILE TXTFILE;
+    string fline;
+    setfile(TXTFILE, tfname, update);
+    { set the name for the HTML file }
+    HTML_InitAlign();
+    HTMLname = "viewtext.html";
+    if FileExist( HTMLname ) then
+      FileDelete( HTMLname )
+    endif;
+    setfile( HTMLFile, HTMLname, create );
+
+    HTML_ParagraphS(tfname);
+    while TXTFILE.read(fline) do
+      HTML_Paragraph(fline)
+    enddo;
+    HTML_End();
+
+    TXTFILE.close();
+    HTMLFile.close();
+    view( "file://" + pathname(application) + HTMLName );
+  end;
+  function FindDups (list string wdir, string str_cluster, checktype, numeric autodelete = 0);
+    set trace(on);
+    // looks for duplicate cases in hh or ind files across list of folders
+    // parms: wdir -list of folders to check
+    //        str_cluster - cluster number to check, use * for all clusters
+    //        checktype - 1 : hh 2: individual
+    //        autodelete : if set to 1 function will delete 1st dup case in pair and not display msgs
+    //                      use this flag when running fct tables from reeive
+    FILE DUPREPORT;
+    setfile(DUPREPORT,"duplicates.txt", create);
+    hashmap case_ids default(0);
+    list string filelisting;
+    list string templist;
+    list string caseidlist;
+    string msgtext;
+    string partialcase;
+    numeric ctr, fctr, dres;
+    numeric dupfound = 0;
+    // create list of files to check
+    do ctr = 1 while ctr <= wdir.length()
+      dirlist(templist, wdir(ctr) , "HI"[checktype:1] + str_cluster + "????.DAT");
+      filelisting.add(templist);
+      // delete index files in case are out of date
+    enddo;
+    filelisting.sort();
+    // loop through files
+    do fctr = 1 while fctr <= fileListing.length()
+    // delete any index files in case they are out of sync
+      FileDelete(fileListing(fctr) + ".csidx");
+      if checktype = 1 then
+        SetFile(ccHH80, fileListing(fctr), update);
+        keylist(ccHH80, caseidlist);
+        do ctr = 1 while ctr <= caseidlist.length()
+          inc( case_ids(caseidlist(ctr) ));
+        enddo;
+        close(ccHH80);
+      else
+        SetFile(ccIN80, fileListing(fctr), update);
+        keylist(ccIN80, caseidlist);
+        do ctr = 1 while ctr <= caseidlist.length()
+          inc( case_ids(caseidlist(ctr) ));
+        enddo;
+        close(ccIN80);
+      endif;
+    enddo;
+    caseidlist.clear();
+    // check ids in hashmap
+    case_ids.getkeys(caseidlist);
+    do ctr = 1 while ctr <= caseidlist.length()
+      // errmsg("%s : %d", caseidlist(ctr), case_ids(caseidlist(ctr)) );
+      if case_ids(caseidlist(ctr)) > 1 then
+        dupfound = 1;
+        if checktype = 1 then
+          DUPREPORT.write(maketext("Household %4s is duplicated\n", caseidlist(ctr)[5:4]));
+        else
+          DUPREPORT.write( maketext("Individual line %s in household %04s is duplicated\n", caseidlist(ctr)[9:2], caseidlist(ctr)[5:4]) );
+        endif;
+        do fctr = 1 while fctr <= fileListing.length()
+          if checktype = 1 then
+            SetFile(ccHH80, fileListing(fctr), update);
+            if loadcase(ccHH80, caseidlist(ctr) ) then
+              if partialcs( 1, AHCLUST, AHNUMBER, 0, fileListing(fctr)  ) then
+                partialcase = "-Partial case"
+              else
+                partialcase = ""
+              endif;
+              DUPREPORT.write ( maketext("Case created by RA %4d, Result =%s (%1d) %s\n File:%s\n ", AHINTNUM, getlabel(AHRESULT, AHRESULT), AHRESULT, partialcase, fileListing(fctr)) );
+              if autodelete then
+                dres= delcase(ccHH80, caseidlist(ctr));
+                // errmsg("dres=%d, fname=%s, case=%s", dres, fileListing(fctr), caseidlist(ctr));
+              endif;
+            endif;
+            close(ccHH80);
+          else
+            SetFile(ccIN80, fileListing(fctr), update);
+            if loadcase(ccIN80, caseidlist(ctr) ) then
+              // if ckpartial(caseidlist(ctr), fileListing(fctr)) then
+              if partialcs( 2, ACLUSTER, ANUMBER, ALINE, fileListing(fctr)  ) then
+                partialcase = "-Partial case"
+              else
+                partialcase = ""
+              endif;
+              DUPREPORT.write( maketext("Case created by RA %4d, %s Auestionaire, %s, Result =%s (%1d) %s\n File:%s\n", AINTNUM, GetLabel(AQTYPE, AQTYPE), strip( ANAME ), getlabel(ARESULT, ARESULT), ARESULT, partialcase, fileListing(fctr)) );
+              if autodelete then
+                dres = delcase(ccIN80, caseidlist(ctr));
+                // errmsg("dres=%d, fname=%s, case=%s", dres, fileListing(fctr), caseidlist(ctr));
+              endif;
+            endif;
+            close(ccIN80);
+          endif;
+        enddo;
+        DUPREPORT.write("");
+      endif;
+    enddo;
+    DUPREPORT.close();
+    if !autodelete & dupfound then
+      viewtext("duplicates.txt");
+    endif;
+    FindDups = dupfound;  
+  end;
+  function string ShowPubDate();
+    // message to show publish date of pen file  excluding seconds
+    errmsg("Version: %0d", publishdate()/100 );
+  end;
+
+  function SetBTId(string bt_id)
+    string WorkDir="/storage/emulated/0/ICF_Utility"; {On the tablet the root for the file}
+    if GetOS() in 20:29 then
+      if !direxist(WorkDir) then  
+        dircreate(WorkDir);
+      endif;
+      file myfile;
+      setfile(myfile,strip(WorkDir)+strip("/Utility.xml"),create);
+      filewrite(myfile,strip('<?xml version="1.0" encoding="utf-8"?>'));
+      filewrite(myfile,"<Utility>");
+      filewrite(myfile,concat("<Action>","n","</Action>"));
+      filewrite(myfile,concat("<Nameing>",strip(bt_id) ,"</Nameing>"));
+      filewrite(myfile,"<Location>location</Location>");
+      filewrite(myfile,strip("</Utility>"));
+      close(myfile);   
+      SetBTId = execsystem("app:com.utility",normal ,nofocus,wait ); 
+      endif;
+  end; 
+  function checkBTId (wcode);
+    if getbluetoothname() <> edit("9999",wcode ) then
+      setbluetoothname(edit("9999", wcode));
+    endif;
+  end;
+
+  function getversion ();
+    errmsg("Ver: %d", int( publishdate()/100 ));
+  end;
+
+  function CleanIndex (string wdir);
+    // deletes index files in a specified folder
+    FileDelete(wdir + "\*.csidx");
+    FileDelete(wdir + "\*.*.csidx");
+  end;
+  function fixdata (string infilename, ftype);
+    // remove blank lines and lines with corrupted data including invalid record identifiers
+    // and cases with invalid ids
+    list string valrecsHH = "H00","H1X","H01","H02","H03","H4A","H04","H05","H06","B00","B01","B02","B03";
+    list string valrecsIN = "W00","W01","W2A","W2B","W2Y","W2C","W2D","W3A","W3B","W3C","W04","W05","W6A","W6B",
+                            "WEC","W07","W08","W09","W10","W11","WCD","WG1","WG2","WDV","M01","M02","M3A","M3B",
+                            "M04","M05","M06","M07","M08","MCD","MGC","MDV";
+    FILE inTxt;
+    FILE outTxt;
+    string fline;
+    numeric recordpos;
+    numeric lncount = 0;
+    if ftype = 1 then
+      recordpos = 9
+    else
+      recordpos = 11; 
+    endif;
+    setfile(inTxt, infilename, update);
+    setfile(outTxt, infilename + ".txt", create);
+    numeric isok = 0;
+    while FileRead(inTxt, fline) do 
+      inc(lncount);
+      isok = tonumber(fline[1:recordpos-1]) & ( ftype = 1 & 
+        valrecsHH.seek(fline[recordpos:3]) | ftype = 2 & valrecsIN.seek(fline[recordpos:3]) );
+      if isok then
+        FileWrite(outTxt, fline);
+      endif;
+    enddo;
+    close(inTxt);
+    close(outTxt);
+    FileCopy(outTxt, inTxt);
+    FileDelete(outTxt);
+  end;

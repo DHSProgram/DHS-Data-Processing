@@ -1,0 +1,32 @@
+﻿[CSPro Application]
+Version=CSPro 7.5
+Label=LISTRI
+Name=LISTRI
+AppType=DataEntry
+OperatorID=No
+ShowEndCaseDialog=No
+CAPI=Yes
+CAPIFont1=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont2=-016 0000 0000 0000 0400 0000 0000 0000 0000 0000 0000 0000 0000 Arial
+CAPIFont1Color=0
+CAPIFont2Color=16711680
+[External Dictionaries]
+File=..\Dicts\HHForInt.dcf
+File=..\Dicts\KEHH80.dcf
+File=..\Dicts\CONTSUP.dcf
+File=..\Dicts\ELIGINDV.dcf
+[AppCode]
+File=.\LISTRI.apc
+Include=..\Library\HTMLFunctions.apc
+[Message]
+File=.\LISTRI.mgf
+[Help]
+File=.\LISTRI.qsf
+[Forms]
+File=.\Cnull.fmf
+[Dictionary Types]
+Dict-Type=..\Dicts\Cnull.dcf,Input,.\Cnull.fmf
+Dict-Type=..\Dicts\HHForInt.dcf,External
+Dict-Type=..\Dicts\KEHH80.dcf,External
+Dict-Type=..\Dicts\CONTSUP.dcf,External
+Dict-Type=..\Dicts\ELIGINDV.dcf,External
