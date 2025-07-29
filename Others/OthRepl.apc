@@ -521,16 +521,37 @@ preproc
               A463  = notappl;
 			  errmsg( 2, "Missing", "A464 to A472" );
               A464  = missing;
-              A465U = missing;
-              A465N = missing;
-              A466  = missing;
-              A467  = missing;
-              A469  = missing;
-              A470U = missing;
-              A470N = missing;
-              A471  = missing;
-              A472  = missing;
-            endif;
+              if A405 = 1 then			  
+                A469  = missing;
+              endif;	
+            endif;			  
+          elseif oldA435 = 96 & !A435 in 11,12 then 
+            errmsg( 2, "missing", "A436"); 
+            A436 = missing;  
+            if A405 in 1,3 then 
+              errmsg( 2, "Missing", "A447 to A463" );
+              A447U = 9;
+              A447N = missing;
+              A448  = missing;
+              if A405 = 1 then				
+                A452  = missing;
+              endif;				  
+              A455  = missing;
+              if A405 = 1 then
+                A460  = missing;
+              endif;				  
+              errmsg( 2, "Notappl", "A464 to A472" );
+              A464  = notappl;
+              A465U = notappl;
+              A465N = notappl;
+              A466  = notappl;
+              A467  = notappl;
+              A469  = notappl;
+              A470U = notappl;
+              A470N = notappl;
+              A471  = notappl;
+              A472  = notappl;
+            endif;				
 	      endif
         endif;
 

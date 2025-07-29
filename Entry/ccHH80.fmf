@@ -2361,6 +2361,7 @@ HorizontalAlignment=Center
 Name=AH12A
 Position=0,0,57,20
 Item=AH12A,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -2429,6 +2430,7 @@ HorizontalAlignment=Center
 Name=AH14A
 Position=0,0,57,20
 Item=AH14A,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -2474,6 +2476,7 @@ HorizontalAlignment=Center
 Name=AH15C
 Position=0,0,29,20
 Item=AH15C,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -2494,6 +2497,7 @@ HorizontalAlignment=Center
 Name=AH15D
 Position=0,0,29,20
 Item=AH15D,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -5808,6 +5812,7 @@ Text=Column No.
 Name=AHCWLINE
 Position=252,0,281,20
 Item=AHCWLINE,CCHH80
+UseEnterKey=Yes
 Protected=Yes
 DataCaptureType=TextBox
   
@@ -5828,6 +5833,7 @@ Text=AHCW05
 Name=AHCW05
 Position=252,0,281,20
 Item=AHCW05,CCHH80
+UseEnterKey=Yes
 Protected=Yes
 DataCaptureType=TextBox
   
@@ -5848,7 +5854,9 @@ Text=AHCW05N
 Name=AHCW05N
 Position=0,0,281,20
 Item=AHCW05N,CCHH80
+UseEnterKey=Yes
 Protected=Yes
+UpperCase=Yes
 DataCaptureType=TextBox
   
 [Text]
@@ -5868,6 +5876,8 @@ Text=AHCW06
 Name=AHCW06
 Position=266,0,281,20
 Item=AHCW06,CCHH80
+UseEnterKey=Yes
+UpperCase=Yes
 UseUnicodeTextBox=Yes
 DataCaptureType=TextBox
   
@@ -5888,6 +5898,7 @@ VerticalAlignment=Middle
 Name=AHCW08N
 Position=230,0,259,20
 Item=AHCW08N,CCHH80
+UseEnterKey=Yes
 DataCaptureType=TextBox
   
 [Text]
@@ -5897,6 +5908,7 @@ Text=AHCW08N
 Name=AHCW08U
 Position=266,0,281,20
 Item=AHCW08U,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -5915,6 +5927,7 @@ Text=AHCW09
 Name=AHCW09
 Position=266,0,281,20
 Item=AHCW09,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -5933,6 +5946,7 @@ Text=AHCW11
 Name=AHCW11
 Position=266,0,281,20
 Item=AHCW11,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -5951,6 +5965,7 @@ Text=AHCW12
 Name=AHCW12
 Position=252,0,281,20
 Item=AHCW12,CCHH80
+UseEnterKey=Yes
 DataCaptureType=TextBox
   
 [Text]
@@ -5969,6 +5984,7 @@ Text=AHCW13
 Name=AHCW13
 Position=266,0,281,20
 Item=AHCW13,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -5987,6 +6003,7 @@ Text=AHCW14
 Name=AHCW14
 Position=266,0,281,20
 Item=AHCW14,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -6005,6 +6022,7 @@ Text=AHCW15
 Name=AHCW15
 Position=266,0,281,20
 Item=AHCW15,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -6023,6 +6041,7 @@ Text=AHCW16
 Name=AHCW16
 Position=266,0,281,20
 Item=AHCW16,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -6041,6 +6060,7 @@ Text=AHCW17
 Name=AHCW17
 Position=266,0,281,20
 Item=AHCW17,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -6059,6 +6079,7 @@ Text=AHCW19
 Name=AHCW19N
 Position=232,0,261,20
 Item=AHCW19N,CCHH80
+UseEnterKey=Yes
 DataCaptureType=TextBox
   
 [Text]
@@ -6068,6 +6089,7 @@ Text=AHCW19N
 Name=AHCW19U
 Position=266,0,281,20
 Item=AHCW19U,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -6086,6 +6108,7 @@ Text=AHCW20
 Name=AHCW20
 Position=266,0,281,20
 Item=AHCW20,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -6104,6 +6127,7 @@ Text=AHCW22
 Name=AHCW22
 Position=266,0,281,20
 Item=AHCW22,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -6122,6 +6146,7 @@ Text=AHCW23
 Name=AHCW23
 Position=252,0,281,20
 Item=AHCW23,CCHH80
+UseEnterKey=Yes
 DataCaptureType=TextBox
   
 [Text]
@@ -6140,6 +6165,7 @@ Text=AHCW25
 Name=AHCW25
 Position=266,0,281,20
 Item=AHCW25,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -6158,6 +6184,7 @@ Text=AHCW26
 Name=AHCW26
 Position=266,0,281,20
 Item=AHCW26,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -6176,6 +6203,7 @@ Text=AHCW27
 Name=AHCW27
 Position=266,0,281,20
 Item=AHCW27,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -6194,6 +6222,7 @@ Text=AHCW28
 Name=AHCW28
 Position=266,0,281,20
 Item=AHCW28,CCHH80
+UseEnterKey=Yes
 DataCaptureType=RadioButton
   
 [Text]
@@ -9422,6 +9451,7 @@ Text=AB227A
 Name=AB227AW
 Position=43,24,86,44
 Item=AB227AW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -9443,6 +9473,7 @@ Text=AB227B
 Name=AB227BW
 Position=43,72,86,92
 Item=AB227BW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -9617,6 +9648,7 @@ Text=AB236A
 Name=AB236AW
 Position=43,24,86,44
 Item=AB236AW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -9638,6 +9670,7 @@ Text=AB236B
 Name=AB236BW
 Position=43,72,86,92
 Item=AB236BW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -9717,6 +9750,7 @@ Text=AB239A
 Name=AB239AW
 Position=43,24,86,44
 Item=AB239AW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -9738,6 +9772,7 @@ Text=AB239B
 Name=AB239BW
 Position=43,72,86,92
 Item=AB239BW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -11038,6 +11073,7 @@ Text=AB327A
 Name=AB327AW
 Position=42,24,85,44
 Item=AB327AW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -11059,6 +11095,7 @@ Text=AB327B
 Name=AB327BW
 Position=42,72,85,92
 Item=AB327BW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -11235,6 +11272,7 @@ Text=AB336A
 Name=AB336AW
 Position=42,24,85,44
 Item=AB336AW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -11256,6 +11294,7 @@ Text=AB336B
 Name=AB336BW
 Position=42,72,85,92
 Item=AB336BW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -11335,6 +11374,7 @@ Text=AB339A
 Name=AB339AW
 Position=42,24,85,44
 Item=AB339AW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
@@ -11356,6 +11396,7 @@ Text=AB339B
 Name=AB339BW
 Position=42,72,85,92
 Item=AB339BW,CCHH80
+UseEnterKey=Yes
 DataCaptureType=ComboBox
   
 [Text]
